@@ -1,0 +1,532 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// ENTITY 1: Domains
+// ============================================================
+
+model Domain {
+  id                Int          @id @default(autoincrement())
+  domainCode        String       @unique @map("domain_code")
+  domainName        String       @map("domain_name")
+  domainSlug        String       @unique @map("domain_slug")
+  domainTagline     String?      @map("domain_tagline")
+  domainDescription String?      @map("domain_description") @db.Text
+  domainColorHex    String       @default("#2D5BE3") @map("domain_color_hex")
+  domainStatus      DomainStatus @default(COMING_SOON) @map("domain_status")
+  sortOrder         Int          @default(0) @map("sort_order")
+  plannedEntryCount Int          @default(100) @map("planned_entry_count")
+  createdAt         DateTime     @default(now()) @map("created_at")
+  updatedAt         DateTime     @updatedAt @map("updated_at")
+
+  subdomains Subdomain[]
+  entries    Entry[]
+
+  @@map("domains")
+}
+
+enum DomainStatus {
+  ACTIVE
+  PARTIAL
+  COMING_SOON
+}
+
+// ============================================================
+// ENTITY 2: Subdomains
+// ============================================================
+
+model Subdomain {
+  id                   Int      @id @default(autoincrement())
+  domainId             Int      @map("domain_id")
+  subdomainName        String   @map("subdomain_name")
+  subdomainSlug        String   @map("subdomain_slug")
+  subdomainDescription String?  @map("subdomain_description") @db.Text
+  sortOrder            Int      @default(0) @map("sort_order")
+  createdAt            DateTime @default(now()) @map("created_at")
+  updatedAt            DateTime @updatedAt @map("updated_at")
+
+  domain  Domain  @relation(fields: [domainId], references: [id])
+  entries Entry[]
+
+  @@unique([domainId, subdomainSlug])
+  @@map("subdomains")
+}
+
+// ============================================================
+// ENTITY 3: Entries — master table for all 7 entry types
+// ============================================================
+
+model Entry {
+  id                  Int               @id @default(autoincrement())
+  entryType           EntryType         @map("entry_type")
+  entryTitle          String            @map("entry_title")
+  entrySlug           String            @unique @map("entry_slug")
+  domainId            Int               @map("domain_id")
+  subdomainId         Int               @map("subdomain_id")
+  summary             String            @db.VarChar(500)
+  entryBody           Json?             @map("entry_body")
+  authorityPrimary    String?           @map("authority_primary")
+  authorityPrimaryUrl String?           @map("authority_primary_url")
+  authoritySecondary  String?           @map("authority_secondary") @db.Text
+  verificationLevel   VerificationLevel @default(PLACEHOLDER) @map("verification_level")
+  status              EntryStatus       @default(DRAFT)
+  examLevelTags       Json?             @map("exam_level_tags")
+  sortOrder           Int               @default(0) @map("sort_order")
+  isFeatured          Boolean           @default(false) @map("is_featured")
+  seoTitle            String?           @map("seo_title")
+  seoDescription      String?           @map("seo_description") @db.VarChar(155)
+  wordCount           Int?              @map("word_count")
+  publishedAt         DateTime?         @map("published_at")
+  lastReviewedAt      DateTime?         @map("last_reviewed_at")
+  createdAt           DateTime          @default(now()) @map("created_at")
+  updatedAt           DateTime          @updatedAt @map("updated_at")
+
+  domain    Domain    @relation(fields: [domainId], references: [id])
+  subdomain Subdomain @relation(fields: [subdomainId], references: [id])
+
+  standardDetail StandardDetail?
+
+  journalEntries EntryJournalEntry[]
+  illustrations  EntryIllustration[]
+  notes          EntryNote[]
+  faqs           EntryFAQ[]
+  resources      EntryResource[]
+
+  relationsFrom EntryRelationship[] @relation("RelationFrom")
+  relationsTo   EntryRelationship[] @relation("RelationTo")
+
+  standardEquivsFrom StandardEquivalent[] @relation("StandardFrom")
+  standardEquivsTo   StandardEquivalent[] @relation("StandardTo")
+
+  @@index([domainId])
+  @@index([subdomainId])
+  @@index([status])
+  @@index([entryType])
+  @@map("entries")
+}
+
+enum EntryType {
+  CONCEPT
+  STANDARD
+  JOURNAL_ENTRY
+  GLOSSARY_TERM
+  ILLUSTRATION
+  FAQ
+  REFERENCE
+}
+
+enum VerificationLevel {
+  VERIFIED
+  DRAFT
+  PLACEHOLDER
+}
+
+enum EntryStatus {
+  DRAFT
+  PUBLISHED
+}
+
+// ============================================================
+// ENTITY 4: StandardDetail — 1:1 with Entry where type=STANDARD
+// ============================================================
+
+model StandardDetail {
+  id                         Int               @id @default(autoincrement())
+  entryId                    Int               @unique @map("entry_id")
+  standardCode               String            @map("standard_code")
+  standardFramework          StandardFramework @map("standard_framework")
+  standardStatus             StandardStatus    @default(ACTIVE) @map("standard_status")
+  standardStatusYear         Int?              @map("standard_status_year")
+  issuingBody                String            @default("ICAI") @map("issuing_body")
+  dateIssued                 DateTime?         @map("date_issued")
+  dateEffective              DateTime?         @map("date_effective")
+  dateRevised                DateTime?         @map("date_revised")
+  applicabilitySummary       String?           @map("applicability_summary")
+  quickBullet1Icon           String?           @map("quick_bullet_1_icon")
+  quickBullet1Label          String?           @map("quick_bullet_1_label")
+  quickBullet1Desc           String?           @map("quick_bullet_1_desc")
+  quickBullet2Icon           String?           @map("quick_bullet_2_icon")
+  quickBullet2Label          String?           @map("quick_bullet_2_label")
+  quickBullet2Desc           String?           @map("quick_bullet_2_desc")
+  quickBullet3Icon           String?           @map("quick_bullet_3_icon")
+  quickBullet3Label          String?           @map("quick_bullet_3_label")
+  quickBullet3Desc           String?           @map("quick_bullet_3_desc")
+  objectiveText              String?           @map("objective_text") @db.Text
+  objectiveSourcePara        String?           @map("objective_source_para")
+  objectiveCommentary        String?           @map("objective_commentary") @db.Text
+  objectiveKeyIssues         Json?             @map("objective_key_issues")
+  scopeStatement             String?           @map("scope_statement") @db.Text
+  scopeIncluded              Json?             @map("scope_included")
+  scopeExcluded              Json?             @map("scope_excluded")
+  scopeSpecialCases          Json?             @map("scope_special_cases")
+  provisionsRecognitionIntro String?           @map("provisions_recognition_intro") @db.Text
+  provisionsRecognitionBody  Json?             @map("provisions_recognition_body")
+  provisionsMeasurementIntro String?           @map("provisions_measurement_intro") @db.Text
+  provisionsMeasurementModel1 Json?            @map("provisions_measurement_model_1")
+  provisionsMeasurementModel2 Json?            @map("provisions_measurement_model_2")
+  provisionsMeasurementBody  Json?             @map("provisions_measurement_body")
+  comparisonStd2EntryId      Int?              @map("comparison_std_2_entry_id")
+  comparisonStd3EntryId      Int?              @map("comparison_std_3_entry_id")
+  keyDifferences             Json?             @map("key_differences")
+  applicabilityMatrix        Json?             @map("applicability_matrix")
+
+  entry            Entry                    @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  definitions      StandardDefinition[]
+  disclosureGroups StandardDisclosureGroup[]
+  comparisonRows   StandardComparisonRow[]
+  amendments       StandardAmendment[]
+
+  @@map("standard_details")
+}
+
+enum StandardFramework {
+  AS
+  IND_AS
+}
+
+enum StandardStatus {
+  ACTIVE
+  WITHDRAWN
+  REVISED
+}
+
+// ============================================================
+// ENTITY 5: StandardDefinitions
+// ============================================================
+
+model StandardDefinition {
+  id                  Int    @id @default(autoincrement())
+  standardDetailId    Int    @map("standard_detail_id")
+  defTerm             String @map("def_term")
+  defParaReference    String? @map("def_para_reference")
+  defOfficialText     String @map("def_official_text") @db.Text
+  defPlainExplanation String? @map("def_plain_explanation") @db.Text
+  sortOrder           Int    @default(0) @map("sort_order")
+
+  standardDetail StandardDetail @relation(fields: [standardDetailId], references: [id], onDelete: Cascade)
+
+  @@map("standard_definitions")
+}
+
+// ============================================================
+// ENTITY 6: StandardDisclosureGroups & Items
+// ============================================================
+
+model StandardDisclosureGroup {
+  id               Int     @id @default(autoincrement())
+  standardDetailId Int     @map("standard_detail_id")
+  groupHeading     String  @map("group_heading")
+  groupParaRange   String? @map("group_para_range")
+  sortOrder        Int     @default(0) @map("sort_order")
+
+  standardDetail StandardDetail          @relation(fields: [standardDetailId], references: [id], onDelete: Cascade)
+  items          StandardDisclosureItem[]
+
+  @@map("standard_disclosure_groups")
+}
+
+model StandardDisclosureItem {
+  id                Int     @id @default(autoincrement())
+  disclosureGroupId Int     @map("disclosure_group_id")
+  itemText          String  @map("item_text") @db.Text
+  itemParaRef       String? @map("item_para_ref")
+  itemIsConditional Boolean @default(false) @map("item_is_conditional")
+  itemConditionNote String? @map("item_condition_note") @db.Text
+  sortOrder         Int     @default(0) @map("sort_order")
+
+  disclosureGroup StandardDisclosureGroup @relation(fields: [disclosureGroupId], references: [id], onDelete: Cascade)
+
+  @@map("standard_disclosure_items")
+}
+
+// ============================================================
+// ENTITY 7: StandardComparisonRows
+// ============================================================
+
+model StandardComparisonRow {
+  id               Int     @id @default(autoincrement())
+  standardDetailId Int     @map("standard_detail_id")
+  criterion        String
+  valueStd1        String? @map("value_std_1") @db.Text
+  valueStd2        String? @map("value_std_2") @db.Text
+  valueStd3        String? @map("value_std_3") @db.Text
+  isDifferent      Boolean @default(false) @map("is_different")
+  differenceNote   String? @map("difference_note") @db.Text
+  sortOrder        Int     @default(0) @map("sort_order")
+
+  standardDetail StandardDetail @relation(fields: [standardDetailId], references: [id], onDelete: Cascade)
+
+  @@map("standard_comparison_rows")
+}
+
+// ============================================================
+// ENTITY 8: StandardAmendments
+// ============================================================
+
+model StandardAmendment {
+  id                   Int           @id @default(autoincrement())
+  standardDetailId     Int           @map("standard_detail_id")
+  amendmentDate        DateTime      @map("amendment_date")
+  amendmentType        AmendmentType @map("amendment_type")
+  amendmentAuthority   String?       @map("amendment_authority")
+  amendmentDescription String?       @map("amendment_description") @db.Text
+  amendmentKeyChanges  Json?         @map("amendment_key_changes")
+  amendmentOfficialUrl String?       @map("amendment_official_url")
+  sortOrder            Int           @default(0) @map("sort_order")
+
+  standardDetail StandardDetail @relation(fields: [standardDetailId], references: [id], onDelete: Cascade)
+
+  @@map("standard_amendments")
+}
+
+enum AmendmentType {
+  ORIGINAL
+  MAJOR_REVISION
+  AMENDMENT
+  WITHDRAWAL
+  CLARIFICATION
+}
+
+// ============================================================
+// ENTITY 9: EntryJournalEntries & JournalEntryRows
+// ============================================================
+
+model EntryJournalEntry {
+  id                Int     @id @default(autoincrement())
+  entryId           Int     @map("entry_id")
+  jeScenarioTitle   String? @map("je_scenario_title")
+  jeLabel           String? @map("je_label")
+  jeParaRef         String? @map("je_para_ref")
+  jeCategoryHeading String? @map("je_category_heading")
+  jeNarration       String? @map("je_narration") @db.Text
+  sortOrder         Int     @default(0) @map("sort_order")
+
+  entry Entry             @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  rows  JournalEntryRow[]
+
+  @@map("entry_journal_entries")
+}
+
+model JournalEntryRow {
+  id             Int       @id @default(autoincrement())
+  journalEntryId Int       @map("journal_entry_id")
+  rowType        JERowType @map("row_type")
+  accountName    String?   @map("account_name")
+  drAmount       Decimal?  @map("dr_amount") @db.Decimal(15, 2)
+  crAmount       Decimal?  @map("cr_amount") @db.Decimal(15, 2)
+  sortOrder      Int       @default(0) @map("sort_order")
+
+  journalEntry EntryJournalEntry @relation(fields: [journalEntryId], references: [id], onDelete: Cascade)
+
+  @@map("journal_entry_rows")
+}
+
+enum JERowType {
+  DR
+  CR
+  TOTAL
+  SEPARATOR
+}
+
+// ============================================================
+// ENTITY 10: EntryIllustrations
+// ============================================================
+
+model EntryIllustration {
+  id              Int             @id @default(autoincrement())
+  entryId         Int             @map("entry_id")
+  illusTitle      String          @map("illus_title")
+  illusScenario   String?         @map("illus_scenario") @db.Text
+  illusWorking    String?         @map("illus_working") @db.Text
+  illusAnswer     String?         @map("illus_answer") @db.Text
+  illusNote       String?         @map("illus_note") @db.Text
+  illusDifficulty IllusDifficulty @default(BEGINNER) @map("illus_difficulty")
+  illusParaRef    String?         @map("illus_para_ref")
+  illusFsImpact   Json?           @map("illus_fs_impact")
+  sortOrder       Int             @default(0) @map("sort_order")
+
+  entry Entry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@map("entry_illustrations")
+}
+
+enum IllusDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+// ============================================================
+// ENTITY 11: EntryRelationships
+// ============================================================
+
+model EntryRelationship {
+  id               Int              @id @default(autoincrement())
+  entryId          Int              @map("entry_id")
+  relatedEntryId   Int              @map("related_entry_id")
+  relationshipType RelationshipType @default(GENERAL) @map("relationship_type")
+  sortOrder        Int              @default(0) @map("sort_order")
+
+  entry        Entry @relation("RelationFrom", fields: [entryId], references: [id], onDelete: Cascade)
+  relatedEntry Entry @relation("RelationTo", fields: [relatedEntryId], references: [id], onDelete: Cascade)
+
+  @@unique([entryId, relatedEntryId])
+  @@map("entry_relationships")
+}
+
+enum RelationshipType {
+  GENERAL
+  PREREQUISITE
+  COMPARE
+  NEXT
+}
+
+// ============================================================
+// ENTITY 12: StandardEquivalents
+// ============================================================
+
+model StandardEquivalent {
+  id                  Int  @id @default(autoincrement())
+  standardEntryId     Int  @map("standard_entry_id")
+  equivalentEntryId   Int  @map("equivalent_entry_id")
+  supersedesEntryId   Int? @map("supersedes_entry_id")
+  supersededByEntryId Int? @map("superseded_by_entry_id")
+
+  standardEntry   Entry @relation("StandardFrom", fields: [standardEntryId], references: [id])
+  equivalentEntry Entry @relation("StandardTo", fields: [equivalentEntryId], references: [id])
+
+  @@map("standard_equivalents")
+}
+
+// ============================================================
+// ENTITY 13: EntryResources
+// ============================================================
+
+model EntryResource {
+  id            Int                @id @default(autoincrement())
+  entryId       Int                @map("entry_id")
+  resourceType  ResourceType       @map("resource_type")
+  resourceTitle String             @map("resource_title")
+  resourceUrl   String?            @map("resource_url")
+  mediaFileId   Int?               @map("media_file_id")
+  sourceType    ResourceSourceType @map("source_type")
+  videoChannel  String?            @map("video_channel")
+  refYear       Int?               @map("ref_year")
+  sortOrder     Int                @default(0) @map("sort_order")
+
+  entry     Entry      @relation(fields: [entryId], references: [id], onDelete: Cascade)
+  mediaFile MediaFile? @relation(fields: [mediaFileId], references: [id])
+
+  @@map("entry_resources")
+}
+
+enum ResourceType {
+  PDF
+  VIDEO
+  REFERENCE
+}
+
+enum ResourceSourceType {
+  ICAI_OFFICIAL
+  MCA
+  IASB
+  EXTERNAL
+}
+
+// ============================================================
+// ENTITY 14: GlossaryTerms
+// ============================================================
+
+model GlossaryTerm {
+  id              Int         @id @default(autoincrement())
+  term            String
+  termSlug        String      @unique @map("term_slug")
+  shortDefinition String      @map("short_definition") @db.VarChar(500)
+  fullDefinition  Json?       @map("full_definition")
+  authoritySource String?     @map("authority_source")
+  authorityUrl    String?     @map("authority_url")
+  relatedTerms    Json?       @map("related_terms")
+  standardRefs    Json?       @map("standard_refs")
+  examLevelTags   Json?       @map("exam_level_tags")
+  status          EntryStatus @default(DRAFT)
+  lastReviewedAt  DateTime?   @map("last_reviewed_at")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+
+  @@map("glossary_terms")
+}
+
+// ============================================================
+// ENTITY 15: MediaFiles
+// ============================================================
+
+model MediaFile {
+  id            Int                @id @default(autoincrement())
+  fileName      String             @map("file_name")
+  filePath      String             @map("file_path")
+  fileSizeBytes Int?               @map("file_size_bytes")
+  sourceType    ResourceSourceType @map("source_type")
+  uploadedAt    DateTime           @default(now()) @map("uploaded_at")
+
+  resources EntryResource[]
+
+  @@map("media_files")
+}
+
+// ============================================================
+// Additional: EntryNotes
+// ============================================================
+
+model EntryNote {
+  id        Int      @id @default(autoincrement())
+  entryId   Int      @map("entry_id")
+  noteType  NoteType @map("note_type")
+  noteTitle String?  @map("note_title")
+  noteBody  String   @map("note_body") @db.Text
+  sortOrder Int      @default(0) @map("sort_order")
+
+  entry Entry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@map("entry_notes")
+}
+
+enum NoteType {
+  IMPORTANT
+  NOTE
+  TIP
+  CAUTION
+}
+
+// ============================================================
+// Additional: EntryFAQs
+// ============================================================
+
+model EntryFAQ {
+  id           Int         @id @default(autoincrement())
+  entryId      Int         @map("entry_id")
+  faqQuestion  String      @map("faq_question")
+  faqAnswer    String      @map("faq_answer") @db.Text
+  faqSourceRef String?     @map("faq_source_ref")
+  faqCategory  FAQCategory @default(GENERAL) @map("faq_category")
+  sortOrder    Int         @default(0) @map("sort_order")
+
+  entry Entry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@map("entry_faqs")
+}
+
+enum FAQCategory {
+  GENERAL
+  APPLICABILITY
+  RECOGNITION
+  MEASUREMENT
+  DISCLOSURE
+  EXAM
+  PRACTICAL
+}

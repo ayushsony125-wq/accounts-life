@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #FAFAF8;
+    --bg-secondary: #F4F3F0;
+    --bg-tertiary: #EEECEA;
+    --bg-dark: #1A1E2A;
+    --text-primary: #1C1C1E;
+    --text-secondary: #4A4A52;
+    --text-tertiary: #76767E;
+    --text-muted: #A0A0A8;
+    --text-inverse: #F0F0EF;
+    --border-default: #E2E1DD;
+    --border-strong: #C8C7C2;
+    --accent-primary: #2D5BE3;
+    --accent-hover: #2450CC;
+    --accent-light: #EEF2FD;
+    --verified-green: #1A7A4A;
+    --verified-light: #E8F7EE;
+    --error-red: #C0392B;
+    --error-light: #FDEEEE;
+    --warning-amber: #B45309;
+    --warning-light: #FEF6E4;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Reading text uses Lora */
+  .font-reading {
+    font-family: 'Lora', serif;
+  }
+
+  .font-mono-je {
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer components {
+  /* Verification badges */
+  .badge-verified {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium font-sans;
+    background-color: #E8F7EE;
+    color: #1A7A4A;
+  }
+
+  .badge-draft {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium font-sans;
+    background-color: #EEF2FD;
+    color: #2D5BE3;
+  }
+
+  .badge-placeholder {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium font-sans;
+    background-color: #F4F3F0;
+    color: #76767E;
+  }
+
+  /* Entry type badges */
+  .badge-concept { background-color: #EEF2FD; color: #2D5BE3; }
+  .badge-standard { background-color: #E6F4F2; color: #0F6B5E; }
+  .badge-journal-entry { background-color: #F5F0FF; color: #6B3FA0; }
+  .badge-glossary { background-color: #F4F3F0; color: #4A4A52; }
+  .badge-illustration { background-color: #FEF6E4; color: #8B5A00; }
+  .badge-faq { background-color: #FFF5F5; color: #C0392B; }
+  .badge-reference { background-color: #F0FFF4; color: #1A7A4A; }
+
+  /* Journal Entry Display Block */
+  .je-block {
+    @apply rounded-lg border overflow-hidden;
+    border-color: var(--border-default);
+    background-color: #FFFFFF;
+  }
+
+  .je-block-header {
+    @apply flex items-center justify-between px-4 py-3;
+    border-bottom: 1px solid var(--border-default);
+    background-color: var(--bg-secondary);
+  }
+
+  .je-table {
+    @apply w-full text-sm;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .je-table thead tr {
+    border-bottom: 1px solid var(--border-strong);
+  }
+
+  .je-table thead th {
+    @apply py-2 px-4 text-left;
+    color: var(--text-tertiary);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .je-table thead th:last-child,
+  .je-table thead th:nth-last-child(2) {
+    text-align: right;
+  }
+
+  .je-row-dr td { color: var(--text-primary); }
+  .je-row-cr td:first-child { padding-left: 2.5em; font-style: italic; color: var(--text-secondary); }
+  .je-row-total { border-top: 2px solid var(--border-strong); font-weight: 600; }
+  .je-row-amount { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .je-narration {
+    @apply px-4 py-3 text-sm italic;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-tertiary);
+    border-top: 1px dashed var(--border-default);
+  }
+
+  /* Callout components */
+  .callout {
+    @apply flex gap-3 p-4 rounded-lg my-4;
+    border-left: 4px solid;
+  }
+
+  .callout-important {
+    background-color: #FDEEEE;
+    border-color: #C0392B;
+  }
+
+  .callout-note {
+    background-color: #EEF2FD;
+    border-color: #2D5BE3;
+  }
+
+  .callout-tip {
+    background-color: #F0FFF4;
+    border-color: #1A7A4A;
+  }
+
+  .callout-caution {
+    background-color: #FEF6E4;
+    border-color: #B45309;
+  }
+
+  /* Focus styles */
+  :focus-visible {
+    outline: 3px solid rgba(45, 91, 227, 0.5);
+    outline-offset: 2px;
+  }
+
+  /* Mobile responsiveness overflow fixes */
+  pre, code {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+
