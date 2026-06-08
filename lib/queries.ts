@@ -116,7 +116,20 @@ export async function getEntryBySlug(
           },
         },
       })
-      if (entry) return entry
+      if (entry) {
+        const body: any = (typeof entry.entryBody === 'string'
+          ? JSON.parse(entry.entryBody)
+          : entry.entryBody) || {}
+
+        return {
+          ...entry,
+          sections: body.sections || [],
+          keyPoints: body.keyPoints || [],
+          formula: body.formula || null,
+          notes: entry.notes.length > 0 ? entry.notes : (body.notes || []),
+          faqs: entry.faqs.length > 0 ? entry.faqs : (body.faqs || []),
+        }
+      }
     } catch (e) {
       console.warn('Prisma getEntryBySlug failed, using fallback.', e)
     }
@@ -201,6 +214,80 @@ export async function getEntryBySlug(
 // STANDARD DETAILS QUERIES
 // ============================================================
 
+function mapStandardDetail(std: any) {
+  if (!std) return null
+
+  const quickBullets = []
+  if (std.quickBullet1Label) {
+    quickBullets.push({
+      icon: std.quickBullet1Icon || '🏢',
+      label: std.quickBullet1Label,
+      desc: std.quickBullet1Desc || '',
+    })
+  }
+  if (std.quickBullet2Label) {
+    quickBullets.push({
+      icon: std.quickBullet2Icon || '📋',
+      label: std.quickBullet2Label,
+      desc: std.quickBullet2Desc || '',
+    })
+  }
+  if (std.quickBullet3Label) {
+    quickBullets.push({
+      icon: std.quickBullet3Icon || '📋',
+      label: std.quickBullet3Label,
+      desc: std.quickBullet3Desc || '',
+    })
+  }
+
+  const keyIssues = typeof std.objectiveKeyIssues === 'string'
+    ? JSON.parse(std.objectiveKeyIssues)
+    : (std.objectiveKeyIssues || [])
+  const scopeIncluded = typeof std.scopeIncluded === 'string'
+    ? JSON.parse(std.scopeIncluded)
+    : (std.scopeIncluded || [])
+  const scopeExcluded = typeof std.scopeExcluded === 'string'
+    ? JSON.parse(std.scopeExcluded)
+    : (std.scopeExcluded || [])
+  const scopeSpecialCases = typeof std.scopeSpecialCases === 'string'
+    ? JSON.parse(std.scopeSpecialCases)
+    : (std.scopeSpecialCases || [])
+  const keyDifferences = typeof std.keyDifferences === 'string'
+    ? JSON.parse(std.keyDifferences)
+    : (std.keyDifferences || [])
+  const applicabilityMatrix = typeof std.applicabilityMatrix === 'string'
+    ? JSON.parse(std.applicabilityMatrix)
+    : (std.applicabilityMatrix || [])
+
+  return {
+    ...std,
+    entryTitle: std.entry.entryTitle,
+    summary: std.entry.summary,
+    verificationLevel: std.entry.verificationLevel,
+    quickBullets: quickBullets,
+    objective: std.standardFramework === 'AS'
+      ? {
+          text: std.objectiveText || '',
+          sourcePara: std.objectiveSourcePara || '',
+          commentary: std.objectiveCommentary || '',
+          keyIssues: keyIssues,
+        }
+      : (std.objectiveText || ''),
+    scope: {
+      statement: std.scopeStatement || '',
+      included: scopeIncluded,
+      excluded: scopeExcluded,
+      specialCases: scopeSpecialCases,
+    },
+    keyDifferences: keyDifferences,
+    applicabilityMatrix: applicabilityMatrix,
+    comparison: {
+      std2Title: std.standardFramework === 'AS' ? 'Ind AS equivalent' : 'AS equivalent',
+      rows: std.comparisonRows || [],
+    }
+  }
+}
+
 export async function getASStandardBySlug(slug: string): Promise<any> {
   if (USE_DATABASE) {
     try {
@@ -225,7 +312,7 @@ export async function getASStandardBySlug(slug: string): Promise<any> {
           amendments: { orderBy: { sortOrder: 'asc' } },
         },
       })
-      if (std) return std
+      if (std) return mapStandardDetail(std)
     } catch (e) {
       console.warn('Prisma getASStandardBySlug failed, using fallback.', e)
     }
@@ -342,7 +429,7 @@ export async function getIndASStandardBySlug(slug: string): Promise<any> {
           amendments: { orderBy: { sortOrder: 'asc' } },
         },
       })
-      if (std) return std
+      if (std) return mapStandardDetail(std)
     } catch (e) {
       console.warn('Prisma getIndASStandardBySlug failed, using fallback.', e)
     }
@@ -458,19 +545,32 @@ export async function getSearchIndex() {
     try {
       const entries = await prisma.entry.findMany({
         where: { status: 'PUBLISHED' },
-        include: { domain: true },
+        include: {
+          domain: true,
+          subdomain: true,
+          standardDetail: true,
+        },
       })
-      return entries.map((e) => ({
-        id: e.id,
-        title: e.entryTitle,
-        slug: e.entrySlug,
-        type: e.entryType,
-        summary: e.summary,
-        domainCode: e.domain.domainCode,
-        domainName: e.domain.domainName,
-        domainSlug: e.domain.domainSlug,
-        domainColorHex: e.domain.domainColorHex,
-      }))
+      return entries.map((e) => {
+        let slug = ''
+        if (e.entryType === 'STANDARD' && e.standardDetail) {
+          const fw = e.standardDetail.standardFramework.toLowerCase() === 'as' ? 'as' : 'ind-as'
+          slug = `standards/${fw}/${e.entrySlug}`
+        } else {
+          slug = `${e.domain.domainSlug}/${e.subdomain.subdomainSlug}/${e.entrySlug}`
+        }
+        return {
+          id: e.id,
+          title: e.entryTitle,
+          slug: slug,
+          type: e.entryType,
+          summary: e.summary,
+          domainCode: e.domain.domainCode,
+          domainName: e.domain.domainName,
+          domainSlug: e.domain.domainSlug,
+          domainColorHex: e.domain.domainColorHex,
+        }
+      })
     } catch (e) {
       console.warn('Prisma getSearchIndex failed, using fallback.', e)
     }
