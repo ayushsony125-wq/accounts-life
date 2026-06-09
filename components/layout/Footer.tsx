@@ -1,76 +1,101 @@
 import Link from 'next/link'
 
-interface FooterLink {
-  label: string
-  href: string
-  disabled?: boolean
-}
+// ─── Footer link data ─────────────────────────────────────────────────────────
 
-const FOOTER_LINKS: {
-  foundations: FooterLink[]
-  standards: FooterLink[]
-  platform: FooterLink[]
-} = {
-  foundations: [
-    { label: 'Depreciation Accounting', href: '/foundations/depreciation-accounting' },
-    { label: 'Double Entry System', href: '/foundations/double-entry-system' },
-    { label: 'Bank Reconciliation', href: '/bank-reconciliation' },
-    { label: 'Provisions & Reserves', href: '/provisions-reserves' },
-    { label: 'Partnership Accounting', href: '/partnership-accounts' },
-    { label: 'Bills of Exchange', href: '/bills-of-exchange' },
-  ],
-  standards: [
-    { label: 'AS Standards', href: '/standards/as' },
-    { label: 'Ind AS Standards', href: '/standards/ind-as' },
-    { label: 'IFRS (Coming Soon)', href: '/standards/ifrs', disabled: true },
-    { label: 'Equivalence Map', href: '/standards/equivalence-map' },
-  ],
-  platform: [
-    { label: 'Glossary', href: '/glossary' },
-    { label: 'Search', href: '/search' },
-    { label: 'Sitemap', href: '/sitemap.xml' },
-    { label: 'All Domains', href: '/sitemap.xml' },
-  ],
-}
+const DOMAINS_LINKS = [
+  { label: 'Accounts', href: '/foundations' },
+  { label: 'Audit', href: '/search?q=Audit' },
+  { label: 'Income Tax', href: '/search?q=Income+Tax' },
+  { label: 'GST', href: '/search?q=GST' },
+  { label: 'Corporate & Laws', href: '/search?q=Corporate+Law' },
+  { label: 'Financial Management & Other', href: '/financial-analysis' },
+]
+
+const RESOURCES_LINKS = [
+  { label: 'Standards Library', href: '/standards/as' },
+  { label: 'Section Finder', href: '/search' },
+  { label: 'Case Laws', href: '/search?q=Case+Laws' },
+  { label: 'Forms & Checklists', href: '/search?q=Forms' },
+  { label: 'Calculators', href: '/search?q=Calculators' },
+  { label: 'Latest Updates', href: '/search' },
+]
+
+const PLATFORM_LINKS = [
+  { label: 'Search', href: '/search' },
+  { label: 'Glossary', href: '/glossary' },
+  { label: 'Sitemap', href: '/sitemap.xml', external: true },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+]
+
+const PROFESSIONAL_DOMAINS = [
+  'Accounts',
+  'Audit',
+  'Income Tax',
+  'GST',
+  'Corporate Laws',
+  'Financial Management',
+]
+
+// ─── Footer component ─────────────────────────────────────────────────────────
 
 export default function Footer() {
+  const year = new Date().getFullYear()
+
   return (
     <footer className="bg-[#1A1E2A] text-[#F0F0EF]">
       <div className="max-w-[1280px] mx-auto px-6 pt-16 pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
-          {/* Brand Column */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center gap-0 mb-4">
-              <span className="font-sans font-bold text-xl tracking-tight text-white">Accounts</span>
-              <span className="font-sans font-bold text-xl tracking-tight text-[#4A4A52]">.</span>
-              <span className="font-sans font-bold text-xl tracking-tight text-white">Life</span>
-              <span
-                className="w-2 h-2 rounded-full bg-[#2D5BE3] ml-1.5"
-                style={{ marginBottom: '12px' }}
-                aria-hidden="true"
-              />
+
+        {/* ─── Main grid ─── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10 lg:gap-12">
+
+          {/* Column 1 — Brand */}
+          <div>
+            {/* Wordmark */}
+            <div className="flex items-center gap-0 mb-3">
+              <span className="font-sans font-bold text-lg tracking-tight text-white">
+                Accounts
+              </span>
+              <span className="font-sans font-bold text-lg tracking-tight text-[#2D5BE3]">
+                .
+              </span>
+              <span className="font-sans font-bold text-lg tracking-tight text-white">
+                One
+              </span>
             </div>
-            <p className="text-sm text-[#76767E] leading-relaxed mb-2">
-              The Accounting Operating System
+
+            {/* Tagline */}
+            <p className="text-sm text-[#76767E] leading-relaxed mb-5">
+              The Operating System for Professional Excellence
             </p>
-            <p className="text-sm text-[#4A4A52] leading-relaxed tracking-wide">
-              Structured · Verified · Authoritative
+
+            {/* Domain list */}
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-[#4A4A52] mb-3">
+              Professional knowledge platform for
             </p>
-            <div className="mt-6 flex flex-col gap-1">
-              <p className="text-xs text-[#4A4A52]">Built by AK</p>
-              <p className="text-xs text-[#3A3E4A]">
-                Content verified against official ICAI/MCA sources
-              </p>
-            </div>
+            <ul className="flex flex-col gap-1.5">
+              {PROFESSIONAL_DOMAINS.map((domain) => (
+                <li
+                  key={domain}
+                  className="flex items-center gap-2 text-xs text-[#5B616E]"
+                >
+                  <span
+                    className="w-1 h-1 rounded-full bg-[#2D5BE3] shrink-0"
+                    aria-hidden="true"
+                  />
+                  {domain}
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Foundations Column */}
+          {/* Column 2 — Domains */}
           <div>
-            <h3 className="text-xs font-semibold text-[#76767E] uppercase tracking-wider mb-4">
-              Foundations
+            <h3 className="text-[10px] font-semibold text-[#4A4A52] uppercase tracking-widest mb-4">
+              Domains
             </h3>
             <ul className="space-y-2.5">
-              {FOOTER_LINKS.foundations.map((link) => (
+              {DOMAINS_LINKS.map((link) => (
                 <li key={link.href + link.label}>
                   <Link
                     href={link.href}
@@ -83,40 +108,34 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Standards Column */}
+          {/* Column 3 — Resources */}
           <div>
-            <h3 className="text-xs font-semibold text-[#76767E] uppercase tracking-wider mb-4">
-              Standards
+            <h3 className="text-[10px] font-semibold text-[#4A4A52] uppercase tracking-widest mb-4">
+              Resources
             </h3>
             <ul className="space-y-2.5">
-              {FOOTER_LINKS.standards.map((link) => (
-                <li key={link.label}>
-                  {link.disabled ? (
-                    <span className="text-sm text-[#3A3E4A] cursor-default">
-                      {link.label}
-                    </span>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="text-sm text-[#A0A0A8] hover:text-[#F0F0EF] transition-colors duration-150"
-                    >
-                      {link.label}
-                    </Link>
-                  )}
+              {RESOURCES_LINKS.map((link) => (
+                <li key={link.href + link.label}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-[#A0A0A8] hover:text-[#F0F0EF] transition-colors duration-150"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Platform Column */}
+          {/* Column 4 — Platform */}
           <div>
-            <h3 className="text-xs font-semibold text-[#76767E] uppercase tracking-wider mb-4">
+            <h3 className="text-[10px] font-semibold text-[#4A4A52] uppercase tracking-widest mb-4">
               Platform
             </h3>
             <ul className="space-y-2.5">
-              {FOOTER_LINKS.platform.map((link) => (
+              {PLATFORM_LINKS.map((link) => (
                 <li key={link.href + link.label}>
-                  {link.href.endsWith('.xml') ? (
+                  {link.external ? (
                     <a
                       href={link.href}
                       className="text-sm text-[#A0A0A8] hover:text-[#F0F0EF] transition-colors duration-150"
@@ -137,29 +156,38 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Bottom Bar */}
+        {/* ─── Bottom bar ─── */}
         <div
-          className="mt-16 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4"
-          style={{ borderColor: 'rgba(255,255,255,0.08)' }}
+          className="mt-14 pt-6 border-t flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          style={{ borderColor: 'rgba(255,255,255,0.07)' }}
         >
-          <p className="text-xs text-[#4A4A52] text-center sm:text-left">
-            © {new Date().getFullYear()} Accounts.Life · All content verified against official ICAI/MCA sources
+          {/* Left: copyright */}
+          <p className="text-xs text-[#4A4A52]">
+            © {year} Accounts.One
           </p>
-          <div className="flex items-center gap-6">
-            <Link
-              href="/privacy"
-              className="text-xs text-[#4A4A52] hover:text-[#76767E] transition-colors"
-            >
-              Privacy Policy
-            </Link>
-            <Link
-              href="/terms"
-              className="text-xs text-[#4A4A52] hover:text-[#76767E] transition-colors"
-            >
-              Terms of Use
-            </Link>
+
+          {/* Right: source credits + legal */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
+            <p className="text-[10px] text-[#3A3E4A] tracking-wide">
+              Built on Official Sources&nbsp;•&nbsp;ICAI&nbsp;•&nbsp;MCA&nbsp;•&nbsp;CBDT&nbsp;•&nbsp;CBIC&nbsp;•&nbsp;RBI
+            </p>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/privacy"
+                className="text-xs text-[#4A4A52] hover:text-[#76767E] transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-xs text-[#4A4A52] hover:text-[#76767E] transition-colors"
+              >
+                Terms of Use
+              </Link>
+            </div>
           </div>
         </div>
+
       </div>
     </footer>
   )
