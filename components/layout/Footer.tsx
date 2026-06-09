@@ -14,10 +14,10 @@ const FOOTER_LINKS: {
   foundations: [
     { label: 'Depreciation Accounting', href: '/foundations/depreciation-accounting' },
     { label: 'Double Entry System', href: '/foundations/double-entry-system' },
-    { label: 'Bank Reconciliation', href: '/foundations/bank-reconciliation' },
-    { label: 'Provisions & Reserves', href: '/foundations/provisions-reserves' },
-    { label: 'Partnership Accounting', href: '/foundations/partnership-accounting' },
-    { label: 'Bills of Exchange', href: '/foundations/bills-of-exchange' },
+    { label: 'Bank Reconciliation', href: '/bank-reconciliation' },
+    { label: 'Provisions & Reserves', href: '/provisions-reserves' },
+    { label: 'Partnership Accounting', href: '/partnership-accounts' },
+    { label: 'Bills of Exchange', href: '/bills-of-exchange' },
   ],
   standards: [
     { label: 'AS Standards', href: '/standards/as' },
@@ -28,8 +28,8 @@ const FOOTER_LINKS: {
   platform: [
     { label: 'Glossary', href: '/glossary' },
     { label: 'Search', href: '/search' },
-    { label: 'Sitemap', href: '/sitemap' },
-    { label: 'All Domains', href: '/sitemap' },
+    { label: 'Sitemap', href: '/sitemap.xml' },
+    { label: 'All Domains', href: '/sitemap.xml' },
   ],
 }
 
@@ -116,12 +116,21 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {FOOTER_LINKS.platform.map((link) => (
                 <li key={link.href + link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-[#A0A0A8] hover:text-[#F0F0EF] transition-colors duration-150"
-                  >
-                    {link.label}
-                  </Link>
+                  {link.href.endsWith('.xml') ? (
+                    <a
+                      href={link.href}
+                      className="text-sm text-[#A0A0A8] hover:text-[#F0F0EF] transition-colors duration-150"
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className="text-sm text-[#A0A0A8] hover:text-[#F0F0EF] transition-colors duration-150"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>

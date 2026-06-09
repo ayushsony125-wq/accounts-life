@@ -28,7 +28,7 @@ export async function generateStaticParams() {
   return index
     .filter((item) => {
       const parts = item.slug.split('/')
-      return parts.length === 3 // e.g. foundations/concepts-conventions/accrual-concept
+      return parts.length === 3 && parts[0] !== 'standards'
     })
     .map((item) => {
       const [domainSlug, subSlug, entrySlug] = item.slug.split('/')
@@ -39,6 +39,7 @@ export async function generateStaticParams() {
 // ─── Metadata ────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+  if (params.domainSlug === 'standards') return { title: 'Not Found' }
   const entry = await getEntryBySlug(params.domainSlug, params.subSlug, params.entrySlug)
   if (!entry) return { title: 'Not Found' }
   return {
@@ -57,6 +58,7 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function TopicPage({ params }: PageParams) {
+  if (params.domainSlug === 'standards') notFound()
   const entry = await getEntryBySlug(
     params.domainSlug,
     params.subSlug,

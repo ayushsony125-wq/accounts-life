@@ -67,13 +67,20 @@ export default function GlossaryPageClient({ glossaryTerms }: GlossaryPageClient
 
   // Map related standard references to their route slug
   const getStandardUrl = (ref: string) => {
-    const cleanRef = ref.trim().toLowerCase()
+    const cleanRef = ref.trim().toLowerCase().replace(/\s+/g, ' ')
+    const activeAS = ['as 1', 'as 2', 'as 3', 'as 10', 'as 11', 'as 12']
+    const activeIndAS = ['ind as 1', 'ind as 2', 'ind as 115', 'ind as 116']
+
     if (cleanRef.startsWith('ind as')) {
       const num = cleanRef.replace('ind as', '').trim()
-      return `/standards/ind-as/ind-as-${num}`
+      if (activeIndAS.includes(cleanRef)) {
+        return `/standards/ind-as/ind-as-${num}`
+      }
     } else if (cleanRef.startsWith('as')) {
       const num = cleanRef.replace('as', '').trim()
-      return `/standards/as/as-${num}`
+      if (activeAS.includes(cleanRef)) {
+        return `/standards/as/as-${num}`
+      }
     }
     return `/search?query=${encodeURIComponent(ref)}`
   }

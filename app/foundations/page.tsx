@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 const FEATURED_TOPICS = [
   {
     title: 'Double Entry System',
-    slug: 'double-entry-system',
+    slug: 'double-entry',
     summary:
       'Every transaction affects at least two accounts. The foundation of all modern accounting.',
     subSlug: 'double-entry-system',
@@ -51,7 +51,7 @@ const FEATURED_TOPICS = [
   },
   {
     title: 'Depreciation — SLM vs WDV',
-    slug: 'depreciation-slm-wdv',
+    slug: 'slm',
     summary:
       'Straight-Line Method vs Written Down Value — recognition, calculation, and journal entries.',
     subSlug: 'depreciation-accounting',

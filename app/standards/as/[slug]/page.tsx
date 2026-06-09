@@ -1,12 +1,13 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, ExternalLink, Calendar, Building2, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Calendar, Building2, CheckCircle2, ArrowRight } from 'lucide-react'
 import Breadcrumb from '@/components/ui/Breadcrumb'
 import TableOfContents from '@/components/ui/TableOfContents'
 import VerificationBadge from '@/components/ui/VerificationBadge'
 import { formatFullDate, estimateReadTime } from '@/lib/utils'
-import { getASStandardBySlug, getSearchIndex } from '@/lib/queries'
+import { getASStandardBySlug, getSearchIndex, getDomains } from '@/lib/queries'
+import { prisma } from '@/lib/db'
 import type { TableOfContentsItem, VerificationLevel } from '@/lib/types'
 
 interface PageParams {
@@ -68,6 +69,143 @@ const STATUS_CLS: Record<string, string> = {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function StandardPage({ params }: PageParams) {
+  // Check if it's a subdomain first
+  let dbSubdomain = await (async () => {
+    try {
+      return await prisma.subdomain.findFirst({
+        where: {
+          subdomainSlug: params.slug,
+          domain: { domainSlug: 'standards/as' }
+        },
+        include: {
+          domain: true,
+          entries: {
+            where: { status: 'PUBLISHED' },
+            include: { standardDetail: true },
+            orderBy: { sortOrder: 'asc' }
+          }
+        }
+      })
+    } catch (e) {
+      console.warn('Prisma subdomain.findFirst failed, using fallback.', e)
+      return null
+    }
+  })()
+
+  if (!dbSubdomain) {
+    const staticDomains = await getDomains()
+    const staticDomain = staticDomains.find(d => d.domainSlug === 'standards/as')
+    const staticSub = staticDomain?.subdomains.find(s => ('subdomainSlug' in s ? (s as any).subdomainSlug : (s as any).slug) === params.slug)
+    if (staticSub) {
+      dbSubdomain = {
+        subdomainName: 'name' in staticSub ? (staticSub as any).name : (staticSub as any).subdomainName || '',
+        subdomainSlug: params.slug,
+        subdomainDescription: '',
+        domain: {
+          domainSlug: 'standards/as',
+          domainName: 'AS Standards',
+          domainColorHex: '#0F6B5E'
+        },
+        entries: []
+      } as any
+    }
+  }
+
+  if (dbSubdomain) {
+    let entries = dbSubdomain.entries || []
+    if (entries.length === 0) {
+      entries = await (async () => {
+        try {
+          return await prisma.entry.findMany({
+            where: {
+              subdomain: { subdomainSlug: params.slug },
+              domain: { domainSlug: 'standards/as' },
+              status: 'PUBLISHED'
+            },
+            include: { standardDetail: true },
+            orderBy: { sortOrder: 'asc' }
+          })
+        } catch (e) {
+          console.warn('Prisma entry.findMany failed, using fallback.', e)
+          return []
+        }
+      })()
+    }
+
+    const colorHex = dbSubdomain.domain?.domainColorHex || '#0F6B5E'
+
+    return (
+      <div className="max-w-[1280px] mx-auto px-6 py-10">
+        <Breadcrumb
+          items={[
+            { label: 'Home', href: '/' },
+            { label: 'AS Standards', href: '/standards/as' },
+            { label: dbSubdomain.subdomainName }
+          ]}
+          className="mb-6"
+        />
+
+        <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
+          <span
+            className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded inline-block mb-3"
+            style={{
+              backgroundColor: `${colorHex}18`,
+              color: colorHex,
+            }}
+          >
+            Subdomain
+          </span>
+          <h1 className="text-3xl font-bold text-[#1C1C1E] tracking-tight leading-tight">
+            {dbSubdomain.subdomainName}
+          </h1>
+          {dbSubdomain.subdomainDescription && (
+            <p className="mt-3 text-base text-[#4A4A52] font-reading leading-relaxed max-w-2xl">
+              {dbSubdomain.subdomainDescription}
+            </p>
+          )}
+        </header>
+
+        <main className="min-w-0 max-w-3xl">
+          <h2 className="text-lg font-bold text-[#1C1C1E] mb-5 tracking-tight">
+            Accounting Standards in this Category
+          </h2>
+
+          {entries.length === 0 ? (
+            <div className="p-6 rounded-lg border border-dashed border-[#E2E1DD] bg-white text-center">
+              <span className="text-sm font-medium text-[#4A4A52]">No standards published yet</span>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {entries.map((entry) => (
+                <Link
+                  key={entry.entrySlug}
+                  href={`/standards/as/${entry.entrySlug}`}
+                  className="group block p-5 rounded-lg border border-[#E2E1DD] bg-white hover:border-[#0F6B5E] hover:shadow-sm transition-all"
+                >
+                  <div className="flex items-center justify-between gap-4 mb-2">
+                    <span className="text-xs font-bold px-2 py-0.5 rounded bg-[#0F6B5E]15 text-[#0F6B5E]">
+                      {entry.standardDetail?.standardCode || 'AS'}
+                    </span>
+                    <h3 className="text-base font-semibold text-[#1C1C1E] group-hover:text-[#0F6B5E] transition-colors leading-snug flex-1 pl-3">
+                      {entry.entryTitle}
+                    </h3>
+                  </div>
+                  <p className="text-sm text-[#76767E] leading-relaxed mb-3 line-clamp-2">
+                    {entry.summary}
+                  </p>
+                  <div className="flex items-center gap-1 text-xs font-semibold text-[#0F6B5E]">
+                    <span>Read standard guide</span>
+                    <ArrowRight size={12} className="transition-transform group-hover:translate-x-0.5" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
+    )
+  }
+
   const std = await getASStandardBySlug(params.slug)
 
   if (!std) notFound()

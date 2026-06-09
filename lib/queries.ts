@@ -284,7 +284,30 @@ function mapStandardDetail(std: any) {
     comparison: {
       std2Title: std.standardFramework === 'AS' ? 'Ind AS equivalent' : 'AS equivalent',
       rows: std.comparisonRows || [],
-    }
+    },
+    faqs: std.entry.faqs?.map((f: any) => ({
+      id: f.id,
+      question: f.faqQuestion,
+      answer: f.faqAnswer,
+      sourceRef: f.faqSourceRef,
+    })) || [],
+    journalEntryNotes: std.entry.journalEntries?.map((je: any) => ({
+      scenario: je.jeScenarioTitle || je.jeLabel || '',
+      treatment: je.jeNarration || '',
+    })) || [],
+    relatedStandards: std.entry.relationsFrom
+      ?.filter((rel: any) => rel.relatedEntry?.entryType === 'STANDARD' && rel.relatedEntry?.status === 'PUBLISHED')
+      ?.map((rel: any) => {
+        const related = rel.relatedEntry
+        const detail = related?.standardDetail
+        return {
+          code: detail?.standardCode || '',
+          title: related?.entryTitle || '',
+          slug: related?.entrySlug || '',
+          color: detail?.standardFramework === 'AS' ? '#0F6B5E' : '#6B3FA0',
+          framework: detail?.standardFramework === 'AS' ? 'as' : 'ind-as',
+        }
+      }) || []
   }
 }
 
@@ -301,6 +324,21 @@ export async function getASStandardBySlug(slug: string): Promise<any> {
             include: {
               domain: true,
               subdomain: true,
+              faqs: { orderBy: { sortOrder: 'asc' } },
+              journalEntries: {
+                include: { rows: true },
+                orderBy: { sortOrder: 'asc' },
+              },
+              relationsFrom: {
+                include: {
+                  relatedEntry: {
+                    include: {
+                      standardDetail: true
+                    }
+                  }
+                },
+                orderBy: { sortOrder: 'asc' },
+              },
             }
           },
           definitions: { orderBy: { sortOrder: 'asc' } },
@@ -418,6 +456,21 @@ export async function getIndASStandardBySlug(slug: string): Promise<any> {
             include: {
               domain: true,
               subdomain: true,
+              faqs: { orderBy: { sortOrder: 'asc' } },
+              journalEntries: {
+                include: { rows: true },
+                orderBy: { sortOrder: 'asc' },
+              },
+              relationsFrom: {
+                include: {
+                  relatedEntry: {
+                    include: {
+                      standardDetail: true
+                    }
+                  }
+                },
+                orderBy: { sortOrder: 'asc' },
+              },
             }
           },
           definitions: { orderBy: { sortOrder: 'asc' } },

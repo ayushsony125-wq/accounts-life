@@ -40,8 +40,8 @@ const IND_AS_LIST = [
   { code: 'Ind AS 109', title: 'Financial Instruments', slug: 'ind-as-109', status: 'COMING_SOON' as const },
   { code: 'Ind AS 110', title: 'Consolidated Financial Statements', slug: 'ind-as-110', status: 'COMING_SOON' as const },
   { code: 'Ind AS 113', title: 'Fair Value Measurement', slug: 'ind-as-113', status: 'COMING_SOON' as const },
-  { code: 'Ind AS 115', title: 'Revenue from Contracts with Customers', slug: 'ind-as-115', status: 'COMING_SOON' as const },
-  { code: 'Ind AS 116', title: 'Leases', slug: 'ind-as-116', status: 'COMING_SOON' as const },
+  { code: 'Ind AS 115', title: 'Revenue from Contracts with Customers', slug: 'ind-as-115', status: 'ACTIVE' as const },
+  { code: 'Ind AS 116', title: 'Leases', slug: 'ind-as-116', status: 'ACTIVE' as const },
 ]
 
 export default function IndASPage() {
