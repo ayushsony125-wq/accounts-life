@@ -162,9 +162,58 @@ export default function Footer() {
           </div>
         </div>
 
+        {/* ─── Authority Logos Strip ─── */}
+        <div className="mt-12 pt-6 border-t border-[rgba(255,255,255,0.07)]">
+          <div className="flex flex-col gap-3">
+            <span className="text-[9px] font-bold uppercase tracking-widest text-[#9EAFCE]">
+              Official Citing Authorities
+            </span>
+            <div className="flex flex-wrap items-center gap-6 opacity-60 hover:opacity-90 transition-opacity">
+              {/* ICAI Logo */}
+              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
+                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" strokeWidth="2" />
+                  <path d="M12 7v10M8 12h8" strokeWidth="2" />
+                </svg>
+                <span>ICAI</span>
+              </div>
+              {/* MCA Logo */}
+              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
+                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 21h16M4 10h16M12 3v7M8 21v-11M16 21v-11" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+                <span>MCA</span>
+              </div>
+              {/* CBDT Logo */}
+              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
+                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="4" y="4" width="16" height="16" rx="2" strokeWidth="2" />
+                  <path d="M9 9h6M9 13h6" strokeWidth="2" />
+                </svg>
+                <span>CBDT</span>
+              </div>
+              {/* CBIC Logo */}
+              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
+                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span>CBIC</span>
+              </div>
+              {/* RBI Logo */}
+              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
+                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="12" r="10" strokeWidth="2" />
+                  <path d="M12 6c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6" strokeWidth="2" />
+                </svg>
+                <span>RBI</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* ─── Bottom bar ─── */}
         <div
-          className="mt-14 pt-6 border-t flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+          className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
           style={{ borderColor: 'rgba(255,255,255,0.07)' }}
         >
           {/* Left: copyright */}

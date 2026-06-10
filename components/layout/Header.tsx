@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
-import { Search, Menu, X, ChevronDown, ShieldCheck, Clock, Bell, Moon } from 'lucide-react'
+import { Search, Menu, X, ChevronDown, ShieldCheck, Bell, Moon } from 'lucide-react'
 
 interface DropdownItem {
   label: string
@@ -227,7 +227,7 @@ export default function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2">
-            {/* Wider Search Bar Form */}
+            {/* Search Bar Form */}
             <form onSubmit={handleSearchSubmit} className="hidden sm:flex relative items-center">
               <Search size={13} className="absolute left-2.5 text-[#76767E] pointer-events-none" />
               <input
@@ -254,7 +254,6 @@ export default function Header() {
             >
               Sign Up / Login
             </Link>
-
 
             <button
               onClick={() => setMobileOpen((v) => !v)}

@@ -18,13 +18,11 @@ import {
   Bell,
   Mail,
   Calendar,
-  ExternalLink,
   Clock,
   CheckCircle2,
   LayoutGrid,
   Lightbulb,
   GraduationCap,
-  Gavel,
   Eye,
 } from 'lucide-react'
 
@@ -153,7 +151,7 @@ const QUICK_LINKS = [
     label: 'Case Laws',
     href: '/search?q=Case+Laws',
     description: 'Important judgments & rulings',
-    Icon: Gavel,
+    Icon: Scale,
     color: '#6B3FA0',
   },
   {
@@ -170,15 +168,6 @@ const QUICK_LINKS = [
     Icon: Calculator,
     color: '#1A7A4A',
   },
-]
-
-const STATS = [
-  { value: '12,000+', label: 'Topics' },
-  { value: '250+', label: 'Standards' },
-  { value: '5,000+', label: 'Updates' },
-  { value: '100+', label: 'Forms & Tools' },
-  { value: '50+', label: 'Expert Contributors' },
-  { value: '100%', label: 'Source Backed' },
 ]
 
 const FEATURE_PILLARS = [
@@ -338,13 +327,19 @@ export default function HomePageClient() {
 
             {/* Left: Headline + Search */}
             <div className="flex flex-col">
+              {/* Small Badge */}
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FD] border border-[#D0DCFA] text-[10px] font-bold text-[#2D5BE3] uppercase tracking-wider w-fit mb-4">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2D5BE3] animate-pulse" />
+                Official Knowledge Platform
+              </div>
+
               {/* Heading */}
               <h1
                 id="hero-heading"
                 className="font-sans font-bold text-[#1C1C1E] leading-tight tracking-tight animate-in fade-in duration-300"
                 style={{ fontSize: 'clamp(22px, 2.5vw, 32px)' }}
               >
-                The Most Organized{' '}
+                The Most Organized<br className="hidden sm:inline" />
                 <span className="text-[#2D5BE3]">Accounting Knowledge System</span>
               </h1>
 
@@ -364,7 +359,7 @@ export default function HomePageClient() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for topics, sections, standards, rules, cases…"
-                  className="w-full bg-[#FAFAF8] border border-[#E2E1DD] hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white text-sm font-medium pl-9 pr-24 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] shadow-sm"
+                  className="w-full bg-[#FAFAF8] border border-[#E2E1DD] hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white text-sm font-medium pl-9 pr-24 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10"
                 />
                 <button
                   type="submit"
