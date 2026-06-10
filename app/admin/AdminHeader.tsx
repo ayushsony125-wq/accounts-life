@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { logout } from './actions'
-import { LayoutDashboard, BookOpen, Layers, LogOut, ArrowLeft } from 'lucide-react'
+import { LayoutDashboard, BookOpen, Layers, LogOut, ArrowLeft, Home } from 'lucide-react'
 
 export default function AdminHeader() {
   const pathname = usePathname()
@@ -16,6 +16,7 @@ export default function AdminHeader() {
 
   const navItems = [
     { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+    { label: 'Homepage Config', href: '/admin/homepage', icon: Home },
     { label: 'Content Manager', href: '/admin/entries', icon: BookOpen },
     { label: 'Glossary Manager', href: '/admin/glossary', icon: Layers },
     { label: 'Domains Config', href: '/admin/domains', icon: Layers },

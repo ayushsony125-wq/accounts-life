@@ -58,7 +58,7 @@ function verifyToken(token: string): boolean {
 // ============================================================
 
 export async function login(password: string) {
-  const adminPassword = process.env.ADMIN_PASSWORD || '123456'
+  const adminPassword = process.env.ADMIN_PASSWORD || 'Ak@993102'
 
   if (password === adminPassword) {
     const sessionToken = generateToken(60 * 60 * 24 * 1000) // 1 day
@@ -461,5 +461,75 @@ export async function updateDomainMeta(domainCode: string, tagline: string, desc
   db.domains = domains
   writeDb(db)
 
+  return { success: true }
+}
+
+// ============================================================
+// HOMEPAGE LAYOUT & CONTENT CONFIGURATION (Prisma + JSON Fallback)
+// ============================================================
+
+const CONFIG_FILE_PATH = path.join(process.cwd(), 'lib/data/homepage-config.json')
+
+function readConfigJson(key: string, defaultValue: any) {
+  if (!fs.existsSync(CONFIG_FILE_PATH)) {
+    return defaultValue
+  }
+  try {
+    const data = JSON.parse(fs.readFileSync(CONFIG_FILE_PATH, 'utf-8'))
+    return data[key] !== undefined ? data[key] : defaultValue
+  } catch (e) {
+    return defaultValue
+  }
+}
+
+function writeConfigJson(key: string, value: any) {
+  const dir = path.dirname(CONFIG_FILE_PATH)
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true })
+  }
+  let currentData: Record<string, any> = {}
+  if (fs.existsSync(CONFIG_FILE_PATH)) {
+    try {
+      currentData = JSON.parse(fs.readFileSync(CONFIG_FILE_PATH, 'utf-8'))
+    } catch {}
+  }
+  currentData[key] = value
+  fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(currentData, null, 2), 'utf-8')
+}
+
+export async function getHomepageConfig(key: string, defaultValue: any) {
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (useDatabase) {
+    try {
+      const record = await prisma.homepageConfig.findUnique({
+        where: { key }
+      })
+      if (record) {
+        return record.value
+      }
+    } catch (e) {
+      console.warn(`Prisma findUnique for key ${key} failed, falling back to JSON.`, e)
+    }
+  }
+  return readConfigJson(key, defaultValue)
+}
+
+export async function saveHomepageConfig(key: string, value: any) {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (useDatabase) {
+    try {
+      await prisma.homepageConfig.upsert({
+        where: { key },
+        update: { value },
+        create: { key, value }
+      })
+    } catch (e) {
+      console.warn(`Prisma upsert for key ${key} failed, falling back to JSON.`, e)
+    }
+  }
+  writeConfigJson(key, value)
   return { success: true }
 }

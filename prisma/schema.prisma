@@ -530,3 +530,17 @@ enum FAQCategory {
   EXAM
   PRACTICAL
 }
+
+// ============================================================
+// Additional: HomepageConfig
+// ============================================================
+
+model HomepageConfig {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     Json
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("homepage_configs")
+}

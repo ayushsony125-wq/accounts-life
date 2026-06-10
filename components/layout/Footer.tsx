@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { getHomepageConfig } from '@/app/admin/actions'
 
 const DOMAINS_LINKS = [
   { label: 'Accounts', href: '/foundations' },
@@ -72,7 +73,12 @@ const CITING_AUTHORITIES = [
   },
 ]
 
-export default function Footer() {
+export default async function Footer() {
+  const footerConfig = (await getHomepageConfig('footer_config', null)) as any
+  const domainsLinks = footerConfig?.domainsLinks || DOMAINS_LINKS
+  const resourcesLinks = footerConfig?.resourcesLinks || RESOURCES_LINKS
+  const platformLinks = footerConfig?.platformLinks || PLATFORM_LINKS
+
   return (
     <footer className="bg-[#0B0F19] text-gray-400 border-t border-[#1E2640] font-sans">
       <div className="max-w-[1280px] mx-auto px-6 pt-16 pb-10">
@@ -142,7 +148,7 @@ export default function Footer() {
               Domains
             </h3>
             <ul className="space-y-2.5">
-              {DOMAINS_LINKS.map((link) => (
+              {domainsLinks.map((link: any) => (
                 <li key={link.href + link.label}>
                   <Link
                     href={link.href}
@@ -161,7 +167,7 @@ export default function Footer() {
               Resources
             </h3>
             <ul className="space-y-2.5">
-              {RESOURCES_LINKS.map((link) => (
+              {resourcesLinks.map((link: any) => (
                 <li key={link.href + link.label}>
                   <Link
                     href={link.href}
@@ -180,7 +186,7 @@ export default function Footer() {
               Platform
             </h3>
             <ul className="space-y-2.5">
-              {PLATFORM_LINKS.map((link) => (
+              {platformLinks.map((link: any) => (
                 <li key={link.href + link.label}>
                   <Link
                     href={link.href}

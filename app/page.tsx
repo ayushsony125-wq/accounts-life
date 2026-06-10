@@ -1,5 +1,8 @@
 import type { Metadata } from 'next'
 import HomePageClient from './HomePageClient'
+import { getHomepageConfig } from '@/app/admin/actions'
+
+export const dynamic = 'force-dynamic'
 
 // ─── SEO ─────────────────────────────────────────────────────────────────────
 
@@ -12,6 +15,7 @@ export const metadata: Metadata = {
 
 // ─── Page (Server Component → renders Client Component) ───────────────────────
 
-export default function HomePage() {
-  return <HomePageClient />
+export default async function HomePage() {
+  const config = await getHomepageConfig('homepage_layout_config', null)
+  return <HomePageClient initialConfig={config} />
 }

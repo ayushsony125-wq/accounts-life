@@ -252,13 +252,82 @@ const ACCURACY_PILLARS = [
 
 // ─── Main Client Component ────────────────────────────────────────────────────
 
-export default function HomePageClient() {
+// ─── Main Client Component ────────────────────────────────────────────────────
+
+interface HomePageClientProps {
+  initialConfig?: any
+}
+
+function getEmbedUrl(url: string): string | null {
+  if (!url) return null
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+  const match = url.match(regExp)
+  if (match && match[2].length === 11) {
+    return `https://www.youtube.com/embed/${match[2]}`
+  }
+  const vimeoRegExp = /vimeo\.com\/(\d+)/
+  const vimeoMatch = url.match(vimeoRegExp)
+  if (vimeoMatch) {
+    return `https://player.vimeo.com/video/${vimeoMatch[1]}`
+  }
+  return url
+}
+
+export default function HomePageClient({ initialConfig }: HomePageClientProps) {
   const router = useRouter()
   const [searchQuery, setSearchQuery] = useState('')
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
   const [subscribing, setSubscribing] = useState(false)
   const [subscribeError, setSubscribeError] = useState<string | null>(null)
+
+  const resolveIcon = (icon: any) => {
+    if (!icon) return BookOpen
+    if (typeof icon !== 'string') return icon
+    const icons: Record<string, any> = {
+      BookOpen,
+      Scale,
+      FileText,
+      TrendingUp,
+      ShieldCheck,
+      Building2,
+      Calculator,
+      BarChart3,
+      Calendar,
+      Zap,
+      CheckCircle2,
+      LayoutGrid,
+      Mail,
+      RefreshCw
+    }
+    return icons[icon] || BookOpen
+  }
+
+  // Load configured content or fallback to defaults
+  const sectionsOrder = initialConfig?.sectionsOrder || ['hero', 'domains', 'updates', 'quickaccess', 'accuracy']
+  const heroTitle = initialConfig?.heroTitle || "The Operating System for"
+  const heroTitleSpan = initialConfig?.heroTitleSpan || "Professional Excellence"
+  const heroSubtitle = initialConfig?.heroSubtitle || "Trusted explanations. Exact legal support. Official sources. Practical notes. Curated videos. Everything a professional needs."
+  const popularSearches = initialConfig?.popularSearches || POPULAR_SEARCHES
+  const trustPoints = initialConfig?.trustPoints || TRUST_POINTS
+  
+  const domainsHeading = initialConfig?.domainsHeading || "Explore by Domain"
+  const domainsSubheading = initialConfig?.domainsSubheading || "Choose a subject to access structured knowledge, laws, standards, and practical guidance."
+  const domainsCards = initialConfig?.domainsCards || PROFESSIONAL_DOMAINS
+  
+  const updatesHeading = initialConfig?.updatesHeading || "Latest Updates"
+  const updatesSubheading = initialConfig?.updatesSubheading || "Stay informed with important notifications, circulars & professional updates."
+  const updatesFeed = initialConfig?.updatesFeed || LATEST_UPDATES
+  const todaysEssentials = initialConfig?.todaysEssentials || TODAYS_ESSENTIALS
+  const subscribeTitle = initialConfig?.subscribeTitle || "Subscribe to Daily Professional Updates"
+  const subscribeDesc = initialConfig?.subscribeDesc || "Get important notifications, amendments, circulars & updates directly in your inbox."
+  
+  const quickAccessHeading = initialConfig?.quickAccessHeading || "Quick Access"
+  const quickAccessSubheading = initialConfig?.quickAccessSubheading || "Everything you need, right at your fingertips."
+  const quickAccessLinks = initialConfig?.quickAccessLinks || QUICK_LINKS
+  
+  const accuracyHeading = initialConfig?.accuracyHeading || "Built for Accuracy. Designed for Professionals."
+  const accuracyPillars = initialConfig?.accuracyPillars || ACCURACY_PILLARS
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault()
@@ -295,306 +364,281 @@ export default function HomePageClient() {
     }
   }
 
-  return (
-    <>
-      {/* ── Hero Section ──────────────────────────────────────────────────── */}
-      <section
-        aria-labelledby="hero-heading"
-        className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
-      >
-        <div className="max-w-[1280px] mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
-
-            {/* Left: Headline + Search */}
-            <div className="flex flex-col">
-              {/* Heading */}
-              <h1
-                id="hero-heading"
-                className="font-sans font-bold text-[#1C1C1E] dark:text-white leading-tight tracking-tight text-3xl sm:text-4xl"
-              >
-                The Operating System for<br />
-                <span className="text-[#2D5BE3] dark:text-[#60A5FA]">Professional Excellence</span>
-              </h1>
-
-              {/* Sub-headline */}
-              <p className="mt-4 text-[15px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
-                Trusted explanations. Exact legal support. Official sources. <br className="hidden sm:inline" />
-                Practical notes. Curated videos. <strong className="font-bold text-[#1C1C1E] dark:text-white">Everything a professional needs.</strong>
-              </p>
-
-              {/* Search Bar */}
-              <form onSubmit={handleSearch} className="mt-7 relative max-w-2xl flex items-center">
-                <div className="relative flex-1">
-                  <Search
-                    size={16}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#76767E] dark:text-gray-400 pointer-events-none"
-                  />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search for topics, sections, standards, rules, cases..."
-                    className="w-full bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] dark:hover:border-gray-700 focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:bg-white dark:focus:bg-[#161C2C] text-sm font-medium pl-10 pr-4 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] dark:text-gray-400 shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10 dark:focus:ring-[#60A5FA]/10"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="ml-3 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-sm font-bold px-6 py-3.5 rounded-lg transition-colors shadow-sm"
-                >
-                  Search
-                </button>
-              </form>
-
-              {/* Popular searches */}
-              <div className="mt-4 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0">Popular searches:</span>
-                {POPULAR_SEARCHES.map((s) => (
-                  <Link
-                    key={s.label}
-                    href={s.href}
-                    className="text-xs text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-3 py-1 rounded-full transition-all font-medium"
-                  >
-                    {s.label}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Right: Trust Card */}
-            <div className="lg:pt-2">
-              <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-6 shadow-sm">
-                <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-4">
-                  Why Professionals Trust Accounts.One
-                </h2>
-                <ul className="flex flex-col gap-3 mb-6">
-                  {TRUST_POINTS.map((point) => (
-                    <li key={point} className="flex items-start gap-3 text-xs text-[#4A4A52] dark:text-gray-300 leading-snug font-medium">
-                      <CheckCircle2
-                        size={14}
-                        className="text-[#2D5BE3] dark:text-[#60A5FA] shrink-0 mt-0.5"
-                      />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
-                <Link
-                  href="/foundations"
-                  className="flex items-center justify-center gap-2 w-full text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-4 py-2.5 rounded-md transition-all shadow-sm"
-                >
-                  Explore All Features
-                  <ArrowRight size={13} />
-                </Link>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ── Explore By Domain ─────────────────────────────────────────────── */}
-      <section
-        aria-labelledby="domains-heading"
-        className="bg-[#FAFAF8] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
-      >
-        <div className="max-w-[1280px] mx-auto px-6 py-12">
-          <header className="flex items-start justify-between mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <LayoutGrid size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
-                <h2
-                  id="domains-heading"
-                  className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
-                >
-                  Explore by Domain
-                </h2>
-              </div>
-              <p className="text-sm text-[#76767E] dark:text-gray-400">
-                Choose a subject to access structured knowledge, laws, standards, and practical guidance.
-              </p>
-            </div>
-            <Link
-              href="/search"
-              className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] shrink-0 transition-colors"
+  const renderHero = () => (
+    <section
+      key="hero"
+      aria-labelledby="hero-heading"
+      className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
+    >
+      <div className="max-w-[1280px] mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
+          {/* Left: Headline + Search */}
+          <div className="flex flex-col">
+            <h1
+              id="hero-heading"
+              className="font-sans font-bold text-[#1C1C1E] dark:text-white leading-tight tracking-tight text-3xl sm:text-4xl"
             >
-              View All Domains
-              <ArrowRight size={12} />
-            </Link>
-          </header>
-
-          {/* 6-col horizontal layout */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-            {PROFESSIONAL_DOMAINS.map((domain) => {
-              const { Icon } = domain
-              return (
+              {heroTitle}<br />
+              <span className="text-[#2D5BE3] dark:text-[#60A5FA]">{heroTitleSpan}</span>
+            </h1>
+            <p className="mt-4 text-[15px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
+              {heroSubtitle}
+            </p>
+            <form onSubmit={handleSearch} className="mt-7 relative max-w-2xl flex items-center">
+              <div className="relative flex-1">
+                <Search
+                  size={16}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#76767E] dark:text-gray-400 pointer-events-none"
+                />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search for topics, sections, standards, rules, cases..."
+                  className="w-full bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] dark:hover:border-gray-700 focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:bg-white dark:focus:bg-[#161C2C] text-sm font-medium pl-10 pr-4 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] dark:text-gray-400 shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10 dark:focus:ring-[#60A5FA]/10"
+                />
+              </div>
+              <button
+                type="submit"
+                className="ml-3 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-sm font-bold px-6 py-3.5 rounded-lg transition-colors shadow-sm"
+              >
+                Search
+              </button>
+            </form>
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0">Popular searches:</span>
+              {popularSearches.map((s: any) => (
                 <Link
-                  key={domain.id}
-                  href={domain.href}
-                  id={`domain-card-${domain.id}`}
-                  className="group flex flex-col items-center text-center p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
+                  key={s.label}
+                  href={s.href}
+                  className="text-xs text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-3 py-1 rounded-full transition-all font-medium"
                 >
-                  {/* Circular Icon Container */}
-                  <div
-                    className="flex items-center justify-center w-12 h-12 rounded-full mb-4"
-                    style={{ backgroundColor: `${domain.color}14` }}
-                  >
-                    <Icon size={22} style={{ color: domain.color }} />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug mb-2">
-                    {domain.name}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">
-                    {domain.description}
-                  </p>
+                  {s.label}
                 </Link>
-              )
-            })}
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* ── Latest Updates ────────────────────────────────────────────────── */}
-      <section
-        aria-labelledby="updates-heading"
-        className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
-      >
-        <div className="max-w-[1280px] mx-auto px-6 py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
-
-            {/* ─ LEFT: Latest Updates feed ──────────────────────────── */}
-            <div>
-              <header className="flex items-center justify-between mb-6">
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <Bell size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
-                    <h2
-                      id="updates-heading"
-                      className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
-                    >
-                      Latest Updates
-                    </h2>
-                  </div>
-                  <p className="text-sm text-[#76767E] dark:text-gray-400">
-                    Stay informed with important notifications, circulars & professional updates.
-                  </p>
-                </div>
-                <Link
-                  href="/search"
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] shrink-0 transition-colors"
-                >
-                  View All Updates
-                  <ArrowRight size={12} />
-                </Link>
-              </header>
-
-              <ol className="flex flex-col divide-y divide-[#F4F3F0] dark:divide-gray-800">
-                {LATEST_UPDATES.map((update) => (
-                  <li key={update.id} className="py-5 first:pt-0 last:pb-0">
-                    <article className="flex flex-col gap-2">
-                      {/* Category + source + date row */}
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span
-                          className="text-[10px] font-bold px-2 py-0.5 rounded-full"
-                          style={{
-                            backgroundColor: update.categoryBg,
-                            color: update.categoryColor,
-                          }}
-                        >
-                          {update.category}
-                        </span>
-                        <span className="text-[10px] text-[#A0A0A8] dark:text-gray-400 font-semibold">
-                          {update.source}
-                        </span>
-                        <span className="text-[#A0A0A8]/60 text-[10px]" aria-hidden="true">•</span>
-                        <time className="text-[10px] text-[#A0A0A8] dark:text-gray-400 font-semibold">
-                          {update.date}
-                        </time>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="text-sm font-semibold text-[#1C1C1E] dark:text-white leading-snug">
-                        {update.title}
-                      </h3>
-
-                      {/* Summary */}
-                      <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">
-                        {update.summary}
-                      </p>
-
-                      {/* Read More */}
-                      <Link
-                        href={update.href}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] transition-colors w-fit mt-1"
-                      >
-                        Read More
-                        <ArrowRight size={11} />
-                      </Link>
-                    </article>
+          {/* Right: Trust Card */}
+          <div className="lg:pt-2">
+            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-6 shadow-sm">
+              <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-4">
+                Why Professionals Trust Accounts.One
+              </h2>
+              <ul className="flex flex-col gap-3 mb-6">
+                {trustPoints.map((point: string) => (
+                  <li key={point} className="flex items-start gap-3 text-xs text-[#4A4A52] dark:text-gray-300 leading-snug font-medium">
+                    <CheckCircle2
+                      size={14}
+                      className="text-[#2D5BE3] dark:text-[#60A5FA] shrink-0 mt-0.5"
+                    />
+                    {point}
                   </li>
                 ))}
-              </ol>
+              </ul>
+              <Link
+                href="/foundations"
+                className="flex items-center justify-center gap-2 w-full text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-4 py-2.5 rounded-md transition-all shadow-sm"
+              >
+                Explore All Features
+                <ArrowRight size={13} />
+              </Link>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
 
-            {/* ─ RIGHT: Subscribe + Today's Essentials ──────────────── */}
-            <div className="flex flex-col gap-6">
-
-              {/* Subscribe Card */}
-              <div className="border border-[#D0DCFA] dark:border-gray-800 rounded-xl p-5 bg-[#EEF2FD] dark:bg-[#1E2640] shadow-xs">
-                <div className="flex items-center gap-2 mb-2">
-                  <Mail size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
-                  <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white">
-                    Subscribe to Daily Professional Updates
-                  </h3>
+  const renderDomains = () => (
+    <section
+      key="domains"
+      aria-labelledby="domains-heading"
+      className="bg-[#FAFAF8] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
+    >
+      <div className="max-w-[1280px] mx-auto px-6 py-12">
+        <header className="flex items-start justify-between mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <LayoutGrid size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+              <h2
+                id="domains-heading"
+                className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
+              >
+                {domainsHeading}
+              </h2>
+            </div>
+            <p className="text-sm text-[#76767E] dark:text-gray-400">
+              {domainsSubheading}
+            </p>
+          </div>
+          <Link
+            href="/search"
+            className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] shrink-0 transition-colors"
+          >
+            View All Domains
+            <ArrowRight size={12} />
+          </Link>
+        </header>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+          {domainsCards.map((domain: any) => {
+            const CardIcon = resolveIcon(domain.Icon || domain.IconName)
+            return (
+              <Link
+                key={domain.id}
+                href={domain.href}
+                id={`domain-card-${domain.id}`}
+                className="group flex flex-col items-center text-center p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
+              >
+                <div
+                  className="flex items-center justify-center w-12 h-12 rounded-full mb-4"
+                  style={{ backgroundColor: `${domain.color}14` }}
+                >
+                  <CardIcon size={22} style={{ color: domain.color }} />
                 </div>
-                <p className="text-xs text-[#4A4A52] dark:text-gray-300 mb-4 leading-relaxed font-medium">
-                  Get important notifications, amendments, circulars & updates directly in your inbox.
+                <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug mb-2">
+                  {domain.name}
+                </h3>
+                <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">
+                  {domain.description}
                 </p>
-                {subscribeError && (
-                  <div className="mb-3 flex items-center gap-2 text-xs font-semibold text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 px-3 py-2.5 rounded-md">
-                    <span>{subscribeError}</span>
-                  </div>
-                )}
-                {subscribed ? (
-                  <div className="flex items-center gap-2 text-xs font-semibold text-[#1A7A4A] dark:text-[#4ADE80] bg-[#E8F7EE] dark:bg-green-950/30 border border-[#C5E9D4] dark:border-green-900/50 px-3 py-2.5 rounded-md">
-                    <ShieldCheck size={14} />
-                    You&apos;re subscribed. Thank you!
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubscribe} className="flex gap-2">
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      disabled={subscribing}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="Enter your email address"
-                      className="flex-1 min-w-0 bg-white dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 focus:border-[#2D5BE3] text-xs text-[#1C1C1E] dark:text-white font-medium px-3 py-2.5 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] shadow-xs disabled:opacity-60"
-                    />
-                    <button
-                      type="submit"
-                      disabled={subscribing}
-                      className="shrink-0 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-xs font-bold px-4 py-2.5 rounded-md transition-colors disabled:opacity-60"
-                    >
-                      {subscribing ? 'Subscribing...' : 'Subscribe'}
-                    </button>
-                  </form>
-                )}
-                <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-2 font-medium">No spam. Unsubscribe anytime.</p>
-              </div>
+              </Link>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
 
-              {/* Today's Essentials */}
-              <div className="border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#1E2640] shadow-xs">
-                <div className="px-5 py-3.5 border-b border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#111726] flex items-center gap-2">
-                  <Calendar size={14} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
-                  <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider">
-                    Today&apos;s Essentials
-                  </h3>
+  const renderUpdates = () => (
+    <section
+      key="updates"
+      aria-labelledby="updates-heading"
+      className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
+    >
+      <div className="max-w-[1280px] mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
+          {/* LEFT: Latest Updates feed */}
+          <div>
+            <header className="flex items-center justify-between mb-6">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <Bell size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+                  <h2
+                    id="updates-heading"
+                    className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
+                  >
+                    {updatesHeading}
+                  </h2>
                 </div>
-                <div className="divide-y divide-[#F4F3F0] dark:divide-gray-800">
-                  {TODAYS_ESSENTIALS.map((item) => (
+                <p className="text-sm text-[#76767E] dark:text-gray-400">
+                  {updatesSubheading}
+                </p>
+              </div>
+              <Link
+                href="/search"
+                className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] shrink-0 transition-colors"
+              >
+                View All Updates
+                <ArrowRight size={12} />
+              </Link>
+            </header>
+            <ol className="flex flex-col divide-y divide-[#F4F3F0] dark:divide-gray-800">
+              {updatesFeed.map((update: any) => (
+                <li key={update.id} className="py-5 first:pt-0 last:pb-0">
+                  <article className="flex flex-col gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span
+                        className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+                        style={{
+                          backgroundColor: update.categoryBg || '#EEF2FD',
+                          color: update.categoryColor || '#2D5BE3',
+                        }}
+                      >
+                        {update.category}
+                      </span>
+                      <span className="text-[10px] text-[#A0A0A8] dark:text-gray-400 font-semibold">
+                        {update.source}
+                      </span>
+                      <span className="text-[#A0A0A8]/60 text-[10px]" aria-hidden="true">•</span>
+                      <time className="text-[10px] text-[#A0A0A8] dark:text-gray-400 font-semibold">
+                        {update.date}
+                      </time>
+                    </div>
+                    <h3 className="text-sm font-semibold text-[#1C1C1E] dark:text-white leading-snug">
+                      {update.title}
+                    </h3>
+                    <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">
+                      {update.summary}
+                    </p>
+                    <Link
+                      href={update.href}
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] transition-colors w-fit mt-1"
+                    >
+                      Read More
+                      <ArrowRight size={11} />
+                    </Link>
+                  </article>
+                </li>
+              ))}
+            </ol>
+          </div>
+          {/* RIGHT: Subscribe + Today's Essentials */}
+          <div className="flex flex-col gap-6">
+            {/* Subscribe Card */}
+            <div className="border border-[#D0DCFA] dark:border-gray-800 rounded-xl p-5 bg-[#EEF2FD] dark:bg-[#1E2640] shadow-xs">
+              <div className="flex items-center gap-2 mb-2">
+                <Mail size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+                <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white">
+                  {subscribeTitle}
+                </h3>
+              </div>
+              <p className="text-xs text-[#4A4A52] dark:text-gray-300 mb-4 leading-relaxed font-medium">
+                {subscribeDesc}
+              </p>
+              {subscribeError && (
+                <div className="mb-3 flex items-center gap-2 text-xs font-semibold text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 px-3 py-2.5 rounded-md">
+                  <span>{subscribeError}</span>
+                </div>
+              )}
+              {subscribed ? (
+                <div className="flex items-center gap-2 text-xs font-semibold text-[#1A7A4A] dark:text-[#4ADE80] bg-[#E8F7EE] dark:bg-green-950/30 border border-[#C5E9D4] dark:border-green-900/50 px-3 py-2.5 rounded-md">
+                  <ShieldCheck size={14} />
+                  You&apos;re subscribed. Thank you!
+                </div>
+              ) : (
+                <form onSubmit={handleSubscribe} className="flex gap-2">
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    disabled={subscribing}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email address"
+                    className="flex-1 min-w-0 bg-white dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 focus:border-[#2D5BE3] text-xs text-[#1C1C1E] dark:text-white font-medium px-3 py-2.5 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] shadow-xs disabled:opacity-60"
+                  />
+                  <button
+                    type="submit"
+                    disabled={subscribing}
+                    className="shrink-0 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-xs font-bold px-4 py-2.5 rounded-md transition-colors disabled:opacity-60"
+                  >
+                    {subscribing ? 'Subscribing...' : 'Subscribe'}
+                  </button>
+                </form>
+              )}
+              <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-2 font-medium">No spam. Unsubscribe anytime.</p>
+            </div>
+            {/* Today's Essentials */}
+            <div className="border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#1E2640] shadow-xs">
+              <div className="px-5 py-3.5 border-b border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#111726] flex items-center gap-2">
+                <Calendar size={14} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+                <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider">
+                  Today&apos;s Essentials
+                </h3>
+              </div>
+              <div className="divide-y divide-[#F4F3F0] dark:divide-gray-800">
+                {todaysEssentials.map((item: any) => {
+                  const EssentialIcon = resolveIcon(item.Icon || item.IconName)
+                  return (
                     <Link
                       key={item.id}
                       href={item.href}
@@ -604,108 +648,183 @@ export default function HomePageClient() {
                         className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
                         style={{ backgroundColor: `${item.color}14` }}
                       >
-                        <item.Icon size={14} style={{ color: item.color }} />
+                        <EssentialIcon size={14} style={{ color: item.color }} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-tight">
-                           {item.title}
+                          {item.title}
                         </p>
                         <p className="text-[10px] text-[#A0A0A8] dark:text-gray-400 mt-0.5 font-medium">{item.subtitle}</p>
                       </div>
                       <ChevronRight size={13} className="text-[#C8C7C2] dark:text-gray-600 group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] shrink-0 transition-colors" />
                     </Link>
-                  ))}
-                </div>
+                  )
+                })}
               </div>
-
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  )
 
-      {/* ── Quick Access ──────────────────────────────────────────────────── */}
-      <section
-        aria-labelledby="quickaccess-heading"
-        className="bg-[#FAFAF8] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
-      >
-        <div className="max-w-[1280px] mx-auto px-6 py-12">
-          <header className="flex items-start justify-between mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Zap size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
-                <h2
-                  id="quickaccess-heading"
-                  className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
-                >
-                  Quick Access
-                </h2>
-              </div>
-              <p className="text-sm text-[#76767E] dark:text-gray-400">Everything you need, right at your fingertips.</p>
+  const renderQuickAccess = () => (
+    <section
+      key="quickaccess"
+      aria-labelledby="quickaccess-heading"
+      className="bg-[#FAFAF8] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
+    >
+      <div className="max-w-[1280px] mx-auto px-6 py-12">
+        <header className="flex items-start justify-between mb-8">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Zap size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+              <h2
+                id="quickaccess-heading"
+                className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
+              >
+                {quickAccessHeading}
+              </h2>
             </div>
-          </header>
-
-          {/* 5-col quick link cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {QUICK_LINKS.map(({ label, href, description, Icon: QIcon, color }) => (
+            <p className="text-sm text-[#76767E] dark:text-gray-400">{quickAccessSubheading}</p>
+          </div>
+        </header>
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+          {quickAccessLinks.map((link: any) => {
+            const QIcon = resolveIcon(link.Icon || link.IconName)
+            return (
               <Link
-                key={label}
-                href={href}
+                key={link.label}
+                href={link.href}
                 className="group flex flex-col items-start p-5 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
               >
                 <div className="flex items-start gap-4">
                   <div
                     className="flex items-center justify-center w-10 h-10 rounded-lg shrink-0"
-                    style={{ backgroundColor: `${color}14` }}
+                    style={{ backgroundColor: `${link.color}14` }}
                   >
-                    <QIcon size={18} style={{ color }} />
+                    <QIcon size={18} style={{ color: link.color }} />
                   </div>
                   <div>
                     <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug">
-                      {label}
+                      {link.label}
                     </h3>
-                    <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-1 leading-relaxed font-medium">{description}</p>
+                    <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-1 leading-relaxed font-medium">{link.description}</p>
                   </div>
                 </div>
               </Link>
-            ))}
-          </div>
+            )
+          })}
         </div>
-      </section>
+      </div>
+    </section>
+  )
 
-      {/* ── Built For Accuracy. Designed For Professionals. ─────────────── */}
-      <section
-        aria-labelledby="accuracy-heading"
-        className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 py-12"
-      >
-        <div className="max-w-[1280px] mx-auto px-6">
-          <div className="flex items-center justify-center gap-2 mb-10">
-            <ShieldCheck size={20} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
-            <h2
-              id="accuracy-heading"
-              className="text-lg font-bold text-[#1C1C1E] dark:text-white tracking-tight text-center"
-            >
-              Built for Accuracy. Designed for Professionals.
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
-            {ACCURACY_PILLARS.map(({ Icon: FIcon, title, body }) => (
+  const renderAccuracy = () => (
+    <section
+      key="accuracy"
+      aria-labelledby="accuracy-heading"
+      className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 py-12"
+    >
+      <div className="max-w-[1280px] mx-auto px-6">
+        <div className="flex items-center justify-center gap-2 mb-10">
+          <ShieldCheck size={20} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+          <h2
+            id="accuracy-heading"
+            className="text-lg font-bold text-[#1C1C1E] dark:text-white tracking-tight text-center"
+          >
+            {accuracyHeading}
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+          {accuracyPillars.map((pillar: any) => {
+            const FIcon = resolveIcon(pillar.Icon || pillar.IconName)
+            return (
               <div
-                key={title}
+                key={pillar.title}
                 className="flex items-start gap-3"
               >
                 <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#EEF2FD] dark:bg-gray-800 shrink-0">
                   <FIcon size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">{title}</h3>
-                  <p className="text-[10px] text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">{body}</p>
+                  <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">{pillar.title}</h3>
+                  <p className="text-[10px] text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">{pillar.body}</p>
                 </div>
               </div>
-            ))}
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+
+  const renderVideos = () => {
+    const videos = initialConfig?.videosItems || []
+    if (videos.length === 0) return null
+
+    return (
+      <section
+        key="videos"
+        aria-labelledby="videos-heading"
+        className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 py-12"
+      >
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="flex items-center gap-2 mb-8">
+            <BookOpen size={18} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+            <h2 id="videos-heading" className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight">
+              {initialConfig?.videosHeading || "Curated Video Library"}
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {videos.map((vid: any, idx: number) => {
+              const embedUrl = getEmbedUrl(vid.url)
+              return (
+                <div key={idx} className="border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden bg-[#FAFAF8] dark:bg-[#1E2640] shadow-xs">
+                  {embedUrl ? (
+                    <div className="aspect-video w-full">
+                      <iframe
+                        src={embedUrl}
+                        title={vid.title}
+                        className="w-full h-full border-0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  ) : null}
+                  <div className="p-4">
+                    <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white line-clamp-1">{vid.title}</h3>
+                    <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-1 leading-relaxed font-semibold">{vid.description || "Video Resource"}</p>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
+    )
+  }
+
+  return (
+    <>
+      {sectionsOrder.map((sectionId: string) => {
+        switch (sectionId) {
+          case 'hero':
+            return renderHero()
+          case 'domains':
+            return renderDomains()
+          case 'updates':
+            return renderUpdates()
+          case 'quickaccess':
+            return renderQuickAccess()
+          case 'accuracy':
+            return renderAccuracy()
+          case 'videos':
+            return renderVideos()
+          default:
+            return null
+        }
+      })}
     </>
   )
 }
