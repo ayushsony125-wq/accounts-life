@@ -72,7 +72,26 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable}`}
     >
-      <body className="font-sans bg-[#FAFAF8] text-[#1C1C1E] antialiased">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var theme = localStorage.getItem('theme');
+                  var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  if (theme === 'dark' || (!theme && supportDarkMode)) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="font-sans bg-[#FAFAF8] text-[#1C1C1E] dark:bg-[#0B0F19] dark:text-[#F3F4F6] antialiased">
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#2D5BE3] focus:text-white focus:rounded-md focus:text-sm focus:font-medium"

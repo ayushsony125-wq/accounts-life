@@ -1,7 +1,5 @@
 import Link from 'next/link'
 
-// ─── Footer link data ─────────────────────────────────────────────────────────
-
 const DOMAINS_LINKS = [
   { label: 'Accounts', href: '/foundations' },
   { label: 'Audit', href: '/search?q=Audit' },
@@ -23,35 +21,67 @@ const RESOURCES_LINKS = [
 const PLATFORM_LINKS = [
   { label: 'Search', href: '/search' },
   { label: 'Glossary', href: '/glossary' },
-  { label: 'Sitemap', href: '/sitemap.xml', external: true },
+  { label: 'Sitemap', href: '/sitemap.xml' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ]
 
-const PROFESSIONAL_DOMAINS = [
-  'Accounts',
-  'Audit',
-  'Income Tax',
-  'GST',
-  'Corporate Laws',
-  'Finance & Other',
+const CITING_AUTHORITIES = [
+  {
+    name: 'ICAI',
+    icon: (
+      <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 7v10M8 12h8" />
+      </svg>
+    ),
+  },
+  {
+    name: 'MCA',
+    icon: (
+      <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M4 21h16M4 10h16M12 3v7M8 21v-11M16 21v-11" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    name: 'CBDT',
+    icon: (
+      <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="4" y="4" width="16" height="16" rx="2" />
+        <path d="M9 9h6M9 13h6" />
+      </svg>
+    ),
+  },
+  {
+    name: 'CBIC',
+    icon: (
+      <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    name: 'RBI',
+    icon: (
+      <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 6c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6" />
+      </svg>
+    ),
+  },
 ]
 
-// ─── Footer component ─────────────────────────────────────────────────────────
-
 export default function Footer() {
-  const year = new Date().getFullYear()
-
   return (
-    <footer className="bg-[#1A1E2A] text-[#F0F0EF] border-t border-[#2A3042]">
+    <footer className="bg-[#0B0F19] text-gray-400 border-t border-[#1E2640] font-sans">
       <div className="max-w-[1280px] mx-auto px-6 pt-16 pb-10">
-
+        
         {/* ─── Main grid ─── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10 lg:gap-12">
-
-          {/* Column 1 — Brand */}
+          
+          {/* Column 1 — Brand & Details */}
           <div className="flex flex-col">
-            {/* Logo & Brand Wordmark */}
             <Link
               href="/"
               className="flex items-center gap-2.5 mb-4 group w-fit"
@@ -75,23 +105,34 @@ export default function Footer() {
               </div>
             </Link>
 
-            {/* Domain list description */}
             <p className="text-[10px] font-bold uppercase tracking-widest text-[#9EAFCE] mt-4 mb-3">
               Professional knowledge platform for
             </p>
             <ul className="flex flex-col gap-1.5">
-              {PROFESSIONAL_DOMAINS.map((domain) => (
-                <li
-                  key={domain}
-                  className="flex items-center gap-2 text-xs text-[#D1D5DB]"
-                >
-                  <span
-                    className="w-1 h-1 rounded-full bg-[#2D5BE3] shrink-0"
-                    aria-hidden="true"
-                  />
-                  {domain}
-                </li>
-              ))}
+              <li className="flex items-center gap-2 text-xs text-[#D1D5DB]">
+                <span className="w-1 h-1 rounded-full bg-[#2D5BE3] shrink-0" aria-hidden="true"></span>
+                Accounts
+              </li>
+              <li className="flex items-center gap-2 text-xs text-[#D1D5DB]">
+                <span className="w-1 h-1 rounded-full bg-[#2D5BE3] shrink-0" aria-hidden="true"></span>
+                Audit
+              </li>
+              <li className="flex items-center gap-2 text-xs text-[#D1D5DB]">
+                <span className="w-1 h-1 rounded-full bg-[#2D5BE3] shrink-0" aria-hidden="true"></span>
+                Income Tax
+              </li>
+              <li className="flex items-center gap-2 text-xs text-[#D1D5DB]">
+                <span className="w-1 h-1 rounded-full bg-[#2D5BE3] shrink-0" aria-hidden="true"></span>
+                GST
+              </li>
+              <li className="flex items-center gap-2 text-xs text-[#D1D5DB]">
+                <span className="w-1 h-1 rounded-full bg-[#2D5BE3] shrink-0" aria-hidden="true"></span>
+                Corporate Laws
+              </li>
+              <li className="flex items-center gap-2 text-xs text-[#D1D5DB]">
+                <span className="w-1 h-1 rounded-full bg-[#2D5BE3] shrink-0" aria-hidden="true"></span>
+                Finance & Other
+              </li>
             </ul>
           </div>
 
@@ -141,72 +182,35 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {PLATFORM_LINKS.map((link) => (
                 <li key={link.href + link.label}>
-                  {link.external ? (
-                    <a
-                      href={link.href}
-                      className="text-sm text-[#9EAFCE] hover:text-white transition-colors duration-150"
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="text-sm text-[#9EAFCE] hover:text-white transition-colors duration-150"
-                    >
-                      {link.label}
-                    </Link>
-                  )}
+                  <Link
+                    href={link.href}
+                    className="text-sm text-[#9EAFCE] hover:text-white transition-colors duration-150"
+                  >
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
+
         </div>
 
-        {/* ─── Authority Logos Strip ─── */}
+        {/* ─── Citing Authorities Bar ─── */}
         <div className="mt-12 pt-6 border-t border-[rgba(255,255,255,0.07)]">
           <div className="flex flex-col gap-3">
             <span className="text-[9px] font-bold uppercase tracking-widest text-[#9EAFCE]">
               Official Citing Authorities
             </span>
             <div className="flex flex-wrap items-center gap-6 opacity-60 hover:opacity-90 transition-opacity">
-              {/* ICAI Logo */}
-              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
-                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" strokeWidth="2" />
-                  <path d="M12 7v10M8 12h8" strokeWidth="2" />
-                </svg>
-                <span>ICAI</span>
-              </div>
-              {/* MCA Logo */}
-              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
-                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4 21h16M4 10h16M12 3v7M8 21v-11M16 21v-11" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-                <span>MCA</span>
-              </div>
-              {/* CBDT Logo */}
-              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
-                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="4" y="4" width="16" height="16" rx="2" strokeWidth="2" />
-                  <path d="M9 9h6M9 13h6" strokeWidth="2" />
-                </svg>
-                <span>CBDT</span>
-              </div>
-              {/* CBIC Logo */}
-              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
-                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <span>CBIC</span>
-              </div>
-              {/* RBI Logo */}
-              <div className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider">
-                <svg className="w-5 h-5 text-[#9EAFCE]" viewBox="0 0 24 24" fill="none" stroke="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" strokeWidth="2" />
-                  <path d="M12 6c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6" strokeWidth="2" />
-                </svg>
-                <span>RBI</span>
-              </div>
+              {CITING_AUTHORITIES.map((auth) => (
+                <div
+                  key={auth.name}
+                  className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider"
+                >
+                  {auth.icon}
+                  <span>{auth.name}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -218,7 +222,7 @@ export default function Footer() {
         >
           {/* Left: copyright */}
           <p className="text-xs text-[#9EAFCE]">
-            © {year} Accounts.One
+            © 2026 Accounts.One
           </p>
 
           {/* Right: source credits + legal */}

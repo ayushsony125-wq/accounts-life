@@ -21,9 +21,9 @@ import {
   Clock,
   CheckCircle2,
   LayoutGrid,
-  Lightbulb,
   GraduationCap,
-  Eye,
+  RefreshCw,
+  Zap
 } from 'lucide-react'
 
 // ─── Domain data ──────────────────────────────────────────────────────────────
@@ -33,74 +33,62 @@ const PROFESSIONAL_DOMAINS = [
     id: 'accounts',
     code: 'ACC',
     name: 'Accounts',
-    description: 'Concepts, AS, Ind AS, Journal Entries, Financial Statements & Practical Accounting.',
-    topicCount: 120,
+    description: 'Concepts, AS, Ind AS, Journal Entries, Financial Statements & Practical Guidance.',
     href: '/foundations',
     color: '#2D5BE3',
     Icon: BookOpen,
-    topics: ['Accounting Standards (AS)', 'Ind AS / IFRS', 'Journal Entries'],
   },
   {
     id: 'audit',
     code: 'AUD',
     name: 'Audit',
-    description: 'Standards on Auditing, Audit Procedures, CARO, Working Papers & More.',
-    topicCount: 85,
+    description: 'Standards on Auditing, Audit Procedures, CARO, Working Papers & Audit Guidance.',
     href: '/search?q=Audit',
     color: '#0F6B5E',
     Icon: ShieldCheck,
-    topics: ['Auditing Standards (SA)', 'Audit Evidence', 'Internal Audit'],
   },
   {
     id: 'income-tax',
     code: 'ITX',
     name: 'Income Tax',
     description: 'Sections, TDS, Returns, Assessments, Case Laws & Compliance.',
-    topicCount: 140,
     href: '/search?q=Income+Tax',
     color: '#B45309',
     Icon: Calculator,
-    topics: ['Heads of Income', 'Deductions (80C–80U)', 'TDS / TCS'],
   },
   {
     id: 'gst',
     code: 'GST',
     name: 'GST',
     description: 'ITC, Registration, Returns, Compliance, Notices & Practical Issues.',
-    topicCount: 110,
     href: '/search?q=GST',
     color: '#1A7A4A',
     Icon: TrendingUp,
-    topics: ['Supply & Levy', 'Input Tax Credit', 'Returns & Compliance'],
   },
   {
     id: 'corporate-law',
     code: 'LAW',
     name: 'Corporate & Laws',
     description: 'Companies Act, LLP, ROC Compliance, Corporate Governance & More.',
-    topicCount: 95,
     href: '/search?q=Corporate+Law',
     color: '#6B3FA0',
     Icon: Building2,
-    topics: ['Companies Act 2013', 'Corporate Governance', 'FEMA & SEBI'],
   },
   {
     id: 'fm-other',
     code: 'FM',
     name: 'Finance & Other',
     description: 'Ratios, Capital Budgeting, Cost of Capital, Analysis & Decision Making.',
-    topicCount: 75,
     href: '/financial-analysis',
     color: '#5B6678',
     Icon: BarChart3,
-    topics: ['Financial Analysis', 'Cost Accounting', 'Capital Budgeting'],
   },
 ]
 
 const POPULAR_SEARCHES = [
   { label: 'AS 1 Disclosure', href: '/search?q=AS+1' },
   { label: 'Revenue Recognition', href: '/search?q=Revenue+Recognition' },
-  { label: 'Deferred Tax', href: '/search?q=Deferred+Tax' },
+  { label: 'ITR Due Dates', href: '/search?q=ITR+Due+Dates' },
   { label: 'Audit Evidence', href: '/search?q=Audit+Evidence' },
   { label: 'Input Tax Credit', href: '/search?q=Input+Tax+Credit' },
   { label: 'Transfer Pricing', href: '/search?q=Transfer+Pricing' },
@@ -112,24 +100,6 @@ const TRUST_POINTS = [
   'Section, Rule, Notification with Every Answer',
   'Study Material & Curated Video Lectures',
   'For Students, Articles & Practising Professionals',
-]
-
-const PILLARS = [
-  {
-    title: 'Authority-cited',
-    body: 'Every entry cites its primary source — ICAI, MCA, IASB, or official government notification. No opinion without citation.',
-    accent: '#2D5BE3',
-  },
-  {
-    title: 'Structured by design',
-    body: 'Concepts, standards, journal entries, glossary terms — each entry type has a consistent, predictable layout so you always know where to look.',
-    accent: '#0F6B5E',
-  },
-  {
-    title: 'Exam-ready',
-    body: 'Entries are tagged by CA Foundation, Intermediate, and Final level. Study exactly what you need, at the right depth.',
-    accent: '#6B3FA0',
-  },
 ]
 
 const QUICK_LINKS = [
@@ -170,45 +140,16 @@ const QUICK_LINKS = [
   },
 ]
 
-const FEATURE_PILLARS = [
-  {
-    Icon: Lightbulb,
-    title: 'Simple Explanation',
-    body: 'Complex topics explained in simple, easy-to-understand language.',
-    color: '#2D5BE3',
-  },
-  {
-    Icon: Scale,
-    title: 'Exact Legal Support',
-    body: 'Get exact section, rule, notification with official source & authority links.',
-    color: '#0F6B5E',
-  },
-  {
-    Icon: Eye,
-    title: 'Practical Understanding',
-    body: 'Practical examples, illustrations & journal entries for real-world application.',
-    color: '#B45309',
-  },
-  {
-    Icon: GraduationCap,
-    title: 'Curated Learning',
-    body: 'Handpicked video lectures & study material from trusted educators.',
-    color: '#6B3FA0',
-  },
-]
-
-// ─── Latest Updates data ──────────────────────────────────────────────────────
-
 const LATEST_UPDATES = [
   {
     id: 'it-1',
     category: 'Income Tax',
     categoryColor: '#B45309',
     categoryBg: '#FEF6E4',
+    source: 'CBDT Notification',
+    date: '08 Jun 2025',
     title: 'CBDT extends due date for filing ITR for AY 2025-26',
     summary: 'CBDT Notification No. 27/2025 extends the due date for furnishing return of income for AY 2025-26.',
-    source: 'CBDT Notification',
-    date: 'Jun 8, 2025',
     href: '/search?q=ITR+due+date',
   },
   {
@@ -216,10 +157,10 @@ const LATEST_UPDATES = [
     category: 'GST',
     categoryColor: '#1A7A4A',
     categoryBg: '#E8F7EE',
+    source: 'CBIC Circular',
+    date: '07 Jun 2025',
     title: 'CBIC clarifies ITC eligibility on corporate guarantees',
     summary: 'CBIC issues clarification on ITC availment in respect of corporate guarantees given by holding companies.',
-    source: 'CBIC Circular',
-    date: 'Jun 7, 2025',
     href: '/search?q=ITC+corporate+guarantee',
   },
   {
@@ -227,10 +168,10 @@ const LATEST_UPDATES = [
     category: 'Audit',
     categoryColor: '#0F6B5E',
     categoryBg: '#E6F4F2',
+    source: 'ICAI Announcement',
+    date: '06 Jun 2025',
     title: 'ICAI updates SA 315 — Identifying and Assessing Risks',
     summary: 'Revised SA 315 issued with enhanced guidance on risk identification procedures during audit planning.',
-    source: 'ICAI Announcement',
-    date: 'Jun 6, 2025',
     href: '/search?q=SA+315',
   },
   {
@@ -238,22 +179,11 @@ const LATEST_UPDATES = [
     category: 'Corporate Law',
     categoryColor: '#6B3FA0',
     categoryBg: '#F3EEF9',
+    source: 'MCA Circular',
+    date: '30 May 2025',
     title: 'MCA extends additional fees waiver for LLP filings',
     summary: 'MCA General Circular No. 10/2025 extends the waiver of additional fees for LLP filings for FY 2024-25.',
-    source: 'MCA Circular',
-    date: 'May 30, 2025',
     href: '/search?q=LLP+filing',
-  },
-  {
-    id: 'acc-1',
-    category: 'Accounts',
-    categoryColor: '#2D5BE3',
-    categoryBg: '#EEF2FD',
-    title: 'Ind AS 117 (Insurance Contracts) — Key Highlights',
-    summary: 'ICAI publishes key highlights and illustrative examples on Ind AS 117 implementation for insurance entities.',
-    source: 'ICAI Study Material',
-    date: 'Jun 4, 2025',
-    href: '/search?q=Ind+AS+117',
   },
 ]
 
@@ -269,7 +199,7 @@ const TODAYS_ESSENTIALS = [
   {
     id: 'gst-calendar',
     title: 'GST Return Calendar',
-    subtitle: 'Assessment Year: 2025-26',
+    subtitle: 'June 2025',
     Icon: Calendar,
     color: '#1A7A4A',
     href: '/search?q=GST+Return+Calendar',
@@ -277,18 +207,46 @@ const TODAYS_ESSENTIALS = [
   {
     id: 'tds-rates',
     title: 'TDS Rates & Codes',
-    subtitle: 'Assessment Year: 2025-26',
+    subtitle: 'Assessment Year 2025-26',
     Icon: FileText,
     color: '#2D5BE3',
     href: '/search?q=TDS+Rates',
   },
   {
     id: 'mca-forms',
-    title: 'Important MCA Forms',
+    title: 'Important Forms',
     subtitle: 'Companies Act, 2013',
     Icon: Building2,
     color: '#6B3FA0',
     href: '/search?q=MCA+Forms',
+  },
+]
+
+const ACCURACY_PILLARS = [
+  {
+    Icon: ShieldCheck,
+    title: 'Verified Sources',
+    body: 'Content from official authorities only',
+  },
+  {
+    Icon: CheckCircle2,
+    title: 'Expert Reviewed',
+    body: 'Reviewed by professionals & subject experts',
+  },
+  {
+    Icon: FileText,
+    title: 'Plain & Practical',
+    body: 'Simple language with practical insights',
+  },
+  {
+    Icon: RefreshCw,
+    title: 'Always Updated',
+    body: 'Real-time updates on laws, rules & amendments',
+  },
+  {
+    Icon: CheckCircle2,
+    title: '100% Reliable',
+    body: 'Trusted by professionals across India',
   },
 ]
 
@@ -299,13 +257,26 @@ export default function HomePageClient() {
   const [searchQuery, setSearchQuery] = useState('')
   const [email, setEmail] = useState('')
   const [subscribed, setSubscribed] = useState(false)
+  const [subscribing, setSubscribing] = useState(false)
+  const [subscribeError, setSubscribeError] = useState<string | null>(null)
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault()
-    if (email.trim()) {
-      setSubscribed(true)
-      setEmail('')
-    }
+    const trimmed = email.trim()
+    if (!trimmed) return
+
+    setSubscribing(true)
+    setSubscribeError(null)
+
+    setTimeout(() => {
+      setSubscribing(false)
+      if (trimmed.toLowerCase() === 'error@accounts.one') {
+        setSubscribeError('This email is already registered.')
+      } else {
+        setSubscribed(true)
+        setEmail('')
+      }
+    }, 500)
   }
 
   const handleSearch = (e: React.FormEvent) => {
@@ -317,66 +288,62 @@ export default function HomePageClient() {
 
   return (
     <>
-      {/* ── Hero ──────────────────────────────────────────────────────────── */}
+      {/* ── Hero Section ──────────────────────────────────────────────────── */}
       <section
         aria-labelledby="hero-heading"
-        className="bg-white border-b border-[#E2E1DD]"
+        className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
+        <div className="max-w-[1280px] mx-auto px-6 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
 
             {/* Left: Headline + Search */}
             <div className="flex flex-col">
-              {/* Small Badge */}
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EEF2FD] border border-[#D0DCFA] text-[10px] font-bold text-[#2D5BE3] uppercase tracking-wider w-fit mb-4">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2D5BE3] animate-pulse" />
-                Official Knowledge Platform
-              </div>
-
               {/* Heading */}
               <h1
                 id="hero-heading"
-                className="font-sans font-bold text-[#1C1C1E] leading-tight tracking-tight animate-in fade-in duration-300"
-                style={{ fontSize: 'clamp(22px, 2.5vw, 32px)' }}
+                className="font-sans font-bold text-[#1C1C1E] dark:text-white leading-tight tracking-tight text-3xl sm:text-4xl"
               >
-                The Most Organized<br className="hidden sm:inline" />
-                <span className="text-[#2D5BE3]">Accounting Knowledge System</span>
+                The Operating System for<br />
+                <span className="text-[#2D5BE3] dark:text-[#60A5FA]">Professional Excellence</span>
               </h1>
 
               {/* Sub-headline */}
-              <p className="mt-4 text-[15px] text-[#4A4A52] leading-relaxed max-w-xl">
-                Every concept. Every standard. Every journal entry. Organized, verified, and cross-referenced.
+              <p className="mt-4 text-[15px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
+                Trusted explanations. Exact legal support. Official sources. <br className="hidden sm:inline" />
+                Practical notes. Curated videos. <strong className="font-bold text-[#1C1C1E] dark:text-white">Everything a professional needs.</strong>
               </p>
 
               {/* Search Bar */}
-              <form onSubmit={handleSearch} className="mt-7 relative max-w-2xl">
-                <Search
-                  size={15}
-                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#76767E] pointer-events-none"
-                />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search for topics, sections, standards, rules, cases…"
-                  className="w-full bg-[#FAFAF8] border border-[#E2E1DD] hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white text-sm font-medium pl-9 pr-24 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10"
-                />
+              <form onSubmit={handleSearch} className="mt-7 relative max-w-2xl flex items-center">
+                <div className="relative flex-1">
+                  <Search
+                    size={16}
+                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#76767E] dark:text-gray-400 pointer-events-none"
+                  />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search for topics, sections, standards, rules, cases..."
+                    className="w-full bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] dark:hover:border-gray-700 focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:bg-white dark:focus:bg-[#161C2C] text-sm font-medium pl-10 pr-4 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] dark:text-gray-400 shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10 dark:focus:ring-[#60A5FA]/10"
+                  />
+                </div>
                 <button
                   type="submit"
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-xs font-bold px-4 py-2 rounded-md transition-colors"
+                  className="ml-3 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-sm font-bold px-6 py-3.5 rounded-lg transition-colors shadow-sm"
                 >
                   Search
                 </button>
               </form>
 
               {/* Popular searches */}
-              <div className="mt-3.5 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-[#A0A0A8] font-medium shrink-0">Popular searches:</span>
+              <div className="mt-4 flex flex-wrap items-center gap-2">
+                <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0">Popular searches:</span>
                 {POPULAR_SEARCHES.map((s) => (
                   <Link
                     key={s.label}
                     href={s.href}
-                    className="text-xs text-[#4A4A52] hover:text-[#2D5BE3] bg-[#F4F3F0] hover:bg-[#EEF2FD] border border-transparent hover:border-[#D0DCFA] px-2.5 py-1 rounded-full transition-all"
+                    className="text-xs text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-3 py-1 rounded-full transition-all font-medium"
                   >
                     {s.label}
                   </Link>
@@ -386,16 +353,16 @@ export default function HomePageClient() {
 
             {/* Right: Trust Card */}
             <div className="lg:pt-2">
-              <div className="bg-[#FAFAF8] border border-[#E2E1DD] rounded-xl p-6 shadow-sm">
-                <h2 className="text-sm font-bold text-[#1C1C1E] mb-4">
+              <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-6 shadow-sm">
+                <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-4">
                   Why Professionals Trust Accounts.One
                 </h2>
                 <ul className="flex flex-col gap-3 mb-6">
                   {TRUST_POINTS.map((point) => (
-                    <li key={point} className="flex items-start gap-3 text-xs text-[#4A4A52] leading-snug">
+                    <li key={point} className="flex items-start gap-3 text-xs text-[#4A4A52] dark:text-gray-300 leading-snug font-medium">
                       <CheckCircle2
                         size={14}
-                        className="text-[#2D5BE3] shrink-0 mt-0.5"
+                        className="text-[#2D5BE3] dark:text-[#60A5FA] shrink-0 mt-0.5"
                       />
                       {point}
                     </li>
@@ -403,7 +370,7 @@ export default function HomePageClient() {
                 </ul>
                 <Link
                   href="/foundations"
-                  className="flex items-center justify-center gap-2 w-full text-xs font-bold text-[#2D5BE3] border border-[#D0DCFA] bg-white hover:bg-[#EEF2FD] px-4 py-2.5 rounded-md transition-colors"
+                  className="flex items-center justify-center gap-2 w-full text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-4 py-2.5 rounded-md transition-all shadow-sm"
                 >
                   Explore All Features
                   <ArrowRight size={13} />
@@ -415,69 +382,38 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* ── Trust Strip ───────────────────────────────────────────────────── */}
-      <div className="bg-[#FAFAF8] border-b border-[#E2E1DD] py-3.5">
-        <div className="max-w-[1280px] mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#76767E] whitespace-nowrap">
-            Official Citing Authorities
-          </span>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-[#4A4A52]">
-            <a href="https://www.icai.org" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2D5BE3]" />
-              ICAI
-            </a>
-            <a href="https://www.mca.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#6B3FA0]" />
-              MCA
-            </a>
-            <a href="https://incometaxindia.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B45309]" />
-              CBDT
-            </a>
-            <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#1A7A4A]" />
-              CBIC
-            </a>
-            <a href="https://www.rbi.org.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0F6B5E]" />
-              RBI
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Explore by Domain ─────────────────────────────────────────────── */}
+      {/* ── Explore By Domain ─────────────────────────────────────────────── */}
       <section
         aria-labelledby="domains-heading"
-        className="bg-white border-b border-[#E2E1DD]"
+        className="bg-[#FAFAF8] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
+        <div className="max-w-[1280px] mx-auto px-6 py-12">
           <header className="flex items-start justify-between mb-8">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <LayoutGrid size={15} className="text-[#2D5BE3]" />
+                <LayoutGrid size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
                 <h2
                   id="domains-heading"
-                  className="text-xl font-bold text-[#1C1C1E] tracking-tight"
+                  className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
                 >
                   Explore by Domain
                 </h2>
               </div>
-              <p className="text-sm text-[#76767E]">
+              <p className="text-sm text-[#76767E] dark:text-gray-400">
                 Choose a subject to access structured knowledge, laws, standards, and practical guidance.
               </p>
             </div>
             <Link
               href="/search"
-              className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] hover:text-[#2450CC] shrink-0 transition-colors"
+              className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] shrink-0 transition-colors"
             >
               View All Domains
               <ArrowRight size={12} />
             </Link>
           </header>
 
-          {/* 6-col horizontal on lg, 3-col on md, 2-col on sm */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          {/* 6-col horizontal layout */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
             {PROFESSIONAL_DOMAINS.map((domain) => {
               const { Icon } = domain
               return (
@@ -485,22 +421,23 @@ export default function HomePageClient() {
                   key={domain.id}
                   href={domain.href}
                   id={`domain-card-${domain.id}`}
-                  className="group flex flex-col items-start text-left gap-3.5 p-5 rounded-xl border border-[#E2E1DD] bg-[#FAFAF8] hover:bg-white hover:border-[#C8C7C2] hover:shadow-md transition-all h-full"
-                  style={{ borderTop: `4px solid ${domain.color}` }}
-                  aria-label={`${domain.name} — explore topics`}
+                  className="group flex flex-col items-center text-center p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
                 >
-                  {/* Icon (no backdrop, clean color) */}
-                  <div className="flex items-center justify-center">
-                    <Icon size={24} style={{ color: domain.color }} />
+                  {/* Circular Icon Container */}
+                  <div
+                    className="flex items-center justify-center w-12 h-12 rounded-full mb-4"
+                    style={{ backgroundColor: `${domain.color}14` }}
+                  >
+                    <Icon size={22} style={{ color: domain.color }} />
                   </div>
 
-                  {/* Name (no truncation, stay on one line) */}
-                  <h3 className="text-xs font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug w-full whitespace-nowrap">
+                  {/* Title */}
+                  <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug mb-2">
                     {domain.name}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[11px] text-[#76767E] leading-relaxed line-clamp-3">
+                  <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">
                     {domain.description}
                   </p>
                 </Link>
@@ -513,9 +450,9 @@ export default function HomePageClient() {
       {/* ── Latest Updates ────────────────────────────────────────────────── */}
       <section
         aria-labelledby="updates-heading"
-        className="bg-white border-b border-[#E2E1DD]"
+        className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
+        <div className="max-w-[1280px] mx-auto px-6 py-12">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
 
             {/* ─ LEFT: Latest Updates feed ──────────────────────────── */}
@@ -523,30 +460,30 @@ export default function HomePageClient() {
               <header className="flex items-center justify-between mb-6">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <Bell size={15} className="text-[#2D5BE3]" />
+                    <Bell size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
                     <h2
                       id="updates-heading"
-                      className="text-xl font-bold text-[#1C1C1E] tracking-tight"
+                      className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
                     >
                       Latest Updates
                     </h2>
                   </div>
-                  <p className="text-sm text-[#76767E]">
+                  <p className="text-sm text-[#76767E] dark:text-gray-400">
                     Stay informed with important notifications, circulars & professional updates.
                   </p>
                 </div>
                 <Link
                   href="/search"
-                  className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] hover:text-[#2450CC] shrink-0 transition-colors"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] shrink-0 transition-colors"
                 >
                   View All Updates
                   <ArrowRight size={12} />
                 </Link>
               </header>
 
-              <ol className="flex flex-col divide-y divide-[#F4F3F0]">
+              <ol className="flex flex-col divide-y divide-[#F4F3F0] dark:divide-gray-800">
                 {LATEST_UPDATES.map((update) => (
-                  <li key={update.id} className="py-4 first:pt-0 last:pb-0">
+                  <li key={update.id} className="py-5 first:pt-0 last:pb-0">
                     <article className="flex flex-col gap-2">
                       {/* Category + source + date row */}
                       <div className="flex items-center gap-2 flex-wrap">
@@ -559,33 +496,32 @@ export default function HomePageClient() {
                         >
                           {update.category}
                         </span>
-                        <span className="text-[10px] text-[#A0A0A8] font-medium">
+                        <span className="text-[10px] text-[#A0A0A8] dark:text-gray-400 font-semibold">
                           {update.source}
                         </span>
-                        <span className="text-[#E2E1DD] text-xs" aria-hidden="true">·</span>
-                        <time className="flex items-center gap-1 text-[10px] text-[#A0A0A8]">
-                          <Clock size={10} />
+                        <span className="text-[#A0A0A8]/60 text-[10px]" aria-hidden="true">•</span>
+                        <time className="text-[10px] text-[#A0A0A8] dark:text-gray-400 font-semibold">
                           {update.date}
                         </time>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-sm font-semibold text-[#1C1C1E] leading-snug">
+                      <h3 className="text-sm font-semibold text-[#1C1C1E] dark:text-white leading-snug">
                         {update.title}
                       </h3>
 
                       {/* Summary */}
-                      <p className="text-xs text-[#76767E] leading-relaxed line-clamp-2">
+                      <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">
                         {update.summary}
                       </p>
 
                       {/* Read More */}
                       <Link
                         href={update.href}
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] hover:text-[#2450CC] transition-colors w-fit"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] transition-colors w-fit mt-1"
                       >
                         Read More
-                        <ArrowRight size={10} />
+                        <ArrowRight size={11} />
                       </Link>
                     </article>
                   </li>
@@ -594,21 +530,26 @@ export default function HomePageClient() {
             </div>
 
             {/* ─ RIGHT: Subscribe + Today's Essentials ──────────────── */}
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
 
-              {/* Subscribe card */}
-              <div className="border border-[#D0DCFA] rounded-xl p-5 bg-[#EEF2FD] shadow-xs">
-                <div className="flex items-center gap-2 mb-1">
-                  <Mail size={14} className="text-[#2D5BE3]" />
-                  <h3 className="text-sm font-bold text-[#1C1C1E]">
+              {/* Subscribe Card */}
+              <div className="border border-[#D0DCFA] dark:border-gray-800 rounded-xl p-5 bg-[#EEF2FD] dark:bg-[#1E2640] shadow-xs">
+                <div className="flex items-center gap-2 mb-2">
+                  <Mail size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+                  <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white">
                     Subscribe to Daily Professional Updates
                   </h3>
                 </div>
-                <p className="text-xs text-[#4A4A52] mb-4 leading-relaxed">
+                <p className="text-xs text-[#4A4A52] dark:text-gray-300 mb-4 leading-relaxed font-medium">
                   Get important notifications, amendments, circulars & updates directly in your inbox.
                 </p>
+                {subscribeError && (
+                  <div className="mb-3 flex items-center gap-2 text-xs font-semibold text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/50 px-3 py-2.5 rounded-md">
+                    <span>{subscribeError}</span>
+                  </div>
+                )}
                 {subscribed ? (
-                  <div className="flex items-center gap-2 text-xs font-semibold text-[#1A7A4A] bg-[#E8F7EE] border border-[#C5E9D4] px-3 py-2.5 rounded-md">
+                  <div className="flex items-center gap-2 text-xs font-semibold text-[#1A7A4A] dark:text-[#4ADE80] bg-[#E8F7EE] dark:bg-green-950/30 border border-[#C5E9D4] dark:border-green-900/50 px-3 py-2.5 rounded-md">
                     <ShieldCheck size={14} />
                     You&apos;re subscribed. Thank you!
                   </div>
@@ -618,35 +559,37 @@ export default function HomePageClient() {
                       type="email"
                       required
                       value={email}
+                      disabled={subscribing}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email address"
-                      className="flex-1 min-w-0 bg-white border border-[#E2E1DD] focus:border-[#2D5BE3] text-xs text-[#1C1C1E] font-medium px-3 py-2.5 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] shadow-xs"
+                      className="flex-1 min-w-0 bg-white dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 focus:border-[#2D5BE3] text-xs text-[#1C1C1E] dark:text-white font-medium px-3 py-2.5 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] shadow-xs disabled:opacity-60"
                     />
                     <button
                       type="submit"
-                      className="shrink-0 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-xs font-bold px-4 py-2.5 rounded-md transition-colors"
+                      disabled={subscribing}
+                      className="shrink-0 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-xs font-bold px-4 py-2.5 rounded-md transition-colors disabled:opacity-60"
                     >
-                      Subscribe
+                      {subscribing ? 'Subscribing...' : 'Subscribe'}
                     </button>
                   </form>
                 )}
-                <p className="text-[10px] text-[#76767E] mt-2">No spam. Unsubscribe anytime.</p>
+                <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-2 font-medium">No spam. Unsubscribe anytime.</p>
               </div>
 
               {/* Today's Essentials */}
-              <div className="border border-[#E2E1DD] rounded-xl overflow-hidden">
-                <div className="px-5 py-3.5 border-b border-[#E2E1DD] bg-[#FAFAF8] flex items-center gap-2">
-                  <Calendar size={13} className="text-[#2D5BE3]" />
-                  <h3 className="text-xs font-bold text-[#1C1C1E]">
+              <div className="border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#1E2640] shadow-xs">
+                <div className="px-5 py-3.5 border-b border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#111726] flex items-center gap-2">
+                  <Calendar size={14} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+                  <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider">
                     Today&apos;s Essentials
                   </h3>
                 </div>
-                <div className="divide-y divide-[#F4F3F0]">
+                <div className="divide-y divide-[#F4F3F0] dark:divide-gray-800">
                   {TODAYS_ESSENTIALS.map((item) => (
                     <Link
                       key={item.id}
                       href={item.href}
-                      className="flex items-center gap-3 px-5 py-3.5 hover:bg-[#FAFAF8] transition-colors group"
+                      className="flex items-center gap-3 px-5 py-3.5 hover:bg-[#FAFAF8] dark:hover:bg-gray-800 transition-colors group"
                     >
                       <div
                         className="flex items-center justify-center w-8 h-8 rounded-lg shrink-0"
@@ -655,12 +598,12 @@ export default function HomePageClient() {
                         <item.Icon size={14} style={{ color: item.color }} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-semibold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-tight">
-                          {item.title}
+                        <p className="text-xs font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-tight">
+                           {item.title}
                         </p>
-                        <p className="text-[10px] text-[#A0A0A8] mt-0.5">{item.subtitle}</p>
+                        <p className="text-[10px] text-[#A0A0A8] dark:text-gray-400 mt-0.5 font-medium">{item.subtitle}</p>
                       </div>
-                      <ChevronRight size={13} className="text-[#C8C7C2] group-hover:text-[#2D5BE3] shrink-0 transition-colors" />
+                      <ChevronRight size={13} className="text-[#C8C7C2] dark:text-gray-600 group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] shrink-0 transition-colors" />
                     </Link>
                   ))}
                 </div>
@@ -674,40 +617,45 @@ export default function HomePageClient() {
       {/* ── Quick Access ──────────────────────────────────────────────────── */}
       <section
         aria-labelledby="quickaccess-heading"
-        className="bg-[#FAFAF8] border-b border-[#E2E1DD]"
+        className="bg-[#FAFAF8] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
-          <div className="flex items-start justify-between mb-8">
+        <div className="max-w-[1280px] mx-auto px-6 py-12">
+          <header className="flex items-start justify-between mb-8">
             <div>
-              <h2
-                id="quickaccess-heading"
-                className="text-xl font-bold text-[#1C1C1E] tracking-tight mb-1"
-              >
-                Quick Access
-              </h2>
-              <p className="text-sm text-[#76767E]">Everything you need, right at your fingertips.</p>
+              <div className="flex items-center gap-2 mb-1">
+                <Zap size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+                <h2
+                  id="quickaccess-heading"
+                  className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
+                >
+                  Quick Access
+                </h2>
+              </div>
+              <p className="text-sm text-[#76767E] dark:text-gray-400">Everything you need, right at your fingertips.</p>
             </div>
-          </div>
+          </header>
 
           {/* 5-col quick link cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
             {QUICK_LINKS.map(({ label, href, description, Icon: QIcon, color }) => (
               <Link
                 key={label}
                 href={href}
-                className="group flex flex-col items-center text-center gap-3 p-5 rounded-xl border border-[#E2E1DD] bg-white hover:border-[#C8C7C2] hover:shadow-sm transition-all"
+                className="group flex flex-col items-start p-5 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
               >
-                <div
-                  className="flex items-center justify-center w-10 h-10 rounded-xl"
-                  style={{ backgroundColor: `${color}14` }}
-                >
-                  <QIcon size={18} style={{ color }} />
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug">
-                    {label}
-                  </p>
-                  <p className="text-[10px] text-[#A0A0A8] mt-1 leading-relaxed">{description}</p>
+                <div className="flex items-start gap-4">
+                  <div
+                    className="flex items-center justify-center w-10 h-10 rounded-lg shrink-0"
+                    style={{ backgroundColor: `${color}14` }}
+                  >
+                    <QIcon size={18} style={{ color }} />
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug">
+                      {label}
+                    </h3>
+                    <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-1 leading-relaxed font-medium">{description}</p>
+                  </div>
                 </div>
               </Link>
             ))}
@@ -715,73 +663,34 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* ── Platform Features ─────────────────────────────────────────────── */}
-      <section
-        aria-labelledby="pillars-heading"
-        className="border-t border-[#E2E1DD] bg-white"
-      >
-        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2
-              id="pillars-heading"
-              className="text-xl font-bold text-[#1C1C1E] tracking-tight mb-2"
-            >
-              Platform Features
-            </h2>
-            <p className="text-sm text-[#76767E]">
-              Designed to meet the rigorous standards of modern tax, audit, and accounting professionals.
-            </p>
-          </div>
-
-          {/* 3-col pillars - Unified Card Layout with Accent Border Top */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {PILLARS.map(({ title, body, accent }) => (
-              <article
-                key={title}
-                className="flex flex-col gap-3.5 p-6 rounded-xl border border-[#E2E1DD] bg-[#FAFAF8] hover:bg-white hover:border-[#C8C7C2] hover:shadow-md transition-all h-full"
-                style={{ borderTop: `4px solid ${accent}` }}
-              >
-                <h3 className="text-sm font-bold text-[#1C1C1E]">{title}</h3>
-                <p className="text-xs text-[#76767E] leading-relaxed">{body}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Built for Accuracy ─────────────────────────────────────────────── */}
+      {/* ── Built For Accuracy. Designed For Professionals. ─────────────── */}
       <section
         aria-labelledby="accuracy-heading"
-        className="border-t border-[#E2E1DD] bg-[#FAFAF8]"
+        className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 py-12"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
-          <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <div className="flex items-center justify-center gap-2 mb-10">
+            <ShieldCheck size={20} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
             <h2
               id="accuracy-heading"
-              className="text-xl font-bold text-[#1C1C1E] tracking-tight mb-2"
+              className="text-lg font-bold text-[#1C1C1E] dark:text-white tracking-tight text-center"
             >
-              Built for Accuracy
+              Built for Accuracy. Designed for Professionals.
             </h2>
-            <p className="text-sm text-[#76767E]">
-              Every explanation, reference citation, and practice guide is structured for professional trust.
-            </p>
           </div>
 
-          {/* 4-col feature pillars - Clean Consistent Grid with Top Borders */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {FEATURE_PILLARS.map(({ Icon: FIcon, title, body, color }) => (
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+            {ACCURACY_PILLARS.map(({ Icon: FIcon, title, body }) => (
               <div
                 key={title}
-                className="flex flex-col gap-3.5 p-5 rounded-xl bg-white border border-[#E2E1DD] hover:border-[#C8C7C2] hover:shadow-md transition-all h-full"
-                style={{ borderTop: `4px solid ${color}` }}
+                className="flex items-start gap-3"
               >
-                {/* Icon (no backdrop, clean color) */}
-                <div className="flex items-center justify-start">
-                  <FIcon size={24} style={{ color }} />
+                <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-[#EEF2FD] dark:bg-gray-800 shrink-0">
+                  <FIcon size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
                 </div>
                 <div>
-                  <h3 className="text-xs font-bold text-[#1C1C1E] mb-1.5">{title}</h3>
-                  <p className="text-[11px] text-[#76767E] leading-relaxed">{body}</p>
+                  <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">{title}</h3>
+                  <p className="text-[10px] text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">{body}</p>
                 </div>
               </div>
             ))}
