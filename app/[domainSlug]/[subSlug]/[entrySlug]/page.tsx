@@ -12,6 +12,7 @@ import type {
   EntryType,
   VerificationLevel,
 } from '@/lib/types'
+import TopicPageClient from '@/components/ui/TopicPageClient'
 
 interface PageParams {
   params: {
@@ -66,6 +67,11 @@ export default async function TopicPage({ params }: PageParams) {
   )
 
   if (!entry) notFound()
+
+  // If entry contains Universal Topic Page structure, render TopicPageClient
+  if (entry.entryBody && (entry.entryBody as any).quickAnswer) {
+    return <TopicPageClient entry={entry} />
+  }
 
   // Build TOC items from sections
   const tocItems: TableOfContentsItem[] = entry.sections.map((s: any) => ({

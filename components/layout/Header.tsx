@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
-import { Search, Menu, X, ChevronDown, ShieldCheck, Clock, Bell } from 'lucide-react'
+import { Search, Menu, X, ChevronDown, ShieldCheck, Clock, Bell, Moon } from 'lucide-react'
 
 interface DropdownItem {
   label: string
@@ -107,23 +107,33 @@ export default function Header() {
     <div className="w-full flex flex-col z-50 sticky top-0 bg-white">
       {/* ─── Top Utility Bar (Desktop only) ─────────────────── */}
       <div className="hidden md:block h-8 bg-[#FAFAF8] border-b border-[#E2E1DD] text-[11px] text-[#76767E]">
-        <div className="max-w-[1280px] mx-auto px-6 h-full flex items-center gap-3">
-          <span className="flex items-center gap-1 font-semibold text-[#4A4A52]">
-            <ShieldCheck size={11} className="text-[#2D5BE3]" />
-            Official Sources
-          </span>
-          <span className="text-[#E2E1DD] select-none">|</span>
-          <a href="https://www.icai.org" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">ICAI</a>
-          <span className="text-[#E2E1DD] select-none">|</span>
-          <a href="https://www.mca.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">MCA</a>
-          <span className="text-[#E2E1DD] select-none">|</span>
-          <a href="https://incometaxindia.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">CBDT</a>
-          <span className="text-[#E2E1DD] select-none">|</span>
-          <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">CBIC</a>
-          <span className="text-[#E2E1DD] select-none">|</span>
-          <a href="https://www.rbi.org.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">RBI</a>
-          <span className="text-[#E2E1DD] select-none">|</span>
-          <span className="hover:text-[#2D5BE3] cursor-pointer">Other Authorities</span>
+        <div className="max-w-[1280px] mx-auto px-6 h-full flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1 font-semibold text-[#4A4A52]">
+              <ShieldCheck size={11} className="text-[#2D5BE3]" />
+              Official Sources
+            </span>
+            <span className="text-[#E2E1DD] select-none">|</span>
+            <a href="https://www.icai.org" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">ICAI</a>
+            <span className="text-[#E2E1DD] select-none">|</span>
+            <a href="https://www.mca.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">MCA</a>
+            <span className="text-[#E2E1DD] select-none">|</span>
+            <a href="https://incometaxindia.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">CBDT</a>
+            <span className="text-[#E2E1DD] select-none">|</span>
+            <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">CBIC</a>
+            <span className="text-[#E2E1DD] select-none">|</span>
+            <a href="https://www.rbi.org.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3]">RBI</a>
+            <span className="text-[#E2E1DD] select-none">|</span>
+            <span className="hover:text-[#2D5BE3] cursor-pointer">Other Authorities</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Link href="/search?q=Updates" className="hover:text-[#2D5BE3] font-medium">Daily Updates</Link>
+            <span className="text-[#E2E1DD] select-none">|</span>
+            <Link href="/search?q=Notifications" className="hover:text-[#2D5BE3] font-medium flex items-center gap-1">
+              <Bell size={10} className="text-[#76767E]" />
+              Notifications
+            </Link>
+          </div>
         </div>
       </div>
 
@@ -134,22 +144,22 @@ export default function Header() {
           {/* Logo & Brand */}
           <Link
             href="/"
-            className="flex items-center gap-2 group shrink-0"
+            className="flex items-center gap-2.5 group shrink-0"
             aria-label="Accounts.One — Home"
           >
-            <svg className="w-8 h-8 shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="w-[38px] h-[38px] shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g transform="skewX(-10) translate(5, 0)">
-                <path d="M38 18 L10 85 H26 L32 68 H54 L60 85 H76 L48 18 H38 Z M43 36 L50 54 H36 Z" fill="#2D5BE3" />
+                <path d="M38 18 L10 85 H26 L32 68 H54 L60 85 H76 L48 18 H38 Z M43 36 L50 54 H36 Z" fill="#2D5BE3" fillRule="evenodd" />
                 <path d="M74 35 L60 45 V55 L72 46 V85 H86 V35 H74 Z" fill="#1A7A4A" />
               </g>
             </svg>
             <div className="flex flex-col">
               <div className="flex items-center">
-                <span className="font-sans font-bold text-base tracking-tight text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">Accounts</span>
-                <span className="font-sans font-bold text-base tracking-tight text-[#2D5BE3]">.</span>
-                <span className="font-sans font-bold text-base tracking-tight text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">One</span>
+                <span className="font-sans font-bold text-[17px] tracking-tight text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">Accounts</span>
+                <span className="font-sans font-bold text-[17px] tracking-tight text-[#2D5BE3]">.</span>
+                <span className="font-sans font-bold text-[17px] tracking-tight text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">One</span>
               </div>
-              <span className="text-[9px] text-[#76767E] font-medium leading-none mt-0.5 whitespace-nowrap">
+              <span className="text-[10px] text-[#76767E] font-medium leading-none mt-0.5 whitespace-nowrap">
                 The Operating System for Professional Excellence
               </span>
             </div>
@@ -219,21 +229,30 @@ export default function Header() {
           <div className="flex items-center gap-2">
             {/* Wider Search Bar Form */}
             <form onSubmit={handleSearchSubmit} className="hidden sm:flex relative items-center">
-              <Search size={14} className="absolute left-2.5 text-[#76767E] pointer-events-none" />
+              <Search size={13} className="absolute left-2.5 text-[#76767E] pointer-events-none" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search"
-                className="bg-[#FAFAF8] border border-[#E2E1DD] hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white text-xs font-medium pl-8 pr-3 py-1.5 w-56 lg:w-64 xl:w-72 rounded-md outline-none transition-all placeholder:text-[#A0A0A8]"
+                className="bg-[#FAFAF8] border border-[#E2E1DD] hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white text-xs font-medium pl-7 pr-3 py-1.5 w-56 lg:w-64 xl:w-72 rounded-md outline-none transition-all placeholder:text-[#A0A0A8]"
               />
             </form>
 
+            {/* Dark Mode Moon Icon */}
+            <button
+              type="button"
+              className="flex items-center justify-center p-1.5 rounded-md text-[#76767E] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] transition-colors ml-1"
+              aria-label="Toggle dark mode"
+            >
+              <Moon size={14} />
+            </button>
+ 
             <Link
               href="/admin/login"
-              className="bg-[#2D5BE3] text-white px-4 py-1.5 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm whitespace-nowrap"
+              className="bg-[#2D5BE3] text-white px-3.5 py-1.5 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm whitespace-nowrap"
             >
-              Login
+              Sign Up / Login
             </Link>
 
 

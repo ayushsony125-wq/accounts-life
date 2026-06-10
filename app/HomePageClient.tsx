@@ -338,18 +338,11 @@ export default function HomePageClient() {
 
             {/* Left: Headline + Search */}
             <div className="flex flex-col">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 mb-5 self-start">
-                <span className="bg-[#EEF2FD] text-[#2D5BE3] text-xs font-semibold px-3 py-1 rounded-full border border-[#D0DCFA]">
-                  Built for Professionals. Backed by Authority.
-                </span>
-              </div>
-
               {/* Heading */}
               <h1
                 id="hero-heading"
-                className="font-sans font-bold text-[#1C1C1E] leading-tight tracking-tight"
-                style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}
+                className="font-sans font-bold text-[#1C1C1E] leading-tight tracking-tight animate-in fade-in duration-300"
+                style={{ fontSize: 'clamp(24px, 3.5vw, 38px)' }}
               >
                 The Operating System for{' '}
                 <span className="text-[#2D5BE3]">Professional Excellence</span>
@@ -365,15 +358,15 @@ export default function HomePageClient() {
               {/* Search Bar */}
               <form onSubmit={handleSearch} className="mt-7 relative max-w-2xl">
                 <Search
-                  size={17}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 text-[#76767E] pointer-events-none"
+                  size={15}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#76767E] pointer-events-none"
                 />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for topics, sections, standards, rules, cases…"
-                  className="w-full bg-[#FAFAF8] border border-[#E2E1DD] hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white text-sm font-medium pl-11 pr-24 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] shadow-sm"
+                  className="w-full bg-[#FAFAF8] border border-[#E2E1DD] hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white text-sm font-medium pl-9 pr-24 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] shadow-sm"
                 />
                 <button
                   type="submit"
@@ -480,7 +473,7 @@ export default function HomePageClient() {
                   </div>
 
                   {/* Name */}
-                  <h3 className="text-xs font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug">
+                  <h3 className="text-xs font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug whitespace-nowrap truncate w-full px-1">
                     {domain.name}
                   </h3>
 
@@ -590,14 +583,14 @@ export default function HomePageClient() {
             <div className="flex flex-col gap-5">
 
               {/* Subscribe card */}
-              <div className="border border-[#E2E1DD] rounded-xl p-5 bg-[#1C1C1E]">
+              <div className="border border-[#D0DCFA] rounded-xl p-5 bg-[#EEF2FD] shadow-xs">
                 <div className="flex items-center gap-2 mb-1">
-                  <Mail size={14} className="text-[#6B9BF5]" />
-                  <h3 className="text-sm font-bold text-white">
+                  <Mail size={14} className="text-[#2D5BE3]" />
+                  <h3 className="text-sm font-bold text-[#1C1C1E]">
                     Subscribe to Daily Professional Updates
                   </h3>
                 </div>
-                <p className="text-xs text-[#A0A0A8] mb-4 leading-relaxed">
+                <p className="text-xs text-[#4A4A52] mb-4 leading-relaxed">
                   Get important notifications, amendments, circulars & updates directly in your inbox.
                 </p>
                 {subscribed ? (
@@ -613,7 +606,7 @@ export default function HomePageClient() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="Enter your email address"
-                      className="flex-1 min-w-0 bg-[#2A2A2E] border border-[#3A3A40] focus:border-[#2D5BE3] text-xs text-white font-medium px-3 py-2.5 rounded-md outline-none transition-all placeholder:text-[#5B5B65]"
+                      className="flex-1 min-w-0 bg-white border border-[#E2E1DD] focus:border-[#2D5BE3] text-xs text-[#1C1C1E] font-medium px-3 py-2.5 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] shadow-xs"
                     />
                     <button
                       type="submit"
@@ -623,7 +616,7 @@ export default function HomePageClient() {
                     </button>
                   </form>
                 )}
-                <p className="text-[10px] text-[#4A4A52] mt-2">No spam. Unsubscribe anytime.</p>
+                <p className="text-[10px] text-[#76767E] mt-2">No spam. Unsubscribe anytime.</p>
               </div>
 
               {/* Today's Essentials */}
@@ -705,59 +698,54 @@ export default function HomePageClient() {
               </Link>
             ))}
           </div>
-
-          {/* Stats row */}
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-4 border-t border-[#E2E1DD] pt-8">
-            {STATS.map(({ value, label }) => (
-              <div key={label} className="flex flex-col items-center text-center gap-1">
-                <span className="text-xl font-bold text-[#1C1C1E] tracking-tight">{value}</span>
-                <span className="text-[10px] text-[#76767E] font-medium">{label}</span>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* ── Platform Features ─────────────────────────────────────────────── */}
       <section
         aria-labelledby="features-heading"
-        className="border-t border-[#E2E1DD] bg-[#F4F3F0]"
+        className="border-t border-[#E2E1DD] bg-[#FAFAF8]"
       >
         <div className="max-w-[1280px] mx-auto px-6 py-14 md:py-16">
-          <h2
-            id="features-heading"
-            className="text-xl font-bold text-[#1C1C1E] tracking-tight text-center mb-10"
-          >
-            Built for accuracy
-          </h2>
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2
+              id="features-heading"
+              className="text-xl font-bold text-[#1C1C1E] tracking-tight mb-2"
+            >
+              Built for Accuracy
+            </h2>
+            <p className="text-sm text-[#76767E]">
+              Every explanation, reference citation, and practice guide is structured for professional trust.
+            </p>
+          </div>
 
-          {/* 3-col pillars */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          {/* 3-col pillars - Clean Bullet Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 pb-10 border-b border-[#E2E1DD]">
             {PILLARS.map(({ title, body, accent }) => (
-              <article key={title} className="flex flex-col gap-3">
-                <div
-                  className="w-8 h-1 rounded-full"
-                  style={{ backgroundColor: accent }}
-                  aria-hidden="true"
-                />
-                <h3 className="text-base font-semibold text-[#1C1C1E]">{title}</h3>
-                <p className="text-sm text-[#4A4A52] leading-relaxed">{body}</p>
+              <article key={title} className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accent }} />
+                  <h3 className="text-sm font-bold text-[#1C1C1E]">{title}</h3>
+                </div>
+                <p className="text-xs text-[#76767E] leading-relaxed">{body}</p>
               </article>
             ))}
           </div>
 
-          {/* 4-col feature pillars */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 border-t border-[#E2E1DD] pt-10">
+          {/* 4-col feature pillars - Clean Consistent Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {FEATURE_PILLARS.map(({ Icon: FIcon, title, body, color }) => (
-              <div key={title} className="flex flex-col gap-3 p-5 rounded-xl bg-white border border-[#E2E1DD]">
+              <div key={title} className="flex flex-col gap-3.5 p-5 rounded-xl bg-white border border-[#E2E1DD] hover:border-[#C8C7C2] hover:shadow-xs transition-all">
                 <div
-                  className="flex items-center justify-center w-10 h-10 rounded-lg"
+                  className="flex items-center justify-center w-9 h-9 rounded-lg shrink-0"
                   style={{ backgroundColor: `${color}14` }}
                 >
-                  <FIcon size={18} style={{ color }} />
+                  <FIcon size={16} style={{ color }} />
                 </div>
-                <h3 className="text-sm font-bold text-[#1C1C1E]">{title}</h3>
-                <p className="text-xs text-[#76767E] leading-relaxed">{body}</p>
+                <div>
+                  <h3 className="text-xs font-bold text-[#1C1C1E] mb-1.5">{title}</h3>
+                  <p className="text-[11px] text-[#76767E] leading-relaxed">{body}</p>
+                </div>
               </div>
             ))}
           </div>
