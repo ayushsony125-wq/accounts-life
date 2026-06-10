@@ -114,6 +114,8 @@ export default function Header() {
     e.preventDefault()
     if (searchQuery.trim()) {
       window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`
+    } else {
+      window.location.href = '/search'
     }
   }
 
@@ -150,7 +152,7 @@ export default function Header() {
             <span className="text-gray-600 select-none">|</span>
             <a href="https://www.sebi.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">SEBI</a>
             <span className="text-gray-600 select-none">|</span>
-            <span className="hover:text-white cursor-pointer transition-colors">Other Authorities</span>
+            <Link href="/search?q=Authorities" className="hover:text-white transition-colors">Other Authorities</Link>
           </div>
           <div className="flex items-center gap-3">
             <Link href="/search?q=Updates" className="hover:text-white transition-colors font-medium flex items-center gap-1">
