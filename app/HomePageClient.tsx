@@ -342,7 +342,7 @@ export default function HomePageClient() {
               <h1
                 id="hero-heading"
                 className="font-sans font-bold text-[#1C1C1E] leading-tight tracking-tight animate-in fade-in duration-300"
-                style={{ fontSize: 'clamp(24px, 3.5vw, 38px)' }}
+                style={{ fontSize: 'clamp(24px, 3vw, 34px)' }}
               >
                 The Operating System for{' '}
                 <span className="text-[#2D5BE3]">Professional Excellence</span>
@@ -478,17 +478,9 @@ export default function HomePageClient() {
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[10px] text-[#76767E] leading-relaxed line-clamp-3">
+                  <p className="text-[11px] text-[#76767E] leading-relaxed line-clamp-3">
                     {domain.description}
                   </p>
-
-                  {/* Topic count */}
-                  <span
-                    className="text-[10px] font-bold mt-auto"
-                    style={{ color: domain.color }}
-                  >
-                    {domain.topicCount}+ Topics
-                  </span>
                 </Link>
               )
             })}
@@ -703,13 +695,48 @@ export default function HomePageClient() {
 
       {/* ── Platform Features ─────────────────────────────────────────────── */}
       <section
-        aria-labelledby="features-heading"
+        aria-labelledby="pillars-heading"
+        className="border-t border-[#E2E1DD] bg-white"
+      >
+        <div className="max-w-[1280px] mx-auto px-6 py-14 md:py-16">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <h2
+              id="pillars-heading"
+              className="text-xl font-bold text-[#1C1C1E] tracking-tight mb-2"
+            >
+              Platform Features
+            </h2>
+            <p className="text-sm text-[#76767E]">
+              Designed to meet the rigorous standards of modern tax, audit, and accounting professionals.
+            </p>
+          </div>
+
+          {/* 3-col pillars - Clean Bullet Layout with Accent Line Above Heading */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {PILLARS.map(({ title, body, accent }) => (
+              <article key={title} className="flex flex-col gap-3">
+                <div
+                  className="w-8 h-1 rounded-full shrink-0"
+                  style={{ backgroundColor: accent }}
+                  aria-hidden="true"
+                />
+                <h3 className="text-sm font-bold text-[#1C1C1E]">{title}</h3>
+                <p className="text-xs text-[#76767E] leading-relaxed">{body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Built for Accuracy ─────────────────────────────────────────────── */}
+      <section
+        aria-labelledby="accuracy-heading"
         className="border-t border-[#E2E1DD] bg-[#FAFAF8]"
       >
         <div className="max-w-[1280px] mx-auto px-6 py-14 md:py-16">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2
-              id="features-heading"
+              id="accuracy-heading"
               className="text-xl font-bold text-[#1C1C1E] tracking-tight mb-2"
             >
               Built for Accuracy
@@ -719,21 +746,8 @@ export default function HomePageClient() {
             </p>
           </div>
 
-          {/* 3-col pillars - Clean Bullet Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 pb-10 border-b border-[#E2E1DD]">
-            {PILLARS.map(({ title, body, accent }) => (
-              <article key={title} className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: accent }} />
-                  <h3 className="text-sm font-bold text-[#1C1C1E]">{title}</h3>
-                </div>
-                <p className="text-xs text-[#76767E] leading-relaxed">{body}</p>
-              </article>
-            ))}
-          </div>
-
           {/* 4-col feature pillars - Clean Consistent Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {FEATURE_PILLARS.map(({ Icon: FIcon, title, body, color }) => (
               <div key={title} className="flex flex-col gap-3.5 p-5 rounded-xl bg-white border border-[#E2E1DD] hover:border-[#C8C7C2] hover:shadow-xs transition-all">
                 <div
