@@ -265,6 +265,13 @@ export default function HomePageClient() {
     const trimmed = email.trim()
     if (!trimmed) return
 
+    // Explicit email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(trimmed)) {
+      setSubscribeError('Please enter a valid email address.')
+      return
+    }
+
     setSubscribing(true)
     setSubscribeError(null)
 

@@ -6,7 +6,7 @@ import { login } from '@/app/admin/actions'
 import { KeyRound, AlertCircle, ArrowRight, Mail, Phone, Shield, UserPlus, Lock } from 'lucide-react'
 
 export default function AdminLoginPage() {
-  const [activeTab, setActiveTab] = useState<'user' | 'admin'>('user')
+  const [activeTab, setActiveTab] = useState<'user' | 'admin'>('admin')
   const [userMode, setUserMode] = useState<'signin' | 'register'>('signin')
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
   

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Fuse from 'fuse.js'
 import { Search, X, Filter, BookOpen, SlidersHorizontal, ArrowRight, Tag } from 'lucide-react'
@@ -21,6 +21,17 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
   const [selectedType, setSelectedType] = useState<string>('ALL')
   const [selectedDomain, setSelectedDomain] = useState<string>('ALL')
   const [groupByDomain, setGroupByDomain] = useState(false)
+
+  // Sync initial query from URL search parameters on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const q = params.get('q')
+      if (q) {
+        setQuery(q)
+      }
+    }
+  }, [])
 
   // Configure Fuse.js
   const fuse = useMemo(() => {
