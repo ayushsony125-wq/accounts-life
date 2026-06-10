@@ -89,7 +89,7 @@ const PROFESSIONAL_DOMAINS = [
   {
     id: 'fm-other',
     code: 'FM',
-    name: 'Financial Management & Other',
+    name: 'Finance & Other',
     description: 'Ratios, Capital Budgeting, Cost of Capital, Analysis & Decision Making.',
     topicCount: 75,
     href: '/financial-analysis',
@@ -333,7 +333,7 @@ export default function HomePageClient() {
         aria-labelledby="hero-heading"
         className="bg-white border-b border-[#E2E1DD]"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-12 md:py-16">
+        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
 
             {/* Left: Headline + Search */}
@@ -342,17 +342,15 @@ export default function HomePageClient() {
               <h1
                 id="hero-heading"
                 className="font-sans font-bold text-[#1C1C1E] leading-tight tracking-tight animate-in fade-in duration-300"
-                style={{ fontSize: 'clamp(24px, 3vw, 34px)' }}
+                style={{ fontSize: 'clamp(22px, 2.5vw, 32px)' }}
               >
-                The Operating System for{' '}
-                <span className="text-[#2D5BE3]">Professional Excellence</span>
+                The Most Organized{' '}
+                <span className="text-[#2D5BE3]">Accounting Knowledge System</span>
               </h1>
 
               {/* Sub-headline */}
               <p className="mt-4 text-[15px] text-[#4A4A52] leading-relaxed max-w-xl">
-                Trusted explanations. Exact legal support. Official sources.{' '}
-                Practical notes. Curated videos.{' '}
-                <span className="text-[#1C1C1E] font-medium">Everything a professional needs.</span>
+                Every concept. Every standard. Every journal entry. Organized, verified, and cross-referenced.
               </p>
 
               {/* Search Bar */}
@@ -422,12 +420,43 @@ export default function HomePageClient() {
         </div>
       </section>
 
+      {/* ── Trust Strip ───────────────────────────────────────────────────── */}
+      <div className="bg-[#FAFAF8] border-b border-[#E2E1DD] py-3.5">
+        <div className="max-w-[1280px] mx-auto px-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#76767E] whitespace-nowrap">
+            Official Citing Authorities
+          </span>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-semibold text-[#4A4A52]">
+            <a href="https://www.icai.org" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2D5BE3]" />
+              ICAI
+            </a>
+            <a href="https://www.mca.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#6B3FA0]" />
+              MCA
+            </a>
+            <a href="https://incometaxindia.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#B45309]" />
+              CBDT
+            </a>
+            <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#1A7A4A]" />
+              CBIC
+            </a>
+            <a href="https://www.rbi.org.in" target="_blank" rel="noopener noreferrer" className="hover:text-[#2D5BE3] transition-colors flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0F6B5E]" />
+              RBI
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* ── Explore by Domain ─────────────────────────────────────────────── */}
       <section
         aria-labelledby="domains-heading"
-        className="bg-[#FAFAF8] border-b border-[#E2E1DD]"
+        className="bg-white border-b border-[#E2E1DD]"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-14 md:py-16">
+        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
           <header className="flex items-start justify-between mb-8">
             <div>
               <div className="flex items-center gap-2 mb-1">
@@ -461,19 +490,17 @@ export default function HomePageClient() {
                   key={domain.id}
                   href={domain.href}
                   id={`domain-card-${domain.id}`}
-                  className="group flex flex-col items-center text-center gap-3 p-5 rounded-xl border border-[#E2E1DD] bg-white hover:border-[#C8C7C2] hover:shadow-md transition-all"
+                  className="group flex flex-col items-start text-left gap-3.5 p-5 rounded-xl border border-[#E2E1DD] bg-[#FAFAF8] hover:bg-white hover:border-[#C8C7C2] hover:shadow-md transition-all h-full"
+                  style={{ borderTop: `4px solid ${domain.color}` }}
                   aria-label={`${domain.name} — explore topics`}
                 >
-                  {/* Icon */}
-                  <div
-                    className="flex items-center justify-center w-12 h-12 rounded-xl"
-                    style={{ backgroundColor: `${domain.color}14` }}
-                  >
-                    <Icon size={22} style={{ color: domain.color }} />
+                  {/* Icon (no backdrop, clean color) */}
+                  <div className="flex items-center justify-center">
+                    <Icon size={24} style={{ color: domain.color }} />
                   </div>
 
-                  {/* Name */}
-                  <h3 className="text-xs font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug whitespace-nowrap truncate w-full px-1">
+                  {/* Name (no truncation) */}
+                  <h3 className="text-xs font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug w-full">
                     {domain.name}
                   </h3>
 
@@ -493,7 +520,7 @@ export default function HomePageClient() {
         aria-labelledby="updates-heading"
         className="bg-white border-b border-[#E2E1DD]"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-14 md:py-16">
+        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10 lg:gap-12 items-start">
 
             {/* ─ LEFT: Latest Updates feed ──────────────────────────── */}
@@ -654,7 +681,7 @@ export default function HomePageClient() {
         aria-labelledby="quickaccess-heading"
         className="bg-[#FAFAF8] border-b border-[#E2E1DD]"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-14 md:py-16">
+        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
           <div className="flex items-start justify-between mb-8">
             <div>
               <h2
@@ -698,7 +725,7 @@ export default function HomePageClient() {
         aria-labelledby="pillars-heading"
         className="border-t border-[#E2E1DD] bg-white"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-14 md:py-16">
+        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2
               id="pillars-heading"
@@ -733,7 +760,7 @@ export default function HomePageClient() {
         aria-labelledby="accuracy-heading"
         className="border-t border-[#E2E1DD] bg-[#FAFAF8]"
       >
-        <div className="max-w-[1280px] mx-auto px-6 py-14 md:py-16">
+        <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2
               id="accuracy-heading"

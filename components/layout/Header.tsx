@@ -31,7 +31,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'GST', href: '/search?q=GST' },
   { label: 'Law', href: '/search?q=Law' },
   {
-    label: 'Financial Management & Other',
+    label: 'Finance & Other',
     dropdown: [
       { label: 'Financial Analysis', href: '/financial-analysis', description: 'Analysis & decision-making tools' },
       { label: 'Company Accounts', href: '/company-accounts', description: 'Corporate accounting guidelines' },
@@ -147,7 +147,7 @@ export default function Header() {
             className="flex items-center gap-2.5 group shrink-0"
             aria-label="Accounts.One — Home"
           >
-            <svg className="w-[45px] h-[36px] shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg className="w-[48px] h-[38px] shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g transform="skewX(-10) translate(5, 0)">
                 <path d="M38 18 L10 85 H26 L32 68 H54 L60 85 H76 L48 18 H38 Z M43 36 L50 54 H36 Z" fill="#2D5BE3" fillRule="evenodd" />
                 <path d="M74 35 L60 45 V55 L72 46 V85 H86 V35 H74 Z" fill="#1A7A4A" />
@@ -155,9 +155,9 @@ export default function Header() {
             </svg>
             <div className="flex flex-col">
               <div className="flex items-center">
-                <span className="font-sans font-bold text-[17px] tracking-tight text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">Accounts</span>
-                <span className="font-sans font-bold text-[17px] tracking-tight text-[#2D5BE3]">.</span>
-                <span className="font-sans font-bold text-[17px] tracking-tight text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">One</span>
+                <span className="font-sans font-bold text-[18px] tracking-tight text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">Accounts</span>
+                <span className="font-sans font-bold text-[18px] tracking-tight text-[#2D5BE3]">.</span>
+                <span className="font-sans font-bold text-[18px] tracking-tight text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">One</span>
               </div>
               <span className="text-[10px] text-[#76767E] font-medium leading-none mt-0.5 whitespace-nowrap">
                 The Operating System for Professional Excellence
@@ -166,7 +166,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-1" aria-label="Main navigation">
+          <nav className="hidden xl:flex items-center gap-0.5 flex-nowrap" aria-label="Main navigation">
             {NAV_ITEMS.map((item) =>
               item.dropdown ? (
                 <div
@@ -176,7 +176,7 @@ export default function Header() {
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button
-                    className={`flex items-center gap-0.5 px-2.5 py-2 rounded-md text-xs font-semibold transition-colors ${
+                    className={`flex items-center gap-0.5 px-2 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${
                       isActive(item)
                         ? 'text-[#2D5BE3] bg-[#EEF2FD]'
                         : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0]'
@@ -213,7 +213,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  className={`px-2.5 py-2 rounded-md text-xs font-semibold transition-colors ${
+                  className={`px-2 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${
                     isActive(item)
                       ? 'text-[#2D5BE3] bg-[#EEF2FD]'
                       : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0]'
