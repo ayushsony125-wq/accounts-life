@@ -499,8 +499,8 @@ export default function HomePageClient() {
                     <Icon size={24} style={{ color: domain.color }} />
                   </div>
 
-                  {/* Name (no truncation) */}
-                  <h3 className="text-xs font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug w-full">
+                  {/* Name (no truncation, stay on one line) */}
+                  <h3 className="text-xs font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug w-full whitespace-nowrap">
                     {domain.name}
                   </h3>
 
@@ -521,7 +521,7 @@ export default function HomePageClient() {
         className="bg-white border-b border-[#E2E1DD]"
       >
         <div className="max-w-[1280px] mx-auto px-6 py-10 md:py-12">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-10 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
 
             {/* ─ LEFT: Latest Updates feed ──────────────────────────── */}
             <div>
@@ -695,7 +695,7 @@ export default function HomePageClient() {
           </div>
 
           {/* 5-col quick link cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 mb-10">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
             {QUICK_LINKS.map(({ label, href, description, Icon: QIcon, color }) => (
               <Link
                 key={label}
@@ -738,15 +738,14 @@ export default function HomePageClient() {
             </p>
           </div>
 
-          {/* 3-col pillars - Clean Bullet Layout with Accent Line Above Heading */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* 3-col pillars - Unified Card Layout with Accent Border Top */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {PILLARS.map(({ title, body, accent }) => (
-              <article key={title} className="flex flex-col gap-3">
-                <div
-                  className="w-8 h-1 rounded-full shrink-0"
-                  style={{ backgroundColor: accent }}
-                  aria-hidden="true"
-                />
+              <article
+                key={title}
+                className="flex flex-col gap-3.5 p-6 rounded-xl border border-[#E2E1DD] bg-[#FAFAF8] hover:bg-white hover:border-[#C8C7C2] hover:shadow-md transition-all h-full"
+                style={{ borderTop: `4px solid ${accent}` }}
+              >
                 <h3 className="text-sm font-bold text-[#1C1C1E]">{title}</h3>
                 <p className="text-xs text-[#76767E] leading-relaxed">{body}</p>
               </article>
@@ -773,15 +772,17 @@ export default function HomePageClient() {
             </p>
           </div>
 
-          {/* 4-col feature pillars - Clean Consistent Grid */}
+          {/* 4-col feature pillars - Clean Consistent Grid with Top Borders */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {FEATURE_PILLARS.map(({ Icon: FIcon, title, body, color }) => (
-              <div key={title} className="flex flex-col gap-3.5 p-5 rounded-xl bg-white border border-[#E2E1DD] hover:border-[#C8C7C2] hover:shadow-xs transition-all">
-                <div
-                  className="flex items-center justify-center w-9 h-9 rounded-lg shrink-0"
-                  style={{ backgroundColor: `${color}14` }}
-                >
-                  <FIcon size={16} style={{ color }} />
+              <div
+                key={title}
+                className="flex flex-col gap-3.5 p-5 rounded-xl bg-white border border-[#E2E1DD] hover:border-[#C8C7C2] hover:shadow-md transition-all h-full"
+                style={{ borderTop: `4px solid ${color}` }}
+              >
+                {/* Icon (no backdrop, clean color) */}
+                <div className="flex items-center justify-start">
+                  <FIcon size={24} style={{ color }} />
                 </div>
                 <div>
                   <h3 className="text-xs font-bold text-[#1C1C1E] mb-1.5">{title}</h3>

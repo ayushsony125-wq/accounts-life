@@ -57,7 +57,7 @@ export default function Footer() {
               className="flex items-center gap-2.5 mb-4 group w-fit"
               aria-label="Accounts.One — Home"
             >
-              <svg className="w-[48px] h-[38px] shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-[52px] h-[40px] shrink-0" viewBox="5 15 90 72" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g transform="skewX(-10) translate(5, 0)">
                   <path d="M38 18 L10 85 H26 L32 68 H54 L60 85 H76 L48 18 H38 Z M43 36 L50 54 H36 Z" fill="#2D5BE3" fillRule="evenodd" />
                   <path d="M74 35 L60 45 V55 L72 46 V85 H86 V35 H74 Z" fill="#1A7A4A" />
