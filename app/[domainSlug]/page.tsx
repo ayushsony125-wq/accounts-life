@@ -134,7 +134,7 @@ function renderDomainPage(domain: any) {
         <BackButton fallbackPath="/" />
       </div>
 
-      <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
+      <header className="mb-10 pb-8 border-b border-[#E2E1DD] dark:border-gray-800">
         <div className="flex items-start gap-4 flex-wrap">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-3">
@@ -151,10 +151,10 @@ function renderDomainPage(domain: any) {
                 {statusLabels[domain.domainStatus as keyof typeof statusLabels]}
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#1C1C1E] tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#1C1C1E] dark:text-white tracking-tight leading-tight">
               {domain.domainName}
             </h1>
-            <p className="mt-3 text-base text-[#4A4A52] font-reading leading-relaxed max-w-2xl">
+            <p className="mt-3 text-base text-[#4A4A52] dark:text-gray-300 font-reading leading-relaxed max-w-2xl">
               {domain.domainDescription || domain.domainTagline}
             </p>
           </div>
@@ -162,17 +162,17 @@ function renderDomainPage(domain: any) {
 
         <dl className="mt-6 flex flex-wrap gap-6">
           <div>
-            <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Entries</dt>
-            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E]">
+            <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Entries</dt>
+            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E] dark:text-white">
               {domain.entryCount}
-              <span className="text-sm font-normal text-[#A0A0A8] ml-1">
+              <span className="text-sm font-normal text-[#A0A0A8] dark:text-gray-500 ml-1">
                 of {domain.plannedEntryCount} planned
               </span>
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Subdomains</dt>
-            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E]">{domain.subdomains.length}</dd>
+            <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Subdomains</dt>
+            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E] dark:text-white">{domain.subdomains.length}</dd>
           </div>
         </dl>
       </header>
@@ -190,19 +190,19 @@ function renderDomainPage(domain: any) {
           <section aria-labelledby="subdomains-heading">
             <h2
               id="subdomains-heading"
-              className="text-lg font-bold text-[#1C1C1E] mb-5 tracking-tight"
+              className="text-lg font-bold text-[#1C1C1E] dark:text-white mb-5 tracking-tight"
             >
               Browse topics in this domain
             </h2>
             {domain.subdomains.length === 0 ? (
-              <p className="text-sm text-[#76767E]">No topics are available yet in this domain.</p>
+              <p className="text-sm text-[#76767E] dark:text-gray-400">No topics are available yet in this domain.</p>
             ) : (
               <div className="space-y-3">
                 {domain.subdomains.map((sub: any) => (
                   <Link
                     key={sub.slug}
                     href={`/${domain.domainSlug}/${sub.slug}`}
-                    className="group flex items-center justify-between p-4 rounded-lg border border-[#E2E1DD] bg-white hover:border-[#C8C7C2] hover:shadow-sm transition-all"
+                    className="group flex items-center justify-between p-4 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-sm transition-all"
                   >
                     <div className="flex items-center gap-3 min-w-0">
                       <BookOpen
@@ -212,10 +212,10 @@ function renderDomainPage(domain: any) {
                         aria-hidden="true"
                       />
                       <div className="min-w-0">
-                        <p className="text-sm font-semibold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors truncate">
+                        <p className="text-sm font-semibold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors truncate">
                           {sub.name}
                         </p>
-                        <p className="text-xs text-[#76767E] mt-0.5">
+                        <p className="text-xs text-[#76767E] dark:text-gray-400 mt-0.5">
                           {sub.entryCount} {sub.entryCount === 1 ? 'entry' : 'entries'} published
                         </p>
                       </div>

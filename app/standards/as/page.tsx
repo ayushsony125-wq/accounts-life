@@ -67,7 +67,7 @@ export default function ASStandardsDomainPage() {
       </div>
 
       {/* Domain Header */}
-      <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
+      <header className="mb-10 pb-8 border-b border-[#E2E1DD] dark:border-gray-800">
         <div className="flex items-start gap-4 flex-wrap">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-3">
@@ -87,10 +87,10 @@ export default function ASStandardsDomainPage() {
                 Issued by ICAI
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#1C1C1E] tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#1C1C1E] dark:text-white tracking-tight leading-tight">
               AS Standards (ICAI)
             </h1>
-            <p className="mt-3 text-base text-[#4A4A52] font-reading leading-relaxed max-w-2xl">
+            <p className="mt-3 text-base text-[#4A4A52] dark:text-gray-300 font-reading leading-relaxed max-w-2xl">
               {DOMAIN.domainDescription}
             </p>
           </div>
@@ -98,16 +98,16 @@ export default function ASStandardsDomainPage() {
 
         <dl className="mt-6 flex flex-wrap gap-6">
           <div>
-            <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Total Standards</dt>
-            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E]">32</dd>
+            <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Total Standards</dt>
+            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E] dark:text-white">32</dd>
           </div>
           <div>
-            <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Live on Platform</dt>
-            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E]">{live.length}</dd>
+            <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Live on Platform</dt>
+            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E] dark:text-white">{live.length}</dd>
           </div>
           <div>
-            <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Issuing Body</dt>
-            <dd className="mt-0.5 text-sm font-semibold text-[#1C1C1E]">ICAI</dd>
+            <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Issuing Body</dt>
+            <dd className="mt-0.5 text-sm font-semibold text-[#1C1C1E] dark:text-white">ICAI</dd>
           </div>
           <div>
             <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Official Source</dt>
@@ -145,7 +145,7 @@ export default function ASStandardsDomainPage() {
           <section aria-labelledby="live-standards-heading" className="mb-12">
             <h2
               id="live-standards-heading"
-              className="text-lg font-bold text-[#1C1C1E] mb-5 tracking-tight"
+              className="text-lg font-bold text-[#1C1C1E] dark:text-white mb-5 tracking-tight"
             >
               Available Now
             </h2>
@@ -154,7 +154,7 @@ export default function ASStandardsDomainPage() {
                 <Link
                   key={std.slug}
                   href={`/standards/as/${std.slug}`}
-                  className="group flex items-center gap-4 p-4 rounded-lg border border-[#E2E1DD] bg-white hover:border-[#0F6B5E] hover:shadow-sm transition-all"
+                  className="group flex items-center gap-4 p-4 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#0F6B5E] dark:hover:border-emerald-700 hover:shadow-sm transition-all"
                 >
                   <span
                     className="text-xs font-bold shrink-0 px-2 py-1 rounded"
@@ -162,7 +162,7 @@ export default function ASStandardsDomainPage() {
                   >
                     {std.code}
                   </span>
-                  <span className="text-sm font-medium text-[#1C1C1E] group-hover:text-[#0F6B5E] transition-colors min-w-0">
+                  <span className="text-sm font-medium text-[#1C1C1E] dark:text-white group-hover:text-[#0F6B5E] transition-colors min-w-0">
                     {std.title}
                   </span>
                   <ArrowRight
@@ -187,11 +187,11 @@ export default function ASStandardsDomainPage() {
               {upcoming.map((std) => (
                 <div
                   key={std.slug}
-                  className="flex items-center gap-3 px-4 py-3 rounded-lg border border-[#E2E1DD] bg-[#FAFAF8] opacity-70 cursor-not-allowed"
+                  className="flex items-center gap-3 px-4 py-3 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#111726] opacity-70 cursor-not-allowed"
                   aria-label={`${std.code} — Coming soon`}
                 >
                   <span className="text-xs font-bold text-[#A0A0A8] shrink-0">{std.code}</span>
-                  <span className="text-sm text-[#76767E] truncate">{std.title}</span>
+                  <span className="text-sm text-[#76767E] dark:text-gray-400 truncate">{std.title}</span>
                 </div>
               ))}
             </div>

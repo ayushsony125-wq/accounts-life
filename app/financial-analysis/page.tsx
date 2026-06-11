@@ -11,7 +11,7 @@ export default function FinancialAnalysisPage() {
     <div className="max-w-[1280px] mx-auto px-6 py-10">
       <div className="flex flex-wrap items-center gap-4 mb-6">
         <BackButton fallbackPath="/" />
-              </div>
+      </div>
       <main className="max-w-3xl min-w-0">
         <h1 className="text-3xl font-bold text-[#1C1C1E] dark:text-white tracking-tight mb-6">
           Financial Analysis & Decision Tools

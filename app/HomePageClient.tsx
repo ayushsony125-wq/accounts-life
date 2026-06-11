@@ -309,8 +309,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
   const heroSubtitle = initialConfig?.heroSubtitle || "Trusted explanations. Exact legal support. Official sources. Practical notes. Curated videos. Everything a professional needs."
   const popularSearches = (initialConfig?.popularSearches || POPULAR_SEARCHES).filter(
     (item: any) => {
-      const cleanLabel = item.label ? item.label.trim().toLowerCase() : '';
-      return cleanLabel !== 'transfer pricing' && cleanLabel !== 'transfer-pricing';
+      const cleanLabel = item.label ? item.label.trim().toLowerCase().replace(/[^a-z0-9]/g, '') : '';
+      return cleanLabel !== 'transferpricing';
     }
   )
   const trustPoints = initialConfig?.trustPoints || TRUST_POINTS
@@ -371,7 +371,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
         Object.keys(counts).forEach((query) => {
           const cleanQuery = query.trim();
           const lowerQuery = cleanQuery.toLowerCase();
-          if (cleanQuery && lowerQuery !== 'transfer pricing' && lowerQuery !== 'transfer-pricing' && !allItems.some((item) => item.label.toLowerCase() === lowerQuery)) {
+          const cleanLower = lowerQuery.replace(/[^a-z0-9]/g, '');
+          if (cleanQuery && cleanLower !== 'transferpricing' && !allItems.some((item) => item.label.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanLower)) {
             allItems.push({
               label: cleanQuery,
               href: `/search?q=${encodeURIComponent(cleanQuery)}`,
@@ -394,7 +395,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       if (!label || !label.trim()) return;
       const cleanLabel = label.trim();
       const lowerLabel = cleanLabel.toLowerCase();
-      if (lowerLabel === 'transfer pricing' || lowerLabel === 'transfer-pricing') return;
+      const cleanLower = lowerLabel.replace(/[^a-z0-9]/g, '');
+      if (cleanLower === 'transferpricing' || cleanLower.includes('transferpricing')) return;
       
       const stored = localStorage.getItem('search_clicks');
       const counts = stored ? JSON.parse(stored) : {};
@@ -406,7 +408,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       Object.keys(counts).forEach((query) => {
         const cleanQuery = query.trim();
         const lowerQuery = cleanQuery.toLowerCase();
-        if (cleanQuery && lowerQuery !== 'transfer pricing' && lowerQuery !== 'transfer-pricing' && !allItems.some((item) => item.label.toLowerCase() === lowerQuery)) {
+        const cleanLower = lowerQuery.replace(/[^a-z0-9]/g, '');
+        if (cleanQuery && cleanLower !== 'transferpricing' && !allItems.some((item) => item.label.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanLower)) {
           allItems.push({
             label: cleanQuery,
             href: `/search?q=${encodeURIComponent(cleanQuery)}`,

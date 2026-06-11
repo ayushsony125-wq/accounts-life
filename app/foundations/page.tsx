@@ -74,10 +74,10 @@ export default function FoundationsDomainPage() {
 
       <div className="flex flex-wrap items-center gap-4 mb-6">
         <BackButton fallbackPath="/" />
-              </div>
+      </div>
 
       {/* Domain Header */}
-      <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
+      <header className="mb-10 pb-8 border-b border-[#E2E1DD] dark:border-gray-800">
         <div className="flex items-start gap-4 flex-wrap">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-3">
@@ -94,10 +94,10 @@ export default function FoundationsDomainPage() {
                 Active
               </span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-[#1C1C1E] tracking-tight leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold text-[#1C1C1E] dark:text-white tracking-tight leading-tight">
               {DOMAIN.domainName}
             </h1>
-            <p className="mt-3 text-base text-[#4A4A52] font-reading leading-relaxed max-w-2xl">
+            <p className="mt-3 text-base text-[#4A4A52] dark:text-gray-300 font-reading leading-relaxed max-w-2xl">
               {DOMAIN.domainDescription}
             </p>
           </div>
@@ -106,21 +106,21 @@ export default function FoundationsDomainPage() {
         {/* Domain stats */}
         <dl className="mt-6 flex flex-wrap gap-6">
           <div>
-            <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Entries</dt>
-            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E]">
+            <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Entries</dt>
+            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E] dark:text-white">
               {DOMAIN.entryCount}
-              <span className="text-sm font-normal text-[#A0A0A8] ml-1">
+              <span className="text-sm font-normal text-[#A0A0A8] dark:text-gray-500 ml-1">
                 of {DOMAIN.plannedEntryCount} planned
               </span>
             </dd>
           </div>
           <div>
-            <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Subdomains</dt>
-            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E]">{DOMAIN.subdomains.length}</dd>
+            <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Subdomains</dt>
+            <dd className="mt-0.5 text-lg font-bold text-[#1C1C1E] dark:text-white">{DOMAIN.subdomains.length}</dd>
           </div>
           <div>
-            <dt className="text-xs text-[#76767E] font-medium uppercase tracking-wider">Authority</dt>
-            <dd className="mt-0.5 text-sm font-semibold text-[#1C1C1E]">ICAI / AS Standards</dd>
+            <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Authority</dt>
+            <dd className="mt-0.5 text-sm font-semibold text-[#1C1C1E] dark:text-white">ICAI / AS Standards</dd>
           </div>
         </dl>
       </header>
@@ -145,7 +145,7 @@ export default function FoundationsDomainPage() {
           <section aria-labelledby="featured-heading" className="mb-12">
             <h2
               id="featured-heading"
-              className="text-lg font-bold text-[#1C1C1E] mb-5 tracking-tight"
+              className="text-lg font-bold text-[#1C1C1E] dark:text-white mb-5 tracking-tight"
             >
               Featured Topics
             </h2>
@@ -154,17 +154,17 @@ export default function FoundationsDomainPage() {
                 <Link
                   key={topic.slug}
                   href={`/foundations/${topic.subSlug}/${topic.slug}`}
-                  className="group flex flex-col gap-3 p-4 rounded-lg border border-[#E2E1DD] bg-white hover:border-[#C8C7C2] hover:shadow-sm transition-all"
+                  className="group flex flex-col gap-3 p-4 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-sm transition-all"
                 >
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-sm font-semibold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug">
+                    <span className="text-sm font-semibold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors leading-snug">
                       {topic.title}
                     </span>
                     {topic.verified && (
                       <CheckCircle2 size={14} className="text-[#1A7A4A] shrink-0" aria-label="Verified" />
                     )}
                   </div>
-                  <p className="text-xs text-[#76767E] leading-relaxed">{topic.summary}</p>
+                  <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">{topic.summary}</p>
                   <div className="flex items-center gap-1 text-xs text-[#2D5BE3] mt-auto">
                     <span>Read entry</span>
                     <ArrowRight size={11} />
@@ -178,7 +178,7 @@ export default function FoundationsDomainPage() {
           <section aria-labelledby="learning-path-heading" className="mb-12">
             <h2
               id="learning-path-heading"
-              className="text-lg font-bold text-[#1C1C1E] mb-5 tracking-tight"
+              className="text-lg font-bold text-[#1C1C1E] dark:text-white mb-5 tracking-tight"
             >
               Suggested Learning Path
             </h2>
@@ -187,7 +187,7 @@ export default function FoundationsDomainPage() {
                 <li key={step}>
                   <Link
                     href={href}
-                    className="group flex items-center gap-4 p-4 rounded-lg border border-[#E2E1DD] bg-white hover:border-[#2D5BE3] hover:shadow-sm transition-all"
+                    className="group flex items-center gap-4 p-4 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#2D5BE3] dark:hover:border-blue-700 hover:shadow-sm transition-all"
                   >
                     <span
                       className="flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold shrink-0 text-white"
@@ -196,7 +196,7 @@ export default function FoundationsDomainPage() {
                     >
                       {step}
                     </span>
-                    <span className="text-sm font-medium text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors">
+                    <span className="text-sm font-medium text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors">
                       {label}
                     </span>
                     <ArrowRight
@@ -214,7 +214,7 @@ export default function FoundationsDomainPage() {
           <section aria-labelledby="subdomains-heading">
             <h2
               id="subdomains-heading"
-              className="text-lg font-bold text-[#1C1C1E] mb-5 tracking-tight"
+              className="text-lg font-bold text-[#1C1C1E] dark:text-white mb-5 tracking-tight"
             >
               Browse by Topic
             </h2>
@@ -223,7 +223,7 @@ export default function FoundationsDomainPage() {
                 <Link
                   key={sub.slug}
                   href={`/foundations/${sub.slug}`}
-                  className="group flex items-center justify-between p-4 rounded-lg border border-[#E2E1DD] bg-white hover:border-[#C8C7C2] hover:shadow-sm transition-all"
+                  className="group flex items-center justify-between p-4 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-sm transition-all"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     <BookOpen
@@ -233,11 +233,11 @@ export default function FoundationsDomainPage() {
                       aria-hidden="true"
                     />
                     <div className="min-w-0">
-                      <p className="text-sm font-semibold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors truncate">
+                      <p className="text-sm font-semibold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors truncate">
                         {sub.name}
                       </p>
                       {sub.entryCount > 0 && (
-                        <p className="text-xs text-[#76767E] mt-0.5">
+                        <p className="text-xs text-[#76767E] dark:text-gray-400 mt-0.5">
                           {sub.entryCount} {sub.entryCount === 1 ? 'entry' : 'entries'}
                         </p>
                       )}

@@ -171,7 +171,7 @@ function renderSubdomainView({
         <BackButton fallbackPath={`/${domainSlug}`} />
       </div>
 
-      <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
+      <header className="mb-10 pb-8 border-b border-[#E2E1DD] dark:border-gray-800">
         <span
           className="text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded inline-block mb-3"
           style={{
@@ -181,26 +181,26 @@ function renderSubdomainView({
         >
           Subdomain
         </span>
-        <h1 className="text-3xl font-bold text-[#1C1C1E] tracking-tight leading-tight">
+        <h1 className="text-3xl font-bold text-[#1C1C1E] dark:text-white tracking-tight leading-tight">
           {subdomainName}
         </h1>
         {subdomainDescription && (
-          <p className="mt-3 text-base text-[#4A4A52] font-reading leading-relaxed max-w-2xl">
+          <p className="mt-3 text-base text-[#4A4A52] dark:text-gray-300 font-reading leading-relaxed max-w-2xl">
             {subdomainDescription}
           </p>
         )}
       </header>
 
       <main className="min-w-0 max-w-3xl">
-        <h2 className="text-lg font-bold text-[#1C1C1E] mb-5 tracking-tight">
+        <h2 className="text-lg font-bold text-[#1C1C1E] dark:text-white mb-5 tracking-tight">
           Guides & Articles
         </h2>
 
         {entries.length === 0 ? (
-          <div className="p-6 rounded-lg border border-dashed border-[#E2E1DD] bg-white text-center">
+          <div className="p-6 rounded-lg border border-dashed border-[#E2E1DD] dark:border-gray-700 bg-white dark:bg-[#1E2640] text-center">
             <BookOpen size={24} className="mx-auto text-[#A0A0A8] mb-2" />
-            <p className="text-sm font-medium text-[#4A4A52]">No articles published yet</p>
-            <p className="text-xs text-[#76767E] mt-1">Our editors are currently curating content for this section.</p>
+            <p className="text-sm font-medium text-[#4A4A52] dark:text-gray-300">No articles published yet</p>
+            <p className="text-xs text-[#76767E] dark:text-gray-400 mt-1">Our editors are currently curating content for this section.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -208,17 +208,17 @@ function renderSubdomainView({
               <Link
                 key={entry.entrySlug}
                 href={`/${domainSlug}/${subdomainSlug}/${entry.entrySlug}`}
-                className="group block p-5 rounded-lg border border-[#E2E1DD] bg-white hover:border-[#C8C7C2] hover:shadow-sm transition-all"
+                className="group block p-5 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-sm transition-all"
               >
                 <div className="flex items-center justify-between gap-4 mb-2">
-                  <h3 className="text-base font-semibold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-snug">
+                  <h3 className="text-base font-semibold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors leading-snug">
                     {entry.entryTitle}
                   </h3>
                   {entry.verificationLevel === 'VERIFIED' && (
                     <CheckCircle2 size={14} className="text-[#1A7A4A] shrink-0" aria-label="Verified" />
                   )}
                 </div>
-                <p className="text-sm text-[#76767E] leading-relaxed mb-3 line-clamp-2">
+                <p className="text-sm text-[#76767E] dark:text-gray-400 leading-relaxed mb-3 line-clamp-2">
                   {entry.summary}
                 </p>
                 <div className="flex items-center gap-1 text-xs font-semibold text-[#2D5BE3]">
