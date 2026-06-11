@@ -36,7 +36,7 @@ const NAV_ITEMS: NavItem[] = [
   },
   { label: 'Income Tax', href: '/search?q=Income%20Tax' },
   { label: 'GST', href: '/search?q=GST' },
-  { label: 'Law', href: '/search?q=Law' },
+  { label: 'Corporate Law', href: '/search?q=Corporate+Law' },
   {
     label: 'Finance & Other',
     dropdown: [
@@ -137,7 +137,7 @@ export default function Header() {
           {/* Logo & Brand */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 group shrink-0 mr-2 xl:mr-4 2xl:mr-8"
+            className="flex items-center gap-2.5 group shrink-0 mr-2 xl:mr-3 2xl:mr-4"
             aria-label="Accounts.One — Home"
           >
             {/* Premium A1 Geometric logo */}
@@ -162,14 +162,14 @@ export default function Header() {
                 <span className="font-sans font-bold text-[18px] tracking-tight text-[#2D5BE3] dark:text-[#60A5FA]">.</span>
                 <span className="font-sans font-bold text-[18px] tracking-tight text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors">One</span>
               </div>
-              <span className="hidden 2xl:block text-[10px] text-[#76767E] dark:text-gray-400 font-medium leading-none mt-0.5 whitespace-nowrap">
+              <span className="hidden min-[1800px]:block text-[10px] text-[#76767E] dark:text-gray-400 font-medium leading-none mt-0.5 whitespace-nowrap">
                 The Operating System for Professional Excellence
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-1 xl:gap-1.5 2xl:gap-3 flex-nowrap" aria-label="Main navigation">
+          <nav className="hidden xl:flex items-center gap-1 xl:gap-1 2xl:gap-1.5 flex-nowrap" aria-label="Main navigation">
             {NAV_ITEMS.map((item) =>
               item.dropdown ? (
                 <div
@@ -179,7 +179,7 @@ export default function Header() {
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button
-                    className={`flex items-center gap-1 px-2 xl:px-2.5 2xl:px-4 py-2 rounded-md text-[13px] xl:text-sm 2xl:text-[15px] font-semibold whitespace-nowrap transition-colors ${
+                    className={`flex items-center gap-1 px-2 xl:px-2 2xl:px-2.5 py-2 rounded-md text-[12.5px] xl:text-[13px] 2xl:text-[13px] font-semibold whitespace-nowrap transition-colors ${
                       isActive(item)
                         ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                         : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -216,7 +216,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  className={`px-2 xl:px-2.5 2xl:px-4 py-2 rounded-md text-[13px] xl:text-sm 2xl:text-[15px] font-semibold whitespace-nowrap transition-colors ${
+                  className={`px-2 xl:px-2 2xl:px-2.5 py-2 rounded-md text-[12.5px] xl:text-[13px] 2xl:text-[13px] font-semibold whitespace-nowrap transition-colors ${
                     isActive(item)
                       ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                       : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -229,7 +229,7 @@ export default function Header() {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-2 xl:gap-2.5 2xl:gap-3 shrink-0 ml-auto">
+          <div className="flex items-center gap-1.5 xl:gap-2 2xl:gap-2.5 shrink-0 ml-auto">
             {/* Search Bar Form (Homepage Only) */}
             {pathname === '/' && (
               <form onSubmit={handleSearchSubmit} className="hidden 2xl:flex relative items-center">
@@ -238,7 +238,7 @@ export default function Header() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search..."
-                  className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white dark:focus:bg-[#161C2C] text-xs font-medium pl-3 pr-8 py-1.5 w-36 2xl:w-48 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] dark:text-white"
+                  className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white dark:focus:bg-[#161C2C] text-xs font-medium pl-3 pr-8 py-1.5 w-32 xl:w-36 2xl:w-40 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] dark:text-white"
                 />
                 <Search size={13} className="absolute right-2.5 text-[#76767E] dark:text-gray-400 pointer-events-none" />
               </form>

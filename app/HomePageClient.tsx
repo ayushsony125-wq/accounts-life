@@ -86,11 +86,11 @@ const PROFESSIONAL_DOMAINS = [
 ]
 
 const POPULAR_SEARCHES = [
-  { label: 'AS 1 Disclosure', href: '/search?q=AS+1' },
-  { label: 'Revenue Recognition', href: '/search?q=Revenue+Recognition' },
-  { label: 'ITR Due Dates', href: '/search?q=ITR+Due+Dates' },
-  { label: 'Audit Evidence', href: '/search?q=Audit+Evidence' },
-  { label: 'Input Tax Credit', href: '/search?q=Input+Tax+Credit' },
+  { label: 'Section 194Q', href: '/search?q=Section+194Q' },
+  { label: 'ITC on Expenses', href: '/search?q=ITC+on+Expenses' },
+  { label: 'Ind AS 115', href: '/search?q=Ind+AS+115' },
+  { label: 'SA 315', href: '/search?q=SA+315' },
+  { label: 'CASH FLOW', href: '/search?q=Cash+Flow' },
 ]
 
 const TRUST_POINTS = [
