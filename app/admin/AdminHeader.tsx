@@ -28,7 +28,7 @@ export default function AdminHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-50 h-14 bg-[#1A1E2A] text-[#F0F0EF] shadow-md px-6 flex items-center justify-between">
+    <header className="fixed top-0 left-0 right-0 z-50 h-14 bg-[#1A1E2A] text-[#F0F0EF] shadow-md px-6 flex items-center justify-between">
       {/* Brand logo & public site link */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2">

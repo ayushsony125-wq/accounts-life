@@ -153,12 +153,11 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] dark:bg-[#0B0F19] flex flex-col items-center justify-center px-6 py-12 transition-colors relative">
-      <div className="absolute top-6 left-6 sm:left-8">
-        <BackButton fallbackPath="/" />
-      </div>
-      
+    <div className="min-h-screen bg-[#FAFAF8] dark:bg-[#0B0F19] flex flex-col items-center justify-center px-6 py-16 transition-colors relative">
       <div className="w-full max-w-md bg-white dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-lg shadow-sm p-8">
+        <div className="mb-4">
+          <BackButton fallbackPath="/" />
+        </div>
         {/* Brand logo header */}
         <div className="flex flex-col items-center text-center mb-6">
           <svg className="w-[48px] h-[38px] shrink-0 mb-3" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">

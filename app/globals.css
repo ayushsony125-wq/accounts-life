@@ -53,7 +53,6 @@
   html {
     scroll-behavior: smooth;
     max-width: 100%;
-    overflow-x: hidden;
   }
 
   body {
@@ -63,7 +62,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     max-width: 100%;
-    overflow-x: hidden;
   }
 
   /* Reading text uses Lora */

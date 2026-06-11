@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect, useRef } from 'react'
 import { Search, Menu, X, ChevronDown, ShieldCheck, Bell, Moon, Sun, FileText } from 'lucide-react'
+import HeaderSearch from '@/components/layout/HeaderSearch'
+import SearchPalette from '@/components/ui/SearchPalette'
 
 interface DropdownItem {
   label: string
@@ -61,6 +63,7 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [darkMode, setDarkMode] = useState(false)
+  const [isSearchPaletteOpen, setIsSearchPaletteOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -123,8 +126,8 @@ export default function Header() {
     return false
   }
 
-  // Hide global header on all admin routes
-  if (pathname && pathname.startsWith('/admin')) {
+  // Hide global header on all admin routes except login
+  if (pathname && pathname.startsWith('/admin') && pathname !== '/admin/login') {
     return null
   }
 
@@ -230,19 +233,20 @@ export default function Header() {
 
           {/* Right Actions */}
           <div className="flex items-center gap-1.5 xl:gap-2 2xl:gap-2 shrink-0 ml-auto">
-            {/* Search Bar Form (Homepage Only) */}
-            {pathname === '/' && (
-              <form onSubmit={handleSearchSubmit} className="hidden 2xl:flex relative items-center">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search..."
-                  className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white dark:focus:bg-[#161C2C] text-xs font-medium pl-3 pr-8 py-1.5 w-32 xl:w-36 2xl:w-32 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] dark:text-white"
-                />
-                <Search size={13} className="absolute right-2.5 text-[#76767E] dark:text-gray-400 pointer-events-none" />
-              </form>
-            )}
+            {/* Global Search Bar (Desktop) */}
+            <div className="hidden xl:block">
+              <HeaderSearch />
+            </div>
+
+            {/* Mobile Search Button */}
+            <button
+              type="button"
+              onClick={() => setIsSearchPaletteOpen(true)}
+              className="xl:hidden flex items-center justify-center p-1.5 rounded-md text-[#76767E] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-colors"
+              aria-label="Search topics and standards"
+            >
+              <Search size={14} />
+            </button>
 
             {/* Dark Mode Toggle Button */}
             <button
@@ -278,18 +282,16 @@ export default function Header() {
         <div className="xl:hidden fixed inset-0 top-16 z-40 bg-white dark:bg-[#0B0F19] overflow-y-auto border-t border-[#E2E1DD] dark:border-gray-800">
           <nav className="px-4 py-4 flex flex-col gap-3" aria-label="Mobile navigation">
             {/* Mobile Search */}
-            {pathname === '/' && (
-              <form onSubmit={handleSearchSubmit} className="relative flex items-center w-full mb-2">
-                <Search size={14} className="absolute left-2.5 text-[#76767E] dark:text-gray-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search resources..."
-                  className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 text-xs font-medium pl-8 pr-3 py-2 w-full rounded-md outline-none dark:text-white"
-                />
-              </form>
-            )}
+            <button
+              onClick={() => {
+                setMobileOpen(false)
+                setIsSearchPaletteOpen(true)
+              }}
+              className="relative flex items-center w-full mb-2 text-left bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 text-xs font-semibold pl-8 pr-3 py-2.5 rounded-md text-gray-400 dark:text-gray-400 transition-colors"
+            >
+              <Search size={14} className="absolute left-2.5 text-[#76767E] dark:text-gray-400" />
+              <span>Search topics, calculators...</span>
+            </button>
 
             {NAV_ITEMS.map((item) => (
               <div key={item.label} className="border-b border-[#F4F3F0] dark:border-gray-800 pb-2">
@@ -331,6 +333,9 @@ export default function Header() {
           </nav>
         </div>
       )}
+
+      {/* Search Palette Modal */}
+      <SearchPalette isOpen={isSearchPaletteOpen} onClose={() => setIsSearchPaletteOpen(false)} />
     </div>
   )
 }
