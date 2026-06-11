@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   ArrowRight,
   Search,
@@ -280,6 +280,28 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
   const [subscribing, setSubscribing] = useState(false)
   const [subscribeError, setSubscribeError] = useState<string | null>(null)
 
+  // One-time cleanup of junk localStorage search_clicks on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('search_clicks')
+      if (stored) {
+        const counts = JSON.parse(stored)
+        const cleaned: Record<string, number> = {}
+        Object.keys(counts).forEach((key) => {
+          const cleanKey = key.trim()
+          const cleanLower = cleanKey.toLowerCase().replace(/[^a-z0-9]/g, '')
+          const hasLetter = /[a-zA-Z]/.test(cleanKey)
+          const isLong = cleanLower.length >= 4
+          const isBlocked = cleanLower === 'transferpricing' || cleanLower.includes('transferpricing')
+          if (cleanKey && hasLetter && isLong && !isBlocked) {
+            cleaned[cleanKey] = counts[key]
+          }
+        })
+        localStorage.setItem('search_clicks', JSON.stringify(cleaned))
+      }
+    } catch {}
+  }, [])
+
   const resolveIcon = (icon: any) => {
     if (!icon) return BookOpen
     if (typeof icon !== 'string') return icon
@@ -372,7 +394,10 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
           const cleanQuery = query.trim();
           const lowerQuery = cleanQuery.toLowerCase();
           const cleanLower = lowerQuery.replace(/[^a-z0-9]/g, '');
-          if (cleanQuery && cleanLower !== 'transferpricing' && !allItems.some((item) => item.label.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanLower)) {
+          const hasLetter = /[a-zA-Z]/.test(cleanQuery);
+          const isLongEnough = cleanLower.length >= 4;
+          const isBlocked = cleanLower === 'transferpricing' || cleanLower.includes('transferpricing');
+          if (cleanQuery && hasLetter && isLongEnough && !isBlocked && !allItems.some((item) => item.label.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanLower)) {
             allItems.push({
               label: cleanQuery,
               href: `/search?q=${encodeURIComponent(cleanQuery)}`,
@@ -396,7 +421,9 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       const cleanLabel = label.trim();
       const lowerLabel = cleanLabel.toLowerCase();
       const cleanLower = lowerLabel.replace(/[^a-z0-9]/g, '');
-      if (cleanLower === 'transferpricing' || cleanLower.includes('transferpricing')) return;
+      const hasLetter = /[a-zA-Z]/.test(cleanLabel);
+      const isLongEnough = cleanLower.length >= 4;
+      if (!hasLetter || !isLongEnough || cleanLower === 'transferpricing' || cleanLower.includes('transferpricing')) return;
       
       const stored = localStorage.getItem('search_clicks');
       const counts = stored ? JSON.parse(stored) : {};
@@ -409,7 +436,10 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
         const cleanQuery = query.trim();
         const lowerQuery = cleanQuery.toLowerCase();
         const cleanLower = lowerQuery.replace(/[^a-z0-9]/g, '');
-        if (cleanQuery && cleanLower !== 'transferpricing' && !allItems.some((item) => item.label.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanLower)) {
+        const qHasLetter = /[a-zA-Z]/.test(cleanQuery);
+        const qIsLong = cleanLower.length >= 4;
+        const qIsBlocked = cleanLower === 'transferpricing' || cleanLower.includes('transferpricing');
+        if (cleanQuery && qHasLetter && qIsLong && !qIsBlocked && !allItems.some((item) => item.label.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanLower)) {
           allItems.push({
             label: cleanQuery,
             href: `/search?q=${encodeURIComponent(cleanQuery)}`,
@@ -477,15 +507,15 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 Search
               </button>
             </form>
-            <div className="mt-4 flex flex-row flex-nowrap items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none pb-1 w-full max-w-2xl">
-              <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0">Trending searches:</span>
-              <div className="flex flex-row gap-2 flex-nowrap whitespace-nowrap">
+            <div className="mt-4 w-full max-w-2xl overflow-hidden">
+              <div className="flex flex-row flex-nowrap items-center gap-2 overflow-x-auto scrollbar-none">
+                <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0 whitespace-nowrap">Trending:</span>
                 {trendingSearches.map((s: any) => (
                   <Link
                     key={s.label}
                     href={s.href}
                     onClick={() => trackSearchClick(s.label)}
-                    className="text-xs text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-3 py-1 rounded-full transition-all font-medium shrink-0 inline-block"
+                    className="text-xs text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-3 py-1 rounded-full transition-all font-medium shrink-0 whitespace-nowrap inline-block"
                   >
                     {s.label}
                   </Link>

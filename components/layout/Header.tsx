@@ -137,7 +137,7 @@ export default function Header() {
           {/* Logo & Brand */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 group shrink-0 mr-4 xl:mr-6 2xl:mr-8"
+            className="flex items-center gap-2.5 group shrink-0 mr-2 xl:mr-4 2xl:mr-8"
             aria-label="Accounts.One — Home"
           >
             {/* Premium A1 Geometric logo */}
@@ -169,7 +169,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-1.5 xl:gap-2.5 2xl:gap-4 flex-nowrap" aria-label="Main navigation">
+          <nav className="hidden xl:flex items-center gap-1 xl:gap-1.5 2xl:gap-3 flex-nowrap" aria-label="Main navigation">
             {NAV_ITEMS.map((item) =>
               item.dropdown ? (
                 <div
@@ -179,7 +179,7 @@ export default function Header() {
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button
-                    className={`flex items-center gap-1 px-2.5 xl:px-3 2xl:px-4 py-2 rounded-md text-sm xl:text-[14.5px] 2xl:text-[15.5px] font-semibold whitespace-nowrap transition-colors ${
+                    className={`flex items-center gap-1 px-2 xl:px-2.5 2xl:px-4 py-2 rounded-md text-[13px] xl:text-sm 2xl:text-[15px] font-semibold whitespace-nowrap transition-colors ${
                       isActive(item)
                         ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                         : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -216,7 +216,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  className={`px-2.5 xl:px-3 2xl:px-4 py-2 rounded-md text-sm xl:text-[14.5px] 2xl:text-[15.5px] font-semibold whitespace-nowrap transition-colors ${
+                  className={`px-2 xl:px-2.5 2xl:px-4 py-2 rounded-md text-[13px] xl:text-sm 2xl:text-[15px] font-semibold whitespace-nowrap transition-colors ${
                     isActive(item)
                       ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                       : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -232,13 +232,13 @@ export default function Header() {
           <div className="flex items-center gap-2 xl:gap-2.5 2xl:gap-3 shrink-0 ml-auto">
             {/* Search Bar Form (Homepage Only) */}
             {pathname === '/' && (
-              <form onSubmit={handleSearchSubmit} className="hidden xl:flex relative items-center">
+              <form onSubmit={handleSearchSubmit} className="hidden 2xl:flex relative items-center">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search..."
-                  className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white dark:focus:bg-[#161C2C] text-xs font-medium pl-3 pr-8 py-1.5 w-28 xl:w-32 2xl:w-44 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] dark:text-white"
+                  className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white dark:focus:bg-[#161C2C] text-xs font-medium pl-3 pr-8 py-1.5 w-36 2xl:w-48 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] dark:text-white"
                 />
                 <Search size={13} className="absolute right-2.5 text-[#76767E] dark:text-gray-400 pointer-events-none" />
               </form>
@@ -256,7 +256,7 @@ export default function Header() {
  
             <Link
               href="/admin/login"
-              className="bg-[#2D5BE3] text-white px-4 py-2 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm whitespace-nowrap shrink-0 block"
+              className="bg-[#2D5BE3] text-white px-3 xl:px-4 py-1.5 xl:py-2 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm whitespace-nowrap shrink-0 block"
             >
               Sign Up / Login
             </Link>
