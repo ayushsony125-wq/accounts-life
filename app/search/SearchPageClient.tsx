@@ -153,10 +153,10 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
               </div>
 
       <header className="mb-10">
-        <h1 className="text-3xl font-bold tracking-tight text-[#1C1C1E] leading-tight">
+        <h1 className="text-3xl font-bold tracking-tight text-[#1C1C1E] dark:text-white leading-tight">
           Operating System Search
         </h1>
-        <p className="mt-2 text-sm text-[#4A4A52]">
+        <p className="mt-2 text-sm text-[#4A4A52] dark:text-gray-300">
           Search across {searchIndex.length} concepts, standards, journal entries, and glossary definitions.
         </p>
       </header>
@@ -164,15 +164,15 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
       {/* Main layout grid */}
       <div className="grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 items-start">
         {/* Left Column: Sidebar Filters */}
-        <aside className="lg:sticky lg:top-24 bg-white p-5 rounded-lg border border-[#E2E1DD] shadow-xs">
-          <div className="flex items-center justify-between pb-4 border-b border-[#E2E1DD] mb-5">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#1C1C1E] flex items-center gap-1.5">
+        <aside className="lg:sticky lg:top-24 bg-white dark:bg-[#1E2640] p-5 rounded-lg border border-[#E2E1DD] dark:border-gray-800 shadow-xs">
+          <div className="flex items-center justify-between pb-4 border-b border-[#E2E1DD] dark:border-gray-800 mb-5">
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1C1C1E] dark:text-white flex items-center gap-1.5">
               <SlidersHorizontal size={12} /> Filters
             </span>
             {hasActiveFilters && (
               <button
                 onClick={handleClearFilters}
-                className="text-xs font-semibold text-[#2D5BE3] hover:underline"
+                className="text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:underline"
               >
                 Clear all
               </button>
@@ -181,14 +181,14 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
 
           {/* Filter by Entry Type */}
           <div className="mb-6">
-            <label htmlFor="type-filter" className="block text-xs font-semibold uppercase tracking-wider text-[#76767E] mb-2">
+            <label htmlFor="type-filter" className="block text-xs font-semibold uppercase tracking-wider text-[#76767E] dark:text-gray-400 mb-2">
               Entry Type
             </label>
             <select
               id="type-filter"
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              className="w-full text-xs bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-3 py-2 text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3] focus:ring-1 focus:ring-[#2D5BE3]"
+              className="w-full text-xs bg-[#F4F3F0] dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-md px-3 py-2 text-[#1C1C1E] dark:text-white focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:ring-1 focus:ring-[#2D5BE3]"
             >
               <option value="ALL">All Types</option>
               <option value="CONCEPT">Concepts</option>
@@ -200,14 +200,14 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
 
           {/* Filter by Domain */}
           <div className="mb-6">
-            <label htmlFor="domain-filter" className="block text-xs font-semibold uppercase tracking-wider text-[#76767E] mb-2">
+            <label htmlFor="domain-filter" className="block text-xs font-semibold uppercase tracking-wider text-[#76767E] dark:text-gray-400 mb-2">
               Domain
             </label>
             <select
               id="domain-filter"
               value={selectedDomain}
               onChange={(e) => setSelectedDomain(e.target.value)}
-              className="w-full text-xs bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-3 py-2 text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3] focus:ring-1 focus:ring-[#2D5BE3] truncate"
+              className="w-full text-xs bg-[#F4F3F0] dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-md px-3 py-2 text-[#1C1C1E] dark:text-white focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:ring-1 focus:ring-[#2D5BE3] truncate"
             >
               <option value="ALL">All Domains</option>
               {availableDomains.map((d) => (
@@ -219,15 +219,15 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
           </div>
 
           {/* Grouping Toggle */}
-          <div className="pt-4 border-t border-[#E2E1DD]">
+          <div className="pt-4 border-t border-[#E2E1DD] dark:border-gray-800">
             <label className="flex items-center gap-2 cursor-pointer select-none">
               <input
                 type="checkbox"
                 checked={groupByDomain}
                 onChange={(e) => setGroupByDomain(e.target.checked)}
-                className="w-3.5 h-3.5 rounded-xs border-[#E2E1DD] text-[#2D5BE3] focus:ring-[#2D5BE3]"
+                className="w-3.5 h-3.5 rounded-xs border-[#E2E1DD] dark:border-gray-700 text-[#2D5BE3] focus:ring-[#2D5BE3]"
               />
-              <span className="text-xs font-medium text-[#4A4A52]">Group results by domain</span>
+              <span className="text-xs font-medium text-[#4A4A52] dark:text-gray-300">Group results by domain</span>
             </label>
           </div>
         </aside>
@@ -236,7 +236,7 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
         <div className="space-y-6">
           {/* Search Bar Input */}
           <div className="relative">
-            <Search className="absolute left-4 top-3.5 text-[#76767E]" size={20} />
+            <Search className="absolute left-4 top-3.5 text-[#76767E] dark:text-gray-400" size={20} />
             <input
               id="search-input"
               type="text"
@@ -244,13 +244,13 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
               placeholder="Search concepts, standards (e.g. 'AS 1'), journal entries, or definitions..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-12 pr-12 py-3.5 text-sm bg-white border border-[#E2E1DD] rounded-lg shadow-sm focus:outline-none focus:border-[#2D5BE3] focus:ring-1 focus:ring-[#2D5BE3] font-reading text-[#1C1C1E]"
+              className="w-full pl-12 pr-12 py-3.5 text-sm bg-white dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-lg shadow-sm focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:ring-1 focus:ring-[#2D5BE3] font-reading text-[#1C1C1E] dark:text-white"
               autoFocus
             />
             {query && (
               <button
                 onClick={() => setQuery('')}
-                className="absolute right-4 top-4 text-[#76767E] hover:text-[#1C1C1E]"
+                className="absolute right-4 top-4 text-[#76767E] dark:text-gray-400 hover:text-[#1C1C1E] dark:hover:text-white"
                 aria-label="Clear search query"
               >
                 <X size={16} />
@@ -262,19 +262,19 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
           <main aria-label="Search results">
             {/* Case 1: Empty Query / Introductory State */}
             {!query.trim() && (
-              <div className="p-8 rounded-lg border border-[#E2E1DD] bg-white text-center">
+              <div className="p-8 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] text-center">
                 <Search size={36} className="text-[#A0A0A8] mx-auto mb-4" />
-                <h3 className="text-base font-bold text-[#1C1C1E]">Begin searching the operating system</h3>
-                <p className="mt-2 text-xs text-[#76767E] max-w-sm mx-auto leading-relaxed">
+                <h3 className="text-base font-bold text-[#1C1C1E] dark:text-white">Begin searching the operating system</h3>
+                <p className="mt-2 text-xs text-[#76767E] dark:text-gray-400 max-w-sm mx-auto leading-relaxed">
                   Type standard numbers, concept names, or specific accounting principles. Full-text search queries will index everything.
                 </p>
                 <div className="mt-6 flex flex-wrap justify-center gap-2">
-                  <span className="text-xs text-[#76767E] font-medium py-1.5">Try searching:</span>
+                  <span className="text-xs text-[#76767E] dark:text-gray-400 font-medium py-1.5">Try searching:</span>
                   {POPULAR_SEARCHES.map((term) => (
                     <button
                       key={term}
                       onClick={() => setQuery(term)}
-                      className="text-xs bg-[#F4F3F0] hover:bg-[#EEF2FD] hover:text-[#2D5BE3] text-[#4A4A52] font-semibold px-3 py-1 rounded-full transition-all border border-transparent hover:border-[#2D5BE3]"
+                      className="text-xs bg-[#F4F3F0] dark:bg-[#111726] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] text-[#4A4A52] dark:text-gray-300 font-semibold px-3 py-1 rounded-full transition-all border border-transparent hover:border-[#2D5BE3]"
                     >
                       {term}
                     </button>
@@ -285,16 +285,16 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
 
             {/* Case 2: Query entered, but 0 results */}
             {query.trim() && results.length === 0 && (
-              <div className="p-8 rounded-lg border border-[#E2E1DD] bg-white text-center">
+              <div className="p-8 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] text-center">
                 <Tag size={36} className="text-[#A0A0A8] mx-auto mb-4" />
-                <h3 className="text-base font-bold text-[#1C1C1E]">No results found</h3>
-                <p className="mt-2 text-xs text-[#76767E] max-w-sm mx-auto leading-relaxed">
+                <h3 className="text-base font-bold text-[#1C1C1E] dark:text-white">No results found</h3>
+                <p className="mt-2 text-xs text-[#76767E] dark:text-gray-400 max-w-sm mx-auto leading-relaxed">
                   We couldn&apos;t find any entries matching &quot;{query}&quot;. Try checking your spelling or clearing active filters.
                 </p>
                 {hasActiveFilters && (
                   <button
                     onClick={handleClearFilters}
-                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#2D5BE3] hover:underline"
+                    className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:underline"
                   >
                     Clear Filters <ArrowRight size={12} />
                   </button>
@@ -305,7 +305,7 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
             {/* Case 3: Flat listing of results */}
             {query.trim() && results.length > 0 && !groupByDomain && (
               <div className="space-y-3">
-                <p className="text-xs text-[#76767E] font-medium px-1 mb-2">
+                <p className="text-xs text-[#76767E] dark:text-gray-400 font-medium px-1 mb-2">
                   Found {results.length} {results.length === 1 ? 'match' : 'matches'} for &quot;{query}&quot;
                 </p>
                 {results.map((res) => (
@@ -332,7 +332,7 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
                   return (
                     <section key={domainName} aria-label={`Matches in ${domainName}`}>
                       {/* Section Domain Header */}
-                      <div className="flex items-center gap-2 pb-2 border-b border-[#E2E1DD] mb-4">
+                      <div className="flex items-center gap-2 pb-2 border-b border-[#E2E1DD] dark:border-gray-800 mb-4">
                         <span
                           className="text-xs font-bold px-1.5 py-0.5 rounded"
                           style={{
@@ -342,10 +342,10 @@ export default function SearchPageClient({ searchIndex }: SearchPageClientProps)
                         >
                           {domainCode}
                         </span>
-                        <h2 className="text-sm font-bold text-[#1C1C1E]">
+                        <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white">
                           {domainName}
                         </h2>
-                        <span className="text-xs text-[#76767E] font-medium ml-auto">
+                        <span className="text-xs text-[#76767E] dark:text-gray-400 font-medium ml-auto">
                           {items.length} {items.length === 1 ? 'match' : 'matches'}
                         </span>
                       </div>
@@ -391,7 +391,7 @@ function ResultCard({
   return (
     <Link
       href={`/${item.slug}`}
-      className="group block p-5 rounded-lg border border-[#E2E1DD] bg-white hover:border-[#C8C7C2] hover:shadow-xs transition-all relative overflow-hidden"
+      className="group block p-5 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-xs transition-all relative overflow-hidden"
       style={{
         borderLeft: `3px solid ${domainColor}`,
       }}
@@ -413,11 +413,11 @@ function ResultCard({
             <VerificationBadge level="VERIFIED" size="sm" />
           </div>
 
-          <h3 className="text-base font-bold text-[#1C1C1E] group-hover:text-[#2D5BE3] transition-colors leading-tight">
+          <h3 className="text-base font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-tight">
             {highlightText(item.title, getFieldIndices(matches, 'title'))}
           </h3>
 
-          <p className="mt-2 text-xs text-[#76767E] leading-relaxed line-clamp-2 font-reading">
+          <p className="mt-2 text-xs text-[#76767E] dark:text-gray-400 leading-relaxed line-clamp-2 font-reading">
             {highlightText(item.summary, getFieldIndices(matches, 'summary'))}
           </p>
         </div>
@@ -425,7 +425,7 @@ function ResultCard({
         {/* Hover Arrow indicator */}
         <ArrowRight
           size={16}
-          className="text-[#A0A0A8] group-hover:text-[#2D5BE3] transition-colors self-center shrink-0"
+          className="text-[#A0A0A8] group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors self-center shrink-0"
         />
       </div>
     </Link>
