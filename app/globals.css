@@ -219,5 +219,12 @@
   .scrollbar-none::-webkit-scrollbar {
     display: none;             /* Chrome/Safari/Opera */
   }
+
+  /* Redefine max-w-[1280px] to max-w-[1400px] on larger screens for improved global spacing */
+  @media (min-width: 1400px) {
+    .max-w-\[1280px\] {
+      max-width: 1400px !important;
+    }
+  }
 }
 

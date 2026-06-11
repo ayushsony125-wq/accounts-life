@@ -179,7 +179,7 @@ export default function Header() {
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button
-                    className={`flex items-center gap-1 px-2 xl:px-2 2xl:px-2 py-2 rounded-md text-[12.5px] xl:text-[13px] 2xl:text-[13px] font-semibold whitespace-nowrap transition-colors ${
+                    className={`flex items-center gap-1 px-2 md:px-2.5 xl:px-3 py-2 rounded-md text-[13.5px] xl:text-[14px] 2xl:text-[14.5px] font-semibold whitespace-nowrap transition-colors ${
                       isActive(item)
                         ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                         : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -216,7 +216,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  className={`px-2 xl:px-2 2xl:px-2 py-2 rounded-md text-[12.5px] xl:text-[13px] 2xl:text-[13px] font-semibold whitespace-nowrap transition-colors ${
+                  className={`px-2 md:px-2.5 xl:px-3 py-2 rounded-md text-[13.5px] xl:text-[14px] 2xl:text-[14.5px] font-semibold whitespace-nowrap transition-colors ${
                     isActive(item)
                       ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                       : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
