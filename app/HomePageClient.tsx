@@ -103,18 +103,18 @@ const TRUST_POINTS = [
 
 const QUICK_LINKS = [
   {
-    label: 'Calculators',
-    href: '/search?q=Calculators',
-    description: 'Financial & Tax calculators',
-    Icon: Calculator,
-    color: '#1A7A4A',
-  },
-  {
     label: 'TDS Calculator',
     href: '/search?q=TDS+Calculator',
     description: 'TDS rates, thresholds & utility',
     Icon: Calculator,
     color: '#0D9488',
+  },
+  {
+    label: 'Calculators',
+    href: '/search?q=Calculators',
+    description: 'Financial & Tax calculators',
+    Icon: Calculator,
+    color: '#1A7A4A',
   },
   {
     label: 'Standards Library',
