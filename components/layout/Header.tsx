@@ -256,7 +256,7 @@ export default function Header() {
  
             <Link
               href="/admin/login"
-              className="bg-[#2D5BE3] text-white px-3 xl:px-3.5 py-1.5 xl:py-2 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm whitespace-nowrap shrink-0 block"
+              className="hidden sm:block bg-[#2D5BE3] text-white px-3 xl:px-3.5 py-1.5 xl:py-2 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm whitespace-nowrap shrink-0"
             >
               Sign Up / Login
             </Link>
@@ -319,6 +319,15 @@ export default function Header() {
                 )}
               </div>
             ))}
+            {/* Mobile-only Login button in drawer */}
+            <div className="mt-4 px-2 sm:hidden">
+              <Link
+                href="/admin/login"
+                className="w-full bg-[#2D5BE3] text-white py-2.5 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm block text-center"
+              >
+                Sign Up / Login
+              </Link>
+            </div>
           </nav>
         </div>
       )}
