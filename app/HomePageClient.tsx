@@ -137,6 +137,13 @@ const QUICK_LINKS = [
     Icon: Calculator,
     color: '#1A7A4A',
   },
+  {
+    label: 'TDS Calculator',
+    href: '/search?q=TDS+Calculator',
+    description: 'TDS rates, thresholds & utility',
+    Icon: Calculator,
+    color: '#0D9488',
+  },
 ]
 
 const LATEST_UPDATES = [
@@ -425,12 +432,12 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
           <div className="flex flex-col">
             <h1
               id="hero-heading"
-              className="font-sans font-bold text-[#1C1C1E] dark:text-white leading-tight tracking-tight text-3xl sm:text-4xl"
+              className="font-sans font-bold text-[#1C1C1E] dark:text-white leading-tight tracking-tight text-3xl lg:text-[34px] xl:text-[36px]"
             >
               {heroTitle}<br />
               <span className="text-[#2D5BE3] dark:text-[#60A5FA]">{heroTitleSpan}</span>
             </h1>
-            <p className="mt-4 text-[15px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
+            <p className="mt-4 text-[14.5px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
               {heroSubtitle}
             </p>
             <form onSubmit={handleSearch} className="mt-7 relative max-w-2xl flex items-center">
@@ -444,12 +451,12 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for topics, sections, standards, rules, cases..."
-                  className="w-full bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] dark:hover:border-gray-700 focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:bg-white dark:focus:bg-[#161C2C] text-sm font-medium pl-10 pr-4 py-3.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] dark:text-gray-400 shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10 dark:focus:ring-[#60A5FA]/10"
+                  className="w-full bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] dark:hover:border-gray-700 focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:bg-white dark:focus:bg-[#161C2C] text-[13.5px] font-medium pl-10 pr-4 py-3 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] dark:text-gray-400 shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10 dark:focus:ring-[#60A5FA]/10"
                 />
               </div>
               <button
                 type="submit"
-                className="ml-3 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-sm font-bold px-6 py-3.5 rounded-lg transition-colors shadow-sm"
+                className="ml-3 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-xs font-bold px-6 py-3 rounded-lg transition-colors shadow-sm"
               >
                 Search
               </button>
@@ -505,7 +512,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
     <section
       key="domains"
       aria-labelledby="domains-heading"
-      className="bg-[#FAFAF8] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
+      className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
       <div className="max-w-[1280px] mx-auto px-6 py-12">
         <header className="flex items-start justify-between mb-8">
@@ -724,7 +731,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
     <section
       key="quickaccess"
       aria-labelledby="quickaccess-heading"
-      className="bg-[#FAFAF8] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
+      className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
       <div className="max-w-[1280px] mx-auto px-6 py-12">
         <header className="flex items-start justify-between mb-8">
@@ -741,7 +748,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
             <p className="text-sm text-[#76767E] dark:text-gray-400">{quickAccessSubheading}</p>
           </div>
         </header>
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           {quickAccessLinks.map((link: any) => {
             const QIcon = resolveIcon(link.Icon || link.IconName)
             return (
