@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers'
 import AdminHeader from './AdminHeader'
+import BackButton from '@/components/ui/BackButton'
 import crypto from 'crypto'
 
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-life-default-secret-key-321-at-least-32-chars-long'
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-one-default-secret-key-321-at-least-32-chars-long'
 
 function verifyToken(token: string): boolean {
   try {
@@ -30,9 +31,14 @@ export default function AdminLayout({
   const isAuthenticated = session ? verifyToken(session) : false
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] text-[#1C1C1E] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FAFAF8] dark:bg-[#0B0F19] text-[#1C1C1E] dark:text-white flex flex-col font-sans transition-colors">
       {isAuthenticated && <AdminHeader />}
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-8">
+        {isAuthenticated && (
+          <div className="mb-6">
+            <BackButton fallbackPath="/admin" />
+          </div>
+        )}
         {children}
       </main>
     </div>

@@ -31,11 +31,28 @@ export default function AdminHeader() {
     <header className="sticky top-0 z-40 h-14 bg-[#1A1E2A] text-[#F0F0EF] shadow-md px-6 flex items-center justify-between">
       {/* Brand logo & public site link */}
       <div className="flex items-center gap-4">
-        <div className="flex items-center">
-          <span className="font-sans font-bold text-sm tracking-tight">Accounts</span>
-          <span className="font-sans font-bold text-sm tracking-tight text-[#2D5BE3]">.</span>
-          <span className="font-sans font-bold text-sm tracking-tight">Life</span>
-          <span className="text-[10px] bg-[#2D5BE3] text-white px-1.5 py-0.5 rounded-sm font-semibold ml-2">CMS</span>
+        <div className="flex items-center gap-2">
+          <svg className="w-[30px] h-[24px] shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="adminLogoBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#3B82F6" />
+                <stop offset="100%" stopColor="#2563EB" />
+              </linearGradient>
+              <linearGradient id="adminLogoGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#10B981" />
+                <stop offset="100%" stopColor="#059669" />
+              </linearGradient>
+            </defs>
+            <path d="M4 28L14 6H19L9 28H4Z" fill="url(#adminLogoBlue)" />
+            <path d="M10.5 19H20V23H8.5L10.5 19Z" fill="url(#adminLogoBlue)" />
+            <path d="M16 10L20 6H25V28H20V11L16 15V10Z" fill="url(#adminLogoGreen)" />
+          </svg>
+          <div className="flex items-center">
+            <span className="font-sans font-bold text-sm tracking-tight">Accounts</span>
+            <span className="font-sans font-bold text-sm tracking-tight text-[#2D5BE3]">.</span>
+            <span className="font-sans font-bold text-sm tracking-tight">One</span>
+            <span className="text-[10px] bg-[#2D5BE3] text-white px-1.5 py-0.5 rounded-sm font-semibold ml-2">CMS</span>
+          </div>
         </div>
         <Link
           href="/"

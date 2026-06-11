@@ -18,13 +18,13 @@ export default function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
               {i > 0 && (
                 <ChevronRight
                   size={12}
-                  className="text-[#C8C7C2] shrink-0"
+                  className="text-[#C8C7C2] dark:text-gray-600 shrink-0"
                   aria-hidden="true"
                 />
               )}
               {isLast || !item.href ? (
                 <span
-                  className="text-xs text-[#76767E] font-medium"
+                  className="text-xs text-[#76767E] dark:text-gray-400 font-medium"
                   aria-current={isLast ? 'page' : undefined}
                 >
                   {item.label}
@@ -32,7 +32,7 @@ export default function Breadcrumb({ items, className = '' }: BreadcrumbProps) {
               ) : (
                 <Link
                   href={item.href}
-                  className="text-xs text-[#4A4A52] font-medium hover:text-[#2D5BE3] transition-colors"
+                  className="text-xs text-[#4A4A52] font-medium hover:text-[#2D5BE3] dark:text-gray-300 dark:hover:text-[#60A5FA] transition-colors"
                 >
                   {item.label}
                 </Link>

@@ -10,6 +10,7 @@
     --bg-secondary: #F4F3F0;
     --bg-tertiary: #EEECEA;
     --bg-dark: #1A1E2A;
+    --bg-card: #FFFFFF;
     --text-primary: #1C1C1E;
     --text-secondary: #4A4A52;
     --text-tertiary: #76767E;
@@ -28,12 +29,31 @@
     --warning-light: #FEF6E4;
   }
 
+  .dark {
+    --bg-primary: #0B0F19;
+    --bg-secondary: #111726;
+    --bg-tertiary: #1E2640;
+    --bg-dark: #0B0F19;
+    --bg-card: #1E2640;
+    --text-primary: #F3F4F6;
+    --text-secondary: #D1D5DB;
+    --text-tertiary: #9CA3AF;
+    --text-muted: #6B7280;
+    --text-inverse: #1C1C1E;
+    --border-default: #1E2640;
+    --border-strong: #374151;
+    --verified-green: #4ADE80;
+    --verified-light: rgba(74, 222, 128, 0.15);
+  }
+
   * {
     box-sizing: border-box;
   }
 
   html {
     scroll-behavior: smooth;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   body {
@@ -42,6 +62,8 @@
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   /* Reading text uses Lora */
@@ -87,7 +109,7 @@
   .je-block {
     @apply rounded-lg border overflow-hidden;
     border-color: var(--border-default);
-    background-color: #FFFFFF;
+    background-color: var(--bg-card);
   }
 
   .je-block-header {
@@ -141,20 +163,40 @@
     background-color: #FDEEEE;
     border-color: #C0392B;
   }
+  .dark .callout-important {
+    background-color: rgba(192, 57, 43, 0.15);
+    border-color: #E74C3C;
+    color: #FADBD8;
+  }
 
   .callout-note {
     background-color: #EEF2FD;
     border-color: #2D5BE3;
+  }
+  .dark .callout-note {
+    background-color: rgba(45, 91, 227, 0.15);
+    border-color: #60A5FA;
+    color: #DBEAFE;
   }
 
   .callout-tip {
     background-color: #F0FFF4;
     border-color: #1A7A4A;
   }
+  .dark .callout-tip {
+    background-color: rgba(26, 122, 74, 0.15);
+    border-color: #4ADE80;
+    color: #D1FAE5;
+  }
 
   .callout-caution {
     background-color: #FEF6E4;
     border-color: #B45309;
+  }
+  .dark .callout-caution {
+    background-color: rgba(180, 83, 9, 0.15);
+    border-color: #FBBF24;
+    color: #FEF3C7;
   }
 
   /* Focus styles */

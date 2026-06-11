@@ -51,7 +51,7 @@ export default function TableOfContents({ items, label = 'On this page' }: Table
       aria-label="Table of contents"
       className="sticky top-24 max-w-[220px] w-full"
     >
-      <p className="text-xs font-semibold text-[#76767E] uppercase tracking-widest mb-3">
+      <p className="text-xs font-semibold text-[#76767E] dark:text-gray-400 uppercase tracking-widest mb-3">
         {label}
       </p>
       <ul className="space-y-1">
@@ -67,8 +67,8 @@ export default function TableOfContents({ items, label = 'On this page' }: Table
                   : 'font-normal pl-7 text-xs'
               } ${
                 activeId === item.id
-                  ? 'text-[#2D5BE3] border-[#2D5BE3]'
-                  : 'text-[#76767E] border-transparent hover:text-[#1C1C1E] hover:border-[#C8C7C2]'
+                  ? 'text-[#2D5BE3] border-[#2D5BE3] dark:text-[#60A5FA] dark:border-[#60A5FA]'
+                  : 'text-[#76767E] border-transparent hover:text-[#1C1C1E] hover:border-[#C8C7C2] dark:text-gray-400 dark:hover:text-white dark:hover:border-gray-700'
               }`}
             >
               {item.label}
@@ -81,8 +81,8 @@ export default function TableOfContents({ items, label = 'On this page' }: Table
                       href={`#${child.id}`}
                       className={`block text-xs leading-snug py-1 transition-colors border-l-2 pl-7 ${
                         activeId === child.id
-                          ? 'text-[#2D5BE3] border-[#2D5BE3]'
-                          : 'text-[#76767E] border-transparent hover:text-[#1C1C1E] hover:border-[#C8C7C2]'
+                          ? 'text-[#2D5BE3] border-[#2D5BE3] dark:text-[#60A5FA] dark:border-[#60A5FA]'
+                          : 'text-[#76767E] border-transparent hover:text-[#1C1C1E] hover:border-[#C8C7C2] dark:text-gray-400 dark:hover:text-white dark:hover:border-gray-700'
                       }`}
                     >
                       {child.label}

@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import { Search, X, BookOpen, ExternalLink, Hash, ArrowRight } from 'lucide-react'
-import Breadcrumb from '@/components/ui/Breadcrumb'
+import BackButton from '@/components/ui/BackButton'
 import VerificationBadge from '@/components/ui/VerificationBadge'
 import type { GlossaryEntry } from '@/lib/data/static-entries'
 
@@ -95,13 +95,9 @@ export default function GlossaryPageClient({ glossaryTerms }: GlossaryPageClient
 
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-10">
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Glossary' },
-        ]}
-        className="mb-6"
-      />
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath="/" />
+              </div>
 
       <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-[#1C1C1E] leading-tight">

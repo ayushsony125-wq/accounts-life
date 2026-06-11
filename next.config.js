@@ -35,7 +35,7 @@ const nextConfig = {
     ],
   },
   env: {
-    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://accounts.life',
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://accounts.one',
   },
 }
 

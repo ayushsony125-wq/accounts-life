@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import Breadcrumb from '@/components/ui/Breadcrumb'
+import BackButton from '@/components/ui/BackButton'
 import Link from 'next/link'
 import { prisma } from '@/lib/db'
 
 export const metadata: Metadata = {
-  title: 'Standards Equivalence Map | Accounts.Life',
+  title: 'Standards Equivalence Map | Accounts.One',
   description: 'Map corresponding ICAI Accounting Standards (AS) to Indian Accounting Standards (Ind AS) equivalents.',
 }
 
@@ -30,14 +30,9 @@ export default async function EquivalenceMapPage() {
 
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-10">
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Standards', href: '/standards/as' },
-          { label: 'Equivalence Map' },
-        ]}
-        className="mb-6"
-      />
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath="/standards/as" />
+              </div>
       <main className="min-w-0">
         <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
           <h1 className="text-3xl font-bold text-[#1C1C1E] tracking-tight leading-tight">

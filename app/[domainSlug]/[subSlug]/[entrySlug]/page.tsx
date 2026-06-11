@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Clock, BookOpen, ArrowLeft } from 'lucide-react'
-import Breadcrumb from '@/components/ui/Breadcrumb'
+import BackButton from '@/components/ui/BackButton'
 import TableOfContents from '@/components/ui/TableOfContents'
 import VerificationBadge from '@/components/ui/VerificationBadge'
 import { formatReviewDate, estimateReadTime, getEntryTypeLabel } from '@/lib/utils'
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
       canonical: `/${params.domainSlug}/${params.subSlug}/${params.entrySlug}`,
     },
     openGraph: {
-      title: `${entry.entryTitle} | Accounts.Life`,
+      title: `${entry.entryTitle} | Accounts.One`,
       description: entry.summary,
     },
   }
@@ -85,11 +85,11 @@ export default async function TopicPage({ params }: PageParams) {
     })),
   }))
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://accounts.life'
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://accounts.one'
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'TechArticle',
-    'headline': `${entry.entryTitle} | Accounts.Life`,
+    'headline': `${entry.entryTitle} | Accounts.One`,
     'description': entry.summary,
     'datePublished': entry.publishedAt || entry.createdAt || new Date().toISOString(),
     'dateModified': entry.updatedAt || new Date().toISOString(),
@@ -99,7 +99,7 @@ export default async function TopicPage({ params }: PageParams) {
     },
     'publisher': {
       '@type': 'Organization',
-      'name': 'Accounts.Life',
+      'name': 'Accounts.One',
       'logo': {
         '@type': 'ImageObject',
         'url': `${siteUrl}/logo.png`,
@@ -118,25 +118,9 @@ export default async function TopicPage({ params }: PageParams) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Breadcrumb */}
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: entry.domain.domainName, href: `/${entry.domain.domainSlug}` },
-          { label: entry.subdomain.subdomainName, href: `/${entry.domain.domainSlug}/${entry.subdomain.subdomainSlug}` },
-          { label: entry.entryTitle },
-        ]}
-        className="mb-6"
-      />
-
-      {/* Back link */}
-      <Link
-        href={`/${entry.domain.domainSlug}`}
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-[#76767E] hover:text-[#2D5BE3] transition-colors mb-6"
-      >
-        <ArrowLeft size={12} />
-        Back to {entry.domain.domainName}
-      </Link>
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath={`/${entry.domain.domainSlug}/${entry.subdomain.subdomainSlug}`} />
+      </div>
 
       {/* 3-column layout */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-10 xl:gap-16">

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { ArrowRight, BookOpen, Clock } from 'lucide-react'
 import Breadcrumb from '@/components/ui/Breadcrumb'
 import SubdomainNav from '@/components/ui/SubdomainNav'
+import BackButton from '@/components/ui/BackButton'
 import { getDomainBySlug, getDomains } from '@/lib/queries'
 import { prisma } from '@/lib/db'
 
@@ -26,11 +27,11 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
   const domain = await getDomainBySlug(params.domainSlug)
   if (!domain) return { title: 'Not Found' }
   return {
-    title: `${domain.domainName} | Accounts.Life`,
+    title: `${domain.domainName} | Accounts.One`,
     description: domain.domainDescription || domain.domainTagline || '',
     alternates: { canonical: `/${params.domainSlug}` },
     openGraph: {
-      title: `${domain.domainName} | Accounts.Life`,
+      title: `${domain.domainName} | Accounts.One`,
       description: domain.domainDescription || domain.domainTagline || '',
     },
   }
@@ -130,13 +131,9 @@ function renderDomainPage(domain: any) {
 
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-10">
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: domain.domainName },
-        ]}
-        className="mb-6"
-      />
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath="/" />
+      </div>
 
       <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
         <div className="flex items-start gap-4 flex-wrap">

@@ -29,7 +29,6 @@ const DEFAULT_POPULAR_SEARCHES = [
   { label: 'ITR Due Dates', href: '/search?q=ITR+Due+Dates' },
   { label: 'Audit Evidence', href: '/search?q=Audit+Evidence' },
   { label: 'Input Tax Credit', href: '/search?q=Input+Tax+Credit' },
-  { label: 'Transfer Pricing', href: '/search?q=Transfer+Pricing' },
 ]
 
 const DEFAULT_TRUST_POINTS = [

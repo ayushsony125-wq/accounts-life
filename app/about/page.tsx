@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import Breadcrumb from '@/components/ui/Breadcrumb'
+import BackButton from '@/components/ui/BackButton'
 
 export const metadata: Metadata = {
   title: 'About Us | Accounts.One',
@@ -9,13 +9,9 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-10">
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'About Us' },
-        ]}
-        className="mb-6"
-      />
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath="/" />
+              </div>
       <main className="max-w-3xl min-w-0">
         <h1 className="text-3xl font-bold text-[#1C1C1E] dark:text-white tracking-tight mb-6">
           About Accounts.One

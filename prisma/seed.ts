@@ -15,7 +15,7 @@ import { DOMAINS } from '../lib/data/domains'
 const db = new PrismaClient()
 
 async function main() {
-  console.log('🌱 Seeding Accounts.Life database …\n')
+  console.log('🌱 Seeding Accounts.One database …\n')
 
   for (const d of DOMAINS) {
     // Upsert the domain row

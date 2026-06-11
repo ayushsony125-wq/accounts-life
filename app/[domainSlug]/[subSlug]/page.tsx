@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowRight, BookOpen, CheckCircle2 } from 'lucide-react'
 import Breadcrumb from '@/components/ui/Breadcrumb'
+import BackButton from '@/components/ui/BackButton'
 import { prisma } from '@/lib/db'
 import { getDomains, getSearchIndex } from '@/lib/queries'
 
@@ -78,14 +79,14 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 
   if (!subdomain) {
     return {
-      title: `${params.subSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} | Accounts.Life`,
+      title: `${params.subSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} | Accounts.One`,
       description: `Explore detailed guidance, concepts, and tutorials under ${params.subSlug}.`,
       alternates: { canonical: `/${params.domainSlug}/${params.subSlug}` },
     }
   }
 
   return {
-    title: `${subdomain.subdomainName} | ${subdomain.domain.domainName} — Accounts.Life`,
+    title: `${subdomain.subdomainName} | ${subdomain.domain.domainName} — Accounts.One`,
     description: subdomain.subdomainDescription || `Explore detailed guidance, concepts, and tutorials under ${subdomain.subdomainName}.`,
     alternates: { canonical: `/${params.domainSlug}/${params.subSlug}` },
   }
@@ -167,14 +168,9 @@ function renderSubdomainView({
 }) {
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-10">
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: domainName, href: `/${domainSlug}` },
-          { label: subdomainName }
-        ]}
-        className="mb-6"
-      />
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath={`/${domainSlug}`} />
+      </div>
 
       <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
         <span

@@ -3,12 +3,17 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { login } from '@/app/admin/actions'
-import { KeyRound, AlertCircle, ArrowRight, Mail, Phone, Shield, UserPlus, Lock } from 'lucide-react'
+import BackButton from '@/components/ui/BackButton'
+import { KeyRound, AlertCircle, ArrowRight, Mail, Phone, Shield, UserPlus, Lock, Eye, EyeOff } from 'lucide-react'
 
 export default function AdminLoginPage() {
-  const [activeTab, setActiveTab] = useState<'user' | 'admin'>('admin')
+  const [activeTab, setActiveTab] = useState<'user' | 'admin'>('user')
   const [userMode, setUserMode] = useState<'signin' | 'register'>('signin')
   const [authMethod, setAuthMethod] = useState<'email' | 'phone'>('email')
+  
+  // Password visibility states
+  const [showPassword, setShowPassword] = useState(false)
+  const [showAdminPassword, setShowAdminPassword] = useState(false)
   
   // Form values
   const [email, setEmail] = useState('')
@@ -49,18 +54,41 @@ export default function AdminLoginPage() {
     setError(null)
 
     // Validate inputs
-    if (authMethod === 'email' && !email.trim()) {
-      setError('Please enter a valid email address.')
-      setLoading(false)
-      return
+    if (authMethod === 'email') {
+      const emailTrimmed = email.trim()
+      if (!emailTrimmed) {
+        setError('Please enter your email address.')
+        setLoading(false)
+        return
+      }
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!emailRegex.test(emailTrimmed)) {
+        setError('Please enter a valid email address (e.g. name@domain.com).')
+        setLoading(false)
+        return
+      }
+    } else {
+      const phoneTrimmed = phone.trim()
+      if (!phoneTrimmed) {
+        setError('Please enter your phone number.')
+        setLoading(false)
+        return
+      }
+      const phoneRegex = countryCode === '+91' ? /^\d{10}$/ : /^\d{7,15}$/
+      if (!phoneRegex.test(phoneTrimmed)) {
+        setError(countryCode === '+91' ? 'Please enter a valid 10-digit Indian phone number.' : 'Please enter a valid phone number (7-15 digits).')
+        setLoading(false)
+        return
+      }
     }
-    if (authMethod === 'phone' && !phone.trim()) {
-      setError('Please enter a valid phone number.')
-      setLoading(false)
-      return
-    }
+    
     if (!password.trim()) {
       setError('Please enter your password.')
+      setLoading(false)
+      return
+    }
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long.')
       setLoading(false)
       return
     }
@@ -94,11 +122,29 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] dark:bg-[#0B0F19] flex items-center justify-center px-6 py-20 transition-colors">
+    <div className="min-h-screen bg-[#FAFAF8] dark:bg-[#0B0F19] flex flex-col items-center justify-center px-6 py-12 transition-colors relative">
+      <div className="absolute top-6 left-6 sm:left-8">
+        <BackButton fallbackPath="/" />
+      </div>
+      
       <div className="w-full max-w-md bg-white dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-lg shadow-sm p-8">
-        
         {/* Brand logo header */}
         <div className="flex flex-col items-center text-center mb-6">
+          <svg className="w-[48px] h-[38px] shrink-0 mb-3" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="logoBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#3B82F6" />
+                <stop offset="100%" stopColor="#2563EB" />
+              </linearGradient>
+              <linearGradient id="logoGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#10B981" />
+                <stop offset="100%" stopColor="#059669" />
+              </linearGradient>
+            </defs>
+            <path d="M4 28L14 6H19L9 28H4Z" fill="url(#logoBlue)" />
+            <path d="M10.5 19H20V23H8.5L10.5 19Z" fill="url(#logoBlue)" />
+            <path d="M16 10L20 6H25V28H20V11L16 15V10Z" fill="url(#logoGreen)" />
+          </svg>
           <div className="flex items-center text-[#1C1C1E] dark:text-white mb-2">
             <span className="font-sans font-bold text-xl tracking-tight">Accounts</span>
             <span className="font-sans font-bold text-xl tracking-tight text-[#2D5BE3]">.</span>
@@ -120,7 +166,7 @@ export default function AdminLoginPage() {
                 : 'text-[#76767E] dark:text-gray-400 hover:text-[#1C1C1E] dark:hover:text-white'
             }`}
           >
-            User Access
+            User Login
           </button>
           <button
             type="button"
@@ -131,7 +177,7 @@ export default function AdminLoginPage() {
                 : 'text-[#76767E] dark:text-gray-400 hover:text-[#1C1C1E] dark:hover:text-white'
             }`}
           >
-            Admin PIN
+            Admin Login
           </button>
         </div>
 
@@ -232,16 +278,27 @@ export default function AdminLoginPage() {
                 <label htmlFor="password-input-user" className="block text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
                   Password
                 </label>
-                <input
-                  id="password-input-user"
-                  type="password"
-                  required
-                  placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={loading}
-                  className="w-full px-3 py-2 bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-xs text-[#1C1C1E] dark:text-white focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] transition-all"
-                />
+                <div className="relative">
+                  <input
+                    id="password-input-user"
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    placeholder="••••••••"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    disabled={loading}
+                    className="w-full pl-3 pr-10 py-2 bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-xs text-[#1C1C1E] dark:text-white focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                    disabled={loading}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  >
+                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
+                </div>
               </div>
 
               {error && (
@@ -256,12 +313,20 @@ export default function AdminLoginPage() {
                 disabled={loading}
                 className="w-full flex items-center justify-center gap-2 bg-[#2D5BE3] hover:bg-[#2450CC] text-white py-2.5 rounded-md text-xs font-bold transition-all shadow-xs disabled:opacity-60"
               >
-                {loading
-                  ? 'Processing...'
-                  : userMode === 'signin'
-                  ? 'Sign In to Account'
-                  : 'Register & Continue'}
-                {!loading && <ArrowRight size={14} />}
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Processing...
+                  </span>
+                ) : (
+                  <>
+                    {userMode === 'signin' ? 'Sign In to Account' : 'Register & Continue'}
+                    <ArrowRight size={14} />
+                  </>
+                )}
               </button>
             </form>
 
@@ -308,14 +373,23 @@ export default function AdminLoginPage() {
                   <KeyRound className="absolute left-3 top-3 text-[#A0A0A8]" size={14} />
                   <input
                     id="password-input"
-                    type="password"
+                    type={showAdminPassword ? 'text' : 'password'}
                     placeholder="••••••"
                     value={adminPassword}
                     onChange={(e) => setAdminPassword(e.target.value)}
                     disabled={loading}
-                    className="w-full pl-9 pr-3 py-2 bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-xs text-[#1C1C1E] dark:text-white focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA]"
+                    className="w-full pl-9 pr-10 py-2.5 bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-xs text-[#1C1C1E] dark:text-white focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA]"
                     autoFocus
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowAdminPassword(!showAdminPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                    disabled={loading}
+                    aria-label={showAdminPassword ? 'Hide PIN' : 'Show PIN'}
+                  >
+                    {showAdminPassword ? <EyeOff size={14} /> : <Eye size={14} />}
+                  </button>
                 </div>
               </div>
 
@@ -331,8 +405,20 @@ export default function AdminLoginPage() {
                 disabled={loading || !adminPassword.trim()}
                 className="w-full flex items-center justify-center gap-2 bg-[#2D5BE3] hover:bg-[#2450CC] text-white py-2.5 rounded-md text-xs font-bold transition-all shadow-xs disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Authenticating...' : 'Access Portal'}
-                {!loading && <ArrowRight size={14} />}
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Authenticating...
+                  </span>
+                ) : (
+                  <>
+                    Access Portal
+                    <ArrowRight size={14} />
+                  </>
+                )}
               </button>
             </form>
 

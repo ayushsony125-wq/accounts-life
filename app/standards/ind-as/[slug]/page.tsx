@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, ExternalLink, Calendar, Building2, ArrowRight } from 'lucide-react'
 import Breadcrumb from '@/components/ui/Breadcrumb'
+import BackButton from '@/components/ui/BackButton'
 import TableOfContents from '@/components/ui/TableOfContents'
 import VerificationBadge from '@/components/ui/VerificationBadge'
 import { formatFullDate } from '@/lib/utils'
@@ -36,7 +37,7 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
     description: std.summary,
     alternates: { canonical: `/standards/ind-as/${params.slug}` },
     openGraph: {
-      title: `${std.entryTitle} | Accounts.Life`,
+      title: `${std.entryTitle} | Accounts.One`,
       description: std.summary,
     },
   }
@@ -125,14 +126,9 @@ export default async function IndASStandardPage({ params }: PageParams) {
 
     return (
       <div className="max-w-[1280px] mx-auto px-6 py-10">
-        <Breadcrumb
-          items={[
-            { label: 'Home', href: '/' },
-            { label: 'Ind AS Standards', href: '/standards/ind-as' },
-            { label: dbSubdomain.subdomainName }
-          ]}
-          className="mb-6"
-        />
+        <div className="flex flex-wrap items-center gap-4 mb-6">
+          <BackButton fallbackPath="/standards/ind-as" />
+        </div>
 
         <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
           <span
@@ -201,21 +197,9 @@ export default async function IndASStandardPage({ params }: PageParams) {
 
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-10">
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Ind AS Standards', href: '/standards/ind-as' },
-          { label: std.standardCode },
-        ]}
-        className="mb-6"
-      />
-      <Link
-        href="/standards/ind-as"
-        className="inline-flex items-center gap-1.5 text-xs font-medium text-[#76767E] hover:text-[#2D5BE3] transition-colors mb-6"
-      >
-        <ArrowLeft size={12} />
-        Back to Ind AS Standards
-      </Link>
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath="/standards/ind-as" />
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-10 xl:gap-16">
         <article className="min-w-0 max-w-[680px]" aria-labelledby="ind-std-title">

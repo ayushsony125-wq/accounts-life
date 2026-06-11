@@ -2,7 +2,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import crypto from 'crypto'
 
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-life-default-secret-key-321-at-least-32-chars-long'
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-one-default-secret-key-321-at-least-32-chars-long'
 
 function verifyToken(token: string): boolean {
   try {

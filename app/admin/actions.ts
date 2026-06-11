@@ -28,7 +28,7 @@ function writeDb(data: any) {
 
 import crypto from 'crypto'
 
-const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-life-default-secret-key-321-at-least-32-chars-long'
+const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-one-default-secret-key-321-at-least-32-chars-long'
 
 function generateToken(expiryMs: number): string {
   const expiry = Date.now() + expiryMs

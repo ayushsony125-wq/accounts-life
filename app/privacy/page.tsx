@@ -1,32 +1,28 @@
 import type { Metadata } from 'next'
-import Breadcrumb from '@/components/ui/Breadcrumb'
+import BackButton from '@/components/ui/BackButton'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy | Accounts.Life',
-  description: 'Privacy policy and data protection guidelines for Accounts.Life.',
+  title: 'Privacy Policy | Accounts.One',
+  description: 'Privacy policy and data protection guidelines for Accounts.One.',
 }
 
 export default function PrivacyPage() {
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-10">
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Privacy Policy' },
-        ]}
-        className="mb-6"
-      />
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath="/" />
+              </div>
       <main className="max-w-3xl min-w-0">
         <h1 className="text-3xl font-bold text-[#1C1C1E] tracking-tight mb-6">
           Privacy Policy
         </h1>
         <div className="prose prose-slate font-reading text-[#4A4A52] leading-relaxed space-y-4">
           <p>
-            At Accounts.Life, we take privacy and data security seriously. This Privacy Policy describes how we collect, use, and protect your information.
+            At Accounts.One, we take privacy and data security seriously. This Privacy Policy describes how we collect, use, and protect your information.
           </p>
           <h2 className="text-lg font-bold text-[#1C1C1E] pt-4">1. Information We Collect</h2>
           <p>
-            Accounts.Life is primarily an educational resources directory. We do not require users to create accounts or submit personal information to read our reference guides, standard checklists, or glossary database.
+            Accounts.One is primarily an educational resources directory. We do not require users to create accounts or submit personal information to read our reference guides, standard checklists, or glossary database.
           </p>
           <h2 className="text-lg font-bold text-[#1C1C1E] pt-4">2. Cookies and Analytics</h2>
           <p>

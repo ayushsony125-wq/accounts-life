@@ -3,6 +3,7 @@ import { Inter, Lora, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import FooterWrapper from '@/components/layout/FooterWrapper'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,10 +24,10 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://accounts.life'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://accounts.one'),
   title: {
-    template: '%s | Accounts.Life',
-    default: 'Accounts.Life — The Accounting Operating System',
+    template: '%s | Accounts.One',
+    default: 'Accounts.One — The Accounting Operating System',
   },
   description:
     'The most complete, structured, and verified accounting knowledge platform. Organized concepts, all 32 AS standards, Ind AS, journal entries, glossary, and official sources — in one place.',
@@ -44,15 +45,15 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    url: 'https://accounts.life',
-    siteName: 'Accounts.Life',
-    title: 'Accounts.Life — The Accounting Operating System',
+    url: 'https://accounts.one',
+    siteName: 'Accounts.One',
+    title: 'Accounts.One — The Accounting Operating System',
     description:
       'The most complete, structured, and verified accounting knowledge platform.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Accounts.Life — The Accounting Operating System',
+    title: 'Accounts.One — The Accounting Operating System',
     description: 'Structured. Verified. Authoritative. Accounting knowledge organized.',
   },
   robots: {
@@ -100,7 +101,9 @@ export default function RootLayout({
         </a>
         <Header />
         <main id="main-content">{children}</main>
-        <Footer />
+        <FooterWrapper>
+          <Footer />
+        </FooterWrapper>
       </body>
     </html>
   )

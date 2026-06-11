@@ -26,10 +26,10 @@ export default function ReferencesBlock({
   if (resources.length === 0) return null
 
   return (
-    <section aria-labelledby="references-heading" className="mt-10 pt-8 border-t border-[#E2E1DD]">
+    <section aria-labelledby="references-heading" className="mt-10 pt-8 border-t border-[#E2E1DD] dark:border-gray-800">
       <h2
         id="references-heading"
-        className="text-base font-bold text-[#1C1C1E] mb-5 tracking-tight"
+        className="text-base font-bold text-[#1C1C1E] dark:text-white mb-5 tracking-tight"
       >
         {heading}
       </h2>
@@ -39,7 +39,7 @@ export default function ReferencesBlock({
           const Icon = config.icon
           return (
             <li key={resource.id}>
-              <div className="flex items-start gap-3 p-3.5 rounded-lg border border-[#E2E1DD] bg-white">
+              <div className="flex items-start gap-3 p-3.5 rounded-lg border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640]">
                 <Icon
                   size={15}
                   className="shrink-0 mt-0.5"
@@ -53,23 +53,23 @@ export default function ReferencesBlock({
                         href={resource.resourceUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm font-medium text-[#2D5BE3] hover:underline inline-flex items-center gap-1"
+                        className="text-sm font-medium text-[#2D5BE3] dark:text-[#60A5FA] hover:underline inline-flex items-center gap-1"
                       >
                         {resource.resourceTitle}
                         <ExternalLink size={11} aria-hidden="true" />
                       </a>
                     ) : (
-                      <span className="text-sm font-medium text-[#1C1C1E]">{resource.resourceTitle}</span>
+                      <span className="text-sm font-medium text-[#1C1C1E] dark:text-white">{resource.resourceTitle}</span>
                     )}
-                    <span className="text-xs text-[#A0A0A8] font-medium">
+                    <span className="text-xs text-[#A0A0A8] dark:text-gray-500 font-medium">
                       {SOURCE_LABEL[resource.sourceType] ?? resource.sourceType}
                     </span>
                     {resource.refYear && (
-                      <span className="text-xs text-[#A0A0A8]">({resource.refYear})</span>
+                      <span className="text-xs text-[#A0A0A8] dark:text-gray-500">({resource.refYear})</span>
                     )}
                   </div>
                   {resource.videoChannel && (
-                    <p className="text-xs text-[#76767E] mt-0.5">Channel: {resource.videoChannel}</p>
+                    <p className="text-xs text-[#76767E] dark:text-gray-400 mt-0.5">Channel: {resource.videoChannel}</p>
                   )}
                 </div>
               </div>

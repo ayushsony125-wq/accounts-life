@@ -91,7 +91,6 @@ const POPULAR_SEARCHES = [
   { label: 'ITR Due Dates', href: '/search?q=ITR+Due+Dates' },
   { label: 'Audit Evidence', href: '/search?q=Audit+Evidence' },
   { label: 'Input Tax Credit', href: '/search?q=Input+Tax+Credit' },
-  { label: 'Transfer Pricing', href: '/search?q=Transfer+Pricing' },
 ]
 
 const TRUST_POINTS = [
@@ -355,9 +354,72 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
     }, 500)
   }
 
+  // Dynamic trending search logic
+  const [trendingSearches, setTrendingSearches] = useState<any[]>(() => {
+    const baseList = (initialConfig?.popularSearches || POPULAR_SEARCHES).filter(
+      (item: any) => item.label.toLowerCase() !== 'transfer pricing'
+    );
+    if (typeof window === 'undefined') return baseList;
+    try {
+      const stored = localStorage.getItem('search_clicks');
+      if (stored) {
+        const counts = JSON.parse(stored);
+        const allItems = [...baseList];
+        Object.keys(counts).forEach((query) => {
+          if (query && query.trim() && query.toLowerCase() !== 'transfer pricing' && !allItems.some((item) => item.label.toLowerCase() === query.trim().toLowerCase())) {
+            allItems.push({
+              label: query.trim(),
+              href: `/search?q=${encodeURIComponent(query.trim())}`,
+            });
+          }
+        });
+        const sorted = allItems.sort((a, b) => {
+          const countA = counts[a.label] || 0;
+          const countB = counts[b.label] || 0;
+          return countB - countA;
+        });
+        return sorted.slice(0, 6);
+      }
+    } catch {}
+    return baseList;
+  });
+
+  const trackSearchClick = (label: string) => {
+    try {
+      if (!label || !label.trim() || label.toLowerCase() === 'transfer pricing') return;
+      const cleanLabel = label.trim();
+      const stored = localStorage.getItem('search_clicks');
+      const counts = stored ? JSON.parse(stored) : {};
+      counts[cleanLabel] = (counts[cleanLabel] || 0) + 1;
+      localStorage.setItem('search_clicks', JSON.stringify(counts));
+      
+      const baseList = (initialConfig?.popularSearches || POPULAR_SEARCHES).filter(
+        (item: any) => item.label.toLowerCase() !== 'transfer pricing'
+      );
+      
+      const allItems = [...baseList];
+      Object.keys(counts).forEach((query) => {
+        if (query && query.trim() && query.toLowerCase() !== 'transfer pricing' && !allItems.some((item) => item.label.toLowerCase() === query.trim().toLowerCase())) {
+          allItems.push({
+            label: query.trim(),
+            href: `/search?q=${encodeURIComponent(query.trim())}`,
+          });
+        }
+      });
+      
+      const sorted = allItems.sort((a, b) => {
+        const countA = counts[a.label] || 0;
+        const countB = counts[b.label] || 0;
+        return countB - countA;
+      });
+      setTrendingSearches(sorted.slice(0, 6));
+    } catch {}
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
+      trackSearchClick(searchQuery.trim())
       router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
     } else {
       router.push('/search')
@@ -405,17 +467,20 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 Search
               </button>
             </form>
-            <div className="mt-4 flex flex-wrap items-center gap-2">
-              <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0">Popular searches:</span>
-              {popularSearches.map((s: any) => (
-                <Link
-                  key={s.label}
-                  href={s.href}
-                  className="text-xs text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-3 py-1 rounded-full transition-all font-medium"
-                >
-                  {s.label}
-                </Link>
-              ))}
+            <div className="mt-4 flex flex-row items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none pb-1 w-full max-w-2xl">
+              <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0">Trending searches:</span>
+              <div className="flex flex-row gap-2 flex-nowrap whitespace-nowrap">
+                {trendingSearches.map((s: any) => (
+                  <Link
+                    key={s.label}
+                    href={s.href}
+                    onClick={() => trackSearchClick(s.label)}
+                    className="text-xs text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-3 py-1 rounded-full transition-all font-medium shrink-0 inline-block"
+                  >
+                    {s.label}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
           {/* Right: Trust Card */}

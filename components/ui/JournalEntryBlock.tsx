@@ -94,15 +94,15 @@ export default function JournalEntryBlock({
       <div className="je-block-header">
         <div className="min-w-0">
           {journalEntry.jeScenarioTitle && (
-            <p className="text-sm font-semibold text-[#1C1C1E] truncate">
+            <p className="text-sm font-semibold text-[#1C1C1E] dark:text-white truncate">
               {journalEntry.jeScenarioTitle}
             </p>
           )}
           {journalEntry.jeLabel && (
-            <p className="text-xs text-[#76767E] mt-0.5">{journalEntry.jeLabel}</p>
+            <p className="text-xs text-[#76767E] dark:text-gray-400 mt-0.5">{journalEntry.jeLabel}</p>
           )}
           {journalEntry.jeParaRef && (
-            <p className="text-xs text-[#A0A0A8] mt-0.5">Para {journalEntry.jeParaRef}</p>
+            <p className="text-xs text-[#A0A0A8] dark:text-gray-500 mt-0.5">Para {journalEntry.jeParaRef}</p>
           )}
         </div>
 
@@ -112,7 +112,7 @@ export default function JournalEntryBlock({
               onClick={handleCopyText}
               title="Copy as text"
               aria-label="Copy journal entry as text"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[#4A4A52] rounded hover:bg-[#EEECEA] transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[#4A4A52] dark:text-gray-300 rounded hover:bg-[#EEECEA] dark:hover:bg-gray-800 transition-colors"
             >
               {textCopied ? (
                 <Check size={13} className="text-[#1A7A4A]" />
@@ -125,7 +125,7 @@ export default function JournalEntryBlock({
               onClick={handleCopyImage}
               title="Copy as image"
               aria-label="Copy journal entry as image"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[#4A4A52] rounded hover:bg-[#EEECEA] transition-colors"
+              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-[#4A4A52] dark:text-gray-300 rounded hover:bg-[#EEECEA] dark:hover:bg-gray-800 transition-colors"
             >
               {imgCopied ? (
                 <Check size={13} className="text-[#1A7A4A]" />
@@ -140,8 +140,8 @@ export default function JournalEntryBlock({
 
       {/* Category heading */}
       {journalEntry.jeCategoryHeading && (
-        <div className="px-4 py-2 bg-[#F4F3F0] border-b border-[#E2E1DD]">
-          <p className="text-xs font-semibold text-[#4A4A52] uppercase tracking-wider">
+        <div className="px-4 py-2 bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800">
+          <p className="text-xs font-semibold text-[#4A4A52] dark:text-gray-300 uppercase tracking-wider">
             {journalEntry.jeCategoryHeading}
           </p>
         </div>
@@ -183,7 +183,7 @@ function renderRow(row: JournalEntryRow) {
   if (row.rowType === 'SEPARATOR') {
     return (
       <tr key={row.id} aria-hidden="true">
-        <td colSpan={3} className="border-t border-[#E2E1DD] h-0 p-0" />
+        <td colSpan={3} className="border-t border-[#E2E1DD] dark:border-gray-800 h-0 p-0" />
       </tr>
     )
   }
@@ -204,11 +204,11 @@ function renderRow(row: JournalEntryRow) {
     >
       <td className="py-1.5 px-4">
         {isCr ? (
-          <span className="pl-6 italic text-[#4A4A52]">{row.accountName} A/c</span>
+          <span className="pl-6 italic text-[#4A4A52] dark:text-gray-300">{row.accountName} A/c</span>
         ) : isTotal ? (
           <span className="font-semibold">{row.accountName ?? 'Total'}</span>
         ) : (
-          <span>{row.accountName} A/c &nbsp;<span className="text-[#76767E] font-normal">…Dr</span></span>
+          <span>{row.accountName} A/c &nbsp;<span className="text-[#76767E] dark:text-gray-400 font-normal">…Dr</span></span>
         )}
       </td>
       <td className="je-row-amount py-1.5 px-4 whitespace-nowrap">

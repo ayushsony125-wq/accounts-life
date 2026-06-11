@@ -93,11 +93,21 @@ export default async function Footer() {
               className="flex items-center gap-2.5 mb-4 group w-fit"
               aria-label="Accounts.One — Home"
             >
-              <svg className="w-[52px] h-[40px] shrink-0" viewBox="5 15 90 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g transform="skewX(-10) translate(5, 0)">
-                  <path d="M38 18 L10 85 H26 L32 68 H54 L60 85 H76 L48 18 H38 Z M43 36 L50 54 H36 Z" fill="#2D5BE3" fillRule="evenodd" />
-                  <path d="M74 35 L60 45 V55 L72 46 V85 H86 V35 H74 Z" fill="#1A7A4A" />
-                </g>
+              {/* Premium A1 Geometric logo */}
+              <svg className="w-[42px] h-[34px] shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <linearGradient id="footerLogoBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#3B82F6" />
+                    <stop offset="100%" stopColor="#2563EB" />
+                  </linearGradient>
+                  <linearGradient id="footerLogoGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#10B981" />
+                    <stop offset="100%" stopColor="#059669" />
+                  </linearGradient>
+                </defs>
+                <path d="M4 28L14 6H19L9 28H4Z" fill="url(#footerLogoBlue)" />
+                <path d="M10.5 19H20V23H8.5L10.5 19Z" fill="url(#footerLogoBlue)" />
+                <path d="M16 10L20 6H25V28H20V11L16 15V10Z" fill="url(#footerLogoGreen)" />
               </svg>
               <div className="flex flex-col">
                 <div className="flex items-center">
@@ -201,26 +211,6 @@ export default async function Footer() {
 
         </div>
 
-        {/* ─── Citing Authorities Bar ─── */}
-        <div className="mt-12 pt-6 border-t border-[rgba(255,255,255,0.07)]">
-          <div className="flex flex-col gap-3">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-[#9EAFCE]">
-              Official Citing Authorities
-            </span>
-            <div className="flex flex-wrap items-center gap-6 opacity-60 hover:opacity-90 transition-opacity">
-              {CITING_AUTHORITIES.map((auth) => (
-                <div
-                  key={auth.name}
-                  className="flex items-center gap-1.5 text-white font-bold text-xs tracking-wider"
-                >
-                  {auth.icon}
-                  <span>{auth.name}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
         {/* ─── Bottom bar ─── */}
         <div
           className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
@@ -231,25 +221,20 @@ export default async function Footer() {
             © 2026 Accounts.One
           </p>
 
-          {/* Right: source credits + legal */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
-            <p className="text-[10px] text-[#9EAFCE] tracking-wide">
-              Built on Official Sources&nbsp;•&nbsp;ICAI&nbsp;•&nbsp;MCA&nbsp;•&nbsp;CBDT&nbsp;•&nbsp;CBIC&nbsp;•&nbsp;RBI
-            </p>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/privacy"
-                className="text-xs text-[#9EAFCE] hover:text-white transition-colors"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms"
-                className="text-xs text-[#9EAFCE] hover:text-white transition-colors"
-              >
-                Terms of Use
-              </Link>
-            </div>
+          {/* Right: legal */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="/privacy"
+              className="text-xs text-[#9EAFCE] hover:text-white transition-colors"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-xs text-[#9EAFCE] hover:text-white transition-colors"
+            >
+              Terms of Use
+            </Link>
           </div>
         </div>
 

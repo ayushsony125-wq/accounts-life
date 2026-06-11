@@ -18,6 +18,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
+  { label: 'Home', href: '/' },
   {
     label: 'Accounts',
     dropdown: [
@@ -51,18 +52,11 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Search', href: '/search', description: 'Advanced full-text query search' },
     ],
   },
-  {
-    label: 'More',
-    dropdown: [
-      { label: 'Privacy Policy', href: '/privacy', description: 'Our data protection promise' },
-      { label: 'Terms of Use', href: '/terms', description: 'Platform terms & guidelines' },
-      { label: 'Admin Portal', href: '/admin/login', description: 'CMS management dashboard' },
-    ],
-  },
 ]
 
 export default function Header() {
   const pathname = usePathname()
+
   const [mobileOpen, setMobileOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -129,61 +123,38 @@ export default function Header() {
     return false
   }
 
+  // Hide global header on all admin routes
+  if (pathname && pathname.startsWith('/admin')) {
+    return null
+  }
+
   return (
     <div className="w-full flex flex-col z-50 sticky top-0 bg-white dark:bg-[#0B0F19]">
-      {/* ─── Top Utility Bar (Desktop only) ─────────────────── */}
-      <div className="hidden md:block h-8 bg-[#0B0F19] text-[11px] text-gray-300">
-        <div className="max-w-[1280px] mx-auto px-6 h-full flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1 font-semibold text-white">
-              <ShieldCheck size={11} className="text-[#2D5BE3]" />
-              Official Sources
-            </span>
-            <span className="text-gray-600 select-none">|</span>
-            <a href="https://www.icai.org" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">ICAI</a>
-            <span className="text-gray-600 select-none">|</span>
-            <a href="https://www.mca.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">MCA</a>
-            <span className="text-gray-600 select-none">|</span>
-            <a href="https://incometaxindia.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">CBDT</a>
-            <span className="text-gray-600 select-none">|</span>
-            <a href="https://www.cbic.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">CBIC</a>
-            <span className="text-gray-600 select-none">|</span>
-            <a href="https://www.rbi.org.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">RBI</a>
-            <span className="text-gray-600 select-none">|</span>
-            <a href="https://www.sebi.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">SEBI</a>
-            <span className="text-gray-600 select-none">|</span>
-            <Link href="/search?q=Authorities" className="hover:text-white transition-colors">Other Authorities</Link>
-          </div>
-          <div className="flex items-center gap-3">
-            <Link href="/search?q=Updates" className="hover:text-white transition-colors font-medium flex items-center gap-1">
-              <FileText size={10} className="text-gray-400" />
-              Daily Updates
-            </Link>
-            <span className="text-gray-600 select-none">|</span>
-            <Link href="/search?q=Notifications" className="hover:text-white transition-colors font-medium flex items-center gap-1">
-              <Bell size={10} className="text-gray-400" />
-              Notifications
-            </Link>
-          </div>
-        </div>
-      </div>
-
       {/* ─── Main Header ─────────────────────────────────────── */}
       <header className="h-16 border-b border-[#E2E1DD] dark:border-gray-800">
-        <div className="max-w-[1280px] mx-auto px-6 h-full flex items-center justify-between gap-4">
+        <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 h-full flex items-center justify-between gap-4">
           
           {/* Logo & Brand */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 group shrink-0"
+            className="flex items-center gap-2.5 group shrink-0 mr-8 xl:mr-12 2xl:mr-16"
             aria-label="Accounts.One — Home"
           >
-            {/* Enterprise-grade skewed brand SVG logo */}
-            <svg className="w-[46px] h-[35px] shrink-0" viewBox="5 15 90 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g transform="skewX(-10) translate(5, 0)">
-                <path d="M38 18 L10 85 H26 L32 68 H54 L60 85 H76 L48 18 H38 Z M43 36 L50 54 H36 Z" fill="#2D5BE3" fillRule="evenodd" />
-                <path d="M74 35 L60 45 V55 L72 46 V85 H86 V35 H74 Z" fill="#1A7A4A" />
-              </g>
+            {/* Premium A1 Geometric logo */}
+            <svg className="w-[42px] h-[34px] shrink-0" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="logoBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#3B82F6" />
+                  <stop offset="100%" stopColor="#2563EB" />
+                </linearGradient>
+                <linearGradient id="logoGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#10B981" />
+                  <stop offset="100%" stopColor="#059669" />
+                </linearGradient>
+              </defs>
+              <path d="M4 28L14 6H19L9 28H4Z" fill="url(#logoBlue)" />
+              <path d="M10.5 19H20V23H8.5L10.5 19Z" fill="url(#logoBlue)" />
+              <path d="M16 10L20 6H25V28H20V11L16 15V10Z" fill="url(#logoGreen)" />
             </svg>
             <div className="flex flex-col">
               <div className="flex items-center">
@@ -191,14 +162,14 @@ export default function Header() {
                 <span className="font-sans font-bold text-[18px] tracking-tight text-[#2D5BE3] dark:text-[#60A5FA]">.</span>
                 <span className="font-sans font-bold text-[18px] tracking-tight text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors">One</span>
               </div>
-              <span className="text-[10px] text-[#76767E] dark:text-gray-400 font-medium leading-none mt-0.5 whitespace-nowrap">
+              <span className="hidden 2xl:block text-[10px] text-[#76767E] dark:text-gray-400 font-medium leading-none mt-0.5 whitespace-nowrap">
                 The Operating System for Professional Excellence
               </span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-0.5 flex-nowrap" aria-label="Main navigation">
+          <nav className="hidden xl:flex items-center gap-4 xl:gap-5 2xl:gap-6 flex-nowrap" aria-label="Main navigation">
             {NAV_ITEMS.map((item) =>
               item.dropdown ? (
                 <div
@@ -208,7 +179,7 @@ export default function Header() {
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button
-                    className={`flex items-center gap-0.5 px-2 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${
+                    className={`flex items-center gap-0.5 px-4 py-2.5 rounded-md text-[15.5px] xl:text-[16px] 2xl:text-[16.5px] font-semibold whitespace-nowrap transition-colors ${
                       isActive(item)
                         ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                         : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -245,7 +216,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  className={`px-2 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors ${
+                  className={`px-4 py-2.5 rounded-md text-[15.5px] xl:text-[16px] 2xl:text-[16.5px] font-semibold whitespace-nowrap transition-colors ${
                     isActive(item)
                       ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                       : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -258,24 +229,26 @@ export default function Header() {
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-2">
-            {/* Search Bar Form */}
-            <form onSubmit={handleSearchSubmit} className="hidden sm:flex relative items-center">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search..."
-                className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white dark:focus:bg-[#161C2C] text-xs font-medium pl-3 pr-8 py-1.5 w-44 lg:w-48 xl:w-52 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] dark:text-white"
-              />
-              <Search size={13} className="absolute right-2.5 text-[#76767E] dark:text-gray-400 pointer-events-none" />
-            </form>
+          <div className="flex items-center gap-2 lg:gap-4 shrink-0 ml-auto">
+            {/* Search Bar Form (Homepage Only) */}
+            {pathname === '/' && (
+              <form onSubmit={handleSearchSubmit} className="hidden sm:flex xl:hidden 2xl:flex relative items-center">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search..."
+                  className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] focus:border-[#2D5BE3] focus:bg-white dark:focus:bg-[#161C2C] text-xs font-medium pl-3 pr-8 py-1.5 w-32 lg:w-36 xl:w-40 2xl:w-48 rounded-md outline-none transition-all placeholder:text-[#A0A0A8] dark:text-white"
+                />
+                <Search size={13} className="absolute right-2.5 text-[#76767E] dark:text-gray-400 pointer-events-none" />
+              </form>
+            )}
 
             {/* Dark Mode Toggle Button */}
             <button
               type="button"
               onClick={toggleDarkMode}
-              className="flex items-center justify-center p-1.5 rounded-md text-[#76767E] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-colors ml-1"
+              className="flex items-center justify-center p-1.5 rounded-md text-[#76767E] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-800 transition-colors"
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
               {darkMode ? <Sun size={14} className="text-amber-500" /> : <Moon size={14} />}
@@ -283,7 +256,7 @@ export default function Header() {
  
             <Link
               href="/admin/login"
-              className="bg-[#2D5BE3] text-white px-3.5 py-1.5 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm whitespace-nowrap"
+              className="bg-[#2D5BE3] text-white px-4 py-2 rounded-md text-xs font-bold hover:bg-[#2450CC] transition-colors shadow-sm whitespace-nowrap shrink-0 block"
             >
               Sign Up / Login
             </Link>
@@ -305,16 +278,18 @@ export default function Header() {
         <div className="xl:hidden fixed inset-0 top-16 z-40 bg-white dark:bg-[#0B0F19] overflow-y-auto border-t border-[#E2E1DD] dark:border-gray-800">
           <nav className="px-4 py-4 flex flex-col gap-3" aria-label="Mobile navigation">
             {/* Mobile Search */}
-            <form onSubmit={handleSearchSubmit} className="relative flex items-center w-full mb-2">
-              <Search size={14} className="absolute left-2.5 text-[#76767E] dark:text-gray-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search resources..."
-                className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 text-xs font-medium pl-8 pr-3 py-2 w-full rounded-md outline-none dark:text-white"
-              />
-            </form>
+            {pathname === '/' && (
+              <form onSubmit={handleSearchSubmit} className="relative flex items-center w-full mb-2">
+                <Search size={14} className="absolute left-2.5 text-[#76767E] dark:text-gray-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search resources..."
+                  className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 text-xs font-medium pl-8 pr-3 py-2 w-full rounded-md outline-none dark:text-white"
+                />
+              </form>
+            )}
 
             {NAV_ITEMS.map((item) => (
               <div key={item.label} className="border-b border-[#F4F3F0] dark:border-gray-800 pb-2">
