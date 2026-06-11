@@ -29,6 +29,7 @@ function writeDb(data: any) {
 import crypto from 'crypto'
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-one-default-secret-key-321-at-least-32-chars-long'
+// SECURITY: ADMIN_SECRET must be set via environment variable in production.
 
 function generateToken(expiryMs: number): string {
   const expiry = Date.now() + expiryMs
@@ -58,7 +59,13 @@ function verifyToken(token: string): boolean {
 // ============================================================
 
 export async function login(password: string) {
-  const adminPassword = process.env.ADMIN_PASSWORD || 'Ak@993102'
+  const adminPassword = process.env.ADMIN_PASSWORD
+
+  // Fail immediately if password env var is not configured — never fall back to a default.
+  if (!adminPassword) {
+    console.error('ADMIN_PASSWORD environment variable is not set. Login disabled.')
+    return { success: false, error: 'Admin access is not configured. Please contact the administrator.' }
+  }
 
   if (password === adminPassword) {
     const sessionToken = generateToken(60 * 60 * 24 * 1000) // 1 day

@@ -187,13 +187,13 @@ export function getEntryTypeLabel(type: string): string {
 /**
  * Build a canonical URL path for an entry.
  */
-export function getEntryPath(domainSlug: string, entrySlug: string): string {
-  return `/learn/${domainSlug}/${entrySlug}`
+export function getEntryPath(domainSlug: string, subSlug: string, entrySlug: string): string {
+  return `/${domainSlug}/${subSlug}/${entrySlug}`
 }
 
 /**
  * Build a canonical URL path for a domain.
  */
 export function getDomainPath(domainSlug: string): string {
-  return `/learn/${domainSlug}`
+  return `/${domainSlug}`
 }

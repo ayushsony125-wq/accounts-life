@@ -1,8 +1,10 @@
 import { cookies } from 'next/headers'
 import AdminHeader from './AdminHeader'
 import BackButton from '@/components/ui/BackButton'
+import { verifyAdminSession as _verify } from './session'
 import crypto from 'crypto'
 
+// Re-use the same ADMIN_SECRET as session.ts so token validation is consistent
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-one-default-secret-key-321-at-least-32-chars-long'
 
 function verifyToken(token: string): boolean {
@@ -30,6 +32,7 @@ export default function AdminLayout({
   const session = cookies().get('admin_session')?.value
   const isAuthenticated = session ? verifyToken(session) : false
 
+  // If not authenticated, render children only (login page handles its own layout)
   if (!isAuthenticated) {
     return <>{children}</>
   }
