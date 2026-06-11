@@ -90,7 +90,7 @@ const POPULAR_SEARCHES = [
   { label: 'ITC on Expenses', href: '/search?q=ITC+on+Expenses' },
   { label: 'Ind AS 115', href: '/search?q=Ind+AS+115' },
   { label: 'SA 315', href: '/search?q=SA+315' },
-  { label: 'CASH FLOW', href: '/search?q=Cash+Flow' },
+  { label: 'Cash Flow', href: '/search?q=Cash+Flow' },
 ]
 
 const TRUST_POINTS = [
@@ -381,46 +381,17 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
     }, 500)
   }
 
-  // Dynamic trending search logic
-  const [trendingSearches, setTrendingSearches] = useState<any[]>(() => {
-    const baseList = popularSearches;
-    if (typeof window === 'undefined') return baseList;
-    try {
-      const stored = localStorage.getItem('search_clicks');
-      if (stored) {
-        const counts = JSON.parse(stored);
-        const allItems = [...baseList];
-        Object.keys(counts).forEach((query) => {
-          const cleanQuery = query.trim();
-          const lowerQuery = cleanQuery.toLowerCase();
-          const cleanLower = lowerQuery.replace(/[^a-z0-9]/g, '');
-          const hasLetter = /[a-zA-Z]/.test(cleanQuery);
-          const isLongEnough = cleanLower.length >= 4;
-          const isBlocked = cleanLower === 'transferpricing' || cleanLower.includes('transferpricing');
-          if (cleanQuery && hasLetter && isLongEnough && !isBlocked && !allItems.some((item) => item.label.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanLower)) {
-            allItems.push({
-              label: cleanQuery,
-              href: `/search?q=${encodeURIComponent(cleanQuery)}`,
-            });
-          }
-        });
-        const sorted = allItems.sort((a, b) => {
-          const countA = counts[a.label] || 0;
-          const countB = counts[b.label] || 0;
-          return countB - countA;
-        });
-        return sorted.slice(0, 6);
-      }
-    } catch {}
-    return baseList;
+  // Statically enforce the 5 approved searches to prevent junk inputs, dynamic growth, or layout breaking
+  const [trendingSearches] = useState<any[]>(() => {
+    return popularSearches.slice(0, 5);
   });
 
   const trackSearchClick = (label: string) => {
+    // Keep dynamic storage for logging, but do not update state to prevent changing the 5 static approved chips
     try {
       if (!label || !label.trim()) return;
       const cleanLabel = label.trim();
-      const lowerLabel = cleanLabel.toLowerCase();
-      const cleanLower = lowerLabel.replace(/[^a-z0-9]/g, '');
+      const cleanLower = cleanLabel.toLowerCase().replace(/[^a-z0-9]/g, '');
       const hasLetter = /[a-zA-Z]/.test(cleanLabel);
       const isLongEnough = cleanLower.length >= 4;
       if (!hasLetter || !isLongEnough || cleanLower === 'transferpricing' || cleanLower.includes('transferpricing')) return;
@@ -429,30 +400,6 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       const counts = stored ? JSON.parse(stored) : {};
       counts[cleanLabel] = (counts[cleanLabel] || 0) + 1;
       localStorage.setItem('search_clicks', JSON.stringify(counts));
-      
-      const baseList = popularSearches;
-      const allItems = [...baseList];
-      Object.keys(counts).forEach((query) => {
-        const cleanQuery = query.trim();
-        const lowerQuery = cleanQuery.toLowerCase();
-        const cleanLower = lowerQuery.replace(/[^a-z0-9]/g, '');
-        const qHasLetter = /[a-zA-Z]/.test(cleanQuery);
-        const qIsLong = cleanLower.length >= 4;
-        const qIsBlocked = cleanLower === 'transferpricing' || cleanLower.includes('transferpricing');
-        if (cleanQuery && qHasLetter && qIsLong && !qIsBlocked && !allItems.some((item) => item.label.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanLower)) {
-          allItems.push({
-            label: cleanQuery,
-            href: `/search?q=${encodeURIComponent(cleanQuery)}`,
-          });
-        }
-      });
-      
-      const sorted = allItems.sort((a, b) => {
-        const countA = counts[a.label] || 0;
-        const countB = counts[b.label] || 0;
-        return countB - countA;
-      });
-      setTrendingSearches(sorted.slice(0, 6));
     } catch {}
   };
 
@@ -507,8 +454,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 Search
               </button>
             </form>
-            <div className="mt-4 w-full max-w-2xl overflow-hidden">
-              <div className="flex flex-row flex-nowrap items-center gap-2 overflow-x-auto scrollbar-none">
+            <div className="mt-4 w-full max-w-2xl">
+              <div className="flex flex-row flex-wrap items-center gap-2">
                 <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0 whitespace-nowrap">Trending:</span>
                 {trendingSearches.map((s: any) => (
                   <Link
