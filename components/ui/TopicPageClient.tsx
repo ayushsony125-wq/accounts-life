@@ -14,7 +14,6 @@ import {
   ChevronRight,
   Play
 } from 'lucide-react'
-import Breadcrumb from '@/components/ui/Breadcrumb'
 import BackButton from '@/components/ui/BackButton'
 import TableOfContents from '@/components/ui/TableOfContents'
 import VerificationBadge from '@/components/ui/VerificationBadge'

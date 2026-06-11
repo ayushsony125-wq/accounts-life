@@ -1,0 +1,166 @@
+{
+  "target": "http://localhost:3000",
+  "timestamp": "2026-06-09T08:59:54.078Z",
+  "results": [
+    {
+      "name": "01_home",
+      "desc": "Homepage",
+      "url": "http://localhost:3000/",
+      "status": "ERROR",
+      "errors": [
+        "page.goto: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/\", waiting until \"networkidle\"\u001b[22m\n"
+      ],
+      "screenshot": null
+    },
+    {
+      "name": "02_foundations",
+      "desc": "Foundations",
+      "url": "http://localhost:3000/foundations",
+      "status": 200,
+      "errors": [
+        "Failed to fetch RSC payload for http://localhost:3000/. Falling back to browser navigation. TypeError: Failed to fetch\n    at fetchServerResponse (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/fetch-server-response.js:59:27)\n    at fastRefreshReducerImpl (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/reducers/fast-refresh-reducer.js:33:67)\n    at clientReducer (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/router-reducer/router-reducer.js:41:67)\n    at Object.action (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/router/action-queue.js:150:55)\n    at runAction (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/router/action-queue.js:56:38)\n    at dispatchAction (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/router/action-queue.js:113:9)\n    at Object.dispatch (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/router/action-queue.js:145:40)\n    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/use-reducer-with-devtools.js:130:21)\n    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:304:25)\n    at startTransition (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react/cjs/react.development.js:2597:25)\n    at Object.fastRefresh (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:303:48)\n    at eval (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:277:28)\n    at startTransition (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/compiled/react/cjs/react.development.js:2597:25)\n    at processMessage (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:276:44)\n    at WebSocket.handler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:395:17)"
+      ],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\02_foundations.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "03_glossary",
+      "desc": "Glossary",
+      "url": "http://localhost:3000/glossary",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\03_glossary.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "04_search",
+      "desc": "Search",
+      "url": "http://localhost:3000/search",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\04_search.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "05_standards_as",
+      "desc": "AS Standards",
+      "url": "http://localhost:3000/standards/as",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\05_standards_as.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "06_standards_ind_as",
+      "desc": "Ind AS Standards",
+      "url": "http://localhost:3000/standards/ind-as",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\06_standards_ind_as.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "07_admin_login",
+      "desc": "Admin Login",
+      "url": "http://localhost:3000/admin/login",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\07_admin_login.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "08_sitemap",
+      "desc": "Sitemap XML",
+      "url": "http://localhost:3000/sitemap.xml",
+      "status": 200,
+      "errors": [],
+      "screenshot": null,
+      "content_preview": "<html xmlns=\"http://www.w3.org/1999/xhtml\"><head><style id=\"xml-viewer-style\">/* Copyright 2014 The Chromium Authors\n * Use of this source code is governed by a BSD-style license that can be\n * found "
+    },
+    {
+      "name": "09_robots",
+      "desc": "Robots TXT",
+      "url": "http://localhost:3000/robots.txt",
+      "status": 200,
+      "errors": [],
+      "screenshot": null,
+      "content_preview": "<html><head><meta name=\"color-scheme\" content=\"light dark\"></head><body><pre style=\"word-wrap: break-word; white-space: pre-wrap;\">User-Agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: http://localhost:3"
+    },
+    {
+      "name": "10_as_1",
+      "desc": "AS 1 Detail",
+      "url": "http://localhost:3000/standards/as/as-1",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\10_as_1.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "11_ind_as_1",
+      "desc": "Ind AS 1 Detail",
+      "url": "http://localhost:3000/standards/ind-as/ind-as-1",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\11_ind_as_1.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "12_privacy",
+      "desc": "Privacy Policy",
+      "url": "http://localhost:3000/privacy",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\12_privacy.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    },
+    {
+      "name": "13_terms",
+      "desc": "Terms of Use",
+      "url": "http://localhost:3000/terms",
+      "status": 200,
+      "errors": [],
+      "screenshot": "D:\\My Accounts\\accounts-life\\deploy-screenshots\\13_terms.png",
+      "styles": {
+        "bg": "rgb(250, 250, 248)",
+        "font": "Inter, sans-serif",
+        "sheets": 1
+      }
+    }
+  ]
+}

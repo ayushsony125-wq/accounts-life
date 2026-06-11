@@ -137,7 +137,7 @@ export default function Header() {
           {/* Logo & Brand */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 group shrink-0 mr-8 xl:mr-12 2xl:mr-16"
+            className="flex items-center gap-2.5 group shrink-0 mr-12 xl:mr-16 2xl:mr-24"
             aria-label="Accounts.One — Home"
           >
             {/* Premium A1 Geometric logo */}
@@ -169,7 +169,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center gap-4 xl:gap-5 2xl:gap-6 flex-nowrap" aria-label="Main navigation">
+          <nav className="hidden xl:flex items-center gap-5 xl:gap-6 2xl:gap-8 flex-nowrap" aria-label="Main navigation">
             {NAV_ITEMS.map((item) =>
               item.dropdown ? (
                 <div
@@ -179,7 +179,7 @@ export default function Header() {
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button
-                    className={`flex items-center gap-0.5 px-4 py-2.5 rounded-md text-[15.5px] xl:text-[16px] 2xl:text-[16.5px] font-semibold whitespace-nowrap transition-colors ${
+                    className={`flex items-center gap-1.5 px-4 xl:px-5 2xl:px-6 py-3 rounded-md text-[16px] xl:text-[16.5px] 2xl:text-[17px] font-semibold whitespace-nowrap transition-colors ${
                       isActive(item)
                         ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                         : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -216,7 +216,7 @@ export default function Header() {
                 <Link
                   key={item.label}
                   href={item.href!}
-                  className={`px-4 py-2.5 rounded-md text-[15.5px] xl:text-[16px] 2xl:text-[16.5px] font-semibold whitespace-nowrap transition-colors ${
+                  className={`px-4 xl:px-5 2xl:px-6 py-3 rounded-md text-[16px] xl:text-[16.5px] 2xl:text-[17px] font-semibold whitespace-nowrap transition-colors ${
                     isActive(item)
                       ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
                       : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
@@ -232,7 +232,7 @@ export default function Header() {
           <div className="flex items-center gap-2 lg:gap-4 shrink-0 ml-auto">
             {/* Search Bar Form (Homepage Only) */}
             {pathname === '/' && (
-              <form onSubmit={handleSearchSubmit} className="hidden sm:flex xl:hidden 2xl:flex relative items-center">
+              <form onSubmit={handleSearchSubmit} className="hidden 2xl:flex relative items-center">
                 <input
                   type="text"
                   value={searchQuery}

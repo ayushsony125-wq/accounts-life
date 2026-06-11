@@ -30,15 +30,17 @@ export default function AdminLayout({
   const session = cookies().get('admin_session')?.value
   const isAuthenticated = session ? verifyToken(session) : false
 
+  if (!isAuthenticated) {
+    return <>{children}</>
+  }
+
   return (
     <div className="min-h-screen bg-[#FAFAF8] dark:bg-[#0B0F19] text-[#1C1C1E] dark:text-white flex flex-col font-sans transition-colors">
-      {isAuthenticated && <AdminHeader />}
+      <AdminHeader />
       <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-8">
-        {isAuthenticated && (
-          <div className="mb-6">
-            <BackButton fallbackPath="/admin" />
-          </div>
-        )}
+        <div className="mb-6">
+          <BackButton fallbackPath="/admin" />
+        </div>
         {children}
       </main>
     </div>

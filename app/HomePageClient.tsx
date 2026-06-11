@@ -307,7 +307,12 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
   const heroTitle = initialConfig?.heroTitle || "The Operating System for"
   const heroTitleSpan = initialConfig?.heroTitleSpan || "Professional Excellence"
   const heroSubtitle = initialConfig?.heroSubtitle || "Trusted explanations. Exact legal support. Official sources. Practical notes. Curated videos. Everything a professional needs."
-  const popularSearches = initialConfig?.popularSearches || POPULAR_SEARCHES
+  const popularSearches = (initialConfig?.popularSearches || POPULAR_SEARCHES).filter(
+    (item: any) => {
+      const cleanLabel = item.label ? item.label.trim().toLowerCase() : '';
+      return cleanLabel !== 'transfer pricing' && cleanLabel !== 'transfer-pricing';
+    }
+  )
   const trustPoints = initialConfig?.trustPoints || TRUST_POINTS
   
   const domainsHeading = initialConfig?.domainsHeading || "Explore by Domain"
@@ -356,9 +361,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
 
   // Dynamic trending search logic
   const [trendingSearches, setTrendingSearches] = useState<any[]>(() => {
-    const baseList = (initialConfig?.popularSearches || POPULAR_SEARCHES).filter(
-      (item: any) => item.label.toLowerCase() !== 'transfer pricing'
-    );
+    const baseList = popularSearches;
     if (typeof window === 'undefined') return baseList;
     try {
       const stored = localStorage.getItem('search_clicks');
@@ -366,10 +369,12 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
         const counts = JSON.parse(stored);
         const allItems = [...baseList];
         Object.keys(counts).forEach((query) => {
-          if (query && query.trim() && query.toLowerCase() !== 'transfer pricing' && !allItems.some((item) => item.label.toLowerCase() === query.trim().toLowerCase())) {
+          const cleanQuery = query.trim();
+          const lowerQuery = cleanQuery.toLowerCase();
+          if (cleanQuery && lowerQuery !== 'transfer pricing' && lowerQuery !== 'transfer-pricing' && !allItems.some((item) => item.label.toLowerCase() === lowerQuery)) {
             allItems.push({
-              label: query.trim(),
-              href: `/search?q=${encodeURIComponent(query.trim())}`,
+              label: cleanQuery,
+              href: `/search?q=${encodeURIComponent(cleanQuery)}`,
             });
           }
         });
@@ -386,23 +391,25 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
 
   const trackSearchClick = (label: string) => {
     try {
-      if (!label || !label.trim() || label.toLowerCase() === 'transfer pricing') return;
+      if (!label || !label.trim()) return;
       const cleanLabel = label.trim();
+      const lowerLabel = cleanLabel.toLowerCase();
+      if (lowerLabel === 'transfer pricing' || lowerLabel === 'transfer-pricing') return;
+      
       const stored = localStorage.getItem('search_clicks');
       const counts = stored ? JSON.parse(stored) : {};
       counts[cleanLabel] = (counts[cleanLabel] || 0) + 1;
       localStorage.setItem('search_clicks', JSON.stringify(counts));
       
-      const baseList = (initialConfig?.popularSearches || POPULAR_SEARCHES).filter(
-        (item: any) => item.label.toLowerCase() !== 'transfer pricing'
-      );
-      
+      const baseList = popularSearches;
       const allItems = [...baseList];
       Object.keys(counts).forEach((query) => {
-        if (query && query.trim() && query.toLowerCase() !== 'transfer pricing' && !allItems.some((item) => item.label.toLowerCase() === query.trim().toLowerCase())) {
+        const cleanQuery = query.trim();
+        const lowerQuery = cleanQuery.toLowerCase();
+        if (cleanQuery && lowerQuery !== 'transfer pricing' && lowerQuery !== 'transfer-pricing' && !allItems.some((item) => item.label.toLowerCase() === lowerQuery)) {
           allItems.push({
-            label: query.trim(),
-            href: `/search?q=${encodeURIComponent(query.trim())}`,
+            label: cleanQuery,
+            href: `/search?q=${encodeURIComponent(cleanQuery)}`,
           });
         }
       });
@@ -467,7 +474,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 Search
               </button>
             </form>
-            <div className="mt-4 flex flex-row items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none pb-1 w-full max-w-2xl">
+            <div className="mt-4 flex flex-row flex-nowrap items-center gap-2 overflow-x-auto whitespace-nowrap scrollbar-none pb-1 w-full max-w-2xl">
               <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0">Trending searches:</span>
               <div className="flex flex-row gap-2 flex-nowrap whitespace-nowrap">
                 {trendingSearches.map((s: any) => (

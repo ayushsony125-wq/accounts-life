@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, ExternalLink } from 'lucide-react'
-import Breadcrumb from '@/components/ui/Breadcrumb'
+import BackButton from '@/components/ui/BackButton'
 import SubdomainNav from '@/components/ui/SubdomainNav'
 import { DOMAINS } from '@/lib/data/domains'
 
@@ -51,14 +51,9 @@ export default function IndASPage() {
   return (
     <div className="max-w-[1280px] mx-auto px-6 py-10">
 
-      <Breadcrumb
-        items={[
-          { label: 'Home', href: '/' },
-          { label: 'Standards' },
-          { label: 'Ind AS' },
-        ]}
-        className="mb-6"
-      />
+      <div className="flex flex-wrap items-center gap-4 mb-6">
+        <BackButton fallbackPath="/" />
+      </div>
 
       <header className="mb-10 pb-8 border-b border-[#E2E1DD]">
         <div className="flex-1 min-w-0">
