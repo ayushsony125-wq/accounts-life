@@ -232,15 +232,15 @@ export default function AccountsPage() {
               <div className="mb-2.5">
                 <BackButton fallbackPath="/" />
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-[45px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.05] mb-2 animate-fade-in">
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.08] mb-2 animate-fade-in">
                 Accounts
               </h1>
-              <p className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-2 leading-snug tracking-tight">
-                Master Accounting. Drive Financial Excellence.
+              <p className="text-lg sm:text-xl lg:text-[20px] font-semibold text-[#2D5BE3] dark:text-[#60A5FA] mb-2 leading-snug tracking-tight">
+                Professional Accounting Standards &amp; Frameworks
               </p>
-              <p className="text-[15px] sm:text-base lg:text-[16px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[480px] font-medium mb-0">
-                Comprehensive learning hub for CA students, articles and professionals to build strong
-                accounting, reporting and financial management expertise.
+              <p className="text-[15px] sm:text-base lg:text-[15px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[480px] font-medium mb-0">
+                Authoritative reference and learning resources covering Schedule III, Accounting Standards (AS),
+                and Indian Accounting Standards (Ind AS) for finance professionals and students.
               </p>
             </div>
 

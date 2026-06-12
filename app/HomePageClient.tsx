@@ -231,28 +231,28 @@ const TODAYS_ESSENTIALS = [
 const ACCURACY_PILLARS = [
   {
     Icon: ShieldCheck,
-    title: 'Verified Sources',
-    body: 'Content from official authorities only',
+    title: 'Statutory Sources',
+    body: 'Direct references from ICAI and government releases',
   },
   {
     Icon: CheckCircle2,
-    title: 'Expert Reviewed',
-    body: 'Reviewed by professionals & subject experts',
+    title: 'Professional Review',
+    body: 'Reviewed by chartered accountants and tax experts',
   },
   {
     Icon: FileText,
-    title: 'Plain & Practical',
-    body: 'Simple language with practical insights',
+    title: 'Technical Precision',
+    body: 'Structured for audit, compliance, and study lookup',
   },
   {
     Icon: RefreshCw,
-    title: 'Always Updated',
-    body: 'Real-time updates on laws, rules & amendments',
+    title: 'Updated Frameworks',
+    body: 'Reflects latest circulars, notifications, and guidelines',
   },
   {
     Icon: CheckCircle2,
-    title: '100% Reliable',
-    body: 'Trusted by professionals across India',
+    title: 'Reliable Reference',
+    body: 'Referenced by audit professionals and CA articles',
   },
 ]
 
@@ -333,9 +333,9 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
 
   // Load configured content or fallback to defaults
   const sectionsOrder = initialConfig?.sectionsOrder || ['hero', 'domains', 'updates', 'quickaccess', 'accuracy']
-  const heroTitle = initialConfig?.heroTitle || "The Operating System for"
-  const heroTitleSpan = initialConfig?.heroTitleSpan || "Professional Excellence"
-  const heroSubtitle = initialConfig?.heroSubtitle || "Trusted explanations. Exact legal support. Official sources. Practical notes. Curated videos. Everything a professional needs."
+  const heroTitle = initialConfig?.heroTitle || "Authoritative Reference for"
+  const heroTitleSpan = initialConfig?.heroTitleSpan || "Accounting & Compliance"
+  const heroSubtitle = initialConfig?.heroSubtitle || "Structured accounting standards, statutory guidance, circulars, and compliance references for chartered accountants and finance professionals."
   const popularSearches = (initialConfig?.popularSearches || POPULAR_SEARCHES).filter(
     (item: any) => {
       const cleanLabel = item.label ? item.label.trim().toLowerCase().replace(/[^a-z0-9]/g, '') : '';
@@ -426,7 +426,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="hero-heading"
       className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-3.5 pb-3 sm:pt-5 sm:pb-4">
+      <div className="max-w-[1280px] mx-auto px-6 pt-3 pb-2.5 sm:pt-4.5 sm:pb-3.5">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 lg:gap-12 items-start">
           {/* Left: Headline + Search */}
           <div className="flex flex-col">
