@@ -222,44 +222,40 @@ const PREMIUM_VALUES_ROW = [
 export default function AccountsPage() {
   return (
     <div className="w-full min-h-screen">
-      {/* ─── Header & Hero Section (Soft Premium Gradient with Blended Image) ─── */}
+      {/* ─── Header & Hero Section (Optimized layout and vertical alignment) ─── */}
       <div className="w-full bg-[#FAFAF8] dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 relative overflow-hidden">
-        {/* Premium background gradient */}
+        {/* Soft premium background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAF9] via-[#F4F5F8] to-[#FFFFFF] dark:from-[#0B0F19] dark:via-[#111726] dark:to-[#0B0F19]" />
 
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12 lg:py-20 relative z-10">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-6 pb-10 sm:pt-8 sm:pb-12 relative z-10">
           {/* Back Button */}
-          <div className="mb-8">
+          <div className="mb-6">
             <BackButton fallbackPath="/" />
           </div>
 
           {/* Hero Content */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-7 flex flex-col justify-center">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.1] mb-5 animate-fade-in">
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div className="lg:col-span-6 flex flex-col justify-center">
+              <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.05] mb-4 animate-fade-in">
                 Accounts
               </h1>
-              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-6 leading-snug tracking-tight">
+              <p className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-4 leading-snug tracking-tight">
                 Master Accounting. Drive Financial Excellence.
               </p>
-              <p className="text-[15px] sm:text-[17px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[620px] font-medium">
+              <p className="text-[15px] sm:text-base lg:text-[17px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[540px] font-medium">
                 Comprehensive learning hub for CA students, articles and professionals to build strong
                 accounting, reporting and financial management expertise.
               </p>
             </div>
 
-            <div className="lg:col-span-5 flex items-center justify-center lg:justify-end w-full relative">
-              <div className="relative w-full aspect-[3/2] max-w-[480px] lg:max-w-[540px] overflow-hidden">
+            <div className="lg:col-span-6 flex items-center justify-center lg:justify-end w-full relative">
+              <div className="relative w-full aspect-[575/330] max-w-[575px]">
                 <Image
                   src="/accounts_hero.png"
                   alt="Professional accounting workstation background"
                   fill
                   priority
-                  className="object-cover object-center mix-blend-multiply dark:invert dark:mix-blend-screen dark:opacity-85 select-none transition-transform duration-700 hover:scale-[1.01]"
-                  style={{
-                    maskImage: 'radial-gradient(circle, black 40%, transparent 95%)',
-                    WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 95%)'
-                  }}
+                  className="object-contain object-right mix-blend-multiply dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
                   draggable={false}
                 />
               </div>
