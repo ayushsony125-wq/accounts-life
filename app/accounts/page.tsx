@@ -224,18 +224,18 @@ export default function AccountsPage() {
     <div className="w-full min-h-screen">
       {/* ─── Header & Hero Section (Optimized layout and vertical alignment) ─── */}
       <div className="w-full bg-white dark:bg-[#0B0F19] relative overflow-hidden">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-3 pb-3 sm:pt-4 sm:pb-4 relative z-10">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-2 pb-2 sm:pt-3 sm:pb-3 relative z-10">
           {/* Hero Content */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-            <div className="lg:col-span-6 flex flex-col justify-start pt-1">
+          <section className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center min-h-[180px] lg:min-h-[240px]">
+            <div className="lg:col-span-5 flex flex-col justify-start pt-1 z-10">
               {/* Back Button inside the text column to allow the image to float higher */}
-              <div className="mb-3">
+              <div className="mb-2.5">
                 <BackButton fallbackPath="/" />
               </div>
               <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.05] mb-2 animate-fade-in">
                 Accounts
               </h1>
-              <p className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-2.5 leading-snug tracking-tight">
+              <p className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-2 leading-snug tracking-tight">
                 Master Accounting. Drive Financial Excellence.
               </p>
               <p className="text-[15px] sm:text-base lg:text-[16px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[480px] font-medium mb-0">
@@ -244,17 +244,16 @@ export default function AccountsPage() {
               </p>
             </div>
 
-            <div className="lg:col-span-6 flex items-center justify-center lg:justify-end w-full relative pt-1 sm:pt-2">
-              <div className="relative w-full h-[180px] sm:h-[240px] lg:h-[270px] xl:h-[290px]">
-                <Image
-                  src="/accounts_hero.png"
-                  alt="Professional accounting workstation background"
-                  fill
-                  priority
-                  className="object-contain object-right mix-blend-multiply dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
-                  draggable={false}
-                />
-              </div>
+            {/* Absolutely positioned image on desktop to occupy more width without pushing height */}
+            <div className="lg:col-span-7 w-full lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[58%] xl:w-[62%] h-[180px] sm:h-[230px] lg:h-[260px] xl:h-[280px] z-0 pointer-events-none">
+              <Image
+                src="/accounts_hero.png"
+                alt="Professional accounting workstation background"
+                fill
+                priority
+                className="object-contain object-right mix-blend-multiply dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
+                draggable={false}
+              />
             </div>
           </section>
         </div>

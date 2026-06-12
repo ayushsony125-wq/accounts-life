@@ -426,8 +426,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="hero-heading"
       className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
+      <div className="max-w-[1280px] mx-auto px-6 py-6 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 lg:gap-12 items-start">
           {/* Left: Headline + Search */}
           <div className="flex flex-col">
             <h1
@@ -440,7 +440,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
             <p className="mt-4 text-[14.5px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
               {heroSubtitle}
             </p>
-            <form onSubmit={handleSearch} className="mt-7 relative max-w-2xl flex items-center">
+            <form onSubmit={handleSearch} className="mt-5 relative max-w-2xl flex items-center">
               <div className="relative flex-1">
                 <Search
                   size={16}
@@ -479,11 +479,11 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
           </div>
           {/* Right: Trust Card */}
           <div className="lg:pt-2">
-            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-6 shadow-sm">
-              <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-4">
+            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-4 sm:p-5 shadow-sm">
+              <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-3">
                 Why Professionals Trust Accounts.One
               </h2>
-              <ul className="flex flex-col gap-3 mb-6">
+              <ul className="flex flex-col gap-2.5 mb-4">
                 {trustPoints.map((point: string) => (
                   <li key={point} className="flex items-start gap-3 text-xs text-[#4A4A52] dark:text-gray-300 leading-snug font-medium">
                     <CheckCircle2
@@ -514,8 +514,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="domains-heading"
       className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 py-12">
-        <header className="flex items-start justify-between mb-8">
+      <div className="max-w-[1280px] mx-auto px-6 py-6 sm:py-8">
+        <header className="flex items-start justify-between mb-5 sm:mb-6">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <LayoutGrid size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
