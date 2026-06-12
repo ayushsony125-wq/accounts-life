@@ -183,20 +183,38 @@ export default function Header() {
                   onMouseEnter={() => setActiveDropdown(item.label)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
-                  <button
-                    className={`flex items-center gap-1 px-2 md:px-2.5 xl:px-3 py-2 rounded-md text-[13.5px] xl:text-[14px] 2xl:text-[14.5px] font-semibold whitespace-nowrap transition-colors ${
-                      isActive(item)
-                        ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
-                        : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
-                    }`}
-                    aria-expanded={activeDropdown === item.label}
-                  >
-                    {item.label}
-                    <ChevronDown
-                      size={12}
-                      className={`transition-transform duration-150 ${activeDropdown === item.label ? 'rotate-180' : ''}`}
-                    />
-                  </button>
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className={`flex items-center gap-1 px-2 md:px-2.5 xl:px-3 py-2 rounded-md text-[13.5px] xl:text-[14px] 2xl:text-[14.5px] font-semibold whitespace-nowrap transition-colors ${
+                        isActive(item)
+                          ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
+                          : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
+                      }`}
+                      aria-expanded={activeDropdown === item.label}
+                    >
+                      {item.label}
+                      <ChevronDown
+                        size={12}
+                        className={`transition-transform duration-150 ${activeDropdown === item.label ? 'rotate-180' : ''}`}
+                      />
+                    </Link>
+                  ) : (
+                    <button
+                      className={`flex items-center gap-1 px-2 md:px-2.5 xl:px-3 py-2 rounded-md text-[13.5px] xl:text-[14px] 2xl:text-[14.5px] font-semibold whitespace-nowrap transition-colors ${
+                        isActive(item)
+                          ? 'text-[#2D5BE3] bg-[#EEF2FD] dark:text-[#60A5FA] dark:bg-gray-800'
+                          : 'text-[#4A4A52] hover:text-[#1C1C1E] hover:bg-[#F4F3F0] dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800'
+                      }`}
+                      aria-expanded={activeDropdown === item.label}
+                    >
+                      {item.label}
+                      <ChevronDown
+                        size={12}
+                        className={`transition-transform duration-150 ${activeDropdown === item.label ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+                  )}
 
                   {activeDropdown === item.label && (
                     <div

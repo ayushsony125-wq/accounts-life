@@ -34,7 +34,7 @@ const PROFESSIONAL_DOMAINS = [
     code: 'ACC',
     name: 'Accounts',
     description: 'Concepts, AS, Ind AS, Journal Entries, Financial Statements & Practical Guidance.',
-    href: '/foundations',
+    href: '/accounts',
     color: '#2D5BE3',
     Icon: BookOpen,
   },
@@ -495,7 +495,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 ))}
               </ul>
               <Link
-                href="/foundations"
+                href="/accounts"
                 className="flex items-center justify-center gap-2 w-full text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-4 py-2.5 rounded-md transition-all shadow-sm"
               >
                 Explore All Features
