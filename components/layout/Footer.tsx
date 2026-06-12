@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { getHomepageConfig } from '@/app/admin/actions'
 
 const DOMAINS_LINKS = [
-  { label: 'Accounts', href: '/foundations' },
+  { label: 'Accounts', href: '/accounts' },
   { label: 'Audit', href: '/search?q=Audit' },
   { label: 'Income Tax', href: '/search?q=Income+Tax' },
   { label: 'GST', href: '/search?q=GST' },

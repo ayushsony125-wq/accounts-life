@@ -23,7 +23,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '/' },
   {
     label: 'Accounts',
+    href: '/accounts',
     dropdown: [
+      { label: 'Accounts Overview', href: '/accounts', description: 'All Accounts topics in one hub' },
       { label: 'Foundations', href: '/foundations', description: 'Core accounting concepts & conventions' },
       { label: 'AS Standards', href: '/standards/as', description: 'All 32 ICAI Accounting Standards' },
       { label: 'Ind AS', href: '/standards/ind-as', description: 'IFRS-aligned Indian standards' },
