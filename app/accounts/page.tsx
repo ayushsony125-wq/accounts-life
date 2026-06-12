@@ -223,7 +223,7 @@ export default function AccountsPage() {
   return (
     <div className="w-full min-h-screen">
       {/* ─── Header & Hero Section (Optimized layout and vertical alignment) ─── */}
-      <div className="w-full bg-white dark:bg-[#0B0F19] relative overflow-hidden">
+      <div className="w-full bg-[#F8F9FD] dark:bg-[#0B0F19] relative overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-2 pb-2 sm:pt-3 sm:pb-3 relative z-10">
           {/* Hero Content */}
           <section className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center min-h-[180px] lg:min-h-[240px]">
@@ -232,7 +232,7 @@ export default function AccountsPage() {
               <div className="mb-2.5">
                 <BackButton fallbackPath="/" />
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.05] mb-2 animate-fade-in">
+              <h1 className="text-3xl sm:text-4xl lg:text-[45px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.05] mb-2 animate-fade-in">
                 Accounts
               </h1>
               <p className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-2 leading-snug tracking-tight">
@@ -246,12 +246,10 @@ export default function AccountsPage() {
 
             {/* Absolutely positioned image on desktop to occupy more width without pushing height */}
             <div className="lg:col-span-7 w-full lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[58%] xl:w-[62%] h-[180px] sm:h-[230px] lg:h-[260px] xl:h-[280px] z-0 pointer-events-none">
-              <Image
+              <img
                 src="/accounts_hero.png"
                 alt="Professional accounting workstation background"
-                fill
-                priority
-                className="object-contain object-right mix-blend-multiply dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
+                className="w-full h-full object-contain object-right dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
                 draggable={false}
               />
             </div>

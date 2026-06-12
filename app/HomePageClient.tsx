@@ -426,7 +426,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="hero-heading"
       className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 py-6 sm:py-8">
+      <div className="max-w-[1280px] mx-auto px-6 pt-3.5 pb-3 sm:pt-5 sm:pb-4">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 lg:gap-12 items-start">
           {/* Left: Headline + Search */}
           <div className="flex flex-col">
@@ -437,10 +437,10 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
               {heroTitle}<br />
               <span className="text-[#2D5BE3] dark:text-[#60A5FA]">{heroTitleSpan}</span>
             </h1>
-            <p className="mt-4 text-[14.5px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
+            <p className="mt-3 text-[14.5px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
               {heroSubtitle}
             </p>
-            <form onSubmit={handleSearch} className="mt-5 relative max-w-2xl flex items-center">
+            <form onSubmit={handleSearch} className="mt-4 relative max-w-2xl flex items-center">
               <div className="relative flex-1">
                 <Search
                   size={16}
@@ -514,7 +514,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="domains-heading"
       className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 py-6 sm:py-8">
+      <div className="max-w-[1280px] mx-auto px-6 pt-4 pb-8 sm:pt-5 sm:pb-10">
         <header className="flex items-start justify-between mb-5 sm:mb-6">
           <div>
             <div className="flex items-center gap-2 mb-1">
