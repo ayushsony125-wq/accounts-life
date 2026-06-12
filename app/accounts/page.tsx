@@ -195,68 +195,71 @@ const ADVANCED = [
 const PREMIUM_VALUES_ROW = [
   {
     icon: ClipboardList,
-    title: 'Accounting Workflows',
-    desc: 'Structured guides for month-end closure, reconciliations, and closure cycles.',
-    href: '/search?q=Workflows',
-  },
-  {
-    icon: BookMarked,
-    title: 'Professional Reference',
-    desc: 'Authoritative standards library covering AS, Ind AS, and Schedule III requirements.',
-    href: '/standards/as',
+    title: 'Practical Accounting Guidance',
+    desc: 'Focused on accounting treatment, reporting, reconciliations, and compliance requirements.',
+    href: '/search?q=guidance',
   },
   {
     icon: Scale,
-    title: 'Standards in Practice',
-    desc: 'Illustrative real-world case studies demonstrating practical standards application.',
+    title: 'Standards Explained in Context',
+    desc: 'AS, Ind AS, and Schedule III explained through practical application.',
+    href: '/standards/as',
+  },
+  {
+    icon: BookOpen,
+    title: 'Useful for Study and Professional Work',
+    desc: 'Relevant for CA students, articleship training, audits, and finance roles.',
     href: '/standards/ind-as',
   },
   {
-    icon: Briefcase,
-    title: 'Industry Relevance',
-    desc: 'Curated knowledge base tailored for CA curriculum, articleship, and finance roles.',
-    href: '/search?q=Career',
+    icon: FileText,
+    title: 'Clear Real-World Explanations',
+    desc: 'Concepts presented with practical scenarios and professional context.',
+    href: '/search?q=compliance',
   },
 ]
 
 export default function AccountsPage() {
   return (
     <div className="w-full min-h-screen">
-      {/* ─── Header & Hero Section (White Background with subtle radial overlay) ─── */}
-      <div className="w-full bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 relative overflow-hidden">
-        {/* Soft radial backdrop to blend the hero graphic smoothly */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(circle_at_right,_var(--tw-gradient-stops))] from-blue-50/20 via-transparent to-transparent pointer-events-none" />
+      {/* ─── Header & Hero Section (Soft Premium Gradient with Blended Image) ─── */}
+      <div className="w-full bg-[#FAFAF8] dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 relative overflow-hidden">
+        {/* Premium background gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAF9] via-[#F4F5F8] to-[#FFFFFF] dark:from-[#0B0F19] dark:via-[#111726] dark:to-[#0B0F19]" />
 
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-10 sm:py-14 relative z-10">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-12 lg:py-20 relative z-10">
           {/* Back Button */}
           <div className="mb-8">
             <BackButton fallbackPath="/" />
           </div>
 
           {/* Hero Content */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pb-4">
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-7 flex flex-col justify-center">
-              <h1 className="text-4xl sm:text-[48px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.1] mb-4 animate-fade-in">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.1] mb-5 animate-fade-in">
                 Accounts
               </h1>
-              <p className="text-[18px] sm:text-[20px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-4 leading-snug">
+              <p className="text-lg sm:text-xl lg:text-2xl font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-6 leading-snug tracking-tight">
                 Master Accounting. Drive Financial Excellence.
               </p>
-              <p className="text-[15px] sm:text-[16px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[580px]">
+              <p className="text-[15px] sm:text-[17px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[620px] font-medium">
                 Comprehensive learning hub for CA students, articles and professionals to build strong
                 accounting, reporting and financial management expertise.
               </p>
             </div>
 
             <div className="lg:col-span-5 flex items-center justify-center lg:justify-end w-full relative">
-              <div className="relative w-full max-w-[460px] lg:max-w-none flex justify-center lg:justify-end">
+              <div className="relative w-full aspect-[3/2] max-w-[480px] lg:max-w-[540px] overflow-hidden">
                 <Image
                   src="/accounts_hero.png"
-                  alt="Professional accounting workstation dashboard illustration"
-                  width={540}
-                  height={360}
+                  alt="Professional accounting workstation background"
+                  fill
                   priority
-                  className="w-full h-auto object-contain select-none transition-transform duration-700 hover:scale-[1.01]"
+                  className="object-cover object-center mix-blend-multiply dark:invert dark:mix-blend-screen dark:opacity-85 select-none transition-transform duration-700 hover:scale-[1.01]"
+                  style={{
+                    maskImage: 'radial-gradient(circle, black 40%, transparent 95%)',
+                    WebkitMaskImage: 'radial-gradient(circle, black 40%, transparent 95%)'
+                  }}
                   draggable={false}
                 />
               </div>
@@ -398,8 +401,8 @@ export default function AccountsPage() {
             </div>
           </section>
 
-          {/* Section 4: Premium Values Row (Replaces the bottom highlights bar) */}
-          <section className="bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#D5E1FB] dark:border-[#263765] rounded-2xl p-5 shadow-xs">
+          {/* Section 4: Premium Values Row (Subtle, genuine platform values) */}
+          <section className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-[#1E2640] rounded-2xl p-6 sm:p-8 shadow-xs">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {PREMIUM_VALUES_ROW.map((item, index) => {
                 const Icon = item.icon
@@ -407,16 +410,16 @@ export default function AccountsPage() {
                   <Link
                     key={index}
                     href={item.href}
-                    className="group flex flex-row items-start gap-3.5"
+                    className="group flex flex-row items-start gap-4 p-2 rounded-xl hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] transition-colors"
                   >
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-white dark:bg-[#111726] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
-                      <Icon size={20} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                      <Icon size={20} className="stroke-[2]" />
                     </div>
                     <div>
-                      <span className="block text-[13px] font-bold text-[#1C1C1E] dark:text-white leading-tight">
+                      <span className="block text-[14px] font-bold text-[#1C1C1E] dark:text-white leading-tight mb-1">
                         {item.title}
                       </span>
-                      <p className="text-[11px] text-[#76767E] dark:text-gray-400 mt-1 leading-snug">
+                      <p className="text-[12px] text-[#76767E] dark:text-gray-400 leading-relaxed">
                         {item.desc}
                       </p>
                     </div>
