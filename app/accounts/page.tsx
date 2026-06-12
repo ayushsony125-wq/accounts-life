@@ -244,12 +244,12 @@ export default function AccountsPage() {
               </p>
             </div>
 
-            {/* Absolutely positioned image on desktop to occupy more width without pushing height */}
-            <div className="lg:col-span-7 w-full lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[58%] xl:w-[62%] h-[180px] sm:h-[230px] lg:h-[260px] xl:h-[280px] z-0 pointer-events-none">
+            {/* Absolutely positioned image on desktop to occupy more width, bleed left, and connect with text */}
+            <div className="lg:col-span-7 w-full lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[68%] xl:w-[72%] h-[180px] sm:h-[240px] lg:h-[300px] xl:h-[320px] z-0 pointer-events-none">
               <img
                 src="/accounts_hero.png"
                 alt="Professional accounting workstation background"
-                className="w-full h-full object-contain object-right dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
+                className="w-full h-full object-contain object-left dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
                 draggable={false}
               />
             </div>
@@ -390,18 +390,17 @@ export default function AccountsPage() {
             </div>
           </section>
 
-          {/* Section 4: Premium Values Row (Subtle, genuine platform values) */}
+          {/* Section 4: Premium Values Row (Subtle, genuine platform values - static informational panels) */}
           <section className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-[#1E2640] rounded-2xl p-6 sm:p-8 shadow-xs">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {PREMIUM_VALUES_ROW.map((item, index) => {
                 const Icon = item.icon
                 return (
-                  <Link
+                  <div
                     key={index}
-                    href={item.href}
-                    className="group flex flex-row items-start gap-4 p-2 rounded-xl hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] transition-colors"
+                    className="flex flex-row items-start gap-4 p-2 rounded-xl"
                   >
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
+                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA] shrink-0 shadow-2xs">
                       <Icon size={20} className="stroke-[2]" />
                     </div>
                     <div>
@@ -412,7 +411,7 @@ export default function AccountsPage() {
                         {item.desc}
                       </p>
                     </div>
-                  </Link>
+                  </div>
                 )
               })}
             </div>
