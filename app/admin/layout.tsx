@@ -24,12 +24,13 @@ function verifyToken(token: string): boolean {
   }
 }
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const session = cookies().get('admin_session')?.value
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin_session')?.value
   const isAuthenticated = session ? verifyToken(session) : false
 
   // If not authenticated, render children only (login page handles its own layout)

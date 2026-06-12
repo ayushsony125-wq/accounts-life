@@ -6,7 +6,7 @@ import { BookOpen, Layers, CheckCircle2, AlertCircle, PlusCircle, ArrowRight } f
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
-  verifyAdminSession()
+  await verifyAdminSession()
 
   const [entries, domains, glossary] = await Promise.all([
     getAllEntries(),

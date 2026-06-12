@@ -11,7 +11,7 @@ import { prisma } from '@/lib/db'
 import type { TableOfContentsItem, VerificationLevel } from '@/lib/types'
 
 interface PageParams {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 // ─── generateStaticParams ─────────────────────────────────────────────────────
@@ -29,12 +29,13 @@ export async function generateStaticParams() {
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
-  const std = await getIndASStandardBySlug(params.slug)
+  const { slug } = await params
+  const std = await getIndASStandardBySlug(slug)
   if (!std) return { title: 'Not Found' }
   return {
     title: std.entryTitle,
     description: std.summary,
-    alternates: { canonical: `/standards/ind-as/${params.slug}` },
+    alternates: { canonical: `/standards/ind-as/${slug}` },
     openGraph: {
       title: `${std.entryTitle} | Accounts.One`,
       description: std.summary,
@@ -58,12 +59,13 @@ const STATUS_CLS: Record<string, string> = {
 }
 
 export default async function IndASStandardPage({ params }: PageParams) {
+  const { slug } = await params
   // Check if it's a subdomain first
   let dbSubdomain = await (async () => {
     try {
       return await prisma.subdomain.findFirst({
         where: {
-          subdomainSlug: params.slug,
+          subdomainSlug: slug,
           domain: { domainSlug: 'standards/ind-as' }
         },
         include: {
@@ -84,11 +86,11 @@ export default async function IndASStandardPage({ params }: PageParams) {
   if (!dbSubdomain) {
     const staticDomains = await getDomains()
     const staticDomain = staticDomains.find(d => d.domainSlug === 'standards/ind-as')
-    const staticSub = staticDomain?.subdomains.find(s => ('subdomainSlug' in s ? (s as any).subdomainSlug : (s as any).slug) === params.slug)
+    const staticSub = staticDomain?.subdomains.find(s => ('subdomainSlug' in s ? (s as any).subdomainSlug : (s as any).slug) === slug)
     if (staticSub) {
       dbSubdomain = {
         subdomainName: 'name' in staticSub ? (staticSub as any).name : (staticSub as any).subdomainName || '',
-        subdomainSlug: params.slug,
+        subdomainSlug: slug,
         subdomainDescription: '',
         domain: {
           domainSlug: 'standards/ind-as',
@@ -107,7 +109,7 @@ export default async function IndASStandardPage({ params }: PageParams) {
         try {
           return await prisma.entry.findMany({
             where: {
-              subdomain: { subdomainSlug: params.slug },
+              subdomain: { subdomainSlug: slug },
               domain: { domainSlug: 'standards/ind-as' },
               status: 'PUBLISHED'
             },
@@ -190,7 +192,7 @@ export default async function IndASStandardPage({ params }: PageParams) {
     )
   }
 
-  const std = await getIndASStandardBySlug(params.slug)
+  const std = await getIndASStandardBySlug(slug)
 
   if (!std) notFound()
 

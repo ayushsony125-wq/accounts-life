@@ -7,10 +7,10 @@ import { prisma } from '@/lib/db'
 import { getDomains, getSearchIndex } from '@/lib/queries'
 
 interface PageParams {
-  params: {
+  params: Promise<{
     domainSlug: string
     subSlug: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -63,12 +63,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
+  const { domainSlug, subSlug } = await params
   let subdomain = null
   try {
     subdomain = await prisma.subdomain.findFirst({
       where: {
-        subdomainSlug: params.subSlug,
-        domain: { domainSlug: params.domainSlug }
+        subdomainSlug: subSlug,
+        domain: { domainSlug }
       },
       include: { domain: true }
     })
@@ -78,26 +79,27 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 
   if (!subdomain) {
     return {
-      title: `${params.subSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} | Accounts.One`,
-      description: `Explore detailed guidance, concepts, and tutorials under ${params.subSlug}.`,
-      alternates: { canonical: `/${params.domainSlug}/${params.subSlug}` },
+      title: `${subSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} | Accounts.One`,
+      description: `Explore detailed guidance, concepts, and tutorials under ${subSlug}.`,
+      alternates: { canonical: `/${domainSlug}/${subSlug}` },
     }
   }
 
   return {
     title: `${subdomain.subdomainName} | ${subdomain.domain.domainName} — Accounts.One`,
     description: subdomain.subdomainDescription || `Explore detailed guidance, concepts, and tutorials under ${subdomain.subdomainName}.`,
-    alternates: { canonical: `/${params.domainSlug}/${params.subSlug}` },
+    alternates: { canonical: `/${domainSlug}/${subSlug}` },
   }
 }
 
 export default async function SubdomainPage({ params }: PageParams) {
+  const { domainSlug, subSlug } = await params
   let subdomain = null
   try {
     subdomain = await prisma.subdomain.findFirst({
       where: {
-        subdomainSlug: params.subSlug,
-        domain: { domainSlug: params.domainSlug }
+        subdomainSlug: subSlug,
+        domain: { domainSlug }
       },
       include: {
         domain: true,
@@ -114,11 +116,11 @@ export default async function SubdomainPage({ params }: PageParams) {
   if (!subdomain) {
     // Check static fallback
     const domains = await getDomains()
-    const staticDomain = domains.find(d => d.domainSlug === params.domainSlug)
+    const staticDomain = domains.find(d => d.domainSlug === domainSlug)
     if (!staticDomain) notFound()
     
     const staticSub = staticDomain.subdomains.find(
-      s => ('subdomainSlug' in s ? (s as any).subdomainSlug : (s as any).slug) === params.subSlug
+      s => ('subdomainSlug' in s ? (s as any).subdomainSlug : (s as any).slug) === subSlug
     )
     if (!staticSub) notFound()
 
@@ -127,9 +129,9 @@ export default async function SubdomainPage({ params }: PageParams) {
     const colorHex = staticDomain.domainColorHex
 
     return renderSubdomainView({
-      domainSlug: params.domainSlug,
+      domainSlug,
       domainName,
-      subdomainSlug: params.subSlug,
+      subdomainSlug: subSlug,
       subdomainName,
       subdomainDescription: '',
       colorHex,

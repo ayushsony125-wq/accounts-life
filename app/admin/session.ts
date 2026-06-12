@@ -25,8 +25,9 @@ function verifyToken(token: string): boolean {
  * Checks the admin session cookie. If not authenticated,
  * performs an immediate server-side redirect to the login page.
  */
-export function verifyAdminSession() {
-  const session = cookies().get('admin_session')?.value
+export async function verifyAdminSession() {
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin_session')?.value
   if (!session || !verifyToken(session)) {
     redirect('/admin/login')
   }

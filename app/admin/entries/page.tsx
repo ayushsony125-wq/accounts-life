@@ -5,7 +5,7 @@ import EntriesListClient from './EntriesListClient'
 export const dynamic = 'force-dynamic'
 
 export default async function EntriesPage() {
-  verifyAdminSession()
+  await verifyAdminSession()
   const entries = await getAllEntries()
 
   return <EntriesListClient initialEntries={entries} />

@@ -15,11 +15,11 @@ import type {
 import TopicPageClient from '@/components/ui/TopicPageClient'
 
 interface PageParams {
-  params: {
+  params: Promise<{
     domainSlug: string
     subSlug: string
     entrySlug: string
-  }
+  }>
 }
 
 // ─── generateStaticParams — pre-renders known entries ─────────────────────────
@@ -40,14 +40,15 @@ export async function generateStaticParams() {
 // ─── Metadata ────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
-  if (params.domainSlug === 'standards') return { title: 'Not Found' }
-  const entry = await getEntryBySlug(params.domainSlug, params.subSlug, params.entrySlug)
+  const { domainSlug, subSlug, entrySlug } = await params
+  if (domainSlug === 'standards') return { title: 'Not Found' }
+  const entry = await getEntryBySlug(domainSlug, subSlug, entrySlug)
   if (!entry) return { title: 'Not Found' }
   return {
     title: entry.entryTitle,
     description: entry.summary,
     alternates: {
-      canonical: `/${params.domainSlug}/${params.subSlug}/${params.entrySlug}`,
+      canonical: `/${domainSlug}/${subSlug}/${entrySlug}`,
     },
     openGraph: {
       title: `${entry.entryTitle} | Accounts.One`,
@@ -59,11 +60,12 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function TopicPage({ params }: PageParams) {
-  if (params.domainSlug === 'standards') notFound()
+  const { domainSlug, subSlug, entrySlug } = await params
+  if (domainSlug === 'standards') notFound()
   const entry = await getEntryBySlug(
-    params.domainSlug,
-    params.subSlug,
-    params.entrySlug
+    domainSlug,
+    subSlug,
+    entrySlug
   )
 
   if (!entry) notFound()
@@ -107,7 +109,7 @@ export default async function TopicPage({ params }: PageParams) {
     },
     'mainEntityOfPage': {
       '@type': 'WebPage',
-      '@id': `${siteUrl}/${params.domainSlug}/${params.subSlug}/${params.entrySlug}`,
+      '@id': `${siteUrl}/${domainSlug}/${subSlug}/${entrySlug}`,
     },
   }
 

@@ -4,20 +4,21 @@ import { getDomains, getAllEntries } from '@/lib/queries'
 import EntryForm from '../../EntryForm'
 
 interface EditPageProps {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export const dynamic = 'force-dynamic'
 
 export default async function EditEntryPage({ params }: EditPageProps) {
-  verifyAdminSession()
+  await verifyAdminSession()
+  const { id } = await params
   
   const [domains, entries] = await Promise.all([
     getDomains(),
     getAllEntries()
   ])
   
-  const entry = entries.find((e) => e.id === Number(params.id))
+  const entry = entries.find((e) => e.id === Number(id))
   
   if (!entry) {
     notFound()

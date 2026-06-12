@@ -69,7 +69,8 @@ export async function login(password: string) {
 
   if (password === adminPassword) {
     const sessionToken = generateToken(60 * 60 * 24 * 1000) // 1 day
-    cookies().set('admin_session', sessionToken, {
+    const cookieStore = await cookies()
+    cookieStore.set('admin_session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
@@ -83,12 +84,14 @@ export async function login(password: string) {
 }
 
 export async function logout() {
-  cookies().delete('admin_session')
+  const cookieStore = await cookies()
+  cookieStore.delete('admin_session')
   return { success: true }
 }
 
 export async function checkSession(): Promise<boolean> {
-  const session = cookies().get('admin_session')?.value
+  const cookieStore = await cookies()
+  const session = cookieStore.get('admin_session')?.value
   if (!session) return false
   return verifyToken(session)
 }

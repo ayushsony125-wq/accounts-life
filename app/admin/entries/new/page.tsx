@@ -5,7 +5,7 @@ import EntryForm from '../EntryForm'
 export const dynamic = 'force-dynamic'
 
 export default async function NewEntryPage() {
-  verifyAdminSession()
+  await verifyAdminSession()
   const domains = await getDomains()
 
   return <EntryForm domains={domains} />

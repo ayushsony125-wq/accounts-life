@@ -11,7 +11,7 @@ import { prisma } from '@/lib/db'
 import type { TableOfContentsItem, VerificationLevel } from '@/lib/types'
 
 interface PageParams {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 // ─── generateStaticParams ─────────────────────────────────────────────────────
@@ -29,12 +29,13 @@ export async function generateStaticParams() {
 // ─── Metadata ─────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
-  const std = await getASStandardBySlug(params.slug)
+  const { slug } = await params
+  const std = await getASStandardBySlug(slug)
   if (!std) return { title: 'Not Found' }
   return {
     title: std.entryTitle,
     description: std.summary,
-    alternates: { canonical: `/standards/as/${params.slug}` },
+    alternates: { canonical: `/standards/as/${slug}` },
     openGraph: {
       title: `${std.entryTitle} | Accounts.One`,
       description: std.summary,
@@ -69,12 +70,13 @@ const STATUS_CLS: Record<string, string> = {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function StandardPage({ params }: PageParams) {
+  const { slug } = await params
   // Check if it's a subdomain first
   let dbSubdomain = await (async () => {
     try {
       return await prisma.subdomain.findFirst({
         where: {
-          subdomainSlug: params.slug,
+          subdomainSlug: slug,
           domain: { domainSlug: 'standards/as' }
         },
         include: {
@@ -95,11 +97,11 @@ export default async function StandardPage({ params }: PageParams) {
   if (!dbSubdomain) {
     const staticDomains = await getDomains()
     const staticDomain = staticDomains.find(d => d.domainSlug === 'standards/as')
-    const staticSub = staticDomain?.subdomains.find(s => ('subdomainSlug' in s ? (s as any).subdomainSlug : (s as any).slug) === params.slug)
+    const staticSub = staticDomain?.subdomains.find(s => ('subdomainSlug' in s ? (s as any).subdomainSlug : (s as any).slug) === slug)
     if (staticSub) {
       dbSubdomain = {
         subdomainName: 'name' in staticSub ? (staticSub as any).name : (staticSub as any).subdomainName || '',
-        subdomainSlug: params.slug,
+        subdomainSlug: slug,
         subdomainDescription: '',
         domain: {
           domainSlug: 'standards/as',
@@ -118,7 +120,7 @@ export default async function StandardPage({ params }: PageParams) {
         try {
           return await prisma.entry.findMany({
             where: {
-              subdomain: { subdomainSlug: params.slug },
+              subdomain: { subdomainSlug: slug },
               domain: { domainSlug: 'standards/as' },
               status: 'PUBLISHED'
             },
@@ -201,7 +203,7 @@ export default async function StandardPage({ params }: PageParams) {
     )
   }
 
-  const std = await getASStandardBySlug(params.slug)
+  const std = await getASStandardBySlug(slug)
 
   if (!std) notFound()
   const fwColor = FW_COLOR[std.standardFramework] ?? '#0F6B5E'

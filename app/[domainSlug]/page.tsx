@@ -8,9 +8,9 @@ import { getDomainBySlug, getDomains } from '@/lib/queries'
 import { prisma } from '@/lib/db'
 
 interface PageParams {
-  params: {
+  params: Promise<{
     domainSlug: string
-  }
+  }>
 }
 
 export async function generateStaticParams() {
@@ -23,12 +23,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageParams): Promise<Metadata> {
-  const domain = await getDomainBySlug(params.domainSlug)
+  const { domainSlug } = await params
+  const domain = await getDomainBySlug(domainSlug)
   if (!domain) return { title: 'Not Found' }
   return {
     title: `${domain.domainName} | Accounts.One`,
     description: domain.domainDescription || domain.domainTagline || '',
-    alternates: { canonical: `/${params.domainSlug}` },
+    alternates: { canonical: `/${domainSlug}` },
     openGraph: {
       title: `${domain.domainName} | Accounts.One`,
       description: domain.domainDescription || domain.domainTagline || '',
@@ -37,10 +38,11 @@ export async function generateMetadata({ params }: PageParams): Promise<Metadata
 }
 
 export default async function DomainPage({ params }: PageParams) {
+  const { domainSlug } = await params
   let dbDomain = null
   try {
     dbDomain = await prisma.domain.findUnique({
-      where: { domainSlug: params.domainSlug },
+      where: { domainSlug },
       include: {
         subdomains: {
           orderBy: { sortOrder: 'asc' },
@@ -62,7 +64,7 @@ export default async function DomainPage({ params }: PageParams) {
   // If not found in database or query failed, check fallback
   if (!dbDomain) {
     const staticDomains = await getDomains()
-    const fallback = staticDomains.find(d => d.domainSlug === params.domainSlug) as any
+    const fallback = staticDomains.find(d => d.domainSlug === domainSlug) as any
     if (!fallback) notFound()
 
     const domainData = {

@@ -5,7 +5,7 @@ import HomepageConfigClient from './HomepageConfigClient'
 export const dynamic = 'force-dynamic'
 
 export default async function HomepageConfigPage() {
-  verifyAdminSession()
+  await verifyAdminSession()
 
   const layoutConfig = await getHomepageConfig('homepage_layout_config', {})
   const footerConfig = await getHomepageConfig('footer_config', {})
