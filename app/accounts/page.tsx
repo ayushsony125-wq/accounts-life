@@ -29,14 +29,14 @@ import {
 } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Accounts — Master Accounting & Drive Financial Excellence',
+  title: 'Accounts — Statutory Frameworks & Professional Standards | Accounts.One',
   description:
-    'Comprehensive learning hub for CA students, articles and professionals to build strong accounting, reporting and financial management expertise. Covers Schedule III, AS, Ind AS, foundations, advanced and corporate topics.',
+    'Professional accounting reference covering Schedule III, Accounting Standards (AS), and Indian Accounting Standards (Ind AS). Guidance on disclosures, journals, and year-end compliance.',
   alternates: { canonical: '/accounts' },
   openGraph: {
-    title: 'Accounts | Accounts.One',
+    title: 'Accounts — Statutory Frameworks & Professional Standards | Accounts.One',
     description:
-      'Your complete Accounts learning hub — Schedule III, AS Standards, Ind AS, Journal Entries, Financial Statements, and professional-grade guidance.',
+      'Statutory accounting standards and framework guidance. Covers Schedule III disclosures, AS, Ind AS, journal entries, and reconciliation rules.',
   },
 }
 
@@ -133,25 +133,25 @@ const ADVANCED = [
   {
     icon: Sliders,
     title: 'Complex Adjustments & Entries',
-    desc: 'Advance adjustment for financial accuracy.',
+    desc: 'Accounting for provisions, contingencies, and prior period items.',
     href: '/search?q=Complex+Adjustments',
   },
   {
     icon: Calculator,
     title: 'Deferred Tax',
-    desc: 'Schedule planning for DTA/DTL corporation.',
+    desc: 'Computation of Deferred Tax Asset (DTA) and Liability (DTL) under AS 22 / Ind AS 12.',
     href: '/search?q=Deferred+Tax',
   },
   {
     icon: PieChart,
     title: 'Corporate Reporting',
-    desc: 'CFO Dashboards, EBITDA tracking and monthly MIS preparation.',
+    desc: 'Preparation of Board decks, monthly MIS reports, and key financial ratios.',
     href: '/search?q=Corporate+Reporting',
   },
   {
     icon: Laptop,
     title: 'Portal Reconciliations',
-    desc: 'Matching profit with Income Tax (TRACES), GETN, etc.',
+    desc: 'Reconciliation of books with GSTR-2B, GSTR-1, and 26AS/AIS.',
     href: '/search?q=Reconciliation',
   },
   {
@@ -163,13 +163,13 @@ const ADVANCED = [
   {
     icon: Users,
     title: 'Corporate Payroll',
-    desc: 'CTC structural breakup, EPF (Excluded employees rule), ESC, and Sec 192 TDS.',
+    desc: 'CTC structure design, EPF compliance, ESIC, and TDS under Section 192.',
     href: '/search?q=Payroll',
   },
   {
     icon: RefreshCw,
     title: 'P2P & O2C Cycles',
-    desc: 'Vendor/Customer/Aging. MEME 45-day payment compliance.',
+    desc: 'Accounts Receivable/Payable aging and MSME 45-day rule compliance under Section 43B(h).',
     href: '/search?q=P2P+O2C',
   },
   {
@@ -197,25 +197,21 @@ const PREMIUM_VALUES_ROW = [
     icon: ClipboardList,
     title: 'Practical Accounting Guidance',
     desc: 'Focused on accounting treatment, reporting, reconciliations, and compliance requirements.',
-    href: '/search?q=guidance',
   },
   {
     icon: Scale,
     title: 'Standards Explained in Context',
     desc: 'AS, Ind AS, and Schedule III explained through practical application.',
-    href: '/standards/as',
   },
   {
     icon: BookOpen,
     title: 'Useful for Study and Professional Work',
     desc: 'Relevant for CA students, articleship training, audits, and finance roles.',
-    href: '/standards/ind-as',
   },
   {
     icon: FileText,
     title: 'Clear Real-World Explanations',
     desc: 'Concepts presented with practical scenarios and professional context.',
-    href: '/search?q=compliance',
   },
 ]
 
@@ -226,31 +222,36 @@ export default function AccountsPage() {
       <div className="w-full bg-[#F8F9FD] dark:bg-[#0B0F19] relative overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-2 pb-2 sm:pt-3 sm:pb-3 relative z-10">
           {/* Hero Content */}
-          <section className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center min-h-[180px] lg:min-h-[240px]">
+          <section className="relative grid grid-cols-1 lg:grid-cols-12 gap-6 items-center min-h-[180px] lg:min-h-[220px]">
             <div className="lg:col-span-5 flex flex-col justify-start pt-1 z-10">
               {/* Back Button inside the text column to allow the image to float higher */}
               <div className="mb-2.5">
                 <BackButton fallbackPath="/" />
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.08] mb-2 animate-fade-in">
+              <h1 className="text-3xl sm:text-[36px] lg:text-[38px] font-bold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.1] mb-1.5 animate-fade-in">
                 Accounts
               </h1>
-              <p className="text-lg sm:text-xl lg:text-[20px] font-semibold text-[#2D5BE3] dark:text-[#60A5FA] mb-2 leading-snug tracking-tight">
-                Professional Accounting Standards &amp; Frameworks
+              <p className="text-base sm:text-[17px] font-semibold text-[#2D5BE3] dark:text-[#60A5FA] mb-2 tracking-normal">
+                Statutory Frameworks &amp; Professional Standards
               </p>
-              <p className="text-[15px] sm:text-base lg:text-[15px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[480px] font-medium mb-0">
-                Authoritative reference and learning resources covering Schedule III, Accounting Standards (AS),
-                and Indian Accounting Standards (Ind AS) for finance professionals and students.
+              <p className="text-[14px] sm:text-[15px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[460px] font-medium mb-0">
+                Statutory reference material covering Schedule III, AS, and Ind AS. Structured for chartered accountants, audit articles, and corporate finance teams.
               </p>
             </div>
 
             {/* Hero illustration in normal flow to balance text (40-45%) and artwork (55-60%) with zero empty right-side space */}
-            <div className="lg:col-span-7 flex items-center justify-center lg:justify-end w-full relative pt-1 lg:pt-0">
-              <div className="relative w-full h-[180px] sm:h-[240px] lg:h-[260px] xl:h-[285px]">
+            <div className="lg:col-span-7 flex items-center justify-end w-full relative pt-1 lg:pt-0 overflow-visible">
+              <div 
+                className="relative w-full h-[180px] sm:h-[220px] lg:h-[245px] xl:h-[260px] overflow-visible"
+                style={{
+                  maskImage: 'radial-gradient(ellipse at right, black 50%, transparent 100%)',
+                  WebkitMaskImage: 'radial-gradient(ellipse at right, black 50%, transparent 100%)'
+                }}
+              >
                 <img
                   src="/accounts_hero.png"
                   alt="Professional accounting workstation background"
-                  className="w-full h-full object-contain object-right dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
+                  className="w-full h-full object-contain object-right dark:invert dark:mix-blend-screen dark:opacity-95 select-none transform lg:scale-115 lg:origin-right"
                   draggable={false}
                 />
               </div>

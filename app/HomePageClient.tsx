@@ -94,53 +94,53 @@ const POPULAR_SEARCHES = [
 ]
 
 const TRUST_POINTS = [
-  'Backed by ICAI, Government & Official Sources',
-  'Simple Language, Practical Understanding',
-  'Section, Rule, Notification with Every Answer',
-  'Study Material & Curated Video Lectures',
-  'For Students, Articles & Practising Professionals',
+  'Referenced to official ICAI, CBDT, and CBIC guidelines',
+  'Clear explanations of complex statutory provisions',
+  'Direct citations to sections, rules, and circulars',
+  'Curated learning paths for CA students and articles',
+  'Structured for students, articles, and practicing professionals',
 ]
 
 const QUICK_LINKS = [
   {
     label: 'TDS Calculator',
     href: '/search?q=TDS+Calculator',
-    description: 'TDS rates, thresholds & utility',
+    description: 'TDS rates, thresholds, and applicability',
     Icon: Calculator,
     color: '#0D9488',
   },
   {
     label: 'Calculators',
     href: '/search?q=Calculators',
-    description: 'Financial & Tax calculators',
+    description: 'Tax and financial planning calculators',
     Icon: Calculator,
     color: '#1A7A4A',
   },
   {
     label: 'Standards Library',
     href: '/standards/as',
-    description: 'AS, Ind AS, SA, IFRS & more',
+    description: 'AS, Ind AS, and Standards on Auditing',
     Icon: BookOpen,
     color: '#2D5BE3',
   },
   {
     label: 'Section Finder',
     href: '/search',
-    description: 'Income Tax, GST & Companies Act',
+    description: 'Search sections under Tax & Corporate laws',
     Icon: Search,
     color: '#0F6B5E',
   },
   {
     label: 'Case Laws',
     href: '/search?q=Case+Laws',
-    description: 'Important judgments & rulings',
+    description: 'Key ITAT, High Court, and Supreme Court rulings',
     Icon: Scale,
     color: '#6B3FA0',
   },
   {
     label: 'Forms & Checklists',
     href: '/search?q=Forms',
-    description: 'Practical templates & checklists',
+    description: 'Audit checklists and statutory forms',
     Icon: FileText,
     color: '#B45309',
   },
@@ -232,12 +232,12 @@ const ACCURACY_PILLARS = [
   {
     Icon: ShieldCheck,
     title: 'Statutory Sources',
-    body: 'Direct references from ICAI and government releases',
+    body: 'Direct references to ICAI and government releases',
   },
   {
     Icon: CheckCircle2,
     title: 'Professional Review',
-    body: 'Reviewed by chartered accountants and tax experts',
+    body: 'Curated by qualified chartered accountants and tax experts',
   },
   {
     Icon: FileText,
@@ -247,12 +247,12 @@ const ACCURACY_PILLARS = [
   {
     Icon: RefreshCw,
     title: 'Updated Frameworks',
-    body: 'Reflects latest circulars, notifications, and guidelines',
+    body: 'Regularly updated with recent circulars and notifications',
   },
   {
     Icon: CheckCircle2,
     title: 'Reliable Reference',
-    body: 'Referenced by audit professionals and CA articles',
+    body: 'Structured for audit professionals and articles',
   },
 ]
 
@@ -333,9 +333,9 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
 
   // Load configured content or fallback to defaults
   const sectionsOrder = initialConfig?.sectionsOrder || ['hero', 'domains', 'updates', 'quickaccess', 'accuracy']
-  const heroTitle = initialConfig?.heroTitle || "Authoritative Reference for"
+  const heroTitle = initialConfig?.heroTitle || "Statutory Reference & Guidance for"
   const heroTitleSpan = initialConfig?.heroTitleSpan || "Accounting & Compliance"
-  const heroSubtitle = initialConfig?.heroSubtitle || "Structured accounting standards, statutory guidance, circulars, and compliance references for chartered accountants and finance professionals."
+  const heroSubtitle = initialConfig?.heroSubtitle || "Comprehensive reference platform for AS, Ind AS, Standards on Auditing, Income Tax, GST, and corporate laws."
   const popularSearches = (initialConfig?.popularSearches || POPULAR_SEARCHES).filter(
     (item: any) => {
       const cleanLabel = item.label ? item.label.trim().toLowerCase().replace(/[^a-z0-9]/g, '') : '';
@@ -345,7 +345,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
   const trustPoints = initialConfig?.trustPoints || TRUST_POINTS
   
   const domainsHeading = initialConfig?.domainsHeading || "Explore by Domain"
-  const domainsSubheading = initialConfig?.domainsSubheading || "Choose a subject to access structured knowledge, laws, standards, and practical guidance."
+  const domainsSubheading = initialConfig?.domainsSubheading || "Select a domain to access standards, legal sections, compliance guides, and practical references."
   const domainsCards = initialConfig?.domainsCards || PROFESSIONAL_DOMAINS
   
   const updatesHeading = initialConfig?.updatesHeading || "Latest Updates"
@@ -356,10 +356,10 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
   const subscribeDesc = initialConfig?.subscribeDesc || "Get important notifications, amendments, circulars & updates directly in your inbox."
   
   const quickAccessHeading = initialConfig?.quickAccessHeading || "Quick Access"
-  const quickAccessSubheading = initialConfig?.quickAccessSubheading || "Everything you need, right at your fingertips."
+  const quickAccessSubheading = initialConfig?.quickAccessSubheading || "Quick reference utilities and statutory guidelines."
   const quickAccessLinks = initialConfig?.quickAccessLinks || QUICK_LINKS
   
-  const accuracyHeading = initialConfig?.accuracyHeading || "Built for Accuracy. Designed for Professionals."
+  const accuracyHeading = initialConfig?.accuracyHeading || "Statutory Precision. Built for Finance Professionals."
   const accuracyPillars = initialConfig?.accuracyPillars || ACCURACY_PILLARS
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -426,8 +426,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="hero-heading"
       className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-3 pb-2.5 sm:pt-4.5 sm:pb-3.5">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8 lg:gap-12 items-start">
+      <div className="max-w-[1280px] mx-auto px-6 pt-3 pb-3 sm:pt-4 sm:pb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
           {/* Left: Headline + Search */}
           <div className="flex flex-col">
             <h1
@@ -437,10 +437,10 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
               {heroTitle}<br />
               <span className="text-[#2D5BE3] dark:text-[#60A5FA]">{heroTitleSpan}</span>
             </h1>
-            <p className="mt-3 text-[14.5px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
+            <p className="mt-2 text-[14.5px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
               {heroSubtitle}
             </p>
-            <form onSubmit={handleSearch} className="mt-4 relative max-w-2xl flex items-center">
+            <form onSubmit={handleSearch} className="mt-3 relative max-w-2xl flex items-center">
               <div className="relative flex-1">
                 <Search
                   size={16}
@@ -461,7 +461,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 Search
               </button>
             </form>
-            <div className="mt-4 w-full max-w-2xl">
+            <div className="mt-2.5 w-full max-w-2xl">
               <div className="flex flex-row flex-wrap items-center gap-2">
                 <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0 whitespace-nowrap">Trending:</span>
                 {trendingSearches.map((s: any) => (
@@ -478,12 +478,12 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
             </div>
           </div>
           {/* Right: Trust Card */}
-          <div className="lg:pt-2">
-            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-4 sm:p-5 shadow-sm">
-              <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-3">
+          <div className="lg:pt-1">
+            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-4 shadow-sm">
+              <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-2">
                 Why Professionals Trust Accounts.One
               </h2>
-              <ul className="flex flex-col gap-2.5 mb-4">
+              <ul className="flex flex-col gap-2 mb-3">
                 {trustPoints.map((point: string) => (
                   <li key={point} className="flex items-start gap-3 text-xs text-[#4A4A52] dark:text-gray-300 leading-snug font-medium">
                     <CheckCircle2
@@ -496,7 +496,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
               </ul>
               <Link
                 href="/accounts"
-                className="flex items-center justify-center gap-2 w-full text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-4 py-2.5 rounded-md transition-all shadow-sm"
+                className="flex items-center justify-center gap-2 w-full text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-4 py-2 rounded-md transition-all shadow-sm"
               >
                 Explore All Features
                 <ArrowRight size={13} />
@@ -514,8 +514,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="domains-heading"
       className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-4 pb-8 sm:pt-5 sm:pb-10">
-        <header className="flex items-start justify-between mb-5 sm:mb-6">
+      <div className="max-w-[1280px] mx-auto px-6 pt-4 pb-6 sm:pt-4 sm:pb-6">
+        <header className="flex items-start justify-between mb-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <LayoutGrid size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
@@ -546,15 +546,15 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 key={domain.id}
                 href={domain.href}
                 id={`domain-card-${domain.id}`}
-                className="group flex flex-col items-center text-center p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
+                className="group flex flex-col items-center text-center p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
               >
                 <div
-                  className="flex items-center justify-center w-12 h-12 rounded-full mb-4"
+                  className="flex items-center justify-center w-12 h-12 rounded-full mb-3"
                   style={{ backgroundColor: `${domain.color}14` }}
                 >
                   <CardIcon size={22} style={{ color: domain.color }} />
                 </div>
-                <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug mb-2">
+                <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug mb-1.5">
                   {domain.name}
                 </h3>
                 <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">
@@ -574,7 +574,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="updates-heading"
       className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 py-12">
+      <div className="max-w-[1280px] mx-auto px-6 py-8 lg:py-10">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-10 lg:gap-14 items-start">
           {/* LEFT: Latest Updates feed */}
           <div>
@@ -733,7 +733,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="quickaccess-heading"
       className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 py-12">
+      <div className="max-w-[1280px] mx-auto px-6 py-8 lg:py-10">
         <header className="flex items-start justify-between mb-8">
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -783,7 +783,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
     <section
       key="accuracy"
       aria-labelledby="accuracy-heading"
-      className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 py-12"
+      className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 py-8 lg:py-10"
     >
       <div className="max-w-[1280px] mx-auto px-6">
         <div className="flex items-center justify-center gap-2 mb-10">
