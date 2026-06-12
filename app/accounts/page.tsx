@@ -244,14 +244,16 @@ export default function AccountsPage() {
               </p>
             </div>
 
-            {/* Absolutely positioned image on desktop to occupy more width, bleed left, and connect with text */}
-            <div className="lg:col-span-7 w-full lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2 lg:w-[68%] xl:w-[72%] h-[180px] sm:h-[240px] lg:h-[300px] xl:h-[320px] z-0 pointer-events-none">
-              <img
-                src="/accounts_hero.png"
-                alt="Professional accounting workstation background"
-                className="w-full h-full object-contain object-left dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
-                draggable={false}
-              />
+            {/* Hero illustration in normal flow to balance text (40-45%) and artwork (55-60%) with zero empty right-side space */}
+            <div className="lg:col-span-7 flex items-center justify-center lg:justify-end w-full relative pt-1 lg:pt-0">
+              <div className="relative w-full h-[180px] sm:h-[240px] lg:h-[260px] xl:h-[285px]">
+                <img
+                  src="/accounts_hero.png"
+                  alt="Professional accounting workstation background"
+                  className="w-full h-full object-contain object-right dark:invert dark:mix-blend-screen dark:opacity-90 select-none"
+                  draggable={false}
+                />
+              </div>
             </div>
           </section>
         </div>
