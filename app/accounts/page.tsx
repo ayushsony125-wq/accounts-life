@@ -223,23 +223,19 @@ export default function AccountsPage() {
   return (
     <div className="w-full min-h-screen">
       {/* ─── Header & Hero Section (Optimized layout and vertical alignment) ─── */}
-      <div className="w-full bg-[#FAFAF8] dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 relative overflow-hidden">
-        {/* Soft premium background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#FAFAF9] via-[#F4F5F8] to-[#FFFFFF] dark:from-[#0B0F19] dark:via-[#111726] dark:to-[#0B0F19]" />
-
+      <div className="w-full bg-white dark:bg-[#0B0F19] relative overflow-hidden">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 pt-3 pb-3 sm:pt-4 sm:pb-4 relative z-10">
-          {/* Back Button */}
-          <div className="mb-4">
-            <BackButton fallbackPath="/" />
-          </div>
-
           {/* Hero Content */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-            <div className="lg:col-span-5 flex flex-col justify-center">
-              <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.05] mb-3 animate-fade-in">
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+            <div className="lg:col-span-6 flex flex-col justify-start pt-1">
+              {/* Back Button inside the text column to allow the image to float higher */}
+              <div className="mb-3">
+                <BackButton fallbackPath="/" />
+              </div>
+              <h1 className="text-4xl sm:text-5xl lg:text-[52px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.05] mb-2 animate-fade-in">
                 Accounts
               </h1>
-              <p className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-3 leading-snug tracking-tight">
+              <p className="text-lg sm:text-xl lg:text-[22px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-2.5 leading-snug tracking-tight">
                 Master Accounting. Drive Financial Excellence.
               </p>
               <p className="text-[15px] sm:text-base lg:text-[16px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-[480px] font-medium mb-0">
@@ -248,8 +244,8 @@ export default function AccountsPage() {
               </p>
             </div>
 
-            <div className="lg:col-span-7 flex items-center justify-center lg:justify-end w-full relative">
-              <div className="relative w-full aspect-[575/330] max-h-[260px] sm:max-h-[300px] lg:max-h-[330px]">
+            <div className="lg:col-span-6 flex items-center justify-center lg:justify-end w-full relative pt-1 sm:pt-2">
+              <div className="relative w-full h-[180px] sm:h-[240px] lg:h-[270px] xl:h-[290px]">
                 <Image
                   src="/accounts_hero.png"
                   alt="Professional accounting workstation background"
@@ -265,7 +261,7 @@ export default function AccountsPage() {
       </div>
 
       {/* ─── Content Body (Light Grey Background) ──────────────────────── */}
-      <div className="w-full bg-[#FAFAF8] dark:bg-[#0B0F19] pt-5 pb-8">
+      <div className="w-full bg-[#FAFAF8] dark:bg-[#0B0F19] pt-3 pb-8 sm:pt-4">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 space-y-8">
           
           {/* Section 1: Accounting Frameworks & Standards */}
