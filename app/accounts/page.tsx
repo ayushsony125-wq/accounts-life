@@ -19,9 +19,13 @@ import {
   Calendar,
   RefreshCw,
   Wallet,
-  GraduationCap,
-  Bell,
   Laptop,
+  Sliders,
+  Layers,
+  Briefcase,
+  ClipboardList,
+  TrendingDown,
+  PieChart,
 } from 'lucide-react'
 
 export const metadata: Metadata = {
@@ -40,7 +44,7 @@ export const metadata: Metadata = {
 
 const CORE_LEARNING = [
   {
-    icon: Landmark,
+    icon: BookOpen,
     title: 'Accounting Fundamentals',
     desc: 'Concepts, conventions, accounting principles and terminology.',
     href: '/foundations',
@@ -52,7 +56,7 @@ const CORE_LEARNING = [
     href: '/foundations',
   },
   {
-    icon: BookOpen,
+    icon: FileText,
     title: 'Books of Original Entry',
     desc: 'Journal, Cash Book, Purchases Book, Sales Book and other subsidiary books.',
     href: '/foundations',
@@ -70,7 +74,7 @@ const CORE_LEARNING = [
     href: '/foundations',
   },
   {
-    icon: FileText,
+    icon: Layers,
     title: 'Final Accounts',
     desc: 'Trading, Profit & Loss A/c and Balance Sheet preparation.',
     href: '/foundations',
@@ -82,13 +86,13 @@ const CORE_LEARNING = [
     href: '/foundations',
   },
   {
-    icon: Building2,
+    icon: Landmark,
     title: 'Bank Reconciliation',
     desc: 'Bank reconciliation statements with practical applications.',
     href: '/foundations',
   },
   {
-    icon: TrendingUp,
+    icon: TrendingDown,
     title: 'Depreciation Accounting',
     desc: 'Methods, calculation and accounting treatment of depreciation.',
     href: '/foundations',
@@ -121,13 +125,13 @@ const ADVANCED = [
     href: '/search?q=Internal+Controls',
   },
   {
-    icon: FileText,
+    icon: Layers,
     title: 'Consolidated Financial Statements',
     desc: 'Preparation of Consolidated Balance Sheet and P&L A/c.',
     href: '/search?q=Consolidated',
   },
   {
-    icon: Settings,
+    icon: Sliders,
     title: 'Complex Adjustments & Entries',
     desc: 'Advance adjustment for financial accuracy.',
     href: '/search?q=Complex+Adjustments',
@@ -139,7 +143,7 @@ const ADVANCED = [
     href: '/search?q=Deferred+Tax',
   },
   {
-    icon: BarChart2,
+    icon: PieChart,
     title: 'Corporate Reporting',
     desc: 'CFO Dashboards, EBITDA tracking and monthly MIS preparation.',
     href: '/search?q=Corporate+Reporting',
@@ -188,48 +192,51 @@ const ADVANCED = [
   },
 ]
 
-const PRACTICAL_ROW = [
+const PREMIUM_VALUES_ROW = [
   {
-    icon: Package,
-    title: 'Real Examples',
-    desc: 'Illustrative & practical case-based learning.',
-    href: '/search?q=Examples',
+    icon: ClipboardList,
+    title: 'Accounting Workflows',
+    desc: 'Structured guides for month-end closure, reconciliations, and closure cycles.',
+    href: '/search?q=Workflows',
   },
   {
-    icon: GraduationCap,
-    title: 'Exam & Articleship Ready',
-    desc: 'Useful for CA exams, articleship & jobs.',
-    href: '/search?q=CA+Exam',
-  },
-  {
-    icon: FileText,
-    title: 'Step-by-Step Solutions',
-    desc: 'Detailed working with clear explanations.',
-    href: '/search?q=Solutions',
-  },
-  {
-    icon: Bell,
-    title: 'Updated as per ICAI',
-    desc: 'Always aligned with latest standards & notifications.',
+    icon: BookMarked,
+    title: 'Professional Reference',
+    desc: 'Authoritative standards library covering AS, Ind AS, and Schedule III requirements.',
     href: '/standards/as',
+  },
+  {
+    icon: Scale,
+    title: 'Standards in Practice',
+    desc: 'Illustrative real-world case studies demonstrating practical standards application.',
+    href: '/standards/ind-as',
+  },
+  {
+    icon: Briefcase,
+    title: 'Industry Relevance',
+    desc: 'Curated knowledge base tailored for CA curriculum, articleship, and finance roles.',
+    href: '/search?q=Career',
   },
 ]
 
 export default function AccountsPage() {
   return (
     <div className="w-full min-h-screen">
-      {/* ─── Header & Hero Section (White Background) ─────────────────── */}
-      <div className="w-full bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800">
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-6">
+      {/* ─── Header & Hero Section (White Background with subtle radial overlay) ─── */}
+      <div className="w-full bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800 relative overflow-hidden">
+        {/* Soft radial backdrop to blend the hero graphic smoothly */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-[radial-gradient(circle_at_right,_var(--tw-gradient-stops))] from-blue-50/20 via-transparent to-transparent pointer-events-none" />
+
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 py-10 sm:py-14 relative z-10">
           {/* Back Button */}
           <div className="mb-8">
             <BackButton fallbackPath="/" />
           </div>
 
           {/* Hero Content */}
-          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pb-8">
+          <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pb-4">
             <div className="lg:col-span-7 flex flex-col justify-center">
-              <h1 className="text-4xl sm:text-[46px] font-bold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.15] mb-4">
+              <h1 className="text-4xl sm:text-[48px] font-extrabold text-[#1C1C1E] dark:text-white tracking-tight leading-[1.1] mb-4 animate-fade-in">
                 Accounts
               </h1>
               <p className="text-[18px] sm:text-[20px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] mb-4 leading-snug">
@@ -241,16 +248,18 @@ export default function AccountsPage() {
               </p>
             </div>
 
-            <div className="lg:col-span-5 flex justify-center lg:justify-end">
-              <Image
-                src="/accounts_hero.png"
-                alt="Accounting dashboard illustration showing laptop, reports and graphs"
-                width={500}
-                height={350}
-                priority
-                className="w-full max-w-[420px] lg:max-w-none h-auto object-contain select-none"
-                draggable={false}
-              />
+            <div className="lg:col-span-5 flex items-center justify-center lg:justify-end w-full relative">
+              <div className="relative w-full max-w-[460px] lg:max-w-none flex justify-center lg:justify-end">
+                <Image
+                  src="/accounts_hero.png"
+                  alt="Professional accounting workstation dashboard illustration"
+                  width={540}
+                  height={360}
+                  priority
+                  className="w-full h-auto object-contain select-none transition-transform duration-700 hover:scale-[1.01]"
+                  draggable={false}
+                />
+              </div>
             </div>
           </section>
         </div>
@@ -272,7 +281,7 @@ export default function AccountsPage() {
                 className="group flex flex-row gap-4 p-5 rounded-xl border border-[#D5E1FB] dark:border-[#263765] bg-[#EEF2FD] dark:bg-[#1A2542] hover:shadow-md transition-all"
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[#2D5BE3] text-white">
-                  <BookOpen size={22} className="stroke-[2]" />
+                  <Building2 size={22} className="stroke-[2]" />
                 </div>
                 <div>
                   <h3 className="text-[16px] font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-blue-400 transition-colors">
@@ -314,7 +323,7 @@ export default function AccountsPage() {
                 className="group flex flex-row gap-4 p-5 rounded-xl border border-[#E5DBFA] dark:border-[#382D5C] bg-[#F5F0FF] dark:bg-[#251E3D] hover:shadow-md transition-all"
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[#6B3FA0] text-white">
-                  <BookOpen size={22} className="stroke-[2]" />
+                  <Scale size={22} className="stroke-[2]" />
                 </div>
                 <div>
                   <h3 className="text-[16px] font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#6B3FA0] dark:group-hover:text-purple-400 transition-colors">
@@ -389,16 +398,16 @@ export default function AccountsPage() {
             </div>
           </section>
 
-          {/* Section 4: Practical Row / Bottom bar */}
+          {/* Section 4: Premium Values Row (Replaces the bottom highlights bar) */}
           <section className="bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#D5E1FB] dark:border-[#263765] rounded-2xl p-5 shadow-xs">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {PRACTICAL_ROW.map((item, index) => {
+              {PREMIUM_VALUES_ROW.map((item, index) => {
                 const Icon = item.icon
                 return (
                   <Link
                     key={index}
                     href={item.href}
-                    className="group flex flex-row items-center gap-3.5"
+                    className="group flex flex-row items-start gap-3.5"
                   >
                     <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-white dark:bg-[#111726] shrink-0 shadow-2xs group-hover:scale-105 transition-transform">
                       <Icon size={20} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
@@ -407,7 +416,7 @@ export default function AccountsPage() {
                       <span className="block text-[13px] font-bold text-[#1C1C1E] dark:text-white leading-tight">
                         {item.title}
                       </span>
-                      <p className="text-[11px] text-[#76767E] dark:text-gray-400 mt-0.5 leading-snug">
+                      <p className="text-[11px] text-[#76767E] dark:text-gray-400 mt-1 leading-snug">
                         {item.desc}
                       </p>
                     </div>
