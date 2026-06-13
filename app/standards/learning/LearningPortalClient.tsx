@@ -153,9 +153,11 @@ export default function LearningPortalClient({
       title = title.substring(code.length).replace(/^\s*[\u2013-—–\s-]+\s*/, '')
     }
 
+    const codeWidth = framework === 'AS' ? 'w-[48px]' : 'w-[78px]'
+
     return (
-      <div className="flex items-start gap-1.5 text-[12.5px] leading-normal w-full">
-        <span className="shrink-0 font-black w-[72px] text-slate-850 dark:text-slate-100 uppercase tracking-tight">
+      <div className="flex items-start gap-2 text-[13px] leading-normal w-full">
+        <span className={`shrink-0 font-extrabold ${codeWidth} text-slate-800 dark:text-slate-200 uppercase tracking-tight`}>
           {code}
         </span>
         <span className="text-left font-semibold leading-normal flex-1 break-words text-[#33333A] dark:text-gray-200">
@@ -373,18 +375,18 @@ export default function LearningPortalClient({
         </div>
 
         {/* Standards List */}
-        <div className="flex-1 p-2 space-y-1.5 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex-1 p-3 space-y-4 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {filteredStandards.map((std) => {
             const isSelected = selectedStandardId === std.id
             return (
-              <div key={std.id} className="flex flex-col animate-fade-in border-b border-[#F4F3F0] dark:border-gray-850 pb-1.5 last:border-b-0 last:pb-0">
+              <div key={std.id} className="flex flex-col animate-fade-in">
                 <button
                   onClick={() => {
                     setSelectedStandardId(std.id)
                     setActiveTab('standard')
                     setIsSidebarOpen(false)
                   }}
-                  className={`w-full text-left py-2 px-2.5 rounded-md flex items-start justify-between transition-all ${
+                  className={`w-full text-left py-3 px-4 rounded-xl flex items-start justify-between transition-all ${
                     isSelected
                       ? 'bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA] font-bold shadow-2xs'
                       : 'hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52] dark:text-gray-300'
@@ -394,26 +396,26 @@ export default function LearningPortalClient({
                     {getSidebarItemDisplay(std)}
                   </div>
                   <ChevronRight
-                    size={13}
-                    className={`shrink-0 mt-0.5 transition-transform ${isSelected ? 'rotate-90 text-[#2D5BE3]' : 'text-[#A0A0A8]'}`}
+                    size={14}
+                    className={`shrink-0 mt-0.5 transition-transform ${isSelected ? 'rotate-90 text-[#2D5BE3] dark:text-[#60A5FA]' : 'text-[#A0A0A8]'}`}
                   />
                 </button>
 
                 {/* Sub-menu options for selected standard */}
                 {isSelected && (
-                  <div className="ml-4 pl-3 border-l border-[#D5E1FB] dark:border-[#263765] mt-1.5 space-y-1">
+                  <div className="ml-4 pl-3.5 border-l-2 border-[#D5E1FB] dark:border-[#263765] mt-2 space-y-1.5">
                     <button
                       onClick={() => {
                         setActiveTab('standard')
                         setIsSidebarOpen(false)
                       }}
-                      className={`w-full text-left py-1.5 px-2.5 rounded-md text-[11.5px] font-bold flex items-center gap-2 ${
+                      className={`w-full text-left py-2 px-3.5 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
                         activeTab === 'standard'
-                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:text-[#60A5FA] font-extrabold'
+                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:bg-[#1A2542] dark:text-[#60A5FA] font-extrabold'
                           : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
                       }`}
                     >
-                      <FileText size={12} />
+                      <FileText size={14} className="shrink-0" />
                       Standard
                     </button>
                     <button
@@ -421,13 +423,13 @@ export default function LearningPortalClient({
                         setActiveTab('examples')
                         setIsSidebarOpen(false)
                       }}
-                      className={`w-full text-left py-1.5 px-2.5 rounded-md text-[11.5px] font-bold flex items-center gap-2 ${
+                      className={`w-full text-left py-2 px-3.5 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
                         activeTab === 'examples'
-                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:text-[#60A5FA] font-extrabold'
+                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:bg-[#1A2542] dark:text-[#60A5FA] font-extrabold'
                           : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
                       }`}
                     >
-                      <Scale size={12} />
+                      <Scale size={14} className="shrink-0" />
                       Examples &amp; Case Law
                     </button>
                   </div>
@@ -468,7 +470,7 @@ export default function LearningPortalClient({
             </button>
             
             {/* Prominent Standard Title */}
-            <h1 className="text-[13px] sm:text-[15.5px] font-black text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
+            <h1 className="text-[14px] sm:text-[19px] md:text-[20px] font-black text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
               {currentStandard.id.includes('intro') ? 'Introduction to Accounting Standards and Their Applicability' : currentStandard.title}
             </h1>
           </div>
