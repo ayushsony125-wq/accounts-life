@@ -141,7 +141,7 @@ export default function LearningPortalClient({
   const getSidebarItemDisplay = (std: Standard) => {
     if (std.id.includes('intro')) {
       return (
-        <span className="text-xs font-semibold leading-normal text-left block">
+        <span className="text-[13px] font-bold leading-normal text-left block text-[#1C1C1E] dark:text-white">
           {std.title}
         </span>
       )
@@ -154,11 +154,11 @@ export default function LearningPortalClient({
     }
 
     return (
-      <div className="flex items-start gap-2 text-xs font-semibold leading-normal w-full">
-        <span className="shrink-0 font-bold w-[84px] text-slate-500 dark:text-slate-400">
+      <div className="flex items-start gap-1.5 text-[12.5px] leading-normal w-full">
+        <span className="shrink-0 font-black w-[72px] text-slate-850 dark:text-slate-100 uppercase tracking-tight">
           {code}
         </span>
-        <span className="text-left leading-normal flex-1 break-words">
+        <span className="text-left font-semibold leading-normal flex-1 break-words text-[#33333A] dark:text-gray-200">
           {title}
         </span>
       </div>
@@ -354,37 +354,37 @@ export default function LearningPortalClient({
         <div className="p-4 border-b border-[#E2E1DD] dark:border-gray-800 flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <BookOpen size={22} className="text-[#2D5BE3] dark:text-blue-400 shrink-0" />
-            <span className="font-sans font-black text-[17px] text-[#1C1C1E] dark:text-white uppercase tracking-wide">
+            <span className="font-sans font-black text-[18.5px] text-[#1C1C1E] dark:text-white uppercase tracking-wide">
               Accounting Standards
             </span>
           </div>
 
           {/* Search box */}
           <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#76767E]" />
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#76767E] dark:text-gray-400" />
             <input
               type="text"
               placeholder="Search standards..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-md pl-9 pr-3 py-2 text-xs font-medium outline-none focus:border-[#2D5BE3] focus:ring-1 focus:ring-[#2D5BE3]"
+              className="w-full bg-[#FAFAF8] focus:bg-white dark:bg-[#0B0F19] dark:focus:bg-[#111726] border border-[#C5C3BC] dark:border-gray-750 focus:border-[#2D5BE3] rounded-lg pl-9 pr-3 py-2 text-[12.5px] font-semibold outline-none transition-all focus:ring-2 focus:ring-[#2D5BE3]/15 shadow-2xs text-[#1C1C1E] dark:text-white"
             />
           </div>
         </div>
 
         {/* Standards List */}
-        <div className="flex-1 p-3 space-y-7 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex-1 p-2 space-y-1.5 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {filteredStandards.map((std) => {
             const isSelected = selectedStandardId === std.id
             return (
-              <div key={std.id} className="flex flex-col animate-fade-in">
+              <div key={std.id} className="flex flex-col animate-fade-in border-b border-[#F4F3F0] dark:border-gray-850 pb-1.5 last:border-b-0 last:pb-0">
                 <button
                   onClick={() => {
                     setSelectedStandardId(std.id)
                     setActiveTab('standard')
                     setIsSidebarOpen(false)
                   }}
-                  className={`w-full text-left p-3 rounded-lg flex items-start justify-between transition-all ${
+                  className={`w-full text-left py-2 px-2.5 rounded-md flex items-start justify-between transition-all ${
                     isSelected
                       ? 'bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA] font-bold shadow-2xs'
                       : 'hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52] dark:text-gray-300'
@@ -401,15 +401,15 @@ export default function LearningPortalClient({
 
                 {/* Sub-menu options for selected standard */}
                 {isSelected && (
-                  <div className="ml-4 pl-3 border-l border-[#D5E1FB] dark:border-[#263765] mt-2 space-y-1">
+                  <div className="ml-4 pl-3 border-l border-[#D5E1FB] dark:border-[#263765] mt-1.5 space-y-1">
                     <button
                       onClick={() => {
                         setActiveTab('standard')
                         setIsSidebarOpen(false)
                       }}
-                      className={`w-full text-left py-2 px-3 rounded-md text-xs font-semibold flex items-center gap-2 ${
+                      className={`w-full text-left py-1.5 px-2.5 rounded-md text-[11.5px] font-bold flex items-center gap-2 ${
                         activeTab === 'standard'
-                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:text-[#60A5FA] font-bold'
+                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:text-[#60A5FA] font-extrabold'
                           : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
                       }`}
                     >
@@ -421,9 +421,9 @@ export default function LearningPortalClient({
                         setActiveTab('examples')
                         setIsSidebarOpen(false)
                       }}
-                      className={`w-full text-left py-2 px-3 rounded-md text-xs font-semibold flex items-center gap-2 ${
+                      className={`w-full text-left py-1.5 px-2.5 rounded-md text-[11.5px] font-bold flex items-center gap-2 ${
                         activeTab === 'examples'
-                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:text-[#60A5FA] font-bold'
+                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:text-[#60A5FA] font-extrabold'
                           : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
                       }`}
                     >
@@ -452,23 +452,23 @@ export default function LearningPortalClient({
             <Link
               href="/accounts"
               onClick={handleBackClick}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[11px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
+              className="flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
             >
-              <ArrowLeft size={13} />
+              <ArrowLeft size={15} />
               Back
             </Link>
 
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="lg:hidden flex items-center gap-1.5 px-2.5 py-1.5 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[11px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
+              className="lg:hidden flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
               aria-label="Toggle standards menu"
             >
-              <BookOpen size={13} />
+              <BookOpen size={15} />
               Menu
             </button>
             
             {/* Prominent Standard Title */}
-            <h1 className="text-xs sm:text-sm font-extrabold text-[#1C1C1E] dark:text-white tracking-tight border-l border-[#E2E1DD] dark:border-gray-800 pl-2 sm:pl-3 truncate select-none leading-none flex-1 min-w-0">
+            <h1 className="text-[13px] sm:text-[15.5px] font-black text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
               {currentStandard.id.includes('intro') ? 'Introduction to Accounting Standards and Their Applicability' : currentStandard.title}
             </h1>
           </div>
@@ -482,10 +482,10 @@ export default function LearningPortalClient({
                     href={currentStandard.lectureUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1 px-2.5 py-1.5 bg-[#EEF2FD] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:hover:bg-[#23355E] border border-[#DCE6FF] dark:border-[#23355E] rounded-md text-[11px] font-bold text-[#2D5BE3] dark:text-blue-400 transition-colors shrink-0"
+                    className="flex items-center gap-1 px-3 py-2 bg-[#EEF2FD] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:hover:bg-[#23355E] border border-[#DCE6FF] dark:border-[#23355E] rounded-md text-[12.5px] font-bold text-[#2D5BE3] dark:text-blue-400 transition-colors shrink-0"
                   >
                     Open Lecture Source
-                    <ExternalLink size={11} className="shrink-0" />
+                    <ExternalLink size={14} className="shrink-0" />
                   </a>
                 )}
                 <button
@@ -496,9 +496,9 @@ export default function LearningPortalClient({
                       alert('Lecture video download is simulated.');
                     }
                   }}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-colors shadow-xs shrink-0"
+                  className="flex items-center gap-1 px-3 py-2 rounded-md text-[12.5px] font-bold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-colors shadow-xs shrink-0"
                 >
-                  <Download size={12} className="shrink-0" />
+                  <Download size={14} className="shrink-0" />
                   Download Lecture
                 </button>
               </div>
@@ -508,16 +508,16 @@ export default function LearningPortalClient({
               <>
                 <button
                   onClick={() => setActiveTab('lecture')}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0"
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0 transition-all shadow-xs"
                 >
-                  <Video size={12} className="shrink-0" />
+                  <Video size={15} className="shrink-0 text-[#2D5BE3] dark:text-blue-400" />
                   Lecture
                 </button>
                 <button
                   onClick={() => setActiveTab('pdf')}
-                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0"
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs"
                 >
-                  <FileText size={12} className="shrink-0" />
+                  <FileText size={15} className="shrink-0 text-[#E15252] dark:text-red-400" />
                   PDF View
                 </button>
               </>
@@ -1323,29 +1323,29 @@ export default function LearningPortalClient({
                 {/* Download PDF button (Always on top of annotation tools area) */}
                 <button
                   onClick={() => alert('PDF downloaded successfully with annotations.')}
-                  className={`w-full py-2.5 px-3 rounded-md text-xs font-bold flex items-center justify-center gap-2 text-white bg-[#E15252] hover:bg-[#C83D3D] transition-colors shadow-xs shrink-0 ${!isAnnotationPanelOpen ? 'lg:px-0' : ''}`}
+                  className={`w-full py-2.5 px-3 rounded-md text-[12.5px] font-bold flex items-center justify-center gap-2 text-white bg-[#E15252] hover:bg-[#C83D3D] transition-colors shadow-xs shrink-0 ${!isAnnotationPanelOpen ? 'lg:px-0' : ''}`}
                   title="Download PDF"
                 >
-                  <Download size={14} className="shrink-0" />
+                  <Download size={15} className="shrink-0" />
                   <span className={isAnnotationPanelOpen ? 'inline' : 'inline lg:hidden'}>Download PDF</span>
                 </button>
 
                 {/* Divider */}
-                <div className="h-px bg-[#E2E1DD] dark:bg-gray-800 w-full" />
+                <div className="h-px bg-[#E2E1DD] dark:bg-gray-850 w-full" />
 
                 <button
                   onClick={() => setIsAnnotationPanelOpen(!isAnnotationPanelOpen)}
                   className="w-full py-2 px-1 rounded-md text-left text-xs font-bold flex items-center justify-between text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white transition-colors"
                 >
-                  <span className={`text-[10px] font-bold uppercase tracking-wider ${isAnnotationPanelOpen ? 'block' : 'hidden lg:hidden'}`}>
+                  <span className={`text-[11.5px] font-extrabold uppercase tracking-wider ${isAnnotationPanelOpen ? 'block' : 'hidden lg:hidden'}`}>
                     Annotation Tools
                   </span>
                   <div className="flex items-center gap-1 mx-auto lg:mx-0">
-                    <Highlighter size={14} className={isAnnotationPanelOpen ? 'hidden lg:hidden' : 'block shrink-0'} />
+                    <Highlighter size={15} className={isAnnotationPanelOpen ? 'hidden lg:hidden' : 'block shrink-0'} />
                     {isAnnotationPanelOpen ? (
-                      <ChevronDown size={14} className="rotate-90 shrink-0" />
+                      <ChevronDown size={15} className="rotate-90 shrink-0" />
                     ) : (
-                      <ChevronDown size={14} className="-rotate-90 hidden lg:block shrink-0" />
+                      <ChevronDown size={15} className="-rotate-90 hidden lg:block shrink-0" />
                     )}
                   </div>
                 </button>
@@ -1355,13 +1355,13 @@ export default function LearningPortalClient({
                   <div className="space-y-2">
                     <button
                       onClick={() => setAnnotationMode(annotationMode === 'highlight' ? 'none' : 'highlight')}
-                      className={`w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border transition-all ${
+                      className={`w-full py-2 px-3 rounded-md text-[12.5px] font-bold flex items-center gap-2 border transition-all ${
                         annotationMode === 'highlight'
                           ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
                           : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
                       }`}
                     >
-                      <Highlighter size={13} className="shrink-0" />
+                      <Highlighter size={15} className="shrink-0" />
                       Highlight
                     </button>
 
@@ -1395,13 +1395,13 @@ export default function LearningPortalClient({
                   {/* Draw Pencil tool */}
                   <button
                     onClick={() => setAnnotationMode(annotationMode === 'write' ? 'none' : 'write')}
-                    className={`w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border transition-all ${
+                    className={`w-full py-2 px-3 rounded-md text-[12.5px] font-bold flex items-center gap-2 border transition-all ${
                       annotationMode === 'write'
                         ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
                         : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
                     }`}
                   >
-                    <PenTool size={13} className="shrink-0" />
+                    <PenTool size={15} className="shrink-0" />
                     Write
                   </button>
 
@@ -1411,22 +1411,22 @@ export default function LearningPortalClient({
                       clearAnnotations()
                       setAnnotationMode('none')
                     }}
-                    className="w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]"
+                    className="w-full py-2 px-3 rounded-md text-[12.5px] font-bold flex items-center gap-2 border border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]"
                   >
-                    <Eraser size={13} className="shrink-0" />
+                    <Eraser size={15} className="shrink-0" />
                     Erase
                   </button>
 
                   {/* Sticky Note tool */}
                   <button
                     onClick={() => setAnnotationMode(annotationMode === 'note' ? 'none' : 'note')}
-                    className={`w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border transition-all ${
+                    className={`w-full py-2 px-3 rounded-md text-[12.5px] font-bold flex items-center gap-2 border transition-all ${
                       annotationMode === 'note'
                         ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
                         : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
                     }`}
                   >
-                    <MessageSquare size={13} className="shrink-0" />
+                    <MessageSquare size={15} className="shrink-0" />
                     Add Note
                   </button>
                 </div>
@@ -1439,7 +1439,7 @@ export default function LearningPortalClient({
                       className="w-8 h-8 rounded-full flex items-center justify-center border border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-gray-800 text-[#4A4A52] dark:text-gray-300"
                       title="Open Annotation Tools"
                     >
-                      <ChevronDown size={14} className="-rotate-90 shrink-0" />
+                      <ChevronDown size={15} className="-rotate-90 shrink-0" />
                     </button>
                   </div>
                 )}

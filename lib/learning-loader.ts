@@ -123,7 +123,6 @@ const ALL_IND_AS_INDEX = [
   { id: 'ind-as-101', code: 'Ind AS 101', shortTitle: 'Ind AS 101 – First-time Adoption', title: 'Ind AS 101 – First-time Adoption of Indian Accounting Standards' },
   { id: 'ind-as-102', code: 'Ind AS 102', shortTitle: 'Ind AS 102 – Share-based Payment', title: 'Ind AS 102 – Share-based Payment' },
   { id: 'ind-as-103', code: 'Ind AS 103', shortTitle: 'Ind AS 103 – Business Combinations', title: 'Ind AS 103 – Business Combinations' },
-  { id: 'ind-as-117', code: 'Ind AS 117', shortTitle: 'Ind AS 117 – Insurance Contracts', title: 'Ind AS 117 – Insurance Contracts' },
   { id: 'ind-as-105', code: 'Ind AS 105', shortTitle: 'Ind AS 105 – Non-current Assets Held for Sale', title: 'Ind AS 105 – Non-current Assets Held for Sale and Discontinued Operations' },
   { id: 'ind-as-106', code: 'Ind AS 106', shortTitle: 'Ind AS 106 – Mineral Exploration Evaluation', title: 'Ind AS 106 – Exploration for and Evaluation of Mineral Resources' },
   { id: 'ind-as-107', code: 'Ind AS 107', shortTitle: 'Ind AS 107 – Financial Instruments: Disclosures', title: 'Ind AS 107 – Financial Instruments: Disclosures' },
@@ -136,6 +135,7 @@ const ALL_IND_AS_INDEX = [
   { id: 'ind-as-114', code: 'Ind AS 114', shortTitle: 'Ind AS 114 – Regulatory Deferral Accounts', title: 'Ind AS 114 – Regulatory Deferral Accounts' },
   { id: 'ind-as-115', code: 'Ind AS 115', shortTitle: 'Ind AS 115 – Revenue from Contracts', title: 'Ind AS 115 – Revenue from Contracts with Customers' },
   { id: 'ind-as-116', code: 'Ind AS 116', shortTitle: 'Ind AS 116 – Leases', title: 'Ind AS 116 – Leases' },
+  { id: 'ind-as-117', code: 'Ind AS 117', shortTitle: 'Ind AS 117 – Insurance Contracts', title: 'Ind AS 117 – Insurance Contracts' },
 ]
 
 export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standard[]> {
