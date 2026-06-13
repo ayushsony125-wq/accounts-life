@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ArrowRight, ExternalLink } from 'lucide-react'
+import { ArrowRight, ExternalLink, BookOpen } from 'lucide-react'
 import BackButton from '@/components/ui/BackButton'
 import SubdomainNav from '@/components/ui/SubdomainNav'
 import { DOMAINS } from '@/lib/data/domains'
@@ -143,12 +143,21 @@ export default function ASStandardsDomainPage() {
 
           {/* Live standards */}
           <section aria-labelledby="live-standards-heading" className="mb-12">
-            <h2
-              id="live-standards-heading"
-              className="text-lg font-bold text-[#1C1C1E] dark:text-white mb-5 tracking-tight"
-            >
-              Available Now
-            </h2>
+            <div className="flex items-center justify-between mb-5 flex-wrap gap-4">
+              <h2
+                id="live-standards-heading"
+                className="text-lg font-bold text-[#1C1C1E] dark:text-white tracking-tight"
+              >
+                Available Now
+              </h2>
+              <Link
+                href="/standards/learning"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-[#2D5BE3] text-white hover:bg-[#2450CC] rounded-lg text-xs font-bold transition-all shadow-sm"
+              >
+                <BookOpen size={13} />
+                Interactive Learning Portal
+              </Link>
+            </div>
             <div className="space-y-3">
               {live.map((std) => (
                 <Link
