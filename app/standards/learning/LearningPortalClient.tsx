@@ -67,6 +67,7 @@ export default function LearningPortalClient({
   const [zoomLevel, setZoomLevel] = useState<number>(100)
   const [searchInPdf, setSearchInPdf] = useState(false)
   const [pdfSearchQuery, setPdfSearchQuery] = useState('')
+  const [isAnnotationPanelOpen, setIsAnnotationPanelOpen] = useState(false)
 
   // Drawing states
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -82,6 +83,39 @@ export default function LearningPortalClient({
   const [videoDuration, setVideoDuration] = useState(1125)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const videoContainerRef = useRef<HTMLDivElement | null>(null)
+
+  const [showControls, setShowControls] = useState(true)
+  const [videoQuality, setVideoQuality] = useState<string>('Auto')
+  const controlsTimeoutRef = useRef<any>(null)
+
+  const resetControlsTimeout = () => {
+    setShowControls(true)
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current)
+    }
+    if (isPlaying) {
+      controlsTimeoutRef.current = setTimeout(() => {
+        setShowControls(false)
+      }, 2500)
+    }
+  }
+
+  useEffect(() => {
+    resetControlsTimeout()
+    return () => {
+      if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current)
+    }
+  }, [isPlaying])
+
+  const handleMouseMovePlayer = () => {
+    resetControlsTimeout()
+  }
+
+  const handleMouseLeavePlayer = () => {
+    if (isPlaying) {
+      setShowControls(false)
+    }
+  }
 
   const handleFullscreenToggle = () => {
     const container = videoContainerRef.current
@@ -312,7 +346,7 @@ export default function LearningPortalClient({
       {/* ─── Sidebar ────────────────────────────────────────────────────────── */}
       <aside className={`
         ${isSidebarOpen ? 'fixed inset-y-0 left-0 top-16 z-40 w-[260px] shadow-2xl flex border-r' : 'hidden'}
-        lg:flex lg:static lg:w-[240px] lg:shadow-none lg:z-auto lg:h-full
+        lg:flex lg:static lg:w-[220px] lg:shadow-none lg:z-auto lg:h-full
         bg-white dark:bg-[#111726] border-[#E2E1DD] dark:border-gray-800 flex flex-col shrink-0 lg:sticky lg:top-16 overflow-hidden
       `}>
         
@@ -339,7 +373,7 @@ export default function LearningPortalClient({
         </div>
 
         {/* Standards List */}
-        <div className="flex-1 p-3 space-y-6 overflow-y-auto">
+        <div className="flex-1 p-3 space-y-7 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {filteredStandards.map((std) => {
             const isSelected = selectedStandardId === std.id
             return (
@@ -441,25 +475,14 @@ export default function LearningPortalClient({
 
           {/* View Tab Buttons on Top Right */}
           <div className="flex items-center gap-1.5 shrink-0 select-none">
-            <button
-              onClick={() => setActiveTab(activeTab === 'lecture' ? 'standard' : 'lecture')}
-              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-xs shrink-0 ${
-                activeTab === 'lecture'
-                  ? 'bg-[#3B82F6] text-white font-extrabold'
-                  : 'bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400'
-              }`}
-            >
-              <Video size={12} className="shrink-0" />
-              Lecture
-            </button>
             {activeTab === 'lecture' && (
-              <>
+              <div className="flex items-center gap-1.5 flex-nowrap">
                 {currentStandard.lectureUrl && (
                   <a
                     href={currentStandard.lectureUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="hidden md:flex items-center gap-1 px-2.5 py-1.5 bg-[#EEF2FD] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:hover:bg-[#23355E] border border-[#DCE6FF] dark:border-[#23355E] rounded-md text-[11px] font-bold text-[#2D5BE3] dark:text-blue-400 transition-colors shrink-0"
+                    className="flex items-center gap-1 px-2.5 py-1.5 bg-[#EEF2FD] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:hover:bg-[#23355E] border border-[#DCE6FF] dark:border-[#23355E] rounded-md text-[11px] font-bold text-[#2D5BE3] dark:text-blue-400 transition-colors shrink-0"
                   >
                     Open Lecture Source
                     <ExternalLink size={11} className="shrink-0" />
@@ -478,34 +501,32 @@ export default function LearningPortalClient({
                   <Download size={12} className="shrink-0" />
                   Download Lecture
                 </button>
-              </>
+              </div>
             )}
 
-            <button
-              onClick={() => setActiveTab(activeTab === 'pdf' ? 'standard' : 'pdf')}
-              className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-xs shrink-0 ${
-                activeTab === 'pdf'
-                  ? 'bg-[#E15252] text-white font-extrabold'
-                  : 'bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400'
-              }`}
-            >
-              <FileText size={12} className="shrink-0" />
-              PDF View
-            </button>
-            {activeTab === 'pdf' && (
-              <button
-                onClick={() => alert('PDF downloaded successfully with annotations.')}
-                className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold text-white bg-[#E15252] hover:bg-[#C83D3D] transition-colors shadow-xs shrink-0"
-              >
-                <Download size={12} className="shrink-0" />
-                Download PDF
-              </button>
+            {(activeTab === 'standard' || activeTab === 'examples') && (
+              <>
+                <button
+                  onClick={() => setActiveTab('lecture')}
+                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0"
+                >
+                  <Video size={12} className="shrink-0" />
+                  Lecture
+                </button>
+                <button
+                  onClick={() => setActiveTab('pdf')}
+                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-md text-[11px] font-bold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0"
+                >
+                  <FileText size={12} className="shrink-0" />
+                  PDF View
+                </button>
+              </>
             )}
           </div>
         </div>
 
         {/* ─── Tab Content Views ──────────────────────────────────────────────── */}
-        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' ? 'p-2 sm:p-4' : 'p-4 md:p-6'}`}>
+        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' ? 'p-2 sm:p-4 pt-1 sm:pt-2' : 'p-4 md:p-6'}`}>
 
           {/* 1. STANDARD VIEW */}
           {activeTab === 'standard' && (
@@ -692,10 +713,12 @@ export default function LearningPortalClient({
 
           {/* 3. LECTURE VIDEO PLAYBACK VIEW */}
           {activeTab === 'lecture' && (
-            <div className="w-full space-y-5 animate-fade-in">
+            <div className="w-full space-y-3 animate-fade-in pt-0">
               {/* Premium native HTML5 video player integration */}
               <div
                 ref={videoContainerRef}
+                onMouseMove={handleMouseMovePlayer}
+                onMouseLeave={handleMouseLeavePlayer}
                 className="relative aspect-video w-full max-w-4xl mx-auto rounded-2xl bg-[#090C15] overflow-hidden shadow-lg border border-gray-900 flex flex-col group/video"
               >
                 {/* Native HTML5 video tag */}
@@ -752,7 +775,7 @@ export default function LearningPortalClient({
                 )}
 
                 {/* Controls Bar at bottom */}
-                <div className="mt-auto w-full bg-gradient-to-t from-black/90 to-transparent p-4 flex flex-col gap-2 z-10 opacity-95 transition-opacity">
+                <div className={`mt-auto w-full bg-gradient-to-t from-black/95 to-transparent p-4 flex flex-col gap-2 z-10 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                   
                   {/* Progress timeline slider */}
                   <div className="flex items-center gap-2">
@@ -833,20 +856,23 @@ export default function LearningPortalClient({
                         </select>
                       </div>
 
-                      {/* Subtitles CC Button */}
-                      <button
-                        onClick={() => setShowCC(!showCC)}
-                        className={`text-xs font-bold px-1.5 py-0.5 rounded border transition-colors ${
-                          showCC
-                            ? 'text-white border-[#2D5BE3] bg-[#2D5BE3]'
-                            : 'text-gray-400 border-gray-600 hover:text-white hover:border-white'
-                        }`}
-                      >
-                        CC
-                      </button>
-                      <button className="text-white hover:text-[#2D5BE3] transition-colors">
-                        <Settings size={16} />
-                      </button>
+                      {/* Quality menu */}
+                      <div className="relative">
+                        <select
+                          value={videoQuality}
+                          onChange={(e) => {
+                            setVideoQuality(e.target.value)
+                            alert(`Quality changed to ${e.target.value}`)
+                          }}
+                          className="bg-[#1C1C1E] text-white text-[11px] font-bold rounded px-1.5 py-0.5 border border-gray-700 outline-none cursor-pointer"
+                        >
+                          <option value="Auto">Auto</option>
+                          <option value="1080p">1080p</option>
+                          <option value="720p">720p</option>
+                          <option value="480p">480p</option>
+                        </select>
+                      </div>
+
                       <button
                         onClick={handleFullscreenToggle}
                         className="text-white hover:text-[#2D5BE3] transition-colors"
@@ -873,7 +899,7 @@ export default function LearningPortalClient({
 
           {/* 4. PREMIUM DOCUMENT PDF VIEWER VIEW */}
           {activeTab === 'pdf' && (
-            <div className="w-full flex flex-col lg:flex-row gap-4 min-h-[600px] select-none animate-fade-in p-0">
+            <div className="w-full flex flex-col lg:flex-row gap-2 min-h-[600px] select-none animate-fade-in p-0">
               
               {/* Central PDF Canvas area - occupying maximum available width without page thumbnails panel */}
               <div className="flex-1 bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl flex flex-col overflow-hidden relative">
@@ -954,13 +980,13 @@ export default function LearningPortalClient({
                   </div>
                 )}
 
-                {/* PDF Sheet Canvas containing text content - expanded to 100% max-w-4xl */}
+                {/* PDF Sheet Canvas containing text content - expanded to 100% max-w-5xl */}
                 <div
-                  className="flex-1 overflow-y-auto p-2 relative flex justify-center bg-[#525659] select-none"
+                  className="flex-1 overflow-y-auto pt-0 p-1 sm:p-2 relative flex justify-center bg-[#525659] select-none"
                   onClick={handleAddNoteClick}
                 >
                   <div
-                    className="bg-white relative shadow-md p-6 sm:p-10 w-full max-w-4xl min-h-[850px] border border-gray-300 select-none flex flex-col justify-start text-left origin-top transition-transform duration-150"
+                    className="bg-white relative shadow-md p-6 sm:p-10 w-full max-w-5xl min-h-[850px] border border-gray-300 select-none flex flex-col justify-start text-left origin-top transition-transform duration-150"
                     style={{ transform: `scale(${zoomLevel / 100})` }}
                   >
                     {/* Drawing canvas layer on top for Pen Tool */}
@@ -1293,89 +1319,130 @@ export default function LearningPortalClient({
               </div>
 
               {/* Right Side Annotation Toolbar Panel */}
-              <div className="w-full lg:w-[200px] bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-4 flex flex-col gap-4 shrink-0 shadow-xs h-fit sticky top-[80px] z-20">
-                <span className="text-[10px] font-bold text-[#76767E] uppercase tracking-wider">
-                  Annotation Tools
-                </span>
+              <div className={`w-full bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-4 flex flex-col gap-4 shrink-0 shadow-xs h-fit sticky top-[80px] z-20 transition-all duration-300 ${isAnnotationPanelOpen ? 'lg:w-[220px]' : 'lg:w-[64px]'}`}>
+                {/* Download PDF button (Always on top of annotation tools area) */}
+                <button
+                  onClick={() => alert('PDF downloaded successfully with annotations.')}
+                  className={`w-full py-2.5 px-3 rounded-md text-xs font-bold flex items-center justify-center gap-2 text-white bg-[#E15252] hover:bg-[#C83D3D] transition-colors shadow-xs shrink-0 ${!isAnnotationPanelOpen ? 'lg:px-0' : ''}`}
+                  title="Download PDF"
+                >
+                  <Download size={14} className="shrink-0" />
+                  <span className={isAnnotationPanelOpen ? 'inline' : 'inline lg:hidden'}>Download PDF</span>
+                </button>
 
-                {/* Highlight tool */}
-                <div className="space-y-2">
+                {/* Divider */}
+                <div className="h-px bg-[#E2E1DD] dark:bg-gray-800 w-full" />
+
+                <button
+                  onClick={() => setIsAnnotationPanelOpen(!isAnnotationPanelOpen)}
+                  className="w-full py-2 px-1 rounded-md text-left text-xs font-bold flex items-center justify-between text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white transition-colors"
+                >
+                  <span className={`text-[10px] font-bold uppercase tracking-wider ${isAnnotationPanelOpen ? 'block' : 'hidden lg:hidden'}`}>
+                    Annotation Tools
+                  </span>
+                  <div className="flex items-center gap-1 mx-auto lg:mx-0">
+                    <Highlighter size={14} className={isAnnotationPanelOpen ? 'hidden lg:hidden' : 'block shrink-0'} />
+                    {isAnnotationPanelOpen ? (
+                      <ChevronDown size={14} className="rotate-90 shrink-0" />
+                    ) : (
+                      <ChevronDown size={14} className="-rotate-90 hidden lg:block shrink-0" />
+                    )}
+                  </div>
+                </button>
+
+                <div className={`flex flex-col gap-3 transition-all duration-200 ${isAnnotationPanelOpen ? 'block' : 'hidden lg:hidden'}`}>
+                  {/* Highlight tool */}
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => setAnnotationMode(annotationMode === 'highlight' ? 'none' : 'highlight')}
+                      className={`w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border transition-all ${
+                        annotationMode === 'highlight'
+                          ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
+                          : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
+                      }`}
+                    >
+                      <Highlighter size={13} className="shrink-0" />
+                      Highlight
+                    </button>
+
+                    {/* Highlight Color Pickers */}
+                    {annotationMode === 'highlight' && (
+                      <div className="flex items-center justify-around bg-[#FAFAF8] dark:bg-gray-800 p-2 rounded border border-[#E2E1DD] dark:border-gray-750">
+                        <button
+                          onClick={() => setHighlightColor('yellow')}
+                          className={`w-4 h-4 rounded-full bg-yellow-300 border ${highlightColor === 'yellow' ? 'ring-2 ring-[#E15252]' : ''}`}
+                        />
+                        <button
+                          onClick={() => setHighlightColor('green')}
+                          className={`w-4 h-4 rounded-full bg-green-300 border ${highlightColor === 'green' ? 'ring-2 ring-[#E15252]' : ''}`}
+                        />
+                        <button
+                          onClick={() => setHighlightColor('pink')}
+                          className={`w-4 h-4 rounded-full bg-pink-300 border ${highlightColor === 'pink' ? 'ring-2 ring-[#E15252]' : ''}`}
+                        />
+                        <button
+                          onClick={() => setHighlightColor('blue')}
+                          className={`w-4 h-4 rounded-full bg-blue-300 border ${highlightColor === 'blue' ? 'ring-2 ring-[#E15252]' : ''}`}
+                        />
+                        <button
+                          onClick={() => setHighlightColor('purple')}
+                          className={`w-4 h-4 rounded-full bg-purple-300 border ${highlightColor === 'purple' ? 'ring-2 ring-[#E15252]' : ''}`}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Draw Pencil tool */}
                   <button
-                    onClick={() => setAnnotationMode(annotationMode === 'highlight' ? 'none' : 'highlight')}
+                    onClick={() => setAnnotationMode(annotationMode === 'write' ? 'none' : 'write')}
                     className={`w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border transition-all ${
-                      annotationMode === 'highlight'
+                      annotationMode === 'write'
                         ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
                         : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
                     }`}
                   >
-                    <Highlighter size={13} />
-                    Highlight
+                    <PenTool size={13} className="shrink-0" />
+                    Write
                   </button>
 
-                  {/* Highlight Color Pickers */}
-                  {annotationMode === 'highlight' && (
-                    <div className="flex items-center justify-around bg-[#FAFAF8] dark:bg-gray-800 p-2 rounded border border-[#E2E1DD]">
-                      <button
-                        onClick={() => setHighlightColor('yellow')}
-                        className={`w-4 h-4 rounded-full bg-yellow-300 border ${highlightColor === 'yellow' ? 'ring-2 ring-[#E15252]' : ''}`}
-                      />
-                      <button
-                        onClick={() => setHighlightColor('green')}
-                        className={`w-4 h-4 rounded-full bg-green-300 border ${highlightColor === 'green' ? 'ring-2 ring-[#E15252]' : ''}`}
-                      />
-                      <button
-                        onClick={() => setHighlightColor('pink')}
-                        className={`w-4 h-4 rounded-full bg-pink-300 border ${highlightColor === 'pink' ? 'ring-2 ring-[#E15252]' : ''}`}
-                      />
-                      <button
-                        onClick={() => setHighlightColor('blue')}
-                        className={`w-4 h-4 rounded-full bg-blue-300 border ${highlightColor === 'blue' ? 'ring-2 ring-[#E15252]' : ''}`}
-                      />
-                      <button
-                        onClick={() => setHighlightColor('purple')}
-                        className={`w-4 h-4 rounded-full bg-purple-300 border ${highlightColor === 'purple' ? 'ring-2 ring-[#E15252]' : ''}`}
-                      />
-                    </div>
-                  )}
+                  {/* Eraser tool */}
+                  <button
+                    onClick={() => {
+                      clearAnnotations()
+                      setAnnotationMode('none')
+                    }}
+                    className="w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]"
+                  >
+                    <Eraser size={13} className="shrink-0" />
+                    Erase
+                  </button>
+
+                  {/* Sticky Note tool */}
+                  <button
+                    onClick={() => setAnnotationMode(annotationMode === 'note' ? 'none' : 'note')}
+                    className={`w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border transition-all ${
+                      annotationMode === 'note'
+                        ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
+                        : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
+                    }`}
+                  >
+                    <MessageSquare size={13} className="shrink-0" />
+                    Add Note
+                  </button>
                 </div>
 
-                {/* Draw Pencil tool */}
-                <button
-                  onClick={() => setAnnotationMode(annotationMode === 'write' ? 'none' : 'write')}
-                  className={`w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border transition-all ${
-                    annotationMode === 'write'
-                      ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
-                      : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
-                  }`}
-                >
-                  <PenTool size={13} />
-                  Write
-                </button>
-
-                {/* Eraser tool */}
-                <button
-                  onClick={() => {
-                    clearAnnotations()
-                    setAnnotationMode('none')
-                  }}
-                  className="w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]"
-                >
-                  <Eraser size={13} />
-                  Erase
-                </button>
-
-                {/* Sticky Note tool */}
-                <button
-                  onClick={() => setAnnotationMode(annotationMode === 'note' ? 'none' : 'note')}
-                  className={`w-full py-2 px-3 rounded-md text-xs font-bold flex items-center gap-2 border transition-all ${
-                    annotationMode === 'note'
-                      ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
-                      : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
-                  }`}
-                >
-                  <MessageSquare size={13} />
-                  Add Note
-                </button>
+                {/* For collapsed view on desktop, show a button to open when clicked */}
+                {!isAnnotationPanelOpen && (
+                  <div className="hidden lg:flex flex-col items-center gap-3">
+                    <button
+                      onClick={() => setIsAnnotationPanelOpen(true)}
+                      className="w-8 h-8 rounded-full flex items-center justify-center border border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-gray-800 text-[#4A4A52] dark:text-gray-300"
+                      title="Open Annotation Tools"
+                    >
+                      <ChevronDown size={14} className="-rotate-90 shrink-0" />
+                    </button>
+                  </div>
+                )}
               </div>
 
             </div>

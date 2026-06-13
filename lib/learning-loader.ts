@@ -215,7 +215,7 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
 
     const id = entry.entrySlug // e.g. as-1 or ind-as-115
 
-    const resourcesList = entry.resources.map((r: any) => ({
+    let resourcesList = entry.resources.map((r: any) => ({
       title: r.resourceTitle,
       url: r.resourceUrl || '',
       type: r.resourceType as 'PDF' | 'VIDEO' | 'REFERENCE'
@@ -291,6 +291,18 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
           }
         ]
       }
+      resourcesList = [
+        {
+          title: 'AS 1 — Official Standard Text (ICAI)',
+          url: 'https://resources.cdn.icai.org/adg/as1.pdf',
+          type: 'PDF'
+        },
+        {
+          title: 'AS 1 — Technical Announcement (ICAI)',
+          url: 'https://www.icai.org/post.html?post_id=8662',
+          type: 'REFERENCE'
+        }
+      ]
     } else if (id === 'ind-as-1') {
       if (!finalObjective || finalObjective.startsWith('Prescribes presentation and recognition')) {
         finalObjective = 'This Standard prescribes the basis for presentation of general purpose financial statements to ensure comparability both with the entity’s financial statements of previous periods and with the financial statements of other entities. It sets out overall requirements for the presentation of financial statements, guidelines for their structure and minimum requirements for their content.'
@@ -345,6 +357,18 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
           }
         ]
       }
+      resourcesList = [
+        {
+          title: 'Ind AS 1 — Official Standard Text (MCA)',
+          url: 'https://www.mca.gov.in/content/dam/mca/pdf/Ind_AS_1.pdf',
+          type: 'PDF'
+        },
+        {
+          title: 'Ind AS 1 — Educational Material (ICAI)',
+          url: 'https://www.icai.org/post/educational-material-on-ind-as-1',
+          type: 'REFERENCE'
+        }
+      ]
     }
 
     dbMapped[id] = {
