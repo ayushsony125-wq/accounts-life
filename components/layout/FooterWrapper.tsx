@@ -8,7 +8,12 @@ interface FooterWrapperProps {
 
 export default function FooterWrapper({ children }: FooterWrapperProps) {
   const pathname = usePathname()
-  if (pathname.startsWith('/admin') || pathname.startsWith('/standards/learning')) {
+  if (
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/standards/learning') ||
+    pathname.startsWith('/standards/as') ||
+    pathname.startsWith('/standards/ind-as')
+  ) {
     return null
   }
   return <>{children}</>

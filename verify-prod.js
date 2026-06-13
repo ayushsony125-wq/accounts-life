@@ -2,7 +2,7 @@ const { chromium } = require('playwright');
 const path = require('path');
 const fs = require('fs');
 
-const SITE_URL = 'https://accounts-life.vercel.app';
+const SITE_URL = 'https://accounts-one-ak-s-projectsakk.vercel.app';
 const ARTIFACT_DIR = 'C:/Users/ayush/.gemini/antigravity/brain/3e7ef49d-8c4e-42f2-b4da-2f480a7bed61';
 
 const pages = [
@@ -12,6 +12,7 @@ const pages = [
   { name: 'glossary', path: '/glossary' },
   { name: 'standards_as', path: '/standards/as' },
   { name: 'standards_ind_as', path: '/standards/ind-as' },
+  { name: 'standards_learning', path: '/standards/learning' },
   { name: 'admin_login', path: '/admin/login' }
 ];
 

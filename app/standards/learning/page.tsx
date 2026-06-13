@@ -315,10 +315,12 @@ const IND_AS_STANDARDS: Standard[] = [
 
 // ─── Component Code ───────────────────────────────────────────────────────────
 
-export default function LearningPortal() {
-  const [framework, setFramework] = useState<'AS' | 'Ind AS'>('AS')
+export default function LearningPortal({ defaultFramework = 'AS' }: { defaultFramework?: 'AS' | 'Ind AS' } = {}) {
+  const [framework, setFramework] = useState<'AS' | 'Ind AS'>(defaultFramework)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedStandardId, setSelectedStandardId] = useState<string>('intro-as')
+  const [selectedStandardId, setSelectedStandardId] = useState<string>(
+    defaultFramework === 'AS' ? 'intro-as' : 'intro-ind-as'
+  )
   const [activeTab, setActiveTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
 
   // PDF Viewer states
