@@ -37,6 +37,20 @@ const nextConfig = {
       },
     ]
   },
+  async redirects() {
+    return [
+      {
+        source: '/standards/as/:slug',
+        destination: '/standards/as?selected=:slug',
+        permanent: false,
+      },
+      {
+        source: '/standards/ind-as/:slug',
+        destination: '/standards/ind-as?selected=:slug',
+        permanent: false,
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {

@@ -13,9 +13,9 @@ const TYPE_CONFIG: Record<string, { icon: React.ElementType; label: string; colo
 }
 
 const SOURCE_LABEL: Record<string, string> = {
-  ICAI_OFFICIAL: 'ICAI Official',
-  MCA: 'MCA',
-  IASB: 'IASB',
+  ICAI_OFFICIAL: 'Official Source',
+  MCA: 'Official Source',
+  IASB: 'Official Source',
   EXTERNAL: 'External',
 }
 

@@ -10,6 +10,42 @@ import {
 } from './data/static-entries'
 import { DOMAINS } from './data/domains'
 
+function sanitizeText(str: string): string {
+  if (!str) return ''
+  return str
+    .replace(/\s*\(\s*(ICAI|MCA|MCS)\s*\)/gi, '')
+    .replace(/\b(ICAI|MCA|MCS)\b/gi, '')
+    .replace(/\(Institute of Chartered Accountants of India\)/gi, '')
+    .replace(/\bNational Advisory Committee on Accounting Standards\b/gi, 'Accounting Advisory Committee')
+    .replace(/\s*\(\s*\)/g, '')
+    .replace(/\s*[-—]\s*$/, '')
+    .replace(/^\s*[-—]\s*/, '')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function sanitizeObject<T>(obj: T): T {
+  if (obj === null || obj === undefined) return obj
+  if (typeof obj === 'string') {
+    return sanitizeText(obj) as unknown as T
+  }
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeObject(item)) as unknown as T
+  }
+  if (typeof obj === 'object') {
+    const newObj = {} as any
+    for (const key of Object.keys(obj)) {
+      if (key.toLowerCase().includes('url') || key === 'id' || key === 'slug' || key === 'href') {
+        newObj[key] = (obj as any)[key]
+      } else {
+        newObj[key] = sanitizeObject((obj as any)[key])
+      }
+    }
+    return newObj as T
+  }
+  return obj
+}
+
 // Configuration flag to switch between mock static data and active Prisma queries.
 // Set to true when PostgreSQL database is live and seeded.
 const USE_DATABASE = true
@@ -39,17 +75,17 @@ const getLocalDb = () => {
 export async function getDomains() {
   if (USE_DATABASE) {
     try {
-      return await prisma.domain.findMany({
+      return sanitizeObject(await prisma.domain.findMany({
         orderBy: { sortOrder: 'asc' },
         include: { subdomains: true },
-      })
+      }))
     } catch (e) {
       console.warn('Prisma getDomains failed, using fallback.', e)
     }
   }
 
   const localDb = getLocalDb()
-  return DOMAINS.map((d) => {
+  return sanitizeObject(DOMAINS.map((d) => {
     const override = localDb.domains?.find((ld: any) => ld.domainCode === d.domainCode)
     if (override) {
       return {
@@ -59,23 +95,23 @@ export async function getDomains() {
       }
     }
     return d
-  })
+  }))
 }
 
 export async function getDomainBySlug(slug: string) {
   if (USE_DATABASE) {
     try {
-      return await prisma.domain.findUnique({
+      return sanitizeObject(await prisma.domain.findUnique({
         where: { domainSlug: slug },
         include: { subdomains: true },
-      })
+      }))
     } catch (e) {
       console.warn('Prisma getDomainBySlug failed, using fallback.', e)
     }
   }
 
   const domains = await getDomains()
-  return domains.find((d) => d.domainSlug === slug) || null
+  return sanitizeObject(domains.find((d) => d.domainSlug === slug) || null)
 }
 
 // ============================================================
@@ -121,14 +157,14 @@ export async function getEntryBySlug(
           ? JSON.parse(entry.entryBody)
           : entry.entryBody) || {}
 
-        return {
+        return sanitizeObject({
           ...entry,
           sections: body.sections || [],
           keyPoints: body.keyPoints || [],
           formula: body.formula || null,
           notes: entry.notes.length > 0 ? entry.notes : (body.notes || []),
           faqs: entry.faqs.length > 0 ? entry.faqs : (body.faqs || []),
-        }
+        })
       }
     } catch (e) {
       console.warn('Prisma getEntryBySlug failed, using fallback.', e)
@@ -143,11 +179,11 @@ export async function getEntryBySlug(
       e.domain?.domainSlug === domainSlug &&
       e.subdomain?.subdomainSlug === subSlug
   )
-  if (localEntry) return localEntry
+  if (localEntry) return sanitizeObject(localEntry)
 
   // Fallback to static entries
   if (entrySlug === 'accrual-concept') {
-    return ACCRUAL_CONCEPT_ENTRY
+    return sanitizeObject(ACCRUAL_CONCEPT_ENTRY)
   }
 
   // Robust fallback: Check if the entry is listed in our search index.
@@ -156,7 +192,7 @@ export async function getEntryBySlug(
   )
 
   if (searchMatch) {
-    return {
+    return sanitizeObject({
       id: searchMatch.id,
       entryTitle: searchMatch.title,
       entrySlug: entrySlug,
@@ -204,7 +240,7 @@ export async function getEntryBySlug(
           body: 'This content is scheduled for detailed publication in the next release batch. Keep this page bookmarked for reference updates.',
         }
       ]
-    }
+    })
   }
 
   return null
@@ -350,7 +386,7 @@ export async function getASStandardBySlug(slug: string): Promise<any> {
           amendments: { orderBy: { sortOrder: 'asc' } },
         },
       })
-      if (std) return mapStandardDetail(std)
+      if (std) return sanitizeObject(mapStandardDetail(std))
     } catch (e) {
       console.warn('Prisma getASStandardBySlug failed, using fallback.', e)
     }
@@ -364,11 +400,11 @@ export async function getASStandardBySlug(slug: string): Promise<any> {
       e.standardFramework === 'AS' &&
       e.entrySlug === slug
   )
-  if (localEntry) return localEntry
+  if (localEntry) return sanitizeObject(localEntry)
 
   // Fallback to static entries
   if (slug === 'as-1') {
-    return AS_1_ENTRY
+    return sanitizeObject(AS_1_ENTRY)
   }
 
   // Construct a standard placeholder for other AS standards present in the index
@@ -377,7 +413,7 @@ export async function getASStandardBySlug(slug: string): Promise<any> {
   )
 
   if (match) {
-    return {
+    return sanitizeObject({
       entryTitle: match.title,
       entrySlug: slug,
       summary: match.summary,
@@ -437,7 +473,7 @@ export async function getASStandardBySlug(slug: string): Promise<any> {
       },
       relatedStandards: [],
       faqs: []
-    }
+    })
   }
 
   return null
@@ -482,7 +518,7 @@ export async function getIndASStandardBySlug(slug: string): Promise<any> {
           amendments: { orderBy: { sortOrder: 'asc' } },
         },
       })
-      if (std) return mapStandardDetail(std)
+      if (std) return sanitizeObject(mapStandardDetail(std))
     } catch (e) {
       console.warn('Prisma getIndASStandardBySlug failed, using fallback.', e)
     }
@@ -496,11 +532,11 @@ export async function getIndASStandardBySlug(slug: string): Promise<any> {
       e.standardFramework === 'IND_AS' &&
       e.entrySlug === slug
   )
-  if (localEntry) return localEntry
+  if (localEntry) return sanitizeObject(localEntry)
 
   // Fallback to static entries
   if (slug === 'ind-as-1') {
-    return IND_AS_1_ENTRY
+    return sanitizeObject(IND_AS_1_ENTRY)
   }
 
   // Construct a standard placeholder for other Ind AS standards present in the index
@@ -509,7 +545,7 @@ export async function getIndASStandardBySlug(slug: string): Promise<any> {
   )
 
   if (match) {
-    return {
+    return sanitizeObject({
       entryTitle: match.title,
       summary: match.summary,
       verificationLevel: 'PLACEHOLDER' as const,
@@ -534,7 +570,7 @@ export async function getIndASStandardBySlug(slug: string): Promise<any> {
       ],
       relatedStandards: [],
       faqs: []
-    }
+    })
   }
 
   return null
@@ -550,7 +586,7 @@ export async function getGlossaryTerms() {
       const terms = await prisma.glossaryTerm.findMany({
         orderBy: { term: 'asc' },
       })
-      return terms.map((t) => ({
+      return sanitizeObject(terms.map((t) => ({
         id: t.id,
         term: t.term,
         termSlug: t.termSlug,
@@ -561,14 +597,14 @@ export async function getGlossaryTerms() {
         standardRefs: Array.isArray(t.standardRefs) ? (t.standardRefs as string[]) : [],
         examLevelTags: Array.isArray(t.examLevelTags) ? (t.examLevelTags as string[]) : [],
         letter: t.term.charAt(0).toUpperCase(),
-      }))
+      })))
     } catch (e) {
       console.warn('Prisma getGlossaryTerms failed, using fallback.', e)
     }
   }
   const localDb = getLocalDb()
   const localGlossary = localDb.glossary || []
-  return [...localGlossary, ...GLOSSARY_TERMS]
+  return sanitizeObject([...localGlossary, ...GLOSSARY_TERMS])
 }
 
 export async function getGlossaryTermsByLetter(letter: string) {
@@ -604,7 +640,7 @@ export async function getSearchIndex() {
           standardDetail: true,
         },
       })
-      return entries.map((e) => {
+      return sanitizeObject(entries.map((e) => {
         let slug = ''
         if (e.entryType === 'STANDARD' && e.standardDetail) {
           const fw = e.standardDetail.standardFramework.toLowerCase() === 'as' ? 'as' : 'ind-as'
@@ -623,7 +659,7 @@ export async function getSearchIndex() {
           domainSlug: e.domain.domainSlug,
           domainColorHex: e.domain.domainColorHex,
         }
-      })
+      }))
     } catch (e) {
       console.warn('Prisma getSearchIndex failed, using fallback.', e)
     }
@@ -644,19 +680,19 @@ export async function getSearchIndex() {
     domainColorHex: e.domain.domainColorHex,
   })) || []
 
-  return [...localSearchIndex, ...SEARCH_INDEX]
+  return sanitizeObject([...localSearchIndex, ...SEARCH_INDEX])
 }
 
 export async function getAllEntries(): Promise<any[]> {
   if (USE_DATABASE) {
     try {
-      return await prisma.entry.findMany({
+      return sanitizeObject(await prisma.entry.findMany({
         include: {
           domain: true,
           subdomain: true,
         },
         orderBy: { sortOrder: 'asc' },
-      }) as any
+      }) as any)
     } catch (e) {
       console.warn('Prisma getAllEntries failed, using fallback.', e)
     }
@@ -693,6 +729,6 @@ export async function getAllEntries(): Promise<any[]> {
     }
   }
 
-  return combined
+  return sanitizeObject(combined)
 }
 

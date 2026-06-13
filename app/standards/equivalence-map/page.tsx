@@ -5,7 +5,7 @@ import { prisma } from '@/lib/db'
 
 export const metadata: Metadata = {
   title: 'Standards Equivalence Map | Accounts.One',
-  description: 'Map corresponding ICAI Accounting Standards (AS) to Indian Accounting Standards (Ind AS) equivalents.',
+  description: 'Map corresponding Accounting Standards (AS) to Indian Accounting Standards (Ind AS) equivalents.',
 }
 
 export default async function EquivalenceMapPage() {
@@ -39,7 +39,7 @@ export default async function EquivalenceMapPage() {
             AS vs Ind AS Equivalence Map
           </h1>
           <p className="mt-3 text-base text-[#4A4A52] font-reading leading-relaxed max-w-2xl">
-            Quick reference index mapping traditional ICAI Accounting Standards (AS) to their modern IFRS-converged Indian Accounting Standards (Ind AS) counterparts.
+            Quick reference index mapping traditional Accounting Standards (AS) to their modern IFRS-converged Indian Accounting Standards (Ind AS) counterparts.
           </p>
         </header>
 

@@ -27,14 +27,14 @@ const NAV_ITEMS: NavItem[] = [
     dropdown: [
       { label: 'Accounts Overview', href: '/accounts', description: 'All Accounts topics in one hub' },
       { label: 'Foundations', href: '/foundations', description: 'Core accounting concepts & conventions' },
-      { label: 'AS Standards', href: '/standards/as', description: 'All 32 ICAI Accounting Standards' },
+      { label: 'AS Standards', href: '/standards/as', description: 'All 32 Accounting Standards' },
       { label: 'Ind AS', href: '/standards/ind-as', description: 'IFRS-aligned Indian standards' },
     ],
   },
   {
     label: 'Audit',
     dropdown: [
-      { label: 'Standards on Auditing', href: '/search?q=Audit', description: 'ICAI Auditing Standards (SA)' },
+      { label: 'Standards on Auditing', href: '/search?q=Audit', description: 'Auditing Standards (SA)' },
       { label: 'Audit Procedures', href: '/search?q=Audit', description: 'CARO & internal audit guidance' },
     ],
   },

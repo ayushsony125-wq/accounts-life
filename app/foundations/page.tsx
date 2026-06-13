@@ -120,7 +120,7 @@ export default function FoundationsDomainPage() {
           </div>
           <div>
             <dt className="text-xs text-[#76767E] dark:text-gray-400 font-medium uppercase tracking-wider">Authority</dt>
-            <dd className="mt-0.5 text-sm font-semibold text-[#1C1C1E] dark:text-white">ICAI / AS Standards</dd>
+            <dd className="mt-0.5 text-sm font-semibold text-[#1C1C1E] dark:text-white">Accounting Standards (AS)</dd>
           </div>
         </dl>
       </header>
