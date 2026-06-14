@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { verifyAdminSession } from './session'
 import { getAllEntries, getDomains, getGlossaryTerms } from '@/lib/queries'
 import { BookOpen, Layers, CheckCircle2, AlertCircle, PlusCircle, ArrowRight } from 'lucide-react'
+import DirectPdfUpload from './DirectPdfUpload'
 
 export const dynamic = 'force-dynamic'
 
@@ -83,6 +84,9 @@ export default async function AdminDashboard() {
           )
         })}
       </div>
+
+      {/* PDF Upload Section */}
+      <DirectPdfUpload />
 
       {/* Main content grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

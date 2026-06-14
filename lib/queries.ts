@@ -157,8 +157,16 @@ export async function getEntryBySlug(
           ? JSON.parse(entry.entryBody)
           : entry.entryBody) || {}
 
+        const mappedResources = entry.resources.map((r: any) => {
+          if (r.resourceType === 'PDF' && r.resourceUrl && r.resourceUrl.startsWith('data:')) {
+            return { ...r, resourceUrl: `/api/pdfs/${entry.entrySlug}` }
+          }
+          return r
+        })
+
         return sanitizeObject({
           ...entry,
+          resources: mappedResources,
           sections: body.sections || [],
           keyPoints: body.keyPoints || [],
           formula: body.formula || null,
@@ -681,6 +689,67 @@ export async function getSearchIndex() {
   })) || []
 
   return sanitizeObject([...localSearchIndex, ...SEARCH_INDEX])
+}
+
+export async function getEntryById(id: number): Promise<any> {
+  if (USE_DATABASE) {
+    try {
+      const entry = await prisma.entry.findUnique({
+        where: { id },
+        include: {
+          domain: true,
+          subdomain: true,
+          journalEntries: {
+            include: { rows: true },
+            orderBy: { sortOrder: 'asc' },
+          },
+          illustrations: {
+            orderBy: { sortOrder: 'asc' },
+          },
+          notes: {
+            orderBy: { sortOrder: 'asc' },
+          },
+          faqs: {
+            orderBy: { sortOrder: 'asc' },
+          },
+          resources: {
+            orderBy: { sortOrder: 'asc' },
+          },
+          standardDetail: {
+            include: {
+              definitions: { orderBy: { sortOrder: 'asc' } },
+              disclosureGroups: {
+                include: { items: { orderBy: { sortOrder: 'asc' } } },
+                orderBy: { sortOrder: 'asc' },
+              },
+              comparisonRows: { orderBy: { sortOrder: 'asc' } },
+              amendments: { orderBy: { sortOrder: 'asc' } },
+            }
+          }
+        }
+      })
+      if (entry) {
+        const mappedResources = entry.resources.map((r: any) => {
+          if (r.resourceType === 'PDF' && r.resourceUrl && r.resourceUrl.startsWith('data:')) {
+            return { ...r, resourceUrl: `/api/pdfs/${entry.entrySlug}` }
+          }
+          return r
+        })
+        return sanitizeObject({
+          ...entry,
+          resources: mappedResources
+        })
+      }
+    } catch (e) {
+      console.warn(`Prisma getEntryById failed for id ${id}:`, e)
+    }
+  }
+
+  const localDb = getLocalDb()
+  const localEntry = localDb.entries?.find((e: any) => e.id === id)
+  if (localEntry) return sanitizeObject(localEntry)
+
+  return null
 }
 
 export async function getAllEntries(): Promise<any[]> {

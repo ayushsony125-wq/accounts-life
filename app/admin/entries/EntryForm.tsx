@@ -3,7 +3,7 @@
 import { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { saveEntry } from '../actions'
+import { saveEntry, uploadPdfAction } from '../actions'
 import { Info, Book, Image, Video, CheckCircle, ArrowRight, ArrowLeft, Plus, Trash2, HelpCircle } from 'lucide-react'
 
 interface EntryFormProps {
@@ -368,6 +368,25 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setReferences(next)
   }
 
+  const handleFileChange = async (idx: number, file: File | null) => {
+    if (!file) return
+    const formData = new FormData()
+    formData.append('pdfFile', file)
+    formData.append('entrySlug', entrySlug)
+    try {
+      const res = await uploadPdfAction(formData)
+      if (res.success && res.url) {
+        updateReference(idx, 'resourceUrl', res.url)
+        updateReference(idx, 'resourceType', 'PDF')
+        alert(`PDF uploaded successfully: saved as ${res.url}`)
+      } else {
+        alert('Upload failed: ' + (res.error || 'Unknown error'))
+      }
+    } catch (err: any) {
+      alert('Error uploading file: ' + (err.message || String(err)))
+    }
+  }
+
   // --- SUBMIT ---
   const handleSubmit = (publishNow = false) => {
     if (!entryTitle.trim() || !entrySlug.trim() || !summary.trim()) {
@@ -544,10 +563,10 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
           router.push('/admin/entries')
           router.refresh()
         } else {
-          alert('Error saving entry.')
+          alert('Error saving entry: ' + ((res as any).error || 'Unknown server response.'))
         }
-      } catch (e) {
-        alert('An error occurred during submission.')
+      } catch (e: any) {
+        alert('An error occurred during submission: ' + (e.message || String(e)))
       }
     })
   }
@@ -1647,13 +1666,26 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                     <Trash2 size={12} />
                   </button>
                 </div>
-                <input
-                  type="url"
-                  value={ref.resourceUrl || ''}
-                  onChange={(e) => updateReference(idx, 'resourceUrl', e.target.value)}
-                  placeholder="Direct document hyperlink URL..."
-                  className="w-full px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                />
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="url"
+                    value={ref.resourceUrl || ''}
+                    onChange={(e) => updateReference(idx, 'resourceUrl', e.target.value)}
+                    placeholder="Direct document hyperlink URL..."
+                    className="flex-1 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
+                  />
+                  <div className="flex items-center gap-1.5 bg-white border border-[#E2E1DD] rounded px-2 py-1 shrink-0">
+                    <label className="text-[11px] font-bold text-gray-600 cursor-pointer">
+                      Upload PDF
+                      <input
+                        type="file"
+                        accept=".pdf"
+                        onChange={(e) => handleFileChange(idx, e.target.files?.[0] || null)}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

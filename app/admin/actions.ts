@@ -19,11 +19,15 @@ function readDb() {
 }
 
 function writeDb(data: any) {
-  const dir = path.dirname(DB_PATH)
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true })
+  try {
+    const dir = path.dirname(DB_PATH)
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true })
+    }
+    fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8')
+  } catch (err: any) {
+    console.warn(`Local JSON db write skipped/failed (expected on serverless EROFS): ${err.message}`)
   }
-  fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2), 'utf-8')
 }
 
 import crypto from 'crypto'
@@ -115,9 +119,32 @@ export async function saveEntry(entryData: any) {
         await prisma.entryFAQ.deleteMany({ where: { entryId } })
         await prisma.entryJournalEntry.deleteMany({ where: { entryId } })
         await prisma.entryIllustration.deleteMany({ where: { entryId } })
-        await prisma.entryResource.deleteMany({ where: { entryId } })
+
+        // Check if a PDF resource is already mapped in the database
+        const submittedPdf = (entryData.resources || []).find((r: any) => r.resourceType === 'PDF')
+        if (submittedPdf && submittedPdf.resourceUrl && !submittedPdf.resourceUrl.startsWith('/api/pdfs/')) {
+          // A new PDF file is uploaded/mapped in the payload (not the API route placeholder)
+          await prisma.entryResource.deleteMany({ where: { entryId } })
+        } else {
+          // Otherwise, delete all non-PDF resources for this entry to preserve the existing database Base64 mapping
+          await prisma.entryResource.deleteMany({
+            where: {
+              entryId,
+              resourceType: { not: 'PDF' }
+            }
+          })
+        }
+
         await prisma.standardDetail.deleteMany({ where: { entryId } })
       }
+
+      // Filter out any API route placeholder PDF resource from being recreated to avoid duplication
+      const resourcesToCreate = (entryData.resources || []).filter((r: any) => {
+        if (r.resourceType === 'PDF' && r.resourceUrl && r.resourceUrl.startsWith('/api/pdfs/')) {
+          return false
+        }
+        return true
+      })
 
       // Build schema-compliant payload
       const dataPayload: any = {
@@ -186,7 +213,7 @@ export async function saveEntry(entryData: any) {
           })),
         },
         resources: {
-          create: (entryData.resources || []).map((r: any, idx: number) => ({
+          create: resourcesToCreate.map((r: any, idx: number) => ({
             resourceType: r.resourceType || 'REFERENCE',
             resourceTitle: r.resourceTitle || '',
             resourceUrl: r.resourceUrl || null,
@@ -263,8 +290,12 @@ export async function saveEntry(entryData: any) {
         })
         entryId = saved.id
       }
-    } catch (e) {
-      console.warn('Prisma database write failed, falling back to local JSON.', e)
+    } catch (e: any) {
+      console.error('Prisma database write failed:', e)
+      return {
+        success: false,
+        error: `Database Save Error: ${e.message || String(e)}\n\nStack Trace:\n${e.stack || 'No stack trace available'}`
+      }
     }
   }
 
@@ -493,18 +524,22 @@ function readConfigJson(key: string, defaultValue: any) {
 }
 
 function writeConfigJson(key: string, value: any) {
-  const dir = path.dirname(CONFIG_FILE_PATH)
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true })
+  try {
+    const dir = path.dirname(CONFIG_FILE_PATH)
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true })
+    }
+    let currentData: Record<string, any> = {}
+    if (fs.existsSync(CONFIG_FILE_PATH)) {
+      try {
+        currentData = JSON.parse(fs.readFileSync(CONFIG_FILE_PATH, 'utf-8'))
+      } catch {}
+    }
+    currentData[key] = value
+    fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(currentData, null, 2), 'utf-8')
+  } catch (err: any) {
+    console.warn(`Local JSON config write skipped/failed (expected on serverless EROFS): ${err.message}`)
   }
-  let currentData: Record<string, any> = {}
-  if (fs.existsSync(CONFIG_FILE_PATH)) {
-    try {
-      currentData = JSON.parse(fs.readFileSync(CONFIG_FILE_PATH, 'utf-8'))
-    } catch {}
-  }
-  currentData[key] = value
-  fs.writeFileSync(CONFIG_FILE_PATH, JSON.stringify(currentData, null, 2), 'utf-8')
 }
 
 export async function getHomepageConfig(key: string, defaultValue: any) {
@@ -543,3 +578,267 @@ export async function saveHomepageConfig(key: string, value: any) {
   writeConfigJson(key, value)
   return { success: true }
 }
+
+function getStandardTitle(slug: string): string {
+  const list = [
+    { id: 'as-1', label: 'AS 1 – Disclosure of Accounting Policies' },
+    { id: 'as-2', label: 'AS 2 – Valuation of Inventories' },
+    { id: 'as-3', label: 'AS 3 – Cash Flow Statements' },
+    { id: 'as-4', label: 'AS 4 – Contingencies & Events occurring after Balance Sheet' },
+    { id: 'as-5', label: 'AS 5 – Net Profit or Loss, Prior Period Items & Changes' },
+    { id: 'as-7', label: 'AS 7 – Construction Contracts' },
+    { id: 'as-9', label: 'AS 9 – Revenue Recognition' },
+    { id: 'as-10', label: 'AS 10 – Property, Plant and Equipment' },
+    { id: 'as-11', label: 'AS 11 – Effects of Changes in Foreign Exchange Rates' },
+    { id: 'as-12', label: 'AS 12 – Accounting for Government Grants' },
+    { id: 'as-13', label: 'AS 13 – Accounting for Investments' },
+    { id: 'as-14', label: 'AS 14 – Accounting for Amalgamations' },
+    { id: 'as-15', label: 'AS 15 – Employee Benefits' },
+    { id: 'as-16', label: 'AS 16 – Borrowing Costs' },
+    { id: 'as-17', label: 'AS 17 – Segment Reporting' },
+    { id: 'as-18', label: 'AS 18 – Related Party Disclosures' },
+    { id: 'as-19', label: 'AS 19 – Leases' },
+    { id: 'as-20', label: 'AS 20 – Earnings Per Share' },
+    { id: 'as-21', label: 'AS 21 – Consolidated Financial Statements' },
+    { id: 'as-22', label: 'AS 22 – Accounting for Taxes on Income' },
+    { id: 'as-23', label: 'AS 23 – Investments in Associates in Consolidated Fin Stmts' },
+    { id: 'as-24', label: 'AS 24 – Discontinuing Operations' },
+    { id: 'as-25', label: 'AS 25 – Interim Financial Reporting' },
+    { id: 'as-26', label: 'AS 26 – Intangible Assets' },
+    { id: 'as-27', label: 'AS 27 – Financial Reporting of Interests in Joint Ventures' },
+    { id: 'as-28', label: 'AS 28 – Impairment of Assets' },
+    { id: 'as-29', label: 'AS 29 – Provisions, Contingent Liabilities & Contingent Assets' },
+    { id: 'ind-as-1', label: 'Ind AS 1 – Presentation of Financial Statements' },
+    { id: 'ind-as-2', label: 'Ind AS 2 – Inventories' },
+    { id: 'ind-as-7', label: 'Ind AS 7 – Statement of Cash Flows' },
+    { id: 'ind-as-8', label: 'Ind AS 8 – Accounting Policies, Changes & Errors' },
+    { id: 'ind-as-10', label: 'Ind AS 10 – Events after the Reporting Period' },
+    { id: 'ind-as-12', label: 'Ind AS 12 – Income Taxes' },
+    { id: 'ind-as-16', label: 'Ind AS 16 – Property, Plant and Equipment' },
+    { id: 'ind-as-19', label: 'Ind AS 19 – Employee Benefits' },
+    { id: 'ind-as-20', label: 'Ind AS 20 – Accounting for Govt Grants & Disclosure' },
+    { id: 'ind-as-21', label: 'Ind AS 21 – Effects of Changes in FX Rates' },
+    { id: 'ind-as-23', label: 'Ind AS 23 – Borrowing Costs' },
+    { id: 'ind-as-24', label: 'Ind AS 24 – Related Party Disclosures' },
+    { id: 'ind-as-27', label: 'Ind AS 27 – Separate Financial Statements' },
+    { id: 'ind-as-28', label: 'Ind AS 28 – Investments in Associates and Joint Ventures' },
+    { id: 'ind-as-29', label: 'Ind AS 29 – Financial Reporting in Hyperinflationary' },
+    { id: 'ind-as-32', label: 'Ind AS 32 – Financial Instruments: Presentation' },
+    { id: 'ind-as-33', label: 'Ind AS 33 – Earnings Per Share' },
+    { id: 'ind-as-34', label: 'Ind AS 34 – Interim Financial Reporting' },
+    { id: 'ind-as-36', label: 'Ind AS 36 – Impairment of Assets' },
+    { id: 'ind-as-37', label: 'Ind AS 37 – Provisions, Contingent Liabilities & Assets' },
+    { id: 'ind-as-38', label: 'Ind AS 38 – Intangible Assets' },
+    { id: 'ind-as-40', label: 'Ind AS 40 – Investment Property' },
+    { id: 'ind-as-41', label: 'Ind AS 41 – Agriculture' },
+    { id: 'ind-as-101', label: 'Ind AS 101 – First-time Adoption' },
+    { id: 'ind-as-102', label: 'Ind AS 102 – Share-based Payment' },
+    { id: 'ind-as-103', label: 'Ind AS 103 – Business Combinations' },
+    { id: 'ind-as-105', label: 'Ind AS 105 – Non-current Assets Held for Sale & Discont' },
+    { id: 'ind-as-106', label: 'Ind AS 106 – Exploration & Evaluation of Minerals' },
+    { id: 'ind-as-107', label: 'Ind AS 107 – Financial Instruments: Disclosures' },
+    { id: 'ind-as-108', label: 'Ind AS 108 – Operating Segments' },
+    { id: 'ind-as-109', label: 'Ind AS 109 – Financial Instruments' },
+    { id: 'ind-as-110', label: 'Ind AS 110 – Consolidated Financial Statements' },
+    { id: 'ind-as-111', label: 'Ind AS 111 – Joint Arrangements' },
+    { id: 'ind-as-112', label: 'Ind AS 112 – Disclosure of Interests in Other Entities' },
+    { id: 'ind-as-113', label: 'Ind AS 113 – Fair Value Measurement' },
+    { id: 'ind-as-114', label: 'Ind AS 114 – Regulatory Deferral Accounts' },
+    { id: 'ind-as-115', label: 'Ind AS 115 – Revenue from Contracts with Customers' },
+    { id: 'ind-as-116', label: 'Ind AS 116 – Leases' },
+    { id: 'ind-as-117', label: 'Ind AS 117 – Insurance Contracts' }
+  ]
+  const match = list.find(x => x.id === slug)
+  return match ? match.label : slug.toUpperCase()
+}
+
+export async function uploadPdfAction(formData: FormData) {
+  try {
+    const isAuth = await checkSession()
+    if (!isAuth) {
+      console.error('PDF Upload: Unauthorized access attempt.')
+      return { success: false, error: 'Unauthorized: Session expired or invalid. Please log in again.' }
+    }
+
+    const file = formData.get('pdfFile') as File
+    if (!file) {
+      console.error('PDF Upload: No file provided in formData.')
+      return { success: false, error: 'Validation Error: No file was selected for upload.' }
+    }
+
+    if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
+      console.error(`PDF Upload: Invalid file type: ${file.type}, name: ${file.name}`)
+      return { success: false, error: 'Validation Error: Only PDF documents (.pdf) are allowed.' }
+    }
+
+    // Limit file size to 4MB for serverless compatibility (Vercel payload limit is 4.5MB)
+    const MAX_SIZE = 4 * 1024 * 1024
+    if (file.size > MAX_SIZE) {
+      console.error(`PDF Upload: File size ${file.size} exceeds serverless limit of ${MAX_SIZE}`)
+      return { success: false, error: `File Size Error: File size exceeds the Vercel payload limit of 4MB (Current size: ${(file.size / 1024 / 1024).toFixed(2)}MB). Please choose a smaller test PDF.` }
+    }
+
+    const entrySlug = (formData.get('entrySlug') as string || '').toLowerCase().trim()
+    if (!entrySlug) {
+      console.error('PDF Upload: No entry slug specified.')
+      return { success: false, error: 'Validation Error: Please select an Accounting Standard to map.' }
+    }
+
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    const base64Data = buffer.toString('base64')
+    const base64Url = `data:application/pdf;base64,${base64Data}`
+
+    // 1. Try to save locally to disk (ideal for development and environments with persistent local storage)
+    const pdfsDir = path.join(process.cwd(), 'public/pdfs')
+    let diskWriteSuccess = false
+    let diskWriteError = ''
+    const safeName = `${entrySlug}.pdf`
+    const filePath = path.join(pdfsDir, safeName)
+
+    try {
+      if (!fs.existsSync(pdfsDir)) {
+        fs.mkdirSync(pdfsDir, { recursive: true })
+      }
+      fs.writeFileSync(filePath, buffer)
+      console.log(`PDF Upload: Saved file successfully to local disk at ${filePath}`)
+      diskWriteSuccess = true
+    } catch (fsErr: any) {
+      console.warn(`PDF Upload: Local disk save failed (expected on Vercel EROFS): ${fsErr.message}`)
+      diskWriteError = fsErr.message
+    }
+
+    // 2. Sync / save to database as Base64 Data URI
+    const useDatabase = process.env.DATABASE_URL ? true : false
+    if (useDatabase) {
+      try {
+        let entry = await prisma.entry.findUnique({
+          where: { entrySlug }
+        })
+
+        // Auto-create standard entry if it does not exist in the database
+        if (!entry) {
+          console.log(`PDF Upload: Standard '${entrySlug}' not in DB. Auto-creating database entry...`)
+          
+          let domainId = 2
+          let subdomainId = 5
+          if (entrySlug.startsWith('ind-as')) {
+            domainId = 3
+            subdomainId = 8
+          }
+
+          // Dynamically check matching database domains to make it even more robust
+          try {
+            const dbDomain = await prisma.domain.findFirst({
+              where: {
+                domainCode: {
+                  contains: entrySlug.startsWith('ind-as') ? 'IND' : 'AS',
+                  mode: 'insensitive'
+                }
+              },
+              include: { subdomains: true }
+            })
+            if (dbDomain) {
+              domainId = dbDomain.id
+              if (dbDomain.subdomains.length > 0) {
+                subdomainId = dbDomain.subdomains[0].id
+              }
+            }
+          } catch (domErr) {
+            console.warn('PDF Upload: Failed to dynamically lookup domains, using static fallbacks:', domErr)
+          }
+
+          const title = getStandardTitle(entrySlug)
+          const standardCode = entrySlug.replace('-', ' ').toUpperCase()
+          const framework = entrySlug.startsWith('ind-as') ? 'IND_AS' : 'AS'
+
+          entry = await prisma.entry.create({
+            data: {
+              entryType: 'STANDARD',
+              entryTitle: title,
+              entrySlug: entrySlug,
+              domainId: domainId,
+              subdomainId: subdomainId,
+              summary: `Requires compliance and disclosure treatment for ${title}.`,
+              verificationLevel: 'VERIFIED',
+              status: 'PUBLISHED',
+              standardDetail: {
+                create: {
+                  standardCode: standardCode,
+                  standardFramework: framework,
+                  standardStatus: 'ACTIVE',
+                  issuingBody: framework === 'AS' ? 'ICAI' : 'MCA'
+                }
+              }
+            }
+          })
+          console.log(`PDF Upload: Successfully auto-created database entry for '${entrySlug}' with ID: ${entry.id}`)
+        }
+
+        // Upsert PDF resource mapping
+        const existingPdfResource = await prisma.entryResource.findFirst({
+          where: { entryId: entry.id, resourceType: 'PDF' }
+        })
+
+        const resourceTitle = `Official ${entry.entryTitle} PDF`
+
+        if (existingPdfResource) {
+          await prisma.entryResource.update({
+            where: { id: existingPdfResource.id },
+            data: { 
+              resourceUrl: base64Url, 
+              resourceTitle 
+            }
+          })
+          console.log(`PDF Upload: Updated existing PDF resource in Neon database with Base64 payload for ${entrySlug}`)
+        } else {
+          await prisma.entryResource.create({
+            data: {
+              entryId: entry.id,
+              resourceType: 'PDF',
+              resourceTitle,
+              resourceUrl: base64Url,
+              sourceType: 'ICAI_OFFICIAL'
+            }
+          })
+          console.log(`PDF Upload: Created new PDF resource in Neon database with Base64 payload for ${entrySlug}`)
+        }
+
+        // Database save was successful, we can return success regardless of disk write failures!
+        return { success: true, url: `/api/pdfs/${entrySlug}` }
+
+      } catch (dbErr: any) {
+        console.error('PDF Upload: Database sync failed:', dbErr)
+        
+        // If both disk and database failed, we return error
+        if (!diskWriteSuccess) {
+          return { 
+            success: false, 
+            error: `PDF Upload failed. Disk write error: ${diskWriteError}. Database sync error: ${dbErr.message}` 
+          }
+        }
+
+        // If disk succeeded but DB failed, return warning
+        return { 
+          success: true, 
+          url: `/pdfs/${safeName}`, 
+          warning: `PDF was saved to local disk, but database sync failed: ${dbErr.message}`
+        }
+      }
+    }
+
+    // Database is not enabled, rely strictly on local disk write
+    if (!diskWriteSuccess) {
+      return { 
+        success: false, 
+        error: `Server File Write Error: Failed to save PDF to disk: ${diskWriteError}` 
+      }
+    }
+
+    return { success: true, url: `/pdfs/${safeName}` }
+  } catch (err: any) {
+    console.error('PDF Upload: Unexpected server error:', err)
+    return { success: false, error: `Server Error: An unexpected error occurred: ${err.message || String(err)}` }
+  }
+}
+

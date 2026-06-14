@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import { verifyAdminSession } from '../../../session'
-import { getDomains, getAllEntries } from '@/lib/queries'
+import { getDomains, getEntryById } from '@/lib/queries'
 import EntryForm from '../../EntryForm'
 
 interface EditPageProps {
@@ -13,12 +13,10 @@ export default async function EditEntryPage({ params }: EditPageProps) {
   await verifyAdminSession()
   const { id } = await params
   
-  const [domains, entries] = await Promise.all([
+  const [domains, entry] = await Promise.all([
     getDomains(),
-    getAllEntries()
+    getEntryById(Number(id))
   ])
-  
-  const entry = entries.find((e) => e.id === Number(id))
   
   if (!entry) {
     notFound()

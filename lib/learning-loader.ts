@@ -1,4 +1,6 @@
 import { prisma } from './db'
+import fs from 'fs'
+import path from 'path'
 
 function sanitizeText(str: string): string {
   if (!str) return ''
@@ -61,6 +63,13 @@ export interface Standard {
   lectureUrl: string
   pdfPagesCount: number
   resources?: { title: string; url: string; type: 'PDF' | 'VIDEO' | 'REFERENCE' }[]
+  faqs?: {
+    id?: number
+    question: string
+    answer: string
+    sourceRef?: string
+    category?: string
+  }[]
 }
 
 // Complete static indices with professional naming
@@ -215,11 +224,17 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
 
     const id = entry.entrySlug // e.g. as-1 or ind-as-115
 
-    let resourcesList = entry.resources.map((r: any) => ({
-      title: r.resourceTitle,
-      url: r.resourceUrl || '',
-      type: r.resourceType as 'PDF' | 'VIDEO' | 'REFERENCE'
-    }))
+    let resourcesList = entry.resources.map((r: any) => {
+      let url = r.resourceUrl || ''
+      if (r.resourceType === 'PDF' && url.startsWith('data:')) {
+        url = `/api/pdfs/${id}`
+      }
+      return {
+        title: r.resourceTitle,
+        url: url,
+        type: r.resourceType as 'PDF' | 'VIDEO' | 'REFERENCE'
+      }
+    })
 
     // Ensure we have a default reference link if none are in the DB
     if (resourcesList.length === 0) {
@@ -238,71 +253,7 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
     let finalKeyPrinciples = keyPrinciples
 
     if (id === 'as-1') {
-      if (!finalObjective) {
-        finalObjective = 'The objective of AS 1 is to ensure that an enterprise discloses all significant accounting policies followed in preparing and presenting financial statements so that financial statements are understandable and comparable.'
-      }
-      if (!finalScopeStatement) {
-        finalScopeStatement = 'AS 1 applies to all financial statements prepared in accordance with Indian GAAP (the AS framework). It applies to all levels of entities — large, medium, and small — that prepare formal financial statements.'
-      }
-      if (finalScopeIncluded.length === 0) {
-        finalScopeIncluded = [
-          'All corporate entities preparing financial statements under Indian GAAP.',
-          'All non-corporate entities preparing general purpose financial statements.',
-          'Disclosures of policies regarding depreciation methods, inventory valuation, goodwill, and revenue recognition.'
-        ]
-      }
-      if (finalScopeExcluded.length === 0) {
-        finalScopeExcluded = [
-          'Entities adopting Indian Accounting Standards (Ind AS).',
-          'Small and Medium Enterprises (SMEs) are not exempt from this standard (it is mandatory for all levels).'
-        ]
-      }
-      if (finalKeyPrinciples.length === 0) {
-        finalKeyPrinciples = [
-          {
-            title: 'Fundamental Accounting Assumptions',
-            body: 'Going Concern, Consistency, and Accrual are fundamental assumptions. If followed, no explicit disclosure is required. If not followed, the fact must be disclosed.'
-          },
-          {
-            title: 'Prudence',
-            body: 'Provisions should be made for all known liabilities and losses. Profits should not be anticipated or recognized unless realized.'
-          },
-          {
-            title: 'Substance over Form',
-            body: 'Transactions and other events must be accounted for and presented in accordance with their economic substance and reality, and not merely their legal form.'
-          },
-          {
-            title: 'Materiality',
-            body: 'Financial statements should disclose all material items, i.e., items whose knowledge could influence the economic decisions of users.'
-          }
-        ]
-      }
-      if (examples.length === 0) {
-        examples = [
-          {
-            title: 'Valuation of Inventory Policy Change',
-            scenario: 'A company changes its inventory valuation method from FIFO to Weighted Average. The change has a material effect on the financial statements for the current year.',
-            guidance: 'Under AS 1, the company must disclose the fact of the change, the reason for the change, and its financial effect. If the effect is not ascertainable, either wholly or in part, the fact must be indicated.'
-          },
-          {
-            title: 'Disclosure of Depreciation Policy',
-            scenario: 'An enterprise uses the Straight Line Method (SLM) for buildings and Written Down Value (WDV) method for plant and machinery.',
-            guidance: 'The depreciation methods used must be disclosed as part of the significant accounting policies in a single place (usually Note 1).'
-          }
-        ]
-      }
-      resourcesList = [
-        {
-          title: 'AS 1 — Official Standard Text (ICAI)',
-          url: 'https://resources.cdn.icai.org/adg/as1.pdf',
-          type: 'PDF'
-        },
-        {
-          title: 'AS 1 — Technical Announcement (ICAI)',
-          url: 'https://www.icai.org/post.html?post_id=8662',
-          type: 'REFERENCE'
-        }
-      ]
+      // Allow database values to take full precedence without overrides
     } else if (id === 'ind-as-1') {
       if (!finalObjective || finalObjective.startsWith('Prescribes presentation and recognition')) {
         finalObjective = 'This Standard prescribes the basis for presentation of general purpose financial statements to ensure comparability both with the entity’s financial statements of previous periods and with the financial statements of other entities. It sets out overall requirements for the presentation of financial statements, guidelines for their structure and minimum requirements for their content.'
@@ -359,8 +310,8 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
       }
       resourcesList = [
         {
-          title: 'Ind AS 1 — Official Standard Text (MCA)',
-          url: 'https://www.mca.gov.in/content/dam/mca/pdf/Ind_AS_1.pdf',
+          title: pdfRes ? pdfRes.resourceTitle : 'Ind AS 1 — Official Standard Text (MCA)',
+          url: pdfRes ? `/api/pdfs/${id}` : 'https://www.mca.gov.in/content/dam/mca/pdf/Ind_AS_1.pdf',
           type: 'PDF'
         },
         {
@@ -389,28 +340,33 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
       },
       examples: examples,
       lectureUrl: videoRes?.resourceUrl || 'https://www.youtube.com/watch?v=mock_lecture',
-      pdfPagesCount: pdfRes ? 24 : 3,
-      resources: resourcesList
+      pdfPagesCount: id === 'as-1' ? 16 : (pdfRes ? 24 : 3),
+      resources: resourcesList,
+      faqs: entry.faqs.map((f: any) => ({
+        id: f.id,
+        question: f.faqQuestion,
+        answer: f.faqAnswer,
+        sourceRef: f.faqSourceRef || undefined,
+        category: f.faqCategory
+      }))
     }
   }
 
   // Merge static list with database mappings
-  return sanitizeObject(staticList.map(item => {
+  const mappedList = staticList.map(item => {
+    let std: Standard
+
     // Check if we have standard in DB
     if (dbMapped[item.id]) {
       const dbStd = dbMapped[item.id]
-      return {
+      std = {
         ...dbStd,
         code: item.code,
         shortTitle: item.shortTitle,
         title: item.title,
       }
-    }
-
-
-    // Dedicated premium introduction objects
-    if (item.id === 'intro-as') {
-      return {
+    } else if (item.id === 'intro-as') {
+      std = {
         id: item.id,
         code: item.code,
         title: item.title,
@@ -454,10 +410,8 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
           }
         ]
       }
-    }
-
-    if (item.id === 'intro-ind-as') {
-      return {
+    } else if (item.id === 'intro-ind-as') {
+      std = {
         id: item.id,
         code: item.code,
         title: item.title,
@@ -500,37 +454,62 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
           }
         ]
       }
+    } else {
+      std = {
+        id: item.id,
+        code: item.code,
+        title: item.title,
+        shortTitle: item.shortTitle,
+        framework: framework,
+        description: 'Standard guidelines and reference text under development.',
+        content: {
+          objective: `The objective of this standard is to prescribe the accounting treatment and disclosures for ${item.title.replace(/^(AS|Ind AS)\s+\d+\s+–\s+/, '')}.`,
+          scope: {
+            statement: 'Applicability details and criteria are currently under development.',
+            included: ['Standard compliance entities'],
+            excluded: ['Entities exempt under relevant statutes']
+          },
+          keyPrinciples: [
+            { title: 'Overview', body: 'Statutory guidelines and key policies will be loaded here by the administrator.' }
+          ]
+        },
+        examples: [],
+        lectureUrl: 'https://www.youtube.com/watch?v=mock_lecture',
+        pdfPagesCount: 3,
+        resources: [
+          {
+            title: 'Official Reference Link',
+            url: framework === 'AS' ? 'https://www.icai.org' : 'https://www.mca.gov.in',
+            type: 'REFERENCE'
+          }
+        ]
+      }
     }
 
-    // Return blank placeholder standard
-    return {
-      id: item.id,
-      code: item.code,
-      title: item.title,
-      shortTitle: item.shortTitle,
-      framework: framework,
-      description: 'Standard guidelines and reference text under development.',
-      content: {
-        objective: `The objective of this standard is to prescribe the accounting treatment and disclosures for ${item.title.replace(/^(AS|Ind AS)\s+\d+\s+–\s+/, '')}.`,
-        scope: {
-          statement: 'Applicability details and criteria are currently under development.',
-          included: ['Standard compliance entities'],
-          excluded: ['Entities exempt under relevant statutes']
-        },
-        keyPrinciples: [
-          { title: 'Overview', body: 'Statutory guidelines and key policies will be loaded here by the administrator.' }
-        ]
-      },
-      examples: [],
-      lectureUrl: 'https://www.youtube.com/watch?v=mock_lecture',
-      pdfPagesCount: 3,
-      resources: [
-        {
-          title: 'Official Reference Link',
-          url: framework === 'AS' ? 'https://www.icai.org' : 'https://www.mca.gov.in',
-          type: 'REFERENCE'
-        }
-      ]
+    // Disk-based PDF auto-mapping check
+    const localPdfPath = `/pdfs/${item.id}.pdf`
+    const absolutePdfPath = path.join(process.cwd(), 'public', localPdfPath)
+    let hasLocalPdf = false
+    try {
+      if (fs.existsSync(absolutePdfPath)) {
+        hasLocalPdf = true
+      }
+    } catch (e) {}
+
+    if (hasLocalPdf) {
+      const resources = std.resources ? [...std.resources] : []
+      // Remove other PDF references to avoid duplicate tabs or conflicting links
+      const filtered = resources.filter(r => r.type !== 'PDF')
+      filtered.unshift({
+        title: `${item.code} Official PDF Document`,
+        url: localPdfPath,
+        type: 'PDF'
+      })
+      std.resources = filtered
     }
-  }))
+
+    return std
+  })
+
+  return sanitizeObject(mappedList)
 }

@@ -30,6 +30,80 @@ import {
 } from 'lucide-react'
 import { Standard } from '@/lib/learning-loader'
 
+const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
+  // AS
+  'intro-as': 'Introduction to AS',
+  'as-1': 'Disclosure of Policies',
+  'as-2': 'Valuation of Inventories',
+  'as-3': 'Cash Flow Statements',
+  'as-4': 'Contingencies & Events',
+  'as-5': 'Net Profit or Loss',
+  'as-7': 'Construction Contracts',
+  'as-9': 'Revenue Recognition',
+  'as-10': 'Property, Plant & Equip',
+  'as-11': 'Foreign Exchange Rates',
+  'as-12': 'Government Grants',
+  'as-13': 'Accounting for Investments',
+  'as-14': 'Amalgamations',
+  'as-15': 'Employee Benefits',
+  'as-16': 'Borrowing Costs',
+  'as-17': 'Segment Reporting',
+  'as-18': 'Related Party Disclosures',
+  'as-19': 'Leases',
+  'as-20': 'Earnings Per Share',
+  'as-21': 'Consolidated Fin. Stmts',
+  'as-22': 'Taxes on Income',
+  'as-23': 'Investments in Associates',
+  'as-24': 'Discontinuing Operations',
+  'as-25': 'Interim Fin. Reporting',
+  'as-26': 'Intangible Assets',
+  'as-27': 'Interests in Joint Ventures',
+  'as-28': 'Impairment of Assets',
+  'as-29': 'Provisions & Contingencies',
+
+  // Ind AS
+  'intro-ind-as': 'Introduction to Ind AS',
+  'ind-as-1': 'Presentation of Fin. Stmts',
+  'ind-as-2': 'Inventories',
+  'ind-as-7': 'Statement of Cash Flows',
+  'ind-as-8': 'Policies, Estimates & Errors',
+  'ind-as-10': 'Events after Rep. Period',
+  'ind-as-12': 'Income Taxes',
+  'ind-as-16': 'Property, Plant & Equip',
+  'ind-as-19': 'Employee Benefits',
+  'ind-as-20': 'Govt Grants & Assistance',
+  'ind-as-21': 'Foreign Exchange Rates',
+  'ind-as-23': 'Borrowing Costs',
+  'ind-as-24': 'Related Party Disclosures',
+  'ind-as-27': 'Separate Fin. Statements',
+  'ind-as-28': 'Investments in Assoc. & JVs',
+  'ind-as-29': 'Hyperinflationary Econ.',
+  'ind-as-32': 'Fin. Instruments: Pres.',
+  'ind-as-33': 'Earnings Per Share',
+  'ind-as-34': 'Interim Fin. Reporting',
+  'ind-as-36': 'Impairment of Assets',
+  'ind-as-37': 'Provisions & Contingencies',
+  'ind-as-38': 'Intangible Assets',
+  'ind-as-40': 'Investment Property',
+  'ind-as-41': 'Agriculture',
+  'ind-as-101': 'First-time Adoption',
+  'ind-as-102': 'Share-based Payment',
+  'ind-as-103': 'Business Combinations',
+  'ind-as-105': 'Non-current Assets & Ops',
+  'ind-as-106': 'Mineral Exploration',
+  'ind-as-107': 'Fin. Instruments: Discl.',
+  'ind-as-108': 'Operating Segments',
+  'ind-as-109': 'Financial Instruments',
+  'ind-as-110': 'Consolidated Fin. Stmts',
+  'ind-as-111': 'Joint Arrangements',
+  'ind-as-112': 'Disclosure of Interests',
+  'ind-as-113': 'Fair Value Measurement',
+  'ind-as-114': 'Regulatory Deferral',
+  'ind-as-115': 'Revenue from Contracts',
+  'ind-as-116': 'Leases',
+  'ind-as-117': 'Insurance Contracts'
+}
+
 interface LearningPortalClientProps {
   initialStandards: Standard[]
   defaultFramework: 'AS' | 'Ind AS'
@@ -46,17 +120,18 @@ export default function LearningPortalClient({
   const [selectedStandardId, setSelectedStandardId] = useState<string>(
     initialSelectedStandardId || (defaultFramework === 'AS' ? 'intro-as' : 'intro-ind-as')
   )
-  const [activeTab, setActiveTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
-  const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard' | 'examples'>('standard')
+  const [activeTab, setActiveTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf' | 'faqs'>('standard')
+  const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard' | 'examples' | 'faqs'>('standard')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   useEffect(() => {
-    if (activeTab === 'standard' || activeTab === 'examples') {
+    if (activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') {
       setLastActiveBaseTab(activeTab)
     }
   }, [activeTab])
 
   const currentStandard = initialStandards.find((s) => s.id === selectedStandardId) || initialStandards[0]
+  const uploadedPdf = currentStandard.resources?.find((r) => r.type === 'PDF' && r.url)
 
   // PDF Viewer states
   const [pdfPage, setPdfPage] = useState<number>(1)
@@ -68,6 +143,7 @@ export default function LearningPortalClient({
   const [searchInPdf, setSearchInPdf] = useState(false)
   const [pdfSearchQuery, setPdfSearchQuery] = useState('')
   const [isAnnotationPanelOpen, setIsAnnotationPanelOpen] = useState(false)
+  const [expandedFaqId, setExpandedFaqId] = useState<number | null>(null)
 
   // Drawing states
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -141,26 +217,26 @@ export default function LearningPortalClient({
   const getSidebarItemDisplay = (std: Standard) => {
     if (std.id.includes('intro')) {
       return (
-        <span className="text-[13px] font-bold leading-normal text-left block text-[#1C1C1E] dark:text-white">
+        <span className="text-[13px] font-bold leading-normal text-left block text-[#1C1C1E] dark:text-white truncate whitespace-nowrap">
           {std.title}
         </span>
       )
     }
     
     const code = std.code
-    let title = std.shortTitle || std.title
+    let title = SIDEBAR_DISPLAY_NAMES[std.id] || std.shortTitle || std.title
     if (title.startsWith(code)) {
       title = title.substring(code.length).replace(/^\s*[\u2013-—–\s-]+\s*/, '')
     }
 
-    const codeWidth = framework === 'AS' ? 'w-[48px]' : 'w-[78px]'
+    const codeWidth = framework === 'AS' ? 'w-[44px]' : 'w-[72px]'
 
     return (
-      <div className="flex items-start gap-2 text-[13px] leading-normal w-full">
-        <span className={`shrink-0 font-extrabold ${codeWidth} text-slate-800 dark:text-slate-200 uppercase tracking-tight`}>
+      <div className="flex items-center gap-3 text-[13px] leading-normal w-full overflow-hidden whitespace-nowrap">
+        <span className={`shrink-0 font-extrabold ${codeWidth} text-slate-800 dark:text-slate-200 uppercase tracking-tight text-left`}>
           {code}
         </span>
-        <span className="text-left font-semibold leading-normal flex-1 break-words text-[#33333A] dark:text-gray-200">
+        <span className="text-left font-semibold leading-normal flex-1 text-[#33333A] dark:text-gray-200 truncate whitespace-nowrap">
           {title}
         </span>
       </div>
@@ -347,17 +423,17 @@ export default function LearningPortalClient({
 
       {/* ─── Sidebar ────────────────────────────────────────────────────────── */}
       <aside className={`
-        ${isSidebarOpen ? 'fixed inset-y-0 left-0 top-16 z-40 w-[260px] shadow-2xl flex border-r' : 'hidden'}
-        lg:flex lg:static lg:w-[220px] lg:shadow-none lg:z-auto lg:h-full
+        ${isSidebarOpen ? 'fixed inset-y-0 left-0 top-16 z-40 w-[320px] shadow-2xl flex border-r' : 'hidden'}
+        lg:flex lg:static lg:w-[320px] lg:shadow-none lg:z-auto lg:h-full
         bg-white dark:bg-[#111726] border-[#E2E1DD] dark:border-gray-800 flex flex-col shrink-0 lg:sticky lg:top-16 overflow-hidden
       `}>
         
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-[#E2E1DD] dark:border-gray-800 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <BookOpen size={22} className="text-[#2D5BE3] dark:text-blue-400 shrink-0" />
-            <span className="font-sans font-black text-[18.5px] text-[#1C1C1E] dark:text-white uppercase tracking-wide">
-              Accounting Standards
+        <div className="px-3.5 py-4 border-b border-[#E2E1DD] dark:border-gray-800 flex flex-col gap-3">
+          <div className="flex items-center gap-2 pl-0.5 w-full overflow-visible">
+            <BookOpen size={20} className="text-[#2D5BE3] dark:text-blue-400 shrink-0" />
+            <span className="font-sans font-bold text-[15.5px] text-[#1C1C1E] dark:text-white uppercase tracking-wide whitespace-nowrap overflow-visible">
+              {framework === 'AS' ? 'Accounting Standards' : 'Indian Accounting Standards'}
             </span>
           </div>
 
@@ -375,47 +451,121 @@ export default function LearningPortalClient({
         </div>
 
         {/* Standards List */}
-        <div className="flex-1 p-3 space-y-4 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex-1 p-3 space-y-0.5 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {filteredStandards.map((std) => {
             const isSelected = selectedStandardId === std.id
+            if (std.id.includes('intro')) {
+              // Special display for introduction
+              const displayLabel = framework === 'AS' ? 'AS Introduction & Applicability' : 'Ind AS Intro & Applicability'
+              return (
+                <div key={std.id} className="flex flex-col mb-1.5 animate-fade-in">
+                  {isSelected ? (
+                    <div className="bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#DCE6FF] dark:border-[#23355E] rounded-xl p-2.5">
+                      <button
+                        onClick={() => {
+                          setSelectedStandardId(std.id)
+                          setActiveTab('standard')
+                          setIsSidebarOpen(false)
+                        }}
+                        title={std.title}
+                        className="w-full text-left text-[13.5px] font-bold text-[#2D5BE3] dark:text-blue-400 flex items-center justify-between"
+                      >
+                        <span className="truncate pr-2">{displayLabel}</span>
+                        <ChevronDown size={14} className="shrink-0 text-[#2D5BE3] dark:text-blue-400" />
+                      </button>
+                      
+                      {/* Sub-menu inside the container */}
+                      <div className="mt-2 space-y-1">
+                        <button
+                          onClick={() => {
+                            setActiveTab('standard')
+                            setIsSidebarOpen(false)
+                          }}
+                          className={`w-full text-left py-1.5 px-2.5 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
+                            activeTab === 'standard'
+                              ? 'bg-white dark:bg-gray-800 text-[#2D5BE3] dark:text-blue-400 shadow-3xs font-extrabold'
+                              : 'text-gray-600 dark:text-gray-400 hover:text-[#2D5BE3] dark:hover:text-blue-400'
+                          }`}
+                        >
+                          <FileText size={14} className="shrink-0" />
+                          Standard
+                        </button>
+                        <button
+                          onClick={() => {
+                            setActiveTab('examples')
+                            setIsSidebarOpen(false)
+                          }}
+                          className={`w-full text-left py-1.5 px-2.5 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
+                            activeTab === 'examples'
+                              ? 'bg-white dark:bg-gray-800 text-[#2D5BE3] dark:text-blue-400 shadow-3xs font-extrabold'
+                              : 'text-gray-600 dark:text-gray-400 hover:text-[#2D5BE3] dark:hover:text-blue-400'
+                          }`}
+                        >
+                          <Scale size={14} className="shrink-0" />
+                          Examples &amp; Case Law
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setSelectedStandardId(std.id)
+                        setActiveTab('standard')
+                        setIsSidebarOpen(false)
+                      }}
+                      title={std.title}
+                      className="w-full text-left py-2 px-3 rounded-lg flex items-center justify-between text-[#4A4A52] dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#1E2640] transition-all border border-transparent"
+                    >
+                      <span className="text-[13.5px] font-bold text-left truncate pr-2">
+                        {displayLabel}
+                      </span>
+                      <ChevronRight size={14} className="shrink-0 text-[#A0A0A8]" />
+                    </button>
+                  )}
+                </div>
+              )
+            }
+
+            // Normal standard items
             return (
-              <div key={std.id} className="flex flex-col animate-fade-in">
+              <div key={std.id} className="flex flex-col border-b border-gray-100/50 dark:border-gray-800/10 last:border-b-0 py-0.5 animate-fade-in">
                 <button
                   onClick={() => {
                     setSelectedStandardId(std.id)
                     setActiveTab('standard')
                     setIsSidebarOpen(false)
                   }}
-                  className={`w-full text-left py-3 px-4 rounded-xl flex items-start justify-between transition-all ${
+                  title={std.title}
+                  className={`w-full text-left h-[32px] min-h-[32px] px-3 rounded-lg flex items-center justify-between transition-all ${
                     isSelected
-                      ? 'bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA] font-bold shadow-2xs'
-                      : 'hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52] dark:text-gray-300'
+                      ? 'bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA] font-bold shadow-3xs'
+                      : 'hover:bg-gray-50 dark:hover:bg-[#1E2640] text-[#4A4A52] dark:text-gray-300'
                   }`}
                 >
-                  <div className="flex-1 min-w-0 pr-2">
+                  <div className="flex-1 min-w-0 pr-2 overflow-hidden whitespace-nowrap">
                     {getSidebarItemDisplay(std)}
                   </div>
                   <ChevronRight
                     size={14}
-                    className={`shrink-0 mt-0.5 transition-transform ${isSelected ? 'rotate-90 text-[#2D5BE3] dark:text-[#60A5FA]' : 'text-[#A0A0A8]'}`}
+                    className={`shrink-0 transition-transform ${isSelected ? 'rotate-90 text-[#2D5BE3] dark:text-[#60A5FA]' : 'text-[#A0A0A8]'}`}
                   />
                 </button>
 
                 {/* Sub-menu options for selected standard */}
                 {isSelected && (
-                  <div className="ml-4 pl-3.5 border-l-2 border-[#D5E1FB] dark:border-[#263765] mt-2 space-y-1.5">
+                  <div className="ml-4 pl-3.5 border-l-2 border-[#D5E1FB] dark:border-[#263765] mt-1 mb-1.5 space-y-1">
                     <button
                       onClick={() => {
                         setActiveTab('standard')
                         setIsSidebarOpen(false)
                       }}
-                      className={`w-full text-left py-2 px-3.5 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
+                      className={`w-full text-left py-1.5 px-3 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
                         activeTab === 'standard'
                           ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:bg-[#1A2542] dark:text-[#60A5FA] font-extrabold'
                           : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
                       }`}
                     >
-                      <FileText size={14} className="shrink-0" />
+                      <FileText size={13} className="shrink-0" />
                       Standard
                     </button>
                     <button
@@ -423,15 +573,31 @@ export default function LearningPortalClient({
                         setActiveTab('examples')
                         setIsSidebarOpen(false)
                       }}
-                      className={`w-full text-left py-2 px-3.5 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
+                      className={`w-full text-left py-1.5 px-3 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
                         activeTab === 'examples'
                           ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:bg-[#1A2542] dark:text-[#60A5FA] font-extrabold'
                           : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
                       }`}
                     >
-                      <Scale size={14} className="shrink-0" />
+                      <Scale size={13} className="shrink-0" />
                       Examples &amp; Case Law
                     </button>
+                    {std.faqs && std.faqs.length > 0 && (
+                      <button
+                        onClick={() => {
+                          setActiveTab('faqs')
+                          setIsSidebarOpen(false)
+                        }}
+                        className={`w-full text-left py-1.5 px-3 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
+                          activeTab === 'faqs'
+                            ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:bg-[#1A2542] dark:text-[#60A5FA] font-extrabold'
+                            : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
+                        }`}
+                      >
+                        <MessageSquare size={13} className="shrink-0" />
+                        Important Questions
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
@@ -470,7 +636,7 @@ export default function LearningPortalClient({
             </button>
             
             {/* Prominent Standard Title */}
-            <h1 className="text-[14px] sm:text-[19px] md:text-[20px] font-black text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
+            <h1 className="text-[16px] sm:text-[22px] md:text-[24px] font-semibold text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
               {currentStandard.id.includes('intro') ? 'Introduction to Accounting Standards and Their Applicability' : currentStandard.title}
             </h1>
           </div>
@@ -506,7 +672,7 @@ export default function LearningPortalClient({
               </div>
             )}
 
-            {(activeTab === 'standard' || activeTab === 'examples') && (
+            {(activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') && (
               <>
                 <button
                   onClick={() => setActiveTab('lecture')}
@@ -532,13 +698,13 @@ export default function LearningPortalClient({
 
           {/* 1. STANDARD VIEW */}
           {activeTab === 'standard' && (
-            <div className="w-full space-y-6 animate-fade-in">
+            <div className="w-full space-y-8 animate-fade-in">
               {/* Standard text sections */}
-              <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-8 space-y-8 shadow-xs">
+              <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
                 
                 {/* Objective */}
                 <div>
-                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-3">
+                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4">
                     1. Objective
                   </h2>
                   <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">
@@ -548,18 +714,18 @@ export default function LearningPortalClient({
 
                 {/* Scope */}
                 <div>
-                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-3">
+                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4">
                     2. Scope
                   </h2>
-                  <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed mb-4 font-semibold">
+                  <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed mb-5 font-semibold">
                     {currentStandard.content.scope.statement || 'Scope rules are currently being prepared for this standard.'}
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-900/50">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="p-5 sm:p-6 rounded-xl bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-900/50">
                       <p className="text-xs font-bold text-[#1A7A4A] dark:text-emerald-400 uppercase tracking-widest mb-2.5">
                         Applies To
                       </p>
-                      <ul className="space-y-2">
+                      <ul className="space-y-3">
                         {currentStandard.content.scope.included.map((item, idx) => (
                           <li key={idx} className="text-xs text-[#4A4A52] dark:text-gray-300 flex items-start gap-2 leading-relaxed">
                             <span className="text-[#1A7A4A] dark:text-emerald-400">✓</span>
@@ -572,11 +738,11 @@ export default function LearningPortalClient({
                       </ul>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50">
+                    <div className="p-5 sm:p-6 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50">
                       <p className="text-xs font-bold text-[#C0392B] dark:text-red-400 uppercase tracking-widest mb-2.5">
                         Exempted / Excluded
                       </p>
-                      <ul className="space-y-2">
+                      <ul className="space-y-3">
                         {currentStandard.content.scope.excluded.map((item, idx) => (
                           <li key={idx} className="text-xs text-[#4A4A52] dark:text-gray-300 flex items-start gap-2 leading-relaxed">
                             <span className="text-[#C0392B] dark:text-red-400">✗</span>
@@ -593,12 +759,12 @@ export default function LearningPortalClient({
 
                 {/* Key Principles */}
                 <div>
-                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4">
+                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
                     3. Key Principles &amp; Guidance
                   </h2>
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     {currentStandard.content.keyPrinciples.map((item, idx) => (
-                      <div key={idx} className="p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640]">
+                      <div key={idx} className="p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640]">
                         <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1.5">{item.title}</h3>
                         <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">{item.body}</p>
                       </div>
@@ -621,41 +787,48 @@ export default function LearningPortalClient({
 
                 {/* 4. Official References & Resource Links */}
                 {currentStandard.resources && currentStandard.resources.length > 0 && (
-                  <div className="mt-8 pt-8 border-t border-[#E2E1DD] dark:border-gray-800">
-                    <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4">
+                  <div className="mt-10 pt-10 border-t border-[#E2E1DD] dark:border-gray-800">
+                    <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
                       4. Official References &amp; Resource Links
                     </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {currentStandard.resources.map((res, idx) => (
-                        <a
-                          key={idx}
-                          href={res.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] hover:border-[#2D5BE3] transition-colors flex items-center justify-between group"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-700 flex items-center justify-center text-[#2D5BE3] dark:text-blue-400 group-hover:scale-105 transition-transform">
-                              {res.type === 'PDF' ? (
-                                <FileText size={16} className="text-red-500" />
-                              ) : res.type === 'VIDEO' ? (
-                                <Video size={16} className="text-blue-500" />
-                              ) : (
-                                <ExternalLink size={16} className="text-emerald-500" />
-                              )}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      {currentStandard.resources.map((res, idx) => {
+                        const isPdf = res.type === 'PDF';
+                        return (
+                          <a
+                            key={idx}
+                            href={isPdf ? undefined : res.url}
+                            onClick={isPdf ? (e) => {
+                              e.preventDefault();
+                              setActiveTab('pdf');
+                            } : undefined}
+                            target={isPdf ? undefined : "_blank"}
+                            rel="noopener noreferrer"
+                            className={`p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] hover:border-[#2D5BE3] transition-colors flex items-center justify-between group ${isPdf ? 'cursor-pointer' : ''}`}
+                          >
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-700 flex items-center justify-center text-[#2D5BE3] dark:text-blue-400 group-hover:scale-105 transition-transform">
+                                {res.type === 'PDF' ? (
+                                  <FileText size={16} className="text-red-500" />
+                                ) : res.type === 'VIDEO' ? (
+                                  <Video size={16} className="text-blue-500" />
+                                ) : (
+                                  <ExternalLink size={16} className="text-emerald-500" />
+                                )}
+                              </div>
+                              <div>
+                                <p className="text-xs font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors">
+                                  {res.title}
+                                </p>
+                                <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-0.5">
+                                  {res.type === 'PDF' ? 'Official PDF Document' : res.type === 'VIDEO' ? 'Video Lecture Class' : 'External Reference Link'}
+                                </p>
+                              </div>
                             </div>
-                            <div>
-                              <p className="text-xs font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors">
-                                {res.title}
-                              </p>
-                              <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-0.5">
-                                {res.type === 'PDF' ? 'Official PDF Document' : res.type === 'VIDEO' ? 'Video Lecture Class' : 'External Reference Link'}
-                              </p>
-                            </div>
-                          </div>
-                          <ChevronRight size={14} className="text-[#A0A0A8] group-hover:translate-x-0.5 transition-transform" />
-                        </a>
-                      ))}
+                            <ChevronRight size={14} className="text-[#A0A0A8] group-hover:translate-x-0.5 transition-transform" />
+                          </a>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -666,11 +839,11 @@ export default function LearningPortalClient({
 
           {/* 2. EXAMPLES & CASE LAW VIEW */}
           {activeTab === 'examples' && (
-            <div className="w-full space-y-6 animate-fade-in">
+            <div className="w-full space-y-8 animate-fade-in">
               {/* Case list cards */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {currentStandard.examples.map((item, idx) => (
-                  <div key={idx} className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-8 space-y-4 shadow-xs">
+                  <div key={idx} className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-6 shadow-xs">
                     <div className="flex items-center gap-2">
                       <Scale size={18} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
                       <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider">
@@ -678,8 +851,8 @@ export default function LearningPortalClient({
                       </h3>
                     </div>
                     
-                    <div className="bg-[#FAFAF8] dark:bg-[#1E2640] p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800">
-                      <p className="text-[11px] text-[#A0A0A8] dark:text-gray-400 font-bold uppercase tracking-wider mb-1.5">
+                    <div className="bg-[#FAFAF8] dark:bg-[#1E2640] p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800">
+                      <p className="text-[11px] text-[#A0A0A8] dark:text-gray-400 font-bold uppercase tracking-wider mb-2">
                         Practical Scenario
                       </p>
                       <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">
@@ -687,8 +860,8 @@ export default function LearningPortalClient({
                       </p>
                     </div>
 
-                    <div className="bg-[#E8F7EE] dark:bg-[#1A2C22] p-4 rounded-xl border border-[#C5E9D4] dark:border-green-900/50">
-                      <p className="text-[11px] text-[#1A7A4A] dark:text-emerald-400 font-bold uppercase tracking-wider mb-1.5">
+                    <div className="bg-[#E8F7EE] dark:bg-[#1A2C22] p-5 sm:p-6 rounded-xl border border-[#C5E9D4] dark:border-green-900/50">
+                      <p className="text-[11px] text-[#1A7A4A] dark:text-emerald-400 font-bold uppercase tracking-wider mb-2">
                         Statutory Accounting Guidance &amp; Treatment
                       </p>
                       <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">
@@ -706,6 +879,93 @@ export default function LearningPortalClient({
                     <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">No examples available</h3>
                     <p className="text-[11px] text-[#76767E] dark:text-gray-400 max-w-sm leading-relaxed">
                       Illustrations and specific case study files are currently being processed.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* 2.5. IMPORTANT QUESTIONS VIEW */}
+          {activeTab === 'faqs' && (
+            <div className="w-full space-y-8 animate-fade-in">
+              <div className="space-y-8">
+                {currentStandard.faqs && currentStandard.faqs.length > 0 ? (
+                  (() => {
+                    const categories: Record<string, string> = {
+                      'GENERAL': 'Conceptual Questions',
+                      'APPLICABILITY': 'Applicability Questions',
+                      'RECOGNITION': 'Recognition Questions',
+                      'MEASUREMENT': 'Measurement Questions',
+                      'DISCLOSURE': 'Disclosure Questions',
+                      'EXAM': 'ICAI-style Exam Questions',
+                      'PRACTICAL': 'Practical Questions'
+                    };
+                    
+                    const grouped: Record<string, typeof currentStandard.faqs> = {};
+                    currentStandard.faqs.forEach(f => {
+                      const cat = f.category || 'GENERAL';
+                      if (!grouped[cat]) grouped[cat] = [];
+                      grouped[cat].push(f);
+                    });
+
+                    return Object.keys(grouped).map(catKey => (
+                      <div key={catKey} className="space-y-4">
+                        <h3 className="text-sm font-bold text-[#2D5BE3] dark:text-[#60A5FA] uppercase tracking-wider pl-2.5 border-l-2 border-[#2D5BE3] dark:border-blue-500">
+                          {categories[catKey] || 'General Questions'}
+                        </h3>
+                        <div className="grid grid-cols-1 gap-3">
+                          {grouped[catKey].map((item, idx) => {
+                            const uniqueId = item.id || idx;
+                            const isExpanded = expandedFaqId === uniqueId;
+                            const toggleExpand = () => {
+                              setExpandedFaqId(isExpanded ? null : uniqueId);
+                            };
+                            return (
+                              <div
+                                key={uniqueId}
+                                className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden shadow-2xs hover:shadow-xs transition-shadow"
+                              >
+                                <button
+                                  onClick={toggleExpand}
+                                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 focus:outline-none"
+                                >
+                                  <span className="text-xs font-bold text-[#1C1C1E] dark:text-white leading-snug">
+                                    Q: {item.question}
+                                  </span>
+                                  <ChevronDown
+                                    size={16}
+                                    className={`shrink-0 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                                  />
+                                </button>
+                                
+                                {isExpanded && (
+                                  <div className="p-4 sm:p-5 pt-0 border-t border-gray-50 dark:border-gray-800/50 bg-[#FAFAF8] dark:bg-[#1C2336]/40">
+                                    <div className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold whitespace-pre-line font-medium">
+                                      {item.answer}
+                                    </div>
+                                    {item.sourceRef && (
+                                      <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-3 font-bold uppercase tracking-wider">
+                                        Source Reference: {item.sourceRef}
+                                      </p>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ));
+                  })()
+                ) : (
+                  <div className="border border-dashed border-[#E2E1DD] dark:border-gray-800 rounded-xl p-8 text-center flex flex-col items-center justify-center bg-white dark:bg-[#111726]/30">
+                    <div className="w-12 h-12 bg-white dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-full flex items-center justify-center shadow-2xs mb-3">
+                      <MessageSquare size={20} className="text-[#A0A0A8]" />
+                    </div>
+                    <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">No questions available</h3>
+                    <p className="text-[11px] text-[#76767E] dark:text-gray-400 max-w-sm leading-relaxed">
+                      Important questions and interview FAQs are currently under development.
                     </p>
                   </div>
                 )}
@@ -886,13 +1146,12 @@ export default function LearningPortalClient({
                 </div>
 
               </div>
-              
               {/* Fallback if no lecture source provided */}
               {!currentStandard.lectureUrl && (
-                <div className="p-6 rounded-xl border border-dashed border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#111726]/30 text-center flex flex-col items-center justify-center">
-                  <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">Lecture video coming soon</h3>
+                <div className="p-8 rounded-xl border border-dashed border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#111726]/30 text-center flex flex-col items-center justify-center">
+                  <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">No video lecture available</h3>
                   <p className="text-[11px] text-[#76767E] dark:text-gray-400 max-w-sm leading-relaxed">
-                    Official video classes and lecture series for this standard are being recorded.
+                    The video class for this standard is currently being prepared.
                   </p>
                 </div>
               )}
@@ -901,553 +1160,41 @@ export default function LearningPortalClient({
 
           {/* 4. PREMIUM DOCUMENT PDF VIEWER VIEW */}
           {activeTab === 'pdf' && (
-            <div className="w-full flex flex-col lg:flex-row gap-2 min-h-[600px] select-none animate-fade-in p-0">
-              
-              {/* Central PDF Canvas area - occupying maximum available width without page thumbnails panel */}
-              <div className="flex-1 bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl flex flex-col overflow-hidden relative">
-                
-                {/* PDF Control toolbar */}
-                <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border-b border-[#E2E1DD] dark:border-gray-800 p-2 flex items-center justify-between flex-wrap gap-2 shrink-0">
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => setPdfPage((p) => Math.max(1, p - 1))}
-                      disabled={pdfPage <= 1}
-                      className="w-7 h-7 rounded flex items-center justify-center bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-750 text-xs font-bold disabled:opacity-30 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                    >
-                      <ChevronLeft size={14} className="text-[#4A4A52] dark:text-gray-300" />
-                    </button>
-                    <span className="text-xs text-[#4A4A52] dark:text-gray-300 font-bold px-2 select-none">
-                      Page {pdfPage} / 3
-                    </span>
-                    <button
-                      onClick={() => setPdfPage((p) => Math.min(3, p + 1))}
-                      disabled={pdfPage >= 3}
-                      className="w-7 h-7 rounded flex items-center justify-center bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-750 text-xs font-bold disabled:opacity-30 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                    >
-                      <ChevronRight size={14} className="text-[#4A4A52] dark:text-gray-300" />
-                    </button>
-                  </div>
-
-                  {/* Zoom controls */}
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setZoomLevel((z) => Math.max(50, z - 10))}
-                      className="w-6 h-6 rounded flex items-center justify-center bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-700 text-xs font-bold"
-                    >
-                      -
-                    </button>
-                    <span className="text-xs font-bold text-[#1C1C1E] dark:text-white select-none">
-                      {zoomLevel}%
-                    </span>
-                    <button
-                      onClick={() => setZoomLevel((z) => Math.min(200, z + 10))}
-                      className="w-6 h-6 rounded flex items-center justify-center bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-700 text-xs font-bold"
-                    >
-                      +
-                    </button>
-                  </div>
-
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => setSearchInPdf(!searchInPdf)}
-                      className={`p-1.5 rounded transition-colors ${searchInPdf ? 'bg-[#EEF2FD] text-[#2D5BE3]' : 'hover:bg-[#EEF2FD] text-[#4A4A52]'}`}
-                    >
-                      <Search size={14} />
-                    </button>
-                    <button
-                      onClick={() => alert('Document rotated.')}
-                      className="p-1.5 rounded hover:bg-[#EEF2FD] text-[#4A4A52] dark:text-gray-300"
-                    >
-                      <RotateCw size={14} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* PDF Search Box inside viewer */}
-                {searchInPdf && (
-                  <div className="p-2 bg-[#EEF2FD] border-b border-[#D0DCFA] flex items-center gap-2">
-                    <input
-                      type="text"
-                      placeholder="Find in document..."
-                      value={pdfSearchQuery}
-                      onChange={(e) => setPdfSearchQuery(e.target.value)}
-                      className="bg-white border border-[#D0DCFA] rounded-md px-3 py-1 text-xs outline-none flex-1 max-w-sm"
-                    />
-                    <button
-                      onClick={() => setPdfSearchQuery('')}
-                      className="text-xs text-[#76767E] hover:text-[#1C1C1E]"
-                    >
-                      Clear
-                    </button>
-                  </div>
-                )}
-
-                {/* PDF Sheet Canvas containing text content - expanded to 100% max-w-5xl */}
-                <div
-                  className="flex-1 overflow-y-auto pt-0 p-1 sm:p-2 relative flex justify-center bg-[#525659] select-none"
-                  onClick={handleAddNoteClick}
-                >
-                  <div
-                    className="bg-white relative shadow-md p-6 sm:p-10 w-full max-w-5xl min-h-[850px] border border-gray-300 select-none flex flex-col justify-start text-left origin-top transition-transform duration-150"
-                    style={{ transform: `scale(${zoomLevel / 100})` }}
-                  >
-                    {/* Drawing canvas layer on top for Pen Tool */}
-                    <canvas
-                      ref={canvasRef}
-                      width={800}
-                      height={900}
-                      className={`absolute inset-0 z-10 ${annotationMode === 'write' ? 'cursor-crosshair' : 'pointer-events-none'}`}
-                      onMouseDown={startDrawing}
-                      onMouseMove={draw}
-                      onMouseUp={stopDrawing}
-                      onMouseLeave={stopDrawing}
-                    />
-
-                    {/* Page Content based on Page selection */}
-                    {pdfPage === 1 && (
-                      <div className="space-y-4 select-text z-0">
-                        {currentStandard.id === 'as-1' ? (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#2D5BE3] border-b-2 border-[#2D5BE3] pb-1 uppercase tracking-wider">
-                                AS 1
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                Accounting Standard (AS) 1 — Disclosure of Accounting Policies
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <p className="font-bold text-xs">Introduction &amp; Objective</p>
-                              <p>
-                                1. This Standard deals with the disclosure of significant accounting policies followed in preparing and presenting financial statements.
-                              </p>
-                              <p>
-                                2. The view presented in the financial statements of an enterprise of its state of affairs and of its profit or loss can be significantly affected by the accounting policies followed.
-                              </p>
-                              <p className="font-bold text-xs mt-2">Fundamental Accounting Assumptions</p>
-                              <p>
-                                9. Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is necessary if they are not followed.
-                              </p>
-                              <div className="pl-3 border-l-2 border-slate-350 space-y-2">
-                                <p><span className="font-bold">a. Going Concern:</span> The enterprise is normally viewed as a going concern, that is, as continuing in operation for the foreseeable future. It is assumed that the enterprise has neither the intention nor the necessity of liquidation.</p>
-                                <p><span className="font-bold">b. Consistency:</span> It is assumed that accounting policies are consistent from one period to another.</p>
-                                <p><span className="font-bold">c. Accrual:</span> Revenues and costs are accrued, that is, recognised as they are earned or incurred (and not as money is received or paid) and recorded in the financial statements of the periods to which they relate.</p>
-                              </div>
-                            </div>
-                          </>
-                        ) : currentStandard.id === 'ind-as-1' ? (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#6B3FA0] border-b-2 border-[#6B3FA0] pb-1 uppercase tracking-wider">
-                                Ind AS 1
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                Indian Accounting Standard (Ind AS) 1 — Presentation of Financial Statements
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <p className="font-bold text-xs">Objective</p>
-                              <p>
-                                This Standard prescribes the basis for presentation of general purpose financial statements to ensure comparability both with the entity’s financial statements of previous periods and with the financial statements of other entities. It sets out overall requirements for the presentation of financial statements, guidelines for their structure and minimum requirements for their content.
-                              </p>
-                              <p className="font-bold text-xs mt-2">General Features</p>
-                              <p>
-                                Financial statements shall present a true and fair view of the financial position, financial performance and cash flows of an entity. Presenting a true and fair view requires the faithful representation of the effects of transactions, other events and conditions in accordance with the definitions and recognition criteria for assets, liabilities, income and expenses set out in the Framework.
-                              </p>
-                              <p className="font-bold text-xs mt-2">Going Concern Assessment</p>
-                              <p>
-                                When preparing financial statements, management shall make an assessment of an entity’s ability to continue as a going concern. An entity shall prepare financial statements on a going concern basis unless management either intends to liquidate the entity or to cease trading, or has no realistic alternative but to do so.
-                              </p>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#2D5BE3] border-b-2 border-[#2D5BE3] pb-1 uppercase tracking-wider">
-                                {currentStandard.code}
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                {currentStandard.title}
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <div>
-                                <span className="font-bold block mb-1 text-gray-800">1. Objective</span>
-                                <p>
-                                  <span
-                                    onClick={() => handleHighlightWord('h1')}
-                                    className={`cursor-pointer transition-colors p-0.5 rounded ${
-                                      pdfHighlights.find((h) => h.elementId === 'h1')
-                                        ? 'bg-yellow-250 text-black font-bold'
-                                        : 'hover:bg-yellow-100'
-                                      }`}
-                                  >
-                                    {currentStandard.content.objective || 'Objective treatment rules are currently under development.'}
-                                  </span>
-                                </p>
-                              </div>
-                              <div>
-                                <span className="font-bold block mb-1 text-gray-800">2. Scope</span>
-                                <p>
-                                  <span
-                                    onClick={() => handleHighlightWord('h2')}
-                                    className={`cursor-pointer transition-colors p-0.5 rounded ${
-                                      pdfHighlights.find((h) => h.elementId === 'h2')
-                                        ? 'bg-blue-200 text-black font-bold'
-                                        : 'hover:bg-blue-100'
-                                      }`}
-                                  >
-                                    {currentStandard.content.scope.statement || 'Scope statement details are currently under development.'}
-                                  </span>
-                                </p>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    )}
-
-                    {pdfPage === 2 && (
-                      <div className="space-y-4 select-text z-0">
-                        {currentStandard.id === 'as-1' ? (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#2D5BE3] border-b-2 border-[#2D5BE3] pb-1 uppercase tracking-wider">
-                                AS 1
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                Selection &amp; Nature of Accounting Policies
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <p>
-                                12. The differing circumstances in which enterprises operate make alternative accounting principles and methods acceptable. The choice of appropriate policies calls for judgement by management.
-                              </p>
-                              <p className="font-bold text-xs mt-2">Major Considerations Governing Selection</p>
-                              <p>
-                                16. The primary consideration is that financial statements represent a true and fair view of the state of affairs and of the profit or loss.
-                              </p>
-                              <div className="pl-3 border-l-2 border-slate-350 space-y-2">
-                                <p><span className="font-bold">a. Prudence:</span> In view of the uncertainty attached to future events, profits are not anticipated but recognised only when realised. Provision is made for all known liabilities and losses.</p>
-                                <p><span className="font-bold">b. Substance over Form:</span> The accounting treatment and presentation should be governed by their economic substance and not merely by legal form.</p>
-                                <p><span className="font-bold">c. Materiality:</span> Financial statements should disclose all &quot;material&quot; items, i.e., items the knowledge of which might influence the decisions of the user.</p>
-                              </div>
-                              <p className="font-bold text-xs mt-2">Areas of Differing Accounting Policies</p>
-                              <p>
-                                14. Methods of depreciation, valuation of inventories, treatment of goodwill, fixed assets valuation, translation of foreign currency items, and treatment of retirement benefits.
-                              </p>
-                            </div>
-                          </>
-                        ) : currentStandard.id === 'ind-as-1' ? (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#6B3FA0] border-b-2 border-[#6B3FA0] pb-1 uppercase tracking-wider">
-                                Ind AS 1
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                Presentation Details &amp; Accounting Treatment
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <p className="font-bold text-xs">Accrual Basis of Accounting</p>
-                              <p>
-                                An entity shall prepare its financial statements, except for cash flow information, using the accrual basis of accounting. When the accrual basis is used, items are recognised as assets, liabilities, equity, income and expenses when they satisfy the definitions and recognition criteria for those elements in the Framework.
-                              </p>
-                              <p className="font-bold text-xs mt-2">Materiality and Aggregation</p>
-                              <p>
-                                An entity shall present separately each material class of similar items. An entity shall present separately items of a dissimilar nature or function unless they are immaterial. Financial statements result from processing large numbers of transactions or other events that are aggregated into classes according to their nature or function.
-                              </p>
-                              <p className="font-bold text-xs mt-2">Offsetting</p>
-                              <p>
-                                An entity shall not offset assets and liabilities or income and expenses, unless required or permitted by an Ind AS. Measuring assets net of valuation allowances is not offsetting.
-                              </p>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#2D5BE3] border-b-2 border-[#2D5BE3] pb-1 uppercase tracking-wider">
-                                {currentStandard.code}
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                Selection of Policies &amp; Practical Application
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <p>
-                                Primary consideration is that financial statements present a{' '}
-                                <span
-                                  onClick={() => handleHighlightWord('h3')}
-                                  className={`cursor-pointer transition-colors p-0.5 rounded ${
-                                    pdfHighlights.find((h) => h.elementId === 'h3')
-                                      ? 'bg-green-250 text-black font-bold'
-                                      : 'hover:bg-green-100'
-                                  }`}
-                                >
-                                  true and fair view
-                                </span>{' '}
-                                of the state of affairs.
-                              </p>
-                              <div>
-                                <span className="font-bold block mb-1 text-gray-800">Secondary Considerations:</span>
-                                <ul className="list-disc pl-4 space-y-1.5">
-                                  <li>
-                                    <span className="font-bold">Prudence:</span> Provisions should be made for all known liabilities and losses.
-                                  </li>
-                                  <li>
-                                    <span className="font-bold">Substance over Form:</span> Transactions should be accounted for in accordance with their commercial reality.
-                                  </li>
-                                  <li>
-                                    <span className="font-bold">Materiality:</span> Disclose all material items which could influence user decisions.
-                                  </li>
-                                </ul>
-                              </div>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    )}
-
-                    {pdfPage === 3 && (
-                      <div className="space-y-4 select-text z-0">
-                        {currentStandard.id === 'as-1' ? (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#2D5BE3] border-b-2 border-[#2D5BE3] pb-1 uppercase tracking-wider">
-                                AS 1
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                Disclosure Principles &amp; Mandatory Rules
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <p className="font-bold text-xs">Main Principles (Paras 24 - 27)</p>
-                              <p>
-                                <span className="font-bold">24. All significant accounting policies adopted in the preparation and presentation of financial statements should be disclosed.</span>
-                              </p>
-                              <p>
-                                <span className="font-bold">25. The disclosure of the significant accounting policies as such should form part of the financial statements and the significant accounting policies should normally be disclosed in one place.</span>
-                              </p>
-                              <p>
-                                <span className="font-bold">26. Any change in the accounting policies which has a material effect in the current period or which is reasonably expected to have a material effect in later periods should be disclosed.</span> In the case of a change which has a material effect in the current period, the amount by which any item is affected should also be disclosed to the extent ascertainable.
-                              </p>
-                              <p>
-                                <span className="font-bold">27. If the fundamental accounting assumptions, viz. Going Concern, Consistency and Accrual are followed in financial statements, specific disclosure is not required. If a fundamental accounting assumption is not followed, the fact should be disclosed.</span>
-                              </p>
-                            </div>
-                          </>
-                        ) : currentStandard.id === 'ind-as-1' ? (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#6B3FA0] border-b-2 border-[#6B3FA0] pb-1 uppercase tracking-wider">
-                                Ind AS 1
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                Structure &amp; Complete Set of Financial Statements
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <p className="font-bold text-xs">Complete Set of Financial Statements</p>
-                              <p>A complete set of financial statements comprises:</p>
-                              <ul className="list-disc pl-4 space-y-1">
-                                <li>a Balance Sheet as at the end of the period;</li>
-                                <li>a Statement of Profit and Loss for the period;</li>
-                                <li>a Statement of Changes in Equity for the period;</li>
-                                <li>a Statement of Cash Flows for the period;</li>
-                                <li>Notes, comprising significant accounting policies and other explanatory information.</li>
-                              </ul>
-                              <p className="font-bold text-xs mt-2">Other Comprehensive Income (OCI)</p>
-                              <p>
-                                The Statement of Profit and Loss shall present line items that present the profit or loss and other comprehensive income sections. OCI comprises items of income and expense (including reclassification adjustments) that are not recognised in profit or loss as required or permitted by other Ind AS.
-                              </p>
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <div>
-                              <span className="text-[10px] font-bold text-[#2D5BE3] border-b-2 border-[#2D5BE3] pb-1 uppercase tracking-wider">
-                                {currentStandard.code}
-                              </span>
-                              <h2 className="text-xl font-bold text-[#1C1C1E] mt-3">
-                                Exemptions and Disclosure Norms
-                              </h2>
-                              <div className="h-0.5 bg-gray-200 mt-2"></div>
-                            </div>
-                            <div className="space-y-3 text-[11px] text-[#1C1C1E] leading-relaxed">
-                              <p>
-                                Accounting policies must be disclosed in a single place (typically as Note 1 of the Notes to Accounts).
-                              </p>
-                              <p>
-                                Any change in accounting policies which has a material effect in the current period, or is reasonably expected to have a material effect in later periods, must be disclosed.
-                              </p>
-                            </div>
-                          </>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Rendering Sticky Notes placed by user */}
-                    {pdfNotes
-                      .filter((n) => n.page === pdfPage)
-                      .map((note) => (
-                        <div
-                          key={note.id}
-                          style={{ left: note.x, top: note.y }}
-                          className="absolute z-20 w-36 p-2 bg-yellow-100 border border-yellow-300 rounded shadow-sm text-[10px] text-gray-800 animate-fade-in"
-                          title="Click note to delete"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            setPdfNotes((prev) => prev.filter((n) => n.id !== note.id))
-                          }}
-                        >
-                          <div className="font-bold border-b border-yellow-200 pb-0.5 mb-1 flex items-center justify-between">
-                            <span>Sticky Note</span>
-                            <span className="text-red-500 font-bold hover:scale-105 cursor-pointer">×</span>
-                          </div>
-                          <p className="font-medium leading-relaxed">{note.text}</p>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Right Side Annotation Toolbar Panel */}
-              <div className={`w-full bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-4 flex flex-col gap-4 shrink-0 shadow-xs h-fit sticky top-[80px] z-20 transition-all duration-300 ${isAnnotationPanelOpen ? 'lg:w-[220px]' : 'lg:w-[64px]'}`}>
-                {/* Download PDF button (Always on top of annotation tools area) */}
-                <button
-                  onClick={() => alert('PDF downloaded successfully with annotations.')}
-                  className={`w-full py-2.5 px-3 rounded-md text-[12.5px] font-bold flex items-center justify-center gap-2 text-white bg-[#E15252] hover:bg-[#C83D3D] transition-colors shadow-xs shrink-0 ${!isAnnotationPanelOpen ? 'lg:px-0' : ''}`}
-                  title="Download PDF"
-                >
-                  <Download size={15} className="shrink-0" />
-                  <span className={isAnnotationPanelOpen ? 'inline' : 'inline lg:hidden'}>Download PDF</span>
-                </button>
-
-                {/* Divider */}
-                <div className="h-px bg-[#E2E1DD] dark:bg-gray-850 w-full" />
-
-                <button
-                  onClick={() => setIsAnnotationPanelOpen(!isAnnotationPanelOpen)}
-                  className="w-full py-2 px-1 rounded-md text-left text-xs font-bold flex items-center justify-between text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white transition-colors"
-                >
-                  <span className={`text-[11.5px] font-extrabold uppercase tracking-wider ${isAnnotationPanelOpen ? 'block' : 'hidden lg:hidden'}`}>
-                    Annotation Tools
+            uploadedPdf ? (
+              <div className="w-full h-[calc(100vh-170px)] min-h-[600px] bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden shadow-xs flex flex-col">
+                <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border-b border-[#E2E1DD] dark:border-gray-800 p-3 flex items-center justify-between shrink-0">
+                  <span className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider">
+                    {uploadedPdf.title || `${currentStandard.code} PDF Document`}
                   </span>
-                  <div className="flex items-center gap-1 mx-auto lg:mx-0">
-                    <Highlighter size={15} className={isAnnotationPanelOpen ? 'hidden lg:hidden' : 'block shrink-0'} />
-                    {isAnnotationPanelOpen ? (
-                      <ChevronDown size={15} className="rotate-90 shrink-0" />
-                    ) : (
-                      <ChevronDown size={15} className="-rotate-90 hidden lg:block shrink-0" />
-                    )}
-                  </div>
-                </button>
-
-                <div className={`flex flex-col gap-3 transition-all duration-200 ${isAnnotationPanelOpen ? 'block' : 'hidden lg:hidden'}`}>
-                  {/* Highlight tool */}
-                  <div className="space-y-2">
-                    <button
-                      onClick={() => setAnnotationMode(annotationMode === 'highlight' ? 'none' : 'highlight')}
-                      className={`w-full py-2 px-3 rounded-md text-[12.5px] font-bold flex items-center gap-2 border transition-all ${
-                        annotationMode === 'highlight'
-                          ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
-                          : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
-                      }`}
-                    >
-                      <Highlighter size={15} className="shrink-0" />
-                      Highlight
-                    </button>
-
-                    {/* Highlight Color Pickers */}
-                    {annotationMode === 'highlight' && (
-                      <div className="flex items-center justify-around bg-[#FAFAF8] dark:bg-gray-800 p-2 rounded border border-[#E2E1DD] dark:border-gray-750">
-                        <button
-                          onClick={() => setHighlightColor('yellow')}
-                          className={`w-4 h-4 rounded-full bg-yellow-300 border ${highlightColor === 'yellow' ? 'ring-2 ring-[#E15252]' : ''}`}
-                        />
-                        <button
-                          onClick={() => setHighlightColor('green')}
-                          className={`w-4 h-4 rounded-full bg-green-300 border ${highlightColor === 'green' ? 'ring-2 ring-[#E15252]' : ''}`}
-                        />
-                        <button
-                          onClick={() => setHighlightColor('pink')}
-                          className={`w-4 h-4 rounded-full bg-pink-300 border ${highlightColor === 'pink' ? 'ring-2 ring-[#E15252]' : ''}`}
-                        />
-                        <button
-                          onClick={() => setHighlightColor('blue')}
-                          className={`w-4 h-4 rounded-full bg-blue-300 border ${highlightColor === 'blue' ? 'ring-2 ring-[#E15252]' : ''}`}
-                        />
-                        <button
-                          onClick={() => setHighlightColor('purple')}
-                          className={`w-4 h-4 rounded-full bg-purple-300 border ${highlightColor === 'purple' ? 'ring-2 ring-[#E15252]' : ''}`}
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Draw Pencil tool */}
-                  <button
-                    onClick={() => setAnnotationMode(annotationMode === 'write' ? 'none' : 'write')}
-                    className={`w-full py-2 px-3 rounded-md text-[12.5px] font-bold flex items-center gap-2 border transition-all ${
-                      annotationMode === 'write'
-                        ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
-                        : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
-                    }`}
+                  <a
+                    href={uploadedPdf.url}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-[11.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs cursor-pointer"
+                    title="Download PDF exactly as uploaded"
                   >
-                    <PenTool size={15} className="shrink-0" />
-                    Write
-                  </button>
-
-                  {/* Eraser tool */}
-                  <button
-                    onClick={() => {
-                      clearAnnotations()
-                      setAnnotationMode('none')
-                    }}
-                    className="w-full py-2 px-3 rounded-md text-[12.5px] font-bold flex items-center gap-2 border border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]"
-                  >
-                    <Eraser size={15} className="shrink-0" />
-                    Erase
-                  </button>
-
-                  {/* Sticky Note tool */}
-                  <button
-                    onClick={() => setAnnotationMode(annotationMode === 'note' ? 'none' : 'note')}
-                    className={`w-full py-2 px-3 rounded-md text-[12.5px] font-bold flex items-center gap-2 border transition-all ${
-                      annotationMode === 'note'
-                        ? 'border-[#E15252] bg-[#FFF0F0] text-[#E15252]'
-                        : 'border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-[#1E2640] text-[#4A4A52]'
-                    }`}
-                  >
-                    <MessageSquare size={15} className="shrink-0" />
-                    Add Note
-                  </button>
+                    <Download size={14} className="shrink-0" />
+                    Download PDF
+                  </a>
                 </div>
-
-                {/* For collapsed view on desktop, show a button to open when clicked */}
-                {!isAnnotationPanelOpen && (
-                  <div className="hidden lg:flex flex-col items-center gap-3">
-                    <button
-                      onClick={() => setIsAnnotationPanelOpen(true)}
-                      className="w-8 h-8 rounded-full flex items-center justify-center border border-[#E2E1DD] dark:border-gray-800 hover:bg-[#FAFAF8] dark:hover:bg-gray-800 text-[#4A4A52] dark:text-gray-300"
-                      title="Open Annotation Tools"
-                    >
-                      <ChevronDown size={15} className="-rotate-90 shrink-0" />
-                    </button>
-                  </div>
-                )}
+                <iframe
+                  src={uploadedPdf.url}
+                  className="w-full flex-1 border-0"
+                  title={uploadedPdf.title || currentStandard.title}
+                />
               </div>
-
-            </div>
+            ) : (
+              <div className="w-full h-[calc(100vh-170px)] min-h-[600px] border border-dashed border-[#E2E1DD] dark:border-gray-800 rounded-xl p-8 text-center flex flex-col items-center justify-center bg-white dark:bg-[#111726]/30">
+                <div className="w-12 h-12 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-full flex items-center justify-center shadow-2xs mb-3">
+                  <FileText size={20} className="text-[#A0A0A8]" />
+                </div>
+                <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-1">No PDF Document Uploaded</h3>
+                <p className="text-xs text-[#76767E] dark:text-gray-400 max-w-sm leading-relaxed">
+                  The official PDF document for this standard has not been uploaded yet. Please use the admin panel to upload a PDF.
+                </p>
+              </div>
+            )
           )}
 
         </div>
