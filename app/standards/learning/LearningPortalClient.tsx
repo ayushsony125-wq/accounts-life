@@ -103,6 +103,437 @@ const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   'ind-as-116': 'Leases',
   'ind-as-117': 'Insurance Contracts'
 }
+// YouTube video ID extractor
+const getYouTubeId = (url: string) => {
+  if (!url) return ''
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+  const match = url.match(regExp)
+  return (match && match[2].length === 11) ? match[2] : ''
+}
+
+interface AS1StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+  renderTextWithReferences: (text: string) => React.ReactNode;
+}
+
+const as1Sections = [
+  { id: 'intro', title: '1. Introduction' },
+  { id: 'objective', title: '2. Objective' },
+  { id: 'scope', title: '3. Scope' },
+  { id: 'nature', title: '4. Nature of Accounting Policies' },
+  { id: 'areas', title: '5. Areas of Policy Diversity' },
+  { id: 'selection', title: '6. Selection Considerations' },
+  { id: 'prudence', title: '7. Prudence Principle' },
+  { id: 'substance', title: '8. Substance over Form' },
+  { id: 'materiality', title: '9. Materiality Threshold' },
+  { id: 'assumptions', title: '10. Fundamental Assumptions' },
+  { id: 'disclosure', title: '11. Disclosure Requirements' },
+  { id: 'change', title: '12. Change in Accounting Policies' },
+  { id: 'impact', title: '13. Financial Statement Impact' },
+  { id: 'audit', title: '14. Audit Relevance' },
+  { id: 'exam', title: '15. Examination Relevance' },
+  { id: 'business', title: '16. Practical Business Relevance' },
+  { id: 'illustrations', title: '17. ICAI Illustrations' },
+  { id: 'explanations', title: '18. ICAI Explanations' },
+  { id: 'observations', title: '19. Important Observations' }
+]
+
+function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: AS1StandardTabContentProps) {
+  return (
+    <div className="w-full xl:grid xl:grid-cols-4 xl:gap-8 xl:items-start animate-fade-in font-sans">
+      {/* 19 Sections Content */}
+      <div className="xl:col-span-3 space-y-12 bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xs">
+        {/* Section 1: Introduction */}
+        <section id="as1-intro" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            1. Introduction
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Irrespective of the extent of standardization, diversity in accounting policies is unavoidable. This diversity arises from two main factors:
+          </p>
+          <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
+            <li><strong>First:</strong> Accounting standards cannot and do not cover all possible areas of accounting. Enterprises have the freedom of adopting any reasonable accounting policy in areas not covered by a standard.</li>
+            <li><strong>Second:</strong> Since enterprises operate in diverse and complex situations, it is impossible to develop a single set of policies applicable to all enterprises for all time.</li>
+          </ul>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            The accounting standards, therefore, permit more than one policy option even in areas covered by them. However, differences in accounting policies lead to differences in reported information even if the underlying transactions are identical. The qualitative characteristic of **comparability** of financial statements, therefore, suffers due to diversity of accounting policies.
+          </p>
+          <div className="bg-[#EEF2FD] dark:bg-[#1A2542] border-l-4 border-[#2D5BE3] p-4 rounded-r-xl">
+            <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider mb-1">Key Takeaway</p>
+            <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+              Since uniformity is impossible, it is not enough to say that all standards have been complied with. For these reasons, **AS 1** requires enterprises to disclose significant accounting policies actually adopted by them in preparation of their financial statements to allow users to make necessary adjustments in their analysis. [Source: ICAI AS 1 PDF Page 2]
+            </p>
+          </div>
+        </section>
+
+        {/* Section 2: Objective */}
+        <section id="as1-objective" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            2. Objective
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            The purpose of Accounting Standard 1, Disclosure of Accounting Policies, is to promote a better understanding of financial statements by requiring disclosure of significant accounting policies in an orderly manner.
+          </p>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Such disclosures facilitate:
+          </p>
+          <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
+            <li>A more meaningful comparison between the financial statements of different enterprises for the same accounting period.</li>
+            <li>A comparison of financial statements of the same enterprise for different accounting periods when changes in accounting policies are made and disclosed. [Source: ICAI AS 1 PDF Page 2]</li>
+          </ul>
+        </section>
+
+        {/* Section 3: Scope */}
+        <section id="as1-scope" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            3. Scope
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            This Accounting Standard applies to all enterprises in the preparation and presentation of general-purpose financial statements.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+            <div className="p-5 sm:p-6 rounded-xl bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-900/50">
+              <p className="text-xs font-bold text-[#1A7A4A] dark:text-emerald-400 uppercase tracking-widest mb-2.5">
+                Mandatory Applicability
+              </p>
+              <ul className="space-y-3 text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                <li className="flex items-start gap-2"><span>✓</span> All corporate entities under Indian GAAP.</li>
+                <li className="flex items-start gap-2"><span>✓</span> All non-corporate entities (sole proprietorships, partnerships, LLPs, trusts, societies).</li>
+                <li className="flex items-start gap-2"><span>✓</span> Applies to all general-purpose financial statements. [Source: ICAI AS 1 PDF Page 2]</li>
+              </ul>
+            </div>
+            <div className="p-5 sm:p-6 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50">
+              <p className="text-xs font-bold text-[#C0392B] dark:text-red-400 uppercase tracking-widest mb-2.5">
+                Exemptions / Exclusions
+              </p>
+              <ul className="space-y-3 text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                <li className="flex items-start gap-2"><span>✗</span> Entities adopting Indian Accounting Standards (Ind AS) under the IFRS-converged framework.</li>
+                <li className="flex items-start gap-2"><span>✗</span> Immaterial items that do not influence user decisions. [Source: ICAI AS 1 PDF Page 2]</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 4: Nature of Accounting Policies */}
+        <section id="as1-nature" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            4. Nature of Accounting Policies
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise in the preparation and presentation of financial statements.
+          </p>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Accounting is both science and art: a science because we have some tested accounting principles, which are applicable universally, but simultaneously the application of these principles depends on the professional capability and judgement of the accountant. Since business circumstances vary, alternative accounting policies are acceptable. [Source: ICAI AS 1 PDF Page 4]
+          </p>
+        </section>
+
+        {/* Section 5: Areas requiring accounting policies */}
+        <section id="as1-areas" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            5. Areas in Which Different Accounting Policies are Encountered
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            The standard lists key areas of financial reporting where diversity is common and explicit policy disclosures are mandatory:
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[14px] text-slate-700 dark:text-gray-300 font-semibold">
+            <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
+              • Methods of depreciation, depletion, and amortization
+            </div>
+            <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
+              • Valuation of inventories (FIFO, Weighted Average, etc.)
+            </div>
+            <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
+              • Treatment of expenditure during construction
+            </div>
+            <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
+              • Conversion or translation of foreign currency items
+            </div>
+            <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
+              • Treatment of goodwill and intangibles
+            </div>
+            <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
+              • Valuation of investments (cost, market value, etc.)
+            </div>
+            <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
+              • Treatment of retirement benefits (gratuity, pension, etc.)
+            </div>
+            <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
+              • Recognition of profit on long-term contracts [Source: ICAI AS 1 PDF Page 4]
+            </div>
+          </div>
+        </section>
+
+        {/* Section 6: Selection of accounting policies */}
+        <section id="as1-selection" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            6. Considerations in the Selection of Accounting Policies
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            The primary consideration in selecting accounting policies is that the financial statements should represent a **true and fair view** of the state of affairs as at the balance sheet date and of the profit or loss for the period.
+          </p>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            For this purpose, the selection and application of accounting policies are governed by three major considerations: **Prudence**, **Substance over Form**, and **Materiality**. [Source: ICAI AS 1 PDF Page 5]
+          </p>
+        </section>
+
+        {/* Section 7: Prudence */}
+        <section id="as1-prudence" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            7. Prudence (Conservatism)
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            In view of the uncertainty associated with future events, profits are not anticipated, but recognized only when realized. However, provision is made for all known liabilities and losses even though the amount cannot be determined with certainty and represents only a best estimate based on available information.
+          </p>
+          <div className="bg-[#FFF8E6] dark:bg-[#2C241B]/40 p-4 rounded-xl border-l-4 border-[#B7791F]">
+            <p className="text-xs font-bold text-[#B7791F] dark:text-amber-400 uppercase tracking-wider mb-1">Important Rule</p>
+            <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+              Exercise of prudence does not permit the creation of hidden reserves by deliberately understating profits and assets, or overstating liabilities and losses. [Source: ICAI AS 1 PDF Page 5, Page 6]
+            </p>
+          </div>
+        </section>
+
+        {/* Section 8: Substance over Form */}
+        <section id="as1-substance" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            8. Substance over Form
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Transactions and other events should be accounted for and presented in accordance with their economic substance and financial reality, and not merely by their legal form.
+          </p>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            **Example:** In a Hire Purchase transaction, the legal title remains with the financing company until the last instalment is paid. However, the buyer enjoys the economic benefits and bears the risks of the asset. Therefore, under the Substance over Form principle, the buyer records the asset and provides depreciation in their books from the date of possession. [Source: ICAI AS 1 PDF Page 6]
+          </p>
+        </section>
+
+        {/* Section 9: Materiality */}
+        <section id="as1-materiality" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            9. Materiality
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Financial statements should disclose all material items, i.e., items whose knowledge might influence the economic decisions of users. Materiality depends on the size and nature of the item.
+          </p>
+          <div className="bg-slate-50 dark:bg-[#1E2640] p-4 rounded-xl border border-slate-200 dark:border-gray-800 text-xs text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-semibold">
+            <p className="font-bold">Quantitative limits under Schedule III of the Companies Act, 2013:</p>
+            <p>1. **Income/Expenditure:** Disclose any item exceeding 1% of revenue from operations or ₹1,00,005, whichever is higher.</p>
+            <p>2. **Shareholdings:** Disclose details of shareholders holding more than 5% shares in the company. [Source: ICAI AS 1 PDF Page 6]</p>
+          </div>
+        </section>
+
+        {/* Section 10: Fundamental Accounting Assumptions */}
+        <section id="as1-assumptions" className="scroll-mt-28 space-y-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            10. Fundamental Accounting Assumptions
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. If followed, no explicit disclosure is required. If NOT followed, the fact must be specifically disclosed along with the reasons. [Source: ICAI AS 1 PDF Page 3]
+          </p>
+          
+          <div className="space-y-4">
+            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/50">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">A. Going Concern</h3>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                The enterprise is normally viewed as a going concern, meaning it will continue in operation for the foreseeable future. It is assumed that the enterprise has neither the intention nor the necessity of liquidation or of materially curtailing the scale of its operations. If not followed, assets must be valued on a liquidation basis (Net Realisable Value) and this fact must be disclosed. [Source: ICAI AS 1 PDF Page 3]
+              </p>
+            </div>
+
+            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/50">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">B. Consistency</h3>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                It is assumed that accounting policies are consistent from one period to another to ensure comparability of financial statements. A change is permitted only if required (i) by a statute, (ii) by an accounting standard, or (iii) if it results in a more appropriate presentation of financial statements. [Source: ICAI AS 1 PDF Page 3]
+              </p>
+            </div>
+
+            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/50">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">C. Accrual Basis of Accounting</h3>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                Transactions and other events are recognized as they occur (and not as cash or its equivalent is received or paid) and recorded in the financial statements of the periods to which they relate. Section 128(1) of the Companies Act, 2013 makes accrual accounting mandatory for all companies in India. [Source: ICAI AS 1 PDF Page 3, Page 4]
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 11: Disclosure requirements */}
+        <section id="as1-disclosure" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            11. Disclosure Requirements
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            To ensure proper understanding of financial statements, all significant accounting policies adopted in the preparation and presentation of financial statements should be disclosed.
+          </p>
+          <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
+            <li>The disclosures must form part of the financial statements.</li>
+            <li>All disclosures should normally be made in one place (such as Note 1) rather than scattered over several statements, schedules, and notes. [Source: ICAI AS 1 PDF Page 7, Page 14]</li>
+          </ul>
+        </section>
+
+        {/* Section 12: Change in accounting policies */}
+        <section id="as1-change" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            12. Disclosure of Changes in Accounting Policies
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Any change in the accounting policies which has a material effect in the current period, or which is reasonably expected to have a material effect in a later period, must be disclosed.
+          </p>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            If a change is made in accounting policies which has no material effect in the current period but is expected to be material in future periods, the fact of the change must be disclosed in the period in which the change is adopted. [Source: ICAI AS 1 PDF Page 7]
+          </p>
+        </section>
+
+        {/* Section 13: Financial statement impact */}
+        <section id="as1-impact" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            13. Financial Statement Impact of Policy Changes
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            When a change in accounting policy has a material effect in the current period:
+          </p>
+          <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
+            <li>The company must disclose the fact of the change and the reason for the change.</li>
+            <li>The amount by which any item in the financial statements is affected by such change should be disclosed to the extent ascertainable.</li>
+            <li>Where the amount is not ascertainable, wholly or in part, the fact that the impact is not ascertainable should be explicitly indicated. [Source: ICAI AS 1 PDF Page 7]</li>
+          </ul>
+        </section>
+
+        {/* Section 14: Audit relevance */}
+        <section id="as1-audit" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            14. Audit Relevance &amp; Para 23 Key Rule
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            For audit purposes, if fundamental assumptions are followed, the auditor does not need to mention them. If they are violated and not disclosed, the auditor must qualify the audit report.
+          </p>
+          <div className="bg-red-50 dark:bg-red-950/20 border-l-4 border-red-505 p-5 rounded-r-xl space-y-2">
+            <p className="text-xs font-bold text-red-650 dark:text-red-400 uppercase tracking-wider">CRITICAL RULE — PARA 23</p>
+            <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+              **Disclosure of accounting policies or of changes therein cannot remedy a wrong or inappropriate treatment of an item in the accounts.**
+            </p>
+            <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+              If an item is accounted for incorrectly (e.g., capitalizing revenue expenses), merely disclosing this inappropriate treatment in the notes does not make it correct under GAAP. The auditor is still required to qualify the report and demand correction. [Source: ICAI AS 1 PDF Page 5, Page 11]
+            </p>
+          </div>
+        </section>
+
+        {/* Section 15: Examination relevance */}
+        <section id="as1-exam" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            15. Examination Relevance (CA Intermediate)
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            In CA Intermediate examinations, AS 1 is a frequent source of practical and theoretical questions. Key topics tested include:
+          </p>
+          <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
+            <li><strong>Policy Change vs. Estimate Change:</strong> Recognizing that changes in estimation methods (e.g. provisioning methods) are estimate changes under AS 5, not policy changes under AS 1.</li>
+            <li><strong>Quantification of Effects:</strong> Calculating the difference between old and new methods (e.g., FIFO to Weighted Average cost) and drafting the disclosure note.</li>
+            <li><strong>Deviations from assumptions:</strong> Drafting disclosures when an entity adopts cash basis instead of accrual. [Source: ICAI AS 1 PDF Page 9, Page 16]</li>
+          </ul>
+        </section>
+
+        {/* Section 16: Practical business relevance */}
+        <section id="as1-business" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            16. Practical Business Relevance
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            In corporate reporting, analysts and investors rely heavily on Note 1 disclosures to normalize financial statements.
+          </p>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            For example, if two steel companies operate in India and one uses the WDV method for plant depreciation while the other uses SLM, their net profits will differ even with identical operations. A credit analyst uses the accounting policy disclosure to recalculate and normalize the earnings before comparison. [Source: ICAI AS 1 PDF Page 2]
+          </p>
+        </section>
+
+        {/* Section 17: ICAI illustrations */}
+        <section id="as1-illustrations" className="scroll-mt-28 space-y-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            17. ICAI Official Illustrations
+          </h2>
+          
+          <div className="space-y-6">
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl p-6 bg-slate-50/30 dark:bg-slate-900/30 space-y-3">
+              <h3 className="text-sm font-bold text-[#2D5BE3] dark:text-blue-400">Illustration 1: FIFO to Weighted Average Cost</h3>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                **Scenario:** Prashant Ltd. changes its cost formula from FIFO to Weighted Average. FIFO inventory was ₹1,63,000, Weighted Average is ₹1,47,000. Realisable value is ₹1,95,050.
+              </p>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                **Solution:** The change in cost formula represents a change in accounting policy. Since realisable value is higher than cost, inventory is valued at cost. The change reduces closing inventory and current profits by ₹16,000 (₹1,63,000 - ₹1,47,000). The company must disclose this fact and the financial impact in the notes. [Source: ICAI AS 1 PDF Page 9]
+              </p>
+            </div>
+
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl p-6 bg-slate-50/30 dark:bg-slate-900/30 space-y-3">
+              <h3 className="text-sm font-bold text-[#2D5BE3] dark:text-blue-400">Illustration 2: Prime Cost vs. Works Cost &amp; Investment Diminution</h3>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                **Scenario:** Jagannath Ltd. changes inventory valuation from prime cost (₹30 crores) to works cost (₹50 crores), and provides ₹10 crores for permanent decline in investment value.
+              </p>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                **Solution:** (i) Switching to works cost is a change in accounting policy. It increases closing inventory and net profit by ₹20 crores. (ii) Providing for permanent diminution in investment is required under Prudence, reducing profit by ₹10 crores. Both must be disclosed. [Source: ICAI AS 1 PDF Page 9, Page 10]
+              </p>
+            </div>
+
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl p-6 bg-slate-50/30 dark:bg-slate-900/30 space-y-3">
+              <h3 className="text-sm font-bold text-[#2D5BE3] dark:text-blue-400">Illustration 3: Non-provision of ICD Overdue Interest</h3>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                **Scenario:** XYZ Company does not provide for overdue interest on deposits due to litigation blocking its assets in Special Court, disclosing it only as a contingent liability note.
+              </p>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                **Solution:** The treatment is incorrect. Accrual is a fundamental assumption. Overdue interest must be provided for on a reasonable estimate since lenders have not waived it. Disclosing it as a contingent liability violates the Accrual assumption, and disclosure cannot cure this wrong. [Source: ICAI AS 1 PDF Page 10, Page 11]
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 18: ICAI explanations */}
+        <section id="as1-explanations" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            18. ICAI Official Explanations
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            ICAI Test Your Knowledge explanations clarify key conceptual boundaries:
+          </p>
+          <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
+            <li><strong>Single Place Rule:</strong> Explains that policies must not be scattered, as grouping them in one place (usually Note 1) allows users to construct a coherent understanding of the reporting framework.</li>
+            <li><strong>Estimation Changes:</strong> Clarifies that changing the method of provisioning for non-moving inventory from aging to technical evaluation is an estimate change, not a policy change, because the policy (providing for obsolete inventory) remains unchanged. [Source: ICAI AS 1 PDF Page 14, Page 16]</li>
+          </ul>
+        </section>
+
+        {/* Section 19: Important observations */}
+        <section id="as1-observations" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            19. Important Observations
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            In conclusion, Accounting Standard 1 (AS 1) serves as the cornerstone of financial reporting transparency.
+          </p>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Without AS 1 disclosures, the comparability of financial statements would be completely compromised, making cross-corporate analysis impossible.
+          </p>
+          <div className="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-5 rounded-r-xl">
+            <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+              Remember: Disclosure of policies can never cure a wrong accounting treatment (Para 23). This is the single most tested concept in professional CA exams! [Source: ICAI AS 1 PDF Page 2, Page 11]
+            </p>
+          </div>
+        </section>
+      </div>
+
+      {/* Desktop Sticky Table of Contents */}
+      <div className="hidden xl:block xl:col-span-1 sticky top-28 self-start bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-5 shadow-xs">
+        <h4 className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4 border-b border-[#E2E1DD] dark:border-gray-800 pb-2 select-none">
+          Table of Contents
+        </h4>
+        <nav className="space-y-1.5 max-h-[calc(100vh-280px)] overflow-y-auto pr-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          {as1Sections.map(sec => (
+            <button
+              key={sec.id}
+              onClick={() => document.getElementById(`as1-${sec.id}`)?.scrollIntoView({ behavior: 'smooth' })}
+              className="w-full text-left py-1.5 px-2.5 rounded-lg text-[12px] font-bold text-[#555] hover:text-[#2D5BE3] hover:bg-slate-50 dark:text-gray-400 dark:hover:text-blue-400 dark:hover:bg-gray-800/50 transition-all truncate cursor-pointer"
+            >
+              {sec.title}
+            </button>
+          ))}
+        </nav>
+      </div>
+    </div>
+  );
+}
 
 interface LearningPortalClientProps {
   initialStandards: Standard[]
@@ -132,6 +563,7 @@ export default function LearningPortalClient({
 
   const currentStandard = initialStandards.find((s) => s.id === selectedStandardId) || initialStandards[0]
   const uploadedPdf = currentStandard.resources?.find((r) => r.type === 'PDF' && r.url)
+  const ytId = getYouTubeId(currentStandard.lectureUrl)
 
   // PDF Viewer states
   const [pdfPage, setPdfPage] = useState<number>(1)
@@ -176,6 +608,52 @@ export default function LearningPortalClient({
     }
   }
 
+  const navigateToPdfPage = (page: number) => {
+    setPdfPage(page)
+    setActiveTab('pdf')
+  }
+
+  const renderTextWithReferences = (text: string) => {
+    if (!text) return ''
+    const regex = /\[(?:Source:\s*ICAI\s*AS\s*1\s*PDF\s*Page\s*|Page\s*|ICAI\s*Ref:\s*Page\s*4\.)(\d+)(?:\s*[^\]]*)?\]/gi
+    const parts = []
+    let lastIndex = 0
+    let match
+    
+    while ((match = regex.exec(text)) !== null) {
+      const matchIndex = match.index
+      const pageNum = parseInt(match[1], 10)
+      
+      if (matchIndex > lastIndex) {
+        parts.push(text.substring(lastIndex, matchIndex))
+      }
+      
+      parts.push(
+        <button
+          key={matchIndex}
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            navigateToPdfPage(pageNum)
+          }}
+          className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded text-[11px] font-extrabold transition-all cursor-pointer select-none align-middle"
+          title={`Click to jump to PDF Page ${pageNum}`}
+        >
+          <FileText size={10} className="shrink-0 text-red-500 dark:text-red-400" />
+          Page {pageNum}
+        </button>
+      )
+      
+      lastIndex = regex.lastIndex
+    }
+    
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex))
+    }
+    
+    return parts.length > 0 ? parts : text
+  }
+
   useEffect(() => {
     resetControlsTimeout()
     return () => {
@@ -205,13 +683,6 @@ export default function LearningPortalClient({
     }
   }
 
-  // YouTube video ID extractor
-  const getYouTubeId = (url: string) => {
-    if (!url) return ''
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
-    const match = url.match(regExp)
-    return (match && match[2].length === 11) ? match[2] : ''
-  }
 
   // Handle sidebar wrapping and alignment cleanly
   const getSidebarItemDisplay = (std: Standard) => {
@@ -698,9 +1169,15 @@ export default function LearningPortalClient({
 
           {/* 1. STANDARD VIEW */}
           {activeTab === 'standard' && (
-            <div className="w-full space-y-8 animate-fade-in">
-              {/* Standard text sections */}
-              <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
+            currentStandard.id === 'as-1' ? (
+              <AS1StandardTabContent
+                navigateToPdfPage={navigateToPdfPage}
+                renderTextWithReferences={renderTextWithReferences}
+              />
+            ) : (
+              <div className="w-full space-y-8 animate-fade-in">
+                {/* Standard text sections */}
+                <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
                 
                 {/* Objective */}
                 <div>
@@ -835,6 +1312,7 @@ export default function LearningPortalClient({
 
               </div>
             </div>
+            )
           )}
 
           {/* 2. EXAMPLES & CASE LAW VIEW */}
@@ -844,29 +1322,79 @@ export default function LearningPortalClient({
               <div className="space-y-8">
                 {currentStandard.examples.map((item, idx) => (
                   <div key={idx} className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-6 shadow-xs">
-                    <div className="flex items-center gap-2">
-                      <Scale size={18} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
-                      <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider">
-                        {item.title}
-                      </h3>
-                    </div>
-                    
-                    <div className="bg-[#FAFAF8] dark:bg-[#1E2640] p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800">
-                      <p className="text-[11px] text-[#A0A0A8] dark:text-gray-400 font-bold uppercase tracking-wider mb-2">
-                        Practical Scenario
-                      </p>
-                      <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">
-                        {item.scenario}
-                      </p>
+                    <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E1DD]/60 dark:border-gray-800/60 pb-4">
+                      <div className="flex items-center gap-2">
+                        <Scale size={18} className="text-[#2D5BE3] dark:text-blue-400" />
+                        <h3 className="text-[15px] font-bold text-[#1C1C1E] dark:text-white">
+                          {item.title}
+                        </h3>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {item.difficulty && (
+                          <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider ${
+                            item.difficulty === 'BEGINNER'
+                              ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/45 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-900/50'
+                              : item.difficulty === 'INTERMEDIATE'
+                              ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/45 dark:text-blue-400 border border-blue-200/50 dark:border-blue-900/50'
+                              : 'bg-rose-50 text-rose-700 dark:bg-rose-950/45 dark:text-rose-400 border border-rose-200/50 dark:border-rose-900/50'
+                          }`}>
+                            {item.difficulty}
+                          </span>
+                        )}
+                        {item.paraRef && (
+                          <span className="text-[10px] font-bold bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-gray-300 border border-slate-200 dark:border-gray-700 px-2 py-0.5 rounded">
+                            Ref: {item.paraRef}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    <div className="bg-[#E8F7EE] dark:bg-[#1A2C22] p-5 sm:p-6 rounded-xl border border-[#C5E9D4] dark:border-green-900/50">
-                      <p className="text-[11px] text-[#1A7A4A] dark:text-emerald-400 font-bold uppercase tracking-wider mb-2">
-                        Statutory Accounting Guidance &amp; Treatment
-                      </p>
-                      <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">
-                        {item.guidance}
-                      </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                      {/* Facts & Issue */}
+                      <div className="space-y-4">
+                        <div className="bg-[#FAFAF8] dark:bg-[#1C2335]/30 p-4 sm:p-5 rounded-xl border border-[#E2E1DD]/80 dark:border-gray-800/80">
+                          <p className="text-[10.5px] text-[#A0A0A8] dark:text-gray-400 font-extrabold uppercase tracking-wider mb-2.5">
+                            Facts
+                          </p>
+                          <p className="text-xs text-[#33333A] dark:text-gray-200 leading-relaxed font-semibold">
+                            {renderTextWithReferences(item.scenario)}
+                          </p>
+                        </div>
+                        
+                        {item.working && (
+                          <div className="bg-[#FAFAF8] dark:bg-[#1C2335]/30 p-4 sm:p-5 rounded-xl border border-[#E2E1DD]/80 dark:border-gray-800/80">
+                            <p className="text-[10.5px] text-[#A0A0A8] dark:text-gray-400 font-extrabold uppercase tracking-wider mb-2.5">
+                              Issue
+                            </p>
+                            <p className="text-xs text-[#33333A] dark:text-gray-200 leading-relaxed font-semibold">
+                              {renderTextWithReferences(item.working)}
+                            </p>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Analysis & Conclusion */}
+                      <div className="space-y-4">
+                        <div className="bg-[#E8F7EE] dark:bg-[#182B22]/40 p-4 sm:p-5 rounded-xl border border-[#C5E9D4]/60 dark:border-green-950/60">
+                          <p className="text-[10.5px] text-[#1A7A4A] dark:text-emerald-400 font-extrabold uppercase tracking-wider mb-2.5">
+                            Analysis &amp; Conclusion
+                          </p>
+                          <p className="text-xs text-[#2A2A35] dark:text-gray-200 leading-relaxed font-semibold">
+                            {renderTextWithReferences(item.answer || item.guidance)}
+                          </p>
+                        </div>
+
+                        {item.note && (
+                          <div className="bg-[#FFF8E6] dark:bg-[#2C241B]/40 p-4 sm:p-5 rounded-xl border border-[#F5E1B8]/60 dark:border-amber-950/60">
+                            <p className="text-[10.5px] text-[#B7791F] dark:text-amber-400 font-extrabold uppercase tracking-wider mb-1">
+                              Key Takeaway / Note
+                            </p>
+                            <p className="text-xs text-[#33333A] dark:text-gray-200 leading-relaxed font-semibold">
+                              {renderTextWithReferences(item.note)}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -983,19 +1511,28 @@ export default function LearningPortalClient({
                 onMouseLeave={handleMouseLeavePlayer}
                 className="relative aspect-video w-full max-w-4xl mx-auto rounded-2xl bg-[#090C15] overflow-hidden shadow-lg border border-gray-900 flex flex-col group/video"
               >
-                {/* Native HTML5 video tag */}
-                <video
-                  ref={videoRef}
-                  src={getVideoSrc(currentStandard.lectureUrl)}
-                  className="w-full h-full object-cover z-0 pointer-events-auto"
-                  onTimeUpdate={handleTimeUpdate}
-                  onDurationChange={handleDurationChange}
-                  onEnded={handleVideoEnded}
-                  playsInline
-                />
+                {/* Native HTML5 video tag or YouTube Iframe */}
+                {ytId ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1&rel=0&enablejsapi=1`}
+                    className="w-full h-full border-0 absolute inset-0 z-10"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : (
+                  <video
+                    ref={videoRef}
+                    src={getVideoSrc(currentStandard.lectureUrl)}
+                    className="w-full h-full object-cover z-0 pointer-events-auto"
+                    onTimeUpdate={handleTimeUpdate}
+                    onDurationChange={handleDurationChange}
+                    onEnded={handleVideoEnded}
+                    playsInline
+                  />
+                )}
 
                 {/* Play screen backdrop */}
-                {!isPlaying && videoTime === 0 ? (
+                {!ytId && !isPlaying && videoTime === 0 ? (
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/65 backdrop-blur-xs transition-opacity p-6 text-center select-none">
                     
                     {/* Mock Poster Artwork inside Player */}
@@ -1024,7 +1561,7 @@ export default function LearningPortalClient({
                 ) : null}
 
                 {/* Subtitles Overlay */}
-                {showCC && isPlaying && (
+                {!ytId && showCC && isPlaying && (
                   <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-10 px-4 py-2 bg-black/80 rounded-md text-xs text-white max-w-lg text-center leading-normal border border-gray-800">
                     {videoTime < 5
                       ? `Welcome to our session on ${currentStandard.title}.`
@@ -1037,114 +1574,115 @@ export default function LearningPortalClient({
                 )}
 
                 {/* Controls Bar at bottom */}
-                <div className={`mt-auto w-full bg-gradient-to-t from-black/95 to-transparent p-4 flex flex-col gap-2 z-10 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-                  
-                  {/* Progress timeline slider */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] text-gray-400 font-semibold select-none">
-                      {formatVideoTime(videoTime)}
-                    </span>
-                    <input
-                      type="range"
-                      min="0"
-                      max={videoDuration}
-                      value={videoTime}
-                      onChange={handleSeekChange}
-                      className="flex-1 accent-[#2D5BE3] h-1 rounded-full bg-gray-700 cursor-pointer outline-none"
-                    />
-                    <span className="text-[10px] text-gray-400 font-semibold select-none">
-                      {formatVideoTime(videoDuration)}
-                    </span>
-                  </div>
+                {!ytId && (
+                  <div className={`mt-auto w-full bg-gradient-to-t from-black/95 to-transparent p-4 flex flex-col gap-2 z-10 transition-opacity duration-305 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                    
+                    {/* Progress timeline slider */}
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] text-gray-400 font-semibold select-none">
+                        {formatVideoTime(videoTime)}
+                      </span>
+                      <input
+                        type="range"
+                        min="0"
+                        max={videoDuration}
+                        value={videoTime}
+                        onChange={handleSeekChange}
+                        className="flex-1 accent-[#2D5BE3] h-1 rounded-full bg-gray-700 cursor-pointer outline-none"
+                      />
+                      <span className="text-[10px] text-gray-400 font-semibold select-none">
+                        {formatVideoTime(videoDuration)}
+                      </span>
+                    </div>
 
-                  {/* Icon controllers row */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <button
-                        onClick={handlePlayPauseToggle}
-                        className="text-white hover:text-[#2D5BE3] transition-colors"
-                      >
-                        {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-                      </button>
-                      <button
-                        onClick={handleSkipBackward}
-                        className="text-white hover:text-[#2D5BE3] transition-colors"
-                        title="Skip backward 10 seconds"
-                      >
-                        <RotateCcw size={16} />
-                      </button>
-                      <button
-                        onClick={handleSkipForward}
-                        className="text-white hover:text-[#2D5BE3] transition-colors"
-                        title="Skip forward 10 seconds"
-                      >
-                        <RotateCw size={16} />
-                      </button>
-                      <div className="flex items-center gap-1.5 group/volume">
+                    {/* Icon controllers row */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-4">
                         <button
-                          onClick={() => setIsMuted(!isMuted)}
+                          onClick={handlePlayPauseToggle}
                           className="text-white hover:text-[#2D5BE3] transition-colors"
                         >
-                          {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                          {isPlaying ? <Pause size={16} /> : <Play size={16} />}
                         </button>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          value={isMuted ? 0 : videoVolume}
-                          onChange={(e) => {
-                            setVideoVolume(Number(e.target.value))
-                            setIsMuted(false)
-                          }}
-                          className="w-16 accent-[#2D5BE3] h-1 rounded-full bg-gray-700 cursor-pointer"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-4">
-                      {/* Playback speed selector */}
-                      <div className="relative">
-                        <select
-                          value={playbackSpeed}
-                          onChange={(e) => setPlaybackSpeed(Number(e.target.value))}
-                          className="bg-[#1C1C1E] text-white text-[11px] font-bold rounded px-1.5 py-0.5 border border-gray-700 outline-none cursor-pointer"
+                        <button
+                          onClick={handleSkipBackward}
+                          className="text-white hover:text-[#2D5BE3] transition-colors"
+                          title="Skip backward 10 seconds"
                         >
-                          <option value="0.9">0.9x</option>
-                          <option value="1">1.0x</option>
-                          <option value="1.25">1.25x</option>
-                          <option value="1.5">1.5x</option>
-                          <option value="1.75">1.75x</option>
-                          <option value="2">2.0x</option>
-                        </select>
-                      </div>
-
-                      {/* Quality menu */}
-                      <div className="relative">
-                        <select
-                          value={videoQuality}
-                          onChange={(e) => {
-                            setVideoQuality(e.target.value)
-                            alert(`Quality changed to ${e.target.value}`)
-                          }}
-                          className="bg-[#1C1C1E] text-white text-[11px] font-bold rounded px-1.5 py-0.5 border border-gray-700 outline-none cursor-pointer"
+                          <RotateCcw size={16} />
+                        </button>
+                        <button
+                          onClick={handleSkipForward}
+                          className="text-white hover:text-[#2D5BE3] transition-colors"
+                          title="Skip forward 10 seconds"
                         >
-                          <option value="Auto">Auto</option>
-                          <option value="1080p">1080p</option>
-                          <option value="720p">720p</option>
-                          <option value="480p">480p</option>
-                        </select>
+                          <RotateCw size={16} />
+                        </button>
+                        <div className="flex items-center gap-1.5 group/volume">
+                          <button
+                            onClick={() => setIsMuted(!isMuted)}
+                            className="text-white hover:text-[#2D5BE3] transition-colors"
+                          >
+                            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+                          </button>
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={isMuted ? 0 : videoVolume}
+                            onChange={(e) => {
+                              setVideoVolume(Number(e.target.value))
+                              setIsMuted(false)
+                            }}
+                            className="w-16 accent-[#2D5BE3] h-1 rounded-full bg-gray-700 cursor-pointer"
+                          />
+                        </div>
                       </div>
 
-                      <button
-                        onClick={handleFullscreenToggle}
-                        className="text-white hover:text-[#2D5BE3] transition-colors"
-                      >
-                        <Maximize size={16} />
-                      </button>
+                      <div className="flex items-center gap-4">
+                        {/* Playback speed selector */}
+                        <div className="relative">
+                          <select
+                            value={playbackSpeed}
+                            onChange={(e) => setPlaybackSpeed(Number(e.target.value))}
+                            className="bg-[#1C1C1E] text-white text-[11px] font-bold rounded px-1.5 py-0.5 border border-gray-700 outline-none cursor-pointer"
+                          >
+                            <option value="0.9">0.9x</option>
+                            <option value="1">1.0x</option>
+                            <option value="1.25">1.25x</option>
+                            <option value="1.5">1.5x</option>
+                            <option value="1.75">1.75x</option>
+                            <option value="2">2.0x</option>
+                          </select>
+                        </div>
+
+                        {/* Quality menu */}
+                        <div className="relative">
+                          <select
+                            value={videoQuality}
+                            onChange={(e) => {
+                              setVideoQuality(e.target.value)
+                              alert(`Quality changed to ${e.target.value}`)
+                            }}
+                            className="bg-[#1C1C1E] text-white text-[11px] font-bold rounded px-1.5 py-0.5 border border-gray-700 outline-none cursor-pointer"
+                          >
+                            <option value="Auto">Auto</option>
+                            <option value="1080p">1080p</option>
+                            <option value="720p">720p</option>
+                            <option value="480p">480p</option>
+                          </select>
+                        </div>
+
+                        <button
+                          onClick={handleFullscreenToggle}
+                          className="text-white hover:text-[#2D5BE3] transition-colors"
+                        >
+                          <Maximize size={16} />
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-
+                )}
               </div>
               {/* Fallback if no lecture source provided */}
               {!currentStandard.lectureUrl && (

@@ -59,6 +59,11 @@ export interface Standard {
     title: string
     scenario: string
     guidance: string
+    working?: string
+    answer?: string
+    note?: string
+    difficulty?: string
+    paraRef?: string
   }[]
   lectureUrl: string
   pdfPagesCount: number
@@ -216,7 +221,12 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
     let examples = entry.illustrations.map((i: any) => ({
       title: i.illusTitle,
       scenario: i.illusScenario || '',
-      guidance: i.illusAnswer || i.illusWorking || ''
+      guidance: i.illusAnswer || i.illusWorking || '',
+      working: i.illusWorking || '',
+      answer: i.illusAnswer || '',
+      note: i.illusNote || '',
+      difficulty: i.illusDifficulty || 'INTERMEDIATE',
+      paraRef: i.illusParaRef || ''
     }))
 
     const videoRes = entry.resources.find((r: any) => r.resourceType === 'VIDEO')
