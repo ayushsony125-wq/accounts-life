@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   alternates: { canonical: '/standards/as' },
 }
 
-export default function ASStandardsDomainPage() {
-  return <LearningPortal defaultFramework="AS" />
+interface ASStandardsDomainPageProps {
+  searchParams?: Promise<{ selected?: string }>
+}
+
+export default async function ASStandardsDomainPage({ searchParams }: ASStandardsDomainPageProps) {
+  return <LearningPortal defaultFramework="AS" searchParams={searchParams} />
 }

@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   alternates: { canonical: '/standards/ind-as' },
 }
 
-export default function IndASPage() {
-  return <LearningPortal defaultFramework="Ind AS" />
+interface IndASPageProps {
+  searchParams?: Promise<{ selected?: string }>
+}
+
+export default async function IndASPage({ searchParams }: IndASPageProps) {
+  return <LearningPortal defaultFramework="Ind AS" searchParams={searchParams} />
 }
