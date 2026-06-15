@@ -4,7 +4,7 @@ import { useState, useTransition, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { saveEntry, getEntryRevisions, getRevisionSnapshot } from '../actions'
-import { Info, Book, Image, Video, CheckCircle, ArrowRight, ArrowLeft, Plus, Trash2, HelpCircle, History } from 'lucide-react'
+import { Info, Book, Image, Video, CheckCircle, ArrowRight, ArrowLeft, Plus, Trash2, HelpCircle, History, FileText, Link2, ExternalLink, X } from 'lucide-react'
 import GlobalActionBar from '../GlobalActionBar'
 
 interface EntryFormProps {
@@ -360,8 +360,11 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setVideos(next)
   }
 
-  const addReference = () => {
+  const addPdfResource = () => {
     setReferences([...references, { resourceType: 'PDF', resourceTitle: '', resourceUrl: '', sourceType: 'ICAI_OFFICIAL', refYear: new Date().getFullYear() }])
+  }
+  const addReferenceResource = () => {
+    setReferences([...references, { resourceType: 'REFERENCE', resourceTitle: '', resourceUrl: '', sourceType: 'EXTERNAL', refYear: new Date().getFullYear() }])
   }
   const removeReference = (idx: number) => {
     setReferences(references.filter((_, i) => i !== idx))
@@ -389,7 +392,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         updateReference(idx, 'resourceUrl', reader.result)
         updateReference(idx, 'resourceTitle', file.name)
         updateReference(idx, 'resourceType', 'PDF')
-        alert('PDF selected and loaded. It will be saved/uploaded to the database when you save or publish the entry.')
       }
     }
     reader.readAsDataURL(file)
@@ -480,53 +482,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       return
     }
 
-    // Map standard detail nested fields if STANDARD
-    let stdDetailObj = null
-    if (entryType === 'STANDARD') {
-      stdDetailObj = {
-        standardCode,
-        standardFramework,
-        standardStatus,
-        issuingBody,
-        dateIssued,
-        dateEffective,
-        applicabilitySummary,
-        objective: {
-          text: objectiveText,
-          sourcePara: objectiveSourcePara,
-          commentary: objectiveCommentary,
-          keyIssues: objectiveKeyIssues.split('\n').filter((x: string) => x.trim()),
-        },
-        scope: {
-          statement: scopeStatement,
-          included: scopeIncluded.split('\n').filter((x: string) => x.trim()),
-          excluded: scopeExcluded.split('\n').filter((x: string) => x.trim()),
-        },
-        definitions: definitions.map((def) => ({
-          ...def,
-          term: def.defTerm,
-          paraRef: def.defParaReference,
-          officialText: def.defOfficialText,
-          plainExplanation: def.defPlainExplanation,
-        })),
-        disclosureGroups: disclosureGroups.map((g) => ({
-          ...g,
-          heading: g.groupHeading,
-          paraRange: g.groupParaRange,
-          items: g.items?.map((item: any) => ({
-            ...item,
-            text: item.itemText,
-            isConditional: item.itemIsConditional,
-          })),
-        })),
-        comparisonRows: comparisonRows.map((r: any) => ({
-          ...r,
-          valueStd1: r.valueStd1,
-          valueStd2: r.valueStd2,
-        })),
-      }
-    }
-
     // Combine video & references
     const combinedResources = [
       ...videos.map((v) => ({ ...v, resourceType: 'VIDEO' })),
@@ -580,7 +535,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
           subdomainName: subdomains.find((s: any) => s.id === Number(subdomainId))?.subdomainName,
           subdomainSlug: subdomains.find((s: any) => s.id === Number(subdomainId))?.subdomainSlug,
         } : undefined,
-        // Standard Detail properties directly on payload object for easy public page render fallback
         standardCode,
         standardFramework,
         standardStatus,
@@ -1732,111 +1686,226 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                 <Plus size={10} /> Add Video
               </button>
             </div>
-            {videos.map((vid, idx) => (
-              <div key={idx} className="grid grid-cols-12 gap-2 items-center bg-[#FAFAF8] p-3 rounded-md border border-[#E2E1DD]">
-                <input
-                  type="text"
-                  value={vid.resourceTitle}
-                  onChange={(e) => updateVideo(idx, 'resourceTitle', e.target.value)}
-                  placeholder="Video Title Description"
-                  className="col-span-4 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                />
-                <input
-                  type="url"
-                  value={vid.resourceUrl}
-                  onChange={(e) => updateVideo(idx, 'resourceUrl', e.target.value)}
-                  placeholder="YouTube Video URL"
-                  className="col-span-4 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                />
-                <input
-                  type="text"
-                  value={vid.videoChannel}
-                  onChange={(e) => updateVideo(idx, 'videoChannel', e.target.value)}
-                  placeholder="Channel Name"
-                  className="col-span-3 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                />
-                <button
-                  type="button"
-                  onClick={() => removeVideo(idx)}
-                  className="col-span-1 text-center text-[#76767E] hover:text-[#C0392B]"
-                >
-                  <Trash2 size={12} />
-                </button>
-              </div>
-            ))}
+            {videos.map((vid, idx) => {
+              const ytUrl = vid.resourceUrl || ''
+              const isYouTube = ytUrl.includes('youtube.com') || ytUrl.includes('youtu.be')
+              let embedId = ''
+              if (isYouTube) {
+                const m = ytUrl.match(/(?:v=|youtu\.be\/)([\w-]{11})/)
+                if (m) embedId = m[1]
+              }
+              return (
+                <div key={idx} className="bg-[#FAFAF8] p-3 rounded-md border border-[#E2E1DD] space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Video size={14} className="text-[#2D5BE3] shrink-0" />
+                    <input
+                      type="text"
+                      value={vid.resourceTitle}
+                      onChange={(e) => updateVideo(idx, 'resourceTitle', e.target.value)}
+                      placeholder="Video Title"
+                      className="flex-1 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
+                    />
+                    <input
+                      type="text"
+                      value={vid.videoChannel}
+                      onChange={(e) => updateVideo(idx, 'videoChannel', e.target.value)}
+                      placeholder="Channel Name"
+                      className="w-32 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeVideo(idx)}
+                      className="p-1 text-[#76767E] hover:text-[#C0392B] rounded"
+                    >
+                      <X size={13} />
+                    </button>
+                  </div>
+                  <input
+                    type="url"
+                    value={vid.resourceUrl}
+                    onChange={(e) => updateVideo(idx, 'resourceUrl', e.target.value)}
+                    placeholder="YouTube / Vimeo URL"
+                    className="w-full px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
+                  />
+                  {embedId && (
+                    <div className="rounded overflow-hidden border border-[#E2E1DD]" style={{ width: 320, height: 180 }}>
+                      <iframe
+                        width="320"
+                        height="180"
+                        src={`https://www.youtube.com/embed/${embedId}`}
+                        title={vid.resourceTitle || 'Video preview'}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        className="block"
+                      />
+                    </div>
+                  )}
+                </div>
+              )
+            })}
           </div>
 
           {/* PDF/Static Reference documents */}
           <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-4 shadow-xs">
-            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-2">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
-                Official Reference Links & Documents
-              </h2>
-              <button
-                type="button"
-                onClick={addReference}
-                className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-              >
-                <Plus size={10} /> Add Reference Document
-              </button>
+            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-3">
+              <div>
+                <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
+                  Reference Documents & Links
+                </h2>
+                <p className="text-[11px] text-[#A0A0A8] mt-0.5">Attach PDFs, external links, and reference documents</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={addPdfResource}
+                  className="flex items-center gap-1 text-[11px] font-semibold text-[#C0392B] bg-[#FDEEEE] hover:bg-[#FBDDDD] border border-[#FBDDDD] px-2.5 py-1.5 rounded-md transition-colors"
+                >
+                  <FileText size={11} /> PDF
+                </button>
+                <button
+                  type="button"
+                  onClick={addReferenceResource}
+                  className="flex items-center gap-1 text-[11px] font-semibold text-[#2D5BE3] bg-[#EEF2FD] hover:bg-[#E0E8FC] border border-[#D0DCFB] px-2.5 py-1.5 rounded-md transition-colors"
+                >
+                  <Link2 size={11} /> Reference
+                </button>
+              </div>
             </div>
-            {references.map((ref, idx) => (
-              <div key={idx} className="border border-[#E2E1DD] p-3 rounded-md space-y-2 bg-[#FAFAF8]">
-                <div className="grid grid-cols-12 gap-2 items-center">
-                  <input
-                    type="text"
-                    value={ref.resourceTitle}
-                    onChange={(e) => updateReference(idx, 'resourceTitle', e.target.value)}
-                    placeholder="Document Title (e.g. AS 1 Official MCA Notification)"
-                    className="col-span-6 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                  />
-                  <select
-                    value={ref.sourceType}
-                    onChange={(e) => updateReference(idx, 'sourceType', e.target.value)}
-                    className="col-span-3 bg-white border border-[#E2E1DD] rounded px-1.5 py-1 text-xs"
-                  >
-                    <option value="ICAI_OFFICIAL">ICAI Official</option>
-                    <option value="MCA">MCA Government</option>
-                    <option value="IASB">IASB International</option>
-                    <option value="EXTERNAL">External Reference</option>
-                  </select>
-                  <input
-                    type="number"
-                    value={ref.refYear || ''}
-                    onChange={(e) => updateReference(idx, 'refYear', Number(e.target.value))}
-                    placeholder="Year"
-                    className="col-span-2 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeReference(idx)}
-                    className="col-span-1 text-center text-[#76767E] hover:text-[#C0392B]"
-                  >
-                    <Trash2 size={12} />
-                  </button>
-                </div>
-                <div className="flex gap-2 items-center">
-                  <input
-                    type="url"
-                    value={ref.resourceUrl || ''}
-                    onChange={(e) => updateReference(idx, 'resourceUrl', e.target.value)}
-                    placeholder="Direct document hyperlink URL..."
-                    className="flex-1 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                  />
-                  <div className="flex items-center gap-1.5 bg-white border border-[#E2E1DD] rounded px-2 py-1 shrink-0">
-                    <label className="text-[11px] font-bold text-gray-600 cursor-pointer">
-                      Upload PDF
+
+            {references.length === 0 && (
+              <div className="text-center py-8 text-[#A0A0A8] text-xs">
+                <FileText size={28} className="mx-auto mb-2 opacity-30" />
+                No reference documents yet. Add a PDF or external reference above.
+              </div>
+            )}
+
+            {references.map((ref, idx) => {
+              const isPdf = ref.resourceType === 'PDF'
+              const hasBase64 = ref.resourceUrl?.startsWith('data:')
+              const hasApiUrl = ref.resourceUrl?.startsWith('/api/pdfs/')
+
+              return (
+                <div key={idx} className={`border rounded-lg overflow-hidden ${ isPdf ? 'border-[#FBDDDD] bg-[#FFFAFA]' : 'border-[#D0DCFB] bg-[#F8FAFE]'}`}>
+                  {/* Card header */}
+                  <div className={`flex items-center justify-between px-3 py-2 ${isPdf ? 'bg-[#FDEEEE]' : 'bg-[#EEF2FD]'}`}>
+                    <div className="flex items-center gap-2">
+                      {isPdf
+                        ? <FileText size={13} className="text-[#C0392B]" />
+                        : <Link2 size={13} className="text-[#2D5BE3]" />
+                      }
+                      <span className={`text-[11px] font-bold uppercase tracking-wide ${isPdf ? 'text-[#C0392B]' : 'text-[#2D5BE3]'}`}>
+                        {isPdf ? 'PDF Document' : 'Reference Link'}
+                      </span>
+                      {isPdf && hasBase64 && (
+                        <span className="text-[10px] font-semibold text-[#1A7A4A] bg-[#E8F7EE] px-2 py-0.5 rounded-full">✓ File Ready</span>
+                      )}
+                      {isPdf && hasApiUrl && (
+                        <span className="text-[10px] font-semibold text-[#2D5BE3] bg-[#EEF2FD] px-2 py-0.5 rounded-full">↑ In Database</span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      {isPdf && ref.resourceUrl && (
+                        <a
+                          href={hasApiUrl ? ref.resourceUrl : hasBase64 ? ref.resourceUrl : undefined}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] text-[#76767E] hover:text-[#2D5BE3] flex items-center gap-1 px-2 py-1 hover:bg-white/60 rounded transition-all"
+                          title="Preview PDF"
+                        >
+                          <ExternalLink size={11} /> Preview
+                        </a>
+                      )}
+                      {!isPdf && ref.resourceUrl && (
+                        <a
+                          href={ref.resourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[11px] text-[#76767E] hover:text-[#2D5BE3] flex items-center gap-1 px-2 py-1 hover:bg-white/60 rounded transition-all"
+                        >
+                          <ExternalLink size={11} /> Open
+                        </a>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => removeReference(idx)}
+                        className="p-1 text-[#76767E] hover:text-[#C0392B] hover:bg-red-50 rounded transition-all"
+                        title="Remove"
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Card body */}
+                  <div className="p-3 space-y-2.5">
+                    <div className="grid grid-cols-12 gap-2">
                       <input
-                        type="file"
-                        accept=".pdf"
-                        onChange={(e) => handleFileChange(idx, e.target.files?.[0] || null)}
-                        className="hidden"
+                        type="text"
+                        value={ref.resourceTitle}
+                        onChange={(e) => updateReference(idx, 'resourceTitle', e.target.value)}
+                        placeholder={isPdf ? 'Document title (e.g. AS 1 Official ICAI Notification)' : 'Reference title or description'}
+                        className="col-span-8 px-2.5 py-1.5 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
                       />
-                    </label>
+                      <select
+                        value={ref.sourceType || 'ICAI_OFFICIAL'}
+                        onChange={(e) => updateReference(idx, 'sourceType', e.target.value)}
+                        className="col-span-4 bg-white border border-[#E2E1DD] rounded px-1.5 py-1.5 text-[11px] text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
+                      >
+                        <option value="ICAI_OFFICIAL">ICAI Official</option>
+                        <option value="MCA">MCA Government</option>
+                        <option value="IASB">IASB International</option>
+                        <option value="EXTERNAL">External Reference</option>
+                      </select>
+
+                      {isPdf && (
+                        <div className="col-span-12 flex items-center gap-2 mt-1">
+                          <label className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FDEEEE] border border-[#FBDDDD] text-[#C0392B] hover:bg-[#FBDDDD] rounded-md text-[11px] font-bold cursor-pointer transition-colors">
+                            <FileText size={12} className="text-[#C0392B]" />
+                            {ref.resourceUrl ? 'Replace PDF' : 'Upload PDF'}
+                            <input
+                              type="file"
+                              accept=".pdf"
+                              onChange={(e) => handleFileChange(idx, e.target.files?.[0] || null)}
+                              className="hidden"
+                            />
+                          </label>
+                          {ref.resourceUrl && (
+                            <button
+                              type="button"
+                              onClick={() => updateReference(idx, 'resourceUrl', '')}
+                              className="flex items-center gap-1 px-3 py-1.5 bg-white border border-red-200 text-red-600 hover:bg-red-50 rounded-md text-[11px] font-bold transition-colors"
+                              title="Clear PDF"
+                            >
+                              <X size={11} /> Clear PDF
+                            </button>
+                          )}
+                          {hasApiUrl && (
+                            <a
+                              href={ref.resourceUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 px-3 py-1.5 bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 rounded-md text-[11px] font-bold transition-colors"
+                            >
+                              <ExternalLink size={11} /> Preview
+                            </a>
+                          )}
+                        </div>
+                      )}
+
+                      {!isPdf && (
+                        <input
+                          type="url"
+                          value={ref.resourceUrl || ''}
+                          onChange={(e) => updateReference(idx, 'resourceUrl', e.target.value)}
+                          placeholder="Direct document hyperlink URL..."
+                          className="col-span-12 px-2.5 py-1.5 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
       )}

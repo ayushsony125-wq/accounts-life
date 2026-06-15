@@ -12,37 +12,40 @@ import {
   BookMarked,
   Activity,
   Settings,
-  Users,
-  FileText,
   ChevronRight,
   Globe,
-  Upload,
-  Video,
   PlusCircle,
-  BarChart3,
+  Upload,
 } from 'lucide-react'
 
 const navGroups = [
   {
     label: 'Overview',
     items: [
-      { label: 'Dashboard', href: '/admin', icon: LayoutDashboard, exact: true },
-      { label: 'Activity Log', href: '/admin/activity', icon: Activity },
+      { label: 'Dashboard', href: '/admin', icon: LayoutDashboard, exact: true, disabled: false },
+      { label: 'Activity Log', href: '/admin/activity', icon: Activity, disabled: false },
     ],
   },
   {
     label: 'Content',
     items: [
-      { label: 'All Entries', href: '/admin/entries', icon: BookOpen },
-      { label: 'Standards', href: '/admin/standards', icon: BookMarked },
-      { label: 'Glossary', href: '/admin/glossary', icon: Layers },
-      { label: 'Domains', href: '/admin/domains', icon: Globe },
+      { label: 'All Entries', href: '/admin/entries', icon: BookOpen, disabled: false },
+      { label: 'Standards', href: '/admin/standards', icon: BookMarked, disabled: false },
+      { label: 'Glossary', href: '/admin/glossary', icon: Layers, disabled: false },
+      { label: 'Domains', href: '/admin/domains', icon: Globe, disabled: false },
     ],
   },
   {
     label: 'Website',
     items: [
-      { label: 'Homepage Config', href: '/admin/homepage', icon: Home },
+      { label: 'Homepage Config', href: '/admin/homepage', icon: Home, disabled: false },
+      { label: 'Media Library', href: '/admin/media', icon: Upload, disabled: false },
+    ],
+  },
+  {
+    label: 'System',
+    items: [
+      { label: 'Settings', href: '/admin/settings', icon: Settings },
     ],
   },
 ]
@@ -65,7 +68,7 @@ export default function AdminSidebar() {
   return (
     <aside className="fixed top-0 left-0 bottom-0 w-56 bg-[#0F1117] text-white flex flex-col z-50 border-r border-white/5">
       {/* Brand */}
-      <div className="px-4 py-4 border-b border-white/5 flex items-center gap-2.5">
+      <div className="px-4 py-4 border-b border-white/5 flex items-center gap-2.5 shrink-0">
         <div className="w-7 h-7 rounded-md bg-[#2D5BE3] flex items-center justify-center shrink-0">
           <svg className="w-4 h-4" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M4 28L14 6H19L9 28H4Z" fill="white" />
@@ -82,10 +85,10 @@ export default function AdminSidebar() {
       </div>
 
       {/* Quick create button */}
-      <div className="px-3 py-3 border-b border-white/5">
+      <div className="px-3 py-3 border-b border-white/5 shrink-0">
         <Link
           href="/admin/entries/new"
-          className="w-full flex items-center justify-center gap-1.5 bg-[#2D5BE3] hover:bg-[#3B6BF0] text-white px-3 py-2 rounded-md text-xs font-semibold transition-all"
+          className="w-full flex items-center justify-center gap-1.5 bg-[#2D5BE3] hover:bg-[#3B6BF0] text-white px-3 py-2 rounded-md text-xs font-semibold transition-all shadow-sm"
         >
           <PlusCircle size={13} />
           New Entry
@@ -102,7 +105,24 @@ export default function AdminSidebar() {
             <div className="space-y-0.5">
               {group.items.map((item) => {
                 const Icon = item.icon
-                const active = isActive(item.href, (item as any).exact)
+                const active = !(item as any).disabled && isActive(item.href, (item as any).exact)
+
+                if ((item as any).disabled) {
+                  return (
+                    <div
+                      key={item.href}
+                      title="Coming soon"
+                      className="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-xs font-medium text-white/20 cursor-not-allowed select-none"
+                    >
+                      <Icon size={14} className="text-white/15" />
+                      <span>{item.label}</span>
+                      <span className="ml-auto text-[9px] bg-white/10 text-white/30 px-1.5 py-0.5 rounded font-medium">
+                        Soon
+                      </span>
+                    </div>
+                  )
+                }
+
                 return (
                   <Link
                     key={item.href}
@@ -128,10 +148,11 @@ export default function AdminSidebar() {
       </nav>
 
       {/* Bottom actions */}
-      <div className="px-3 py-3 border-t border-white/5 space-y-1">
+      <div className="px-3 py-3 border-t border-white/5 space-y-1 shrink-0">
         <Link
           href="/"
           target="_blank"
+          rel="noopener noreferrer"
           className="flex items-center gap-2.5 px-2.5 py-2 rounded-md text-xs text-white/40 hover:text-white/70 hover:bg-white/5 transition-all"
         >
           <Globe size={13} />

@@ -1,6 +1,5 @@
 import { cookies } from 'next/headers'
 import AdminSidebar from './AdminSidebar'
-import { verifyAdminSession as _verify } from './session'
 import crypto from 'crypto'
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-one-default-secret-key-321-at-least-32-chars-long'
@@ -38,24 +37,26 @@ export default async function AdminLayout({
 
   return (
     <div className="min-h-screen bg-[#F4F3F0] text-[#1C1C1E] font-sans flex">
-      {/* Sidebar */}
+      {/* Sidebar — fixed left, w-56 */}
       <AdminSidebar />
 
       {/* Main content area — offset by sidebar width */}
       <div className="flex-1 ml-56 flex flex-col min-h-screen">
-        {/* Top bar */}
-        <header className="sticky top-0 z-40 h-12 bg-white border-b border-[#E2E1DD] flex items-center px-6 justify-between">
-          <div className="flex items-center gap-2 text-xs text-[#76767E]">
-            <span className="font-semibold text-[#1C1C1E]">CMS Admin</span>
+        {/* Sticky top header bar */}
+        <header className="sticky top-0 z-40 h-12 bg-white border-b border-[#E2E1DD] flex items-center px-6 justify-between shrink-0">
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-sm text-[#1C1C1E]">CMS Admin</span>
+            <span className="text-[#E2E1DD]">·</span>
+            <span className="text-xs text-[#76767E]">accounts-life</span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <a
               href="/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-[#2D5BE3] hover:underline font-semibold"
+              className="text-xs text-[#2D5BE3] hover:underline font-semibold flex items-center gap-1"
             >
-              ↗ View Live Site
+              View Live Site ↗
             </a>
           </div>
         </header>

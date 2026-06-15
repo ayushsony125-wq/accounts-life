@@ -91,10 +91,11 @@ async function run() {
     // Check if the form is there
     const hasPasswordInput = await page.$('#password-input');
     if (hasPasswordInput) {
-      console.log('Password input field found. Entering password...');
+      console.log('Form inputs found. Entering credentials...');
+      await page.fill('#admin-email-input', 'admin@accounts.one');
       await page.fill('#password-input', 'Ak@993102');
       
-      const submitPromise = page.waitForNavigation({ waitUntil: 'load', timeout: 30000 }).catch(e => {
+      const submitPromise = page.waitForNavigation({ waitUntil: 'networkidle', timeout: 30000 }).catch(e => {
         console.log('Timeout waiting for navigation: ' + e.message);
       });
       await page.click('button[type="submit"]');
