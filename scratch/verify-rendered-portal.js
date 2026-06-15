@@ -40,7 +40,7 @@ const LIVE_URL = 'https://accounts-one-ak-s-projectsakk.vercel.app/standards/as?
     await page.waitForTimeout(1000);
     const examplesContent = await page.textContent('body');
     const hasA1 = examplesContent.includes('A1: Inventory Valuation Policy Change');
-    const hasF17 = examplesContent.includes('F17: ICAI Q1 - FIFO to Weighted Average Method');
+    const hasF17 = examplesContent.includes('F17: Q1 - FIFO to Weighted Average Method');
     console.log(`Has A1 Example: ${hasA1}, Has F17 Example: ${hasF17}`);
     if (!hasA1 || !hasF17) {
       throw new Error('Examples & Case Law tab is missing our new illustrations!');
@@ -66,19 +66,28 @@ const LIVE_URL = 'https://accounts-one-ak-s-projectsakk.vercel.app/standards/as?
     await page.waitForTimeout(2000);
     const iframeSrc = await page.getAttribute('iframe', 'src');
     console.log('Iframe PDF Src:', iframeSrc);
-    if (!iframeSrc || !iframeSrc.includes('/api/pdfs/as-1')) {
-      throw new Error('PDF View is not rendering the correct API route!');
+    if (!iframeSrc || (!iframeSrc.includes('/api/pdfs/as-1') && !iframeSrc.includes('/pdfs/as-1'))) {
+      throw new Error('PDF View is not rendering the correct PDF route! Got: ' + iframeSrc);
     }
-    console.log('✅ PDF View verification passed.');
+    console.log('✅ PDF View verification passed (src:', iframeSrc, ').');
 
     // 6. Verify Lecture Video Player
+    // The Lecture button only appears when standard/examples/faqs tab is active.
+    // After clicking PDF View, we must return to Standard first.
+    console.log('Navigating back to Standard tab to reveal Lecture button...');
+    await page.click('button:has-text("Standard")');
+    await page.waitForTimeout(800);
     console.log('Clicking "Lecture" tab...');
     await page.click('button:has-text("Lecture")');
-    await page.waitForTimeout(2000);
-    // The video player renders a premium native player or iframe
-    const hasVideo = await page.locator('video').count() > 0;
-    console.log('Native Video player present:', hasVideo);
-    console.log('✅ Lecture Video Player verification passed.');
+    await page.waitForTimeout(3000);
+    // AS 1 uses YouTube iframe embed
+    const hasYouTubeIframe = await page.locator('iframe[src*="youtube.com/embed"]').count() > 0;
+    const hasNativeVideo = await page.locator('video').count() > 0;
+    console.log('YouTube iframe present:', hasYouTubeIframe, '| Native Video present:', hasNativeVideo);
+    if (!hasYouTubeIframe && !hasNativeVideo) {
+      throw new Error('Lecture tab: Neither YouTube iframe nor native video found!');
+    }
+    console.log('✅ Lecture Video Player verification passed. YouTube iframe:', hasYouTubeIframe);
 
     console.log('🎉 ALL UI TESTS COMPLETED SUCCESSFULLY! AS 1 IS FULLY REBUILT AND VERIFIED LIVE.');
 

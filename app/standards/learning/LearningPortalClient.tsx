@@ -139,10 +139,22 @@ const as1Sections = [
 ]
 
 function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: AS1StandardTabContentProps) {
+  // Inline PDF page reference button — clicking opens the uploaded ICAI PDF at the given page
+  const PdfRef = ({ page }: { page: number }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 1 PDF — Page ${page}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      p.{page}
+    </button>
+  )
+
   return (
-    <div className="w-full xl:grid xl:grid-cols-4 xl:gap-8 xl:items-start animate-fade-in font-sans">
-      {/* 19 Sections Content */}
-      <div className="xl:col-span-3 space-y-12 bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xs">
+    <div className="w-full animate-fade-in font-sans">
+      {/* Main Content — Full Width */}
+      <div className="w-full space-y-10 bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xs">
         {/* Section 1: Introduction */}
         <section id="as1-intro" className="scroll-mt-28 space-y-4">
           <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
@@ -161,7 +173,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="bg-[#EEF2FD] dark:bg-[#1A2542] border-l-4 border-[#2D5BE3] p-4 rounded-r-xl">
             <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider mb-1">Key Takeaway</p>
             <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-              Since uniformity is impossible, it is not enough to say that all standards have been complied with. For these reasons, **AS 1** requires enterprises to disclose significant accounting policies actually adopted by them in preparation of their financial statements to allow users to make necessary adjustments in their analysis. [Source: ICAI AS 1 PDF Page 2]
+              Since uniformity is impossible, it is not enough to say that all standards have been complied with. For these reasons, **AS 1** requires enterprises to disclose significant accounting policies actually adopted by them in preparation of their financial statements to allow users to make necessary adjustments in their analysis. <PdfRef page={2} />
             </p>
           </div>
         </section>
@@ -179,7 +191,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </p>
           <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
             <li>A more meaningful comparison between the financial statements of different enterprises for the same accounting period.</li>
-            <li>A comparison of financial statements of the same enterprise for different accounting periods when changes in accounting policies are made and disclosed. [Source: ICAI AS 1 PDF Page 2]</li>
+            <li>A comparison of financial statements of the same enterprise for different accounting periods when changes in accounting policies are made and disclosed. <PdfRef page={2} /></li>
           </ul>
         </section>
 
@@ -199,7 +211,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <ul className="space-y-3 text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
                 <li className="flex items-start gap-2"><span>✓</span> All corporate entities under Indian GAAP.</li>
                 <li className="flex items-start gap-2"><span>✓</span> All non-corporate entities (sole proprietorships, partnerships, LLPs, trusts, societies).</li>
-                <li className="flex items-start gap-2"><span>✓</span> Applies to all general-purpose financial statements. [Source: ICAI AS 1 PDF Page 2]</li>
+                <li className="flex items-start gap-2"><span>✓</span> Applies to all general-purpose financial statements. <PdfRef page={2} /></li>
               </ul>
             </div>
             <div className="p-5 sm:p-6 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50">
@@ -208,7 +220,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </p>
               <ul className="space-y-3 text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
                 <li className="flex items-start gap-2"><span>✗</span> Entities adopting Indian Accounting Standards (Ind AS) under the IFRS-converged framework.</li>
-                <li className="flex items-start gap-2"><span>✗</span> Immaterial items that do not influence user decisions. [Source: ICAI AS 1 PDF Page 2]</li>
+                <li className="flex items-start gap-2"><span>✗</span> Immaterial items that do not influence user decisions. <PdfRef page={2} /></li>
               </ul>
             </div>
           </div>
@@ -223,7 +235,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise in the preparation and presentation of financial statements.
           </p>
           <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            Accounting is both science and art: a science because we have some tested accounting principles, which are applicable universally, but simultaneously the application of these principles depends on the professional capability and judgement of the accountant. Since business circumstances vary, alternative accounting policies are acceptable. [Source: ICAI AS 1 PDF Page 4]
+            Accounting is both science and art: a science because we have some tested accounting principles, which are applicable universally, but simultaneously the application of these principles depends on the professional capability and judgement of the accountant. Since business circumstances vary, alternative accounting policies are acceptable. <PdfRef page={4} />
           </p>
         </section>
 
@@ -258,7 +270,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               • Treatment of retirement benefits (gratuity, pension, etc.)
             </div>
             <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-100 dark:border-gray-800">
-              • Recognition of profit on long-term contracts [Source: ICAI AS 1 PDF Page 4]
+              • Recognition of profit on long-term contracts <PdfRef page={4} />
             </div>
           </div>
         </section>
@@ -272,7 +284,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             The primary consideration in selecting accounting policies is that the financial statements should represent a **true and fair view** of the state of affairs as at the balance sheet date and of the profit or loss for the period.
           </p>
           <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            For this purpose, the selection and application of accounting policies are governed by three major considerations: **Prudence**, **Substance over Form**, and **Materiality**. [Source: ICAI AS 1 PDF Page 5]
+            For this purpose, the selection and application of accounting policies are governed by three major considerations: **Prudence**, **Substance over Form**, and **Materiality**. <PdfRef page={5} />
           </p>
         </section>
 
@@ -287,7 +299,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="bg-[#FFF8E6] dark:bg-[#2C241B]/40 p-4 rounded-xl border-l-4 border-[#B7791F]">
             <p className="text-xs font-bold text-[#B7791F] dark:text-amber-400 uppercase tracking-wider mb-1">Important Rule</p>
             <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-              Exercise of prudence does not permit the creation of hidden reserves by deliberately understating profits and assets, or overstating liabilities and losses. [Source: ICAI AS 1 PDF Page 5, Page 6]
+              Exercise of prudence does not permit the creation of hidden reserves by deliberately understating profits and assets, or overstating liabilities and losses. <PdfRef page={5} /><PdfRef page={6} />
             </p>
           </div>
         </section>
@@ -301,7 +313,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             Transactions and other events should be accounted for and presented in accordance with their economic substance and financial reality, and not merely by their legal form.
           </p>
           <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            **Example:** In a Hire Purchase transaction, the legal title remains with the financing company until the last instalment is paid. However, the buyer enjoys the economic benefits and bears the risks of the asset. Therefore, under the Substance over Form principle, the buyer records the asset and provides depreciation in their books from the date of possession. [Source: ICAI AS 1 PDF Page 6]
+            **Example:** In a Hire Purchase transaction, the legal title remains with the financing company until the last instalment is paid. However, the buyer enjoys the economic benefits and bears the risks of the asset. Therefore, under the Substance over Form principle, the buyer records the asset and provides depreciation in their books from the date of possession. <PdfRef page={6} />
           </p>
         </section>
 
@@ -316,7 +328,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="bg-slate-50 dark:bg-[#1E2640] p-4 rounded-xl border border-slate-200 dark:border-gray-800 text-xs text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-semibold">
             <p className="font-bold">Quantitative limits under Schedule III of the Companies Act, 2013:</p>
             <p>1. **Income/Expenditure:** Disclose any item exceeding 1% of revenue from operations or ₹1,00,005, whichever is higher.</p>
-            <p>2. **Shareholdings:** Disclose details of shareholders holding more than 5% shares in the company. [Source: ICAI AS 1 PDF Page 6]</p>
+            <p>2. **Shareholdings:** Disclose details of shareholders holding more than 5% shares in the company. <PdfRef page={6} /></p>
           </div>
         </section>
 
@@ -326,28 +338,28 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             10. Fundamental Accounting Assumptions
           </h2>
           <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. If followed, no explicit disclosure is required. If NOT followed, the fact must be specifically disclosed along with the reasons. [Source: ICAI AS 1 PDF Page 3]
+            Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. If followed, no explicit disclosure is required. If NOT followed, the fact must be specifically disclosed along with the reasons. <PdfRef page={3} />
           </p>
           
           <div className="space-y-4">
             <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/50">
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">A. Going Concern</h3>
               <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                The enterprise is normally viewed as a going concern, meaning it will continue in operation for the foreseeable future. It is assumed that the enterprise has neither the intention nor the necessity of liquidation or of materially curtailing the scale of its operations. If not followed, assets must be valued on a liquidation basis (Net Realisable Value) and this fact must be disclosed. [Source: ICAI AS 1 PDF Page 3]
+                The enterprise is normally viewed as a going concern, meaning it will continue in operation for the foreseeable future. It is assumed that the enterprise has neither the intention nor the necessity of liquidation or of materially curtailing the scale of its operations. If not followed, assets must be valued on a liquidation basis (Net Realisable Value) and this fact must be disclosed. <PdfRef page={3} />
               </p>
             </div>
 
             <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/50">
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">B. Consistency</h3>
               <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                It is assumed that accounting policies are consistent from one period to another to ensure comparability of financial statements. A change is permitted only if required (i) by a statute, (ii) by an accounting standard, or (iii) if it results in a more appropriate presentation of financial statements. [Source: ICAI AS 1 PDF Page 3]
+                It is assumed that accounting policies are consistent from one period to another to ensure comparability of financial statements. A change is permitted only if required (i) by a statute, (ii) by an accounting standard, or (iii) if it results in a more appropriate presentation of financial statements. <PdfRef page={3} />
               </p>
             </div>
 
             <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/50">
               <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">C. Accrual Basis of Accounting</h3>
               <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                Transactions and other events are recognized as they occur (and not as cash or its equivalent is received or paid) and recorded in the financial statements of the periods to which they relate. Section 128(1) of the Companies Act, 2013 makes accrual accounting mandatory for all companies in India. [Source: ICAI AS 1 PDF Page 3, Page 4]
+                Transactions and other events are recognized as they occur (and not as cash or its equivalent is received or paid) and recorded in the financial statements of the periods to which they relate. Section 128(1) of the Companies Act, 2013 makes accrual accounting mandatory for all companies in India. <PdfRef page={3} /><PdfRef page={4} />
               </p>
             </div>
           </div>
@@ -363,7 +375,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </p>
           <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
             <li>The disclosures must form part of the financial statements.</li>
-            <li>All disclosures should normally be made in one place (such as Note 1) rather than scattered over several statements, schedules, and notes. [Source: ICAI AS 1 PDF Page 7, Page 14]</li>
+            <li>All disclosures should normally be made in one place (such as Note 1) rather than scattered over several statements, schedules, and notes. <PdfRef page={7} /><PdfRef page={14} /></li>
           </ul>
         </section>
 
@@ -376,7 +388,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             Any change in the accounting policies which has a material effect in the current period, or which is reasonably expected to have a material effect in a later period, must be disclosed.
           </p>
           <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            If a change is made in accounting policies which has no material effect in the current period but is expected to be material in future periods, the fact of the change must be disclosed in the period in which the change is adopted. [Source: ICAI AS 1 PDF Page 7]
+            If a change is made in accounting policies which has no material effect in the current period but is expected to be material in future periods, the fact of the change must be disclosed in the period in which the change is adopted. <PdfRef page={7} />
           </p>
         </section>
 
@@ -391,7 +403,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
             <li>The company must disclose the fact of the change and the reason for the change.</li>
             <li>The amount by which any item in the financial statements is affected by such change should be disclosed to the extent ascertainable.</li>
-            <li>Where the amount is not ascertainable, wholly or in part, the fact that the impact is not ascertainable should be explicitly indicated. [Source: ICAI AS 1 PDF Page 7]</li>
+            <li>Where the amount is not ascertainable, wholly or in part, the fact that the impact is not ascertainable should be explicitly indicated. <PdfRef page={7} /></li>
           </ul>
         </section>
 
@@ -409,7 +421,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               **Disclosure of accounting policies or of changes therein cannot remedy a wrong or inappropriate treatment of an item in the accounts.**
             </p>
             <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-              If an item is accounted for incorrectly (e.g., capitalizing revenue expenses), merely disclosing this inappropriate treatment in the notes does not make it correct under GAAP. The auditor is still required to qualify the report and demand correction. [Source: ICAI AS 1 PDF Page 5, Page 11]
+              If an item is accounted for incorrectly (e.g., capitalizing revenue expenses), merely disclosing this inappropriate treatment in the notes does not make it correct under GAAP. The auditor is still required to qualify the report and demand correction. <PdfRef page={5} /><PdfRef page={11} />
             </p>
           </div>
         </section>
@@ -425,7 +437,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
             <li><strong>Policy Change vs. Estimate Change:</strong> Recognizing that changes in estimation methods (e.g. provisioning methods) are estimate changes under AS 5, not policy changes under AS 1.</li>
             <li><strong>Quantification of Effects:</strong> Calculating the difference between old and new methods (e.g., FIFO to Weighted Average cost) and drafting the disclosure note.</li>
-            <li><strong>Deviations from assumptions:</strong> Drafting disclosures when an entity adopts cash basis instead of accrual. [Source: ICAI AS 1 PDF Page 9, Page 16]</li>
+            <li><strong>Deviations from assumptions:</strong> Drafting disclosures when an entity adopts cash basis instead of accrual. <PdfRef page={9} /><PdfRef page={16} /></li>
           </ul>
         </section>
 
@@ -438,7 +450,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             In corporate reporting, analysts and investors rely heavily on Note 1 disclosures to normalize financial statements.
           </p>
           <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            For example, if two steel companies operate in India and one uses the WDV method for plant depreciation while the other uses SLM, their net profits will differ even with identical operations. A credit analyst uses the accounting policy disclosure to recalculate and normalize the earnings before comparison. [Source: ICAI AS 1 PDF Page 2]
+            For example, if two steel companies operate in India and one uses the WDV method for plant depreciation while the other uses SLM, their net profits will differ even with identical operations. A credit analyst uses the accounting policy disclosure to recalculate and normalize the earnings before comparison. <PdfRef page={2} />
           </p>
         </section>
 
@@ -455,7 +467,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 **Scenario:** Prashant Ltd. changes its cost formula from FIFO to Weighted Average. FIFO inventory was ₹1,63,000, Weighted Average is ₹1,47,000. Realisable value is ₹1,95,050.
               </p>
               <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Solution:** The change in cost formula represents a change in accounting policy. Since realisable value is higher than cost, inventory is valued at cost. The change reduces closing inventory and current profits by ₹16,000 (₹1,63,000 - ₹1,47,000). The company must disclose this fact and the financial impact in the notes. [Source: ICAI AS 1 PDF Page 9]
+                **Solution:** The change in cost formula represents a change in accounting policy. Since realisable value is higher than cost, inventory is valued at cost. The change reduces closing inventory and current profits by ₹16,000 (₹1,63,000 - ₹1,47,000). The company must disclose this fact and the financial impact in the notes. <PdfRef page={9} />
               </p>
             </div>
 
@@ -465,7 +477,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 **Scenario:** Jagannath Ltd. changes inventory valuation from prime cost (₹30 crores) to works cost (₹50 crores), and provides ₹10 crores for permanent decline in investment value.
               </p>
               <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Solution:** (i) Switching to works cost is a change in accounting policy. It increases closing inventory and net profit by ₹20 crores. (ii) Providing for permanent diminution in investment is required under Prudence, reducing profit by ₹10 crores. Both must be disclosed. [Source: ICAI AS 1 PDF Page 9, Page 10]
+                **Solution:** (i) Switching to works cost is a change in accounting policy. It increases closing inventory and net profit by ₹20 crores. (ii) Providing for permanent diminution in investment is required under Prudence, reducing profit by ₹10 crores. Both must be disclosed. <PdfRef page={9} /><PdfRef page={10} />
               </p>
             </div>
 
@@ -475,7 +487,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 **Scenario:** XYZ Company does not provide for overdue interest on deposits due to litigation blocking its assets in Special Court, disclosing it only as a contingent liability note.
               </p>
               <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Solution:** The treatment is incorrect. Accrual is a fundamental assumption. Overdue interest must be provided for on a reasonable estimate since lenders have not waived it. Disclosing it as a contingent liability violates the Accrual assumption, and disclosure cannot cure this wrong. [Source: ICAI AS 1 PDF Page 10, Page 11]
+                **Solution:** The treatment is incorrect. Accrual is a fundamental assumption. Overdue interest must be provided for on a reasonable estimate since lenders have not waived it. Disclosing it as a contingent liability violates the Accrual assumption, and disclosure cannot cure this wrong. <PdfRef page={10} /><PdfRef page={11} />
               </p>
             </div>
           </div>
@@ -491,7 +503,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </p>
           <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
             <li><strong>Single Place Rule:</strong> Explains that policies must not be scattered, as grouping them in one place (usually Note 1) allows users to construct a coherent understanding of the reporting framework.</li>
-            <li><strong>Estimation Changes:</strong> Clarifies that changing the method of provisioning for non-moving inventory from aging to technical evaluation is an estimate change, not a policy change, because the policy (providing for obsolete inventory) remains unchanged. [Source: ICAI AS 1 PDF Page 14, Page 16]</li>
+            <li><strong>Estimation Changes:</strong> Clarifies that changing the method of provisioning for non-moving inventory from aging to technical evaluation is an estimate change, not a policy change, because the policy (providing for obsolete inventory) remains unchanged. <PdfRef page={14} /><PdfRef page={16} /></li>
           </ul>
         </section>
 
@@ -508,28 +520,10 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </p>
           <div className="bg-blue-50 dark:bg-blue-950/20 border-l-4 border-blue-500 p-5 rounded-r-xl">
             <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-              Remember: Disclosure of policies can never cure a wrong accounting treatment (Para 23). This is the single most tested concept in professional CA exams! [Source: ICAI AS 1 PDF Page 2, Page 11]
+              Remember: Disclosure of policies can never cure a wrong accounting treatment (Para 23). This is the single most tested concept in professional CA exams! <PdfRef page={2} /><PdfRef page={11} />
             </p>
           </div>
         </section>
-      </div>
-
-      {/* Desktop Sticky Table of Contents */}
-      <div className="hidden xl:block xl:col-span-1 sticky top-28 self-start bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-5 shadow-xs">
-        <h4 className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4 border-b border-[#E2E1DD] dark:border-gray-800 pb-2 select-none">
-          Table of Contents
-        </h4>
-        <nav className="space-y-1.5 max-h-[calc(100vh-280px)] overflow-y-auto pr-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          {as1Sections.map(sec => (
-            <button
-              key={sec.id}
-              onClick={() => document.getElementById(`as1-${sec.id}`)?.scrollIntoView({ behavior: 'smooth' })}
-              className="w-full text-left py-1.5 px-2.5 rounded-lg text-[12px] font-bold text-[#555] hover:text-[#2D5BE3] hover:bg-slate-50 dark:text-gray-400 dark:hover:text-blue-400 dark:hover:bg-gray-800/50 transition-all truncate cursor-pointer"
-            >
-              {sec.title}
-            </button>
-          ))}
-        </nav>
       </div>
     </div>
   );
@@ -901,10 +895,10 @@ export default function LearningPortalClient({
         
         {/* Sidebar Header */}
         <div className="px-3.5 py-4 border-b border-[#E2E1DD] dark:border-gray-800 flex flex-col gap-3">
-          <div className="flex items-center gap-2 pl-0.5 w-full overflow-visible">
-            <BookOpen size={20} className="text-[#2D5BE3] dark:text-blue-400 shrink-0" />
-            <span className="font-sans font-bold text-[15.5px] text-[#1C1C1E] dark:text-white uppercase tracking-wide whitespace-nowrap overflow-visible">
-              {framework === 'AS' ? 'Accounting Standards' : 'Indian Accounting Standards'}
+          <div className="flex items-center gap-2.5 pl-0.5 w-full overflow-visible">
+            <BookOpen size={21} className="text-[#2D5BE3] dark:text-blue-400 shrink-0" />
+            <span className="font-sans font-extrabold text-[16px] text-[#1C1C1E] dark:text-white uppercase tracking-widest whitespace-nowrap overflow-visible leading-tight">
+              {framework === 'AS' ? 'Accounting Standards' : 'Indian Acc. Standards'}
             </span>
           </div>
 
@@ -922,7 +916,7 @@ export default function LearningPortalClient({
         </div>
 
         {/* Standards List */}
-        <div className="flex-1 p-3 space-y-0.5 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex-1 p-3 space-y-1.5 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {filteredStandards.map((std) => {
             const isSelected = selectedStandardId === std.id
             if (std.id.includes('intro')) {
@@ -999,7 +993,7 @@ export default function LearningPortalClient({
 
             // Normal standard items
             return (
-              <div key={std.id} className="flex flex-col border-b border-gray-100/50 dark:border-gray-800/10 last:border-b-0 py-0.5 animate-fade-in">
+              <div key={std.id} className="flex flex-col border-b border-gray-100 dark:border-gray-800/30 last:border-b-0 py-1 animate-fade-in">
                 <button
                   onClick={() => {
                     setSelectedStandardId(std.id)
@@ -1053,22 +1047,7 @@ export default function LearningPortalClient({
                       <Scale size={13} className="shrink-0" />
                       Examples &amp; Case Law
                     </button>
-                    {std.faqs && std.faqs.length > 0 && (
-                      <button
-                        onClick={() => {
-                          setActiveTab('faqs')
-                          setIsSidebarOpen(false)
-                        }}
-                        className={`w-full text-left py-1.5 px-3 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
-                          activeTab === 'faqs'
-                            ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:bg-[#1A2542] dark:text-[#60A5FA] font-extrabold'
-                            : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
-                        }`}
-                      >
-                        <MessageSquare size={13} className="shrink-0" />
-                        Important Questions
-                      </button>
-                    )}
+
                   </div>
                 )}
               </div>
@@ -1717,7 +1696,8 @@ export default function LearningPortalClient({
                   </a>
                 </div>
                 <iframe
-                  src={uploadedPdf.url}
+                  key={pdfPage}
+                  src={`${uploadedPdf.url}#page=${pdfPage}`}
                   className="w-full flex-1 border-0"
                   title={uploadedPdf.title || currentStandard.title}
                 />
