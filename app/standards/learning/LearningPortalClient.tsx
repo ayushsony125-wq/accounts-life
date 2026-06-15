@@ -133,9 +133,7 @@ const as1Sections = [
   { id: 'audit', title: '14. Audit Relevance' },
   { id: 'exam', title: '15. Examination Relevance' },
   { id: 'business', title: '16. Practical Business Relevance' },
-  { id: 'illustrations', title: '17. ICAI Illustrations' },
-  { id: 'explanations', title: '18. ICAI Explanations' },
-  { id: 'observations', title: '19. Important Observations' }
+  { id: 'observations', title: '17. Important Observations' }
 ]
 
 function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: AS1StandardTabContentProps) {
@@ -454,63 +452,10 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </p>
         </section>
 
-        {/* Section 17: ICAI illustrations */}
-        <section id="as1-illustrations" className="scroll-mt-28 space-y-6">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
-            17. ICAI Official Illustrations
-          </h2>
-          
-          <div className="space-y-6">
-            <div className="border border-slate-200 dark:border-gray-800 rounded-xl p-6 bg-slate-50/30 dark:bg-slate-900/30 space-y-3">
-              <h3 className="text-sm font-bold text-[#2D5BE3] dark:text-blue-400">Illustration 1: FIFO to Weighted Average Cost</h3>
-              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Scenario:** Prashant Ltd. changes its cost formula from FIFO to Weighted Average. FIFO inventory was ₹1,63,000, Weighted Average is ₹1,47,000. Realisable value is ₹1,95,050.
-              </p>
-              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Solution:** The change in cost formula represents a change in accounting policy. Since realisable value is higher than cost, inventory is valued at cost. The change reduces closing inventory and current profits by ₹16,000 (₹1,63,000 - ₹1,47,000). The company must disclose this fact and the financial impact in the notes. <PdfRef page={9} />
-              </p>
-            </div>
-
-            <div className="border border-slate-200 dark:border-gray-800 rounded-xl p-6 bg-slate-50/30 dark:bg-slate-900/30 space-y-3">
-              <h3 className="text-sm font-bold text-[#2D5BE3] dark:text-blue-400">Illustration 2: Prime Cost vs. Works Cost &amp; Investment Diminution</h3>
-              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Scenario:** Jagannath Ltd. changes inventory valuation from prime cost (₹30 crores) to works cost (₹50 crores), and provides ₹10 crores for permanent decline in investment value.
-              </p>
-              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Solution:** (i) Switching to works cost is a change in accounting policy. It increases closing inventory and net profit by ₹20 crores. (ii) Providing for permanent diminution in investment is required under Prudence, reducing profit by ₹10 crores. Both must be disclosed. <PdfRef page={9} /><PdfRef page={10} />
-              </p>
-            </div>
-
-            <div className="border border-slate-200 dark:border-gray-800 rounded-xl p-6 bg-slate-50/30 dark:bg-slate-900/30 space-y-3">
-              <h3 className="text-sm font-bold text-[#2D5BE3] dark:text-blue-400">Illustration 3: Non-provision of ICD Overdue Interest</h3>
-              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Scenario:** XYZ Company does not provide for overdue interest on deposits due to litigation blocking its assets in Special Court, disclosing it only as a contingent liability note.
-              </p>
-              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                **Solution:** The treatment is incorrect. Accrual is a fundamental assumption. Overdue interest must be provided for on a reasonable estimate since lenders have not waived it. Disclosing it as a contingent liability violates the Accrual assumption, and disclosure cannot cure this wrong. <PdfRef page={10} /><PdfRef page={11} />
-              </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 18: ICAI explanations */}
-        <section id="as1-explanations" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
-            18. ICAI Official Explanations
-          </h2>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            ICAI Test Your Knowledge explanations clarify key conceptual boundaries:
-          </p>
-          <ul className="list-disc pl-6 text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed space-y-2 font-medium">
-            <li><strong>Single Place Rule:</strong> Explains that policies must not be scattered, as grouping them in one place (usually Note 1) allows users to construct a coherent understanding of the reporting framework.</li>
-            <li><strong>Estimation Changes:</strong> Clarifies that changing the method of provisioning for non-moving inventory from aging to technical evaluation is an estimate change, not a policy change, because the policy (providing for obsolete inventory) remains unchanged. <PdfRef page={14} /><PdfRef page={16} /></li>
-          </ul>
-        </section>
-
-        {/* Section 19: Important observations */}
+        {/* Section 17: Important observations */}
         <section id="as1-observations" className="scroll-mt-28 space-y-4">
           <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
-            19. Important Observations
+            17. Important Observations
           </h2>
           <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
             In conclusion, Accounting Standard 1 (AS 1) serves as the cornerstone of financial reporting transparency.
