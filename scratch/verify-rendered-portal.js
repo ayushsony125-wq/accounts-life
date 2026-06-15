@@ -34,7 +34,33 @@ const LIVE_URL = 'https://accounts-one-ak-s-projectsakk.vercel.app/standards/as?
     }
     console.log('✅ Standard tab content verification passed.');
 
-    // 3. Verify Examples & Case Law Tab
+    // 3. Verify that right-side Table of Contents is GONE
+    console.log('Checking that right-side ToC has been removed...');
+    const tocContent = await page.locator('text="Table of Contents"').count();
+    if (tocContent > 0) {
+      throw new Error('Right-side Table of Contents still exists but should have been removed!');
+    }
+    console.log('✅ Right-side ToC removal verified.');
+
+    // 4. Verify Important Questions is NOT in sidebar
+    console.log('Checking sidebar does NOT have "Important Questions" button...');
+    const impQuestionsBtn = await page.locator('aside button:has-text("Important Questions")').count();
+    if (impQuestionsBtn > 0) {
+      throw new Error('"Important Questions" button still visible in sidebar but should be removed!');
+    }
+    console.log('✅ Sidebar cleanup verified (no Important Questions button).');
+
+    // 5. Verify PdfRef buttons (red-bordered page references) exist in Standard content
+    console.log('Checking for PDF reference (PdfRef) buttons in Standard content...');
+    // PdfRef buttons have title="Open ICAI AS 1 PDF — Page N"
+    const pdfRefCount = await page.locator('button[title^="Open ICAI AS 1 PDF"]').count();
+    console.log(`PdfRef buttons found: ${pdfRefCount}`);
+    if (pdfRefCount < 5) {
+      throw new Error(`Expected at least 5 PdfRef buttons in Standard content, found ${pdfRefCount}!`);
+    }
+    console.log('✅ PDF reference icons verified (' + pdfRefCount + ' found).');
+
+    // 6. Verify Examples & Case Law Tab
     console.log('Clicking "Examples & Case Law" sub-menu...');
     await page.click('button:has-text("Examples & Case Law")');
     await page.waitForTimeout(1000);
@@ -45,22 +71,12 @@ const LIVE_URL = 'https://accounts-one-ak-s-projectsakk.vercel.app/standards/as?
     if (!hasA1 || !hasF17) {
       throw new Error('Examples & Case Law tab is missing our new illustrations!');
     }
-    console.log('✅ Examples & Case Law tab content verification passed.');
+    console.log('✅ Examples & Case Law tab content verified.');
 
-    // 4. Verify Important Questions Tab
-    console.log('Clicking "Important Questions" sub-menu...');
-    await page.click('button:has-text("Important Questions")');
-    await page.waitForTimeout(1000);
-    const faqsContent = await page.textContent('body');
-    const hasFaq1 = faqsContent.includes('What are the three fundamental accounting assumptions');
-    const hasFaq3 = faqsContent.includes('What are the major considerations');
-    console.log(`Has FAQ 1: ${hasFaq1}, Has FAQ 3: ${hasFaq3}`);
-    if (!hasFaq1 || !hasFaq3) {
-      throw new Error('Important Questions tab is missing our new FAQs!');
-    }
-    console.log('✅ Important Questions tab content verification passed.');
-
-    // 5. Verify PDF View
+    // 7. Verify PDF View tab
+    console.log('Navigating back to Standard tab first...');
+    await page.click('button:has-text("Standard")');
+    await page.waitForTimeout(500);
     console.log('Clicking "PDF View" tab...');
     await page.click('button:has-text("PDF View")');
     await page.waitForTimeout(2000);
@@ -69,35 +85,36 @@ const LIVE_URL = 'https://accounts-one-ak-s-projectsakk.vercel.app/standards/as?
     if (!iframeSrc || (!iframeSrc.includes('/api/pdfs/as-1') && !iframeSrc.includes('/pdfs/as-1'))) {
       throw new Error('PDF View is not rendering the correct PDF route! Got: ' + iframeSrc);
     }
-    console.log('✅ PDF View verification passed (src:', iframeSrc, ').');
+    console.log('✅ PDF View verified (src:', iframeSrc, ').');
 
-    // 6. Verify Lecture Video Player
-    // The Lecture button only appears when standard/examples/faqs tab is active.
-    // After clicking PDF View, we must return to Standard first.
+    // 8. Verify Lecture Video Player
     console.log('Navigating back to Standard tab to reveal Lecture button...');
     await page.click('button:has-text("Standard")');
     await page.waitForTimeout(800);
     console.log('Clicking "Lecture" tab...');
     await page.click('button:has-text("Lecture")');
     await page.waitForTimeout(3000);
-    // AS 1 uses YouTube iframe embed
     const hasYouTubeIframe = await page.locator('iframe[src*="youtube.com/embed"]').count() > 0;
     const hasNativeVideo = await page.locator('video').count() > 0;
     console.log('YouTube iframe present:', hasYouTubeIframe, '| Native Video present:', hasNativeVideo);
     if (!hasYouTubeIframe && !hasNativeVideo) {
       throw new Error('Lecture tab: Neither YouTube iframe nor native video found!');
     }
-    console.log('✅ Lecture Video Player verification passed. YouTube iframe:', hasYouTubeIframe);
+    console.log('✅ Lecture Video Player verified. YouTube iframe:', hasYouTubeIframe);
 
-    console.log('🎉 ALL UI TESTS COMPLETED SUCCESSFULLY! AS 1 IS FULLY REBUILT AND VERIFIED LIVE.');
+    console.log('\n🎉 ALL UI TESTS PASSED! AS 1 portal is clean, professional & verified live.');
 
-    // Take screenshot of the portal
-    const screenshotPath = 'C:\\Users\\ayush\\.gemini\\antigravity\\brain\\3e7ef49d-8c4e-42f2-b4da-2f480a7bed61\\as1_learning_portal.png';
+    // Take screenshot
+    const screenshotPath = 'C:\\Users\\ayush\\.gemini\\antigravity\\brain\\3e7ef49d-8c4e-42f2-b4da-2f480a7bed61\\as1_clean_portal.png';
     await page.screenshot({ path: screenshotPath, fullPage: true });
     console.log(`Screenshot saved to ${screenshotPath}`);
 
   } catch (err) {
     console.error('Verification failed:', err.message);
+    // Take failure screenshot
+    const failPath = 'C:\\Users\\ayush\\.gemini\\antigravity\\brain\\3e7ef49d-8c4e-42f2-b4da-2f480a7bed61\\as1_fail.png';
+    await page.screenshot({ path: failPath, fullPage: true });
+    console.log(`Failure screenshot saved to ${failPath}`);
     process.exit(1);
   } finally {
     await browser.close();
