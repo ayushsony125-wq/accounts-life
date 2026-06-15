@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import fs from 'fs'
 import path from 'path'
 import prisma from '@/lib/db'
+import { createAuditLog } from '@/lib/audit'
 
 const DB_PATH = path.join(process.cwd(), 'lib/data/dynamic-db.json')
 
@@ -62,8 +63,9 @@ function verifyToken(token: string): boolean {
 // ADMIN AUTHENTICATION
 // ============================================================
 
-export async function login(password: string) {
+export async function login(password: string, email: string) {
   const adminPassword = process.env.ADMIN_PASSWORD
+  const sanitizedEmail = (email || '').trim()
 
   // Fail immediately if password env var is not configured — never fall back to a default.
   if (!adminPassword) {
@@ -74,6 +76,7 @@ export async function login(password: string) {
   if (password === adminPassword) {
     const sessionToken = generateToken(60 * 60 * 24 * 1000) // 1 day
     const cookieStore = await cookies()
+    
     cookieStore.set('admin_session', sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -81,15 +84,54 @@ export async function login(password: string) {
       maxAge: 60 * 60 * 24, // 1 day session
       path: '/',
     })
+
+    cookieStore.set('admin_email', sanitizedEmail, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 60 * 60 * 24,
+      path: '/',
+    })
+
+    // Write login audit log
+    await createAuditLog({
+      action: 'LOGIN',
+      entityType: 'System',
+      entityId: 'AdminPortal',
+      userEmail: sanitizedEmail,
+      description: 'Successful administrative login'
+    })
+
     return { success: true }
   }
+
+  // Log failed attempt
+  await createAuditLog({
+    action: 'LOGIN_FAILED',
+    entityType: 'System',
+    entityId: 'AdminPortal',
+    userEmail: sanitizedEmail || 'Unknown',
+    description: 'Failed login attempt with incorrect PIN'
+  })
 
   return { success: false, error: 'Invalid PIN or Password' }
 }
 
 export async function logout() {
   const cookieStore = await cookies()
+  const email = cookieStore.get('admin_email')?.value || 'Admin'
+  
+  // Write logout audit log
+  await createAuditLog({
+    action: 'LOGOUT',
+    entityType: 'System',
+    entityId: 'AdminPortal',
+    userEmail: email,
+    description: 'Successful administrative logout'
+  })
+
   cookieStore.delete('admin_session')
+  cookieStore.delete('admin_email')
   return { success: true }
 }
 
@@ -122,17 +164,22 @@ export async function saveEntry(entryData: any) {
 
         // Check if a PDF resource is already mapped in the database
         const submittedPdf = (entryData.resources || []).find((r: any) => r.resourceType === 'PDF')
-        if (submittedPdf && submittedPdf.resourceUrl && !submittedPdf.resourceUrl.startsWith('/api/pdfs/')) {
-          // A new PDF file is uploaded/mapped in the payload (not the API route placeholder)
-          await prisma.entryResource.deleteMany({ where: { entryId } })
+        if (submittedPdf) {
+          if (submittedPdf.resourceUrl && !submittedPdf.resourceUrl.startsWith('/api/pdfs/')) {
+            // A new PDF file is uploaded/mapped in the payload (not the API route placeholder)
+            await prisma.entryResource.deleteMany({ where: { entryId } })
+          } else {
+            // Otherwise, delete all non-PDF resources for this entry to preserve the existing database Base64 mapping
+            await prisma.entryResource.deleteMany({
+              where: {
+                entryId,
+                resourceType: { not: 'PDF' }
+              }
+            })
+          }
         } else {
-          // Otherwise, delete all non-PDF resources for this entry to preserve the existing database Base64 mapping
-          await prisma.entryResource.deleteMany({
-            where: {
-              entryId,
-              resourceType: { not: 'PDF' }
-            }
-          })
+          // PDF was deleted/removed from resources. Delete all resources including PDF resources.
+          await prisma.entryResource.deleteMany({ where: { entryId } })
         }
 
         await prisma.standardDetail.deleteMany({ where: { entryId } })
@@ -290,6 +337,45 @@ export async function saveEntry(entryData: any) {
         })
         entryId = saved.id
       }
+
+      // --- CREATE REVISION SNAPSHOT ---
+      // Every save (draft or publish) creates a versioned snapshot for undo/redo/history
+      try {
+        const cookieStore = await cookies()
+        const userEmail = cookieStore.get('admin_email')?.value || 'Admin'
+        const ip = '127.0.0.1' // Simplified; full IP capture available via middleware
+
+        // Get the current version count to auto-increment
+        const revCount = await prisma.revision.count({ where: { entryId } })
+        
+        await prisma.revision.create({
+          data: {
+            entryId,
+            version: revCount + 1,
+            action: entryData.status === 'PUBLISHED' ? 'PUBLISH' : 'SAVE_DRAFT',
+            snapshot: entryData as any,
+            isPublished: entryData.status === 'PUBLISHED',
+            description: entryData.status === 'PUBLISHED'
+              ? `Published version ${revCount + 1}`
+              : `Saved draft version ${revCount + 1}`,
+            userEmail,
+            ipAddress: ip,
+            userAgent: 'AdminCMS',
+          }
+        })
+
+        // Create audit log
+        await createAuditLog({
+          action: entryData.status === 'PUBLISHED' ? 'PUBLISH' : 'UPDATE',
+          entityType: 'Entry',
+          entityId: String(entryId),
+          description: `${entryData.status === 'PUBLISHED' ? 'Published' : 'Saved draft'}: ${entryData.entryTitle}`
+        })
+      } catch (revErr) {
+        // Non-fatal: revision creation failure should not block save
+        console.warn('Revision creation failed (non-fatal):', revErr)
+      }
+
     } catch (e: any) {
       console.error('Prisma database write failed:', e)
       return {
@@ -842,3 +928,218 @@ export async function uploadPdfAction(formData: FormData) {
   }
 }
 
+// ============================================================
+// REVISION / VERSION HISTORY ACTIONS
+// ============================================================
+
+export async function getEntryRevisions(entryId: number) {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (!useDatabase) return { success: true, revisions: [] }
+
+  try {
+    const revisions = await prisma.revision.findMany({
+      where: { entryId },
+      orderBy: { version: 'desc' },
+      select: {
+        id: true,
+        version: true,
+        action: true,
+        isPublished: true,
+        description: true,
+        userEmail: true,
+        createdAt: true,
+        // snapshot is excluded to keep response small — loaded on demand
+      }
+    })
+    return { success: true, revisions }
+  } catch (e: any) {
+    console.error('getEntryRevisions failed:', e)
+    return { success: false, error: e.message, revisions: [] }
+  }
+}
+
+export async function getRevisionSnapshot(revisionId: number) {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (!useDatabase) return { success: false, error: 'Database not configured', snapshot: null }
+
+  try {
+    const revision = await prisma.revision.findUnique({
+      where: { id: revisionId },
+      select: { id: true, version: true, action: true, snapshot: true, isPublished: true, description: true, userEmail: true, createdAt: true }
+    })
+    if (!revision) return { success: false, error: 'Revision not found', snapshot: null }
+    return { success: true, revision }
+  } catch (e: any) {
+    return { success: false, error: e.message, snapshot: null }
+  }
+}
+
+export async function restoreRevision(revisionId: number) {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (!useDatabase) return { success: false, error: 'Database not configured' }
+
+  try {
+    const revision = await prisma.revision.findUnique({
+      where: { id: revisionId },
+      include: { entry: true }
+    })
+
+    if (!revision) return { success: false, error: 'Revision not found' }
+
+    // Restore the entry by saving the snapshot as a new save
+    const snapshot = revision.snapshot as any
+    snapshot.id = revision.entryId
+
+    const result = await saveEntry(snapshot)
+
+    if (result.success) {
+      await createAuditLog({
+        action: 'ROLLBACK',
+        entityType: 'Entry',
+        entityId: String(revision.entryId),
+        description: `Restored to version ${revision.version} (${revision.action}) from ${new Date(revision.createdAt).toLocaleString()}`
+      })
+    }
+
+    return result
+  } catch (e: any) {
+    console.error('restoreRevision failed:', e)
+    return { success: false, error: e.message }
+  }
+}
+
+// ============================================================
+// DASHBOARD METRICS ACTION
+// ============================================================
+
+export async function getDashboardMetrics() {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (!useDatabase) {
+    return {
+      success: true,
+      metrics: {
+        totalEntries: 0, publishedEntries: 0, draftEntries: 0,
+        totalStandards: 0, publishedStandards: 0, draftStandards: 0,
+        totalPdfs: 0, totalVideos: 0,
+        recentLogins: [], recentPublications: [], recentEdits: [],
+        glossaryCount: 0, domainsCount: 0,
+      }
+    }
+  }
+
+  try {
+    const [
+      totalEntries, publishedEntries, draftEntries,
+      totalStandards, publishedStandards, draftStandards,
+      totalPdfs, totalVideos, glossaryCount, domainsCount,
+      recentAuditLogs
+    ] = await Promise.all([
+      prisma.entry.count(),
+      prisma.entry.count({ where: { status: 'PUBLISHED' } }),
+      prisma.entry.count({ where: { status: 'DRAFT' } }),
+      prisma.entry.count({ where: { entryType: 'STANDARD' } }),
+      prisma.entry.count({ where: { entryType: 'STANDARD', status: 'PUBLISHED' } }),
+      prisma.entry.count({ where: { entryType: 'STANDARD', status: 'DRAFT' } }),
+      prisma.entryResource.count({ where: { resourceType: 'PDF' } }),
+      prisma.entryResource.count({ where: { resourceType: 'VIDEO' } }),
+      prisma.glossaryTerm.count(),
+      prisma.domain.count(),
+      prisma.auditLog.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 20,
+        select: { id: true, action: true, entityType: true, entityId: true, description: true, userEmail: true, createdAt: true }
+      })
+    ])
+
+    const recentLogins = recentAuditLogs.filter(l => l.action === 'LOGIN').slice(0, 5)
+    const recentPublications = recentAuditLogs.filter(l => l.action === 'PUBLISH').slice(0, 5)
+    const recentEdits = recentAuditLogs.filter(l => l.action === 'UPDATE').slice(0, 5)
+
+    return {
+      success: true,
+      metrics: {
+        totalEntries, publishedEntries, draftEntries,
+        totalStandards, publishedStandards, draftStandards,
+        totalPdfs, totalVideos, glossaryCount, domainsCount,
+        recentLogins, recentPublications, recentEdits,
+        allRecentActivity: recentAuditLogs,
+      }
+    }
+  } catch (e: any) {
+    console.error('getDashboardMetrics failed:', e)
+    return { success: false, error: e.message, metrics: null }
+  }
+}
+
+export async function deletePdfResource(resourceId: number) {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (useDatabase) {
+    try {
+      const res = await prisma.entryResource.delete({
+        where: { id: resourceId }
+      })
+      
+      await createAuditLog({
+        action: 'DELETE_RESOURCE',
+        entityType: 'EntryResource',
+        entityId: String(resourceId),
+        description: `Deleted PDF resource: ${res.resourceTitle}`
+      })
+
+      return { success: true }
+    } catch (e: any) {
+      console.error('Prisma deletePdfResource failed:', e)
+      return { success: false, error: e.message }
+    }
+  }
+
+  return { success: false, error: 'Database not enabled' }
+}
+
+export async function updateEntriesOrder(orderMapping: Array<{ id: number, sortOrder: number }>) {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (useDatabase) {
+    try {
+      await prisma.$transaction(
+        orderMapping.map(item => 
+          prisma.entry.update({
+            where: { id: item.id },
+            data: { sortOrder: item.sortOrder }
+          })
+        )
+      )
+
+      await createAuditLog({
+        action: 'REORDER_ENTRIES',
+        entityType: 'Entry',
+        entityId: 'All',
+        description: `Reordered standards list: updated ${orderMapping.length} items`
+      })
+
+      return { success: true }
+    } catch (e: any) {
+      console.error('Prisma updateEntriesOrder failed:', e)
+      return { success: false, error: e.message }
+    }
+  }
+
+  return { success: false, error: 'Database not enabled' }
+}

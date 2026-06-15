@@ -18,24 +18,7 @@ export async function GET(
 
     const cleanSlug = slug.toLowerCase().trim()
 
-    // 1. Check local filesystem first (for local dev or persistent storage)
-    const localPath = path.join(process.cwd(), 'public/pdfs', `${cleanSlug}.pdf`)
-    try {
-      if (fs.existsSync(localPath)) {
-        const fileBuffer = fs.readFileSync(localPath)
-        return new NextResponse(fileBuffer, {
-          headers: {
-            'Content-Type': 'application/pdf',
-            'Content-Disposition': `inline; filename="${cleanSlug}.pdf"`,
-            'Cache-Control': 'public, max-age=31536000, immutable'
-          },
-        })
-      }
-    } catch (fsErr) {
-      console.warn(`Local file check failed for ${cleanSlug}:`, fsErr)
-    }
-
-    // 2. Fall back to Neon PostgreSQL database
+    // 1. Try database first (primary source of truth)
     const resource = await prisma.entryResource.findFirst({
       where: {
         resourceType: 'PDF',
@@ -58,10 +41,26 @@ export async function GET(
           },
         })
       } else if (url.startsWith('/pdfs/')) {
-        // Fallback redirect if it maps to a standard static public folder
         const redirectUrl = new URL(url, request.url)
         return NextResponse.redirect(redirectUrl)
       }
+    }
+
+    // 2. Fall back to local filesystem (secondary source of truth)
+    const localPath = path.join(process.cwd(), 'public/pdfs', `${cleanSlug}.pdf`)
+    try {
+      if (fs.existsSync(localPath)) {
+        const fileBuffer = fs.readFileSync(localPath)
+        return new NextResponse(fileBuffer, {
+          headers: {
+            'Content-Type': 'application/pdf',
+            'Content-Disposition': `inline; filename="${cleanSlug}.pdf"`,
+            'Cache-Control': 'public, max-age=31536000, immutable'
+          },
+        })
+      }
+    } catch (fsErr) {
+      console.warn(`Local file check failed for ${cleanSlug}:`, fsErr)
     }
 
     return new NextResponse(`PDF standard mapping for "${cleanSlug}" not found in database or filesystem.`, { status: 404 })

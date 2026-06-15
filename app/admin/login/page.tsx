@@ -21,6 +21,7 @@ export default function AdminLoginPage() {
   const [countryCode, setCountryCode] = useState('+91')
   const [password, setPassword] = useState('')
   const [adminPassword, setAdminPassword] = useState('')
+  const [adminEmail, setAdminEmail] = useState('')
   
   // Status states
   const [error, setError] = useState<string | null>(null)
@@ -46,13 +47,17 @@ export default function AdminLoginPage() {
 
   const handleAdminSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!adminEmail.trim()) {
+      setError('Please enter your name or email address.')
+      return
+    }
     if (!adminPassword.trim()) return
 
     setLoading(true)
     setError(null)
 
     try {
-      const res = await login(adminPassword)
+      const res = await login(adminPassword, adminEmail)
       if (res.success) {
         router.push('/admin')
       } else {
@@ -394,6 +399,26 @@ export default function AdminLoginPage() {
             <form onSubmit={handleAdminSubmit} className="space-y-4">
               <div>
                 <label
+                  htmlFor="admin-email-input"
+                  className="block text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2"
+                >
+                  Editor Name or Email
+                </label>
+                <input
+                  id="admin-email-input"
+                  type="text"
+                  placeholder="e.g. Ayush Sarraf"
+                  required
+                  value={adminEmail}
+                  onChange={(e) => setAdminEmail(e.target.value)}
+                  disabled={loading}
+                  className="w-full px-3 py-2 bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-xs text-[#1C1C1E] dark:text-white focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA]"
+                  autoFocus
+                />
+              </div>
+
+              <div>
+                <label
                   htmlFor="password-input"
                   className="block text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2"
                 >
@@ -409,7 +434,6 @@ export default function AdminLoginPage() {
                     onChange={(e) => setAdminPassword(e.target.value)}
                     disabled={loading}
                     className="w-full pl-9 pr-10 py-2.5 bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-xs text-[#1C1C1E] dark:text-white focus:outline-none focus:border-[#2D5BE3] dark:focus:border-[#60A5FA]"
-                    autoFocus
                   />
                   <button
                     type="button"

@@ -1,10 +1,8 @@
 import { cookies } from 'next/headers'
-import AdminHeader from './AdminHeader'
-import BackButton from '@/components/ui/BackButton'
+import AdminSidebar from './AdminSidebar'
 import { verifyAdminSession as _verify } from './session'
 import crypto from 'crypto'
 
-// Re-use the same ADMIN_SECRET as session.ts so token validation is consistent
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-one-default-secret-key-321-at-least-32-chars-long'
 
 function verifyToken(token: string): boolean {
@@ -39,14 +37,34 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-[#FAFAF8] dark:bg-[#0B0F19] text-[#1C1C1E] dark:text-white flex flex-col font-sans transition-colors pt-14">
-      <AdminHeader />
-      <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-8">
-        <div className="mb-6">
-          <BackButton fallbackPath="/admin" />
-        </div>
-        {children}
-      </main>
+    <div className="min-h-screen bg-[#F4F3F0] text-[#1C1C1E] font-sans flex">
+      {/* Sidebar */}
+      <AdminSidebar />
+
+      {/* Main content area — offset by sidebar width */}
+      <div className="flex-1 ml-56 flex flex-col min-h-screen">
+        {/* Top bar */}
+        <header className="sticky top-0 z-40 h-12 bg-white border-b border-[#E2E1DD] flex items-center px-6 justify-between">
+          <div className="flex items-center gap-2 text-xs text-[#76767E]">
+            <span className="font-semibold text-[#1C1C1E]">CMS Admin</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <a
+              href="/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-[#2D5BE3] hover:underline font-semibold"
+            >
+              ↗ View Live Site
+            </a>
+          </div>
+        </header>
+
+        {/* Page content */}
+        <main className="flex-1 p-8">
+          {children}
+        </main>
+      </div>
     </div>
   )
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { fetchStandards } from '@/lib/learning-loader'
+import { fetchStandards, fetchStandardDetail } from '@/lib/learning-loader'
 import LearningPortalClient from './LearningPortalClient'
 
 export const metadata: Metadata = {
@@ -8,12 +8,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/standards/learning' },
 }
 
-interface LearningPortalProps {
-  defaultFramework?: 'AS' | 'Ind AS'
-  searchParams?: Promise<{ framework?: string; selected?: string }>
-}
-
-export default async function LearningPortal({ defaultFramework, searchParams }: LearningPortalProps) {
+export default async function LearningPortal(props: any) {
+  const { defaultFramework, searchParams } = props || {}
   // Determine framework
   let fw: 'AS' | 'Ind AS' = defaultFramework || 'AS'
   let selectedId: string | undefined = undefined
@@ -33,10 +29,18 @@ export default async function LearningPortal({ defaultFramework, searchParams }:
   }
 
   const standards = await fetchStandards(fw)
+  const activeId = selectedId || (standards.length > 0 ? standards[0].id : '')
+  
+  // Try to load full details for selected standard, falling back to static index if DB yields null
+  let activeDetail = await fetchStandardDetail(activeId, fw)
+  if (!activeDetail) {
+    activeDetail = standards.find(s => s.id === activeId) || standards[0]
+  }
 
   return (
     <LearningPortalClient
       initialStandards={standards}
+      initialSelectedStandardDetails={activeDetail}
       defaultFramework={fw}
       initialSelectedStandardId={selectedId}
     />

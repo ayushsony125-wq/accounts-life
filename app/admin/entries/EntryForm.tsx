@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState, useTransition, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { saveEntry, uploadPdfAction } from '../actions'
-import { Info, Book, Image, Video, CheckCircle, ArrowRight, ArrowLeft, Plus, Trash2, HelpCircle } from 'lucide-react'
+import { saveEntry, getEntryRevisions, getRevisionSnapshot } from '../actions'
+import { Info, Book, Image, Video, CheckCircle, ArrowRight, ArrowLeft, Plus, Trash2, HelpCircle, History } from 'lucide-react'
+import GlobalActionBar from '../GlobalActionBar'
 
 interface EntryFormProps {
   initialEntry?: any
@@ -14,6 +15,9 @@ interface EntryFormProps {
 export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const router = useRouter()
   const [isPending, startTransition] = useTransition()
+  const [isSaving, setIsSaving] = useState(false)
+  const [isPublishing, setIsPublishing] = useState(false)
+  const [lastSaved, setLastSaved] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'resources' | 'publish'>('identity')
 
   // --- FORM STATES ---
@@ -368,86 +372,166 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setReferences(next)
   }
 
-  const handleFileChange = async (idx: number, file: File | null) => {
+  const handleFileChange = (idx: number, file: File | null) => {
     if (!file) return
-    const formData = new FormData()
-    formData.append('pdfFile', file)
-    formData.append('entrySlug', entrySlug)
-    try {
-      const res = await uploadPdfAction(formData)
-      if (res.success && res.url) {
-        updateReference(idx, 'resourceUrl', res.url)
+    if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
+      alert('Only PDF files are allowed.')
+      return
+    }
+    if (file.size > 4 * 1024 * 1024) {
+      alert('File is too large. Maximum size is 4MB.')
+      return
+    }
+
+    const reader = new FileReader()
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        updateReference(idx, 'resourceUrl', reader.result)
+        updateReference(idx, 'resourceTitle', file.name)
         updateReference(idx, 'resourceType', 'PDF')
-        alert(`PDF uploaded successfully: saved as ${res.url}`)
-      } else {
-        alert('Upload failed: ' + (res.error || 'Unknown error'))
+        alert('PDF selected and loaded. It will be saved/uploaded to the database when you save or publish the entry.')
       }
-    } catch (err: any) {
-      alert('Error uploading file: ' + (err.message || String(err)))
+    }
+    reader.readAsDataURL(file)
+  }
+
+  // --- REVISION / UNDO / REDO STATE ---
+  // Backed by real Revision records in the database. Every Save/Publish creates a snapshot.
+  const [revisionHistory, setRevisionHistory] = useState<Array<{ id: number; version: number; snapshot: any }>>([])
+  const [revisionCursor, setRevisionCursor] = useState<number>(-1)
+  const [isLoadingRevisions, setIsLoadingRevisions] = useState(false)
+
+  const ensureRevisionsLoaded = async () => {
+    if (!id || revisionHistory.length > 0 || isLoadingRevisions) return
+    setIsLoadingRevisions(true)
+    try {
+      const result = await getEntryRevisions(id)
+      if (result.success && result.revisions.length > 0) {
+        const revisionsWithSnapshots = await Promise.all(
+          [...result.revisions].reverse().map(async (rev: any) => {
+            const snapResult = await getRevisionSnapshot(rev.id)
+            return {
+              id: rev.id,
+              version: rev.version,
+              snapshot: snapResult.success ? (snapResult as any).revision?.snapshot : null,
+            }
+          })
+        )
+        const loaded = revisionsWithSnapshots.filter(r => r.snapshot !== null)
+        setRevisionHistory(loaded)
+        setRevisionCursor(loaded.length - 1)
+      }
+    } finally {
+      setIsLoadingRevisions(false)
     }
   }
 
+  useEffect(() => {
+    if (id) {
+      ensureRevisionsLoaded()
+    }
+  }, [id])
+
+  const canUndo = id != null && revisionCursor > 0
+  const canRedo = id != null && revisionCursor < revisionHistory.length - 1
+
+  const applySnapshot = (snapshot: any) => {
+    if (!snapshot) return
+    setEntryTitle(snapshot.entryTitle || '')
+    setEntrySlug(snapshot.entrySlug || '')
+    setSummary(snapshot.summary || '')
+    setStatus(snapshot.status || 'DRAFT')
+    setVerificationLevel(snapshot.verificationLevel || 'DRAFT')
+    setAuthorityPrimary(snapshot.authorityPrimary || '')
+    setAuthorityPrimaryUrl(snapshot.authorityPrimaryUrl || '')
+    setSeoTitle(snapshot.seoTitle || '')
+    setSeoDescription(snapshot.seoDescription || '')
+    setIsFeatured(!!snapshot.isFeatured)
+    setStandardCode(snapshot.standardCode || '')
+    setStandardFramework(snapshot.standardFramework || 'AS')
+    setStandardStatus(snapshot.standardStatus || 'ACTIVE')
+    setObjectiveText(snapshot.objective?.text || snapshot.objectiveText || '')
+    setScopeStatement(snapshot.scope?.statement || snapshot.scopeStatement || '')
+    if (snapshot.sections) setSections(snapshot.sections)
+    if (snapshot.faqs) setFaqs(snapshot.faqs)
+    if (snapshot.notes) setNotes(snapshot.notes)
+  }
+
+  const handleUndo = async () => {
+    await ensureRevisionsLoaded()
+    if (revisionCursor <= 0 || revisionHistory.length === 0) return
+    const newCursor = revisionCursor - 1
+    setRevisionCursor(newCursor)
+    applySnapshot(revisionHistory[newCursor]?.snapshot)
+  }
+
+  const handleRedo = async () => {
+    if (revisionCursor >= revisionHistory.length - 1) return
+    const newCursor = revisionCursor + 1
+    setRevisionCursor(newCursor)
+    applySnapshot(revisionHistory[newCursor]?.snapshot)
+  }
+
   // --- SUBMIT ---
-  const handleSubmit = (publishNow = false) => {
+  const handleSubmitInner = async (publishNow = false, isPreview = false) => {
     if (!entryTitle.trim() || !entrySlug.trim() || !summary.trim()) {
-      alert('Please fill out the Title, Slug, and Summary in Tab 1.')
+      alert('Please fill out the Title, Slug, and Summary in the Identity tab.')
       setActiveTab('identity')
       return
     }
 
-    startTransition(async () => {
-      // Map standard detail nested fields if STANDARD
-      let stdDetailObj = null
-      if (entryType === 'STANDARD') {
-        stdDetailObj = {
-          standardCode,
-          standardFramework,
-          standardStatus,
-          issuingBody,
-          dateIssued,
-          dateEffective,
-          applicabilitySummary,
-          objective: {
-            text: objectiveText,
-            sourcePara: objectiveSourcePara,
-            commentary: objectiveCommentary,
-            keyIssues: objectiveKeyIssues.split('\n').filter((x: string) => x.trim()),
-          },
-          scope: {
-            statement: scopeStatement,
-            included: scopeIncluded.split('\n').filter((x: string) => x.trim()),
-            excluded: scopeExcluded.split('\n').filter((x: string) => x.trim()),
-          },
-          definitions: definitions.map((def) => ({
-            ...def,
-            term: def.defTerm,
-            paraRef: def.defParaReference,
-            officialText: def.defOfficialText,
-            plainExplanation: def.defPlainExplanation,
+    // Map standard detail nested fields if STANDARD
+    let stdDetailObj = null
+    if (entryType === 'STANDARD') {
+      stdDetailObj = {
+        standardCode,
+        standardFramework,
+        standardStatus,
+        issuingBody,
+        dateIssued,
+        dateEffective,
+        applicabilitySummary,
+        objective: {
+          text: objectiveText,
+          sourcePara: objectiveSourcePara,
+          commentary: objectiveCommentary,
+          keyIssues: objectiveKeyIssues.split('\n').filter((x: string) => x.trim()),
+        },
+        scope: {
+          statement: scopeStatement,
+          included: scopeIncluded.split('\n').filter((x: string) => x.trim()),
+          excluded: scopeExcluded.split('\n').filter((x: string) => x.trim()),
+        },
+        definitions: definitions.map((def) => ({
+          ...def,
+          term: def.defTerm,
+          paraRef: def.defParaReference,
+          officialText: def.defOfficialText,
+          plainExplanation: def.defPlainExplanation,
+        })),
+        disclosureGroups: disclosureGroups.map((g) => ({
+          ...g,
+          heading: g.groupHeading,
+          paraRange: g.groupParaRange,
+          items: g.items?.map((item: any) => ({
+            ...item,
+            text: item.itemText,
+            isConditional: item.itemIsConditional,
           })),
-          disclosureGroups: disclosureGroups.map((g) => ({
-            ...g,
-            heading: g.groupHeading,
-            paraRange: g.groupParaRange,
-            items: g.items?.map((item: any) => ({
-              ...item,
-              text: item.itemText,
-              isConditional: item.itemIsConditional,
-            })),
-          })),
-          comparisonRows: comparisonRows.map((r: any) => ({
-            ...r,
-            valueStd1: r.valueStd1,
-            valueStd2: r.valueStd2,
-          })),
-        }
+        })),
+        comparisonRows: comparisonRows.map((r: any) => ({
+          ...r,
+          valueStd1: r.valueStd1,
+          valueStd2: r.valueStd2,
+        })),
       }
+    }
 
-      // Combine video & references
-      const combinedResources = [
-        ...videos.map((v) => ({ ...v, resourceType: 'VIDEO' })),
-        ...references,
-      ]
+    // Combine video & references
+    const combinedResources = [
+      ...videos.map((v) => ({ ...v, resourceType: 'VIDEO' })),
+      ...references,
+    ]
 
       const payload = {
         id,
@@ -557,18 +641,30 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         })),
       }
 
-      try {
-        const res = await saveEntry(payload)
-        if (res.success) {
+    try {
+      const res = await saveEntry(payload)
+      if (res.success) {
+        if (isPreview) {
+          window.open(`/preview/${res.id || id}`, '_blank')
+          if (!id && res.id) {
+            router.push(`/admin/entries/${res.id}/edit`)
+          } else {
+            router.refresh()
+          }
+        } else {
           router.push('/admin/entries')
           router.refresh()
-        } else {
-          alert('Error saving entry: ' + ((res as any).error || 'Unknown server response.'))
         }
-      } catch (e: any) {
-        alert('An error occurred during submission: ' + (e.message || String(e)))
+      } else {
+        alert('Error saving entry: ' + ((res as any).error || 'Unknown server response.'))
       }
-    })
+    } catch (e: any) {
+      alert('An error occurred during submission: ' + (e.message || String(e)))
+    }
+  }
+
+  const handleSubmit = (publishNow = false) => {
+    startTransition(() => handleSubmitInner(publishNow))
   }
 
   // --- PRE-PUBLISH CHECKS ---
@@ -581,32 +677,85 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   ]
   const allPassed = checks.every((c: any) => c.passed)
 
+  // Handle save and publish via GlobalActionBar
+  const handleSaveDraftFromBar = () => {
+    setIsSaving(true)
+    startTransition(async () => {
+      try {
+        await handleSubmitInner(false)
+        setLastSaved(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }))
+      } finally {
+        setIsSaving(false)
+      }
+    })
+  }
+
+  const handlePublishFromBar = () => {
+    setIsPublishing(true)
+    startTransition(async () => {
+      try {
+        await handleSubmitInner(true)
+      } finally {
+        setIsPublishing(false)
+      }
+    })
+  }
+
+  const handlePreviewFromBar = () => {
+    setIsSaving(true)
+    startTransition(async () => {
+      try {
+        await handleSubmitInner(false, true)
+        setLastSaved(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }))
+      } finally {
+        setIsSaving(false)
+      }
+    })
+  }
+
   return (
-    <div className="space-y-6 max-w-4xl mx-auto">
-      {/* Form header */}
-      <div className="flex items-center gap-3 border-b border-[#E2E1DD] pb-4">
+    <div className="space-y-6 max-w-4xl">
+      {/* Global Action Bar */}
+      <GlobalActionBar
+        title={id ? (entryTitle || 'Edit Entry') : 'New Entry'}
+        subtitle={id ? `/${entrySlug}` : 'Configure and publish your content'}
+        isSaving={isSaving}
+        isPublishing={isPublishing}
+        lastSaved={lastSaved}
+        status={status as 'DRAFT' | 'PUBLISHED'}
+        onSaveDraft={handleSaveDraftFromBar}
+        onPublish={handlePublishFromBar}
+        onPreview={handlePreviewFromBar}
+        onUndo={handleUndo}
+        onRedo={handleRedo}
+        canUndo={canUndo && !isLoadingRevisions}
+        canRedo={canRedo}
+        viewLiveHref={entrySlug ? `/standards/${entrySlug}` : undefined}
+      />
+
+      {/* Back link + History link */}
+      <div className="flex items-center justify-between">
         <Link
           href="/admin/entries"
-          className="p-1 text-[#76767E] hover:text-[#1C1C1E] transition-colors"
-          title="Back to List"
+          className="flex items-center gap-1 text-xs text-[#76767E] hover:text-[#1C1C1E] transition-colors font-medium"
         >
-          <ArrowLeft size={16} />
+          <ArrowLeft size={13} /> Back to All Entries
         </Link>
-        <div>
-          <h1 className="text-xl font-bold tracking-tight text-[#1C1C1E]">
-            {id ? `Edit Entry: ${entryTitle}` : 'Create New Content Entry'}
-          </h1>
-          <p className="text-xs text-[#76767E] mt-0.5">
-            Configure metadata, content blocks, illustrations, and publish policies.
-          </p>
-        </div>
+        {id && (
+          <Link
+            href={`/admin/entries/${id}/history`}
+            className="flex items-center gap-1.5 text-xs text-[#2D5BE3] hover:underline font-semibold"
+          >
+            <History size={12} /> Version History
+          </Link>
+        )}
       </div>
 
       {/* Tabs list */}
-      <div className="flex border-b border-[#E2E1DD] gap-1 bg-white p-1 rounded-md">
+      <div className="flex border-b border-[#E2E1DD] gap-1">
         {(['identity', 'content', 'resources', 'publish'] as const).map((tab) => {
           const active = activeTab === tab
-          const label = tab.charAt(0).toUpperCase() + tab.slice(1)
+          const label = { identity: 'Identity', content: 'Content', resources: 'Resources', publish: 'Publish' }[tab]
           const Icon = {
             identity: Info,
             content: Book,
@@ -618,10 +767,10 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded transition-colors ${
+              className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold border-b-2 -mb-px transition-all ${
                 active
-                  ? 'bg-[#2D5BE3] text-white'
-                  : 'text-[#76767E] hover:text-[#1C1C1E] hover:bg-[#F4F3F0]'
+                  ? 'border-[#2D5BE3] text-[#2D5BE3]'
+                  : 'border-transparent text-[#76767E] hover:text-[#1C1C1E]'
               }`}
             >
               <Icon size={12} />

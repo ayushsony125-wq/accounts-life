@@ -168,6 +168,103 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
           standardFramework: fwKey
         }
       },
+      select: {
+        entrySlug: true,
+        entryTitle: true,
+        summary: true,
+        standardDetail: {
+          select: {
+            standardCode: true,
+            standardFramework: true
+          }
+        }
+      }
+    })
+  } catch (err) {
+    console.error('Failed to load standards from DB:', err)
+  }
+
+  const dbMapped: Record<string, Standard> = {}
+  for (const entry of dbEntries) {
+    const detail = entry.standardDetail
+    if (!detail) continue
+
+    const id = entry.entrySlug // e.g. as-1 or ind-as-115
+
+    dbMapped[id] = {
+      id: id,
+      code: detail.standardCode.replace('-', ' '),
+      title: entry.entryTitle,
+      shortTitle: entry.entryTitle,
+      framework: framework,
+      description: entry.summary,
+      content: {
+        objective: '',
+        scope: {
+          statement: '',
+          included: [],
+          excluded: []
+        },
+        keyPrinciples: []
+      },
+      examples: [],
+      lectureUrl: '',
+      pdfPagesCount: 0,
+      resources: [],
+      faqs: []
+    }
+  }
+
+  const mappedList = staticList.map(item => {
+    if (dbMapped[item.id]) {
+      const dbStd = dbMapped[item.id]
+      return {
+        ...dbStd,
+        code: item.code,
+        shortTitle: item.shortTitle,
+        title: item.title,
+      }
+    } else {
+      return {
+        id: item.id,
+        code: item.code,
+        title: item.title,
+        shortTitle: item.shortTitle,
+        framework: framework,
+        description: 'Standard guidelines and reference text under development.',
+        content: {
+          objective: '',
+          scope: {
+            statement: '',
+            included: [],
+            excluded: []
+          },
+          keyPrinciples: []
+        },
+        examples: [],
+        lectureUrl: '',
+        pdfPagesCount: 0,
+        resources: [],
+        faqs: []
+      }
+    }
+  })
+
+  return sanitizeObject(mappedList)
+}
+
+export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'): Promise<Standard | null> {
+  const fwKey = framework === 'AS' ? 'AS' : 'IND_AS'
+  let entry: any = null
+  try {
+    entry = await prisma.entry.findFirst({
+      where: {
+        entrySlug: id,
+        entryType: 'STANDARD',
+        standardDetail: {
+          standardFramework: fwKey
+        }
+      },
       include: {
         standardDetail: {
           include: {
@@ -185,319 +282,76 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
       }
     })
   } catch (err) {
-    console.error('Failed to load standards from DB:', err)
+    console.error(`Failed to load standard detail for ${id}:`, err)
+    return null
   }
 
-  // Map database entries to Standard shape
-  const dbMapped: Record<string, Standard> = {}
-  for (const entry of dbEntries) {
-    const detail = entry.standardDetail
-    if (!detail) continue
+  if (!entry) return null
 
-    const keyPrinciples = entry.notes.map((n: any) => ({
-      title: n.noteTitle || 'Key Principle',
-      body: n.noteBody
-    }))
-    
-    // Fallback if no specific principles in DB notes
-    if (keyPrinciples.length === 0) {
-      if (detail.provisionsRecognitionIntro) {
-        keyPrinciples.push({
-          title: 'Recognition & Provisions',
-          body: detail.provisionsRecognitionIntro
-        })
-      }
-      if (detail.provisionsMeasurementIntro) {
-        keyPrinciples.push({
-          title: 'Measurement Basis',
-          body: detail.provisionsMeasurementIntro
-        })
-      }
-    }
+  const detail = entry.standardDetail
+  if (!detail) return null
 
-    let scopeIncluded = Array.isArray(detail.scopeIncluded) ? detail.scopeIncluded : []
-    let scopeExcluded = Array.isArray(detail.scopeExcluded) ? detail.scopeExcluded : []
-
-    let examples = entry.illustrations.map((i: any) => ({
-      title: i.illusTitle,
-      scenario: i.illusScenario || '',
-      guidance: i.illusAnswer || i.illusWorking || '',
-      working: i.illusWorking || '',
-      answer: i.illusAnswer || '',
-      note: i.illusNote || '',
-      difficulty: i.illusDifficulty || 'INTERMEDIATE',
-      paraRef: i.illusParaRef || ''
-    }))
-
-    const videoRes = entry.resources.find((r: any) => r.resourceType === 'VIDEO')
-    const pdfRes = entry.resources.find((r: any) => r.resourceType === 'PDF')
-
-    const id = entry.entrySlug // e.g. as-1 or ind-as-115
-
-    let resourcesList = entry.resources.map((r: any) => {
-      let url = r.resourceUrl || ''
-      if (r.resourceType === 'PDF' && url.startsWith('data:')) {
-        url = `/api/pdfs/${id}`
-      }
-      return {
-        title: r.resourceTitle,
-        url: url,
-        type: r.resourceType as 'PDF' | 'VIDEO' | 'REFERENCE'
-      }
-    })
-
-    // Ensure we have a default reference link if none are in the DB
-    if (resourcesList.length === 0) {
-      resourcesList.push({
-        title: 'Official Reference Link',
-        url: entry.authorityPrimaryUrl || (framework === 'AS' ? 'https://www.icai.org' : 'https://www.mca.gov.in'),
-        type: 'REFERENCE'
+  const keyPrinciples = entry.notes.map((n: any) => ({
+    title: n.noteTitle || 'Key Principle',
+    body: n.noteBody
+  }))
+  
+  if (keyPrinciples.length === 0) {
+    if (detail.provisionsRecognitionIntro) {
+      keyPrinciples.push({
+        title: 'Recognition & Provisions',
+        body: detail.provisionsRecognitionIntro
       })
     }
-
-    // Ensure AS 1 and Ind AS 1 have real test content
-    let finalObjective = detail.objectiveText || ''
-    let finalScopeStatement = detail.scopeStatement || ''
-    let finalScopeIncluded = scopeIncluded
-    let finalScopeExcluded = scopeExcluded
-    let finalKeyPrinciples = keyPrinciples
-
-    if (id === 'as-1') {
-      // Allow database values to take full precedence without overrides
-    } else if (id === 'ind-as-1') {
-      if (!finalObjective || finalObjective.startsWith('Prescribes presentation and recognition')) {
-        finalObjective = 'This Standard prescribes the basis for presentation of general purpose financial statements to ensure comparability both with the entity’s financial statements of previous periods and with the financial statements of other entities. It sets out overall requirements for the presentation of financial statements, guidelines for their structure and minimum requirements for their content.'
-      }
-      if (!finalScopeStatement || finalScopeStatement.startsWith('Applies to entities preparing')) {
-        finalScopeStatement = 'Applies to specified classes of companies as prescribed under the Companies (Indian Accounting Standards) Rules, 2015.'
-      }
-      if (finalScopeIncluded.length === 0) {
-        finalScopeIncluded = [
-          'All listed companies (on any stock exchange in India or outside India)',
-          'Unlisted companies with net worth of ₹250 crore or more',
-          'Holding, subsidiary, joint venture, or associate companies of the above listed/unlisted companies'
-        ]
-      }
-      if (finalScopeExcluded.length === 0) {
-        finalScopeExcluded = [
-          'Companies not meeting the net worth criteria (which continue to apply traditional AS)',
-          'Entities specifically exempt under statutory regulations'
-        ]
-      }
-      if (finalKeyPrinciples.length === 0) {
-        finalKeyPrinciples = [
-          {
-            title: 'True and Fair Presentation',
-            body: 'Financial statements shall present a true and fair view of the financial position, performance, and cash flows of an entity, requiring faithful representation of transactions.'
-          },
-          {
-            title: 'Accrual Basis of Accounting',
-            body: 'An entity shall prepare its financial statements, except for cash flow information, using the accrual basis of accounting.'
-          },
-          {
-            title: 'Offsetting',
-            body: 'An entity shall not offset assets and liabilities or income and expenses, unless required or permitted by an Ind AS.'
-          },
-          {
-            title: 'Structure of Financial Statements',
-            body: 'Requires presenting a complete set of financial statements including Statement of Profit and Loss with Other Comprehensive Income (OCI) and Statement of Changes in Equity (SOCE).'
-          }
-        ]
-      }
-      if (examples.length === 0) {
-        examples = [
-          {
-            title: 'Classification of Current/Non-current Liabilities',
-            scenario: 'A long-term loan is due for repayment in 8 months, but the company has an unconditional right to refinance the loan for another 24 months.',
-            guidance: 'Under Ind AS 1, the loan is classified as non-current because the entity has an unconditional right to defer settlement for at least twelve months after the reporting period.'
-          },
-          {
-            title: 'Presentation of Other Comprehensive Income (OCI)',
-            scenario: 'An entity has gains on revaluation of property and actuarial losses on defined benefit plans.',
-            guidance: 'Ind AS 1 requires these items to be presented in the Statement of Profit and Loss under the OCI section, classified by whether they will be reclassified to profit or loss in future periods.'
-          }
-        ]
-      }
-      resourcesList = [
-        {
-          title: pdfRes ? pdfRes.resourceTitle : 'Ind AS 1 — Official Standard Text (MCA)',
-          url: pdfRes ? `/api/pdfs/${id}` : 'https://www.mca.gov.in/content/dam/mca/pdf/Ind_AS_1.pdf',
-          type: 'PDF'
-        },
-        {
-          title: 'Ind AS 1 — Educational Material (ICAI)',
-          url: 'https://www.icai.org/post/educational-material-on-ind-as-1',
-          type: 'REFERENCE'
-        }
-      ]
-    }
-
-    dbMapped[id] = {
-      id: id,
-      code: detail.standardCode.replace('-', ' '), // standardCode e.g. AS-1 => AS 1
-      title: entry.entryTitle,
-      shortTitle: entry.entryTitle,
-      framework: framework,
-      description: entry.summary,
-      content: {
-        objective: finalObjective,
-        scope: {
-          statement: finalScopeStatement,
-          included: finalScopeIncluded,
-          excluded: finalScopeExcluded
-        },
-        keyPrinciples: finalKeyPrinciples
-      },
-      examples: examples,
-      lectureUrl: videoRes?.resourceUrl || 'https://www.youtube.com/watch?v=mock_lecture',
-      pdfPagesCount: id === 'as-1' ? 16 : (pdfRes ? 24 : 3),
-      resources: resourcesList,
-      faqs: entry.faqs.map((f: any) => ({
-        id: f.id,
-        question: f.faqQuestion,
-        answer: f.faqAnswer,
-        sourceRef: f.faqSourceRef || undefined,
-        category: f.faqCategory
-      }))
+    if (detail.provisionsMeasurementIntro) {
+      keyPrinciples.push({
+        title: 'Measurement Basis',
+        body: detail.provisionsMeasurementIntro
+      })
     }
   }
 
-  // Merge static list with database mappings
-  const mappedList = staticList.map(item => {
-    let std: Standard
+  let scopeIncluded = Array.isArray(detail.scopeIncluded) ? detail.scopeIncluded : []
+  let scopeExcluded = Array.isArray(detail.scopeExcluded) ? detail.scopeExcluded : []
 
-    // Check if we have standard in DB
-    if (dbMapped[item.id]) {
-      const dbStd = dbMapped[item.id]
-      std = {
-        ...dbStd,
-        code: item.code,
-        shortTitle: item.shortTitle,
-        title: item.title,
-      }
-    } else if (item.id === 'intro-as') {
-      std = {
-        id: item.id,
-        code: item.code,
-        title: item.title,
-        shortTitle: item.shortTitle,
-        framework: framework,
-        description: 'Overview of the Accounting Standards (AS) framework and their applicability to different classes of enterprises.',
-        content: {
-          objective: 'To understand the classification of enterprises and the applicability of Accounting Standards (AS) to ensure compliance and proper financial reporting.',
-          scope: {
-            statement: 'Applicable to all corporate and non-corporate entities preparing general purpose financial statements under Indian GAAP.',
-            included: [
-              'Level I Entities (Large enterprises with turnover > ₹250 crore or borrowings > ₹50 crore)',
-              'Level II Entities (Medium enterprises with turnover ₹50 - ₹250 crore or borrowings ₹10 - ₹50 crore)',
-              'Level III Entities (Small enterprises with turnover ₹10 - ₹50 crore or borrowings ₹2 - ₹10 crore)',
-              'Level IV Entities (Micro enterprises with turnover < ₹10 crore and borrowings < ₹2 crore)'
-            ],
-            excluded: [
-              'Entities adopting Indian Accounting Standards (Ind AS)',
-              'Exempted specific non-corporate entities under statutory guidelines'
-            ]
-          },
-          keyPrinciples: [
-            {
-              title: 'Entity Classification',
-              body: 'Enterprises are classified into four levels (Level I to IV) to determine the applicability of Accounting Standards and eligibility for specific exemptions or relaxations.'
-            },
-            {
-              title: 'Exemptions and Relaxations',
-              body: 'Level II, III, and IV entities (collectively called MSMEs) are exempt from certain standards such as AS 3 (Cash Flow Statements), AS 17 (Segment Reporting), and enjoy relaxations in others like AS 15 (Employee Benefits).'
-            }
-          ]
-        },
-        examples: [],
-        lectureUrl: 'https://youtu.be/nyA1pKuWVWY?si=T7aO6wUVdG8E9Gme',
-        pdfPagesCount: 3,
-        resources: [
-          {
-            title: 'Official Statutory Reference',
-            url: 'https://www.icai.org',
-            type: 'REFERENCE'
-          }
-        ]
-      }
-    } else if (item.id === 'intro-ind-as') {
-      std = {
-        id: item.id,
-        code: item.code,
-        title: item.title,
-        shortTitle: item.shortTitle,
-        framework: framework,
-        description: 'Overview of the IFRS-converged Indian Accounting Standards (Ind AS) framework and transition roadmaps.',
-        content: {
-          objective: 'To outline the applicability roadmap and requirements for entities transitioning to or complying with Indian Accounting Standards (Ind AS).',
-          scope: {
-            statement: 'Applicable to specified classes of companies as prescribed under the Companies (Indian Accounting Standards) Rules, 2015.',
-            included: [
-              'All listed companies (on any stock exchange in India or outside India)',
-              'Unlisted companies with net worth of ₹250 crore or more',
-              'Holding, subsidiary, joint venture, or associate companies of the above listed/unlisted companies'
-            ],
-            excluded: [
-              'Companies not meeting the net worth criteria (which continue to apply traditional AS)',
-              'Entities specifically exempt under statutory regulations'
-            ]
-          },
-          keyPrinciples: [
-            {
-              title: 'IFRS Convergence',
-              body: 'Ind AS are converged with International Financial Reporting Standards (IFRS) to enhance global comparability and transparency of Indian corporate financial reporting.'
-            },
-            {
-              title: 'Mandatory vs Voluntary Adoption',
-              body: 'Companies meeting the net worth criteria must adopt Ind AS mandatorily. Other companies may adopt them voluntarily, but once Ind AS is adopted, it is irreversible.'
-            }
-          ]
-        },
-        examples: [],
-        lectureUrl: 'https://youtu.be/nyA1pKuWVWY?si=T7aO6wUVdG8E9Gme',
-        pdfPagesCount: 3,
-        resources: [
-          {
-            title: 'Official Statutory Reference',
-            url: 'https://www.mca.gov.in',
-            type: 'REFERENCE'
-          }
-        ]
-      }
-    } else {
-      std = {
-        id: item.id,
-        code: item.code,
-        title: item.title,
-        shortTitle: item.shortTitle,
-        framework: framework,
-        description: 'Standard guidelines and reference text under development.',
-        content: {
-          objective: `The objective of this standard is to prescribe the accounting treatment and disclosures for ${item.title.replace(/^(AS|Ind AS)\s+\d+\s+–\s+/, '')}.`,
-          scope: {
-            statement: 'Applicability details and criteria are currently under development.',
-            included: ['Standard compliance entities'],
-            excluded: ['Entities exempt under relevant statutes']
-          },
-          keyPrinciples: [
-            { title: 'Overview', body: 'Statutory guidelines and key policies will be loaded here by the administrator.' }
-          ]
-        },
-        examples: [],
-        lectureUrl: 'https://www.youtube.com/watch?v=mock_lecture',
-        pdfPagesCount: 3,
-        resources: [
-          {
-            title: 'Official Reference Link',
-            url: framework === 'AS' ? 'https://www.icai.org' : 'https://www.mca.gov.in',
-            type: 'REFERENCE'
-          }
-        ]
-      }
+  let examples = entry.illustrations.map((i: any) => ({
+    title: i.illusTitle,
+    scenario: i.illusScenario || '',
+    guidance: i.illusAnswer || i.illusWorking || '',
+    working: i.illusWorking || '',
+    answer: i.illusAnswer || '',
+    note: i.illusNote || '',
+    difficulty: i.illusDifficulty || 'INTERMEDIATE',
+    paraRef: i.illusParaRef || ''
+  }))
+
+  const videoRes = entry.resources.find((r: any) => r.resourceType === 'VIDEO')
+  const pdfRes = entry.resources.find((r: any) => r.resourceType === 'PDF')
+
+  let resourcesList = entry.resources.map((r: any) => {
+    let url = r.resourceUrl || ''
+    if (r.resourceType === 'PDF' && url.startsWith('data:')) {
+      url = `/api/pdfs/${id}`
     }
+    return {
+      title: r.resourceTitle,
+      url: url,
+      type: r.resourceType as 'PDF' | 'VIDEO' | 'REFERENCE'
+    }
+  })
 
-    // Disk-based PDF auto-mapping check
-    const localPdfPath = `/pdfs/${item.id}.pdf`
+  if (resourcesList.length === 0) {
+    resourcesList.push({
+      title: 'Official Reference Link',
+      url: entry.authorityPrimaryUrl || (framework === 'AS' ? 'https://www.icai.org' : 'https://www.mca.gov.in'),
+      type: 'REFERENCE'
+    })
+  }
+
+  // If the database has a PDF resource, use it as the PDF resource.
+  // Otherwise, fall back to checking if there is a local file.
+  if (!pdfRes) {
+    const localPdfPath = `/pdfs/${id}.pdf`
     const absolutePdfPath = path.join(process.cwd(), 'public', localPdfPath)
     let hasLocalPdf = false
     try {
@@ -507,19 +361,42 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
     } catch (e) {}
 
     if (hasLocalPdf) {
-      const resources = std.resources ? [...std.resources] : []
-      // Remove other PDF references to avoid duplicate tabs or conflicting links
-      const filtered = resources.filter(r => r.type !== 'PDF')
-      filtered.unshift({
-        title: `${item.code} Official PDF Document`,
+      resourcesList.unshift({
+        title: `${detail.standardCode.replace('-', ' ')} Official PDF Document`,
         url: localPdfPath,
         type: 'PDF'
       })
-      std.resources = filtered
     }
+  }
 
-    return std
-  })
+  const result: Standard = {
+    id: id,
+    code: detail.standardCode.replace('-', ' '),
+    title: entry.entryTitle,
+    shortTitle: entry.entryTitle,
+    framework: framework,
+    description: entry.summary,
+    content: {
+      objective: detail.objectiveText || '',
+      scope: {
+        statement: detail.scopeStatement || '',
+        included: scopeIncluded,
+        excluded: scopeExcluded
+      },
+      keyPrinciples: keyPrinciples
+    },
+    examples: examples,
+    lectureUrl: videoRes?.resourceUrl || 'https://www.youtube.com/watch?v=mock_lecture',
+    pdfPagesCount: id === 'as-1' ? 16 : (pdfRes ? 24 : 3),
+    resources: resourcesList,
+    faqs: entry.faqs.map((f: any) => ({
+      id: f.id,
+      question: f.faqQuestion,
+      answer: f.faqAnswer,
+      sourceRef: f.faqSourceRef || undefined,
+      category: f.faqCategory
+    }))
+  }
 
-  return sanitizeObject(mappedList)
+  return sanitizeObject(result)
 }

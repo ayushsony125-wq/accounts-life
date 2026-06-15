@@ -18,6 +18,7 @@ import {
   HelpCircle
 } from 'lucide-react'
 import { saveHomepageConfig } from '../actions'
+import GlobalActionBar from '../GlobalActionBar'
 
 // ─── Default Static Configuration Fallbacks ───────────────────────────────────
 
@@ -378,7 +379,16 @@ export default function HomepageConfigClient({ initialLayoutConfig, initialFoote
 
   return (
     <div className="space-y-6">
-      {/* Header section */}
+      {/* Global action bar */}
+      <GlobalActionBar
+        title="Homepage Configuration"
+        subtitle="Manage layout, headings, videos, and footer links"
+        isPublishing={loading}
+        onPublish={handlePublish}
+        viewLiveHref="/"
+      />
+
+      {/* Page header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#E2E1DD] pb-5">
         <div>
           <h1 className="text-2xl font-bold tracking-tight text-[#1C1C1E]">
@@ -396,14 +406,6 @@ export default function HomepageConfigClient({ initialLayoutConfig, initialFoote
           >
             <RotateCcw size={14} />
             <span>Reset Defaults</span>
-          </button>
-          <button
-            onClick={handlePublish}
-            disabled={loading}
-            className="flex items-center gap-1.5 bg-[#2D5BE3] hover:bg-[#2450CC] text-white px-4 py-2 rounded-md text-xs font-bold transition-all disabled:opacity-60 shadow-xs"
-          >
-            <Save size={14} />
-            <span>{loading ? 'Publishing...' : 'Publish Live'}</span>
           </button>
         </div>
       </div>

@@ -64,15 +64,15 @@ export default function EntriesListClient({ initialEntries }: EntriesListClientP
           <h1 className="text-2xl font-bold tracking-tight text-[#1C1C1E]">
             Content Manager
           </h1>
-          <p className="text-xs text-[#76767E] mt-1">
-            Search, filter, edit, or delete existing concept articles, accounting standards, and journal entries.
+          <p className="text-sm text-[#76767E] mt-1">
+            {entries.length} total entries · Search, filter, edit, or delete content.
           </p>
         </div>
         <Link
           href="/admin/entries/new"
-          className="bg-[#2D5BE3] hover:bg-[#2450CC] text-white px-4 py-2 rounded-md text-xs font-semibold transition-colors shadow-xs"
+          className="flex items-center gap-1.5 bg-[#2D5BE3] hover:bg-[#2450CC] text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm"
         >
-          + Create New Entry
+          <span>+</span> New Entry
         </Link>
       </div>
 

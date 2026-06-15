@@ -97,6 +97,7 @@ model Entry {
   notes          EntryNote[]
   faqs           EntryFAQ[]
   resources      EntryResource[]
+  revisions      Revision[]
 
   relationsFrom EntryRelationship[] @relation("RelationFrom")
   relationsTo   EntryRelationship[] @relation("RelationTo")
@@ -471,12 +472,76 @@ model MediaFile {
   fileName      String             @map("file_name")
   filePath      String             @map("file_path")
   fileSizeBytes Int?               @map("file_size_bytes")
+  fileType      String             @default("PDF") @map("file_type")
+  mimeType      String?            @map("mime_type")
+  fileHash      String?            @map("file_hash")
+  isArchived    Boolean            @default(false) @map("is_archived")
   sourceType    ResourceSourceType @map("source_type")
   uploadedAt    DateTime           @default(now()) @map("uploaded_at")
 
-  resources EntryResource[]
+  versions      MediaVersion[]
+  resources     EntryResource[]
 
   @@map("media_files")
+}
+
+model MediaVersion {
+  id            Int      @id @default(autoincrement())
+  mediaFileId   Int      @map("media_file_id")
+  versionNumber Int      @map("version_number")
+  fileName      String   @map("file_name")
+  filePath      String   @map("file_path")
+  fileSizeBytes Int?     @map("file_size_bytes")
+  uploadedAt    DateTime @default(now()) @map("uploaded_at")
+
+  mediaFile     MediaFile @relation(fields: [mediaFileId], references: [id], onDelete: Cascade)
+
+  @@index([mediaFileId])
+  @@map("media_versions")
+}
+
+model Revision {
+  id          Int      @id @default(autoincrement())
+  entryId     Int      @map("entry_id")
+  version     Int      @default(1)
+  action      String
+  snapshot    Json
+  isPublished Boolean  @default(false) @map("is_published")
+  description String?  @db.Text
+  userEmail   String?  @map("user_email")
+  ipAddress   String?  @map("ip_address")
+  userAgent   String?  @map("user_agent")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  entry       Entry    @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@index([entryId])
+  @@map("revisions")
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  userEmail   String?  @map("user_email")
+  action      String
+  entityType  String   @map("entity_type")
+  entityId    String   @map("entity_id")
+  description String?  @db.Text
+  ipAddress   String?  @map("ip_address")
+  userAgent   String?  @map("user_agent")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([entityType, entityId])
+  @@map("audit_logs")
+}
+
+model ContentLock {
+  id          Int      @id @default(autoincrement())
+  entrySlug   String   @unique @map("entry_slug")
+  userEmail   String   @map("user_email")
+  lockedAt    DateTime @default(now()) @map("locked_at")
+  expiresAt   DateTime @map("expires_at")
+
+  @@map("content_locks")
 }
 
 // ============================================================

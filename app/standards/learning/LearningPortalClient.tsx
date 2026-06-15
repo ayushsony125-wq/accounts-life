@@ -29,6 +29,7 @@ import {
   ChevronDown
 } from 'lucide-react'
 import { Standard } from '@/lib/learning-loader'
+import { getStandardDetailAction } from './actions'
 
 const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   // AS
@@ -476,12 +477,14 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
 interface LearningPortalClientProps {
   initialStandards: Standard[]
+  initialSelectedStandardDetails: Standard
   defaultFramework: 'AS' | 'Ind AS'
   initialSelectedStandardId?: string
 }
 
 export default function LearningPortalClient({
   initialStandards,
+  initialSelectedStandardDetails,
   defaultFramework,
   initialSelectedStandardId
 }: LearningPortalClientProps) {
@@ -494,13 +497,50 @@ export default function LearningPortalClient({
   const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard' | 'examples' | 'faqs'>('standard')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
+  const [selectedStandardDetails, setSelectedStandardDetails] = useState<Standard>(initialSelectedStandardDetails)
+  const [loadedStandards, setLoadedStandards] = useState<Record<string, Standard>>({
+    [initialSelectedStandardDetails.id]: initialSelectedStandardDetails
+  })
+  const [isLoadingDetails, setIsLoadingDetails] = useState(false)
+
   useEffect(() => {
     if (activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') {
       setLastActiveBaseTab(activeTab)
     }
   }, [activeTab])
 
-  const currentStandard = initialStandards.find((s) => s.id === selectedStandardId) || initialStandards[0]
+  useEffect(() => {
+    async function loadDetails() {
+      const activeId = selectedStandardId || initialStandards[0]?.id
+      if (!activeId) return
+      
+      if (loadedStandards[activeId]) {
+        setSelectedStandardDetails(loadedStandards[activeId])
+        return
+      }
+
+      setIsLoadingDetails(true)
+      try {
+        const details = await getStandardDetailAction(activeId, defaultFramework)
+        if (details) {
+          setLoadedStandards(prev => ({ ...prev, [activeId]: details }))
+          setSelectedStandardDetails(details)
+        } else {
+          const fallback = initialStandards.find(s => s.id === activeId)
+          if (fallback) {
+            setSelectedStandardDetails(fallback)
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load standard details:', err)
+      } finally {
+        setIsLoadingDetails(false)
+      }
+    }
+    loadDetails()
+  }, [selectedStandardId, defaultFramework, initialStandards])
+
+  const currentStandard = selectedStandardDetails || initialSelectedStandardDetails
   const uploadedPdf = currentStandard.resources?.find((r) => r.type === 'PDF' && r.url)
   const ytId = getYouTubeId(currentStandard.lectureUrl)
 
@@ -1067,6 +1107,24 @@ export default function LearningPortalClient({
               </div>
             )}
 
+            {activeTab === 'pdf' && (
+              <div className="flex items-center gap-1.5 flex-nowrap">
+                {uploadedPdf && (
+                  <a
+                    href={uploadedPdf.url}
+                    download
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 transition-colors shrink-0 shadow-xs cursor-pointer"
+                    title="Download PDF exactly as uploaded"
+                  >
+                    <Download size={14} className="shrink-0" />
+                    Download PDF
+                  </a>
+                )}
+              </div>
+            )}
+
             {(activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') && (
               <>
                 <button
@@ -1091,8 +1149,25 @@ export default function LearningPortalClient({
         {/* ─── Tab Content Views ──────────────────────────────────────────────── */}
         <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' ? 'p-2 sm:p-4 pt-1 sm:pt-2' : 'p-4 md:p-6'}`}>
 
-          {/* 1. STANDARD VIEW */}
-          {activeTab === 'standard' && (
+          {isLoadingDetails ? (
+            <div className="w-full space-y-8 animate-pulse p-4 flex-1 flex flex-col justify-start">
+              <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded-lg w-1/4 mb-4"></div>
+              <div className="space-y-3">
+                <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded-lg w-full"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded-lg w-11/12"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded-lg w-5/6"></div>
+              </div>
+              <div className="h-32 bg-gray-200 dark:bg-gray-800 rounded-xl w-full mt-6"></div>
+              <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded-lg w-2/3 mt-6"></div>
+              <div className="space-y-3 mt-4">
+                <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded-lg w-full"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded-lg w-5/6"></div>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* 1. STANDARD VIEW */}
+              {activeTab === 'standard' && (
             currentStandard.id === 'as-1' ? (
               <AS1StandardTabContent
                 navigateToPdfPage={navigateToPdfPage}
@@ -1623,23 +1698,7 @@ export default function LearningPortalClient({
           {/* 4. PREMIUM DOCUMENT PDF VIEWER VIEW */}
           {activeTab === 'pdf' && (
             uploadedPdf ? (
-              <div className="w-full h-[calc(100vh-170px)] min-h-[600px] bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden shadow-xs flex flex-col">
-                <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border-b border-[#E2E1DD] dark:border-gray-800 p-3 flex items-center justify-between shrink-0">
-                  <span className="text-xs font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider">
-                    {uploadedPdf.title || `${currentStandard.code} PDF Document`}
-                  </span>
-                  <a
-                    href={uploadedPdf.url}
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-[11.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs cursor-pointer"
-                    title="Download PDF exactly as uploaded"
-                  >
-                    <Download size={14} className="shrink-0" />
-                    Download PDF
-                  </a>
-                </div>
+              <div className="w-full h-[calc(100vh-130px)] min-h-[600px] bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden shadow-xs flex flex-col">
                 <iframe
                   key={pdfPage}
                   src={`${uploadedPdf.url}#page=${pdfPage}`}
@@ -1648,7 +1707,7 @@ export default function LearningPortalClient({
                 />
               </div>
             ) : (
-              <div className="w-full h-[calc(100vh-170px)] min-h-[600px] border border-dashed border-[#E2E1DD] dark:border-gray-800 rounded-xl p-8 text-center flex flex-col items-center justify-center bg-white dark:bg-[#111726]/30">
+              <div className="w-full h-[calc(100vh-130px)] min-h-[600px] border border-dashed border-[#E2E1DD] dark:border-gray-800 rounded-xl p-8 text-center flex flex-col items-center justify-center bg-white dark:bg-[#111726]/30">
                 <div className="w-12 h-12 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-full flex items-center justify-center shadow-2xs mb-3">
                   <FileText size={20} className="text-[#A0A0A8]" />
                 </div>
@@ -1658,6 +1717,8 @@ export default function LearningPortalClient({
                 </p>
               </div>
             )
+          )}
+            </>
           )}
 
         </div>
