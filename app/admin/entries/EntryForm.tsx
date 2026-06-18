@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition, useEffect, useRef } from 'react'
+import { useState, useTransition, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { saveEntry, getEntryRevisions, getRevisionSnapshot } from '../actions'
@@ -21,6 +21,9 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const [isPending, startTransition] = useTransition()
   const [isSaving, setIsSaving] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
+  // Local undo/redo history stack
+  const [localHistory, setLocalHistory] = useState<any[]>([])
+  const [localHistoryPointer, setLocalHistoryPointer] = useState<number>(-1)
   const [lastSaved, setLastSaved] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'resources' | 'history' | 'publish'>('identity')
   const [previewTab, setPreviewTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
@@ -196,6 +199,9 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     } else if (type === 'PDF_REFERENCE' || type === 'VIDEO') {
       newBlock.title = ''
       newBlock.url = ''
+    } else if (type === 'IMAGE') {
+      newBlock.url = ''
+      newBlock.caption = ''
     } else if (type === 'TABLE') {
       newBlock.headers = ['Item Description', 'AS Treatment', 'Ind AS Equivalent']
       newBlock.rows = [
@@ -250,7 +256,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setBlocks(next)
   }
 
-  const insertFormattingTag = (idx: number, field: 'content' | 'body', type: 'bold' | 'color' | 'size' | 'page') => {
+  const insertFormattingTag = (idx: number, field: 'content' | 'body', type: 'bold' | 'italic' | 'underline' | 'highlight' | 'color' | 'size' | 'page') => {
     const block = blocks[idx]
     const text = block[field] || ''
     let startTag = ''
@@ -260,6 +266,18 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       case 'bold':
         startTag = '**'
         endTag = '**'
+        break;
+      case 'italic':
+        startTag = '*'
+        endTag = '*'
+        break;
+      case 'underline':
+        startTag = '[u]'
+        endTag = '[/u]'
+        break;
+      case 'highlight':
+        startTag = '[highlight]'
+        endTag = '[/highlight]'
         break;
       case 'color':
         startTag = '[color=#2D5BE3]'
@@ -302,7 +320,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const [isLoadingRevisions, setIsLoadingRevisions] = useState(false)
   const [comparingRevision, setComparingRevision] = useState<any | null>(null)
 
-  const ensureRevisionsLoaded = async () => {
+  const ensureRevisionsLoaded = useCallback(async () => {
     if (!id || revisionHistory.length > 0 || isLoadingRevisions) return
     setIsLoadingRevisions(true)
     try {
@@ -324,13 +342,13 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     } finally {
       setIsLoadingRevisions(false)
     }
-  }
+  }, [id, revisionHistory.length, isLoadingRevisions])
 
   useEffect(() => {
     if (id) {
       ensureRevisionsLoaded()
     }
-  }, [id])
+  }, [id, ensureRevisionsLoaded])
 
   const applySnapshot = (snapshot: any) => {
     if (!snapshot) return
@@ -359,20 +377,130 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     }
   }
 
+  const localHistoryPointerRef = useRef(localHistoryPointer)
+  useEffect(() => {
+    localHistoryPointerRef.current = localHistoryPointer
+  }, [localHistoryPointer])
+
+  // In-memory debounced watcher to push states to the local undo/redo history stack
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const snap = {
+        entryTitle,
+        entrySlug,
+        summary,
+        verificationLevel,
+        status,
+        examLevelTags,
+        authorityPrimary,
+        authorityPrimaryUrl,
+        authoritySecondary,
+        isFeatured,
+        seoTitle,
+        seoDescription,
+        standardCode,
+        standardFramework,
+        standardStatus,
+        issuingBody,
+        dateIssued,
+        dateEffective,
+        applicabilitySummary,
+        videos,
+        references,
+        blocks
+      }
+      setLocalHistory(prev => {
+        const nextHist = prev.slice(0, localHistoryPointerRef.current + 1)
+        const last = nextHist[nextHist.length - 1]
+        if (last && JSON.stringify(last) === JSON.stringify(snap)) {
+          return prev
+        }
+        const updated = [...nextHist, snap]
+        if (updated.length > 50) {
+          updated.shift()
+        }
+        setLocalHistoryPointer(updated.length - 1)
+        return updated
+      })
+    }, 800)
+
+    return () => clearTimeout(timer)
+  }, [
+    entryTitle,
+    entrySlug,
+    summary,
+    verificationLevel,
+    status,
+    examLevelTags,
+    authorityPrimary,
+    authorityPrimaryUrl,
+    authoritySecondary,
+    isFeatured,
+    seoTitle,
+    seoDescription,
+    standardCode,
+    standardFramework,
+    standardStatus,
+    issuingBody,
+    dateIssued,
+    dateEffective,
+    applicabilitySummary,
+    videos,
+    references,
+    blocks
+  ])
+
+  const restoreFormStateSnapshot = (snap: any) => {
+    if (!snap) return
+    setEntryTitle(snap.entryTitle || '')
+    setEntrySlug(snap.entrySlug || '')
+    setSummary(snap.summary || '')
+    setVerificationLevel(snap.verificationLevel || 'DRAFT')
+    setStatus(snap.status || 'DRAFT')
+    setExamLevelTags(snap.examLevelTags || '')
+    setAuthorityPrimary(snap.authorityPrimary || '')
+    setAuthorityPrimaryUrl(snap.authorityPrimaryUrl || '')
+    setAuthoritySecondary(snap.authoritySecondary || '')
+    setIsFeatured(!!snap.isFeatured)
+    setSeoTitle(snap.seoTitle || '')
+    setSeoDescription(snap.seoDescription || '')
+    setStandardCode(snap.standardCode || '')
+    setStandardFramework(snap.standardFramework || 'AS')
+    setStandardStatus(snap.standardStatus || 'ACTIVE')
+    setIssuingBody(snap.issuingBody || 'ICAI')
+    setDateIssued(snap.dateIssued || '')
+    setDateEffective(snap.dateEffective || '')
+    setApplicabilitySummary(snap.applicabilitySummary || '')
+    setVideos(snap.videos || [])
+    setReferences(snap.references || [])
+    setBlocks(snap.blocks || [])
+  }
+
   const handleUndo = () => {
-    if (revisionHistory.length > 1) {
-      applySnapshot(revisionHistory[1].snapshot)
-      alert('Reverted to previous revision.')
+    if (localHistoryPointer > 0) {
+      const newPointer = localHistoryPointer - 1
+      setLocalHistoryPointer(newPointer)
+      restoreFormStateSnapshot(localHistory[newPointer])
     }
   }
 
-  const canUndo = id != null && revisionHistory.length > 1
+  const handleRedo = () => {
+    if (localHistoryPointer < localHistory.length - 1) {
+      const newPointer = localHistoryPointer + 1
+      setLocalHistoryPointer(newPointer)
+      restoreFormStateSnapshot(localHistory[newPointer])
+    }
+  }
+
+  const canUndo = localHistoryPointer > 0
+  const canRedo = localHistoryPointer < localHistory.length - 1
 
   // Coordination hooks for GlobalAdminTopBar
   const submitRef = useRef<any>()
   submitRef.current = {
     handleSubmitInner,
     handleUndo,
+    handleRedo,
     setActiveTab
   }
 
@@ -382,12 +510,14 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     const handlePublish = () => submitRef.current.handleSubmitInner(true)
     const handlePreview = () => submitRef.current.handleSubmitInner(false, true)
     const handleUndoAction = () => submitRef.current.handleUndo()
+    const handleRedoAction = () => submitRef.current.handleRedo()
     const handleHistoryAction = () => submitRef.current.setActiveTab('history')
 
     window.addEventListener('cms-save-draft', handleSaveDraft)
     window.addEventListener('cms-publish', handlePublish)
     window.addEventListener('cms-preview', handlePreview)
     window.addEventListener('cms-undo', handleUndoAction)
+    window.addEventListener('cms-redo', handleRedoAction)
     window.addEventListener('cms-history', handleHistoryAction)
 
     return () => {
@@ -395,6 +525,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       window.removeEventListener('cms-publish', handlePublish)
       window.removeEventListener('cms-preview', handlePreview)
       window.removeEventListener('cms-undo', handleUndoAction)
+      window.removeEventListener('cms-redo', handleRedoAction)
       window.removeEventListener('cms-history', handleHistoryAction)
     }
   }, [])
@@ -410,14 +541,14 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
           isPublishing,
           lastSaved,
           canUndo,
-          canRedo: false,
+          canRedo,
           status,
           viewLiveHref: entrySlug ? `/standards/${standardFramework.toLowerCase() === 'as' ? 'as' : 'ind-as'}/${entrySlug}` : undefined
         }
       }))
     }
     dispatchState()
-  }, [id, entryTitle, isSaving, isPublishing, lastSaved, canUndo, status, entrySlug, standardFramework])
+  }, [id, entryTitle, isSaving, isPublishing, lastSaved, canUndo, canRedo, status, entrySlug, standardFramework])
 
   // --- SUBMIT / SAVE ---
   async function handleSubmitInner(publishNow = false, isPreview = false) {
@@ -572,11 +703,26 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     let lastIndex = 0
     let match
     
+    const formatInlineTags = (str: string) => {
+      let html = str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
+      html = html.replace(/_(.*?)_/g, '<em>$1</em>')
+      html = html.replace(/\[u\](.*?)\[\/u\]/g, '<u>$1</u>')
+      html = html.replace(/<u>(.*?)<\/u>/g, '<u>$1</u>')
+      html = html.replace(/\[highlight\](.*?)\[\/highlight\]/g, '<mark class="bg-amber-100 dark:bg-amber-900/40 text-inherit px-1.5 py-0.5 rounded font-bold">$1</mark>')
+      return html
+    }
+
     while ((match = regex.exec(text)) !== null) {
       const matchIndex = match.index
       const pageNum = parseInt(match[1], 10)
       if (matchIndex > lastIndex) {
-        parts.push(text.substring(lastIndex, matchIndex))
+        const txt = text.substring(lastIndex, matchIndex)
+        parts.push(<span key={`txt-${matchIndex}`} dangerouslySetInnerHTML={{ __html: formatInlineTags(txt) }} />)
       }
       parts.push(
         <span key={matchIndex} className="inline-flex items-center gap-1 px-1.5 py-0.5 mx-0.5 bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded text-[9px] font-bold">
@@ -586,7 +732,8 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       lastIndex = regex.lastIndex
     }
     if (lastIndex < text.length) {
-      parts.push(text.substring(lastIndex))
+      const txt = text.substring(lastIndex)
+      parts.push(<span key={`txt-end`} dangerouslySetInnerHTML={{ __html: formatInlineTags(txt) }} />)
     }
     return parts.length > 0 ? parts : text
   }
@@ -832,7 +979,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-800 pb-2">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">Curriculum Visual Blocks</h3>
                   <div className="flex flex-wrap gap-1">
-                    {(['HEADING', 'SUB_HEADING', 'PARAGRAPH', 'NOTE', 'EXAM_TRAP', 'PRACTICAL_USE', 'CASE_LAW', 'ILLUSTRATION', 'TABLE', 'FAQ', 'PDF_REFERENCE', 'VIDEO', 'DOWNLOAD_SECTION'] as const).map(type => (
+                    {(['HEADING', 'SUB_HEADING', 'PARAGRAPH', 'IMAGE', 'NOTE', 'EXAM_TRAP', 'PRACTICAL_USE', 'CASE_LAW', 'ILLUSTRATION', 'TABLE', 'FAQ', 'PDF_REFERENCE', 'VIDEO', 'DOWNLOAD_SECTION'] as const).map(type => (
                       <button
                         key={type}
                         type="button"
@@ -851,6 +998,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                       HEADING: 'border-l-4 border-slate-900 dark:border-white',
                       SUB_HEADING: 'border-l-4 border-slate-400',
                       PARAGRAPH: 'border-l-4 border-emerald-400',
+                      IMAGE: 'border-l-4 border-teal-400 bg-teal-50/20',
                       NOTE: 'border-l-4 border-amber-400 bg-amber-50/20',
                       EXAM_TRAP: 'border-l-4 border-red-400 bg-red-50/20',
                       PRACTICAL_USE: 'border-l-4 border-green-400 bg-green-50/20',
@@ -934,6 +1082,30 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                               </button>
                               <button
                                 type="button"
+                                onClick={() => insertFormattingTag(idx, 'content', 'italic')}
+                                className="px-1.5 py-0.5 text-[10px] italic bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white font-serif"
+                                title="Italic: *text*"
+                              >
+                                I
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'content', 'underline')}
+                                className="px-1.5 py-0.5 text-[10px] underline bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white"
+                                title="Underline: [u]text[/u]"
+                              >
+                                U
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'content', 'highlight')}
+                                className="px-1.5 py-0.5 text-[10px] bg-amber-100 text-amber-900 border border-amber-250 rounded-sm hover:bg-amber-200 font-bold"
+                                title="Highlight: [highlight]text[/highlight]"
+                              >
+                                Highlight
+                              </button>
+                              <button
+                                type="button"
                                 onClick={() => insertFormattingTag(idx, 'content', 'color')}
                                 className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#2D5BE3] font-semibold"
                                 title="Color: [color=hex]text[/color]"
@@ -988,6 +1160,30 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                               </button>
                               <button
                                 type="button"
+                                onClick={() => insertFormattingTag(idx, 'body', 'italic')}
+                                className="px-1.5 py-0.5 text-[10px] italic bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white font-serif"
+                                title="Italic: *text*"
+                              >
+                                I
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'body', 'underline')}
+                                className="px-1.5 py-0.5 text-[10px] underline bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white"
+                                title="Underline: [u]text[/u]"
+                              >
+                                U
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'body', 'highlight')}
+                                className="px-1.5 py-0.5 text-[10px] bg-amber-100 text-amber-900 border border-amber-250 rounded-sm hover:bg-amber-200 font-bold"
+                                title="Highlight: [highlight]text[/highlight]"
+                              >
+                                Highlight
+                              </button>
+                              <button
+                                type="button"
                                 onClick={() => insertFormattingTag(idx, 'body', 'color')}
                                 className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#2D5BE3] font-semibold"
                                 title="Color: [color=hex]text[/color]"
@@ -1018,6 +1214,25 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                               className="w-full p-2 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500 font-mono"
                               placeholder="Enter message body..."
                               rows={2}
+                            />
+                          </div>
+                        )}
+
+                        {block.type === 'IMAGE' && (
+                          <div className="space-y-2 w-full">
+                            <input
+                              type="text"
+                              value={block.url || ''}
+                              onChange={(e) => updateBlock(idx, 'url', e.target.value)}
+                              className="w-full p-1.5 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                              placeholder="Image URL (e.g. /images/example.png or external link)"
+                            />
+                            <input
+                              type="text"
+                              value={block.caption || ''}
+                              onChange={(e) => updateBlock(idx, 'caption', e.target.value)}
+                              className="w-full p-1.5 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs italic"
+                              placeholder="Optional Caption / Description"
                             />
                           </div>
                         )}
@@ -1648,6 +1863,23 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                               >
                                 Print Guide
                               </button>
+                            </div>
+                          )
+                        case 'IMAGE':
+                          return (
+                            <div key={blockIdx} className="my-6 flex flex-col items-center justify-center gap-2">
+                              {block.url && (
+                                <img
+                                  src={block.url}
+                                  alt={block.caption || 'Image block'}
+                                  className="max-w-full rounded-xl border border-slate-200 dark:border-gray-800 shadow-xs max-h-[300px] object-contain"
+                                />
+                              )}
+                              {block.caption && (
+                                <p className="text-[10px] text-slate-500 italic text-center font-medium">
+                                  {block.caption}
+                                </p>
+                              )}
                             </div>
                           )
                         default:

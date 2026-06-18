@@ -415,8 +415,9 @@ export async function saveEntry(entryData: any) {
         revalidatePath('/standards/ind-as')
       }
     }
-    // Always revalidate admin entries list
+    // Always revalidate admin entries list and landing page
     revalidatePath('/admin/entries')
+    revalidatePath('/')
   } catch (rvErr) {
     console.warn('revalidatePath failed (non-fatal):', rvErr)
   }
@@ -441,6 +442,16 @@ export async function deleteEntry(id: number) {
   const entries = db.entries || []
   db.entries = entries.filter((e: any) => e.id !== id)
   writeDb(db)
+
+  try {
+    revalidatePath('/')
+    revalidatePath('/admin/entries')
+    revalidatePath('/standards/learning')
+    revalidatePath('/standards/as')
+    revalidatePath('/standards/ind-as')
+  } catch (rvErr) {
+    console.warn('revalidatePath failed (non-fatal):', rvErr)
+  }
 
   return { success: true }
 }
@@ -590,6 +601,15 @@ export async function updateDomainMeta(domainCode: string, tagline: string, desc
   db.domains = domains
   writeDb(db)
 
+  try {
+    revalidatePath('/')
+    revalidatePath('/standards/learning')
+    revalidatePath('/standards/as')
+    revalidatePath('/standards/ind-as')
+  } catch (rvErr) {
+    console.warn('revalidatePath failed (non-fatal):', rvErr)
+  }
+
   return { success: true }
 }
 
@@ -664,8 +684,14 @@ export async function saveHomepageConfig(key: string, value: any) {
     }
   }
   writeConfigJson(key, value)
+  try {
+    revalidatePath('/')
+  } catch (err) {
+    console.warn('revalidatePath failed for homepage config:', err)
+  }
   return { success: true }
 }
+
 
 function getStandardTitle(slug: string): string {
   const list = [

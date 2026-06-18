@@ -16,5 +16,6 @@ export const metadata: Metadata = {
 
 export default async function ScheduleIIIPage() {
   const data = await fetchScheduleIIIData()
-  return <ScheduleIIIClient />
+  return <ScheduleIIIClient initialData={data} />
 }
+

@@ -17,14 +17,14 @@ export async function GET(
     }
 
     const cleanSlug = slug.toLowerCase().trim()
+    const isNumeric = /^\d+$/.test(cleanSlug)
+    const entryId = isNumeric ? parseInt(cleanSlug, 10) : undefined
 
     // 1. Try database first (primary source of truth for Vercel/serverless)
     const resource = await prisma.entryResource.findFirst({
       where: {
         resourceType: 'VIDEO',
-        entry: {
-          entrySlug: cleanSlug,
-        },
+        entry: entryId ? { id: entryId } : { entrySlug: cleanSlug },
       },
       include: {
         mediaFile: true
@@ -56,6 +56,8 @@ export async function GET(
               'Cache-Control': 'public, max-age=86400'
             },
           })
+        } else if (url.startsWith('http://') || url.startsWith('https://')) {
+          return NextResponse.redirect(new URL(url))
         }
       }
 
@@ -72,9 +74,12 @@ export async function GET(
               'Cache-Control': 'public, max-age=86400'
             },
           })
+        } else if (url.startsWith('http://') || url.startsWith('https://')) {
+          return NextResponse.redirect(new URL(url))
         }
       }
     }
+
 
     // 2. Fall back to local filesystem (secondary source of truth)
     const localPath = path.join(process.cwd(), 'public/videos', `${cleanSlug}.mp4`)

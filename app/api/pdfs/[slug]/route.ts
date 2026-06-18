@@ -17,14 +17,14 @@ export async function GET(
     }
 
     const cleanSlug = slug.toLowerCase().trim()
+    const isNumeric = /^\d+$/.test(cleanSlug)
+    const entryId = isNumeric ? parseInt(cleanSlug, 10) : undefined
 
     // 1. Try database first (primary source of truth)
     const resource = await prisma.entryResource.findFirst({
       where: {
         resourceType: 'PDF',
-        entry: {
-          entrySlug: cleanSlug,
-        },
+        entry: entryId ? { id: entryId } : { entrySlug: cleanSlug },
       },
       include: {
         mediaFile: true
@@ -45,6 +45,8 @@ export async function GET(
               'Cache-Control': 'public, max-age=86400'
             },
           })
+        } else if (fileUrl.startsWith('http://') || fileUrl.startsWith('https://')) {
+          return NextResponse.redirect(new URL(fileUrl))
         }
       }
 
@@ -64,8 +66,19 @@ export async function GET(
         } else if (url.startsWith('/pdfs/')) {
           const redirectUrl = new URL(url, request.url)
           return NextResponse.redirect(redirectUrl)
+        } else if (url.startsWith('http://') || url.startsWith('https://')) {
+          return NextResponse.redirect(new URL(url))
         }
       }
+    }
+
+    // Fallback: If no PDF resource but entry has authorityPrimaryUrl (e.g. Schedule III)
+    const entry = await prisma.entry.findFirst({
+      where: entryId ? { id: entryId } : { entrySlug: cleanSlug }
+    })
+
+    if (entry && entry.authorityPrimaryUrl && (entry.authorityPrimaryUrl.startsWith('http://') || entry.authorityPrimaryUrl.startsWith('https://'))) {
+      return NextResponse.redirect(new URL(entry.authorityPrimaryUrl))
     }
 
     // 2. Fall back to local filesystem (secondary source of truth)

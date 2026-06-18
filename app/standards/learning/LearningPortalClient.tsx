@@ -27,7 +27,8 @@ import {
   ChevronRight,
   ChevronLeft,
   ArrowLeft,
-  ChevronDown
+  ChevronDown,
+  X
 } from 'lucide-react'
 import { Standard } from '@/lib/learning-loader'
 import { getStandardDetailAction } from './actions'
@@ -613,10 +614,26 @@ export default function LearningPortalClient({
   const [videoDuration, setVideoDuration] = useState(1125)
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const videoContainerRef = useRef<HTMLDivElement | null>(null)
+  const iframeRef = useRef<HTMLIFrameElement | null>(null)
+
+  const handlePrintStudyPdf = () => {
+    if (iframeRef.current) {
+      try {
+        iframeRef.current.contentWindow?.focus()
+        iframeRef.current.contentWindow?.print()
+      } catch (e) {
+        console.warn('Iframe printing failed, falling back to window.print():', e)
+        window.print()
+      }
+    } else {
+      window.print()
+    }
+  }
 
   const [showControls, setShowControls] = useState(true)
   const [videoQuality, setVideoQuality] = useState<string>('Auto')
   const controlsTimeoutRef = useRef<any>(null)
+
 
   const resetControlsTimeout = () => {
     setShowControls(true)
@@ -642,12 +659,29 @@ export default function LearningPortalClient({
     let lastIndex = 0
     let match
     
+    const formatInlineTags = (str: string) => {
+      let html = str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+      html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
+      html = html.replace(/_(.*?)_/g, '<em>$1</em>')
+      html = html.replace(/\[u\](.*?)\[\/u\]/g, '<u>$1</u>')
+      html = html.replace(/<u>(.*?)<\/u>/g, '<u>$1</u>')
+      html = html.replace(/\[highlight\](.*?)\[\/highlight\]/g, '<mark class="bg-amber-100 dark:bg-amber-900/40 text-inherit px-1.5 py-0.5 rounded font-bold">$1</mark>')
+      return html
+    }
+
     while ((match = regex.exec(text)) !== null) {
       const matchIndex = match.index
       const pageNum = parseInt(match[1], 10)
       
       if (matchIndex > lastIndex) {
-        parts.push(text.substring(lastIndex, matchIndex))
+        const txt = text.substring(lastIndex, matchIndex)
+        parts.push(
+          <span key={`txt-${matchIndex}`} dangerouslySetInnerHTML={{ __html: formatInlineTags(txt) }} />
+        )
       }
       
       parts.push(
@@ -670,7 +704,10 @@ export default function LearningPortalClient({
     }
     
     if (lastIndex < text.length) {
-      parts.push(text.substring(lastIndex))
+      const txt = text.substring(lastIndex)
+      parts.push(
+        <span key={`txt-end`} dangerouslySetInnerHTML={{ __html: formatInlineTags(txt) }} />
+      )
     }
     
     return parts.length > 0 ? parts : text
@@ -1153,9 +1190,18 @@ export default function LearningPortalClient({
 
             {activeTab === 'pdf' && (
               <div className="flex items-center gap-1.5 flex-nowrap">
+                <button
+                  onClick={handlePrintStudyPdf}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs cursor-pointer"
+                  title="Download and print website study content"
+                >
+                  <Download size={14} className="shrink-0" />
+                  Download Study PDF
+                </button>
+
                 {uploadedPdf && (
                   <a
-                    href={uploadedPdf.url}
+                    href={`/api/pdfs/${currentStandard.id}`}
                     download
                     target="_blank"
                     rel="noopener noreferrer"
@@ -1163,30 +1209,57 @@ export default function LearningPortalClient({
                     title="Download PDF exactly as uploaded (official source publication)"
                   >
                     <Download size={14} className="shrink-0" />
-                    Download Official Source PDF
+                    Download Official PDF
                   </a>
                 )}
+
+                <button
+                  onClick={() => {
+                    setActiveTab(lastActiveBaseTab)
+                  }}
+                  className="flex items-center gap-1 px-3.5 py-2 rounded-md text-[12.5px] font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-gray-800 dark:text-white transition-colors shrink-0"
+                >
+                  <X size={14} className="shrink-0" />
+                  Close PDF Viewer
+                </button>
               </div>
             )}
 
-            {(activeTab === 'standard' || activeTab === 'examples') && (
+            {(activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') && (
               <>
-                <button
-                  onClick={() => setActiveTab('lecture')}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0 transition-all shadow-xs"
-                >
-                  <Video size={14} className="shrink-0 text-[#2D5BE3] dark:text-blue-400" />
-                  Lecture
-                </button>
+                {currentStandard.lectureUrl && (
+                  <button
+                    onClick={() => setActiveTab('lecture')}
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0 transition-all shadow-xs"
+                    title="Watch video lectures"
+                  >
+                    <Video size={14} className="shrink-0 text-[#2D5BE3] dark:text-blue-400" />
+                    Lecture
+                  </button>
+                )}
+                {uploadedPdf && (
+                  <a
+                    href={`/api/pdfs/${currentStandard.id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#1E2640] dark:text-gray-200 shrink-0 transition-all shadow-xs font-bold"
+                    title="Open official PDF publication"
+                  >
+                    <ExternalLink size={14} className="shrink-0 text-slate-600" />
+                    Official PDF
+                  </a>
+                )}
                 <button
                   onClick={() => setActiveTab('pdf')}
                   className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs"
+                  title="View clean study content PDF print view"
                 >
                   <FileText size={14} className="shrink-0 text-[#E15252] dark:text-red-400" />
-                  Official PDF
+                  Study PDF
                 </button>
               </>
             )}
+
           </div>
         </div>
 
@@ -1386,6 +1459,23 @@ export default function LearningPortalClient({
                                 >
                                   Download content PDF
                                 </button>
+                              </div>
+                            )
+                          case 'IMAGE':
+                            return (
+                              <div key={blockIdx} className="my-6 flex flex-col items-center justify-center gap-2">
+                                {block.url && (
+                                  <img
+                                    src={block.url}
+                                    alt={block.caption || 'Image block'}
+                                    className="max-w-full rounded-xl border border-[#E2E1DD] dark:border-gray-800 shadow-xs max-h-[450px] object-contain"
+                                  />
+                                )}
+                                {block.caption && (
+                                  <p className="text-[11px] text-slate-500 italic text-center font-medium">
+                                    {block.caption}
+                                  </p>
+                                )}
                               </div>
                             )
                           default:
@@ -2009,27 +2099,16 @@ export default function LearningPortalClient({
 
           {/* 4. PREMIUM DOCUMENT PDF VIEWER VIEW */}
           {activeTab === 'pdf' && (
-            uploadedPdf ? (
-              <div className="w-full h-[calc(100vh-130px)] min-h-[600px] bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden shadow-xs flex flex-col">
-                <iframe
-                  key={pdfPage}
-                  src={`${uploadedPdf.url}#page=${pdfPage}`}
-                  className="w-full flex-1 border-0"
-                  title={uploadedPdf.title || currentStandard.title}
-                />
-              </div>
-            ) : (
-              <div className="w-full h-[calc(100vh-130px)] min-h-[600px] border border-dashed border-[#E2E1DD] dark:border-gray-800 rounded-xl p-8 text-center flex flex-col items-center justify-center bg-white dark:bg-[#111726]/30">
-                <div className="w-12 h-12 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-full flex items-center justify-center shadow-2xs mb-3">
-                  <FileText size={20} className="text-[#A0A0A8]" />
-                </div>
-                <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-1">No PDF Document Uploaded</h3>
-                <p className="text-xs text-[#76767E] dark:text-gray-400 max-w-sm leading-relaxed">
-                  The official PDF document for this standard has not been uploaded yet. Please use the admin panel to upload a PDF.
-                </p>
-              </div>
-            )
+            <div className="w-full h-[calc(100vh-130px)] min-h-[600px] bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden shadow-xs flex flex-col">
+              <iframe
+                ref={iframeRef}
+                src={`/print/${currentStandard.id}`}
+                className="w-full flex-1 border-0"
+                title={`Print View for ${currentStandard.title}`}
+              />
+            </div>
           )}
+
             </>
           )}
 
