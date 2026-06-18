@@ -2037,3 +2037,4 @@ export default function LearningPortalClient({
     </div>
   )
 }
+
