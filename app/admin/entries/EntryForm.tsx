@@ -21,9 +21,8 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const [isPending, startTransition] = useTransition()
   const [isSaving, setIsSaving] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
-  // Local undo/redo history stack
-  const [localHistory, setLocalHistory] = useState<any[]>([])
-  const [localHistoryPointer, setLocalHistoryPointer] = useState<number>(-1)
+  // Local undo/redo history stack maintained as a unified state to prevent React state updater side-effects
+  const [historyState, setHistoryState] = useState<{ list: any[], pointer: number }>({ list: [], pointer: -1 })
   const [lastSaved, setLastSaved] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'resources' | 'history' | 'publish'>('identity')
   const [previewTab, setPreviewTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
@@ -377,11 +376,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     }
   }
 
-  const localHistoryPointerRef = useRef(localHistoryPointer)
-  useEffect(() => {
-    localHistoryPointerRef.current = localHistoryPointer
-  }, [localHistoryPointer])
-
   // In-memory debounced watcher to push states to the local undo/redo history stack
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -409,8 +403,8 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         references,
         blocks
       }
-      setLocalHistory(prev => {
-        const nextHist = prev.slice(0, localHistoryPointerRef.current + 1)
+      setHistoryState(prev => {
+        const nextHist = prev.list.slice(0, prev.pointer + 1)
         const last = nextHist[nextHist.length - 1]
         if (last && JSON.stringify(last) === JSON.stringify(snap)) {
           return prev
@@ -419,8 +413,10 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         if (updated.length > 50) {
           updated.shift()
         }
-        setLocalHistoryPointer(updated.length - 1)
-        return updated
+        return {
+          list: updated,
+          pointer: updated.length - 1
+        }
       })
     }, 800)
 
@@ -477,23 +473,23 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   }
 
   const handleUndo = () => {
-    if (localHistoryPointer > 0) {
-      const newPointer = localHistoryPointer - 1
-      setLocalHistoryPointer(newPointer)
-      restoreFormStateSnapshot(localHistory[newPointer])
+    if (historyState.pointer > 0) {
+      const newPointer = historyState.pointer - 1
+      setHistoryState(prev => ({ ...prev, pointer: newPointer }))
+      restoreFormStateSnapshot(historyState.list[newPointer])
     }
   }
 
   const handleRedo = () => {
-    if (localHistoryPointer < localHistory.length - 1) {
-      const newPointer = localHistoryPointer + 1
-      setLocalHistoryPointer(newPointer)
-      restoreFormStateSnapshot(localHistory[newPointer])
+    if (historyState.pointer < historyState.list.length - 1) {
+      const newPointer = historyState.pointer + 1
+      setHistoryState(prev => ({ ...prev, pointer: newPointer }))
+      restoreFormStateSnapshot(historyState.list[newPointer])
     }
   }
 
-  const canUndo = localHistoryPointer > 0
-  const canRedo = localHistoryPointer < localHistory.length - 1
+  const canUndo = historyState.pointer > 0
+  const canRedo = historyState.pointer < historyState.list.length - 1
 
   // Coordination hooks for GlobalAdminTopBar
   const submitRef = useRef<any>()
