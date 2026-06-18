@@ -535,8 +535,8 @@ export default function LearningPortalClient({
   const [selectedStandardId, setSelectedStandardId] = useState<string>(
     initialSelectedStandardId || (defaultFramework === 'AS' ? 'intro-as' : 'intro-ind-as')
   )
-  const [activeTab, setActiveTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf' | 'faqs'>('standard')
-  const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard' | 'examples' | 'faqs'>('standard')
+  const [activeTab, setActiveTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
+  const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard' | 'examples'>('standard')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const [selectedStandardDetails, setSelectedStandardDetails] = useState<Standard>(initialSelectedStandardDetails)
@@ -546,7 +546,7 @@ export default function LearningPortalClient({
   const [isLoadingDetails, setIsLoadingDetails] = useState(false)
 
   useEffect(() => {
-    if (activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') {
+    if (activeTab === 'standard' || activeTab === 'examples') {
       setLastActiveBaseTab(activeTab)
     }
   }, [activeTab])
@@ -998,21 +998,6 @@ export default function LearningPortalClient({
                         >
                           <Scale size={14} className="shrink-0" />
                           Examples &amp; Case Law
-                        </button>
-                        <button
-                          onClick={() => {
-                            setActiveTab('faqs')
-                            setIsSidebarOpen(false)
-                          }}
-                          className={`w-full text-left py-1.5 px-2.5 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
-                            activeTab === 'faqs'
-                              ? 'bg-white dark:bg-gray-800 text-[#2D5BE3] dark:text-blue-400 shadow-3xs font-extrabold'
-                              : 'text-gray-600 dark:text-gray-400 hover:text-[#2D5BE3] dark:hover:text-blue-400'
-                          }`}
-                        >
-                          <HelpCircle size={14} className="shrink-0" />
-                          FAQs
-                        </button>
                       </div>
                     </div>
                   ) : (
