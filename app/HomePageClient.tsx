@@ -426,7 +426,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="hero-heading"
       className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-3 pb-3 sm:pt-4 sm:pb-4">
+      <div className="max-w-[1280px] mx-auto px-6 pt-2.5 pb-2.5 sm:pt-3 sm:pb-3">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
           {/* Left: Headline + Search */}
           <div className="flex flex-col">
@@ -437,10 +437,10 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
               {heroTitle}<br />
               <span className="text-[#2D5BE3] dark:text-[#60A5FA]">{heroTitleSpan}</span>
             </h1>
-            <p className="mt-2 text-[14.5px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
+            <p className="mt-1.5 text-[14px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
               {heroSubtitle}
             </p>
-            <form onSubmit={handleSearch} className="mt-3 relative max-w-2xl flex items-center">
+            <form onSubmit={handleSearch} className="mt-2.5 relative max-w-2xl flex items-center">
               <div className="relative flex-1">
                 <Search
                   size={16}
@@ -451,25 +451,25 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for topics, sections, standards, rules, cases..."
-                  className="w-full bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] dark:hover:border-gray-700 focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:bg-white dark:focus:bg-[#161C2C] text-[13.5px] font-medium pl-10 pr-4 py-3 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] dark:text-gray-400 shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10 dark:focus:ring-[#60A5FA]/10"
+                  className="w-full bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 hover:border-[#C8C7C2] dark:hover:border-gray-700 focus:border-[#2D5BE3] dark:focus:border-[#60A5FA] focus:bg-white dark:focus:bg-[#161C2C] text-[13px] font-medium pl-10 pr-4 py-2.5 rounded-lg outline-none transition-all placeholder:text-[#A0A0A8] dark:text-gray-400 shadow-sm focus:ring-2 focus:ring-[#2D5BE3]/10 dark:focus:ring-[#60A5FA]/10"
                 />
               </div>
               <button
                 type="submit"
-                className="ml-3 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-xs font-bold px-6 py-3 rounded-lg transition-colors shadow-sm"
+                className="ml-3 bg-[#2D5BE3] hover:bg-[#2450CC] text-white text-xs font-bold px-5 py-2.5 rounded-lg transition-colors shadow-sm"
               >
                 Search
               </button>
             </form>
-            <div className="mt-2.5 w-full max-w-2xl">
-              <div className="flex flex-row flex-wrap items-center gap-2">
-                <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0 whitespace-nowrap">Trending:</span>
+            <div className="mt-2 w-full max-w-2xl">
+              <div className="flex flex-row flex-wrap items-center gap-1.5">
+                <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0共享 whitespace-nowrap">Trending:</span>
                 {trendingSearches.map((s: any) => (
                   <Link
                     key={s.label}
                     href={s.href}
                     onClick={() => trackSearchClick(s.label)}
-                    className="text-xs text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-3 py-1 rounded-full transition-all font-medium shrink-0 whitespace-nowrap inline-block"
+                    className="text-[11px] text-[#4A4A52] dark:text-gray-300 hover:text-[#2D5BE3] dark:hover:text-[#60A5FA] bg-[#F4F3F0] dark:bg-gray-800 hover:bg-[#EEF2FD] dark:hover:bg-gray-700 border border-[#E2E1DD] dark:border-gray-700 hover:border-[#D0DCFA] px-2.5 py-0.5 rounded-full transition-all font-medium shrink-0 whitespace-nowrap inline-block"
                   >
                     {s.label}
                   </Link>
@@ -478,16 +478,16 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
             </div>
           </div>
           {/* Right: Trust Card */}
-          <div className="lg:pt-1">
-            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-4 shadow-sm">
-              <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white mb-2">
+          <div className="lg:pt-0.5">
+            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-3.5 shadow-sm">
+              <h2 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1.5">
                 Why Professionals Trust Accounts.One
               </h2>
-              <ul className="flex flex-col gap-2 mb-3">
+              <ul className="flex flex-col gap-1.5 mb-2.5">
                 {trustPoints.map((point: string) => (
-                  <li key={point} className="flex items-start gap-3 text-xs text-[#4A4A52] dark:text-gray-300 leading-snug font-medium">
+                  <li key={point} className="flex items-start gap-2.5 text-[11px] text-[#4A4A52] dark:text-gray-300 leading-snug font-medium">
                     <CheckCircle2
-                      size={14}
+                      size={13}
                       className="text-[#2D5BE3] dark:text-[#60A5FA] shrink-0 mt-0.5"
                     />
                     {point}
@@ -496,10 +496,10 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
               </ul>
               <Link
                 href="/accounts"
-                className="flex items-center justify-center gap-2 w-full text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-4 py-2 rounded-md transition-all shadow-sm"
+                className="flex items-center justify-center gap-1.5 w-full text-[11px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-3 py-1.5 rounded-md transition-all shadow-sm"
               >
                 Explore All Features
-                <ArrowRight size={13} />
+                <ArrowRight size={12} />
               </Link>
             </div>
           </div>
@@ -514,31 +514,31 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="domains-heading"
       className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-4 pb-6 sm:pt-4 sm:pb-6">
-        <header className="flex items-start justify-between mb-4">
+      <div className="max-w-[1280px] mx-auto px-6 pt-3 pb-4 sm:pt-3.5 sm:pb-5">
+        <header className="flex items-start justify-between mb-3">
           <div>
-            <div className="flex items-center gap-2 mb-1">
-              <LayoutGrid size={16} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
+            <div className="flex items-center gap-2 mb-0.5">
+              <LayoutGrid size={15} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
               <h2
                 id="domains-heading"
-                className="text-xl font-bold text-[#1C1C1E] dark:text-white tracking-tight"
+                className="text-lg font-bold text-[#1C1C1E] dark:text-white tracking-tight"
               >
                 {domainsHeading}
               </h2>
             </div>
-            <p className="text-sm text-[#76767E] dark:text-gray-400">
+            <p className="text-xs text-[#76767E] dark:text-gray-400">
               {domainsSubheading}
             </p>
           </div>
           <Link
             href="/search"
-            className="inline-flex items-center gap-1 text-xs font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] shrink-0 transition-colors"
+            className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#2D5BE3] dark:text-[#60A5FA] hover:text-[#2450CC] dark:hover:text-[#3B82F6] shrink-0 transition-colors"
           >
             View All Domains
-            <ArrowRight size={12} />
+            <ArrowRight size={11} />
           </Link>
         </header>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-6 gap-3 sm:gap-4">
           {domainsCards.map((domain: any) => {
             const CardIcon = resolveIcon(domain.Icon || domain.IconName)
             return (
@@ -546,18 +546,19 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 key={domain.id}
                 href={domain.href}
                 id={`domain-card-${domain.id}`}
-                className="group flex flex-col items-center text-center p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
+                className="group flex flex-col items-center text-center p-3 sm:p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#1E2640] hover:border-[#C8C7C2] dark:hover:border-gray-700 hover:shadow-md transition-all h-full"
               >
                 <div
-                  className="flex items-center justify-center w-12 h-12 rounded-full mb-3"
+                  className="flex items-center justify-center w-9 h-9 sm:w-12 sm:h-12 rounded-full mb-2.5 sm:mb-3"
                   style={{ backgroundColor: `${domain.color}14` }}
                 >
-                  <CardIcon size={22} style={{ color: domain.color }} />
+                  <CardIcon size={18} className="sm:hidden" style={{ color: domain.color }} />
+                  <CardIcon size={22} className="hidden sm:block" style={{ color: domain.color }} />
                 </div>
-                <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug mb-1.5">
+                <h3 className="text-xs sm:text-sm font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] dark:group-hover:text-[#60A5FA] transition-colors leading-snug mb-1">
                   {domain.name}
                 </h3>
-                <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed">
+                <p className="text-[10px] sm:text-xs text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">
                   {domain.description}
                 </p>
               </Link>

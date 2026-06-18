@@ -585,8 +585,15 @@ export default function LearningPortalClient({
 
   const currentStandard = selectedStandardDetails || initialSelectedStandardDetails
   const uploadedPdf = currentStandard.resources?.find((r) => r.type === 'PDF' && r.url)
-  const ytId = getYouTubeId(currentStandard.lectureUrl)
-  const vimeoId = getVimeoId(currentStandard.lectureUrl)
+  const getLectureUrl = (url: string) => {
+    if (!url || url.includes('mock_lecture')) {
+      return 'https://www.youtube.com/watch?v=yYyP4RRO6t0'
+    }
+    return url
+  }
+  const lectureUrl = getLectureUrl(currentStandard.lectureUrl)
+  const ytId = getYouTubeId(lectureUrl)
+  const vimeoId = getVimeoId(lectureUrl)
 
   // PDF Viewer states
   const [pdfPage, setPdfPage] = useState<number>(1)
@@ -1161,9 +1168,9 @@ export default function LearningPortalClient({
           <div className="flex items-center gap-1.5 shrink-0 select-none">
             {activeTab === 'lecture' && (
               <div className="flex items-center gap-1.5 flex-nowrap">
-                {currentStandard.lectureUrl && (
+                {lectureUrl && (
                   <a
-                    href={currentStandard.lectureUrl}
+                    href={lectureUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 px-3 py-2 bg-[#EEF2FD] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:hover:bg-[#23355E] border border-[#DCE6FF] dark:border-[#23355E] rounded-md text-[12.5px] font-bold text-[#2D5BE3] dark:text-blue-400 transition-colors shrink-0"
@@ -1174,8 +1181,8 @@ export default function LearningPortalClient({
                 )}
                 <button
                   onClick={() => {
-                    if (currentStandard.lectureUrl) {
-                      window.open(currentStandard.lectureUrl, '_blank');
+                    if (lectureUrl) {
+                      window.open(lectureUrl, '_blank');
                     } else {
                       alert('Lecture video download is simulated.');
                     }
@@ -1196,22 +1203,8 @@ export default function LearningPortalClient({
                   title="Download and print website study content"
                 >
                   <Download size={14} className="shrink-0" />
-                  Download Study PDF
+                  Download PDF
                 </button>
-
-                {uploadedPdf && (
-                  <a
-                    href={`/api/pdfs/${currentStandard.id}`}
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 transition-colors shrink-0 shadow-xs cursor-pointer"
-                    title="Download PDF exactly as uploaded (official source publication)"
-                  >
-                    <Download size={14} className="shrink-0" />
-                    Download Official PDF
-                  </a>
-                )}
 
                 <button
                   onClick={() => {
@@ -1227,7 +1220,7 @@ export default function LearningPortalClient({
 
             {(activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') && (
               <>
-                {currentStandard.lectureUrl && (
+                {lectureUrl && (
                   <button
                     onClick={() => setActiveTab('lecture')}
                     className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0 transition-all shadow-xs"
@@ -1237,25 +1230,13 @@ export default function LearningPortalClient({
                     Lecture
                   </button>
                 )}
-                {uploadedPdf && (
-                  <a
-                    href={`/api/pdfs/${currentStandard.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#1E2640] dark:text-gray-200 shrink-0 transition-all shadow-xs font-bold"
-                    title="Open official PDF publication"
-                  >
-                    <ExternalLink size={14} className="shrink-0 text-slate-600" />
-                    Official PDF
-                  </a>
-                )}
                 <button
                   onClick={() => setActiveTab('pdf')}
                   className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs"
                   title="View clean study content PDF print view"
                 >
                   <FileText size={14} className="shrink-0 text-[#E15252] dark:text-red-400" />
-                  Study PDF
+                  PDF View
                 </button>
               </>
             )}
@@ -1923,7 +1904,7 @@ export default function LearningPortalClient({
                 ) : (
                   <video
                     ref={videoRef}
-                    src={getVideoSrc(currentStandard.lectureUrl)}
+                    src={getVideoSrc(lectureUrl)}
                     className="w-full h-full object-cover z-0 pointer-events-auto"
                     onTimeUpdate={handleTimeUpdate}
                     onDurationChange={handleDurationChange}

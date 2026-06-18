@@ -36,13 +36,20 @@ const getVimeoId = (url: string) => {
   return match ? match[1] : ''
 }
 
+const getVideoSrc = (url: string) => {
+  if (url && (url.startsWith('/') || url.startsWith('http') && !url.includes('youtube.com') && !url.includes('youtu.be') && !url.includes('vimeo.com'))) {
+    return url
+  }
+  return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+}
+
 export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProps) {
   const mergedData = initialData || SCHEDULE_III_DATA
 
   const [selectedDiv, setSelectedDiv] = useState<'div1' | 'div2' | 'div3'>('div1')
   const [selectedPart, setSelectedPart] = useState<'balanceSheet' | 'profitAndLoss' | 'cashFlow' | 'others'>('balanceSheet')
-  const [activeTab, setActiveTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf' | 'faqs'>('standard')
-  const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard' | 'examples' | 'faqs'>('standard')
+  const [activeTab, setActiveTab] = useState<'standard' | 'lecture' | 'pdf'>('standard')
+  const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard'>('standard')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   // Retrieve current active topic
@@ -61,19 +68,34 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
+  const getLectureUrl = (url?: string) => {
+    if (!url || url.includes('mock_lecture')) {
+      return 'https://www.youtube.com/watch?v=yYyP4RRO6t0'
+    }
+    return url
+  }
+  const lectureUrl = getLectureUrl(currentTopic.lectureUrl)
+
   // YouTube / Vimeo IDs
-  const ytId = currentTopic.lectureUrl ? getYouTubeId(currentTopic.lectureUrl) : ''
-  const vimeoId = currentTopic.lectureUrl ? getVimeoId(currentTopic.lectureUrl) : ''
+  const ytId = getYouTubeId(lectureUrl)
+  const vimeoId = getVimeoId(lectureUrl)
 
   // Mapped uploaded PDF resource
   const uploadedPdf = currentTopic.resources?.find((r: any) => r.type === 'PDF' && r.url) || 
     (currentTopic.sourceLink ? { url: currentTopic.sourceLink, title: currentTopic.sourceLabel || 'Official MCA Source' } : null)
 
   useEffect(() => {
-    if (activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') {
+    if (activeTab === 'standard') {
       setLastActiveBaseTab(activeTab)
     }
   }, [activeTab])
+
+  const handleBackClick = (e: React.MouseEvent) => {
+    if (activeTab === 'lecture' || activeTab === 'pdf') {
+      e.preventDefault()
+      setActiveTab('standard')
+    }
+  }
 
   // Reset active tab to standard when topic changes
   useEffect(() => {
@@ -212,58 +234,7 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
                               <Icon size={13} className="shrink-0" />
                               {part.label}
                             </span>
-                            {isPartActive && <ChevronDown size={12} />}
                           </button>
-
-                          {/* Render Sub-menu tabs under selected part to match AS standards sidebar behavior */}
-                          {isPartActive && (
-                            <div className="ml-4 pl-2.5 border-l border-slate-200 dark:border-gray-800 mt-1 space-y-1">
-                              <button
-                                onClick={() => {
-                                  setActiveTab('standard')
-                                  setIsSidebarOpen(false)
-                                }}
-                                className={`w-full text-left py-1 px-2 rounded-md text-[12px] font-bold flex items-center gap-1.5 transition-all ${
-                                  activeTab === 'standard'
-                                    ? 'bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA]'
-                                    : 'text-gray-500 hover:text-slate-900 dark:hover:text-white'
-                                }`}
-                              >
-                                <FileText size={12} />
-                                Guidance
-                              </button>
-                              <button
-                                onClick={() => {
-                                  setActiveTab('examples')
-                                  setIsSidebarOpen(false)
-                                }}
-                                className={`w-full text-left py-1 px-2 rounded-md text-[12px] font-bold flex items-center gap-1.5 transition-all ${
-                                  activeTab === 'examples'
-                                    ? 'bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA]'
-                                    : 'text-gray-500 hover:text-slate-900 dark:hover:text-white'
-                                }`}
-                              >
-                                <Scale size={12} />
-                                Examples &amp; Case Law
-                              </button>
-                              {currentTopic.faqs && currentTopic.faqs.length > 0 && (
-                                <button
-                                  onClick={() => {
-                                    setActiveTab('faqs')
-                                    setIsSidebarOpen(false)
-                                  }}
-                                  className={`w-full text-left py-1 px-2 rounded-md text-[12px] font-bold flex items-center gap-1.5 transition-all ${
-                                    activeTab === 'faqs'
-                                      ? 'bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-[#60A5FA]'
-                                      : 'text-gray-500 hover:text-slate-900 dark:hover:text-white'
-                                  }`}
-                                >
-                                  <HelpCircle size={12} />
-                                  FAQs
-                                </button>
-                              )}
-                            </div>
-                          )}
                         </div>
                       )
                     })}
@@ -283,6 +254,7 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
           <div className="flex items-center gap-2 min-w-0 flex-1">
             <Link
               href="/accounts"
+              onClick={handleBackClick}
               className="flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
             >
               <ArrowLeft size={15} />
@@ -295,7 +267,6 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
               aria-label="Toggle menu"
             >
               <BookOpen size={15} />
-              Menu
             </button>
             
             <h1 className="text-[16px] sm:text-[22px] md:text-[24px] font-semibold text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
@@ -307,9 +278,9 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
           <div className="flex items-center gap-1.5 shrink-0 select-none">
             {activeTab === 'lecture' && (
               <div className="flex items-center gap-1.5 flex-nowrap">
-                {currentTopic.lectureUrl && (
+                {lectureUrl && (
                   <a
-                    href={currentTopic.lectureUrl}
+                    href={lectureUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-1 px-3 py-2 bg-[#EEF2FD] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:hover:bg-[#23355E] border border-[#DCE6FF] dark:border-[#23355E] rounded-md text-[12.5px] font-bold text-[#2D5BE3] dark:text-blue-400 transition-colors shrink-0"
@@ -320,12 +291,16 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
                 )}
                 <button
                   onClick={() => {
-                    setActiveTab(lastActiveBaseTab)
+                    if (lectureUrl) {
+                      window.open(lectureUrl, '_blank');
+                    } else {
+                      alert('Lecture video download is simulated.');
+                    }
                   }}
-                  className="flex items-center gap-1 px-3.5 py-2 rounded-md text-[12.5px] font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-gray-800 dark:text-white transition-colors shrink-0"
+                  className="flex items-center gap-1 px-3 py-2 rounded-md text-[12.5px] font-bold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-colors shadow-xs shrink-0"
                 >
-                  <X size={14} className="shrink-0" />
-                  Close Player
+                  <Download size={14} className="shrink-0" />
+                  Download Lecture
                 </button>
               </div>
             )}
@@ -338,22 +313,8 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
                   title="Download and print website study content"
                 >
                   <Download size={14} className="shrink-0" />
-                  Download Study PDF
+                  Download PDF
                 </button>
-
-                {uploadedPdf && (
-                  <a
-                    href={uploadedPdf.url}
-                    download
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 transition-colors shrink-0 shadow-xs cursor-pointer"
-                    title="Download official MCA PDF publication"
-                  >
-                    <Download size={14} className="shrink-0" />
-                    Download Official PDF
-                  </a>
-                )}
 
                 <button
                   onClick={() => {
@@ -367,9 +328,9 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
               </div>
             )}
 
-            {(activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') && (
+            {activeTab === 'standard' && (
               <>
-                {currentTopic.lectureUrl && (
+                {lectureUrl && (
                   <button
                     onClick={() => setActiveTab('lecture')}
                     className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0 transition-all shadow-xs"
@@ -379,25 +340,13 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
                     Lecture
                   </button>
                 )}
-                {currentTopic.sourceLink && (
-                  <a
-                    href={`/api/pdfs/${currentTopic.id}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-[#1E2640] dark:text-gray-200 shrink-0 transition-all shadow-xs"
-                    title="Open official MCA PDF publication"
-                  >
-                    <ExternalLink size={14} className="shrink-0 text-slate-650" />
-                    Official PDF
-                  </a>
-                )}
                 <button
                   onClick={() => setActiveTab('pdf')}
                   className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs"
                   title="View clean study content PDF print view"
                 >
                   <FileText size={14} className="shrink-0 text-[#E15252] dark:text-red-400" />
-                  Study PDF
+                  PDF View
                 </button>
               </>
             )}
@@ -431,7 +380,7 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
                 ) : (
                   <video
                     ref={videoRef}
-                    src={currentTopic.lectureUrl || "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"}
+                    src={getVideoSrc(lectureUrl)}
                     className="w-full h-full object-cover z-0 pointer-events-auto"
                     playsInline
                     controls
@@ -752,100 +701,7 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
             </div>
           )}
 
-          {/* 4. EXAMPLES & CASE LAW VIEW */}
-          {activeTab === 'examples' && (
-            <div className="w-full space-y-8 animate-fade-in font-sans">
-              <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-8 shadow-xs">
-                
-                {/* Case Law Application */}
-                {currentTopic.content.caseLaws && currentTopic.content.caseLaws.length > 0 && (
-                  <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-2">
-                      ⚖️ Case Law &amp; Guidance
-                    </h3>
-                    {currentTopic.content.caseLaws.map((cl, idx) => (
-                      <div key={idx} className="p-5 sm:p-6 rounded-xl bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#DCE6FF] dark:border-blue-900/50 mb-4 space-y-2">
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                          <h4 className="text-xs font-extrabold text-[#2D5BE3] dark:text-blue-400">{cl.title}</h4>
-                          <span className="text-[10px] font-mono text-slate-500">{cl.citation}</span>
-                        </div>
-                        <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                          {cl.body}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                )}
 
-                {/* Exam Traps & Warnings */}
-                {currentTopic.content.examTraps && currentTopic.content.examTraps.length > 0 && (
-                  <div className="space-y-4">
-                    {currentTopic.content.examTraps.map((trap, idx) => (
-                      <div key={idx} className="p-5 sm:p-6 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50">
-                        <p className="text-xs font-bold text-[#C0392B] dark:text-red-400 uppercase tracking-widest mb-1.5 flex items-center gap-1">
-                          <span>⚠️</span> EXAM TRAP / STUDY TIP
-                        </p>
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-white mb-1">{trap.title}</h4>
-                        <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                          {trap.body}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Practical Scenarios & Examples */}
-                {currentTopic.content.examples && currentTopic.content.examples.length > 0 && (
-                  <div className="space-y-4">
-                    <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-2">
-                      📋 Practical Examples &amp; Case Scenarios
-                    </h3>
-                    {currentTopic.content.examples.map((ex, idx) => (
-                      <div key={idx} className="p-5 border border-[#E2E1DD] dark:border-gray-800 rounded-xl bg-[#FAFAF8] dark:bg-[#1E2640]/50 space-y-3">
-                        <h4 className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400">Example: {ex.title}</h4>
-                        <div className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed">
-                          <strong>Scenario: </strong>{ex.scenario}
-                        </div>
-                        <div className="text-xs text-slate-700 dark:text-gray-355 leading-relaxed bg-white dark:bg-slate-950 p-4 rounded-lg border border-gray-150 dark:border-gray-900">
-                          <strong>Treatment / Solution: </strong>{ex.solution}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {!currentTopic.content.caseLaws && !currentTopic.content.examTraps && !currentTopic.content.examples && (
-                  <div className="p-8 border border-dashed border-[#E2E1DD] rounded-xl text-center text-slate-500">
-                    No illustrative examples or case law available for this topic.
-                  </div>
-                )}
-
-              </div>
-            </div>
-          )}
-
-          {/* 5. FAQs VIEW */}
-          {activeTab === 'faqs' && (
-            <div className="w-full space-y-8 animate-fade-in font-sans">
-              <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-6 shadow-xs">
-                <div>
-                  <h3 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 pb-2">
-                    ❓ Frequently Asked Questions
-                  </h3>
-                  <p className="text-[11px] text-slate-500 mt-1">Common statutory presentation and auditing queries resolved.</p>
-                </div>
-                
-                <div className="space-y-4">
-                  {currentTopic.faqs?.map((f: any) => (
-                    <div key={f.id} className="p-5 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640]/40 space-y-2">
-                      <h4 className="text-xs font-bold text-slate-950 dark:text-white">❓ Question: {f.question}</h4>
-                      <p className="text-xs text-slate-750 dark:text-gray-300 leading-relaxed font-semibold">{f.answer}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
 
         </div>
 
