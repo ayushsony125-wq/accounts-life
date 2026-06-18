@@ -150,7 +150,7 @@ export default function ScheduleIIIClient() {
             </button>
             
             <h1 className="text-[16px] sm:text-[22px] md:text-[24px] font-semibold text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
-              {currentTopic.title}
+              {selectedPart === 'others' ? 'Others' : currentTopic.title}
             </h1>
           </div>
 
@@ -175,10 +175,10 @@ export default function ScheduleIIIClient() {
               <div className="flex flex-col sm:flex-row sm:items-start justify-between pb-5 border-b border-gray-100 dark:border-gray-800 gap-3">
                 <div>
                   <h2 className="text-lg sm:text-xl font-bold text-[#1C1C1E] dark:text-white leading-tight">
-                    {currentTopic.title}
+                    {selectedPart === 'others' ? 'Others' : currentTopic.title}
                   </h2>
                   <p className="text-xs text-[#76767E] dark:text-gray-400 mt-1 font-medium">
-                    Companies Act, 2013 · Schedule III · {divisions.find(d => d.id === selectedDiv)?.label}
+                    {divisions.find(d => d.id === selectedDiv)?.label} {selectedPart === 'others' ? `· ${currentTopic.title}` : ''}
                   </p>
                 </div>
                 {currentTopic.sourceLink && (
@@ -188,7 +188,7 @@ export default function ScheduleIIIClient() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#EEF2FD] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:hover:bg-[#23355E] border border-[#DCE6FF] dark:border-[#23355E] rounded-md text-xs font-bold text-[#2D5BE3] dark:text-blue-400 transition-colors shrink-0"
                   >
-                    <span>{currentTopic.sourceLabel || 'Official MCA Source'}</span>
+                    <span>{currentTopic.sourceLabel ? currentTopic.sourceLabel.replace('Companies Act 2013, ', '').replace('Companies Act 2013 ', '').replace('MCA ', '').replace('Schedule III Part I', 'Part I').replace('Schedule III Part II', 'Part II').replace('Schedule III Part III', 'Part III').trim() : 'Official MCA Source'}</span>
                     <ExternalLink size={12} />
                   </a>
                 )}

@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers'
 import AdminSidebar from './AdminSidebar'
+import GlobalAdminTopBar from './GlobalAdminTopBar'
 import crypto from 'crypto'
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET || 'accounts-one-default-secret-key-321-at-least-32-chars-long'
@@ -42,27 +43,11 @@ export default async function AdminLayout({
 
       {/* Main content area — offset by sidebar width */}
       <div className="flex-1 ml-56 flex flex-col min-h-screen">
-        {/* Sticky top header bar */}
-        <header className="sticky top-0 z-40 h-12 bg-white border-b border-[#E2E1DD] flex items-center px-6 justify-between shrink-0">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-sm text-[#1C1C1E]">Accounts.One</span>
-            <span className="text-[#E2E1DD]">·</span>
-            <span className="text-xs text-[#76767E]">Admin CMS</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <a
-              href="/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-xs text-[#2D5BE3] hover:underline font-semibold flex items-center gap-1"
-            >
-              View Live Site ↗
-            </a>
-          </div>
-        </header>
+        {/* Sticky top control bar — always visible on every admin page */}
+        <GlobalAdminTopBar />
 
-        {/* Page content — overflow-y-auto ensures sticky GlobalActionBar works */}
-        <main className="flex-1 p-8 overflow-y-auto" style={{ height: 'calc(100vh - 48px)' }}>
+        {/* Page content */}
+        <main className="flex-1 p-8 overflow-y-auto" style={{ height: 'calc(100vh - 56px)' }}>
           {children}
         </main>
       </div>

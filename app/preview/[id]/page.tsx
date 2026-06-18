@@ -258,7 +258,7 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
               </div>
             )}
 
-            {mappedEntry.faqs && mappedEntry.faqs.length > 0 && (
+            {mappedEntry.domain?.domainSlug?.toLowerCase() !== 'as' && mappedEntry.faqs && mappedEntry.faqs.length > 0 && (
               <section className="mt-10 pt-8 border-t border-[#E2E1DD]">
                 <h2 className="text-base font-bold text-[#1C1C1E] mb-5 tracking-tight">Frequently Asked Questions</h2>
                 <div className="space-y-4">

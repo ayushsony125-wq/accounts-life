@@ -250,6 +250,53 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setBlocks(next)
   }
 
+  const insertFormattingTag = (idx: number, field: 'content' | 'body', type: 'bold' | 'color' | 'size' | 'page') => {
+    const block = blocks[idx]
+    const text = block[field] || ''
+    let startTag = ''
+    let endTag = ''
+    
+    switch (type) {
+      case 'bold':
+        startTag = '**'
+        endTag = '**'
+        break;
+      case 'color':
+        startTag = '[color=#2D5BE3]'
+        endTag = '[/color]'
+        break;
+      case 'size':
+        startTag = '[size=lg]'
+        endTag = '[/size]'
+        break;
+      case 'page':
+        startTag = '[Page '
+        endTag = ']'
+        break;
+    }
+    
+    const textarea = document.getElementById(`textarea-block-${idx}-${field}`) as HTMLTextAreaElement
+    if (textarea) {
+      const start = textarea.selectionStart
+      const end = textarea.selectionEnd
+      const selectedText = text.substring(start, end)
+      const replacement = startTag + (selectedText || (type === 'page' ? '1' : 'text')) + endTag
+      const newText = text.substring(0, start) + replacement + text.substring(end)
+      
+      updateBlock(idx, field, newText)
+      
+      setTimeout(() => {
+        textarea.focus()
+        textarea.setSelectionRange(
+          start + startTag.length,
+          start + startTag.length + (selectedText || (type === 'page' ? '1' : 'text')).length
+        )
+      }, 50)
+    } else {
+      updateBlock(idx, field, text + startTag + (type === 'page' ? '1' : 'text') + endTag)
+    }
+  }
+
   // --- REVISIONS HISTORY SYSTEM ---
   const [revisionHistory, setRevisionHistory] = useState<any[]>([])
   const [isLoadingRevisions, setIsLoadingRevisions] = useState(false)
@@ -321,8 +368,59 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
 
   const canUndo = id != null && revisionHistory.length > 1
 
+  // Coordination hooks for GlobalAdminTopBar
+  const submitRef = useRef<any>()
+  submitRef.current = {
+    handleSubmitInner,
+    handleUndo,
+    setActiveTab
+  }
+
+  // Listen to actions from the global control bar
+  useEffect(() => {
+    const handleSaveDraft = () => submitRef.current.handleSubmitInner(false)
+    const handlePublish = () => submitRef.current.handleSubmitInner(true)
+    const handlePreview = () => submitRef.current.handleSubmitInner(false, true)
+    const handleUndoAction = () => submitRef.current.handleUndo()
+    const handleHistoryAction = () => submitRef.current.setActiveTab('history')
+
+    window.addEventListener('cms-save-draft', handleSaveDraft)
+    window.addEventListener('cms-publish', handlePublish)
+    window.addEventListener('cms-preview', handlePreview)
+    window.addEventListener('cms-undo', handleUndoAction)
+    window.addEventListener('cms-history', handleHistoryAction)
+
+    return () => {
+      window.removeEventListener('cms-save-draft', handleSaveDraft)
+      window.removeEventListener('cms-publish', handlePublish)
+      window.removeEventListener('cms-preview', handlePreview)
+      window.removeEventListener('cms-undo', handleUndoAction)
+      window.removeEventListener('cms-history', handleHistoryAction)
+    }
+  }, [])
+
+  // Push latest editor states to the global top bar
+  useEffect(() => {
+    const dispatchState = () => {
+      window.dispatchEvent(new CustomEvent('cms-editor-state', {
+        detail: {
+          title: id ? `Editing: ${entryTitle}` : 'New Entry',
+          isEditing: true,
+          isSaving,
+          isPublishing,
+          lastSaved,
+          canUndo,
+          canRedo: false,
+          status,
+          viewLiveHref: entrySlug ? `/standards/${standardFramework.toLowerCase() === 'as' ? 'as' : 'ind-as'}/${entrySlug}` : undefined
+        }
+      }))
+    }
+    dispatchState()
+  }, [id, entryTitle, isSaving, isPublishing, lastSaved, canUndo, status, entrySlug, standardFramework])
+
   // --- SUBMIT / SAVE ---
-  const handleSubmitInner = async (publishNow = false, isPreview = false) => {
+  async function handleSubmitInner(publishNow = false, isPreview = false) {
     if (!entryTitle.trim() || !entrySlug.trim() || !summary.trim()) {
       alert('Please fill out the Title, Slug, and Summary in the Identity tab.')
       setActiveTab('identity')
@@ -504,27 +602,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const allChecksPassed = checks.every(c => c.passed)
 
   return (
-    <div className="w-full flex flex-col h-[calc(100vh-80px)] overflow-hidden font-sans bg-[#FAFAF8] dark:bg-[#0B0F19]">
-      {/* Global Header Action Bar */}
-      <div className="border-b border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#111726] p-4 shrink-0 flex items-center justify-between">
-        <GlobalActionBar
-          title={id ? (entryTitle || 'Edit Entry') : 'New Entry'}
-          subtitle={id ? `/${entrySlug}` : 'Configure and publish your content'}
-          isSaving={isSaving}
-          isPublishing={isPublishing}
-          lastSaved={lastSaved}
-          status={status as 'DRAFT' | 'PUBLISHED'}
-          onSaveDraft={() => handleSubmitInner(false)}
-          onPublish={() => handleSubmitInner(true)}
-          onPreview={() => handleSubmitInner(false, true)}
-          onUndo={handleUndo}
-          onRedo={() => {}}
-          canUndo={canUndo}
-          canRedo={false}
-          viewLiveHref={entrySlug ? `/standards/${standardFramework.toLowerCase() === 'as' ? 'as' : 'ind-as'}/${entrySlug}` : undefined}
-        />
-      </div>
-
+    <div className="w-full flex flex-col h-[calc(100vh-105px)] overflow-hidden font-sans bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl shadow-xs">
       {/* Side-by-Side Split Workspace */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Side: Notion-style Form Editor */}
@@ -844,17 +922,54 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
 
                         {/* Block Type Fields */}
                         {(block.type === 'HEADING' || block.type === 'SUB_HEADING' || block.type === 'PARAGRAPH') && (
-                          <textarea
-                            value={block.content || ''}
-                            onChange={(e) => updateBlock(idx, 'content', e.target.value)}
-                            className="w-full p-2 bg-transparent text-xs outline-hidden border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
-                            placeholder="Enter text content here... supports [Page X] references"
-                            rows={block.type === 'PARAGRAPH' ? 3 : 1}
-                          />
+                          <div className="space-y-1 w-full">
+                            <div className="flex items-center gap-1.5 p-1 bg-slate-50 dark:bg-slate-900/50 rounded-md border border-slate-100 dark:border-gray-800 w-fit select-none">
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'content', 'bold')}
+                                className="px-1.5 py-0.5 text-[10px] font-bold bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white"
+                                title="Bold: **text**"
+                              >
+                                B
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'content', 'color')}
+                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#2D5BE3] font-semibold"
+                                title="Color: [color=hex]text[/color]"
+                              >
+                                Color
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'content', 'size')}
+                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-slate-700 dark:text-gray-300 font-semibold"
+                                title="Size: [size=lg]text[/size]"
+                              >
+                                Size
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'content', 'page')}
+                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-slate-650 dark:text-gray-300 font-semibold"
+                                title="Page link: [Page X]"
+                              >
+                                Page Link
+                              </button>
+                            </div>
+                            <textarea
+                              id={`textarea-block-${idx}-content`}
+                              value={block.content || ''}
+                              onChange={(e) => updateBlock(idx, 'content', e.target.value)}
+                              className="w-full p-2 bg-transparent text-xs outline-hidden border-b border-slate-100 dark:border-gray-800 focus:border-blue-500 font-mono"
+                              placeholder="Enter text content here... supports [Page X] references"
+                              rows={block.type === 'PARAGRAPH' ? 3 : 1}
+                            />
+                          </div>
                         )}
 
                         {(block.type === 'NOTE' || block.type === 'EXAM_TRAP' || block.type === 'PRACTICAL_USE') && (
-                          <div className="space-y-2">
+                          <div className="space-y-2 w-full">
                             <input
                               type="text"
                               value={block.title || ''}
@@ -862,10 +977,45 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                               className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
                               placeholder="Optional Headline"
                             />
+                            <div className="flex items-center gap-1.5 p-1 bg-slate-50 dark:bg-slate-900/50 rounded-md border border-slate-100 dark:border-gray-800 w-fit select-none">
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'body', 'bold')}
+                                className="px-1.5 py-0.5 text-[10px] font-bold bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white"
+                                title="Bold: **text**"
+                              >
+                                B
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'body', 'color')}
+                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#2D5BE3] font-semibold"
+                                title="Color: [color=hex]text[/color]"
+                              >
+                                Color
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'body', 'size')}
+                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-slate-700 dark:text-gray-300 font-semibold"
+                                title="Size: [size=lg]text[/size]"
+                              >
+                                Size
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => insertFormattingTag(idx, 'body', 'page')}
+                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-slate-650 dark:text-gray-300 font-semibold"
+                                title="Page link: [Page X]"
+                              >
+                                Page Link
+                              </button>
+                            </div>
                             <textarea
+                              id={`textarea-block-${idx}-body`}
                               value={block.body || ''}
                               onChange={(e) => updateBlock(idx, 'body', e.target.value)}
-                              className="w-full p-2 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
+                              className="w-full p-2 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500 font-mono"
                               placeholder="Enter message body..."
                               rows={2}
                             />

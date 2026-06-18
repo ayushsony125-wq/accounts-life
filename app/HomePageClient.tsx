@@ -332,9 +332,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
   }
 
   // Load configured content or fallback to defaults
-  // Always enforce: hero → domains → updates → quickaccess → accuracy
-  // This cannot be overridden by stored config to maintain premium UX
-  const sectionsOrder = ['hero', 'domains', 'updates', 'quickaccess', 'accuracy']
+  const sectionsOrder = initialConfig?.sectionsOrder || ['hero', 'domains', 'updates', 'quickaccess', 'accuracy']
   const heroTitle = initialConfig?.heroTitle || "Statutory Reference & Guidance for"
   const heroTitleSpan = initialConfig?.heroTitleSpan || "Accounting & Compliance"
   const heroSubtitle = initialConfig?.heroSubtitle || "Comprehensive reference platform for AS, Ind AS, Standards on Auditing, Income Tax, GST, and corporate laws."

@@ -164,43 +164,8 @@ export async function saveEntry(entryData: any) {
         await prisma.entryFAQ.deleteMany({ where: { entryId } })
         await prisma.entryJournalEntry.deleteMany({ where: { entryId } })
         await prisma.entryIllustration.deleteMany({ where: { entryId } })
-        // Only delete resources that are NOT linked to uploaded media files
-        // This preserves uploaded PDFs and videos across save operations
-        await prisma.entryResource.deleteMany({
-          where: {
-            entryId,
-            mediaFileId: null // Only delete manually-linked references, not uploads
-          }
-        })
+        await prisma.entryResource.deleteMany({ where: { entryId } })
         await prisma.standardDetail.deleteMany({ where: { entryId } })
-      }
-
-      const resourcesToCreate = entryData.resources || []
-
-      // Split resources: those with mediaFileId may already exist in DB (uploaded via /api/admin/upload)
-      // Only create resources that don't have a mediaFileId OR that aren't already in the DB
-      // Resources with mediaFileId were already upserted by the upload route
-      const resourcesWithoutMedia = resourcesToCreate.filter((r: any) => !r.mediaFileId)
-      const resourcesWithMedia = resourcesToCreate.filter((r: any) => r.mediaFileId)
-
-      // For resources with mediaFileId, update existing EntryResources instead of creating new ones
-      if (entryId && resourcesWithMedia.length > 0) {
-        for (const r of resourcesWithMedia) {
-          const mfId = Number(r.mediaFileId)
-          const existing = await prisma.entryResource.findFirst({
-            where: { entryId, mediaFileId: mfId }
-          })
-          if (existing) {
-            await prisma.entryResource.update({
-              where: { id: existing.id },
-              data: {
-                resourceTitle: r.resourceTitle || existing.resourceTitle,
-                resourceUrl: r.resourceUrl || existing.resourceUrl,
-              }
-            })
-          }
-          // If not found, it will be created below
-        }
       }
 
       // Build schema-compliant payload
@@ -271,11 +236,11 @@ export async function saveEntry(entryData: any) {
           })),
         },
         resources: {
-          create: resourcesWithoutMedia.map((r: any, idx: number) => ({
+          create: (entryData.resources || []).map((r: any, idx: number) => ({
             resourceType: r.resourceType || 'REFERENCE',
             resourceTitle: r.resourceTitle || '',
             resourceUrl: r.resourceUrl || null,
-            mediaFileId: null,
+            mediaFileId: r.mediaFileId ? Number(r.mediaFileId) : null,
             sourceType: r.sourceType || 'EXTERNAL',
             videoChannel: r.videoChannel || null,
             refYear: r.refYear ? Number(r.refYear) : null,

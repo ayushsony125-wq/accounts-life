@@ -535,8 +535,8 @@ export default function LearningPortalClient({
   const [selectedStandardId, setSelectedStandardId] = useState<string>(
     initialSelectedStandardId || (defaultFramework === 'AS' ? 'intro-as' : 'intro-ind-as')
   )
-  const [activeTab, setActiveTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
-  const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard' | 'examples'>('standard')
+  const [activeTab, setActiveTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf' | 'faqs'>('standard')
+  const [lastActiveBaseTab, setLastActiveBaseTab] = useState<'standard' | 'examples' | 'faqs'>('standard')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const [selectedStandardDetails, setSelectedStandardDetails] = useState<Standard>(initialSelectedStandardDetails)
@@ -546,7 +546,7 @@ export default function LearningPortalClient({
   const [isLoadingDetails, setIsLoadingDetails] = useState(false)
 
   useEffect(() => {
-    if (activeTab === 'standard' || activeTab === 'examples') {
+    if (activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') {
       setLastActiveBaseTab(activeTab)
     }
   }, [activeTab])
@@ -998,6 +998,7 @@ export default function LearningPortalClient({
                         >
                           <Scale size={14} className="shrink-0" />
                           Examples &amp; Case Law
+                        </button>
                       </div>
                     </div>
                   ) : (
@@ -1213,33 +1214,43 @@ export default function LearningPortalClient({
               {activeTab === 'standard' && (
                 <div className="w-full space-y-8 animate-fade-in font-sans">
                   {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 ? (
-                    <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
+                    <div className={`bg-white dark:bg-[#111726] border dark:border-gray-800 rounded-2xl shadow-xs ${
+                      framework === 'AS' ? 'border-[#C5C3BC] p-8 sm:p-12 space-y-12' : 'border-[#E2E1DD] p-6 sm:p-10 space-y-10'
+                    }`}>
                       {currentStandard.blocks.map((block: any, blockIdx: number) => {
                         if (block.hidden) return null;
                         switch (block.type) {
                           case 'HEADING':
                             return (
-                              <h2 key={blockIdx} className="text-[13.5px] font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4 mt-8 first:mt-0 border-b border-gray-100 dark:border-gray-800 pb-2.5">
+                              <h2 key={blockIdx} className={`font-extrabold text-[#1C1C1E] dark:text-white uppercase tracking-wide border-b border-gray-250 dark:border-gray-800 pb-3.5 ${
+                                framework === 'AS' ? 'text-2xl sm:text-3xl mb-8 mt-12 first:mt-0' : 'text-xl sm:text-2xl mb-6 mt-10 first:mt-0'
+                              }`}>
                                 {renderTextWithReferences(block.content)}
                               </h2>
                             )
                           case 'SUB_HEADING':
                             return (
-                              <h3 key={blockIdx} className="text-[12.5px] font-bold text-[#1C1C1E] dark:text-white mb-2.5 mt-5">
+                              <h3 key={blockIdx} className={`font-extrabold text-[#1C1C1E] dark:text-white mb-4 ${
+                                framework === 'AS' ? 'text-[19px] sm:text-[21px] mt-9' : 'text-[17px] sm:text-[19px] mt-7'
+                              }`}>
                                 {renderTextWithReferences(block.content)}
                               </h3>
                             )
                           case 'PARAGRAPH':
                             return (
-                              <div key={blockIdx} className="text-[13px] text-[#4A4A52] dark:text-gray-300 leading-relaxed mb-4 font-medium">
+                              <div key={blockIdx} className={`text-slate-755 dark:text-gray-200 leading-relaxed ${
+                                framework === 'AS' ? 'text-[17.5px] sm:text-[18.5px] mb-7 font-reading font-normal' : 'text-[15.5px] sm:text-[16.5px] mb-5 font-medium'
+                              }`}>
                                 {renderTextWithReferences(block.content)}
                               </div>
                             )
                           case 'NOTE':
                             return (
-                              <div key={blockIdx} className="p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] mb-4">
-                                {block.title && <h3 className="text-[12.5px] font-bold text-[#1C1C1E] dark:text-white mb-2">{block.title}</h3>}
-                                <div className="text-[13px] text-[#4A4A52] dark:text-gray-400 leading-relaxed font-medium">{renderTextWithReferences(block.body)}</div>
+                              <div key={blockIdx} className={`p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-gray-800 bg-[#FAFAF8]/60 dark:bg-[#1E2640]/55 shadow-xs ${
+                                framework === 'AS' ? 'mb-8 border-[#C5C3BC]/50' : 'mb-6'
+                              }`}>
+                                {block.title && <h3 className={`font-extrabold text-[#1C1C1E] dark:text-white ${framework === 'AS' ? 'text-[17.5px] mb-3' : 'text-[15.5px] mb-2.5'}`}>{block.title}</h3>}
+                                <div className={`text-slate-700 dark:text-gray-300 leading-relaxed font-medium ${framework === 'AS' ? 'text-[16px] sm:text-[17px]' : 'text-[14.5px] sm:text-[15.5px]'}`}>{renderTextWithReferences(block.body)}</div>
                               </div>
                             )
                           case 'EXAM_TRAP':
@@ -1276,18 +1287,22 @@ export default function LearningPortalClient({
                           case 'EXAMPLE':
                           case 'ILLUSTRATION':
                             return (
-                              <div key={blockIdx} className="p-5 border border-[#E2E1DD] dark:border-gray-800 rounded-xl bg-[#FAFAF8] dark:bg-[#1E2640]/50 mb-4">
-                                <h3 className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 mb-2">📋 Example: {block.title}</h3>
-                                <div className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed mb-2">
+                              <div key={blockIdx} className={`border dark:border-gray-800 rounded-2xl bg-[#FAFAF8]/55 dark:bg-[#1E2640]/30 shadow-xs space-y-4 ${
+                                framework === 'AS' ? 'p-8 mb-8 border-[#C5C3BC]' : 'p-5 mb-4 border-[#E2E1DD]'
+                              }`}>
+                                <h3 className={`font-bold text-[#2D5BE3] dark:text-[#60A5FA] ${framework === 'AS' ? 'text-[17.5px] mb-3' : 'text-xs mb-2'}`}>📋 Example: {block.title}</h3>
+                                <div className={`text-slate-700 dark:text-gray-300 leading-relaxed ${framework === 'AS' ? 'text-[15.5px] sm:text-[16.5px]' : 'text-xs'}`}>
                                   <strong>Scenario: </strong>{renderTextWithReferences(block.scenario)}
                                 </div>
                                 {block.working && (
-                                  <div className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed mb-2">
+                                  <div className={`text-slate-650 dark:text-gray-400 leading-relaxed ${framework === 'AS' ? 'text-[15.5px] sm:text-[16.5px]' : 'text-xs'}`}>
                                     <strong>Working: </strong>{renderTextWithReferences(block.working)}
                                   </div>
                                 )}
                                 {block.answer && (
-                                  <div className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed">
+                                  <div className={`leading-relaxed font-medium bg-white dark:bg-slate-900 p-4 rounded-xl border border-gray-100 dark:border-gray-800 ${
+                                    framework === 'AS' ? 'text-[16px] sm:text-[17px]' : 'text-xs'
+                                  }`}>
                                     <strong>Solution / Treatment: </strong>{renderTextWithReferences(block.answer)}
                                   </div>
                                 )}
@@ -1319,6 +1334,7 @@ export default function LearningPortalClient({
                               </div>
                             )
                           case 'FAQ':
+                            if (framework === 'AS') return null;
                             return (
                               <div key={blockIdx} className="p-5 border border-[#E2E1DD] dark:border-gray-800 rounded-xl bg-[#FAFAF8] dark:bg-[#1E2640]/50 mb-4">
                                 <h3 className="text-xs font-bold text-slate-900 dark:text-white mb-2">❓ Question: {block.question}</h3>

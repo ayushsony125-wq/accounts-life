@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 import { verifyAdminSession } from '../session'
 import {
   Settings,
@@ -18,11 +19,12 @@ export const dynamic = 'force-dynamic'
 
 const SITE_VERSION = '1.2.0'
 const SITE_NAME = 'Accounts.One'
-const SITE_URL = 'https://accounts-one-ak-s-projectsakk.vercel.app'
-const ADMIN_EMAIL = 'admin@accounts.one'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://accounts.one'
 
 export default async function SettingsPage() {
   await verifyAdminSession()
+  const cookieStore = await cookies()
+  const loggedInEmail = cookieStore.get('admin_email')?.value || 'admin@accounts.one'
 
   return (
     <div className="space-y-8 max-w-3xl">
@@ -50,9 +52,10 @@ export default async function SettingsPage() {
         </div>
         <div className="px-5 py-5 space-y-1">
           {[
+            { label: 'Account Name',    value: 'CA Portal Administrator (AK)', mono: false },
             { label: 'Site Name',       value: SITE_NAME,    mono: false },
             { label: 'Live URL',        value: SITE_URL,     mono: true  },
-            { label: 'Admin Email',     value: ADMIN_EMAIL,  mono: true  },
+            { label: 'Admin Email',     value: loggedInEmail, mono: true  },
             { label: 'CMS Version',     value: SITE_VERSION, mono: true  },
             { label: 'Environment',     value: process.env.NODE_ENV ?? 'production', mono: true },
             { label: 'Database',        value: process.env.DATABASE_URL ? 'Neon PostgreSQL (Connected)' : 'Not configured', mono: true },
@@ -106,15 +109,18 @@ export default async function SettingsPage() {
             <div className="flex items-start gap-3">
               <KeyRound size={14} className="text-[#B45309] mt-0.5 shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-[#1C1C1E]">Recovery & Fallback Access</p>
+                <p className="text-sm font-semibold text-[#1C1C1E]">Alternative Recovery & Fallback Access</p>
                 <p className="text-xs text-[#76767E] mt-0.5 leading-relaxed">
-                  If you lose access to your primary password, set a <strong>backup recovery password</strong> as a second environment variable.
-                  Add <code className="bg-[#F4F3F0] px-1 rounded">ADMIN_RECOVERY_PASSWORD</code> in Vercel Environment Variables.
-                  Store this in a secure location (password manager / encrypted note).
+                  If you lose access to your primary password, you can configure fallback recovery methods:
                 </p>
-                <div className="mt-2 p-3 bg-[#FEF6E4] border border-[#FDE68A] rounded-lg">
+                <ul className="list-disc pl-4 text-xs text-[#76767E] space-y-1 mt-1.5 leading-relaxed font-semibold">
+                  <li><strong>Recovery Password:</strong> Add <code className="bg-[#F4F3F0] px-1 rounded">ADMIN_RECOVERY_PASSWORD</code> in Vercel Environment Variables.</li>
+                  <li><strong>Safe Recovery Email:</strong> Add <code className="bg-[#F4F3F0] px-1 rounded">ADMIN_RECOVERY_EMAIL</code> to set a secondary destination for emergency token dispatch.</li>
+                  <li><strong>TOTP Multi-Factor:</strong> Add <code className="bg-[#F4F3F0] px-1 rounded">ADMIN_MFA_SECRET</code> to enable 2FA app verification codes on login.</li>
+                </ul>
+                <div className="mt-3.5 p-3 bg-[#FEF6E4] border border-[#FDE68A] rounded-lg">
                   <p className="text-xs font-semibold text-[#B45309]">
-                    ⚠ Keep your recovery password in a secure, offline location. Do not store it in the codebase.
+                    ⚠ Save recovery credentials in a secure, offline password manager. Never commit raw passwords to version control.
                   </p>
                 </div>
               </div>

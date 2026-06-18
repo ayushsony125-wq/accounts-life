@@ -252,7 +252,7 @@ export default async function TopicPage({ params }: PageParams) {
           )}
 
           {/* ── FAQs ─────────────────────────────────────────────── */}
-          {entry.faqs && entry.faqs.length > 0 && (
+          {domainSlug.toLowerCase() !== 'as' && entry.faqs && entry.faqs.length > 0 && (
             <FAQSection faqs={entry.faqs} />
           )}
 
