@@ -1194,16 +1194,6 @@ export default function LearningPortalClient({
                   <Download size={14} className="shrink-0" />
                   Download PDF
                 </a>
-
-                <button
-                  onClick={() => {
-                    setActiveTab(lastActiveBaseTab)
-                  }}
-                  className="flex items-center gap-1 px-3.5 py-2 rounded-md text-[12.5px] font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 dark:bg-gray-800 dark:text-white transition-colors shrink-0"
-                >
-                  <X size={14} className="shrink-0" />
-                  Close PDF Viewer
-                </button>
               </div>
             )}
 

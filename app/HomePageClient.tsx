@@ -867,12 +867,14 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
 
   return (
     <>
-      {sectionsOrder.map((sectionId: string) => {
+      <div className="min-h-[calc(100vh-64px)] flex flex-col justify-between">
+        {renderHero()}
+        <div className="flex-1 flex flex-col justify-center bg-[#F4F3F0] dark:bg-[#111726]">
+          {renderDomains()}
+        </div>
+      </div>
+      {sectionsOrder.filter((id: string) => id !== 'hero' && id !== 'domains').map((sectionId: string) => {
         switch (sectionId) {
-          case 'hero':
-            return renderHero()
-          case 'domains':
-            return renderDomains()
           case 'updates':
             return renderUpdates()
           case 'quickaccess':
