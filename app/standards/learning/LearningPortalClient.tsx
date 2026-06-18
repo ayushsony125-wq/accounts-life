@@ -1091,20 +1091,6 @@ export default function LearningPortalClient({
                       <Scale size={13} className="shrink-0" />
                       Examples &amp; Case Law
                     </button>
-                    <button
-                      onClick={() => {
-                        setActiveTab('faqs')
-                        setIsSidebarOpen(false)
-                      }}
-                      className={`w-full text-left py-1.5 px-3 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
-                        activeTab === 'faqs'
-                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:bg-[#1A2542] dark:text-[#60A5FA] font-extrabold'
-                          : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
-                      }`}
-                    >
-                      <HelpCircle size={13} className="shrink-0" />
-                      FAQs
-                    </button>
                   </div>
                 )}
               </div>
@@ -1197,29 +1183,21 @@ export default function LearningPortalClient({
               </div>
             )}
 
-            {(activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') && (
+            {(activeTab === 'standard' || activeTab === 'examples') && (
               <>
                 <button
-                  onClick={() => window.print()}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs cursor-pointer"
-                  title="Download generated website content study guide as PDF"
-                >
-                  <Download size={15} className="shrink-0 text-[#E15252] dark:text-red-400" />
-                  Download Study PDF
-                </button>
-                <button
                   onClick={() => setActiveTab('lecture')}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0 transition-all shadow-xs"
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0 transition-all shadow-xs"
                 >
-                  <Video size={15} className="shrink-0 text-[#2D5BE3] dark:text-blue-400" />
+                  <Video size={14} className="shrink-0 text-[#2D5BE3] dark:text-blue-400" />
                   Lecture
                 </button>
                 <button
                   onClick={() => setActiveTab('pdf')}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs"
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs"
                 >
-                  <FileText size={15} className="shrink-0 text-[#E15252] dark:text-red-400" />
-                  PDF View
+                  <FileText size={14} className="shrink-0 text-[#E15252] dark:text-red-400" />
+                  Official PDF
                 </button>
               </>
             )}
@@ -1256,27 +1234,27 @@ export default function LearningPortalClient({
                         switch (block.type) {
                           case 'HEADING':
                             return (
-                              <h2 key={blockIdx} className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4 mt-6 first:mt-0 border-b border-gray-100 dark:border-gray-800 pb-2">
+                              <h2 key={blockIdx} className="text-[13.5px] font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4 mt-8 first:mt-0 border-b border-gray-100 dark:border-gray-800 pb-2.5">
                                 {renderTextWithReferences(block.content)}
                               </h2>
                             )
                           case 'SUB_HEADING':
                             return (
-                              <h3 key={blockIdx} className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-2 mt-4">
+                              <h3 key={blockIdx} className="text-[12.5px] font-bold text-[#1C1C1E] dark:text-white mb-2.5 mt-5">
                                 {renderTextWithReferences(block.content)}
                               </h3>
                             )
                           case 'PARAGRAPH':
                             return (
-                              <div key={blockIdx} className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed mb-4 font-semibold">
+                              <div key={blockIdx} className="text-[13px] text-[#4A4A52] dark:text-gray-300 leading-relaxed mb-4 font-medium">
                                 {renderTextWithReferences(block.content)}
                               </div>
                             )
                           case 'NOTE':
                             return (
                               <div key={blockIdx} className="p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] mb-4">
-                                {block.title && <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1.5">{block.title}</h3>}
-                                <div className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">{renderTextWithReferences(block.body)}</div>
+                                {block.title && <h3 className="text-[12.5px] font-bold text-[#1C1C1E] dark:text-white mb-2">{block.title}</h3>}
+                                <div className="text-[13px] text-[#4A4A52] dark:text-gray-400 leading-relaxed font-medium">{renderTextWithReferences(block.body)}</div>
                               </div>
                             )
                           case 'EXAM_TRAP':

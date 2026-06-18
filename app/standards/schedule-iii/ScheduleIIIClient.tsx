@@ -37,7 +37,7 @@ export default function ScheduleIIIClient() {
     { id: 'balanceSheet', label: 'Balance Sheet', icon: FileText },
     { id: 'profitAndLoss', label: 'Statement of Profit & Loss', icon: Scale },
     { id: 'cashFlow', label: 'Cash Flow Statements', icon: BookOpen },
-    { id: 'others', label: 'Others (Ratios & Disclosures)', icon: FileText }
+    { id: 'others', label: 'Others', icon: FileText }
   ] as const
 
   return (
@@ -171,15 +171,15 @@ export default function ScheduleIIIClient() {
           <div className="w-full space-y-8 animate-fade-in font-sans">
             <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-8 shadow-xs">
               
-              {/* Header section with Source Link */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-150 dark:border-gray-800 gap-3">
+              {/* Header with Source Link */}
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between pb-5 border-b border-gray-100 dark:border-gray-800 gap-3">
                 <div>
-                  <span className="text-xs font-extrabold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider block mb-1">
-                    Statutory Framework Section
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white leading-tight">
-                    Overview and Applicability
+                  <h2 className="text-lg sm:text-xl font-bold text-[#1C1C1E] dark:text-white leading-tight">
+                    {currentTopic.title}
                   </h2>
+                  <p className="text-xs text-[#76767E] dark:text-gray-400 mt-1 font-medium">
+                    Companies Act, 2013 · Schedule III · {divisions.find(d => d.id === selectedDiv)?.label}
+                  </p>
                 </div>
                 {currentTopic.sourceLink && (
                   <a

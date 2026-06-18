@@ -58,8 +58,8 @@ export default function GlobalActionBar({
 
   return (
     <>
-      {/* Sticky top action bar */}
-      <div className="sticky top-12 z-30 -mx-8 mb-6 bg-white border-b border-[#E2E1DD] shadow-sm">
+      {/* Sticky top action bar — stays at top of scrollable content area */}
+      <div className="sticky top-0 z-30 -mx-8 mb-6 bg-white border-b border-[#E2E1DD] shadow-sm">
         <div className="flex items-center justify-between px-8 py-3">
           {/* Left: title + status */}
           <div className="flex items-center gap-3 min-w-0">

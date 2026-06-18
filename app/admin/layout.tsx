@@ -45,9 +45,9 @@ export default async function AdminLayout({
         {/* Sticky top header bar */}
         <header className="sticky top-0 z-40 h-12 bg-white border-b border-[#E2E1DD] flex items-center px-6 justify-between shrink-0">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-sm text-[#1C1C1E]">CMS Admin</span>
+            <span className="font-semibold text-sm text-[#1C1C1E]">Accounts.One</span>
             <span className="text-[#E2E1DD]">·</span>
-            <span className="text-xs text-[#76767E]">accounts-life</span>
+            <span className="text-xs text-[#76767E]">Admin CMS</span>
           </div>
           <div className="flex items-center gap-4">
             <a
@@ -61,8 +61,8 @@ export default async function AdminLayout({
           </div>
         </header>
 
-        {/* Page content */}
-        <main className="flex-1 p-8">
+        {/* Page content — overflow-y-auto ensures sticky GlobalActionBar works */}
+        <main className="flex-1 p-8 overflow-y-auto" style={{ height: 'calc(100vh - 48px)' }}>
           {children}
         </main>
       </div>
