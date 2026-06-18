@@ -26,23 +26,45 @@ export async function GET(
           entrySlug: cleanSlug,
         },
       },
+      include: {
+        mediaFile: true
+      }
     })
 
-    if (resource && resource.resourceUrl) {
-      const url = resource.resourceUrl
-      if (url.startsWith('data:application/pdf;base64,')) {
-        const base64Data = url.substring('data:application/pdf;base64,'.length)
-        const buffer = Buffer.from(base64Data, 'base64')
-        return new NextResponse(buffer, {
-          headers: {
-            'Content-Type': 'application/pdf',
-            'Content-Disposition': `inline; filename="${cleanSlug}.pdf"`,
-            'Cache-Control': 'public, max-age=86400'
-          },
-        })
-      } else if (url.startsWith('/pdfs/')) {
-        const redirectUrl = new URL(url, request.url)
-        return NextResponse.redirect(redirectUrl)
+    if (resource) {
+      // Check the optimized mediaFile database mapping first
+      if (resource.mediaFile && resource.mediaFile.filePath) {
+        const fileUrl = resource.mediaFile.filePath
+        if (fileUrl.startsWith('data:application/pdf;base64,')) {
+          const base64Data = fileUrl.substring('data:application/pdf;base64,'.length)
+          const buffer = Buffer.from(base64Data, 'base64')
+          return new NextResponse(buffer, {
+            headers: {
+              'Content-Type': 'application/pdf',
+              'Content-Disposition': `inline; filename="${cleanSlug}.pdf"`,
+              'Cache-Control': 'public, max-age=86400'
+            },
+          })
+        }
+      }
+
+      // Backwards compatibility fallback for legacy inline resourceUrl Base64 values
+      if (resource.resourceUrl) {
+        const url = resource.resourceUrl
+        if (url.startsWith('data:application/pdf;base64,')) {
+          const base64Data = url.substring('data:application/pdf;base64,'.length)
+          const buffer = Buffer.from(base64Data, 'base64')
+          return new NextResponse(buffer, {
+            headers: {
+              'Content-Type': 'application/pdf',
+              'Content-Disposition': `inline; filename="${cleanSlug}.pdf"`,
+              'Cache-Control': 'public, max-age=86400'
+            },
+          })
+        } else if (url.startsWith('/pdfs/')) {
+          const redirectUrl = new URL(url, request.url)
+          return NextResponse.redirect(redirectUrl)
+        }
       }
     }
 

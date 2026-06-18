@@ -1,10 +1,14 @@
 'use client'
 
-import { useState, useTransition, useEffect } from 'react'
+import { useState, useTransition, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { saveEntry, getEntryRevisions, getRevisionSnapshot } from '../actions'
-import { Info, Book, Image, Video, CheckCircle, ArrowRight, ArrowLeft, Plus, Trash2, HelpCircle, History, FileText, Link2, ExternalLink, X } from 'lucide-react'
+import {
+  Info, Book, Image, Video, CheckCircle, ArrowRight, ArrowLeft, Plus,
+  Trash2, HelpCircle, History, FileText, Link2, ExternalLink, X,
+  ArrowUp, ArrowDown, Eye, EyeOff, Copy, RefreshCw, Columns, Maximize2, Sparkles, ChevronRight
+} from 'lucide-react'
 import GlobalActionBar from '../GlobalActionBar'
 
 interface EntryFormProps {
@@ -18,20 +22,18 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const [isSaving, setIsSaving] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
   const [lastSaved, setLastSaved] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'resources' | 'publish'>('identity')
+  const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'resources' | 'history' | 'publish'>('identity')
+  const [previewTab, setPreviewTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
 
   // --- FORM STATES ---
-  // Identity Tab fields
   const [id, setId] = useState<number | undefined>(initialEntry?.id)
   const [entryTitle, setEntryTitle] = useState(initialEntry?.entryTitle || '')
   const [entrySlug, setEntrySlug] = useState(initialEntry?.entrySlug || '')
   const [entryType, setEntryType] = useState<string>(initialEntry?.entryType || 'CONCEPT')
   const [domainId, setDomainId] = useState<number>(initialEntry?.domainId || domains[0]?.id || 1)
-  
-  // Find current domain's subdomains
+
   const currentDomain = domains.find((d) => d.id === Number(domainId))
   const subdomains = currentDomain?.subdomains || []
-  
   const [subdomainId, setSubdomainId] = useState<number>(
     initialEntry?.subdomainId || subdomains[0]?.id || 1
   )
@@ -40,7 +42,11 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const [verificationLevel, setVerificationLevel] = useState<string>(initialEntry?.verificationLevel || 'DRAFT')
   const [status, setStatus] = useState<string>(initialEntry?.status || 'DRAFT')
   const [examLevelTags, setExamLevelTags] = useState<string>(
-    initialEntry?.examLevelTags ? initialEntry.examLevelTags.join(', ') : 'CA Intermediate'
+    initialEntry?.examLevelTags
+      ? Array.isArray(initialEntry.examLevelTags)
+        ? initialEntry.examLevelTags.join(', ')
+        : String(initialEntry.examLevelTags)
+      : 'CA Intermediate'
   )
   const [authorityPrimary, setAuthorityPrimary] = useState(initialEntry?.authorityPrimary || '')
   const [authorityPrimaryUrl, setAuthorityPrimaryUrl] = useState(initialEntry?.authorityPrimaryUrl || '')
@@ -49,129 +55,41 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const [seoTitle, setSeoTitle] = useState(initialEntry?.seoTitle || '')
   const [seoDescription, setSeoDescription] = useState(initialEntry?.seoDescription || '')
 
-  // Content Tab fields
-  // 1. Regular sections
-  const [sections, setSections] = useState<any[]>(initialEntry?.sections || [
-    { id: 'overview', heading: 'Overview', level: 1, body: '' }
-  ])
+  // Standard Metadata
+  const formatDate = (d: any) => {
+    if (!d) return ''
+    try {
+      const dateObj = new Date(d)
+      if (isNaN(dateObj.getTime())) return ''
+      return dateObj.toISOString().split('T')[0]
+    } catch {
+      return ''
+    }
+  }
 
-  // 2. FAQs
-  const [faqs, setFaqs] = useState<any[]>(
-    initialEntry?.faqs
-      ? initialEntry.faqs.map((f: any) => ({
-          faqQuestion: f.faqQuestion || f.question || '',
-          faqAnswer: f.faqAnswer || f.answer || '',
-          faqSourceRef: f.faqSourceRef || f.sourceRef || '',
-          faqCategory: f.faqCategory || f.category || 'GENERAL',
-        }))
-      : []
+  const [standardCode, setStandardCode] = useState(
+    initialEntry?.standardDetail?.standardCode || initialEntry?.standardCode || ''
   )
-
-  // 3. Notes callouts
-  const [notes, setNotes] = useState<any[]>(
-    initialEntry?.notes
-      ? initialEntry.notes.map((n: any) => ({
-          noteType: n.noteType || n.type || 'NOTE',
-          noteTitle: n.noteTitle || n.title || '',
-          noteBody: n.noteBody || n.body || '',
-        }))
-      : []
+  const [standardFramework, setStandardFramework] = useState<string>(
+    initialEntry?.standardDetail?.standardFramework || initialEntry?.standardFramework || 'AS'
   )
-
-  // 4. Standalone Journal entries
-  const [journalEntries, setJournalEntries] = useState<any[]>(
-    initialEntry?.journalEntries
-      ? initialEntry.journalEntries.map((je: any) => ({
-          jeScenarioTitle: je.jeScenarioTitle || je.scenario || '',
-          jeLabel: je.jeLabel || je.label || '',
-          jeCategoryHeading: je.jeCategoryHeading || je.category || '',
-          jeNarration: je.jeNarration || je.narration || '',
-          rows: je.rows
-            ? je.rows.map((row: any) => ({
-                rowType: row.rowType || 'DR',
-                accountName: row.accountName || '',
-                drAmount: row.drAmount || '',
-                crAmount: row.crAmount || '',
-              }))
-            : [{ rowType: 'DR', accountName: '', drAmount: '', crAmount: '' }],
-        }))
-      : []
+  const [standardStatus, setStandardStatus] = useState<string>(
+    initialEntry?.standardDetail?.standardStatus || initialEntry?.standardStatus || 'ACTIVE'
+  )
+  const [issuingBody, setIssuingBody] = useState(
+    initialEntry?.standardDetail?.issuingBody || initialEntry?.issuingBody || 'ICAI'
+  )
+  const [dateIssued, setDateIssued] = useState(
+    formatDate(initialEntry?.standardDetail?.dateIssued || initialEntry?.dateIssued)
+  )
+  const [dateEffective, setDateEffective] = useState(
+    formatDate(initialEntry?.standardDetail?.dateEffective || initialEntry?.dateEffective)
+  )
+  const [applicabilitySummary, setApplicabilitySummary] = useState(
+    initialEntry?.standardDetail?.applicabilitySummary || initialEntry?.applicabilitySummary || ''
   )
 
-  // 5. Illustrations
-  const [illustrations, setIllustrations] = useState<any[]>(
-    initialEntry?.illustrations
-      ? initialEntry.illustrations.map((illus: any) => ({
-          illusTitle: illus.illusTitle || illus.title || '',
-          illusScenario: illus.illusScenario || illus.scenario || '',
-          illusWorking: illus.illusWorking || illus.working || '',
-          illusAnswer: illus.illusAnswer || illus.answer || '',
-          illusNote: illus.illusNote || illus.note || '',
-          illusDifficulty: illus.illusDifficulty || illus.difficulty || 'BEGINNER',
-        }))
-      : []
-  )
-
-  // Standard specific fields (rendered if entryType === 'STANDARD')
-  const [standardCode, setStandardCode] = useState(initialEntry?.standardCode || '')
-  const [standardFramework, setStandardFramework] = useState<string>(initialEntry?.standardFramework || 'AS')
-  const [standardStatus, setStandardStatus] = useState<string>(initialEntry?.standardStatus || 'ACTIVE')
-  const [issuingBody, setIssuingBody] = useState(initialEntry?.issuingBody || 'ICAI')
-  const [dateIssued, setDateIssued] = useState(initialEntry?.dateIssued || '')
-  const [dateEffective, setDateEffective] = useState(initialEntry?.dateEffective || '')
-  const [applicabilitySummary, setApplicabilitySummary] = useState(initialEntry?.applicabilitySummary || '')
-  
-  const [objectiveText, setObjectiveText] = useState(initialEntry?.objective?.text || '')
-  const [objectiveSourcePara, setObjectiveSourcePara] = useState(initialEntry?.objective?.sourcePara || '')
-  const [objectiveCommentary, setObjectiveCommentary] = useState(initialEntry?.objective?.commentary || '')
-  const [objectiveKeyIssues, setObjectiveKeyIssues] = useState(
-    initialEntry?.objective?.keyIssues ? initialEntry.objective.keyIssues.join('\n') : ''
-  )
-  
-  const [scopeStatement, setScopeStatement] = useState(initialEntry?.scope?.statement || '')
-  const [scopeIncluded, setScopeIncluded] = useState(
-    initialEntry?.scope?.included ? initialEntry.scope.included.join('\n') : ''
-  )
-  const [scopeExcluded, setScopeExcluded] = useState(
-    initialEntry?.scope?.excluded ? initialEntry.scope.excluded.join('\n') : ''
-  )
-
-  const [definitions, setDefinitions] = useState<any[]>(
-    initialEntry?.definitions
-      ? initialEntry.definitions.map((def: any) => ({
-          defTerm: def.defTerm || def.term || '',
-          defParaReference: def.defParaReference || def.paraRef || '',
-          defOfficialText: def.defOfficialText || def.officialText || '',
-          defPlainExplanation: def.defPlainExplanation || def.plainExplanation || '',
-        }))
-      : []
-  )
-  const [disclosureGroups, setDisclosureGroups] = useState<any[]>(
-    initialEntry?.disclosureGroups
-      ? initialEntry.disclosureGroups.map((g: any) => ({
-          groupHeading: g.groupHeading || g.heading || '',
-          groupParaRange: g.groupParaRange || g.paraRange || '',
-          items: g.items
-            ? g.items.map((item: any) => ({
-                itemText: item.itemText || item.text || '',
-                itemIsConditional: item.itemIsConditional || item.isConditional || false,
-              }))
-            : [],
-        }))
-      : []
-  )
-  const [comparisonRows, setComparisonRows] = useState<any[]>(
-    initialEntry?.comparisonRows || initialEntry?.comparison?.rows
-      ? (initialEntry.comparisonRows || initialEntry.comparison.rows).map((row: any) => ({
-          criterion: row.criterion || '',
-          valueStd1: row.valueStd1 || row.as || '',
-          valueStd2: row.valueStd2 || row.indAs || '',
-          isDifferent: row.isDifferent || false,
-        }))
-      : []
-  )
-
-  // Tab 3: Resources
+  // Resources (Linked videos and PDFs)
   const [videos, setVideos] = useState<any[]>(
     initialEntry?.resources?.filter((r: any) => r.resourceType === 'VIDEO') || []
   )
@@ -179,11 +97,70 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     initialEntry?.resources?.filter((r: any) => r.resourceType !== 'VIDEO') || []
   )
 
-  // Auto-slug generation
+  // --- VISUAL BLOCKS SYSTEM ---
+  const [blocks, setBlocks] = useState<any[]>(() => {
+    if (initialEntry?.entryBody) {
+      try {
+        const bodyObj = typeof initialEntry.entryBody === 'string'
+          ? JSON.parse(initialEntry.entryBody)
+          : initialEntry.entryBody
+        if (bodyObj && bodyObj.blocks && Array.isArray(bodyObj.blocks)) {
+          return bodyObj.blocks
+        }
+      } catch (err) {}
+    }
+
+    // Fallback block generation from legacy fields
+    const generated: any[] = []
+    const objText = initialEntry?.standardDetail?.objectiveText || initialEntry?.objective?.text || ''
+    if (objText) {
+      generated.push({ id: 'obj-heading', type: 'HEADING', content: '1. Objective' })
+      generated.push({ id: 'obj-para', type: 'PARAGRAPH', content: objText })
+    }
+
+    const scopeText = initialEntry?.standardDetail?.scopeStatement || initialEntry?.scope?.statement || ''
+    if (scopeText) {
+      generated.push({ id: 'scope-heading', type: 'HEADING', content: '2. Scope' })
+      generated.push({ id: 'scope-para', type: 'PARAGRAPH', content: scopeText })
+    }
+
+    const definitionsList = initialEntry?.standardDetail?.definitions ?? initialEntry?.definitions
+    if (definitionsList && definitionsList.length > 0) {
+      generated.push({ id: 'def-heading', type: 'HEADING', content: 'Key Definitions' })
+      definitionsList.forEach((def: any, idx: number) => {
+        generated.push({
+          id: `def-${idx}`,
+          type: 'NOTE',
+          title: `Definition: ${def.defTerm || def.term || ''}`,
+          body: `Official Text:\n${def.defOfficialText || def.officialText || ''}\n\nExplanation:\n${def.defPlainExplanation || def.plainExplanation || ''}`
+        })
+      })
+    }
+
+    const notesList = initialEntry?.notes || []
+    if (notesList.length > 0) {
+      notesList.forEach((n: any, idx: number) => {
+        generated.push({
+          id: `note-${idx}`,
+          type: 'NOTE',
+          title: n.noteTitle || n.title || '',
+          body: n.noteBody || n.body || ''
+        })
+      })
+    }
+
+    if (generated.length === 0) {
+      generated.push({ id: 'block-1', type: 'HEADING', content: '1. Objective' })
+      generated.push({ id: 'block-2', type: 'PARAGRAPH', content: 'Define the objective of this standard here...' })
+    }
+
+    return generated
+  })
+
+  // Auto-slugify
   const handleTitleChange = (val: string) => {
     setEntryTitle(val)
     if (!id) {
-      // Auto-slugify
       const slugified = val
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
@@ -192,216 +169,91 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     }
   }
 
-  // Section additions
-  const addSection = () => {
-    setSections([...sections, { id: `sec-${Date.now()}`, heading: 'New Section', level: 1, body: '' }])
-  }
-  const removeSection = (idx: number) => {
-    setSections(sections.filter((_, i) => i !== idx))
-  }
-  const updateSection = (idx: number, field: string, val: any) => {
-    const next = [...sections]
-    next[idx][field] = val
-    setSections(next)
-  }
-
-  // FAQ additions
-  const addFAQ = () => {
-    setFaqs([...faqs, { question: '', answer: '', category: 'GENERAL', sortOrder: faqs.length }])
-  }
-  const removeFAQ = (idx: number) => {
-    setFaqs(faqs.filter((_, i) => i !== idx))
-  }
-  const updateFAQ = (idx: number, field: string, val: any) => {
-    const next = [...faqs]
-    next[idx][field] = val
-    setFaqs(next)
-  }
-
-  // Note additions
-  const addNote = () => {
-    setNotes([...notes, { noteType: 'NOTE', noteTitle: '', noteBody: '', sortOrder: notes.length }])
-  }
-  const removeNote = (idx: number) => {
-    setNotes(notes.filter((_, i) => i !== idx))
-  }
-  const updateNote = (idx: number, field: string, val: any) => {
-    const next = [...notes]
-    next[idx][field] = val
-    setNotes(next)
-  }
-
-  // Standalone Journal Entry additions
-  const addJournalEntry = () => {
-    setJournalEntries([
-      ...journalEntries,
-      {
-        jeScenarioTitle: '',
-        jeLabel: '',
-        jeCategoryHeading: '',
-        jeNarration: '',
-        rows: [{ rowType: 'DR', accountName: '', drAmount: '', crAmount: '' }],
-        sortOrder: journalEntries.length,
-      },
-    ])
-  }
-  const removeJournalEntry = (jeIdx: number) => {
-    setJournalEntries(journalEntries.filter((_, i) => i !== jeIdx))
-  }
-  const updateJournalEntry = (jeIdx: number, field: string, val: any) => {
-    const next = [...journalEntries]
-    next[jeIdx][field] = val
-    setJournalEntries(next)
-  }
-  const addJournalRow = (jeIdx: number) => {
-    const next = [...journalEntries]
-    next[jeIdx].rows.push({ rowType: 'DR', accountName: '', drAmount: '', crAmount: '' })
-    setJournalEntries(next)
-  }
-  const removeJournalRow = (jeIdx: number, rowIdx: number) => {
-    const next = [...journalEntries]
-    next[jeIdx].rows = next[jeIdx].rows.filter((_: any, i: number) => i !== rowIdx)
-    setJournalEntries(next)
-  }
-  const updateJournalRow = (jeIdx: number, rowIdx: number, field: string, val: any) => {
-    const next = [...journalEntries]
-    next[jeIdx].rows[rowIdx][field] = val
-    setJournalEntries(next)
-  }
-
-  // Illustration additions
-  const addIllustration = () => {
-    setIllustrations([
-      ...illustrations,
-      {
-        illusTitle: '',
-        illusScenario: '',
-        illusWorking: '',
-        illusAnswer: '',
-        illusNote: '',
-        illusDifficulty: 'BEGINNER',
-        sortOrder: illustrations.length,
-      },
-    ])
-  }
-  const removeIllustration = (idx: number) => {
-    setIllustrations(illustrations.filter((_, i) => i !== idx))
-  }
-  const updateIllustration = (idx: number, field: string, val: any) => {
-    const next = [...illustrations]
-    next[idx][field] = val
-    setIllustrations(next)
-  }
-
-  // Standard Definition additions
-  const addDefinition = () => {
-    setDefinitions([...definitions, { defTerm: '', defParaReference: '', defOfficialText: '', defPlainExplanation: '' }])
-  }
-  const removeDefinition = (idx: number) => {
-    setDefinitions(definitions.filter((_, i) => i !== idx))
-  }
-  const updateDefinition = (idx: number, field: string, val: any) => {
-    const next = [...definitions]
-    next[idx][field] = val
-    setDefinitions(next)
-  }
-
-  // Disclosure Group additions
-  const addDisclosureGroup = () => {
-    setDisclosureGroups([...disclosureGroups, { groupHeading: '', groupParaRange: '', items: [{ itemText: '', isConditional: false }] }])
-  }
-  const removeDisclosureGroup = (idx: number) => {
-    setDisclosureGroups(disclosureGroups.filter((_, i) => i !== idx))
-  }
-  const updateDisclosureGroup = (idx: number, field: string, val: any) => {
-    const next = [...disclosureGroups]
-    next[idx][field] = val
-    setDisclosureGroups(next)
-  }
-  const addDisclosureItem = (gIdx: number) => {
-    const next = [...disclosureGroups]
-    next[gIdx].items.push({ itemText: '', isConditional: false })
-    setDisclosureGroups(next)
-  }
-  const removeDisclosureItem = (gIdx: number, iIdx: number) => {
-    const next = [...disclosureGroups]
-    next[gIdx].items = next[gIdx].items.filter((_: any, i: number) => i !== iIdx)
-    setDisclosureGroups(next)
-  }
-  const updateDisclosureItem = (gIdx: number, iIdx: number, field: string, val: any) => {
-    const next = [...disclosureGroups]
-    next[gIdx].items[iIdx][field] = val
-    setDisclosureGroups(next)
-  }
-
-  // Comparison Row additions
-  const addComparisonRow = () => {
-    setComparisonRows([...comparisonRows, { criterion: '', valueStd1: '', valueStd2: '', isDifferent: false, differenceNote: '' }])
-  }
-  const removeComparisonRow = (idx: number) => {
-    setComparisonRows(comparisonRows.filter((_, i) => i !== idx))
-  }
-  const updateComparisonRow = (idx: number, field: string, val: any) => {
-    const next = [...comparisonRows]
-    next[idx][field] = val
-    setComparisonRows(next)
-  }
-
-  // Resources (Videos & References) additions
-  const addVideo = () => {
-    setVideos([...videos, { resourceType: 'VIDEO', resourceTitle: '', resourceUrl: '', videoChannel: '', sourceType: 'EXTERNAL' }])
-  }
-  const removeVideo = (idx: number) => {
-    setVideos(videos.filter((_, i) => i !== idx))
-  }
-  const updateVideo = (idx: number, field: string, val: any) => {
-    const next = [...videos]
-    next[idx][field] = val
-    setVideos(next)
-  }
-
-  const addPdfResource = () => {
-    setReferences([...references, { resourceType: 'PDF', resourceTitle: '', resourceUrl: '', sourceType: 'ICAI_OFFICIAL', refYear: new Date().getFullYear() }])
-  }
-  const addReferenceResource = () => {
-    setReferences([...references, { resourceType: 'REFERENCE', resourceTitle: '', resourceUrl: '', sourceType: 'EXTERNAL', refYear: new Date().getFullYear() }])
-  }
-  const removeReference = (idx: number) => {
-    setReferences(references.filter((_, i) => i !== idx))
-  }
-  const updateReference = (idx: number, field: string, val: any) => {
-    const next = [...references]
-    next[idx][field] = val
-    setReferences(next)
-  }
-
-  const handleFileChange = (idx: number, file: File | null) => {
-    if (!file) return
-    if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
-      alert('Only PDF files are allowed.')
-      return
+  // Visual Block editing functions
+  const addBlock = (type: string) => {
+    const id = `block-${Date.now()}`
+    let newBlock: any = { id, type }
+    if (type === 'HEADING' || type === 'SUB_HEADING' || type === 'PARAGRAPH') {
+      newBlock.content = ''
+    } else if (type === 'NOTE' || type === 'EXAM_TRAP' || type === 'PRACTICAL_USE') {
+      newBlock.title = ''
+      newBlock.body = ''
+    } else if (type === 'CASE_LAW') {
+      newBlock.title = ''
+      newBlock.citation = ''
+      newBlock.verdict = ''
+    } else if (type === 'EXAMPLE' || type === 'ILLUSTRATION') {
+      newBlock.title = ''
+      newBlock.scenario = ''
+      newBlock.working = ''
+      newBlock.answer = ''
+      newBlock.note = ''
+    } else if (type === 'FAQ') {
+      newBlock.question = ''
+      newBlock.answer = ''
+      newBlock.faqCategory = 'GENERAL'
+      newBlock.sourceRef = ''
+    } else if (type === 'PDF_REFERENCE' || type === 'VIDEO') {
+      newBlock.title = ''
+      newBlock.url = ''
+    } else if (type === 'TABLE') {
+      newBlock.headers = ['Item Description', 'AS Treatment', 'Ind AS Equivalent']
+      newBlock.rows = [
+        ['Example row 1', 'Treatment under AS GAAP rules', 'Treatment under Ind AS rules']
+      ]
+    } else if (type === 'DOWNLOAD_SECTION') {
+      newBlock.title = 'Download content PDF'
+      newBlock.url = ''
     }
-    if (file.size > 4 * 1024 * 1024) {
-      alert('File is too large. Maximum size is 4MB.')
-      return
-    }
-
-    const reader = new FileReader()
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        updateReference(idx, 'resourceUrl', reader.result)
-        updateReference(idx, 'resourceTitle', file.name)
-        updateReference(idx, 'resourceType', 'PDF')
-      }
-    }
-    reader.readAsDataURL(file)
+    setBlocks([...blocks, newBlock])
   }
 
-  // --- REVISION / UNDO / REDO STATE ---
-  // Backed by real Revision records in the database. Every Save/Publish creates a snapshot.
-  const [revisionHistory, setRevisionHistory] = useState<Array<{ id: number; version: number; snapshot: any }>>([])
-  const [revisionCursor, setRevisionCursor] = useState<number>(-1)
+  const updateBlock = (idx: number, field: string, val: any) => {
+    const next = [...blocks]
+    next[idx][field] = val
+    setBlocks(next)
+  }
+
+  const removeBlock = (idx: number) => {
+    setBlocks(blocks.filter((_, i) => i !== idx))
+  }
+
+  const moveBlockUp = (idx: number) => {
+    if (idx === 0) return
+    const next = [...blocks]
+    const temp = next[idx]
+    next[idx] = next[idx - 1]
+    next[idx - 1] = temp
+    setBlocks(next)
+  }
+
+  const moveBlockDown = (idx: number) => {
+    if (idx === blocks.length - 1) return
+    const next = [...blocks]
+    const temp = next[idx]
+    next[idx] = next[idx + 1]
+    next[idx + 1] = temp
+    setBlocks(next)
+  }
+
+  const duplicateBlock = (idx: number) => {
+    const block = blocks[idx]
+    const dup = { ...block, id: `block-${Date.now()}` }
+    const next = [...blocks]
+    next.splice(idx + 1, 0, dup)
+    setBlocks(next)
+  }
+
+  const toggleBlockHidden = (idx: number) => {
+    const next = [...blocks]
+    next[idx].hidden = !next[idx].hidden
+    setBlocks(next)
+  }
+
+  // --- REVISIONS HISTORY SYSTEM ---
+  const [revisionHistory, setRevisionHistory] = useState<any[]>([])
   const [isLoadingRevisions, setIsLoadingRevisions] = useState(false)
+  const [comparingRevision, setComparingRevision] = useState<any | null>(null)
 
   const ensureRevisionsLoaded = async () => {
     if (!id || revisionHistory.length > 0 || isLoadingRevisions) return
@@ -409,20 +261,19 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     try {
       const result = await getEntryRevisions(id)
       if (result.success && result.revisions.length > 0) {
-        const revisionsWithSnapshots = await Promise.all(
-          [...result.revisions].reverse().map(async (rev: any) => {
+        const loaded = await Promise.all(
+          result.revisions.map(async (rev: any) => {
             const snapResult = await getRevisionSnapshot(rev.id)
             return {
-              id: rev.id,
-              version: rev.version,
+              ...rev,
               snapshot: snapResult.success ? (snapResult as any).revision?.snapshot : null,
             }
           })
         )
-        const loaded = revisionsWithSnapshots.filter(r => r.snapshot !== null)
-        setRevisionHistory(loaded)
-        setRevisionCursor(loaded.length - 1)
+        setRevisionHistory(loaded.filter(r => r.snapshot !== null))
       }
+    } catch (err) {
+      console.error('Failed loading revisions:', err)
     } finally {
       setIsLoadingRevisions(false)
     }
@@ -433,9 +284,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       ensureRevisionsLoaded()
     }
   }, [id])
-
-  const canUndo = id != null && revisionCursor > 0
-  const canRedo = id != null && revisionCursor < revisionHistory.length - 1
 
   const applySnapshot = (snapshot: any) => {
     if (!snapshot) return
@@ -452,29 +300,28 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setStandardCode(snapshot.standardCode || '')
     setStandardFramework(snapshot.standardFramework || 'AS')
     setStandardStatus(snapshot.standardStatus || 'ACTIVE')
-    setObjectiveText(snapshot.objective?.text || snapshot.objectiveText || '')
-    setScopeStatement(snapshot.scope?.statement || snapshot.scopeStatement || '')
-    if (snapshot.sections) setSections(snapshot.sections)
-    if (snapshot.faqs) setFaqs(snapshot.faqs)
-    if (snapshot.notes) setNotes(snapshot.notes)
+    if (snapshot.entryBody?.blocks) {
+      setBlocks(snapshot.entryBody.blocks)
+    } else if (snapshot.sections) {
+      // Import from older legacy section structures if needed
+      setBlocks(snapshot.sections.map((s: any) => ({
+        id: `sec-${s.id || Date.now()}`,
+        type: 'HEADING',
+        content: s.heading
+      })))
+    }
   }
 
-  const handleUndo = async () => {
-    await ensureRevisionsLoaded()
-    if (revisionCursor <= 0 || revisionHistory.length === 0) return
-    const newCursor = revisionCursor - 1
-    setRevisionCursor(newCursor)
-    applySnapshot(revisionHistory[newCursor]?.snapshot)
+  const handleUndo = () => {
+    if (revisionHistory.length > 1) {
+      applySnapshot(revisionHistory[1].snapshot)
+      alert('Reverted to previous revision.')
+    }
   }
 
-  const handleRedo = async () => {
-    if (revisionCursor >= revisionHistory.length - 1) return
-    const newCursor = revisionCursor + 1
-    setRevisionCursor(newCursor)
-    applySnapshot(revisionHistory[newCursor]?.snapshot)
-  }
+  const canUndo = id != null && revisionHistory.length > 1
 
-  // --- SUBMIT ---
+  // --- SUBMIT / SAVE ---
   const handleSubmitInner = async (publishNow = false, isPreview = false) => {
     if (!entryTitle.trim() || !entrySlug.trim() || !summary.trim()) {
       alert('Please fill out the Title, Slug, and Summary in the Identity tab.')
@@ -482,1477 +329,1345 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       return
     }
 
-    // Combine video & references
-    const combinedResources = [
-      ...videos.map((v) => ({ ...v, resourceType: 'VIDEO' })),
-      ...references,
-    ]
-
-      const payload = {
-        id,
-        entryTitle,
-        entrySlug,
-        entryType,
-        domainId: Number(domainId),
-        subdomainId: Number(subdomainId),
-        summary,
-        verificationLevel,
-        status: publishNow ? 'PUBLISHED' : status,
-        examLevelTags: examLevelTags.split(',').map((x: string) => x.trim()).filter((x: string) => x),
-        authorityPrimary,
-        authorityPrimaryUrl,
-        authoritySecondary,
-        isFeatured,
-        seoTitle: seoTitle || entryTitle,
-        seoDescription: seoDescription || summary.substring(0, 155),
-        sections,
-        faqs: faqs.map((f) => ({
-          ...f,
-          question: f.faqQuestion,
-          answer: f.faqAnswer,
-          sourceRef: f.faqSourceRef,
-          category: f.faqCategory,
-        })),
-        notes: notes.map((n: any) => ({
-          ...n,
-          type: n.noteType || n.type || 'NOTE',
-          title: n.noteTitle || n.title || '',
-          body: n.noteBody || n.body || '',
-          noteType: n.noteType || n.type || 'NOTE',
-          noteTitle: n.noteTitle || n.title || '',
-          noteBody: n.noteBody || n.body || '',
-        })),
-        journalEntries,
-        illustrations,
-        resources: combinedResources,
-        domain: currentDomain ? {
-          domainCode: currentDomain.domainCode,
-          domainName: currentDomain.domainName,
-          domainSlug: currentDomain.domainSlug,
-          domainColorHex: currentDomain.domainColorHex,
-        } : undefined,
-        subdomain: subdomains.find((s: any) => s.id === Number(subdomainId)) ? {
-          subdomainName: subdomains.find((s: any) => s.id === Number(subdomainId))?.subdomainName,
-          subdomainSlug: subdomains.find((s: any) => s.id === Number(subdomainId))?.subdomainSlug,
-        } : undefined,
-        standardCode,
-        standardFramework,
-        standardStatus,
-        issuingBody,
-        dateIssued,
-        dateEffective,
-        applicabilitySummary,
-        objective: {
-          text: objectiveText,
-          sourcePara: objectiveSourcePara,
-          commentary: objectiveCommentary,
-          keyIssues: objectiveKeyIssues.split('\n').filter((x: string) => x.trim()),
-        },
-        scope: {
-          statement: scopeStatement,
-          included: scopeIncluded.split('\n').filter((x: string) => x.trim()),
-          excluded: scopeExcluded.split('\n').filter((x: string) => x.trim()),
-        },
-        definitions: definitions.map((def) => ({
-          ...def,
-          term: def.defTerm,
-          paraRef: def.defParaReference,
-          officialText: def.defOfficialText,
-          plainExplanation: def.defPlainExplanation,
-        })),
-        disclosureGroups: disclosureGroups.map((g) => ({
-          ...g,
-          heading: g.groupHeading,
-          paraRange: g.groupParaRange,
-          items: g.items?.map((item: any) => ({
-            ...item,
-            text: item.itemText,
-            isConditional: item.itemIsConditional,
-          })),
-        })),
-        comparisonRows: comparisonRows.map((r: any) => ({
-          ...r,
-          valueStd1: r.valueStd1,
-          valueStd2: r.valueStd2,
-        })),
-        comparison: {
-          std2Title: standardFramework === 'AS' ? 'Ind AS equivalent' : 'AS equivalent',
-          rows: comparisonRows.map((r: any) => ({
-            criterion: r.criterion,
-            as: r.valueStd1 || r.as || '',
-            indAs: r.valueStd2 || r.indAs || '',
-            isDifferent: r.isDifferent || false,
-          })),
-        },
-        quickBullets: [
-          { icon: '🏢', label: 'Framework', desc: standardFramework === 'AS' ? 'Accounting Standards (AS)' : 'Ind AS Framework' },
-          { icon: '📋', label: 'Status', desc: standardStatus },
-          { icon: '🏫', label: 'Issuing Body', desc: issuingBody },
-        ],
-        journalEntryNotes: journalEntries.map((je: any) => ({
-          scenario: je.jeScenarioTitle,
-          treatment: je.jeNarration || 'See double entry guidance details.',
-        })),
+    const payload = {
+      id,
+      entryTitle,
+      entrySlug,
+      entryType,
+      domainId: Number(domainId),
+      subdomainId: Number(subdomainId),
+      summary,
+      verificationLevel,
+      status: publishNow ? 'PUBLISHED' : status,
+      examLevelTags: examLevelTags.split(',').map((x: string) => x.trim()).filter((x: string) => x),
+      authorityPrimary,
+      authorityPrimaryUrl,
+      authoritySecondary,
+      isFeatured,
+      seoTitle: seoTitle || entryTitle,
+      seoDescription: seoDescription || summary.substring(0, 155),
+      resources: [
+        ...videos.map(v => ({ ...v, resourceType: 'VIDEO' })),
+        ...references
+      ],
+      entryBody: {
+        blocks: blocks
+      },
+      standardCode,
+      standardFramework,
+      standardStatus,
+      issuingBody,
+      dateIssued,
+      dateEffective,
+      applicabilitySummary,
+      definitions: initialEntry?.standardDetail?.definitions || [],
+      disclosureGroups: initialEntry?.standardDetail?.disclosureGroups || [],
+      comparisonRows: initialEntry?.standardDetail?.comparisonRows || [],
+      objective: {
+        text: blocks.find(b => b.type === 'PARAGRAPH' && b.id?.includes('obj'))?.content || initialEntry?.standardDetail?.objectiveText || '',
+        sourcePara: initialEntry?.standardDetail?.objectiveSourcePara || 'Paragraph 1',
+        commentary: initialEntry?.standardDetail?.objectiveCommentary || '',
+        keyIssues: initialEntry?.standardDetail?.objectiveKeyIssues || []
+      },
+      scope: {
+        statement: blocks.find(b => b.type === 'PARAGRAPH' && b.id?.includes('scope'))?.content || initialEntry?.standardDetail?.scopeStatement || '',
+        included: initialEntry?.standardDetail?.scopeIncluded || [],
+        excluded: initialEntry?.standardDetail?.scopeExcluded || []
       }
+    }
 
     try {
       const res = await saveEntry(payload)
       if (res.success) {
+        setLastSaved(new Date().toLocaleTimeString())
         if (isPreview) {
-          window.open(`/preview/${res.id || id}`, '_blank')
-          if (!id && res.id) {
-            router.push(`/admin/entries/${res.id}/edit`)
+          if (entrySlug.startsWith('schedule-iii-')) {
+            window.open(`/standards/schedule-iii`, '_blank')
           } else {
-            router.refresh()
+            window.open(`/standards/${standardFramework.toLowerCase() === 'as' ? 'as' : 'ind-as'}/${entrySlug}`, '_blank')
           }
         } else {
           router.push('/admin/entries')
           router.refresh()
         }
       } else {
-        alert('Error saving entry: ' + ((res as any).error || 'Unknown server response.'))
+        alert('Error saving: ' + (res.error || 'Server error'))
       }
     } catch (e: any) {
-      alert('An error occurred during submission: ' + (e.message || String(e)))
+      alert('Submission failed: ' + e.message)
     }
   }
 
-  const handleSubmit = (publishNow = false) => {
-    startTransition(() => handleSubmitInner(publishNow))
+  // --- PDF & VIDEO FILE UPLOADS ---
+  const handlePdfUpload = async (idx: number, file: File) => {
+    if (!entrySlug) {
+      alert('Please enter a Slug in the Identity tab first.')
+      return
+    }
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('entrySlug', entrySlug)
+    formData.append('type', 'pdf')
+
+    try {
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.success) {
+        updateReference(idx, 'resourceUrl', data.url)
+        updateReference(idx, 'resourceTitle', file.name)
+        updateReference(idx, 'mediaFileId', data.mediaFileId)
+      } else {
+        alert('Upload failed: ' + data.error)
+      }
+    } catch (e) {
+      alert('Upload failed.')
+    }
   }
 
-  // --- PRE-PUBLISH CHECKS ---
+  const handleVideoUpload = async (idx: number, file: File) => {
+    if (!entrySlug) {
+      alert('Please enter a Slug in the Identity tab first.')
+      return
+    }
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('entrySlug', entrySlug)
+    formData.append('type', 'video')
+
+    try {
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.success) {
+        updateVideo(idx, 'resourceUrl', data.url)
+        updateVideo(idx, 'resourceTitle', file.name)
+        updateVideo(idx, 'mediaFileId', data.mediaFileId)
+      } else {
+        alert('Upload failed: ' + data.error)
+      }
+    } catch (e) {
+      alert('Upload failed.')
+    }
+  }
+
+  // Helper additions for state lists
+  const addVideo = () => setVideos([...videos, { resourceTitle: '', resourceUrl: '', videoChannel: '', sourceType: 'EXTERNAL' }])
+  const updateVideo = (idx: number, field: string, val: any) => {
+    const next = [...videos]
+    next[idx][field] = val
+    setVideos(next)
+  }
+  const removeVideo = (idx: number) => setVideos(videos.filter((_, i) => i !== idx))
+
+  const addReference = (type: 'PDF' | 'REFERENCE') => setReferences([...references, { resourceType: type, resourceTitle: '', resourceUrl: '', sourceType: 'ICAI_OFFICIAL' }])
+  const updateReference = (idx: number, field: string, val: any) => {
+    const next = [...references]
+    next[idx][field] = val
+    setReferences(next)
+  }
+  const removeReference = (idx: number) => setReferences(references.filter((_, i) => i !== idx))
+
+  // Render citation button helper
+  const renderTextWithReferences = (text: string) => {
+    if (!text) return ''
+    const regex = /\[(?:Source:\s*ICAI\s*AS\s*1\s*PDF\s*Page\s*|Page\s*|ICAI\s*Ref:\s*Page\s*4\.|PDF\s*|Official\s*|Ref\s*|Citation\s*:\s*|Official\s*Ref\s*:\s*Page\s*|MCA\s*Ref\s*:\s*Page\s*|ICAI\s*Ref\s*:\s*Page\s*)(\d+)(?:\s*[^\]]*)?\]/gi
+    const parts = []
+    let lastIndex = 0
+    let match
+    
+    while ((match = regex.exec(text)) !== null) {
+      const matchIndex = match.index
+      const pageNum = parseInt(match[1], 10)
+      if (matchIndex > lastIndex) {
+        parts.push(text.substring(lastIndex, matchIndex))
+      }
+      parts.push(
+        <span key={matchIndex} className="inline-flex items-center gap-1 px-1.5 py-0.5 mx-0.5 bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 rounded text-[9px] font-bold">
+          <FileText size={8} /> Page {pageNum}
+        </span>
+      )
+      lastIndex = regex.lastIndex
+    }
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex))
+    }
+    return parts.length > 0 ? parts : text
+  }
+
+  // Pre-publish checklist
   const checks = [
-    { name: 'Title is filled', passed: entryTitle.trim().length > 0 },
+    { name: 'Standard Code is defined', passed: standardCode.trim().length > 0 },
+    { name: 'Title is complete', passed: entryTitle.trim().length > 0 },
     { name: 'Slug is defined', passed: entrySlug.trim().length > 0 },
     { name: 'Summary is completed (min 20 chars)', passed: summary.trim().length >= 20 },
-    { name: 'Primary authority source cited', passed: authorityPrimary.trim().length > 0 },
-    { name: 'SEO meta details provided', passed: seoTitle.trim().length > 0 || seoDescription.trim().length > 0 },
+    { name: 'Primary source citation present', passed: authorityPrimary.trim().length > 0 },
   ]
-  const allPassed = checks.every((c: any) => c.passed)
-
-  // Handle save and publish via GlobalActionBar
-  const handleSaveDraftFromBar = () => {
-    setIsSaving(true)
-    startTransition(async () => {
-      try {
-        await handleSubmitInner(false)
-        setLastSaved(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }))
-      } finally {
-        setIsSaving(false)
-      }
-    })
-  }
-
-  const handlePublishFromBar = () => {
-    setIsPublishing(true)
-    startTransition(async () => {
-      try {
-        await handleSubmitInner(true)
-      } finally {
-        setIsPublishing(false)
-      }
-    })
-  }
-
-  const handlePreviewFromBar = () => {
-    setIsSaving(true)
-    startTransition(async () => {
-      try {
-        await handleSubmitInner(false, true)
-        setLastSaved(new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }))
-      } finally {
-        setIsSaving(false)
-      }
-    })
-  }
+  const allChecksPassed = checks.every(c => c.passed)
 
   return (
-    <div className="space-y-6 max-w-4xl">
-      {/* Global Action Bar */}
-      <GlobalActionBar
-        title={id ? (entryTitle || 'Edit Entry') : 'New Entry'}
-        subtitle={id ? `/${entrySlug}` : 'Configure and publish your content'}
-        isSaving={isSaving}
-        isPublishing={isPublishing}
-        lastSaved={lastSaved}
-        status={status as 'DRAFT' | 'PUBLISHED'}
-        onSaveDraft={handleSaveDraftFromBar}
-        onPublish={handlePublishFromBar}
-        onPreview={handlePreviewFromBar}
-        onUndo={handleUndo}
-        onRedo={handleRedo}
-        canUndo={canUndo && !isLoadingRevisions}
-        canRedo={canRedo}
-        viewLiveHref={entrySlug ? `/standards/${entrySlug}` : undefined}
-      />
-
-      {/* Back link + History link */}
-      <div className="flex items-center justify-between">
-        <Link
-          href="/admin/entries"
-          className="flex items-center gap-1 text-xs text-[#76767E] hover:text-[#1C1C1E] transition-colors font-medium"
-        >
-          <ArrowLeft size={13} /> Back to All Entries
-        </Link>
-        {id && (
-          <Link
-            href={`/admin/entries/${id}/history`}
-            className="flex items-center gap-1.5 text-xs text-[#2D5BE3] hover:underline font-semibold"
-          >
-            <History size={12} /> Version History
-          </Link>
-        )}
+    <div className="w-full flex flex-col h-[calc(100vh-80px)] overflow-hidden font-sans bg-[#FAFAF8] dark:bg-[#0B0F19]">
+      {/* Global Header Action Bar */}
+      <div className="border-b border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#111726] p-4 shrink-0 flex items-center justify-between">
+        <GlobalActionBar
+          title={id ? (entryTitle || 'Edit Entry') : 'New Entry'}
+          subtitle={id ? `/${entrySlug}` : 'Configure and publish your content'}
+          isSaving={isSaving}
+          isPublishing={isPublishing}
+          lastSaved={lastSaved}
+          status={status as 'DRAFT' | 'PUBLISHED'}
+          onSaveDraft={() => handleSubmitInner(false)}
+          onPublish={() => handleSubmitInner(true)}
+          onPreview={() => handleSubmitInner(false, true)}
+          onUndo={handleUndo}
+          onRedo={() => {}}
+          canUndo={canUndo}
+          canRedo={false}
+          viewLiveHref={entrySlug ? `/standards/${standardFramework.toLowerCase() === 'as' ? 'as' : 'ind-as'}/${entrySlug}` : undefined}
+        />
       </div>
 
-      {/* Tabs list */}
-      <div className="flex border-b border-[#E2E1DD] gap-1">
-        {(['identity', 'content', 'resources', 'publish'] as const).map((tab) => {
-          const active = activeTab === tab
-          const label = { identity: 'Identity', content: 'Content', resources: 'Resources', publish: 'Publish' }[tab]
-          const Icon = {
-            identity: Info,
-            content: Book,
-            resources: Video,
-            publish: CheckCircle,
-          }[tab]
+      {/* Side-by-Side Split Workspace */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Left Side: Notion-style Form Editor */}
+        <div className="w-1/2 flex flex-col border-r border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#111726] overflow-y-auto">
+          {/* Visual Tabs Header */}
+          <div className="flex border-b border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F]">
+            {(['identity', 'content', 'resources', 'history', 'publish'] as const).map((tab) => {
+              const active = activeTab === tab
+              const Icon = {
+                identity: Info,
+                content: Book,
+                resources: Video,
+                history: History,
+                publish: CheckCircle
+              }[tab]
 
-          return (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold border-b-2 -mb-px transition-all ${
-                active
-                  ? 'border-[#2D5BE3] text-[#2D5BE3]'
-                  : 'border-transparent text-[#76767E] hover:text-[#1C1C1E]'
-              }`}
-            >
-              <Icon size={12} />
-              <span>{label}</span>
-            </button>
-          )
-        })}
-      </div>
-
-      {/* TAB 1: IDENTITY */}
-      {activeTab === 'identity' && (
-        <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-5 shadow-xs">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Entry Title *
-              </label>
-              <input
-                type="text"
-                value={entryTitle}
-                onChange={(e) => handleTitleChange(e.target.value)}
-                className="w-full px-3 py-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-                placeholder="e.g. Going Concern Assumption"
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                URL Slug *
-              </label>
-              <input
-                type="text"
-                value={entrySlug}
-                onChange={(e) => setEntrySlug(e.target.value)}
-                className="w-full px-3 py-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E] font-mono focus:outline-none focus:border-[#2D5BE3]"
-                placeholder="e.g. going-concern"
-                required
-              />
-            </div>
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex items-center gap-1.5 px-4 py-3 text-xs font-bold border-b-2 -mb-px transition-all uppercase tracking-wider ${
+                    active
+                      ? 'border-[#2D5BE3] text-[#2D5BE3] bg-white dark:bg-[#111726]'
+                      : 'border-transparent text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
+                  }`}
+                >
+                  <Icon size={12} />
+                  <span>{tab}</span>
+                </button>
+              )
+            })}
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Entry Type
-              </label>
-              <select
-                value={entryType}
-                onChange={(e) => setEntryType(e.target.value)}
-                className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-3 py-2 text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-              >
-                <option value="CONCEPT">Concept Article</option>
-                <option value="STANDARD">Accounting Standard</option>
-                <option value="JOURNAL_ENTRY">Journal Entry Standalone</option>
-                <option value="GLOSSARY_TERM">Glossary Definition</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Domain Category
-              </label>
-              <select
-                value={domainId}
-                onChange={(e) => setDomainId(Number(e.target.value))}
-                className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-3 py-2 text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-              >
-                {domains.map((dom) => (
-                  <option key={dom.id} value={dom.id}>
-                    {dom.domainCode} — {dom.domainName}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Subdomain Section
-              </label>
-              <select
-                value={subdomainId}
-                onChange={(e) => setSubdomainId(Number(e.target.value))}
-                className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-3 py-2 text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-              >
-                {subdomains.length > 0 ? (
-                  subdomains.map((sub: any) => (
-                    <option key={sub.id} value={sub.id}>
-                      {sub.subdomainName}
-                    </option>
-                  ))
-                ) : (
-                  <option value="1">Core Guidance</option>
-                )}
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <div className="flex justify-between items-baseline mb-1.5">
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E]">
-                Summary Outline (Max 500 chars) *
-              </label>
-              <span className="text-[10px] text-[#A0A0A8] font-mono">
-                {summary.length} / 500
-              </span>
-            </div>
-            <textarea
-              value={summary}
-              onChange={(e) => setSummary(e.target.value.substring(0, 500))}
-              rows={3}
-              className="w-full px-3 py-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3] font-sans"
-              placeholder="Provide a plain-language summary for hover previews and sitemaps."
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Verification Badge
-              </label>
-              <select
-                value={verificationLevel}
-                onChange={(e) => setVerificationLevel(e.target.value)}
-                className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-3 py-2 text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-              >
-                <option value="VERIFIED">Verified (Official Vetted)</option>
-                <option value="DRAFT">Draft (Under Review)</option>
-                <option value="PLACEHOLDER">Placeholder / Scheduled</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Draft Status
-              </label>
-              <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-3 py-2 text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-              >
-                <option value="DRAFT">Draft (Unpublished)</option>
-                <option value="PUBLISHED">Published (Public)</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Exam Levels (Comma list)
-              </label>
-              <input
-                type="text"
-                value={examLevelTags}
-                onChange={(e) => setExamLevelTags(e.target.value)}
-                className="w-full px-3 py-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-                placeholder="CA Intermediate, CA Final"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Primary Authority Source
-              </label>
-              <input
-                type="text"
-                value={authorityPrimary}
-                onChange={(e) => setAuthorityPrimary(e.target.value)}
-                className="w-full px-3 py-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-                placeholder="e.g. ICAI Study Material Chapter 4"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#76767E] mb-1.5">
-                Primary Source URL
-              </label>
-              <input
-                type="url"
-                value={authorityPrimaryUrl}
-                onChange={(e) => setAuthorityPrimaryUrl(e.target.value)}
-                className="w-full px-3 py-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-                placeholder="https://..."
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 pt-2">
-            <input
-              type="checkbox"
-              id="is-featured-checkbox"
-              checked={isFeatured}
-              onChange={(e) => setIsFeatured(e.target.checked)}
-              className="rounded border-[#E2E1DD] text-[#2D5BE3] focus:ring-[#2D5BE3]"
-            />
-            <label htmlFor="is-featured-checkbox" className="text-xs font-semibold text-[#4A4A52] cursor-pointer">
-              Feature this entry on public dashboard/landing page
-            </label>
-          </div>
-
-          <div className="border-t border-[#E2E1DD] pt-4 space-y-4">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-[#1C1C1E]">
-              SEO & Social Parameters
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-[#76767E] mb-1">
-                  Meta Title
-                </label>
-                <input
-                  type="text"
-                  value={seoTitle}
-                  onChange={(e) => setSeoTitle(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-                  placeholder="Defaults to Entry Title"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-[#76767E] mb-1">
-                  Meta Description
-                </label>
-                <textarea
-                  value={seoDescription}
-                  onChange={(e) => setSeoDescription(e.target.value)}
-                  rows={1}
-                  className="w-full px-3 py-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-                  placeholder="Defaults to Summary"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* TAB 2: CONTENT */}
-      {activeTab === 'content' && (
-        <div className="space-y-6">
-          {/* A. If Entry Type is STANDARD, render Standard Details Form fields */}
-          {entryType === 'STANDARD' && (
-            <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-5 shadow-xs">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#2D5BE3] border-b border-[#E2E1DD] pb-2">
-                Standard Framework Details
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div>
-                  <label className="block text-xs font-semibold text-[#76767E] mb-1">Standard Code</label>
-                  <input
-                    type="text"
-                    value={standardCode}
-                    onChange={(e) => setStandardCode(e.target.value)}
-                    className="w-full px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                    placeholder="e.g. AS 1"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#76767E] mb-1">Framework</label>
-                  <select
-                    value={standardFramework}
-                    onChange={(e) => setStandardFramework(e.target.value)}
-                    className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-2 py-1.5 text-xs text-[#1C1C1E]"
-                  >
-                    <option value="AS">Accounting Standards (AS)</option>
-                    <option value="IND_AS">Ind AS Framework</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#76767E] mb-1">Standard Status</label>
-                  <select
-                    value={standardStatus}
-                    onChange={(e) => setStandardStatus(e.target.value)}
-                    className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-2 py-1.5 text-xs text-[#1C1C1E]"
-                  >
-                    <option value="ACTIVE">Active</option>
-                    <option value="WITHDRAWN">Withdrawn</option>
-                    <option value="REVISED">Revised</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#76767E] mb-1">Issuing Body</label>
-                  <input
-                    type="text"
-                    value={issuingBody}
-                    onChange={(e) => setIssuingBody(e.target.value)}
-                    className="w-full px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-[#76767E] mb-1">Applicability Summary</label>
-                <textarea
-                  value={applicabilitySummary}
-                  onChange={(e) => setApplicabilitySummary(e.target.value)}
-                  rows={2}
-                  className="w-full px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                  placeholder="Summary detailing which levels of companies this standard applies to."
-                />
-              </div>
-
-              {/* Standard Objective */}
-              <div className="space-y-3 pt-2">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#76767E]">1. Objective</h3>
-                <textarea
-                  value={objectiveText}
-                  onChange={(e) => setObjectiveText(e.target.value)}
-                  rows={2}
-                  className="w-full px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                  placeholder="Official objective statement..."
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="p-6 space-y-6 flex-1">
+            {/* TAB 1: IDENTITY METADATA */}
+            {activeTab === 'identity' && (
+              <div className="space-y-5">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] text-[#76767E] mb-0.5">Source Clause Paragraph</label>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Standard Code</label>
                     <input
                       type="text"
-                      value={objectiveSourcePara}
-                      onChange={(e) => setObjectiveSourcePara(e.target.value)}
-                      className="w-full px-3 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                      placeholder="e.g. Paragraph 1-3"
+                      value={standardCode}
+                      onChange={(e) => setStandardCode(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                      placeholder="e.g. AS 1"
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] text-[#76767E] mb-0.5">Key issues (One per line)</label>
-                    <textarea
-                      value={objectiveKeyIssues}
-                      onChange={(e) => setObjectiveKeyIssues(e.target.value)}
-                      rows={2}
-                      className="w-full px-3 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                      placeholder="Issue 1&#10;Issue 2"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Standard Scope */}
-              <div className="space-y-3 pt-2">
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#76767E]">2. Scope</h3>
-                <textarea
-                  value={scopeStatement}
-                  onChange={(e) => setScopeStatement(e.target.value)}
-                  rows={2}
-                  className="w-full px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                  placeholder="Core scope statement..."
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[10px] text-[#76767E] mb-0.5">Included Items (One per line)</label>
-                    <textarea
-                      value={scopeIncluded}
-                      onChange={(e) => setScopeIncluded(e.target.value)}
-                      rows={2}
-                      className="w-full px-3 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] text-[#76767E] mb-0.5">Excluded Items (One per line)</label>
-                    <textarea
-                      value={scopeExcluded}
-                      onChange={(e) => setScopeExcluded(e.target.value)}
-                      rows={2}
-                      className="w-full px-3 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Key Definitions list */}
-              <div className="space-y-3 pt-2">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#76767E]">3. Key Definitions</h3>
-                  <button
-                    type="button"
-                    onClick={addDefinition}
-                    className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-                  >
-                    <Plus size={10} /> Add Def
-                  </button>
-                </div>
-                {definitions.map((def, idx) => (
-                  <div key={idx} className="border border-[#E2E1DD] p-3.5 rounded-md relative space-y-2.5">
-                    <button
-                      type="button"
-                      onClick={() => removeDefinition(idx)}
-                      className="absolute right-2 top-2 text-[#76767E] hover:text-[#C0392B]"
-                    >
-                      <Trash2 size={12} />
-                    </button>
-                    <div className="grid grid-cols-2 gap-2">
-                      <input
-                        type="text"
-                        value={def.defTerm}
-                        onChange={(e) => updateDefinition(idx, 'defTerm', e.target.value)}
-                        placeholder="Term Name"
-                        className="px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                      />
-                      <input
-                        type="text"
-                        value={def.defParaReference}
-                        onChange={(e) => updateDefinition(idx, 'defParaReference', e.target.value)}
-                        placeholder="Para Ref (e.g. Clause 4)"
-                        className="px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                      />
-                    </div>
-                    <textarea
-                      value={def.defOfficialText}
-                      onChange={(e) => updateDefinition(idx, 'defOfficialText', e.target.value)}
-                      placeholder="Official Text (Quotes)"
-                      rows={1}
-                      className="w-full px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                    />
-                    <textarea
-                      value={def.defPlainExplanation}
-                      onChange={(e) => updateDefinition(idx, 'defPlainExplanation', e.target.value)}
-                      placeholder="Plain language explanation..."
-                      rows={1}
-                      className="w-full px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Disclosure checklist */}
-              <div className="space-y-4 pt-2">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#76767E]">4. Disclosure Groups</h3>
-                  <button
-                    type="button"
-                    onClick={addDisclosureGroup}
-                    className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-                  >
-                    <Plus size={10} /> Add Group
-                  </button>
-                </div>
-                {disclosureGroups.map((g, gIdx) => (
-                  <div key={gIdx} className="border border-[#E2E1DD] p-4 rounded-md space-y-3">
-                    <div className="flex items-center justify-between">
-                      <div className="grid grid-cols-2 gap-2 flex-1 mr-6">
-                        <input
-                          type="text"
-                          value={g.groupHeading}
-                          onChange={(e) => updateDisclosureGroup(gIdx, 'groupHeading', e.target.value)}
-                          placeholder="Heading (e.g. General Disclosures)"
-                          className="px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs font-semibold text-[#1C1C1E]"
-                        />
-                        <input
-                          type="text"
-                          value={g.groupParaRange}
-                          onChange={(e) => updateDisclosureGroup(gIdx, 'groupParaRange', e.target.value)}
-                          placeholder="Para Ref (e.g. Para 17)"
-                          className="px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeDisclosureGroup(gIdx)}
-                        className="text-[#76767E] hover:text-[#C0392B]"
-                      >
-                        <Trash2 size={12} />
-                      </button>
-                    </div>
-
-                    {/* Disclosure Items list */}
-                    <div className="space-y-2 pl-4 border-l-2 border-[#E2E1DD]">
-                      <div className="flex justify-between items-center">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-[#76767E]">Disclosure Items</p>
-                        <button
-                          type="button"
-                          onClick={() => addDisclosureItem(gIdx)}
-                          className="text-[10px] text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-                        >
-                          <Plus size={8} /> Add Item
-                        </button>
-                      </div>
-                      {g.items?.map((item: any, iIdx: number) => (
-                        <div key={iIdx} className="flex gap-2 items-center">
-                          <input
-                            type="text"
-                            value={item.itemText}
-                            onChange={(e) => updateDisclosureItem(gIdx, iIdx, 'itemText', e.target.value)}
-                            placeholder="Disclosure requirement clause..."
-                            className="flex-1 px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                          />
-                          <div className="flex items-center gap-1 shrink-0">
-                            <input
-                              type="checkbox"
-                              checked={item.itemIsConditional || false}
-                              onChange={(e) => updateDisclosureItem(gIdx, iIdx, 'itemIsConditional', e.target.checked)}
-                              id={`cond-${gIdx}-${iIdx}`}
-                              className="rounded text-[#2D5BE3]"
-                            />
-                            <label htmlFor={`cond-${gIdx}-${iIdx}`} className="text-[9px] font-semibold text-[#76767E] cursor-pointer">
-                              Conditional
-                            </label>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => removeDisclosureItem(gIdx, iIdx)}
-                            className="text-[#76767E] hover:text-[#C0392B]"
-                          >
-                            <Trash2 size={10} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Comparison table rows */}
-              <div className="space-y-3 pt-2">
-                <div className="flex justify-between items-center">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-[#76767E]">5. Framework Comparison (AS vs Ind AS)</h3>
-                  <button
-                    type="button"
-                    onClick={addComparisonRow}
-                    className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-                  >
-                    <Plus size={10} /> Add Comparison Row
-                  </button>
-                </div>
-                {comparisonRows.map((row, idx) => (
-                  <div key={idx} className="border border-[#E2E1DD] p-3 rounded-md space-y-2 relative">
-                    <button
-                      type="button"
-                      onClick={() => removeComparisonRow(idx)}
-                      className="absolute right-2 top-2 text-[#76767E] hover:text-[#C0392B]"
-                    >
-                      <Trash2 size={12} />
-                    </button>
-                    <input
-                      type="text"
-                      value={row.criterion}
-                      onChange={(e) => updateComparisonRow(idx, 'criterion', e.target.value)}
-                      placeholder="Comparison Criterion (e.g. Revaluation Model)"
-                      className="w-full px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs font-semibold text-[#1C1C1E]"
-                    />
-                    <div className="grid grid-cols-2 gap-2">
-                      <textarea
-                        value={row.valueStd1}
-                        onChange={(e) => updateComparisonRow(idx, 'valueStd1', e.target.value)}
-                        placeholder="Value in this AS Standard"
-                        rows={1}
-                        className="px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                      />
-                      <textarea
-                        value={row.valueStd2}
-                        onChange={(e) => updateComparisonRow(idx, 'valueStd2', e.target.value)}
-                        placeholder="Value in Ind AS Equivalent"
-                        rows={1}
-                        className="px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* B. Core Sections - Heading & paragraphs layout */}
-          <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-4 shadow-xs">
-            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-2">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
-                General Document Sections
-              </h2>
-              <button
-                type="button"
-                onClick={addSection}
-                className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-              >
-                <Plus size={10} /> Add Section
-              </button>
-            </div>
-
-            {sections.map((sec, idx) => (
-              <div key={sec.id || idx} className="border border-[#E2E1DD] p-4 rounded-md relative space-y-3 bg-[#FAFAF8]">
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-2 flex-1 mr-6">
-                    <input
-                      type="text"
-                      value={sec.heading}
-                      onChange={(e) => updateSection(idx, 'heading', e.target.value)}
-                      placeholder="Section Heading"
-                      className="flex-1 px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs font-semibold text-[#1C1C1E]"
-                    />
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Framework</label>
                     <select
-                      value={sec.level}
-                      onChange={(e) => updateSection(idx, 'level', Number(e.target.value))}
-                      className="bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-2 py-1.5 text-xs"
+                      value={standardFramework}
+                      onChange={(e) => setStandardFramework(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
                     >
-                      <option value="1">H1 Heading</option>
-                      <option value="2">H2 Subheading</option>
+                      <option value="AS">Accounting Standards (AS)</option>
+                      <option value="IND_AS">Indian Accounting Standards (Ind AS)</option>
                     </select>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => removeSection(idx)}
-                    className="text-[#76767E] hover:text-[#C0392B]"
-                  >
-                    <Trash2 size={14} />
-                  </button>
                 </div>
-                <textarea
-                  value={sec.body}
-                  onChange={(e) => updateSection(idx, 'body', e.target.value)}
-                  placeholder="Section body content paragraph..."
-                  rows={4}
-                  className="w-full px-3 py-2 bg-white border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                />
-              </div>
-            ))}
-          </div>
 
-          {/* C. Accounting Journal Entries (Double Entry blocks) */}
-          <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-4 shadow-xs">
-            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-2">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
-                CMS Journal Entries (Double-Entry Block)
-              </h2>
-              <button
-                type="button"
-                onClick={addJournalEntry}
-                className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-              >
-                <Plus size={10} /> Add Journal Entry
-              </button>
-            </div>
-
-            {journalEntries.map((je, jeIdx) => (
-              <div key={jeIdx} className="border border-[#E2E1DD] p-4 rounded-md space-y-3 bg-[#FAFAF8]">
-                <div className="flex justify-between items-start">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2 flex-1 mr-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Entry Title</label>
                     <input
                       type="text"
-                      value={je.jeScenarioTitle || ''}
-                      onChange={(e) => updateJournalEntry(jeIdx, 'jeScenarioTitle', e.target.value)}
-                      placeholder="Scenario title (e.g. Asset purchased on credit)"
-                      className="px-2 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                    />
-                    <input
-                      type="text"
-                      value={je.jeCategoryHeading || ''}
-                      onChange={(e) => updateJournalEntry(jeIdx, 'jeCategoryHeading', e.target.value)}
-                      placeholder="Category (e.g. Initial Recognition)"
-                      className="px-2 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                    />
-                    <input
-                      type="text"
-                      value={je.jeLabel || ''}
-                      onChange={(e) => updateJournalEntry(jeIdx, 'jeLabel', e.target.value)}
-                      placeholder="Label badge (e.g. Entry A)"
-                      className="px-2 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
+                      value={entryTitle}
+                      onChange={(e) => handleTitleChange(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                      placeholder="e.g. Disclosure of Accounting Policies"
                     />
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => removeJournalEntry(jeIdx)}
-                    className="text-[#76767E] hover:text-[#C0392B] mt-1"
-                  >
-                    <Trash2 size={14} />
-                  </button>
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Slug URL</label>
+                    <input
+                      type="text"
+                      value={entrySlug}
+                      onChange={(e) => setEntrySlug(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs font-mono"
+                      placeholder="e.g. as-1"
+                    />
+                  </div>
                 </div>
 
-                {/* Ledger Rows */}
-                <div className="space-y-2 border-t border-[#E2E1DD] pt-2">
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Domain</label>
+                    <select
+                      value={domainId}
+                      onChange={(e) => setDomainId(Number(e.target.value))}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                    >
+                      {domains.map(d => (
+                        <option key={d.id} value={d.id}>{d.domainCode} - {d.domainName}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Subdomain</label>
+                    <select
+                      value={subdomainId}
+                      onChange={(e) => setSubdomainId(Number(e.target.value))}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                    >
+                      {subdomains.map((s: any) => (
+                        <option key={s.id} value={s.id}>{s.subdomainName}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Status Badge</label>
+                    <select
+                      value={standardStatus}
+                      onChange={(e) => setStandardStatus(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                    >
+                      <option value="ACTIVE">Active</option>
+                      <option value="WITHDRAWN">Withdrawn</option>
+                      <option value="REVISED">Revised</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Applicability Summary</label>
+                  <textarea
+                    value={applicabilitySummary}
+                    onChange={(e) => setApplicabilitySummary(e.target.value)}
+                    rows={2}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                    placeholder="Describe standard scope limits or applicability guidelines..."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Summary Outline (Hover Preview / Meta)</label>
+                  <textarea
+                    value={summary}
+                    onChange={(e) => setSummary(e.target.value)}
+                    rows={2}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                    placeholder="Short meta description or summary outline..."
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Primary Source Title</label>
+                    <input
+                      type="text"
+                      value={authorityPrimary}
+                      onChange={(e) => setAuthorityPrimary(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                      placeholder="e.g. ICAI AS 1 Official Publication"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Primary Source URL</label>
+                    <input
+                      type="url"
+                      value={authorityPrimaryUrl}
+                      onChange={(e) => setAuthorityPrimaryUrl(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                      placeholder="https://..."
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Issuing Body</label>
+                    <input
+                      type="text"
+                      value={issuingBody}
+                      onChange={(e) => setIssuingBody(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Date Issued</label>
+                    <input
+                      type="date"
+                      value={dateIssued}
+                      onChange={(e) => setDateIssued(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">Date Effective</label>
+                    <input
+                      type="date"
+                      value={dateEffective}
+                      onChange={(e) => setDateEffective(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-gray-800 pt-4">
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">SEO Title</label>
+                    <input
+                      type="text"
+                      value={seoTitle}
+                      onChange={(e) => setSeoTitle(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                      placeholder="Defaults to title"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-extrabold uppercase tracking-wider text-slate-500 mb-1">SEO Description</label>
+                    <input
+                      type="text"
+                      value={seoDescription}
+                      onChange={(e) => setSeoDescription(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
+                      placeholder="Defaults to summary"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: VISUAL BLOCK EDITOR */}
+            {activeTab === 'content' && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-800 pb-2">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">Curriculum Visual Blocks</h3>
+                  <div className="flex flex-wrap gap-1">
+                    {(['HEADING', 'SUB_HEADING', 'PARAGRAPH', 'NOTE', 'EXAM_TRAP', 'PRACTICAL_USE', 'CASE_LAW', 'ILLUSTRATION', 'TABLE', 'FAQ', 'PDF_REFERENCE', 'VIDEO', 'DOWNLOAD_SECTION'] as const).map(type => (
+                      <button
+                        key={type}
+                        type="button"
+                        onClick={() => addBlock(type)}
+                        className="text-[9px] bg-slate-100 hover:bg-[#EEF2FD] hover:text-[#2D5BE3] dark:bg-gray-800 dark:hover:bg-gray-700 px-2 py-1 rounded font-bold transition-all"
+                      >
+                        + {type.replace('_', ' ')}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {blocks.map((block, idx) => {
+                    const blockTypeColor = {
+                      HEADING: 'border-l-4 border-slate-900 dark:border-white',
+                      SUB_HEADING: 'border-l-4 border-slate-400',
+                      PARAGRAPH: 'border-l-4 border-emerald-400',
+                      NOTE: 'border-l-4 border-amber-400 bg-amber-50/20',
+                      EXAM_TRAP: 'border-l-4 border-red-400 bg-red-50/20',
+                      PRACTICAL_USE: 'border-l-4 border-green-400 bg-green-50/20',
+                      CASE_LAW: 'border-l-4 border-blue-400 bg-blue-50/20',
+                      ILLUSTRATION: 'border-l-4 border-purple-400 bg-purple-50/20',
+                      TABLE: 'border-l-4 border-pink-400 bg-pink-50/20',
+                      FAQ: 'border-l-4 border-violet-400 bg-violet-50/20',
+                      PDF_REFERENCE: 'border-l-4 border-rose-450 bg-rose-50/20',
+                      VIDEO: 'border-l-4 border-indigo-400 bg-indigo-50/20',
+                      DOWNLOAD_SECTION: 'border-l-4 border-red-500 bg-red-50/30'
+                    }[block.type as string] || 'border-l-4 border-gray-300'
+
+                    return (
+                      <div
+                        key={block.id || idx}
+                        className={`p-4 border border-slate-200 dark:border-gray-800 rounded-xl relative space-y-3 transition-all ${blockTypeColor} ${block.hidden ? 'opacity-40' : ''}`}
+                      >
+                        {/* Block Control Header */}
+                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-800/50 pb-2">
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-extrabold uppercase bg-slate-200 dark:bg-gray-850 px-2 py-0.5 rounded text-slate-800 dark:text-gray-300">
+                              {block.type}
+                            </span>
+                            {block.hidden && <span className="text-[8px] font-bold text-red-500 dark:text-red-400 uppercase tracking-widest">Hidden</span>}
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <button
+                              type="button"
+                              onClick={() => moveBlockUp(idx)}
+                              disabled={idx === 0}
+                              className="p-1 text-slate-500 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-gray-800 rounded transition-all"
+                            >
+                              <ArrowUp size={11} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => moveBlockDown(idx)}
+                              disabled={idx === blocks.length - 1}
+                              className="p-1 text-slate-500 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-gray-800 rounded transition-all"
+                            >
+                              <ArrowDown size={11} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => duplicateBlock(idx)}
+                              className="p-1 text-slate-500 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-gray-800 rounded transition-all"
+                              title="Duplicate Block"
+                            >
+                              <Copy size={11} />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => toggleBlockHidden(idx)}
+                              className="p-1 text-slate-500 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-gray-800 rounded transition-all"
+                              title="Toggle Visibility"
+                            >
+                              {block.hidden ? <EyeOff size={11} /> : <Eye size={11} />}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => removeBlock(idx)}
+                              className="p-1 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded transition-all"
+                              title="Delete Block"
+                            >
+                              <Trash2 size={11} />
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Block Type Fields */}
+                        {(block.type === 'HEADING' || block.type === 'SUB_HEADING' || block.type === 'PARAGRAPH') && (
+                          <textarea
+                            value={block.content || ''}
+                            onChange={(e) => updateBlock(idx, 'content', e.target.value)}
+                            className="w-full p-2 bg-transparent text-xs outline-hidden border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
+                            placeholder="Enter text content here... supports [Page X] references"
+                            rows={block.type === 'PARAGRAPH' ? 3 : 1}
+                          />
+                        )}
+
+                        {(block.type === 'NOTE' || block.type === 'EXAM_TRAP' || block.type === 'PRACTICAL_USE') && (
+                          <div className="space-y-2">
+                            <input
+                              type="text"
+                              value={block.title || ''}
+                              onChange={(e) => updateBlock(idx, 'title', e.target.value)}
+                              className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
+                              placeholder="Optional Headline"
+                            />
+                            <textarea
+                              value={block.body || ''}
+                              onChange={(e) => updateBlock(idx, 'body', e.target.value)}
+                              className="w-full p-2 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
+                              placeholder="Enter message body..."
+                              rows={2}
+                            />
+                          </div>
+                        )}
+
+                        {block.type === 'CASE_LAW' && (
+                          <div className="space-y-2">
+                            <div className="grid grid-cols-2 gap-2">
+                              <input
+                                type="text"
+                                value={block.title || ''}
+                                onChange={(e) => updateBlock(idx, 'title', e.target.value)}
+                                className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
+                                placeholder="Case Name / Title"
+                              />
+                              <input
+                                type="text"
+                                value={block.citation || ''}
+                                onChange={(e) => updateBlock(idx, 'citation', e.target.value)}
+                                className="w-full p-1 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
+                                placeholder="Citation (e.g. 2024 SC 12)"
+                              />
+                            </div>
+                            <textarea
+                              value={block.verdict || ''}
+                              onChange={(e) => updateBlock(idx, 'verdict', e.target.value)}
+                              className="w-full p-2 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
+                              placeholder="Verdict / Court Outcome..."
+                              rows={2}
+                            />
+                          </div>
+                        )}
+
+                        {(block.type === 'EXAMPLE' || block.type === 'ILLUSTRATION') && (
+                          <div className="space-y-2 bg-[#FAFAF8] dark:bg-[#0D121F] p-3 rounded-lg">
+                            <input
+                              type="text"
+                              value={block.title || ''}
+                              onChange={(e) => updateBlock(idx, 'title', e.target.value)}
+                              className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-200 dark:border-gray-800 focus:border-blue-500"
+                              placeholder="Illustration Title"
+                            />
+                            <textarea
+                              value={block.scenario || ''}
+                              onChange={(e) => updateBlock(idx, 'scenario', e.target.value)}
+                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-850 rounded"
+                              placeholder="Transaction scenario question..."
+                              rows={2}
+                            />
+                            <textarea
+                              value={block.working || ''}
+                              onChange={(e) => updateBlock(idx, 'working', e.target.value)}
+                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-850 rounded"
+                              placeholder="Show step-by-step working notes..."
+                              rows={2}
+                            />
+                            <textarea
+                              value={block.answer || ''}
+                              onChange={(e) => updateBlock(idx, 'answer', e.target.value)}
+                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-850 rounded"
+                              placeholder="Final guidance / conclusion outcome..."
+                              rows={2}
+                            />
+                          </div>
+                        )}
+
+                        {block.type === 'FAQ' && (
+                          <div className="space-y-2">
+                            <div className="grid grid-cols-2 gap-2">
+                              <select
+                                value={block.faqCategory || 'GENERAL'}
+                                onChange={(e) => updateBlock(idx, 'faqCategory', e.target.value)}
+                                className="w-full px-2 py-1 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-800 rounded text-[11px]"
+                              >
+                                <option value="GENERAL">General Guidance</option>
+                                <option value="APPLICABILITY">Applicability & Limits</option>
+                                <option value="RECOGNITION">Recognition rules</option>
+                                <option value="MEASUREMENT">Measurement bases</option>
+                              </select>
+                              <input
+                                type="text"
+                                value={block.sourceRef || ''}
+                                onChange={(e) => updateBlock(idx, 'sourceRef', e.target.value)}
+                                className="w-full px-2 py-1 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-800 rounded text-[11px]"
+                                placeholder="Source Clause (e.g. Para 12)"
+                              />
+                            </div>
+                            <input
+                              type="text"
+                              value={block.question || ''}
+                              onChange={(e) => updateBlock(idx, 'question', e.target.value)}
+                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-800 rounded font-bold"
+                              placeholder="FAQ Question"
+                            />
+                            <textarea
+                              value={block.answer || ''}
+                              onChange={(e) => updateBlock(idx, 'answer', e.target.value)}
+                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-800 rounded"
+                              placeholder="FAQ Answer"
+                              rows={2}
+                            />
+                          </div>
+                        )}
+
+                        {block.type === 'TABLE' && (
+                          <div className="space-y-2 overflow-x-auto">
+                            <table className="w-full border-collapse text-left text-[11px]">
+                              <thead>
+                                <tr className="bg-slate-100 dark:bg-gray-800">
+                                  {block.headers.map((h: string, hIdx: number) => (
+                                    <th key={hIdx} className="p-1 border border-slate-200 dark:border-gray-700">
+                                      <input
+                                        type="text"
+                                        value={h}
+                                        onChange={(e) => {
+                                          const nextHeaders = [...block.headers]
+                                          nextHeaders[hIdx] = e.target.value
+                                          updateBlock(idx, 'headers', nextHeaders)
+                                        }}
+                                        className="bg-transparent font-bold w-full focus:outline-hidden"
+                                      />
+                                    </th>
+                                  ))}
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {block.rows.map((row: string[], rIdx: number) => (
+                                  <tr key={rIdx}>
+                                    {row.map((cell: string, cIdx: number) => (
+                                      <td key={cIdx} className="p-1 border border-slate-200 dark:border-gray-700">
+                                        <input
+                                          type="text"
+                                          value={cell}
+                                          onChange={(e) => {
+                                            const nextRows = [...block.rows]
+                                            nextRows[rIdx][cIdx] = e.target.value
+                                            updateBlock(idx, 'rows', nextRows)
+                                          }}
+                                          className="bg-transparent w-full focus:outline-hidden"
+                                        />
+                                      </td>
+                                    ))}
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                            <div className="flex gap-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  const nextRows = [...block.rows, Array(block.headers.length).fill('')]
+                                  updateBlock(idx, 'rows', nextRows)
+                                }}
+                                className="text-[10px] bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 px-2 py-0.5 rounded font-semibold"
+                              >
+                                + Add Row
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  if (block.rows.length > 1) {
+                                    updateBlock(idx, 'rows', block.rows.slice(0, -1))
+                                  }
+                                }}
+                                className="text-[10px] bg-slate-100 dark:bg-gray-800 hover:bg-red-50 text-red-600 px-2 py-0.5 rounded font-semibold"
+                              >
+                                - Remove Row
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {(block.type === 'PDF_REFERENCE' || block.type === 'VIDEO' || block.type === 'DOWNLOAD_SECTION') && (
+                          <div className="grid grid-cols-2 gap-3">
+                            <input
+                              type="text"
+                              value={block.title || ''}
+                              onChange={(e) => updateBlock(idx, 'title', e.target.value)}
+                              className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
+                              placeholder="Display Title / Action Name"
+                            />
+                            <div className="flex gap-1.5 items-center">
+                              <input
+                                type="text"
+                                value={block.url || ''}
+                                onChange={(e) => updateBlock(idx, 'url', e.target.value)}
+                                className="flex-1 px-2 py-1 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded text-[11px]"
+                                placeholder="Download Link / URL"
+                              />
+                              {block.type === 'PDF_REFERENCE' && (
+                                <label className="bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] px-2 py-1 border border-[#FFE2E2] rounded text-[10px] font-bold cursor-pointer whitespace-nowrap">
+                                  Upload
+                                  <input
+                                    type="file"
+                                    accept=".pdf"
+                                    className="hidden"
+                                    onChange={(e) => {
+                                      const file = e.target.files?.[0]
+                                      if (file) handlePdfUpload(idx, file)
+                                    }}
+                                  />
+                                </label>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+
+            {/* TAB 3: UPLOADS & ATTACHMENTS */}
+            {activeTab === 'resources' && (
+              <div className="space-y-5">
+                <div className="bg-slate-50/50 dark:bg-slate-900/30 p-5 border border-slate-200 dark:border-gray-800 rounded-xl space-y-4">
                   <div className="flex justify-between items-center">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-[#76767E]">Debit & Credit Rows</p>
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-gray-300">Class Video Lectures</h4>
+                      <p className="text-[10px] text-slate-500 mt-0.5">MP4 upload or YouTube/Vimeo links</p>
+                    </div>
                     <button
                       type="button"
-                      onClick={() => addJournalRow(jeIdx)}
-                      className="text-[10px] text-[#2D5BE3] font-semibold flex items-center gap-0.5"
+                      onClick={addVideo}
+                      className="text-[10px] bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 px-3 py-1.5 rounded-lg font-bold border border-blue-200/50"
                     >
-                      <Plus size={8} /> Add Row
+                      + Add Video
                     </button>
                   </div>
-                  {je.rows?.map((row: any, rIdx: number) => (
-                    <div key={rIdx} className="grid grid-cols-12 gap-2 items-center">
-                      <select
-                        value={row.rowType}
-                        onChange={(e) => updateJournalRow(jeIdx, rIdx, 'rowType', e.target.value)}
-                        className="col-span-2 bg-[#F4F3F0] border border-[#E2E1DD] rounded px-1.5 py-1 text-xs"
-                      >
-                        <option value="DR">DR (Debit)</option>
-                        <option value="CR">CR (Credit)</option>
-                        <option value="SEPARATOR">Separator Row</option>
-                      </select>
-                      <input
-                        type="text"
-                        value={row.accountName || ''}
-                        onChange={(e) => updateJournalRow(jeIdx, rIdx, 'accountName', e.target.value)}
-                        placeholder="Account Ledger Name"
-                        className="col-span-5 px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                        disabled={row.rowType === 'SEPARATOR'}
-                      />
-                      <input
-                        type="number"
-                        value={row.drAmount || ''}
-                        onChange={(e) => updateJournalRow(jeIdx, rIdx, 'drAmount', e.target.value ? Number(e.target.value) : '')}
-                        placeholder="Dr Amount"
-                        className="col-span-2 px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                        disabled={row.rowType === 'CR' || row.rowType === 'SEPARATOR'}
-                      />
-                      <input
-                        type="number"
-                        value={row.crAmount || ''}
-                        onChange={(e) => updateJournalRow(jeIdx, rIdx, 'crAmount', e.target.value ? Number(e.target.value) : '')}
-                        placeholder="Cr Amount"
-                        className="col-span-2 px-2 py-1 bg-[#F4F3F0] border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                        disabled={row.rowType === 'DR' || row.rowType === 'SEPARATOR'}
-                      />
+
+                  {videos.map((vid, idx) => (
+                    <div key={idx} className="bg-white dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 p-4 rounded-lg space-y-2 relative">
                       <button
                         type="button"
-                        onClick={() => removeJournalRow(jeIdx, rIdx)}
-                        className="col-span-1 text-center text-[#76767E] hover:text-[#C0392B]"
+                        onClick={() => removeVideo(idx)}
+                        className="absolute right-2 top-2 text-slate-400 hover:text-red-500"
                       >
                         <Trash2 size={12} />
                       </button>
+                      <div className="grid grid-cols-2 gap-2">
+                        <input
+                          type="text"
+                          value={vid.resourceTitle || ''}
+                          onChange={(e) => updateVideo(idx, 'resourceTitle', e.target.value)}
+                          placeholder="Lecture Video Title"
+                          className="px-2.5 py-1.5 bg-slate-50 dark:bg-gray-850 border border-slate-200 dark:border-gray-700 rounded text-xs"
+                        />
+                        <input
+                          type="text"
+                          value={vid.videoChannel || ''}
+                          onChange={(e) => updateVideo(idx, 'videoChannel', e.target.value)}
+                          placeholder="Instructor / Author"
+                          className="px-2.5 py-1.5 bg-slate-50 dark:bg-gray-850 border border-slate-200 dark:border-gray-700 rounded text-xs"
+                        />
+                      </div>
+                      <div className="flex gap-2 items-center">
+                        <input
+                          type="text"
+                          value={vid.resourceUrl || ''}
+                          onChange={(e) => updateVideo(idx, 'resourceUrl', e.target.value)}
+                          placeholder="YouTube Link or MP4 URL"
+                          className="flex-1 px-2.5 py-1.5 bg-slate-50 dark:bg-gray-850 border border-slate-200 dark:border-gray-700 rounded text-xs font-mono"
+                        />
+                        <label className="bg-blue-50 hover:bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 px-3 py-1.5 border border-blue-200 dark:border-blue-900/40 rounded text-[11px] font-bold cursor-pointer whitespace-nowrap">
+                          Upload MP4
+                          <input
+                            type="file"
+                            accept="video/mp4"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0]
+                              if (file) handleVideoUpload(idx, file)
+                            }}
+                          />
+                        </label>
+                      </div>
                     </div>
                   ))}
                 </div>
 
-                <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-wider text-[#76767E] mb-1">
-                    Narration Clause
-                  </label>
-                  <input
-                    type="text"
-                    value={je.jeNarration || ''}
-                    onChange={(e) => updateJournalEntry(jeIdx, 'jeNarration', e.target.value)}
-                    placeholder="e.g. (Being machinery depreciation charged via SLM method)"
-                    className="w-full px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* D. Accounting Illustrations */}
-          <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-4 shadow-xs">
-            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-2">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
-                Practical Illustrations
-              </h2>
-              <button
-                type="button"
-                onClick={addIllustration}
-                className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-              >
-                <Plus size={10} /> Add Illustration
-              </button>
-            </div>
-
-            {illustrations.map((illus, idx) => (
-              <div key={idx} className="border border-[#E2E1DD] p-4 rounded-md relative space-y-3 bg-[#FAFAF8]">
-                <button
-                  type="button"
-                  onClick={() => removeIllustration(idx)}
-                  className="absolute right-2 top-2 text-[#76767E] hover:text-[#C0392B]"
-                >
-                  <Trash2 size={14} />
-                </button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-[#76767E] mb-1">Illustration Title</label>
-                    <input
-                      type="text"
-                      value={illus.illusTitle}
-                      onChange={(e) => updateIllustration(idx, 'illusTitle', e.target.value)}
-                      placeholder="e.g. Illustration 1: Depreciation calculation"
-                      className="w-full px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#76767E] mb-1">Difficulty</label>
-                    <select
-                      value={illus.illusDifficulty}
-                      onChange={(e) => updateIllustration(idx, 'illusDifficulty', e.target.value)}
-                      className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-2 py-1.5 text-xs text-[#1C1C1E]"
-                    >
-                      <option value="BEGINNER">Beginner</option>
-                      <option value="INTERMEDIATE">Intermediate</option>
-                      <option value="ADVANCED">Advanced</option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#76767E] mb-1">Scenario Question</label>
-                  <textarea
-                    value={illus.illusScenario || ''}
-                    onChange={(e) => updateIllustration(idx, 'illusScenario', e.target.value)}
-                    rows={2}
-                    placeholder="Describe the transaction scenario..."
-                    className="w-full px-3 py-1.5 bg-white border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#76767E] mb-1">Working Notes & Calculation</label>
-                  <textarea
-                    value={illus.illusWorking || ''}
-                    onChange={(e) => updateIllustration(idx, 'illusWorking', e.target.value)}
-                    rows={2}
-                    placeholder="Show formulas and step-by-step numbers..."
-                    className="w-full px-3 py-1.5 bg-white border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-[#76767E] mb-1">Final Answer / Treatment</label>
-                  <textarea
-                    value={illus.illusAnswer || ''}
-                    onChange={(e) => updateIllustration(idx, 'illusAnswer', e.target.value)}
-                    rows={2}
-                    placeholder="State the ledger placement or final disclosure..."
-                    className="w-full px-3 py-1.5 bg-white border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* E. Callout Notes */}
-          <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-4 shadow-xs">
-            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-2">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
-                Callout Notes (Alerts)
-              </h2>
-              <button
-                type="button"
-                onClick={addNote}
-                className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-              >
-                <Plus size={10} /> Add Note
-              </button>
-            </div>
-
-            {notes.map((note, idx) => (
-              <div key={idx} className="border border-[#E2E1DD] p-4 rounded-md relative space-y-3 bg-[#FAFAF8]">
-                <button
-                  type="button"
-                  onClick={() => removeNote(idx)}
-                  className="absolute right-2 top-2 text-[#76767E] hover:text-[#C0392B]"
-                >
-                  <Trash2 size={14} />
-                </button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-[#76767E] mb-1">Note Type</label>
-                    <select
-                      value={note.noteType}
-                      onChange={(e) => updateNote(idx, 'noteType', e.target.value)}
-                      className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-2 py-1.5 text-xs text-[#1C1C1E]"
-                    >
-                      <option value="NOTE">Standard Note</option>
-                      <option value="IMPORTANT">Important Notice</option>
-                      <option value="TIP">Study Tip / Guideline</option>
-                      <option value="CAUTION">Caution / Compliance Warning</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#76767E] mb-1">Optional Note Title</label>
-                    <input
-                      type="text"
-                      value={note.noteTitle || ''}
-                      onChange={(e) => updateNote(idx, 'noteTitle', e.target.value)}
-                      placeholder="Note Headline"
-                      className="w-full px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                    />
-                  </div>
-                </div>
-                <textarea
-                  value={note.noteBody}
-                  onChange={(e) => updateNote(idx, 'noteBody', e.target.value)}
-                  rows={2}
-                  placeholder="Enter the message body..."
-                  className="w-full px-3 py-1.5 bg-white border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                />
-              </div>
-            ))}
-          </div>
-
-          {/* F. FAQs */}
-          <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-4 shadow-xs">
-            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-2">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
-                Frequently Asked Questions (FAQs)
-              </h2>
-              <button
-                type="button"
-                onClick={addFAQ}
-                className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-              >
-                <Plus size={10} /> Add FAQ
-              </button>
-            </div>
-
-            {faqs.map((faq, idx) => (
-              <div key={idx} className="border border-[#E2E1DD] p-4 rounded-md relative space-y-3 bg-[#FAFAF8]">
-                <button
-                  type="button"
-                  onClick={() => removeFAQ(idx)}
-                  className="absolute right-2 top-2 text-[#76767E] hover:text-[#C0392B]"
-                >
-                  <Trash2 size={14} />
-                </button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-[#76767E] mb-1">FAQ Category</label>
-                    <select
-                      value={faq.faqCategory || 'GENERAL'}
-                      onChange={(e) => updateFAQ(idx, 'faqCategory', e.target.value)}
-                      className="w-full bg-[#F4F3F0] border border-[#E2E1DD] rounded-md px-2 py-1.5 text-xs text-[#1C1C1E]"
-                    >
-                      <option value="GENERAL">General Guidance</option>
-                      <option value="APPLICABILITY">Applicability & Limits</option>
-                      <option value="RECOGNITION">Recognition rules</option>
-                      <option value="MEASUREMENT">Measurement bases</option>
-                      <option value="EXAM">Exam context</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-[#76767E] mb-1">Source Paragraph Citation</label>
-                    <input
-                      type="text"
-                      value={faq.faqSourceRef || ''}
-                      onChange={(e) => updateFAQ(idx, 'faqSourceRef', e.target.value)}
-                      placeholder="e.g. Paragraph 12 of Standard"
-                      className="w-full px-3 py-1.5 bg-[#F4F3F0] border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                    />
-                  </div>
-                </div>
-                <input
-                  type="text"
-                  value={faq.faqQuestion}
-                  onChange={(e) => updateFAQ(idx, 'faqQuestion', e.target.value)}
-                  placeholder="Enter the FAQ Question..."
-                  className="w-full px-3 py-1.5 bg-white border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                />
-                <textarea
-                  value={faq.faqAnswer}
-                  onChange={(e) => updateFAQ(idx, 'faqAnswer', e.target.value)}
-                  rows={2}
-                  placeholder="Enter the FAQ Answer..."
-                  className="w-full px-3 py-1.5 bg-white border border-[#E2E1DD] rounded-md text-xs text-[#1C1C1E]"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* TAB 3: RESOURCES */}
-      {activeTab === 'resources' && (
-        <div className="space-y-6">
-          {/* Videos Manager */}
-          <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-4 shadow-xs">
-            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-2">
-              <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
-                Linked Video References
-              </h2>
-              <button
-                type="button"
-                onClick={addVideo}
-                className="text-xs text-[#2D5BE3] font-semibold flex items-center gap-0.5"
-              >
-                <Plus size={10} /> Add Video
-              </button>
-            </div>
-            {videos.map((vid, idx) => {
-              const ytUrl = vid.resourceUrl || ''
-              const isYouTube = ytUrl.includes('youtube.com') || ytUrl.includes('youtu.be')
-              let embedId = ''
-              if (isYouTube) {
-                const m = ytUrl.match(/(?:v=|youtu\.be\/)([\w-]{11})/)
-                if (m) embedId = m[1]
-              }
-              return (
-                <div key={idx} className="bg-[#FAFAF8] p-3 rounded-md border border-[#E2E1DD] space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Video size={14} className="text-[#2D5BE3] shrink-0" />
-                    <input
-                      type="text"
-                      value={vid.resourceTitle}
-                      onChange={(e) => updateVideo(idx, 'resourceTitle', e.target.value)}
-                      placeholder="Video Title"
-                      className="flex-1 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                    />
-                    <input
-                      type="text"
-                      value={vid.videoChannel}
-                      onChange={(e) => updateVideo(idx, 'videoChannel', e.target.value)}
-                      placeholder="Channel Name"
-                      className="w-32 px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => removeVideo(idx)}
-                      className="p-1 text-[#76767E] hover:text-[#C0392B] rounded"
-                    >
-                      <X size={13} />
-                    </button>
-                  </div>
-                  <input
-                    type="url"
-                    value={vid.resourceUrl}
-                    onChange={(e) => updateVideo(idx, 'resourceUrl', e.target.value)}
-                    placeholder="YouTube / Vimeo URL"
-                    className="w-full px-2 py-1 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E]"
-                  />
-                  {embedId && (
-                    <div className="rounded overflow-hidden border border-[#E2E1DD]" style={{ width: 320, height: 180 }}>
-                      <iframe
-                        width="320"
-                        height="180"
-                        src={`https://www.youtube.com/embed/${embedId}`}
-                        title={vid.resourceTitle || 'Video preview'}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                        className="block"
-                      />
+                <div className="bg-slate-50/50 dark:bg-slate-900/30 p-5 border border-slate-200 dark:border-gray-800 rounded-xl space-y-4">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-gray-300">Reference Publications & Links</h4>
+                      <p className="text-[10px] text-slate-500 mt-0.5">Attach official ICAI/MCA source PDFs</p>
                     </div>
-                  )}
-                </div>
-              )
-            })}
-          </div>
-
-          {/* PDF/Static Reference documents */}
-          <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-4 shadow-xs">
-            <div className="flex justify-between items-center border-b border-[#E2E1DD] pb-3">
-              <div>
-                <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E]">
-                  Reference Documents & Links
-                </h2>
-                <p className="text-[11px] text-[#A0A0A8] mt-0.5">Attach PDFs, external links, and reference documents</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={addPdfResource}
-                  className="flex items-center gap-1 text-[11px] font-semibold text-[#C0392B] bg-[#FDEEEE] hover:bg-[#FBDDDD] border border-[#FBDDDD] px-2.5 py-1.5 rounded-md transition-colors"
-                >
-                  <FileText size={11} /> PDF
-                </button>
-                <button
-                  type="button"
-                  onClick={addReferenceResource}
-                  className="flex items-center gap-1 text-[11px] font-semibold text-[#2D5BE3] bg-[#EEF2FD] hover:bg-[#E0E8FC] border border-[#D0DCFB] px-2.5 py-1.5 rounded-md transition-colors"
-                >
-                  <Link2 size={11} /> Reference
-                </button>
-              </div>
-            </div>
-
-            {references.length === 0 && (
-              <div className="text-center py-8 text-[#A0A0A8] text-xs">
-                <FileText size={28} className="mx-auto mb-2 opacity-30" />
-                No reference documents yet. Add a PDF or external reference above.
-              </div>
-            )}
-
-            {references.map((ref, idx) => {
-              const isPdf = ref.resourceType === 'PDF'
-              const hasBase64 = ref.resourceUrl?.startsWith('data:')
-              const hasApiUrl = ref.resourceUrl?.startsWith('/api/pdfs/')
-
-              return (
-                <div key={idx} className={`border rounded-lg overflow-hidden ${ isPdf ? 'border-[#FBDDDD] bg-[#FFFAFA]' : 'border-[#D0DCFB] bg-[#F8FAFE]'}`}>
-                  {/* Card header */}
-                  <div className={`flex items-center justify-between px-3 py-2 ${isPdf ? 'bg-[#FDEEEE]' : 'bg-[#EEF2FD]'}`}>
-                    <div className="flex items-center gap-2">
-                      {isPdf
-                        ? <FileText size={13} className="text-[#C0392B]" />
-                        : <Link2 size={13} className="text-[#2D5BE3]" />
-                      }
-                      <span className={`text-[11px] font-bold uppercase tracking-wide ${isPdf ? 'text-[#C0392B]' : 'text-[#2D5BE3]'}`}>
-                        {isPdf ? 'PDF Document' : 'Reference Link'}
-                      </span>
-                      {isPdf && hasBase64 && (
-                        <span className="text-[10px] font-semibold text-[#1A7A4A] bg-[#E8F7EE] px-2 py-0.5 rounded-full">✓ File Ready</span>
-                      )}
-                      {isPdf && hasApiUrl && (
-                        <span className="text-[10px] font-semibold text-[#2D5BE3] bg-[#EEF2FD] px-2 py-0.5 rounded-full">↑ In Database</span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      {isPdf && ref.resourceUrl && (
-                        <a
-                          href={hasApiUrl ? ref.resourceUrl : hasBase64 ? ref.resourceUrl : undefined}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[11px] text-[#76767E] hover:text-[#2D5BE3] flex items-center gap-1 px-2 py-1 hover:bg-white/60 rounded transition-all"
-                          title="Preview PDF"
-                        >
-                          <ExternalLink size={11} /> Preview
-                        </a>
-                      )}
-                      {!isPdf && ref.resourceUrl && (
-                        <a
-                          href={ref.resourceUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[11px] text-[#76767E] hover:text-[#2D5BE3] flex items-center gap-1 px-2 py-1 hover:bg-white/60 rounded transition-all"
-                        >
-                          <ExternalLink size={11} /> Open
-                        </a>
-                      )}
+                    <div className="flex gap-1">
                       <button
                         type="button"
-                        onClick={() => removeReference(idx)}
-                        className="p-1 text-[#76767E] hover:text-[#C0392B] hover:bg-red-50 rounded transition-all"
-                        title="Remove"
+                        onClick={() => addReference('PDF')}
+                        className="text-[10px] bg-red-50 hover:bg-red-100 text-[#C0392B] dark:bg-red-950/40 dark:text-red-400 px-3 py-1.5 rounded-lg font-bold border border-red-200/50"
                       >
-                        <X size={12} />
+                        + Add PDF
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => addReference('REFERENCE')}
+                        className="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-gray-800 dark:hover:bg-gray-750 px-3 py-1.5 rounded-lg font-bold border border-slate-200 dark:border-gray-700"
+                      >
+                        + Add Reference Link
                       </button>
                     </div>
                   </div>
 
-                  {/* Card body */}
-                  <div className="p-3 space-y-2.5">
-                    <div className="grid grid-cols-12 gap-2">
-                      <input
-                        type="text"
-                        value={ref.resourceTitle}
-                        onChange={(e) => updateReference(idx, 'resourceTitle', e.target.value)}
-                        placeholder={isPdf ? 'Document title (e.g. AS 1 Official ICAI Notification)' : 'Reference title or description'}
-                        className="col-span-8 px-2.5 py-1.5 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-                      />
-                      <select
-                        value={ref.sourceType || 'ICAI_OFFICIAL'}
-                        onChange={(e) => updateReference(idx, 'sourceType', e.target.value)}
-                        className="col-span-4 bg-white border border-[#E2E1DD] rounded px-1.5 py-1.5 text-[11px] text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
+                  {references.map((ref, idx) => (
+                    <div key={idx} className="bg-white dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 p-4 rounded-lg space-y-2 relative">
+                      <button
+                        type="button"
+                        onClick={() => removeReference(idx)}
+                        className="absolute right-2 top-2 text-slate-400 hover:text-red-500"
                       >
-                        <option value="ICAI_OFFICIAL">ICAI Official</option>
-                        <option value="MCA">MCA Government</option>
-                        <option value="IASB">IASB International</option>
-                        <option value="EXTERNAL">External Reference</option>
-                      </select>
-
-                      {isPdf && (
-                        <div className="col-span-12 flex items-center gap-2 mt-1">
-                          <label className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FDEEEE] border border-[#FBDDDD] text-[#C0392B] hover:bg-[#FBDDDD] rounded-md text-[11px] font-bold cursor-pointer transition-colors">
-                            <FileText size={12} className="text-[#C0392B]" />
-                            {ref.resourceUrl ? 'Replace PDF' : 'Upload PDF'}
+                        <Trash2 size={12} />
+                      </button>
+                      <div className="grid grid-cols-2 gap-2">
+                        <input
+                          type="text"
+                          value={ref.resourceTitle || ''}
+                          onChange={(e) => updateReference(idx, 'resourceTitle', e.target.value)}
+                          placeholder="Document Title"
+                          className="px-2.5 py-1.5 bg-slate-50 dark:bg-gray-850 border border-slate-200 dark:border-gray-700 rounded text-xs font-semibold"
+                        />
+                        <select
+                          value={ref.sourceType || 'ICAI_OFFICIAL'}
+                          onChange={(e) => updateReference(idx, 'sourceType', e.target.value)}
+                          className="px-2.5 py-1.5 bg-slate-50 dark:bg-gray-850 border border-slate-200 dark:border-gray-700 rounded text-xs"
+                        >
+                          <option value="ICAI_OFFICIAL">ICAI Official Publication</option>
+                          <option value="MCA">MCA Government Portal</option>
+                          <option value="EXTERNAL">External Commentary</option>
+                        </select>
+                      </div>
+                      <div className="flex gap-2 items-center">
+                        <input
+                          type="text"
+                          value={ref.resourceUrl || ''}
+                          onChange={(e) => updateReference(idx, 'resourceUrl', e.target.value)}
+                          placeholder="Direct resource URL"
+                          className="flex-1 px-2.5 py-1.5 bg-slate-50 dark:bg-gray-850 border border-slate-200 dark:border-gray-700 rounded text-xs font-mono"
+                        />
+                        {ref.resourceType === 'PDF' && (
+                          <label className="bg-red-50 hover:bg-red-100 text-[#C0392B] dark:bg-red-950/40 dark:text-red-400 px-3 py-1.5 border border-red-200 dark:border-red-900/40 rounded text-[11px] font-bold cursor-pointer whitespace-nowrap">
+                            Upload PDF
                             <input
                               type="file"
                               accept=".pdf"
-                              onChange={(e) => handleFileChange(idx, e.target.files?.[0] || null)}
                               className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0]
+                                if (file) handlePdfUpload(idx, file)
+                              }}
                             />
                           </label>
-                          {ref.resourceUrl && (
-                            <button
-                              type="button"
-                              onClick={() => updateReference(idx, 'resourceUrl', '')}
-                              className="flex items-center gap-1 px-3 py-1.5 bg-white border border-red-200 text-red-600 hover:bg-red-50 rounded-md text-[11px] font-bold transition-colors"
-                              title="Clear PDF"
-                            >
-                              <X size={11} /> Clear PDF
-                            </button>
-                          )}
-                          {hasApiUrl && (
-                            <a
-                              href={ref.resourceUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="flex items-center gap-1 px-3 py-1.5 bg-blue-50 border border-blue-200 text-blue-700 hover:bg-blue-100 rounded-md text-[11px] font-bold transition-colors"
-                            >
-                              <ExternalLink size={11} /> Preview
-                            </a>
-                          )}
-                        </div>
-                      )}
-
-                      {!isPdf && (
-                        <input
-                          type="url"
-                          value={ref.resourceUrl || ''}
-                          onChange={(e) => updateReference(idx, 'resourceUrl', e.target.value)}
-                          placeholder="Direct document hyperlink URL..."
-                          className="col-span-12 px-2.5 py-1.5 bg-white border border-[#E2E1DD] rounded text-xs text-[#1C1C1E] focus:outline-none focus:border-[#2D5BE3]"
-                        />
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              )
-            })}
-          </div>
-        </div>
-      )}
+              </div>
+            )}
 
-      {/* TAB 4: PUBLISH */}
-      {activeTab === 'publish' && (
-        <div className="bg-white border border-[#E2E1DD] rounded-lg p-6 space-y-6 shadow-xs">
-          <div>
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[#1C1C1E] border-b border-[#E2E1DD] pb-2">
-              Pre-Publication Verification
-            </h2>
-            <p className="text-xs text-[#76767E] mt-1">
-              Verify your entry against standard publishing guidelines before committing updates.
-            </p>
-          </div>
+            {/* TAB 4: REVISIONS HISTORY */}
+            {activeTab === 'history' && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-800 pb-2">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">Database Revision Snapshots</h3>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRevisionHistory([])
+                      ensureRevisionsLoaded()
+                    }}
+                    className="flex items-center gap-1 text-[10px] font-bold bg-slate-100 hover:bg-slate-250 dark:bg-gray-800 dark:hover:bg-gray-750 px-2.5 py-1.5 rounded transition-all"
+                  >
+                    <RefreshCw size={10} /> Reload Revisions
+                  </button>
+                </div>
 
-          <div className="space-y-2.5">
-            {checks.map((check, idx) => (
-              <div key={idx} className="flex items-center justify-between p-3 bg-[#FAFAF8] rounded border border-[#E2E1DD]">
-                <span className="text-xs font-semibold text-[#4A4A52]">{check.name}</span>
-                {check.passed ? (
-                  <span className="bg-[#E8F7EE] text-[#1A7A4A] px-2 py-0.5 rounded text-[10px] font-bold">PASSED</span>
+                {revisionHistory.length === 0 ? (
+                  <p className="text-xs text-slate-500 text-center py-8">No revision history found yet. Revisions are created when saving draft or publishing.</p>
                 ) : (
-                  <span className="bg-[#FEF6E4] text-[#B45309] px-2 py-0.5 rounded text-[10px] font-bold">PENDING / ADVISORY</span>
+                  <div className="divide-y divide-slate-100 dark:divide-gray-850 border border-slate-200 dark:border-gray-850 rounded-xl bg-slate-50/20 dark:bg-slate-900/10 overflow-hidden">
+                    {revisionHistory.map((rev, index) => (
+                      <div key={rev.id} className="p-4 flex items-center justify-between hover:bg-white dark:hover:bg-[#111726]/40 transition-colors">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-extrabold text-[#2D5BE3]">Version {rev.version}</span>
+                            <span className={`text-[8.5px] font-bold uppercase px-2 py-0.5 rounded-full ${rev.isPublished ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300' : 'bg-slate-200 text-slate-800 dark:bg-gray-800 dark:text-gray-400'}`}>
+                              {rev.action}
+                            </span>
+                          </div>
+                          <p className="text-[10px] text-slate-500 mt-1 font-mono">{new Date(rev.createdAt).toLocaleString()} · {rev.userEmail || 'System'}</p>
+                          {rev.description && <p className="text-[11px] text-slate-700 dark:text-slate-300 mt-1 font-semibold italic">{"\""}{rev.description}{"\""}</p>}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <button
+                            type="button"
+                            onClick={() => setComparingRevision(rev)}
+                            className="text-[10px] bg-blue-50 text-blue-700 hover:bg-blue-100 px-2.5 py-1.5 rounded font-bold"
+                          >
+                            Compare
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (confirm(`Are you sure you want to revert all values to version ${rev.version}?`)) {
+                                applySnapshot(rev.snapshot)
+                              }
+                            }}
+                            className="text-[10px] bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] px-2.5 py-1.5 rounded font-bold"
+                          >
+                            Rollback
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
-            ))}
+            )}
+
+            {/* TAB 5: PUBLISH CHECKLIST */}
+            {activeTab === 'publish' && (
+              <div className="space-y-6">
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-gray-300">Pre-Publication Validation</h4>
+                  <p className="text-[11px] text-slate-500 mt-0.5">Ensure metadata constraints match compliance before publishing</p>
+                </div>
+
+                <div className="space-y-2.5">
+                  {checks.map((check, idx) => (
+                    <div key={idx} className="flex items-center justify-between p-3.5 bg-slate-50/50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg">
+                      <span className="text-xs font-semibold text-slate-700 dark:text-gray-300">{check.name}</span>
+                      {check.passed ? (
+                        <span className="bg-[#E8F7EE] text-[#1A7A4A] px-2.5 py-0.5 rounded text-[10px] font-bold">✓ PASSED</span>
+                      ) : (
+                        <span className="bg-[#FEF6E4] text-[#B45309] px-2.5 py-0.5 rounded text-[10px] font-bold">Advisory Pending</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex justify-end gap-2 pt-4 border-t border-slate-100 dark:border-gray-800">
+                  <button
+                    type="button"
+                    onClick={() => handleSubmitInner(false)}
+                    className="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2 rounded-lg text-xs font-semibold"
+                  >
+                    Save Draft
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSubmitInner(true)}
+                    disabled={!allChecksPassed}
+                    className="bg-[#1A7A4A] hover:bg-[#15613B] text-white px-5 py-2 rounded-lg text-xs font-semibold flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    Confirm & Publish <ArrowRight size={12} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Side: Live Interactive Portal Preview */}
+        <div className="w-1/2 flex flex-col bg-slate-50 dark:bg-slate-950 overflow-y-auto p-6">
+          <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 mb-4 flex items-center justify-between">
+            <span>Real-time Interactive Live Preview</span>
+            <span className="flex items-center gap-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full font-bold">
+              ● Sync Active
+            </span>
           </div>
 
-          <div className="flex gap-3 justify-end pt-4 border-t border-[#E2E1DD]">
-            <button
-              type="button"
-              onClick={() => handleSubmit(false)}
-              disabled={isPending}
-              className="bg-[#EEECEA] hover:bg-[#E2E1DD] text-[#1C1C1E] px-4 py-2.5 rounded-md text-xs font-semibold transition-colors disabled:opacity-50"
-            >
-              {isPending ? 'Saving...' : 'Save as Draft'}
-            </button>
-            <button
-              type="button"
-              onClick={() => handleSubmit(true)}
-              disabled={isPending || !allPassed}
-              className="bg-[#1A7A4A] hover:bg-[#15613B] text-white px-5 py-2.5 rounded-md text-xs font-semibold transition-colors disabled:opacity-50 flex items-center gap-1.5 shadow-xs"
-            >
-              <span>{isPending ? 'Publishing...' : 'Confirm & Publish'}</span>
-              <ArrowRight size={12} />
-            </button>
+          <div className="border border-[#E2E1DD] dark:border-gray-800 rounded-2xl bg-white dark:bg-[#111726] overflow-hidden shadow-lg flex-1 flex flex-col">
+            {/* Mock Header from public standard portal */}
+            <div className="p-6 border-b border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F]/80 flex justify-between items-start shrink-0">
+              <div className="space-y-1 max-w-sm">
+                <span className="text-[9px] bg-slate-200 dark:bg-gray-800 px-2 py-0.5 rounded font-extrabold uppercase text-[#2D5BE3]">{standardFramework} Framework</span>
+                <h2 className="text-base font-extrabold text-slate-900 dark:text-white leading-tight">
+                  {standardCode || 'STANDARD CODE'} — {entryTitle || 'Standard Document Title'}
+                </h2>
+                <p className="text-[11px] text-slate-500 leading-relaxed font-medium">{applicabilitySummary || 'Scope of applicability rules...'}</p>
+              </div>
+              <div className="text-right flex flex-col items-end gap-1.5">
+                <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${standardStatus === 'ACTIVE' ? 'bg-[#E8F7EE] text-[#1A7A4A]' : 'bg-red-100 text-red-800'}`}>
+                  {standardStatus}
+                </span>
+                <span className="text-[10px] text-slate-500 font-mono">Issued: {dateIssued || 'N/A'}</span>
+              </div>
+            </div>
+
+            {/* Preview Navigation Tabs */}
+            <div className="flex border-b border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#111726] shrink-0">
+              {(['standard', 'examples', 'lecture', 'pdf'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setPreviewTab(tab)}
+                  className={`flex-1 py-3 text-center text-xs font-extrabold uppercase tracking-wide border-b-2 -mb-px transition-all ${
+                    previewTab === tab
+                      ? 'border-[#2D5BE3] text-[#2D5BE3]'
+                      : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-white'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Tab Contents Preview rendering identical to user layout */}
+            <div className="flex-1 p-6 overflow-y-auto space-y-6">
+              {previewTab === 'standard' && (
+                <div className="space-y-4">
+                  {blocks.length === 0 ? (
+                    <div className="text-center py-12 text-slate-400 text-xs font-semibold">No visual blocks created yet. Go to Content tab to assemble curriculum blocks.</div>
+                  ) : (
+                    blocks.map((block, blockIdx) => {
+                      if (block.hidden) return null
+                      switch (block.type) {
+                        case 'HEADING':
+                          return (
+                            <h3 key={blockIdx} className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mt-5 first:mt-0 border-b border-slate-100 dark:border-gray-800 pb-2">
+                              {renderTextWithReferences(block.content)}
+                            </h3>
+                          )
+                        case 'SUB_HEADING':
+                          return (
+                            <h4 key={blockIdx} className="text-xs font-bold text-slate-900 dark:text-white mt-4 mb-2">
+                              {renderTextWithReferences(block.content)}
+                            </h4>
+                          )
+                        case 'PARAGRAPH':
+                          return (
+                            <p key={blockIdx} className="text-xs text-slate-600 dark:text-gray-300 leading-relaxed font-semibold">
+                              {renderTextWithReferences(block.content)}
+                            </p>
+                          )
+                        case 'NOTE':
+                        case 'EXAM_TRAP':
+                        case 'PRACTICAL_USE': {
+                          const bg = {
+                            NOTE: 'bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-gray-800 text-slate-700 dark:text-gray-300',
+                            EXAM_TRAP: 'bg-red-50/50 dark:bg-red-950/20 border-red-200 dark:border-red-900/30 text-red-800 dark:text-red-300',
+                            PRACTICAL_USE: 'bg-green-50/50 dark:bg-green-950/20 border-green-200 dark:border-green-900/30 text-green-800 dark:text-green-300'
+                          }[block.type as string] || ''
+
+                          return (
+                            <div key={blockIdx} className={`p-4 rounded-xl border ${bg} space-y-1`}>
+                              {block.title && <h5 className="text-xs font-extrabold uppercase tracking-wider">{block.title}</h5>}
+                              <p className="text-xs leading-relaxed font-semibold whitespace-pre-line">{renderTextWithReferences(block.body)}</p>
+                            </div>
+                          )
+                        }
+                        case 'CASE_LAW':
+                          return (
+                            <div key={blockIdx} className="p-4 rounded-xl border border-blue-200 bg-blue-50/30 dark:border-blue-900/30 dark:bg-blue-950/15 space-y-2">
+                              <div className="flex justify-between items-center">
+                                <h5 className="text-xs font-extrabold text-blue-900 dark:text-blue-300 uppercase tracking-wide">Case Law Reference</h5>
+                                {block.citation && <span className="text-[10px] font-mono text-blue-500">{block.citation}</span>}
+                              </div>
+                              <p className="text-xs font-bold text-slate-800 dark:text-white">{block.title}</p>
+                              <p className="text-xs italic text-slate-600 dark:text-gray-300 whitespace-pre-line">{"\""}{block.verdict}{"\""}</p>
+                            </div>
+                          )
+                        case 'TABLE':
+                          return (
+                            <div key={blockIdx} className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-2xs">
+                              <table className="w-full text-left text-xs border-collapse">
+                                <thead>
+                                  <tr className="bg-slate-50 dark:bg-[#0D121F] border-b border-slate-200 dark:border-gray-800">
+                                    {block.headers?.map((h: string, hIdx: number) => (
+                                      <th key={hIdx} className="p-3 font-bold text-slate-700 dark:text-gray-300 uppercase tracking-wider">{h}</th>
+                                    ))}
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100 dark:divide-gray-800">
+                                  {block.rows?.map((row: string[], rIdx: number) => (
+                                    <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/30 transition-colors">
+                                      {row.map((cell: string, cIdx: number) => (
+                                        <td key={cIdx} className="p-3 text-slate-600 dark:text-gray-400 font-semibold">{renderTextWithReferences(cell)}</td>
+                                      ))}
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )
+                        case 'FAQ':
+                          return (
+                            <div key={blockIdx} className="p-4 rounded-xl border border-slate-200 bg-slate-50/30 dark:border-gray-850 dark:bg-slate-900/10 space-y-2">
+                              <div className="flex items-center justify-between text-[9px] font-extrabold uppercase text-slate-400">
+                                <span>FAQ · {block.faqCategory}</span>
+                                {block.sourceRef && <span>Ref: {block.sourceRef}</span>}
+                              </div>
+                              <h5 className="text-xs font-bold text-slate-900 dark:text-white">Q: {block.question}</h5>
+                              <p className="text-xs text-slate-600 dark:text-gray-300 whitespace-pre-line">A: {block.answer}</p>
+                            </div>
+                          )
+                        case 'PDF_REFERENCE':
+                          return (
+                            <div key={blockIdx} className="p-3 border border-red-200 bg-red-50/20 dark:border-red-950/40 rounded-xl flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <FileText size={14} className="text-[#C0392B]" />
+                                <span className="text-xs font-bold text-slate-900 dark:text-white">{block.title || 'Official PDF Document'}</span>
+                              </div>
+                              {block.url && <a href={block.url} target="_blank" rel="noopener noreferrer" className="text-xs text-red-600 font-bold hover:underline">View PDF</a>}
+                            </div>
+                          )
+                        case 'VIDEO':
+                          return (
+                            <div key={blockIdx} className="p-3 border border-blue-200 bg-blue-50/20 dark:border-blue-950/40 rounded-xl flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Video size={14} className="text-[#2D5BE3]" />
+                                <span className="text-xs font-bold text-slate-900 dark:text-white">{block.title || 'Video Lecture Reference'}</span>
+                              </div>
+                              {block.url && <a href={block.url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 font-bold hover:underline">Watch Class</a>}
+                            </div>
+                          )
+                        case 'DOWNLOAD_SECTION':
+                          return (
+                            <div key={blockIdx} className="p-4 rounded-xl border border-dashed border-red-300 bg-red-50/50 dark:border-red-900/40 dark:bg-red-950/10 flex items-center justify-between">
+                              <div className="flex items-center gap-2.5">
+                                <FileText size={16} className="text-red-500" />
+                                <span className="text-xs font-bold text-slate-900 dark:text-white">{block.title || 'Download Study Material'}</span>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => alert('PDF generation is simulated. Prints website content directly.')}
+                                className="text-xs font-bold text-red-600 hover:underline"
+                              >
+                                Print Guide
+                              </button>
+                            </div>
+                          )
+                        default:
+                          return null
+                      }
+                    })
+                  )}
+                </div>
+              )}
+
+              {previewTab === 'examples' && (
+                <div className="space-y-4">
+                  {blocks.filter(b => b.type === 'ILLUSTRATION' || b.type === 'EXAMPLE').length === 0 ? (
+                    <div className="text-center py-12 text-slate-400 text-xs font-semibold">No illustrations created. Go to Content tab and add Illustration block type.</div>
+                  ) : (
+                    blocks.filter(b => b.type === 'ILLUSTRATION' || b.type === 'EXAMPLE').map((block, blockIdx) => (
+                      <div key={blockIdx} className="bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-xl p-5 space-y-4">
+                        <div className="flex justify-between items-center border-b border-slate-200 dark:border-gray-800 pb-2">
+                          <h4 className="text-xs font-bold text-slate-900 dark:text-white">{block.title || 'Example Illustration'}</h4>
+                        </div>
+                        {block.scenario && (
+                          <div>
+                            <span className="text-[9px] uppercase font-extrabold text-slate-400">Scenario / Issue</span>
+                            <p className="text-xs text-slate-800 dark:text-gray-200 whitespace-pre-line font-semibold mt-0.5">{renderTextWithReferences(block.scenario)}</p>
+                          </div>
+                        )}
+                        {block.working && (
+                          <div className="p-3 bg-white dark:bg-gray-850 border border-slate-200 dark:border-gray-800 rounded">
+                            <span className="text-[9px] uppercase font-extrabold text-slate-400">Working Details</span>
+                            <p className="text-xs text-slate-600 dark:text-gray-400 whitespace-pre-line font-semibold mt-0.5">{renderTextWithReferences(block.working)}</p>
+                          </div>
+                        )}
+                        {block.answer && (
+                          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/30 rounded">
+                            <span className="text-[9px] uppercase font-extrabold text-[#1A7A4A]">Conclusion Treatment</span>
+                            <p className="text-xs text-[#1A7A4A] dark:text-emerald-400 whitespace-pre-line font-semibold mt-0.5">{renderTextWithReferences(block.answer)}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+
+              {previewTab === 'lecture' && (
+                <div className="space-y-4 text-center py-8">
+                  {videos.length === 0 ? (
+                    <div className="text-slate-400 text-xs">No lecture video resources linked. Go to Resources tab to attach a video.</div>
+                  ) : (
+                    videos.map((vid, idx) => (
+                      <div key={idx} className="bg-slate-50 dark:bg-[#0D121F] p-4 rounded-xl border border-slate-200 dark:border-gray-800 max-w-sm mx-auto space-y-2">
+                        <Video className="mx-auto text-blue-500" size={32} />
+                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">{vid.resourceTitle || 'Lecture Class'}</h4>
+                        <p className="text-[10px] text-slate-500">{vid.videoChannel || 'Instructor'}</p>
+                        {vid.resourceUrl && (
+                          <a
+                            href={vid.resourceUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg font-semibold"
+                          >
+                            Watch Video
+                          </a>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+
+              {previewTab === 'pdf' && (
+                <div className="space-y-4 text-center py-8">
+                  {references.filter(r => r.resourceType === 'PDF').length === 0 ? (
+                    <div className="text-slate-400 text-xs">No PDF reference files uploaded. Go to Resources tab to upload standard document PDF.</div>
+                  ) : (
+                    references.filter(r => r.resourceType === 'PDF').map((ref, idx) => (
+                      <div key={idx} className="bg-slate-50 dark:bg-[#0D121F] p-4 rounded-xl border border-slate-200 dark:border-gray-800 max-w-sm mx-auto space-y-2">
+                        <FileText className="mx-auto text-red-500" size={32} />
+                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">{ref.resourceTitle || 'Official PDF Publication'}</h4>
+                        <p className="text-[10px] text-slate-500">{ref.sourceType}</p>
+                        {ref.resourceUrl && (
+                          <a
+                            href={ref.resourceUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block mt-2 text-xs bg-red-650 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg font-semibold"
+                          >
+                            Download Source PDF
+                          </a>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Side-by-side Revision Comparison Modal overlay */}
+      {comparingRevision && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-6">
+          <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 w-full max-w-5xl h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden animate-fade-in">
+            {/* Modal Header */}
+            <div className="p-4 border-b border-[#E2E1DD] dark:border-gray-800 flex justify-between items-center bg-[#FAFAF8] dark:bg-[#0D121F]">
+              <div>
+                <h3 className="text-sm font-extrabold text-slate-950 dark:text-white uppercase tracking-wider">Side-by-Side Revision Comparison</h3>
+                <p className="text-[10px] text-slate-500 font-mono">Comparing Current Workspace vs Version {comparingRevision.version} ({new Date(comparingRevision.createdAt).toLocaleString()})</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setComparingRevision(null)}
+                className="p-1 hover:bg-slate-200 dark:hover:bg-gray-800 rounded-lg transition-colors text-slate-500 hover:text-slate-800 dark:hover:text-white"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Split Compare lists */}
+            <div className="flex-1 flex overflow-hidden divide-x divide-slate-200 dark:divide-gray-850">
+              {/* Left Column: Current Draft */}
+              <div className="w-1/2 flex flex-col overflow-y-auto p-5 space-y-4">
+                <span className="text-[10px] font-extrabold text-blue-600 bg-blue-50 dark:bg-blue-950/40 px-3 py-1 rounded w-fit uppercase">Current Draft State</span>
+                <div className="space-y-3">
+                  {blocks.map((b, i) => (
+                    <div key={i} className="p-3 bg-slate-50/50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-850 rounded-lg text-xs space-y-1">
+                      <span className="text-[9px] uppercase font-bold text-slate-400">{b.type}</span>
+                      <p className="font-semibold text-slate-800 dark:text-gray-200 leading-normal">{b.content || b.title || b.question || 'Block Content'}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Right Column: Historical Revision */}
+              <div className="w-1/2 flex flex-col overflow-y-auto p-5 space-y-4">
+                <span className="text-[10px] font-extrabold text-[#C0392B] bg-[#FFF0F0] dark:bg-red-950/45 px-3 py-1 rounded w-fit uppercase">Historical Version {comparingRevision.version}</span>
+                <div className="space-y-3">
+                  {(comparingRevision.snapshot?.entryBody?.blocks || []).map((b: any, i: number) => (
+                    <div key={i} className="p-3 bg-slate-50/50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-850 rounded-lg text-xs space-y-1">
+                      <span className="text-[9px] uppercase font-bold text-slate-400">{b.type}</span>
+                      <p className="font-semibold text-slate-800 dark:text-gray-200 leading-normal">{b.content || b.title || b.question || 'Block Content'}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            
+            {/* Modal Footer actions */}
+            <div className="p-4 border-t border-[#E2E1DD] dark:border-gray-800 flex justify-end gap-2 bg-[#FAFAF8] dark:bg-[#0D121F]">
+              <button
+                type="button"
+                onClick={() => setComparingRevision(null)}
+                className="bg-slate-200 hover:bg-slate-300 text-slate-800 px-4 py-2 rounded-lg text-xs font-semibold"
+              >
+                Close Comparison
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  if (confirm(`Restore Version ${comparingRevision.version} snapshot now?`)) {
+                    applySnapshot(comparingRevision.snapshot)
+                    setComparingRevision(null)
+                  }
+                }}
+                className="bg-[#1A7A4A] hover:bg-[#15613B] text-white px-4 py-2 rounded-lg text-xs font-semibold"
+              >
+                Restore This Version
+              </button>
+            </div>
           </div>
         </div>
       )}

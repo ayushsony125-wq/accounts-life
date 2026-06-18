@@ -75,6 +75,22 @@ export interface Standard {
     sourceRef?: string
     category?: string
   }[]
+  definitions?: {
+    term: string
+    paraRef?: string
+    officialText: string
+    plainExplanation?: string
+  }[]
+  disclosureGroups?: {
+    heading: string
+    paraRange?: string
+    items: { text: string; isConditional?: boolean }[]
+  }[]
+  comparison?: {
+    std2Title: string
+    rows: { criterion: string; as: string; indAs: string; isDifferent?: boolean; differenceNote?: string }[]
+  }
+  blocks?: any[]
 }
 
 // Complete static indices with professional naming
@@ -166,6 +182,11 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
         status: 'PUBLISHED',
         standardDetail: {
           standardFramework: fwKey
+        },
+        NOT: {
+          entrySlug: {
+            startsWith: 'schedule-iii-'
+          }
         }
       },
       select: {
@@ -253,6 +274,111 @@ export async function fetchStandards(framework: 'AS' | 'Ind AS'): Promise<Standa
   return sanitizeObject(mappedList)
 }
 
+function mapStaticEntryToStandard(staticEntry: any, framework: 'AS' | 'Ind AS'): Standard {
+  const keyPrinciples = (staticEntry.keyComponents || staticEntry.notes || []).map((item: any) => ({
+    title: item.title || item.noteTitle || 'Key Principle',
+    body: item.desc || item.noteBody || item.body || ''
+  }))
+
+  const scopeIncluded = staticEntry.scope?.included || []
+  const scopeExcluded = staticEntry.scope?.excluded || []
+
+  const examples = (staticEntry.examples || []).map((i: any) => ({
+    title: i.title,
+    scenario: i.scenario || '',
+    guidance: i.answer || i.working || '',
+    working: i.working || '',
+    answer: i.answer || '',
+    note: i.note || '',
+    difficulty: i.difficulty || 'INTERMEDIATE',
+    paraRef: i.paraRef || ''
+  }))
+
+  let resourcesList = (staticEntry.resources || []).map((r: any) => ({
+    title: r.title || r.resourceTitle || '',
+    url: r.url || r.resourceUrl || '',
+    type: r.type || r.resourceType || 'REFERENCE'
+  }))
+
+  if (resourcesList.length === 0) {
+    resourcesList.push({
+      title: 'Official Reference Link',
+      url: staticEntry.authorityPrimaryUrl || (framework === 'AS' ? 'https://www.icai.org' : 'https://www.mca.gov.in'),
+      type: 'REFERENCE'
+    })
+  }
+
+  const localPdfPath = `/pdfs/${staticEntry.entrySlug}.pdf`
+  const absolutePdfPath = path.join(process.cwd(), 'public', localPdfPath)
+  let hasLocalPdf = false
+  try {
+    if (fs.existsSync(absolutePdfPath)) {
+      hasLocalPdf = true
+    }
+  } catch (e) {}
+
+  if (hasLocalPdf && !resourcesList.some((r: any) => r.type === 'PDF')) {
+    resourcesList.unshift({
+      title: `${staticEntry.standardCode.replace('-', ' ')} Official PDF Document`,
+      url: localPdfPath,
+      type: 'PDF'
+    })
+  }
+
+  return {
+    id: staticEntry.entrySlug,
+    code: staticEntry.standardCode.replace('-', ' '),
+    title: staticEntry.entryTitle,
+    shortTitle: staticEntry.entryTitle,
+    framework: framework,
+    description: staticEntry.summary,
+    content: {
+      objective: (typeof staticEntry.objective === 'string' ? staticEntry.objective : staticEntry.objective?.text) || '',
+      scope: {
+        statement: staticEntry.scope?.statement || '',
+        included: scopeIncluded,
+        excluded: scopeExcluded
+      },
+      keyPrinciples: keyPrinciples
+    },
+    examples: examples,
+    lectureUrl: staticEntry.lectureUrl || 'https://www.youtube.com/watch?v=mock_lecture',
+    pdfPagesCount: staticEntry.entrySlug === 'as-1' ? 16 : 3,
+    resources: resourcesList,
+    faqs: (staticEntry.faqs || []).map((f: any) => ({
+      id: f.id,
+      question: f.question || f.faqQuestion || '',
+      answer: f.answer || f.faqAnswer || '',
+      sourceRef: f.sourceRef || f.faqSourceRef || undefined,
+      category: f.category || f.faqCategory || 'GENERAL'
+    })),
+    definitions: (staticEntry.definitions || []).map((def: any) => ({
+      term: def.term || def.defTerm || '',
+      paraRef: def.paraRef || def.defParaReference || undefined,
+      officialText: def.officialText || def.defOfficialText || '',
+      plainExplanation: def.plainExplanation || def.defPlainExplanation || undefined
+    })),
+    disclosureGroups: (staticEntry.disclosureGroups || []).map((dg: any) => ({
+      heading: dg.heading || dg.groupHeading || '',
+      paraRange: dg.paraRange || dg.groupParaRange || undefined,
+      items: (dg.items || []).map((item: any) => ({
+        text: item.text || item.itemText || '',
+        isConditional: item.isConditional || item.itemIsConditional || undefined
+      }))
+    })),
+    comparison: staticEntry.comparison ? {
+      std2Title: staticEntry.comparison.std2Title || (framework === 'AS' ? 'Ind AS equivalent' : 'AS equivalent'),
+      rows: (staticEntry.comparison.rows || []).map((row: any) => ({
+        criterion: row.criterion || '',
+        as: row.as || row.valueStd1 || '',
+        indAs: row.indAs || row.valueStd2 || '',
+        isDifferent: row.isDifferent || undefined,
+        differenceNote: row.differenceNote || undefined
+      }))
+    } : undefined
+  }
+}
+
 export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'): Promise<Standard | null> {
   const fwKey = framework === 'AS' ? 'AS' : 'IND_AS'
   let entry: any = null
@@ -268,6 +394,7 @@ export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'
       include: {
         standardDetail: {
           include: {
+            definitions: { orderBy: { sortOrder: 'asc' } },
             disclosureGroups: {
               include: { items: { orderBy: { sortOrder: 'asc' } } },
               orderBy: { sortOrder: 'asc' }
@@ -283,10 +410,19 @@ export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'
     })
   } catch (err) {
     console.error(`Failed to load standard detail for ${id}:`, err)
-    return null
   }
 
-  if (!entry) return null
+  if (!entry) {
+    if (id === 'as-1') {
+      const { AS_1_ENTRY } = require('./data/static-entries')
+      return mapStaticEntryToStandard(AS_1_ENTRY, 'AS')
+    }
+    if (id === 'ind-as-1') {
+      const { IND_AS_1_ENTRY } = require('./data/static-entries')
+      return mapStaticEntryToStandard(IND_AS_1_ENTRY, 'Ind AS')
+    }
+    return null
+  }
 
   const detail = entry.standardDetail
   if (!detail) return null
@@ -332,6 +468,8 @@ export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'
     let url = r.resourceUrl || ''
     if (r.resourceType === 'PDF' && url.startsWith('data:')) {
       url = `/api/pdfs/${id}`
+    } else if (r.resourceType === 'VIDEO' && url.startsWith('data:')) {
+      url = `/api/videos/${id}`
     }
     return {
       title: r.resourceTitle,
@@ -395,8 +533,128 @@ export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'
       answer: f.faqAnswer,
       sourceRef: f.faqSourceRef || undefined,
       category: f.faqCategory
-    }))
+    })),
+    definitions: detail.definitions?.map((d: any) => ({
+      term: d.defTerm,
+      paraRef: d.defParaReference || undefined,
+      officialText: d.defOfficialText,
+      plainExplanation: d.defPlainExplanation || undefined
+    })) || [],
+    disclosureGroups: detail.disclosureGroups?.map((g: any) => ({
+      heading: g.groupHeading,
+      paraRange: g.groupParaRange || undefined,
+      items: g.items?.map((item: any) => ({
+        text: item.itemText,
+        isConditional: item.itemIsConditional || undefined
+      })) || []
+    })) || [],
+    comparison: {
+      std2Title: detail.standardFramework === 'AS' ? 'Ind AS 1 — Presentation of Financial Statements' : 'AS 1 — Disclosure of Accounting Policies',
+      rows: detail.comparisonRows?.map((row: any) => ({
+        criterion: row.criterion,
+        as: detail.standardFramework === 'AS' ? row.valueStd1 || '' : row.valueStd2 || '',
+        indAs: detail.standardFramework === 'AS' ? row.valueStd2 || '' : row.valueStd1 || '',
+        isDifferent: row.isDifferent || undefined,
+        differenceNote: row.differenceNote || undefined
+      })) || []
+    },
+    blocks: (entry.entryBody && typeof entry.entryBody === 'object' && 'blocks' in entry.entryBody)
+      ? (entry.entryBody as any).blocks
+      : undefined
   }
 
   return sanitizeObject(result)
 }
+
+export async function fetchScheduleIIIData(): Promise<any> {
+  const divisions = ['div1', 'div2', 'div3'] as const
+  const parts = [
+    { key: 'balanceSheet', suffix: 'balance-sheet' },
+    { key: 'profitAndLoss', suffix: 'profit-loss' },
+    { key: 'cashFlow', suffix: 'cash-flow' },
+    { key: 'others', suffix: 'others' }
+  ] as const
+
+  // Import static data as fallback
+  const { SCHEDULE_III_DATA } = require('../app/standards/schedule-iii/data')
+  const dataCopy = JSON.parse(JSON.stringify(SCHEDULE_III_DATA))
+
+  try {
+    const dbEntries = await prisma.entry.findMany({
+      where: {
+        entrySlug: {
+          startsWith: 'schedule-iii-'
+        }
+      },
+      include: {
+        resources: { orderBy: { sortOrder: 'asc' } },
+        faqs: { orderBy: { sortOrder: 'asc' } },
+        notes: { orderBy: { sortOrder: 'asc' } },
+        illustrations: { orderBy: { sortOrder: 'asc' } }
+      }
+    })
+
+    if (dbEntries && dbEntries.length > 0) {
+      dbEntries.forEach((entry: any) => {
+        const slug = entry.entrySlug
+        const slugParts = slug.split('-')
+        const divKey = slugParts[2] as 'div1' | 'div2' | 'div3'
+        const partSuffix = slugParts.slice(3).join('-')
+
+        let partKey: 'balanceSheet' | 'profitAndLoss' | 'cashFlow' | 'others' | null = null
+        if (partSuffix === 'balance-sheet') partKey = 'balanceSheet'
+        else if (partSuffix === 'profit-loss') partKey = 'profitAndLoss'
+        else if (partSuffix === 'cash-flow') partKey = 'cashFlow'
+        else if (partSuffix === 'others') partKey = 'others'
+
+        if (partKey && dataCopy[divKey] && dataCopy[divKey][partKey]) {
+          const videoRes = entry.resources.find((r: any) => r.resourceType === 'VIDEO')
+          const pdfRes = entry.resources.find((r: any) => r.resourceType === 'PDF')
+
+          const resourcesList = entry.resources.map((r: any) => {
+            let url = r.resourceUrl || ''
+            if (r.resourceType === 'PDF' && url.startsWith('data:')) {
+              url = `/api/pdfs/${slug}`
+            } else if (r.resourceType === 'VIDEO' && url.startsWith('data:')) {
+              url = `/api/videos/${slug}`
+            }
+            return {
+              title: r.resourceTitle,
+              url: url,
+              type: r.resourceType
+            }
+          })
+
+          const blocks = (entry.entryBody && typeof entry.entryBody === 'object' && 'blocks' in entry.entryBody)
+            ? (entry.entryBody as any).blocks
+            : undefined
+
+          // Update the topic with database values
+          dataCopy[divKey][partKey] = {
+            ...dataCopy[divKey][partKey],
+            id: slug,
+            title: entry.entryTitle,
+            sourceLink: entry.authorityPrimaryUrl || dataCopy[divKey][partKey].sourceLink,
+            sourceLabel: entry.authorityPrimary || dataCopy[divKey][partKey].sourceLabel,
+            blocks,
+            lectureUrl: videoRes?.resourceUrl || 'https://www.youtube.com/watch?v=mock_lecture',
+            resources: resourcesList,
+            pdfPagesCount: 8, // Default pages count for Schedule III docs
+            faqs: entry.faqs.map((f: any) => ({
+              id: f.id,
+              question: f.faqQuestion,
+              answer: f.faqAnswer,
+              sourceRef: f.faqSourceRef || undefined,
+              category: f.faqCategory
+            }))
+          }
+        }
+      })
+    }
+  } catch (err) {
+    console.error('Failed to load Schedule III entries from database:', err)
+  }
+
+  return sanitizeObject(dataCopy)
+}
+

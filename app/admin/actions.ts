@@ -1,6 +1,7 @@
 'use server'
 
 import { cookies } from 'next/headers'
+import { revalidatePath } from 'next/cache'
 import fs from 'fs'
 import path from 'path'
 import prisma from '@/lib/db'
@@ -156,42 +157,51 @@ export async function saveEntry(entryData: any) {
   if (useDatabase) {
     try {
       // Recreate child relations to prevent duplication on edit
+      // IMPORTANT: EntryResources with mediaFileId (uploaded PDFs/videos) are preserved
+      // Only non-media resources (form-managed references) are deleted+recreated
       if (entryId) {
         await prisma.entryNote.deleteMany({ where: { entryId } })
         await prisma.entryFAQ.deleteMany({ where: { entryId } })
         await prisma.entryJournalEntry.deleteMany({ where: { entryId } })
         await prisma.entryIllustration.deleteMany({ where: { entryId } })
-
-        // Check if a PDF resource is already mapped in the database
-        const submittedPdf = (entryData.resources || []).find((r: any) => r.resourceType === 'PDF')
-        if (submittedPdf) {
-          if (submittedPdf.resourceUrl && !submittedPdf.resourceUrl.startsWith('/api/pdfs/')) {
-            // A new PDF file is uploaded/mapped in the payload (not the API route placeholder)
-            await prisma.entryResource.deleteMany({ where: { entryId } })
-          } else {
-            // Otherwise, delete all non-PDF resources for this entry to preserve the existing database Base64 mapping
-            await prisma.entryResource.deleteMany({
-              where: {
-                entryId,
-                resourceType: { not: 'PDF' }
-              }
-            })
+        // Only delete resources that are NOT linked to uploaded media files
+        // This preserves uploaded PDFs and videos across save operations
+        await prisma.entryResource.deleteMany({
+          where: {
+            entryId,
+            mediaFileId: null // Only delete manually-linked references, not uploads
           }
-        } else {
-          // PDF was deleted/removed from resources. Delete all resources including PDF resources.
-          await prisma.entryResource.deleteMany({ where: { entryId } })
-        }
-
+        })
         await prisma.standardDetail.deleteMany({ where: { entryId } })
       }
 
-      // Filter out any API route placeholder PDF resource from being recreated to avoid duplication
-      const resourcesToCreate = (entryData.resources || []).filter((r: any) => {
-        if (r.resourceType === 'PDF' && r.resourceUrl && r.resourceUrl.startsWith('/api/pdfs/')) {
-          return false
+      const resourcesToCreate = entryData.resources || []
+
+      // Split resources: those with mediaFileId may already exist in DB (uploaded via /api/admin/upload)
+      // Only create resources that don't have a mediaFileId OR that aren't already in the DB
+      // Resources with mediaFileId were already upserted by the upload route
+      const resourcesWithoutMedia = resourcesToCreate.filter((r: any) => !r.mediaFileId)
+      const resourcesWithMedia = resourcesToCreate.filter((r: any) => r.mediaFileId)
+
+      // For resources with mediaFileId, update existing EntryResources instead of creating new ones
+      if (entryId && resourcesWithMedia.length > 0) {
+        for (const r of resourcesWithMedia) {
+          const mfId = Number(r.mediaFileId)
+          const existing = await prisma.entryResource.findFirst({
+            where: { entryId, mediaFileId: mfId }
+          })
+          if (existing) {
+            await prisma.entryResource.update({
+              where: { id: existing.id },
+              data: {
+                resourceTitle: r.resourceTitle || existing.resourceTitle,
+                resourceUrl: r.resourceUrl || existing.resourceUrl,
+              }
+            })
+          }
+          // If not found, it will be created below
         }
-        return true
-      })
+      }
 
       // Build schema-compliant payload
       const dataPayload: any = {
@@ -213,6 +223,7 @@ export async function saveEntry(entryData: any) {
         wordCount: entryData.summary ? entryData.summary.split(/\s+/).length : 50,
         publishedAt: entryData.status === 'PUBLISHED' ? new Date() : null,
         lastReviewedAt: new Date(),
+        entryBody: entryData.entryBody || null,
         notes: {
           create: (entryData.notes || []).map((n: any, idx: number) => ({
             noteType: n.noteType || 'NOTE',
@@ -260,10 +271,11 @@ export async function saveEntry(entryData: any) {
           })),
         },
         resources: {
-          create: resourcesToCreate.map((r: any, idx: number) => ({
+          create: resourcesWithoutMedia.map((r: any, idx: number) => ({
             resourceType: r.resourceType || 'REFERENCE',
             resourceTitle: r.resourceTitle || '',
             resourceUrl: r.resourceUrl || null,
+            mediaFileId: null,
             sourceType: r.sourceType || 'EXTERNAL',
             videoChannel: r.videoChannel || null,
             refYear: r.refYear ? Number(r.refYear) : null,
@@ -418,6 +430,31 @@ export async function saveEntry(entryData: any) {
 
   db.entries = entries
   writeDb(db)
+
+  // Revalidate cached pages so published content immediately reflects on the public site
+  try {
+    const slug = entryData.entrySlug
+    const framework = entryData.standardFramework
+    if (slug) {
+      // Revalidate the specific standard slug page
+      revalidatePath(`/standards/as/${slug}`)
+      revalidatePath(`/standards/ind-as/${slug}`)
+      // Revalidate the learning portal listing pages
+      revalidatePath('/standards/as')
+      revalidatePath('/standards/ind-as')
+      revalidatePath('/standards/learning')
+      // If framework is known, revalidate the correct one
+      if (framework === 'AS') {
+        revalidatePath('/standards/as')
+      } else if (framework === 'IND_AS') {
+        revalidatePath('/standards/ind-as')
+      }
+    }
+    // Always revalidate admin entries list
+    revalidatePath('/admin/entries')
+  } catch (rvErr) {
+    console.warn('revalidatePath failed (non-fatal):', rvErr)
+  }
 
   return { success: true, id: entryId }
 }
@@ -861,37 +898,71 @@ export async function uploadPdfAction(formData: FormData) {
           console.log(`PDF Upload: Successfully auto-created database entry for '${entrySlug}' with ID: ${entry.id}`)
         }
 
+        // Upsert MediaFile entry
+        const fileName = `${entrySlug}.pdf`
+        let mediaFile = await prisma.mediaFile.findFirst({
+          where: { fileName, fileType: 'PDF' }
+        })
+
+        if (mediaFile) {
+          mediaFile = await prisma.mediaFile.update({
+            where: { id: mediaFile.id },
+            data: {
+              filePath: base64Url,
+              fileSizeBytes: file.size,
+              mimeType: 'application/pdf',
+              uploadedAt: new Date()
+            }
+          })
+          console.log(`PDF Upload: Updated existing MediaFile ID ${mediaFile.id} with Base64 payload`)
+        } else {
+          mediaFile = await prisma.mediaFile.create({
+            data: {
+              fileName,
+              filePath: base64Url,
+              fileSizeBytes: file.size,
+              fileType: 'PDF',
+              mimeType: 'application/pdf',
+              sourceType: 'ICAI_OFFICIAL'
+            }
+          })
+          console.log(`PDF Upload: Created new MediaFile ID ${mediaFile.id} with Base64 payload`)
+        }
+
         // Upsert PDF resource mapping
         const existingPdfResource = await prisma.entryResource.findFirst({
           where: { entryId: entry.id, resourceType: 'PDF' }
         })
 
         const resourceTitle = `Official ${entry.entryTitle} PDF`
+        const dbResourceUrl = `/api/pdfs/${entrySlug}`
 
         if (existingPdfResource) {
           await prisma.entryResource.update({
             where: { id: existingPdfResource.id },
             data: { 
-              resourceUrl: base64Url, 
-              resourceTitle 
+              resourceUrl: dbResourceUrl, 
+              resourceTitle,
+              mediaFileId: mediaFile.id
             }
           })
-          console.log(`PDF Upload: Updated existing PDF resource in Neon database with Base64 payload for ${entrySlug}`)
+          console.log(`PDF Upload: Updated existing PDF resource in Neon database for ${entrySlug}`)
         } else {
           await prisma.entryResource.create({
             data: {
               entryId: entry.id,
               resourceType: 'PDF',
               resourceTitle,
-              resourceUrl: base64Url,
-              sourceType: 'ICAI_OFFICIAL'
+              resourceUrl: dbResourceUrl,
+              sourceType: 'ICAI_OFFICIAL',
+              mediaFileId: mediaFile.id
             }
           })
-          console.log(`PDF Upload: Created new PDF resource in Neon database with Base64 payload for ${entrySlug}`)
+          console.log(`PDF Upload: Created new PDF resource in Neon database for ${entrySlug}`)
         }
 
         // Database save was successful, we can return success regardless of disk write failures!
-        return { success: true, url: `/api/pdfs/${entrySlug}` }
+        return { success: true, url: dbResourceUrl }
 
       } catch (dbErr: any) {
         console.error('PDF Upload: Database sync failed:', dbErr)

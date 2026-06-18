@@ -215,8 +215,8 @@ async function main() {
           comparisonRows: {
             create: (fullStdData?.comparison?.rows || []).map((row: any, idx: number) => ({
               criterion: row.criterion,
-              valueStd1: row.valueStd1,
-              valueStd2: row.valueStd2,
+              valueStd1: row.as || row.valueStd1 || '',
+              valueStd2: row.indAs || row.valueStd2 || '',
               isDifferent: row.isDifferent || false,
               differenceNote: row.differenceNote,
               sortOrder: idx,
@@ -224,6 +224,42 @@ async function main() {
           }
         }
       })
+
+      // 5. Seed related FAQs and Journal Entries on the parent Entry record
+      if (fullStdData?.faqs) {
+        await prisma.entryFAQ.deleteMany({ where: { entryId } })
+        await prisma.entryFAQ.createMany({
+          data: fullStdData.faqs.map((f: any, idx: number) => ({
+            entryId,
+            faqQuestion: f.question || f.faqQuestion || '',
+            faqAnswer: f.answer || f.faqAnswer || '',
+            faqSourceRef: f.sourceRef || f.faqSourceRef || null,
+            faqCategory: (f.category || f.faqCategory || 'GENERAL') as any,
+            sortOrder: idx
+          }))
+        })
+      }
+
+      if (fullStdData?.journalEntryNotes) {
+        await prisma.entryJournalEntry.deleteMany({ where: { entryId } })
+        for (let idx = 0; idx < fullStdData.journalEntryNotes.length; idx++) {
+          const je = fullStdData.journalEntryNotes[idx]
+          await prisma.entryJournalEntry.create({
+            data: {
+              entryId,
+              jeScenarioTitle: je.scenario,
+              jeNarration: je.treatment,
+              sortOrder: idx,
+              rows: {
+                create: [
+                  { rowType: 'DR', accountName: 'Appropriate Debit Account', drAmount: null, crAmount: null, sortOrder: 0 },
+                  { rowType: 'CR', accountName: 'Appropriate Credit Account', drAmount: null, crAmount: null, sortOrder: 1 }
+                ]
+              }
+            }
+          })
+        }
+      }
     }
 
     entriesMigrated++

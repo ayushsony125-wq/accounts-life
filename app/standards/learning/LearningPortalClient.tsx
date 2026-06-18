@@ -23,6 +23,7 @@ import {
   PenTool,
   Eraser,
   MessageSquare,
+  HelpCircle,
   ChevronRight,
   ChevronLeft,
   ArrowLeft,
@@ -112,6 +113,12 @@ const getYouTubeId = (url: string) => {
   return (match && match[2].length === 11) ? match[2] : ''
 }
 
+const getVimeoId = (url: string) => {
+  if (!url) return ''
+  const match = url.match(/vimeo\.com\/(?:video\/)?(\d+)/)
+  return match ? match[1] : ''
+}
+
 interface AS1StandardTabContentProps {
   navigateToPdfPage: (page: number) => void;
   renderTextWithReferences: (text: string) => React.ReactNode;
@@ -134,7 +141,8 @@ const as1Sections = [
   { id: 'audit', title: '14. Audit Relevance' },
   { id: 'exam', title: '15. Examination Relevance' },
   { id: 'business', title: '16. Practical Business Relevance' },
-  { id: 'observations', title: '17. Important Observations' }
+  { id: 'observations', title: '17. Important Observations' },
+  { id: 'journal', title: '18. Journal Entry Guidance' }
 ]
 
 function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: AS1StandardTabContentProps) {
@@ -470,6 +478,40 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             </p>
           </div>
         </section>
+
+        {/* Section 18: Journal Entry Guidance */}
+        <section id="as1-journal" className="scroll-mt-28 space-y-4">
+          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800">
+            18. Journal Entry Guidance &amp; Adjustments
+          </h2>
+          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+            Under AS 1, practical application of accounting policies and assumptions requires specific journal entry adjustments. Here are two critical scenarios:
+          </p>
+          <div className="space-y-4 pt-2">
+            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/50 space-y-3">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">A. Change in Depreciation Method (SLM → WDV)</h3>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                If changing from SLM to WDV, the cumulative excess/shortfall in depreciation charged compared to WDV from inception is adjusted against Retained Earnings / General Reserve. The difference is debited to Retained Earnings and credited to Asset / Accumulated Depreciation.
+              </p>
+              <div className="bg-slate-950 p-4 rounded-lg font-mono text-[11px] text-slate-200">
+                <span className="text-emerald-400">Debit</span> Retained Earnings A/c <br />
+                <span className="text-red-400">Credit</span> Accumulated Depreciation A/c <br />
+                <span className="text-slate-400">(Being cumulative depreciation adjustment on policy change)</span>
+              </div>
+            </div>
+            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/50 space-y-3">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">B. Accrual of Expenses at Year End</h3>
+              <p className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                Outstanding wages: Debit Wages A/c, Credit Outstanding Wages A/c. The outstanding wages appear as a current liability in the Balance Sheet under &quot;Other Current Liabilities&quot;.
+              </p>
+              <div className="bg-slate-950 p-4 rounded-lg font-mono text-[11px] text-slate-200">
+                <span className="text-emerald-400">Debit</span> Wages Expense A/c <br />
+                <span className="text-red-400">Credit</span> Outstanding Wages Liability A/c <br />
+                <span className="text-slate-400">(Being wages accrued but not paid at year-end under Accrual assumption)</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );
@@ -543,6 +585,7 @@ export default function LearningPortalClient({
   const currentStandard = selectedStandardDetails || initialSelectedStandardDetails
   const uploadedPdf = currentStandard.resources?.find((r) => r.type === 'PDF' && r.url)
   const ytId = getYouTubeId(currentStandard.lectureUrl)
+  const vimeoId = getVimeoId(currentStandard.lectureUrl)
 
   // PDF Viewer states
   const [pdfPage, setPdfPage] = useState<number>(1)
@@ -594,7 +637,7 @@ export default function LearningPortalClient({
 
   const renderTextWithReferences = (text: string) => {
     if (!text) return ''
-    const regex = /\[(?:Source:\s*ICAI\s*AS\s*1\s*PDF\s*Page\s*|Page\s*|ICAI\s*Ref:\s*Page\s*4\.)(\d+)(?:\s*[^\]]*)?\]/gi
+    const regex = /\[(?:Source:\s*ICAI\s*AS\s*1\s*PDF\s*Page\s*|Page\s*|ICAI\s*Ref:\s*Page\s*4\.|PDF\s*|Official\s*|Ref\s*|Citation\s*:\s*|Official\s*Ref\s*:\s*Page\s*|MCA\s*Ref\s*:\s*Page\s*|ICAI\s*Ref\s*:\s*Page\s*)(\d+)(?:\s*[^\]]*)?\]/gi
     const parts = []
     let lastIndex = 0
     let match
@@ -770,7 +813,9 @@ export default function LearningPortalClient({
   }
 
   const getVideoSrc = (url: string) => {
-    // Return sample direct MP4 video link for internal premium feel
+    if (url && (url.startsWith('/') || url.startsWith('http') && !url.includes('youtube.com') && !url.includes('youtu.be') && !url.includes('vimeo.com'))) {
+      return url
+    }
     return "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
   }
 
@@ -954,6 +999,20 @@ export default function LearningPortalClient({
                           <Scale size={14} className="shrink-0" />
                           Examples &amp; Case Law
                         </button>
+                        <button
+                          onClick={() => {
+                            setActiveTab('faqs')
+                            setIsSidebarOpen(false)
+                          }}
+                          className={`w-full text-left py-1.5 px-2.5 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
+                            activeTab === 'faqs'
+                              ? 'bg-white dark:bg-gray-800 text-[#2D5BE3] dark:text-blue-400 shadow-3xs font-extrabold'
+                              : 'text-gray-600 dark:text-gray-400 hover:text-[#2D5BE3] dark:hover:text-blue-400'
+                          }`}
+                        >
+                          <HelpCircle size={14} className="shrink-0" />
+                          FAQs
+                        </button>
                       </div>
                     </div>
                   ) : (
@@ -1032,7 +1091,20 @@ export default function LearningPortalClient({
                       <Scale size={13} className="shrink-0" />
                       Examples &amp; Case Law
                     </button>
-
+                    <button
+                      onClick={() => {
+                        setActiveTab('faqs')
+                        setIsSidebarOpen(false)
+                      }}
+                      className={`w-full text-left py-1.5 px-3 rounded-lg text-[13px] font-bold flex items-center gap-2 transition-all ${
+                        activeTab === 'faqs'
+                          ? 'bg-[#EEF2FD] text-[#2D5BE3] dark:bg-[#1A2542] dark:text-[#60A5FA] font-extrabold'
+                          : 'text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white'
+                      }`}
+                    >
+                      <HelpCircle size={13} className="shrink-0" />
+                      FAQs
+                    </button>
                   </div>
                 )}
               </div>
@@ -1115,11 +1187,11 @@ export default function LearningPortalClient({
                     download
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 transition-colors shrink-0 shadow-xs cursor-pointer"
-                    title="Download PDF exactly as uploaded"
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 transition-colors shrink-0 shadow-xs cursor-pointer"
+                    title="Download PDF exactly as uploaded (official source publication)"
                   >
                     <Download size={14} className="shrink-0" />
-                    Download PDF
+                    Download Official Source PDF
                   </a>
                 )}
               </div>
@@ -1127,6 +1199,14 @@ export default function LearningPortalClient({
 
             {(activeTab === 'standard' || activeTab === 'examples' || activeTab === 'faqs') && (
               <>
+                <button
+                  onClick={() => window.print()}
+                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs cursor-pointer"
+                  title="Download generated website content study guide as PDF"
+                >
+                  <Download size={15} className="shrink-0 text-[#E15252] dark:text-red-400" />
+                  Download Study PDF
+                </button>
                 <button
                   onClick={() => setActiveTab('lecture')}
                   className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#EEF2FD] text-[#2D5BE3] hover:bg-[#DCE6FF] dark:bg-[#1A2542] dark:text-blue-400 shrink-0 transition-all shadow-xs"
@@ -1168,151 +1248,397 @@ export default function LearningPortalClient({
             <>
               {/* 1. STANDARD VIEW */}
               {activeTab === 'standard' && (
-            currentStandard.id === 'as-1' ? (
-              <AS1StandardTabContent
-                navigateToPdfPage={navigateToPdfPage}
-                renderTextWithReferences={renderTextWithReferences}
-              />
-            ) : (
-              <div className="w-full space-y-8 animate-fade-in">
-                {/* Standard text sections */}
-                <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
-                
-                {/* Objective */}
-                <div>
-                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4">
-                    1. Objective
-                  </h2>
-                  <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">
-                    {currentStandard.content.objective || 'Objective clauses are currently being prepared for this standard.'}
-                  </p>
-                </div>
-
-                {/* Scope */}
-                <div>
-                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4">
-                    2. Scope
-                  </h2>
-                  <p className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed mb-5 font-semibold">
-                    {currentStandard.content.scope.statement || 'Scope rules are currently being prepared for this standard.'}
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="p-5 sm:p-6 rounded-xl bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-900/50">
-                      <p className="text-xs font-bold text-[#1A7A4A] dark:text-emerald-400 uppercase tracking-widest mb-2.5">
-                        Applies To
-                      </p>
-                      <ul className="space-y-3">
-                        {currentStandard.content.scope.included.map((item, idx) => (
-                          <li key={idx} className="text-xs text-[#4A4A52] dark:text-gray-300 flex items-start gap-2 leading-relaxed">
-                            <span className="text-[#1A7A4A] dark:text-emerald-400">✓</span>
-                            {item}
-                          </li>
-                        ))}
-                        {currentStandard.content.scope.included.length === 0 && (
-                          <li className="text-xs text-gray-500 italic">No specific inclusions defined.</li>
-                        )}
-                      </ul>
-                    </div>
-
-                    <div className="p-5 sm:p-6 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50">
-                      <p className="text-xs font-bold text-[#C0392B] dark:text-red-400 uppercase tracking-widest mb-2.5">
-                        Exempted / Excluded
-                      </p>
-                      <ul className="space-y-3">
-                        {currentStandard.content.scope.excluded.map((item, idx) => (
-                          <li key={idx} className="text-xs text-[#4A4A52] dark:text-gray-300 flex items-start gap-2 leading-relaxed">
-                            <span className="text-[#C0392B] dark:text-red-400">✗</span>
-                            {item}
-                          </li>
-                        ))}
-                        {currentStandard.content.scope.excluded.length === 0 && (
-                          <li className="text-xs text-gray-500 italic">No specific exclusions defined.</li>
-                        )}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Key Principles */}
-                <div>
-                  <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
-                    3. Key Principles &amp; Guidance
-                  </h2>
-                  <div className="space-y-5">
-                    {currentStandard.content.keyPrinciples.map((item, idx) => (
-                      <div key={idx} className="p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640]">
-                        <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1.5">{item.title}</h3>
-                        <p className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">{item.body}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Large Blank Content Placeholder for future material */}
-                {(!currentStandard.content.objective && currentStandard.examples.length === 0) && (
-                  <div className="border border-dashed border-[#E2E1DD] dark:border-gray-800 rounded-xl p-8 text-center flex flex-col items-center justify-center bg-[#FAFAF8] dark:bg-[#111726]/30">
-                    <div className="w-12 h-12 bg-white dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-full flex items-center justify-center shadow-2xs mb-3">
-                      <FileText size={20} className="text-[#A0A0A8]" />
-                    </div>
-                    <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">Content will be available here</h3>
-                    <p className="text-[11px] text-[#76767E] dark:text-gray-400 max-w-sm leading-relaxed">
-                      We are preparing high quality learning material and official references for you.
-                    </p>
-                  </div>
-                )}
-
-                {/* 4. Official References & Resource Links */}
-                {currentStandard.resources && currentStandard.resources.length > 0 && (
-                  <div className="mt-10 pt-10 border-t border-[#E2E1DD] dark:border-gray-800">
-                    <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
-                      4. Official References &amp; Resource Links
-                    </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      {currentStandard.resources.map((res, idx) => {
-                        const isPdf = res.type === 'PDF';
-                        return (
-                          <a
-                            key={idx}
-                            href={isPdf ? undefined : res.url}
-                            onClick={isPdf ? (e) => {
-                              e.preventDefault();
-                              setActiveTab('pdf');
-                            } : undefined}
-                            target={isPdf ? undefined : "_blank"}
-                            rel="noopener noreferrer"
-                            className={`p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] hover:border-[#2D5BE3] transition-colors flex items-center justify-between group ${isPdf ? 'cursor-pointer' : ''}`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-lg bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-700 flex items-center justify-center text-[#2D5BE3] dark:text-blue-400 group-hover:scale-105 transition-transform">
-                                {res.type === 'PDF' ? (
-                                  <FileText size={16} className="text-red-500" />
-                                ) : res.type === 'VIDEO' ? (
-                                  <Video size={16} className="text-blue-500" />
-                                ) : (
-                                  <ExternalLink size={16} className="text-emerald-500" />
+                <div className="w-full space-y-8 animate-fade-in font-sans">
+                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 ? (
+                    <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
+                      {currentStandard.blocks.map((block: any, blockIdx: number) => {
+                        if (block.hidden) return null;
+                        switch (block.type) {
+                          case 'HEADING':
+                            return (
+                              <h2 key={blockIdx} className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4 mt-6 first:mt-0 border-b border-gray-100 dark:border-gray-800 pb-2">
+                                {renderTextWithReferences(block.content)}
+                              </h2>
+                            )
+                          case 'SUB_HEADING':
+                            return (
+                              <h3 key={blockIdx} className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-2 mt-4">
+                                {renderTextWithReferences(block.content)}
+                              </h3>
+                            )
+                          case 'PARAGRAPH':
+                            return (
+                              <div key={blockIdx} className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed mb-4 font-semibold">
+                                {renderTextWithReferences(block.content)}
+                              </div>
+                            )
+                          case 'NOTE':
+                            return (
+                              <div key={blockIdx} className="p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] mb-4">
+                                {block.title && <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1.5">{block.title}</h3>}
+                                <div className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">{renderTextWithReferences(block.body)}</div>
+                              </div>
+                            )
+                          case 'EXAM_TRAP':
+                            return (
+                              <div key={blockIdx} className="p-5 sm:p-6 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50 mb-4">
+                                <p className="text-xs font-bold text-[#C0392B] dark:text-red-400 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                  <span>⚠️</span> EXAM TRAP
+                                </p>
+                                {block.title && <h3 className="text-xs font-bold text-slate-900 dark:text-white mb-1.5">{block.title}</h3>}
+                                <div className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">{renderTextWithReferences(block.body)}</div>
+                              </div>
+                            )
+                          case 'PRACTICAL_USE':
+                            return (
+                              <div key={blockIdx} className="p-5 sm:p-6 rounded-xl bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-900/50 mb-4">
+                                <p className="text-xs font-bold text-[#1A7A4A] dark:text-emerald-400 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                  <span>💡</span> PRACTICAL USE / REAL WORLD
+                                </p>
+                                {block.title && <h3 className="text-xs font-bold text-slate-900 dark:text-white mb-1.5">{block.title}</h3>}
+                                <div className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">{renderTextWithReferences(block.body)}</div>
+                              </div>
+                            )
+                          case 'CASE_LAW':
+                            return (
+                              <div key={blockIdx} className="p-5 sm:p-6 rounded-xl bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#DCE6FF] dark:border-blue-900/50 mb-4">
+                                <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-widest mb-1.5 flex items-center gap-1">
+                                  <span>⚖️</span> CASE LAW
+                                </p>
+                                <h3 className="text-xs font-bold text-slate-900 dark:text-white mb-1">{block.title}</h3>
+                                {block.citation && <p className="text-[10px] text-slate-500 mb-2 font-semibold">Citation: {block.citation}</p>}
+                                <div className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">{renderTextWithReferences(block.body)}</div>
+                              </div>
+                            )
+                          case 'EXAMPLE':
+                          case 'ILLUSTRATION':
+                            return (
+                              <div key={blockIdx} className="p-5 border border-[#E2E1DD] dark:border-gray-800 rounded-xl bg-[#FAFAF8] dark:bg-[#1E2640]/50 mb-4">
+                                <h3 className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 mb-2">📋 Example: {block.title}</h3>
+                                <div className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed mb-2">
+                                  <strong>Scenario: </strong>{renderTextWithReferences(block.scenario)}
+                                </div>
+                                {block.working && (
+                                  <div className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed mb-2">
+                                    <strong>Working: </strong>{renderTextWithReferences(block.working)}
+                                  </div>
+                                )}
+                                {block.answer && (
+                                  <div className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed">
+                                    <strong>Solution / Treatment: </strong>{renderTextWithReferences(block.answer)}
+                                  </div>
                                 )}
                               </div>
-                              <div>
-                                <p className="text-xs font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors">
-                                  {res.title}
-                                </p>
-                                <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-0.5">
-                                  {res.type === 'PDF' ? 'Official PDF Document' : res.type === 'VIDEO' ? 'Video Lecture Class' : 'External Reference Link'}
-                                </p>
+                            )
+                          case 'TABLE':
+                            return (
+                              <div key={blockIdx} className="border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden mb-4">
+                                <table className="w-full text-left text-xs border-collapse">
+                                  <thead>
+                                    <tr className="bg-slate-50 dark:bg-slate-800 text-slate-650 dark:text-gray-400 border-b border-[#E2E1DD] dark:border-gray-800">
+                                      {(block.headers || []).map((header: string, hIdx: number) => (
+                                        <th key={hIdx} className="p-3 font-bold">{header}</th>
+                                      ))}
+                                    </tr>
+                                  </thead>
+                                  <tbody className="divide-y divide-[#E2E1DD] dark:divide-gray-800">
+                                    {(block.rows || []).map((row: string[], rIdx: number) => (
+                                      <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-slate-850/40">
+                                        {row.map((cell: string, cIdx: number) => (
+                                          <td key={cIdx} className="p-3 text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                                            {renderTextWithReferences(cell)}
+                                          </td>
+                                        ))}
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
                               </div>
-                            </div>
-                            <ChevronRight size={14} className="text-[#A0A0A8] group-hover:translate-x-0.5 transition-transform" />
-                          </a>
-                        );
+                            )
+                          case 'FAQ':
+                            return (
+                              <div key={blockIdx} className="p-5 border border-[#E2E1DD] dark:border-gray-800 rounded-xl bg-[#FAFAF8] dark:bg-[#1E2640]/50 mb-4">
+                                <h3 className="text-xs font-bold text-slate-900 dark:text-white mb-2">❓ Question: {block.question}</h3>
+                                <div className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
+                                  <strong>Answer: </strong> {renderTextWithReferences(block.answer)}
+                                </div>
+                              </div>
+                            )
+                          case 'PDF_REFERENCE':
+                            return (
+                              <div key={blockIdx} className="p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] mb-4 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  <FileText size={16} className="text-red-500" />
+                                  <span className="text-xs font-bold text-slate-900 dark:text-white">{block.title}</span>
+                                </div>
+                                <button
+                                  onClick={() => setActiveTab('pdf')}
+                                  className="text-xs font-bold text-[#2D5BE3] hover:underline animate-pulse"
+                                >
+                                  View PDF
+                                </button>
+                              </div>
+                            )
+                          case 'VIDEO':
+                            return (
+                              <div key={blockIdx} className="p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] mb-4 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                  <Video size={16} className="text-blue-500" />
+                                  <span className="text-xs font-bold text-slate-900 dark:text-white">{block.title}</span>
+                                </div>
+                                <button
+                                  onClick={() => setActiveTab('lecture')}
+                                  className="text-xs font-bold text-[#2D5BE3] hover:underline"
+                                >
+                                  Watch Video
+                                </button>
+                              </div>
+                            )
+                          case 'DOWNLOAD_SECTION':
+                            return (
+                              <div key={blockIdx} className="p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-red-50 dark:bg-red-950/20 mb-4 flex items-center justify-between border-dashed">
+                                <div className="flex items-center gap-3">
+                                  <Download size={16} className="text-red-550" />
+                                  <span className="text-xs font-bold text-red-700 dark:text-red-400">{block.title}</span>
+                                </div>
+                                <button
+                                  onClick={() => window.print()}
+                                  className="text-xs font-bold text-red-700 dark:text-red-400 hover:underline"
+                                >
+                                  Download content PDF
+                                </button>
+                              </div>
+                            )
+                          default:
+                            return null;
+                        }
                       })}
                     </div>
+                  ) : (
+                    <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
+                  
+                    {/* Objective */}
+                    <div>
+                      <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4">
+                        1. Objective
+                      </h2>
+                      <div className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed font-semibold">
+                        {currentStandard.content.objective ? renderTextWithReferences(currentStandard.content.objective) : 'Objective clauses are currently being prepared for this standard.'}
+                      </div>
+                    </div>
+
+                    {/* Scope */}
+                    <div>
+                      <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-4">
+                        2. Scope
+                      </h2>
+                      <div className="text-xs text-[#4A4A52] dark:text-gray-300 leading-relaxed mb-5 font-semibold">
+                        {currentStandard.content.scope.statement ? renderTextWithReferences(currentStandard.content.scope.statement) : 'Scope rules are currently being prepared for this standard.'}
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="p-5 sm:p-6 rounded-xl bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-900/50">
+                          <p className="text-xs font-bold text-[#1A7A4A] dark:text-emerald-400 uppercase tracking-widest mb-2.5">
+                            Applies To
+                          </p>
+                          <ul className="space-y-3">
+                            {currentStandard.content.scope.included.map((item, idx) => (
+                              <li key={idx} className="text-xs text-[#4A4A52] dark:text-gray-300 flex items-start gap-2 leading-relaxed font-semibold">
+                                <span className="text-[#1A7A4A] dark:text-emerald-400">✓</span>
+                                {renderTextWithReferences(item)}
+                              </li>
+                            ))}
+                            {currentStandard.content.scope.included.length === 0 && (
+                              <li className="text-xs text-gray-500 italic">No specific inclusions defined.</li>
+                            )}
+                          </ul>
+                        </div>
+
+                        <div className="p-5 sm:p-6 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50">
+                          <p className="text-xs font-bold text-[#C0392B] dark:text-red-400 uppercase tracking-widest mb-2.5">
+                            Exempted / Excluded
+                          </p>
+                          <ul className="space-y-3">
+                            {currentStandard.content.scope.excluded.map((item, idx) => (
+                              <li key={idx} className="text-xs text-[#4A4A52] dark:text-gray-300 flex items-start gap-2 leading-relaxed font-semibold">
+                                <span className="text-[#C0392B] dark:text-red-400">✗</span>
+                                {renderTextWithReferences(item)}
+                              </li>
+                            ))}
+                            {currentStandard.content.scope.excluded.length === 0 && (
+                              <li className="text-xs text-gray-500 italic">No specific exclusions defined.</li>
+                            )}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Key Principles */}
+                    {currentStandard.content.keyPrinciples && currentStandard.content.keyPrinciples.length > 0 && (
+                      <div>
+                        <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
+                          3. Key Principles &amp; Guidance
+                        </h2>
+                        <div className="space-y-5">
+                          {currentStandard.content.keyPrinciples.map((item, idx) => (
+                            <div key={idx} className="p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640]">
+                              <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1.5">{item.title}</h3>
+                              <div className="text-xs text-[#76767E] dark:text-gray-400 leading-relaxed font-semibold">{renderTextWithReferences(item.body)}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Definitions */}
+                    {currentStandard.definitions && currentStandard.definitions.length > 0 && (
+                      <div className="mt-8 pt-8 border-t border-[#E2E1DD] dark:border-gray-800">
+                        <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
+                          Definitions
+                        </h2>
+                        <div className="space-y-4">
+                          {currentStandard.definitions.map((def, idx) => (
+                            <div key={idx} className="p-5 border border-[#E2E1DD] dark:border-gray-800 rounded-xl bg-[#FAFAF8] dark:bg-[#1E2640]/50">
+                              <div className="flex items-center justify-between mb-2">
+                                <h3 className="text-xs font-bold text-slate-900 dark:text-white">{def.term}</h3>
+                                {def.paraRef && <span className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-gray-400 px-2 py-0.5 rounded font-bold">Ref: {def.paraRef}</span>}
+                              </div>
+                              <div className="text-xs text-slate-700 dark:text-gray-300 leading-relaxed italic mb-2">
+                                {renderTextWithReferences(def.officialText)}
+                              </div>
+                              {def.plainExplanation && (
+                                <div className="text-xs text-slate-600 dark:text-gray-400 leading-relaxed font-semibold">
+                                  <strong>Explanation: </strong> {renderTextWithReferences(def.plainExplanation)}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Disclosure Checklist */}
+                    {currentStandard.disclosureGroups && currentStandard.disclosureGroups.length > 0 && (
+                      <div className="mt-8 pt-8 border-t border-[#E2E1DD] dark:border-gray-800">
+                        <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
+                          Disclosure Checklist
+                        </h2>
+                        <div className="space-y-6">
+                          {currentStandard.disclosureGroups.map((g, idx) => (
+                            <div key={idx} className="space-y-3">
+                              <div className="flex items-center gap-2">
+                                <h3 className="text-xs font-bold text-slate-900 dark:text-white">{g.heading}</h3>
+                                {g.paraRange && <span className="text-[10px] text-slate-500 font-medium">({g.paraRange})</span>}
+                              </div>
+                              <ul className="space-y-2.5">
+                                {g.items.map((item, itemIdx) => (
+                                  <li key={itemIdx} className="text-xs text-slate-700 dark:text-gray-300 flex items-start gap-2.5 leading-relaxed font-semibold">
+                                    <span className="text-blue-500 font-bold">☐</span>
+                                    <div className="flex-1">
+                                      {renderTextWithReferences(item.text)}
+                                      {item.isConditional && <span className="ml-1.5 text-[9px] bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/50 px-1.5 py-0.5 rounded font-bold uppercase">Conditional</span>}
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Comparison Table */}
+                    {currentStandard.comparison && currentStandard.comparison.rows && currentStandard.comparison.rows.length > 0 && (
+                      <div className="mt-8 pt-8 border-t border-[#E2E1DD] dark:border-gray-800">
+                        <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
+                          Comparison: {currentStandard.code} vs {currentStandard.comparison.std2Title}
+                        </h2>
+                        <div className="border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden">
+                          <table className="w-full text-left text-xs border-collapse">
+                            <thead>
+                              <tr className="bg-slate-50 dark:bg-slate-800 text-slate-650 dark:text-gray-400 border-b border-[#E2E1DD] dark:border-gray-800">
+                                <th className="p-3 font-bold w-1/4">Criterion</th>
+                                <th className="p-3 font-bold w-3/8">{currentStandard.code}</th>
+                                <th className="p-3 font-bold w-3/8">{currentStandard.comparison.std2Title}</th>
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-[#E2E1DD] dark:divide-gray-800">
+                              {currentStandard.comparison.rows.map((row, idx) => (
+                                <tr key={idx} className="hover:bg-slate-50/50 dark:hover:bg-slate-850/40">
+                                  <td className="p-3 font-bold text-slate-900 dark:text-white">{row.criterion}</td>
+                                  <td className="p-3 text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">{renderTextWithReferences(row.as)}</td>
+                                  <td className="p-3 text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">{renderTextWithReferences(row.indAs)}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Large Blank Content Placeholder for future material */}
+                    {(!currentStandard.content.objective && currentStandard.examples.length === 0) && (
+                      <div className="border border-dashed border-[#E2E1DD] dark:border-gray-800 rounded-xl p-8 text-center flex flex-col items-center justify-center bg-[#FAFAF8] dark:bg-[#111726]/30">
+                        <div className="w-12 h-12 bg-white dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-full flex items-center justify-center shadow-2xs mb-3">
+                          <FileText size={20} className="text-[#A0A0A8]" />
+                        </div>
+                        <h3 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">Content will be available here</h3>
+                        <p className="text-[11px] text-[#76767E] dark:text-gray-400 max-w-sm leading-relaxed">
+                          We are preparing high quality learning material and official references for you.
+                        </p>
+                      </div>
+                    )}
+
+                    {/* 4. Official References & Resource Links */}
+                    {currentStandard.resources && currentStandard.resources.length > 0 && (
+                      <div className="mt-10 pt-10 border-t border-[#E2E1DD] dark:border-gray-800">
+                        <h2 className="text-sm font-bold text-[#1C1C1E] dark:text-white uppercase tracking-wider mb-5">
+                          4. Official References &amp; Resource Links
+                        </h2>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                          {currentStandard.resources.map((res, idx) => {
+                            const isPdf = res.type === 'PDF';
+                            return (
+                              <a
+                                key={idx}
+                                href={isPdf ? undefined : res.url}
+                                onClick={isPdf ? (e) => {
+                                  e.preventDefault();
+                                  setActiveTab('pdf');
+                                } : undefined}
+                                target={isPdf ? undefined : "_blank"}
+                                rel="noopener noreferrer"
+                                className={`p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] hover:border-[#2D5BE3] transition-colors flex items-center justify-between group ${isPdf ? 'cursor-pointer' : ''}`}
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="w-8 h-8 rounded-lg bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-700 flex items-center justify-center text-[#2D5BE3] dark:text-blue-400 group-hover:scale-105 transition-transform">
+                                    {res.type === 'PDF' ? (
+                                      <FileText size={16} className="text-red-500" />
+                                    ) : res.type === 'VIDEO' ? (
+                                      <Video size={16} className="text-blue-500" />
+                                    ) : (
+                                      <ExternalLink size={16} className="text-emerald-500" />
+                                    )}
+                                  </div>
+                                  <div>
+                                    <p className="text-xs font-bold text-[#1C1C1E] dark:text-white group-hover:text-[#2D5BE3] transition-colors">
+                                      {res.title}
+                                    </p>
+                                    <p className="text-[10px] text-[#76767E] dark:text-gray-400 mt-0.5">
+                                      {res.type === 'PDF' ? 'Official PDF Document' : res.type === 'VIDEO' ? 'Video Lecture Class' : 'External Reference Link'}
+                                    </p>
+                                  </div>
+                                </div>
+                                <ChevronRight size={14} className="text-[#A0A0A8] group-hover:translate-x-0.5 transition-transform" />
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
-
               </div>
-            </div>
-            )
-          )}
+            )}
 
           {/* 2. EXAMPLES & CASE LAW VIEW */}
           {activeTab === 'examples' && (
@@ -1510,12 +1836,19 @@ export default function LearningPortalClient({
                 onMouseLeave={handleMouseLeavePlayer}
                 className="relative aspect-video w-full max-w-4xl mx-auto rounded-2xl bg-[#090C15] overflow-hidden shadow-lg border border-gray-900 flex flex-col group/video"
               >
-                {/* Native HTML5 video tag or YouTube Iframe */}
+                {/* Native HTML5 video tag, YouTube Iframe or Vimeo Iframe */}
                 {ytId ? (
                   <iframe
                     src={`https://www.youtube.com/embed/${ytId}?autoplay=0&controls=1&rel=0&enablejsapi=1`}
                     className="w-full h-full border-0 absolute inset-0 z-10"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                ) : vimeoId ? (
+                  <iframe
+                    src={`https://player.vimeo.com/video/${vimeoId}?autoplay=0&controls=1`}
+                    className="w-full h-full border-0 absolute inset-0 z-10"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   />
                 ) : (
@@ -1531,7 +1864,7 @@ export default function LearningPortalClient({
                 )}
 
                 {/* Play screen backdrop */}
-                {!ytId && !isPlaying && videoTime === 0 ? (
+                {!ytId && !vimeoId && !isPlaying && videoTime === 0 ? (
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/65 backdrop-blur-xs transition-opacity p-6 text-center select-none">
                     
                     {/* Mock Poster Artwork inside Player */}
@@ -1560,7 +1893,7 @@ export default function LearningPortalClient({
                 ) : null}
 
                 {/* Subtitles Overlay */}
-                {!ytId && showCC && isPlaying && (
+                {!ytId && !vimeoId && showCC && isPlaying && (
                   <div className="absolute bottom-16 left-1/2 -translate-x-1/2 z-10 px-4 py-2 bg-black/80 rounded-md text-xs text-white max-w-lg text-center leading-normal border border-gray-800">
                     {videoTime < 5
                       ? `Welcome to our session on ${currentStandard.title}.`
@@ -1573,7 +1906,7 @@ export default function LearningPortalClient({
                 )}
 
                 {/* Controls Bar at bottom */}
-                {!ytId && (
+                {!ytId && !vimeoId && (
                   <div className={`mt-auto w-full bg-gradient-to-t from-black/95 to-transparent p-4 flex flex-col gap-2 z-10 transition-opacity duration-305 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     
                     {/* Progress timeline slider */}

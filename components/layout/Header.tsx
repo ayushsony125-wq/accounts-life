@@ -29,6 +29,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Foundations', href: '/foundations', description: 'Core accounting concepts & conventions' },
       { label: 'AS Standards', href: '/standards/as', description: 'All 32 Accounting Standards' },
       { label: 'Ind AS', href: '/standards/ind-as', description: 'IFRS-aligned Indian standards' },
+      { label: 'Schedule III', href: '/standards/schedule-iii', description: 'Division I, II & III statutory disclosures' },
     ],
   },
   {

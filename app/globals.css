@@ -226,3 +226,73 @@
   }
 }
 
+/* Print Styles for generated website content PDF */
+@media print {
+  body, html {
+    background: white !important;
+    color: black !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  /* Hide navigation, headers, footers, sidebar, annotations panel, and top control action buttons */
+  header, nav, footer, aside, .no-print, [role="navigation"], button, select, a[href^="javascript:"] {
+    display: none !important;
+  }
+
+  .sticky.top-0,
+  div[class*="sticky"],
+  aside[class*="sticky"],
+  main[class*="sticky"] {
+    position: relative !important;
+    top: 0 !important;
+    display: none !important;
+  }
+
+  /* Reset main layout elements to enable clean standard pages print flow */
+  main, .flex-1, .overflow-y-auto, .overflow-hidden {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .w-full {
+    width: 100% !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  /* Disable dark mode colors in print */
+  .dark, [class*="dark"] {
+    background: transparent !important;
+    color: black !important;
+  }
+
+  .bg-white, .dark\:bg-\[\#111726\], .bg-\[\#FAFAF8\], .dark\:bg-\[\#0B0F19\] {
+    background-color: transparent !important;
+    background: transparent !important;
+  }
+
+  /* Retain list structures, colors, and margins nicely for reading */
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+    color: #1C1C1E !important;
+  }
+
+  p, li, span, td, th {
+    color: #333333 !important;
+  }
+
+  section {
+    page-break-inside: avoid;
+    margin-bottom: 2rem !important;
+  }
+}
+
+

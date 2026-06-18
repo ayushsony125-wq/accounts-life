@@ -691,6 +691,101 @@ export async function getSearchIndex() {
   return sanitizeObject([...localSearchIndex, ...SEARCH_INDEX])
 }
 
+function mapStaticToDbEntry(staticEntry: any): any {
+  const isAS = staticEntry.standardFramework === 'AS'
+  const id = isAS ? 10 : 20
+  const domainId = isAS ? 2 : 3
+  const subdomainId = isAS ? 5 : 8
+
+  return {
+    id,
+    entryTitle: staticEntry.entryTitle,
+    entrySlug: staticEntry.entrySlug,
+    entryType: 'STANDARD',
+    domainId,
+    subdomainId,
+    summary: staticEntry.summary,
+    verificationLevel: staticEntry.verificationLevel || 'VERIFIED',
+    status: 'PUBLISHED',
+    examLevelTags: ['CA Intermediate'],
+    authorityPrimary: staticEntry.authorityPrimary || (isAS ? 'ICAI — Accounting Standard 1' : 'MCA — Companies (Indian Accounting Standards) Rules, 2015'),
+    authorityPrimaryUrl: staticEntry.authorityPrimaryUrl || '',
+    authoritySecondary: staticEntry.authoritySecondary || '',
+    isFeatured: false,
+    seoTitle: staticEntry.seoTitle || staticEntry.entryTitle,
+    seoDescription: staticEntry.seoDescription || staticEntry.summary.substring(0, 155),
+    sections: staticEntry.sections || [],
+    faqs: (staticEntry.faqs || []).map((f: any) => ({
+      faqQuestion: f.question || f.faqQuestion || '',
+      faqAnswer: f.answer || f.faqAnswer || '',
+      faqSourceRef: f.sourceRef || f.faqSourceRef || '',
+      faqCategory: f.category || f.faqCategory || 'GENERAL'
+    })),
+    notes: (staticEntry.notes || []).map((n: any) => ({
+      noteType: n.noteType || n.type || 'NOTE',
+      noteTitle: n.noteTitle || n.title || '',
+      noteBody: n.noteBody || n.body || ''
+    })),
+    journalEntries: (staticEntry.journalEntryNotes || []).map((je: any) => ({
+      jeScenarioTitle: je.scenario || '',
+      jeNarration: je.treatment || '',
+      rows: [
+        { rowType: 'DR', accountName: 'Appropriate Debit Account', drAmount: '', crAmount: '' },
+        { rowType: 'CR', accountName: 'Appropriate Credit Account', drAmount: '', crAmount: '' }
+      ]
+    })),
+    illustrations: (staticEntry.examples || []).map((illus: any) => ({
+      illusTitle: illus.title || '',
+      illusScenario: illus.scenario || '',
+      illusWorking: illus.working || '',
+      illusAnswer: illus.answer || '',
+      illusNote: illus.note || '',
+      illusDifficulty: illus.difficulty || 'BEGINNER'
+    })),
+    resources: (staticEntry.resources || []).map((r: any) => ({
+      resourceType: r.type || 'REFERENCE',
+      resourceTitle: r.title || '',
+      resourceUrl: r.url || ''
+    })),
+    standardDetail: {
+      standardCode: staticEntry.standardCode || '',
+      standardFramework: staticEntry.standardFramework || 'AS',
+      standardStatus: staticEntry.standardStatus || 'ACTIVE',
+      issuingBody: staticEntry.issuingBody || (isAS ? 'ICAI' : 'MCA'),
+      dateIssued: staticEntry.dateIssued || null,
+      dateEffective: staticEntry.dateEffective || null,
+      applicabilitySummary: staticEntry.applicabilitySummary || '',
+      objectiveText: (typeof staticEntry.objective === 'string' ? staticEntry.objective : staticEntry.objective?.text) || '',
+      objectiveSourcePara: staticEntry.objective?.sourcePara || '',
+      objectiveCommentary: staticEntry.objective?.commentary || '',
+      objectiveKeyIssues: staticEntry.objective?.keyIssues || [],
+      scopeStatement: staticEntry.scope?.statement || '',
+      scopeIncluded: staticEntry.scope?.included || [],
+      scopeExcluded: staticEntry.scope?.excluded || [],
+      definitions: (staticEntry.definitions || []).map((def: any) => ({
+        defTerm: def.term || def.defTerm || '',
+        defParaReference: def.paraRef || def.defParaReference || '',
+        defOfficialText: def.officialText || def.defOfficialText || '',
+        defPlainExplanation: def.plainExplanation || def.defPlainExplanation || ''
+      })),
+      disclosureGroups: (staticEntry.disclosureGroups || []).map((g: any) => ({
+        groupHeading: g.heading || g.groupHeading || '',
+        groupParaRange: g.paraRange || g.groupParaRange || '',
+        items: (g.items || []).map((item: any) => ({
+          itemText: item.text || item.itemText || '',
+          itemIsConditional: item.isConditional || item.itemIsConditional || false
+        }))
+      })),
+      comparisonRows: (staticEntry.comparison?.rows || []).map((row: any) => ({
+        criterion: row.criterion || '',
+        valueStd1: row.as || row.valueStd1 || '',
+        valueStd2: row.indAs || row.valueStd2 || '',
+        isDifferent: row.isDifferent || false
+      }))
+    }
+  }
+}
+
 export async function getEntryById(id: number): Promise<any> {
   if (USE_DATABASE) {
     try {
@@ -748,6 +843,25 @@ export async function getEntryById(id: number): Promise<any> {
   const localDb = getLocalDb()
   const localEntry = localDb.entries?.find((e: any) => e.id === id)
   if (localEntry) return sanitizeObject(localEntry)
+
+  if (id === 10) {
+    return sanitizeObject(mapStaticToDbEntry(AS_1_ENTRY))
+  }
+  if (id === 20) {
+    return sanitizeObject(mapStaticToDbEntry(IND_AS_1_ENTRY))
+  }
+
+  // Robust search index fallback
+  const searchMatch = SEARCH_INDEX.find(item => item.id === id)
+  if (searchMatch) {
+    const slug = searchMatch.slug.split('/').pop() || ''
+    if (slug === 'as-1') {
+      return sanitizeObject(mapStaticToDbEntry(AS_1_ENTRY))
+    }
+    if (slug === 'ind-as-1') {
+      return sanitizeObject(mapStaticToDbEntry(IND_AS_1_ENTRY))
+    }
+  }
 
   return null
 }

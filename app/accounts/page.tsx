@@ -272,7 +272,7 @@ export default function AccountsPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Card 1: Schedule III */}
               <Link
-                href="/search?q=Schedule+III"
+                href="/standards/schedule-iii"
                 className="group flex flex-row gap-4 p-5 rounded-xl border border-[#D5E1FB] dark:border-[#263765] bg-[#EEF2FD] dark:bg-[#1A2542] hover:shadow-md transition-all"
               >
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-[#2D5BE3] text-white">

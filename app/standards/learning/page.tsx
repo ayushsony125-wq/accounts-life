@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import { fetchStandards, fetchStandardDetail } from '@/lib/learning-loader'
 import LearningPortalClient from './LearningPortalClient'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'Accounting Standards Learning Portal',
   description: 'Interactive learning portal for AS and Ind AS accounting standards.',
