@@ -623,19 +623,7 @@ export default function LearningPortalClient({
   const videoContainerRef = useRef<HTMLDivElement | null>(null)
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
 
-  const handlePrintStudyPdf = () => {
-    if (iframeRef.current) {
-      try {
-        iframeRef.current.contentWindow?.focus()
-        iframeRef.current.contentWindow?.print()
-      } catch (e) {
-        console.warn('Iframe printing failed, falling back to window.print():', e)
-        window.print()
-      }
-    } else {
-      window.print()
-    }
-  }
+  // Print handler removed to restore old behavior
 
   const [showControls, setShowControls] = useState(true)
   const [videoQuality, setVideoQuality] = useState<string>('Auto')
@@ -1197,14 +1185,15 @@ export default function LearningPortalClient({
 
             {activeTab === 'pdf' && (
               <div className="flex items-center gap-1.5 flex-nowrap">
-                <button
-                  onClick={handlePrintStudyPdf}
+                <a
+                  href={`/api/pdfs/${currentStandard.id}`}
+                  download
                   className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-extrabold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs cursor-pointer"
-                  title="Download and print website study content"
+                  title="Download PDF"
                 >
                   <Download size={14} className="shrink-0" />
                   Download PDF
-                </button>
+                </a>
 
                 <button
                   onClick={() => {
@@ -1230,14 +1219,16 @@ export default function LearningPortalClient({
                     Lecture
                   </button>
                 )}
-                <button
-                  onClick={() => setActiveTab('pdf')}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs"
-                  title="View clean study content PDF print view"
-                >
-                  <FileText size={14} className="shrink-0 text-[#E15252] dark:text-red-400" />
-                  PDF View
-                </button>
+                {uploadedPdf && (
+                  <button
+                    onClick={() => setActiveTab('pdf')}
+                    className="flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[12.5px] font-semibold bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] dark:bg-[#2C1D1D] dark:text-red-400 shrink-0 transition-all shadow-xs"
+                    title="View PDF"
+                  >
+                    <FileText size={14} className="shrink-0 text-[#E15252] dark:text-red-400" />
+                    PDF View
+                  </button>
+                )}
               </>
             )}
 
@@ -2083,9 +2074,9 @@ export default function LearningPortalClient({
             <div className="w-full h-[calc(100vh-130px)] min-h-[600px] bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden shadow-xs flex flex-col">
               <iframe
                 ref={iframeRef}
-                src={`/print/${currentStandard.id}`}
+                src={`/api/pdfs/${currentStandard.id}`}
                 className="w-full flex-1 border-0"
-                title={`Print View for ${currentStandard.title}`}
+                title={`PDF View for ${currentStandard.title}`}
               />
             </div>
           )}

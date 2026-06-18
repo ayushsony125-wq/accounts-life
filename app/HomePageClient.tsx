@@ -426,7 +426,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="hero-heading"
       className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-2.5 pb-2.5 sm:pt-3 sm:pb-3">
+      <div className="max-w-[1280px] mx-auto px-6 pt-2 pb-2 sm:pt-2.5 sm:pb-2.5">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
           {/* Left: Headline + Search */}
           <div className="flex flex-col">
@@ -437,10 +437,10 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
               {heroTitle}<br />
               <span className="text-[#2D5BE3] dark:text-[#60A5FA]">{heroTitleSpan}</span>
             </h1>
-            <p className="mt-1.5 text-[14px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
+            <p className="mt-1 text-[14px] text-[#4A4A52] dark:text-gray-300 leading-relaxed max-w-xl">
               {heroSubtitle}
             </p>
-            <form onSubmit={handleSearch} className="mt-2.5 relative max-w-2xl flex items-center">
+            <form onSubmit={handleSearch} className="mt-2 relative max-w-2xl flex items-center">
               <div className="relative flex-1">
                 <Search
                   size={16}
@@ -461,7 +461,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 Search
               </button>
             </form>
-            <div className="mt-2 w-full max-w-2xl">
+            <div className="mt-1.5 w-full max-w-2xl">
               <div className="flex flex-row flex-wrap items-center gap-1.5">
                 <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0共享 whitespace-nowrap">Trending:</span>
                 {trendingSearches.map((s: any) => (
@@ -479,11 +479,11 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
           </div>
           {/* Right: Trust Card */}
           <div className="lg:pt-0.5">
-            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-3.5 shadow-sm">
-              <h2 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1.5">
+            <div className="bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-xl p-3 shadow-sm">
+              <h2 className="text-xs font-bold text-[#1C1C1E] dark:text-white mb-1">
                 Why Professionals Trust Accounts.One
               </h2>
-              <ul className="flex flex-col gap-1.5 mb-2.5">
+              <ul className="flex flex-col gap-1 mb-2">
                 {trustPoints.map((point: string) => (
                   <li key={point} className="flex items-start gap-2.5 text-[11px] text-[#4A4A52] dark:text-gray-300 leading-snug font-medium">
                     <CheckCircle2
@@ -514,8 +514,8 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="domains-heading"
       className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-3 pb-4 sm:pt-3.5 sm:pb-5">
-        <header className="flex items-start justify-between mb-3">
+      <div className="max-w-[1280px] mx-auto px-6 pt-2 pb-3.5 sm:pt-2.5 sm:pb-4">
+        <header className="flex items-start justify-between mb-2">
           <div>
             <div className="flex items-center gap-2 mb-0.5">
               <LayoutGrid size={15} className="text-[#2D5BE3] dark:text-[#60A5FA]" />
