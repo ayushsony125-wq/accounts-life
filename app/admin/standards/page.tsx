@@ -10,6 +10,54 @@ import StandardsManagerClient from './StandardsManagerClient'
 
 export const dynamic = 'force-dynamic'
 
+function getNormalizedFramework(std: {
+  entrySlug: string
+  entryTitle: string
+  standardFramework?: string | null
+  standardCode?: string | null
+}) {
+  const slug = (std.entrySlug || '').toLowerCase()
+  const title = (std.entryTitle || '').toLowerCase()
+  const code = (std.standardCode || '').toLowerCase()
+  const fw = (std.standardFramework || '').toLowerCase()
+
+  // 1. Schedule III rules
+  if (
+    slug.startsWith('schedule-iii-') ||
+    title.includes('schedule iii') ||
+    title.includes('division i') ||
+    title.includes('division ii') ||
+    title.includes('division iii') ||
+    code.includes('sch iii') ||
+    code.includes('schedule iii')
+  ) {
+    return 'SCHEDULE_III'
+  }
+
+  // 2. Ind AS rules
+  if (
+    fw === 'ind_as' ||
+    slug.startsWith('ind-as-') ||
+    title.includes('ind as') ||
+    code.startsWith('ind-as')
+  ) {
+    return 'IND_AS'
+  }
+
+  // 3. AS rules
+  if (
+    fw === 'as' ||
+    slug.startsWith('as-') ||
+    title.includes('as ') ||
+    title.includes('accounting standard') ||
+    code.startsWith('as-')
+  ) {
+    return 'AS'
+  }
+
+  return 'OTHER'
+}
+
 export default async function StandardsPage() {
   await verifyAdminSession()
 
@@ -18,6 +66,19 @@ export default async function StandardsPage() {
   // Sort standards first by framework, then by sortOrder, then by code number
   const standards = allEntries
     .filter((e) => e.entryType === 'STANDARD')
+    .map((e) => {
+      const framework = getNormalizedFramework({
+        entrySlug: e.entrySlug,
+        entryTitle: e.entryTitle,
+        standardFramework: e.standardFramework || e.standardDetail?.standardFramework,
+        standardCode: e.standardCode || e.standardDetail?.standardCode,
+      })
+      return {
+        ...e,
+        standardFramework: framework,
+        standardCode: e.standardCode || e.standardDetail?.standardCode || null,
+      }
+    })
     .sort((a, b) => {
       const fwA = a.standardFramework || ''
       const fwB = b.standardFramework || ''
@@ -35,11 +96,12 @@ export default async function StandardsPage() {
       return getNum(a) - getNum(b)
     })
 
-  const published = standards.filter((s) => s.status === 'PUBLISHED').length
-  const withPdf = standards.filter((s) =>
+  const asCount = standards.filter((s) => s.standardFramework === 'AS').length
+  const indAsCount = standards.filter((s) => s.standardFramework === 'IND_AS').length
+  const scheduleIiiCount = standards.filter((s) => s.standardFramework === 'SCHEDULE_III').length
+  const pdfCount = standards.filter((s) =>
     s.resources?.some((r: any) => r.resourceType === 'PDF')
   ).length
-  const verified = standards.filter((s) => s.verificationLevel === 'VERIFIED').length
 
   return (
     <div className="space-y-8 max-w-6xl">
@@ -66,12 +128,12 @@ export default async function StandardsPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
-          { label: 'Total Standards', value: standards.length, color: '#2D5BE3' },
-          { label: 'Published', value: published, color: '#1A7A4A' },
-          { label: 'Verified', value: verified, color: '#6B3FA0' },
-          { label: 'With PDF', value: withPdf, color: '#0F6B5E' },
+          { label: 'AS Standards Count', value: asCount, color: '#2D5BE3' },
+          { label: 'Ind AS Standards Count', value: indAsCount, color: '#1A7A4A' },
+          { label: 'Schedule III Count', value: scheduleIiiCount, color: '#6B3FA0' },
+          { label: 'PDF Uploaded Count', value: pdfCount, color: '#0F6B5E' },
         ].map((stat) => (
-          <div key={stat.label} className="bg-white border border-[#E2E1DD] rounded-xl p-4">
+          <div key={stat.label} className="bg-white border border-[#E2E1DD] rounded-xl p-4 shadow-xs">
             <p className="text-xs text-[#76767E] font-medium">{stat.label}</p>
             <p className="text-2xl font-bold mt-1" style={{ color: stat.color }}>
               {stat.value}

@@ -103,10 +103,10 @@ const TRUST_POINTS = [
 
 const QUICK_LINKS = [
   {
-    label: 'TDS Calculator',
-    href: '/search?q=TDS+Calculator',
-    description: 'TDS rates, thresholds, and applicability',
-    Icon: Calculator,
+    label: 'Due Date Calendar',
+    href: '/search?q=Due+Date+Calendar',
+    description: 'Income tax, GST, and MCA due dates',
+    Icon: Calendar,
     color: '#0D9488',
   },
   {
@@ -153,9 +153,9 @@ const LATEST_UPDATES = [
     categoryColor: '#B45309',
     categoryBg: '#FEF6E4',
     source: 'CBDT Notification',
-    date: '08 Jun 2025',
-    title: 'CBDT extends due date for filing ITR for AY 2025-26',
-    summary: 'CBDT Notification No. 27/2025 extends the due date for furnishing return of income for AY 2025-26.',
+    date: '08 Jun 2026',
+    title: 'CBDT extends due date for filing ITR for AY 2026-27',
+    summary: 'CBDT Notification No. 27/2026 extends the due date for furnishing return of income for AY 2026-27.',
     href: '/search?q=ITR+due+date',
   },
   {
@@ -164,7 +164,7 @@ const LATEST_UPDATES = [
     categoryColor: '#1A7A4A',
     categoryBg: '#E8F7EE',
     source: 'CBIC Circular',
-    date: '07 Jun 2025',
+    date: '07 Jun 2026',
     title: 'CBIC clarifies ITC eligibility on corporate guarantees',
     summary: 'CBIC issues clarification on ITC availment in respect of corporate guarantees given by holding companies.',
     href: '/search?q=ITC+corporate+guarantee',
@@ -175,7 +175,7 @@ const LATEST_UPDATES = [
     categoryColor: '#0F6B5E',
     categoryBg: '#E6F4F2',
     source: 'ICAI Announcement',
-    date: '06 Jun 2025',
+    date: '06 Jun 2026',
     title: 'ICAI updates SA 315 — Identifying and Assessing Risks',
     summary: 'Revised SA 315 issued with enhanced guidance on risk identification procedures during audit planning.',
     href: '/search?q=SA+315',
@@ -186,9 +186,9 @@ const LATEST_UPDATES = [
     categoryColor: '#6B3FA0',
     categoryBg: '#F3EEF9',
     source: 'MCA Circular',
-    date: '30 May 2025',
+    date: '30 May 2026',
     title: 'MCA extends additional fees waiver for LLP filings',
-    summary: 'MCA General Circular No. 10/2025 extends the waiver of additional fees for LLP filings for FY 2024-25.',
+    summary: 'MCA General Circular No. 10/2026 extends the waiver of additional fees for LLP filings for FY 2025-26.',
     href: '/search?q=LLP+filing',
   },
 ]
@@ -197,7 +197,7 @@ const TODAYS_ESSENTIALS = [
   {
     id: 'due-dates',
     title: 'Income Tax Due Dates',
-    subtitle: 'AY 2025-26',
+    subtitle: 'AY 2026-27',
     Icon: Calculator,
     color: '#B45309',
     href: '/search?q=Income+Tax+Due+Dates',
@@ -205,7 +205,7 @@ const TODAYS_ESSENTIALS = [
   {
     id: 'gst-calendar',
     title: 'GST Return Calendar',
-    subtitle: 'June 2025',
+    subtitle: 'June 2026',
     Icon: Calendar,
     color: '#1A7A4A',
     href: '/search?q=GST+Return+Calendar',
@@ -213,7 +213,7 @@ const TODAYS_ESSENTIALS = [
   {
     id: 'tds-rates',
     title: 'TDS Rates & Codes',
-    subtitle: 'Assessment Year 2025-26',
+    subtitle: 'Assessment Year 2026-27',
     Icon: FileText,
     color: '#2D5BE3',
     href: '/search?q=TDS+Rates',
@@ -250,9 +250,9 @@ const ACCURACY_PILLARS = [
     body: 'Regularly updated with recent circulars and notifications',
   },
   {
-    Icon: CheckCircle2,
-    title: 'Reliable Reference',
-    body: 'Structured for audit professionals and articles',
+    Icon: Zap,
+    title: 'Instant Reference',
+    body: 'Quick access to any standard, rate, or form in seconds',
   },
 ]
 
@@ -426,7 +426,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="hero-heading"
       className="bg-white dark:bg-[#0B0F19] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-2 pb-2 sm:pt-2.5 sm:pb-2.5">
+      <div className="max-w-[1280px] mx-auto px-6 pt-6 pb-5 sm:pt-7 sm:pb-6">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
           {/* Left: Headline + Search */}
           <div className="flex flex-col">
@@ -463,7 +463,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
             </form>
             <div className="mt-1.5 w-full max-w-2xl">
               <div className="flex flex-row flex-wrap items-center gap-1.5">
-                <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0共享 whitespace-nowrap">Trending:</span>
+                <span className="text-xs text-[#A0A0A8] dark:text-gray-400 font-medium shrink-0 whitespace-nowrap">Trending:</span>
                 {trendingSearches.map((s: any) => (
                   <Link
                     key={s.label}
@@ -498,7 +498,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
                 href="/accounts"
                 className="flex items-center justify-center gap-1.5 w-full text-[11px] font-bold text-[#2D5BE3] dark:text-[#60A5FA] border border-[#2D5BE3] dark:border-[#60A5FA] bg-white dark:bg-[#0B0F19] hover:bg-[#EEF2FD] dark:hover:bg-gray-800 px-3 py-1.5 rounded-md transition-all shadow-sm"
               >
-                Explore All Features
+                Explore Accounts
                 <ArrowRight size={12} />
               </Link>
             </div>
@@ -514,7 +514,7 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
       aria-labelledby="domains-heading"
       className="bg-[#F4F3F0] dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800"
     >
-      <div className="max-w-[1280px] mx-auto px-6 pt-2 pb-3.5 sm:pt-2.5 sm:pb-4">
+      <div className="max-w-[1280px] mx-auto px-6 pt-4 pb-6 sm:pt-5 sm:pb-7">
         <header className="flex items-start justify-between mb-2">
           <div>
             <div className="flex items-center gap-2 mb-0.5">
@@ -867,11 +867,9 @@ export default function HomePageClient({ initialConfig }: HomePageClientProps) {
 
   return (
     <>
-      <div className="min-h-[calc(100vh-64px)] flex flex-col justify-between">
+      <div className="bg-[#F4F3F0] dark:bg-[#111726]">
         {renderHero()}
-        <div className="flex-1 flex flex-col justify-center bg-[#F4F3F0] dark:bg-[#111726]">
-          {renderDomains()}
-        </div>
+        {renderDomains()}
       </div>
       {sectionsOrder.filter((id: string) => id !== 'hero' && id !== 'domains').map((sectionId: string) => {
         switch (sectionId) {

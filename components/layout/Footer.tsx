@@ -218,7 +218,7 @@ export default async function Footer() {
         >
           {/* Left: copyright */}
           <p className="text-xs text-[#9EAFCE]">
-            © 2026 Accounts.One
+            © {new Date().getFullYear()} Accounts.One
           </p>
 
           {/* Right: legal */}

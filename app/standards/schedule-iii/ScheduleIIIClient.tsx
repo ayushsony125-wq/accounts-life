@@ -25,7 +25,7 @@ interface ScheduleIIIClientProps {
 // YouTube video ID extractor
 const getYouTubeId = (url: string) => {
   if (!url) return ''
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|live\/|watch\?v=|\&v=)([^#\&\?]*).*/
   const match = url.match(regExp)
   return (match && match[2].length === 11) ? match[2] : ''
 }
@@ -285,11 +285,15 @@ export default function ScheduleIIIClient({ initialData }: ScheduleIIIClientProp
                   onClick={() => {
                     if (lectureUrl) {
                       window.open(lectureUrl, '_blank');
-                    } else {
-                      alert('Lecture video download is simulated.');
                     }
                   }}
-                  className="flex items-center gap-1 px-3 py-2 rounded-md text-[12.5px] font-bold text-white bg-[#3B82F6] hover:bg-[#2563EB] transition-colors shadow-xs shrink-0"
+                  disabled={!lectureUrl}
+                  className={`flex items-center gap-1 px-3 py-2 rounded-md text-[12.5px] font-bold transition-colors shadow-xs shrink-0 ${
+                    lectureUrl
+                      ? 'text-white bg-[#3B82F6] hover:bg-[#2563EB] cursor-pointer'
+                      : 'text-gray-400 bg-gray-200 dark:bg-gray-700 dark:text-gray-500 cursor-not-allowed'
+                  }`}
+                  title={lectureUrl ? 'Download Lecture' : 'No lecture download available'}
                 >
                   <Download size={14} className="shrink-0" />
                   Download Lecture

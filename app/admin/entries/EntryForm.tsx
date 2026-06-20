@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useTransition, useEffect, useRef, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { saveEntry, getEntryRevisions, getRevisionSnapshot } from '../actions'
 import {
@@ -18,6 +18,7 @@ interface EntryFormProps {
 
 export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [isPending, startTransition] = useTransition()
   const [isSaving, setIsSaving] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
@@ -26,6 +27,13 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const [lastSaved, setLastSaved] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'resources' | 'history' | 'publish'>('identity')
   const [previewTab, setPreviewTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
+
+  useEffect(() => {
+    const focus = searchParams?.get('focus')
+    if (focus === 'pdf' || focus === 'video') {
+      setActiveTab('resources')
+    }
+  }, [searchParams])
 
   // --- FORM STATES ---
   const [id, setId] = useState<number | undefined>(initialEntry?.id)
@@ -358,14 +366,29 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setVerificationLevel(snapshot.verificationLevel || 'DRAFT')
     setAuthorityPrimary(snapshot.authorityPrimary || '')
     setAuthorityPrimaryUrl(snapshot.authorityPrimaryUrl || '')
+    setAuthoritySecondary(snapshot.authoritySecondary || '')
+    setExamLevelTags(snapshot.examLevelTags || '')
     setSeoTitle(snapshot.seoTitle || '')
     setSeoDescription(snapshot.seoDescription || '')
     setIsFeatured(!!snapshot.isFeatured)
     setStandardCode(snapshot.standardCode || '')
     setStandardFramework(snapshot.standardFramework || 'AS')
     setStandardStatus(snapshot.standardStatus || 'ACTIVE')
+    setIssuingBody(snapshot.issuingBody || 'ICAI')
+    setDateIssued(snapshot.dateIssued || '')
+    setDateEffective(snapshot.dateEffective || '')
+    setApplicabilitySummary(snapshot.applicabilitySummary || '')
+    // Restore resources from snapshot
+    if (Array.isArray(snapshot.videos)) {
+      setVideos(snapshot.videos)
+    }
+    if (Array.isArray(snapshot.references)) {
+      setReferences(snapshot.references)
+    }
     if (snapshot.entryBody?.blocks) {
       setBlocks(snapshot.entryBody.blocks)
+    } else if (snapshot.blocks) {
+      setBlocks(snapshot.blocks)
     } else if (snapshot.sections) {
       // Import from older legacy section structures if needed
       setBlocks(snapshot.sections.map((s: any) => ({
@@ -641,6 +664,30 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         updateReference(idx, 'resourceUrl', data.url)
         updateReference(idx, 'resourceTitle', file.name)
         updateReference(idx, 'mediaFileId', data.mediaFileId)
+      } else {
+        alert('Upload failed: ' + data.error)
+      }
+    } catch (e) {
+      alert('Upload failed.')
+    }
+  }
+
+  const handleBlockPdfUpload = async (blockIdx: number, file: File) => {
+    if (!entrySlug) {
+      alert('Please enter a Slug in the Identity tab first.')
+      return
+    }
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('entrySlug', entrySlug)
+    formData.append('type', 'pdf')
+
+    try {
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: formData })
+      const data = await res.json()
+      if (data.success) {
+        updateBlock(blockIdx, 'url', data.url)
+        updateBlock(blockIdx, 'title', file.name)
       } else {
         alert('Upload failed: ' + data.error)
       }
@@ -1426,7 +1473,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                                     className="hidden"
                                     onChange={(e) => {
                                       const file = e.target.files?.[0]
-                                      if (file) handlePdfUpload(idx, file)
+                                      if (file) handleBlockPdfUpload(idx, file)
                                     }}
                                   />
                                 </label>

@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     'accounting concepts',
     'Indian GAAP',
   ],
-  authors: [{ name: 'AK' }],
+  authors: [{ name: 'Accounts.One Editorial Team' }],
   openGraph: {
     type: 'website',
     locale: 'en_IN',

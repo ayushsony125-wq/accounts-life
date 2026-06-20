@@ -873,6 +873,8 @@ export async function getAllEntries(): Promise<any[]> {
         include: {
           domain: true,
           subdomain: true,
+          standardDetail: true,
+          resources: true,
         },
         orderBy: { sortOrder: 'asc' },
       }) as any)

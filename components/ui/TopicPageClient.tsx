@@ -140,8 +140,8 @@ export default function TopicPageClient({ entry }: TopicPageClientProps) {
 
           {/* Section 1: Topic Header & Risk Level near the top */}
           <section id="risk-and-warnings" className="scroll-mt-24">
-            <div className="bg-[#FDEEEE] border border-[#F5C6C0] rounded-xl p-5 shadow-sm">
-              <div className="flex items-center gap-2.5 text-[#C0392B] font-bold text-sm uppercase tracking-wider mb-2">
+            <div className="bg-[#FDEEEE] dark:bg-red-950/30 border border-[#F5C6C0] dark:border-red-900/50 rounded-xl p-5 shadow-sm">
+              <div className="flex items-center gap-2.5 text-[#C0392B] dark:text-red-400 font-bold text-sm uppercase tracking-wider mb-2">
                 <AlertTriangle size={18} />
                 <span>Risk Level: {body.quickAnswer.riskLevel}</span>
               </div>
@@ -539,7 +539,7 @@ export default function TopicPageClient({ entry }: TopicPageClientProps) {
             <div className="border-l-2 border-[#E2E1DD] dark:border-gray-800 pl-6 space-y-6 ml-3">
               {body.amendmentTimeline.map((item: any, idx: number) => (
                 <div key={idx} className="relative">
-                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 border-white bg-[#2D5BE3]" />
+                  <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full border-2 border-white dark:border-[#0B0F19] bg-[#2D5BE3]" />
                   <span className="text-xs font-bold text-[#2D5BE3] dark:text-[#60A5FA] block uppercase tracking-wider mb-1">
                     {item.year}
                   </span>

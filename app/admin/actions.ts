@@ -164,7 +164,29 @@ export async function saveEntry(entryData: any) {
         await prisma.entryFAQ.deleteMany({ where: { entryId } })
         await prisma.entryJournalEntry.deleteMany({ where: { entryId } })
         await prisma.entryIllustration.deleteMany({ where: { entryId } })
-        await prisma.entryResource.deleteMany({ where: { entryId } })
+        // CRITICAL FIX: Only delete manual/link resources (mediaFileId IS NULL).
+        // Uploaded PDF/video resources (mediaFileId IS NOT NULL) must be preserved
+        // across saves so that a PDF uploaded via the Media tab is not wiped when
+        // the admin clicks "Save Draft" on the entry form.
+        await prisma.entryResource.deleteMany({
+          where: { entryId, mediaFileId: null }
+        })
+
+        // Also prune uploaded resources that were explicitly deleted from the form
+        const formResources = entryData.resources || []
+        const activeMediaFileIds = formResources
+          .map((r: any) => r.mediaFileId ? Number(r.mediaFileId) : null)
+          .filter((id: number | null) => id !== null) as number[]
+
+        await prisma.entryResource.deleteMany({
+          where: {
+            entryId,
+            mediaFileId: {
+              notIn: activeMediaFileIds,
+              not: null
+            }
+          }
+        })
         await prisma.standardDetail.deleteMany({ where: { entryId } })
       }
 
@@ -235,18 +257,8 @@ export async function saveEntry(entryData: any) {
             sortOrder: idx,
           })),
         },
-        resources: {
-          create: (entryData.resources || []).map((r: any, idx: number) => ({
-            resourceType: r.resourceType || 'REFERENCE',
-            resourceTitle: r.resourceTitle || '',
-            resourceUrl: r.resourceUrl || null,
-            mediaFileId: r.mediaFileId ? Number(r.mediaFileId) : null,
-            sourceType: r.sourceType || 'EXTERNAL',
-            videoChannel: r.videoChannel || null,
-            refYear: r.refYear ? Number(r.refYear) : null,
-            sortOrder: idx,
-          })),
-        },
+        // Resources are handled separately below (after entry upsert)
+        // to allow upsert-by-type logic that preserves uploaded files.
       }
 
       // Embed standard detail if entry type is STANDARD
@@ -313,6 +325,66 @@ export async function saveEntry(entryData: any) {
           data: dataPayload,
         })
         entryId = saved.id
+      }
+
+      // --- UPSERT FORM RESOURCES ---
+      // Form resources (videos, manual references/links) are upserted here.
+      // Resources with mediaFileId (uploaded PDFs/videos) are updated if they exist;
+      // new ones are created. Resources without mediaFileId (manual links) that were
+      // already deleted above are simply re-created.
+      const formResources = entryData.resources || []
+      for (let idx = 0; idx < formResources.length; idx++) {
+        const r = formResources[idx]
+        const resourceType = r.resourceType || 'REFERENCE'
+        const mfId = r.mediaFileId ? Number(r.mediaFileId) : null
+
+        if (mfId) {
+          // This resource has an uploaded file — upsert by (entryId, resourceType, mediaFileId)
+          const existing = await prisma.entryResource.findFirst({
+            where: { entryId, mediaFileId: mfId }
+          })
+          if (existing) {
+            await prisma.entryResource.update({
+              where: { id: existing.id },
+              data: {
+                resourceTitle: r.resourceTitle || existing.resourceTitle,
+                resourceUrl: r.resourceUrl || existing.resourceUrl,
+                videoChannel: r.videoChannel || null,
+                sortOrder: idx,
+              }
+            })
+          } else {
+            await prisma.entryResource.create({
+              data: {
+                entryId,
+                resourceType,
+                resourceTitle: r.resourceTitle || '',
+                resourceUrl: r.resourceUrl || null,
+                mediaFileId: mfId,
+                sourceType: r.sourceType || 'EXTERNAL',
+                videoChannel: r.videoChannel || null,
+                refYear: r.refYear ? Number(r.refYear) : null,
+                sortOrder: idx,
+              }
+            })
+          }
+        } else {
+          // Manual resource (external URL, YouTube link, etc.) — create fresh
+          // (the old ones without mediaFileId were already deleted above)
+          await prisma.entryResource.create({
+            data: {
+              entryId,
+              resourceType,
+              resourceTitle: r.resourceTitle || '',
+              resourceUrl: r.resourceUrl || null,
+              mediaFileId: null,
+              sourceType: r.sourceType || 'EXTERNAL',
+              videoChannel: r.videoChannel || null,
+              refYear: r.refYear ? Number(r.refYear) : null,
+              sortOrder: idx,
+            }
+          })
+        }
       }
 
       // --- CREATE REVISION SNAPSHOT ---
@@ -1205,3 +1277,95 @@ export async function updateEntriesOrder(orderMapping: Array<{ id: number, sortO
 
   return { success: false, error: 'Database not enabled' }
 }
+
+export async function saveVideoResourceAction(
+  entryId: number,
+  videoData: { resourceTitle: string; resourceUrl: string; videoChannel?: string }
+) {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (!useDatabase) return { success: false, error: 'Database not enabled' }
+
+  try {
+    const existing = await prisma.entryResource.findFirst({
+      where: { entryId, resourceType: 'VIDEO' }
+    })
+
+    if (existing) {
+      const updated = await prisma.entryResource.update({
+        where: { id: existing.id },
+        data: {
+          resourceTitle: videoData.resourceTitle,
+          resourceUrl: videoData.resourceUrl,
+          videoChannel: videoData.videoChannel || null,
+        }
+      })
+      await createAuditLog({
+        action: 'UPDATE_RESOURCE',
+        entityType: 'EntryResource',
+        entityId: String(updated.id),
+        description: `Updated video resource for entry ${entryId}: ${videoData.resourceTitle}`
+      })
+    } else {
+      const created = await prisma.entryResource.create({
+        data: {
+          entryId,
+          resourceType: 'VIDEO',
+          resourceTitle: videoData.resourceTitle,
+          resourceUrl: videoData.resourceUrl,
+          videoChannel: videoData.videoChannel || null,
+          sourceType: 'EXTERNAL',
+          sortOrder: 1,
+        }
+      })
+      await createAuditLog({
+        action: 'CREATE_RESOURCE',
+        entityType: 'EntryResource',
+        entityId: String(created.id),
+        description: `Created video resource for entry ${entryId}: ${videoData.resourceTitle}`
+      })
+    }
+
+    return { success: true }
+  } catch (e: any) {
+    console.error('saveVideoResourceAction failed:', e)
+    return { success: false, error: e.message }
+  }
+}
+
+export async function deleteStandardResourceByType(entryId: number, resourceType: 'PDF' | 'VIDEO') {
+  const isAuth = await checkSession()
+  if (!isAuth) throw new Error('Unauthorized')
+
+  const useDatabase = process.env.DATABASE_URL ? true : false
+  if (!useDatabase) return { success: false, error: 'Database not enabled' }
+
+  try {
+    const resource = await prisma.entryResource.findFirst({
+      where: { entryId, resourceType }
+    })
+
+    if (!resource) {
+      return { success: true, message: 'Resource did not exist' }
+    }
+
+    await prisma.entryResource.delete({
+      where: { id: resource.id }
+    })
+
+    await createAuditLog({
+      action: 'DELETE_RESOURCE',
+      entityType: 'EntryResource',
+      entityId: String(resource.id),
+      description: `Deleted ${resourceType} resource for entry ${entryId}: ${resource.resourceTitle}`
+    })
+
+    return { success: true }
+  } catch (e: any) {
+    console.error('deleteStandardResourceByType failed:', e)
+    return { success: false, error: e.message }
+  }
+}
+
