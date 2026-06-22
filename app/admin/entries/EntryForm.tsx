@@ -1018,10 +1018,10 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
 
   return (
     <div className="w-full flex flex-col h-[calc(100vh-105px)] overflow-hidden font-sans bg-[#FAFAF8] dark:bg-[#0B0F19] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl shadow-xs">
-      {/* Side-by-Side Split Workspace */}
+      {/* Full-width Document Editor */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Left Side: Notion-style Form Editor */}
-        <div className="w-1/2 flex flex-col border-r border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#111726] overflow-y-auto">
+        {/* Full-width Form Editor — no split pane */}
+        <div className="w-full flex flex-col bg-white dark:bg-[#111726] overflow-y-auto">
           {/* Visual Tabs Header */}
           <div className="flex border-b border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F]">
             {(['identity', 'content', 'resources', 'history', 'publish'] as const).map((tab) => {
@@ -1051,7 +1051,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
             })}
           </div>
 
-          <div className="p-6 space-y-6 flex-1">
+          <div className={`flex-1 ${activeTab === 'content' ? 'p-0' : 'p-6 space-y-6'}`}>
             {/* TAB 1: IDENTITY METADATA */}
             {activeTab === 'identity' && (
               <div className="space-y-5">
@@ -1242,59 +1242,95 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
             )}
             {/* TAB 2: WYSIWYG PAGE EDITOR — Same layout as public standard page */}
             {activeTab === 'content' && (
-              <div className="flex flex-col gap-0">
+              <div className="flex flex-col min-h-full bg-[#F5F4F1] dark:bg-[#0D121F]">
                 <style dangerouslySetInnerHTML={{ __html: `
                   .canvas-editor {
                     outline: none;
-                    min-height: 500px;
+                    min-height: 600px;
+                  }
+                  .canvas-editor h1 {
+                    font-size: 2.25rem;
+                    font-weight: 900;
+                    color: #1C1C1E;
+                    letter-spacing: -0.02em;
+                    margin-bottom: 0.5rem;
+                    line-height: 1.15;
                   }
                   .canvas-editor h2 {
-                    font-size: 1.875rem;
+                    font-size: 1.5rem;
                     font-weight: 800;
                     color: #1C1C1E;
                     text-transform: uppercase;
-                    letter-spacing: 0.025em;
+                    letter-spacing: 0.04em;
                     border-bottom: 2px solid #E2E1DD;
-                    padding-bottom: 0.875rem;
+                    padding-bottom: 0.75rem;
                     margin-top: 3rem;
-                    margin-bottom: 2rem;
+                    margin-bottom: 1.5rem;
                   }
                   .canvas-editor h3 {
-                    font-size: 1.3125rem;
+                    font-size: 1.25rem;
                     font-weight: 800;
                     color: #1C1C1E;
-                    margin-top: 2.25rem;
-                    margin-bottom: 1rem;
+                    margin-top: 2rem;
+                    margin-bottom: 0.875rem;
+                  }
+                  .canvas-editor h4 {
+                    font-size: 1.05rem;
+                    font-weight: 700;
+                    color: #333;
+                    margin-top: 1.5rem;
+                    margin-bottom: 0.5rem;
                   }
                   .canvas-editor p {
-                    font-family: 'Lora', serif;
-                    font-size: 1.156rem;
-                    line-height: 1.7;
-                    color: #333333;
-                    margin-bottom: 1.75rem;
+                    font-size: 1.09rem;
+                    line-height: 1.85;
+                    color: #2A2A35;
+                    margin-bottom: 1.5rem;
+                  }
+                  .canvas-editor ul, .canvas-editor ol {
+                    padding-left: 1.75rem;
+                    margin-bottom: 1.5rem;
+                  }
+                  .canvas-editor li {
+                    font-size: 1.04rem;
+                    line-height: 1.8;
+                    color: #2A2A35;
+                    margin-bottom: 0.375rem;
+                  }
+                  .canvas-editor strong { font-weight: 800; }
+                  .canvas-editor em { font-style: italic; }
+                  .canvas-editor u { text-decoration: underline; }
+                  .canvas-editor blockquote {
+                    border-left: 3px solid #2D5BE3;
+                    padding-left: 1.25rem;
+                    margin: 1.5rem 0;
+                    color: #555;
+                    font-style: italic;
                   }
                   .canvas-editor table {
                     width: 100%;
                     text-align: left;
-                    font-size: 0.75rem;
+                    font-size: 0.875rem;
                     border-collapse: collapse;
                     border: 1px solid #E2E1DD;
-                    margin-bottom: 1.5rem;
-                    border-radius: 0.75rem;
+                    margin-bottom: 2rem;
+                    border-radius: 0.5rem;
                     overflow: hidden;
                   }
                   .canvas-editor th {
                     background-color: #F8FAFC;
                     color: #4A5568;
                     border-bottom: 1px solid #E2E1DD;
-                    padding: 0.75rem;
+                    padding: 0.75rem 1rem;
                     font-weight: bold;
+                    font-size: 0.75rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
                   }
                   .canvas-editor td {
-                    padding: 0.75rem;
+                    padding: 0.75rem 1rem;
                     color: #2D3748;
                     border-bottom: 1px solid #E2E1DD;
-                    font-weight: 600;
                   }
                   .canvas-editor .editor-note-block {
                     padding: 1.5rem 2rem;
@@ -1302,13 +1338,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                     border: 1px solid rgba(197, 195, 188, 0.5);
                     background-color: rgba(250, 250, 248, 0.6);
                     margin-bottom: 2rem;
-                  }
-                  .canvas-editor .editor-note-block strong {
-                    font-size: 1.09rem;
-                    font-weight: 800;
-                    color: #1C1C1E;
-                    display: block;
-                    margin-bottom: 0.75rem;
                   }
                   .canvas-editor .editor-exam-trap {
                     padding: 1.25rem 1.5rem;
@@ -1331,67 +1360,57 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                     background-color: #EEF2FD;
                     margin-bottom: 1rem;
                   }
-                  .dark .canvas-editor {
-                    color: #f3f4f6;
-                  }
-                  .dark .canvas-editor h2 {
-                    color: #ffffff;
-                    border-color: #1e2640;
-                  }
-                  .dark .canvas-editor h3 {
-                    color: #ffffff;
-                  }
-                  .dark .canvas-editor p {
-                    color: #e5e7eb;
-                  }
-                  .dark .canvas-editor table {
-                    border-color: #1e2640;
-                  }
-                  .dark .canvas-editor th {
-                    background-color: #1e2640;
-                    color: #d1d5db;
-                    border-color: #1e2640;
-                  }
-                  .dark .canvas-editor td {
-                    color: #d1d5db;
-                    border-color: #1e2640;
-                  }
-                  .dark .canvas-editor .editor-note-block {
-                    border-color: #1e2640;
-                    background-color: rgba(30, 38, 64, 0.55);
-                  }
-                  .dark .canvas-editor .editor-note-block strong {
-                    color: #ffffff;
-                  }
-                  .dark .canvas-editor .editor-exam-trap {
-                    background-color: #2c1d1d;
-                    border-color: rgba(245, 198, 192, 0.5);
-                  }
-                  .dark .canvas-editor .editor-practical-use {
-                    background-color: #1a2c22;
-                    border-color: rgba(197, 233, 212, 0.5);
-                  }
-                  .dark .canvas-editor .editor-case-law {
-                    background-color: #1a2542;
-                    border-color: rgba(220, 230, 255, 0.5);
-                  }
+                  .dark .canvas-editor h1,
+                  .dark .canvas-editor h2,
+                  .dark .canvas-editor h3,
+                  .dark .canvas-editor h4 { color: #ffffff; }
+                  .dark .canvas-editor h2 { border-color: #1e2640; }
+                  .dark .canvas-editor p,
+                  .dark .canvas-editor li { color: #d1d5db; }
+                  .dark .canvas-editor table { border-color: #1e2640; }
+                  .dark .canvas-editor th { background-color: #1e2640; color: #d1d5db; border-color: #1e2640; }
+                  .dark .canvas-editor td { color: #d1d5db; border-color: #1e2640; }
+                  .dark .canvas-editor .editor-note-block { border-color: #1e2640; background-color: rgba(30,38,64,0.55); }
+                  .dark .canvas-editor .editor-exam-trap { background-color: #2c1d1d; border-color: rgba(245,198,192,0.5); }
+                  .dark .canvas-editor .editor-practical-use { background-color: #1a2c22; border-color: rgba(197,233,212,0.5); }
+                  .dark .canvas-editor .editor-case-law { background-color: #1a2542; border-color: rgba(220,230,255,0.5); }
                 ` }} />
 
-                {/* Public-page styled document canvas */}
-                <div className={`bg-white dark:bg-[#111726] border rounded-2xl p-8 sm:p-12 space-y-0 min-h-[500px] ${
-                  standardFramework === 'AS' ? 'border-[#C5C3BC]' : 'border-[#E2E1DD]'
-                }`}>
-                  <div
-                    ref={editorRef}
-                    contentEditable
-                    onInput={handleEditorInput}
-                    onBlur={handleEditorInput}
-                    className="canvas-editor w-full min-h-[500px] outline-none text-[#1C1C1E] dark:text-white focus:outline-none"
-                    dangerouslySetInnerHTML={{ __html: initialHtml }}
-                  />
+                {/* Editor toolbar strip */}
+                <div className="flex items-center gap-3 px-6 py-2.5 border-b border-[#E2E1DD]/60 dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F] shrink-0">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#76767E]">Document Editor</span>
+                  <span className="text-[10px] text-[#A0A0A8]">·</span>
+                  <span className="text-[10px] text-[#A0A0A8]">Type freely — paste from Word or PDF — formatting is preserved</span>
+                  <div className="ml-auto flex items-center gap-1.5">
+                    <button type="button" onClick={() => document.execCommand('bold')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 font-bold text-xs">B</button>
+                    <button type="button" onClick={() => document.execCommand('italic')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 italic text-xs">I</button>
+                    <button type="button" onClick={() => document.execCommand('underline')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 underline text-xs">U</button>
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'h2')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H2</button>
+                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'h3')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H3</button>
+                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'p')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">P</button>
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+                    <button type="button" onClick={() => document.execCommand('insertUnorderedList')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">• List</button>
+                  </div>
+                </div>
+
+                {/* Document canvas — full page feel */}
+                <div className="flex-1 overflow-y-auto py-10 px-4 sm:px-8">
+                  <div className="max-w-4xl mx-auto">
+                    <div
+                      ref={editorRef}
+                      contentEditable
+                      onInput={handleEditorInput}
+                      onBlur={handleEditorInput}
+                      suppressContentEditableWarning
+                      className="canvas-editor w-full min-h-[600px] outline-none text-[#1C1C1E] dark:text-white focus:outline-none bg-white dark:bg-[#111726] rounded-2xl px-10 py-12 border border-[#E2E1DD] dark:border-gray-800 shadow-sm"
+                      dangerouslySetInnerHTML={{ __html: initialHtml }}
+                    />
+                  </div>
                 </div>
               </div>
             )}
+
 
             {/* TAB 3: UPLOADS & ATTACHMENTS */}
             {activeTab === 'resources' && (
@@ -1644,288 +1663,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
           </div>
         </div>
 
-        {/* Right Side: Live Interactive Portal Preview */}
-        <div className="w-1/2 flex flex-col bg-slate-50 dark:bg-slate-950 overflow-y-auto p-6">
-          <div className="text-[10px] font-extrabold uppercase tracking-widest text-slate-500 mb-4 flex items-center justify-between">
-            <span>Real-time Interactive Live Preview</span>
-            <span className="flex items-center gap-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 px-2 py-0.5 rounded-full font-bold">
-              ● Sync Active
-            </span>
-          </div>
-
-          <div className="border border-[#E2E1DD] dark:border-gray-800 rounded-2xl bg-white dark:bg-[#111726] overflow-hidden shadow-lg flex-1 flex flex-col">
-            {/* Mock Header from public standard portal */}
-            <div className="p-6 border-b border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F]/80 flex justify-between items-start shrink-0">
-              <div className="space-y-1 max-w-sm">
-                <span className="text-[9px] bg-slate-200 dark:bg-gray-800 px-2 py-0.5 rounded font-extrabold uppercase text-[#2D5BE3]">{standardFramework} Framework</span>
-                <h2 className="text-base font-extrabold text-slate-900 dark:text-white leading-tight">
-                  {standardCode || 'STANDARD CODE'} — {entryTitle || 'Standard Document Title'}
-                </h2>
-                <p className="text-[11px] text-slate-500 leading-relaxed font-medium">{applicabilitySummary || 'Scope of applicability rules...'}</p>
-              </div>
-              <div className="text-right flex flex-col items-end gap-1.5">
-                <span className={`px-2 py-0.5 rounded text-[9px] font-extrabold uppercase ${standardStatus === 'ACTIVE' ? 'bg-[#E8F7EE] text-[#1A7A4A]' : 'bg-red-100 text-red-800'}`}>
-                  {standardStatus}
-                </span>
-                <span className="text-[10px] text-slate-500 font-mono">Issued: {dateIssued || 'N/A'}</span>
-              </div>
-            </div>
-
-            {/* Preview Navigation Tabs */}
-            <div className="flex border-b border-[#E2E1DD] dark:border-gray-800 bg-white dark:bg-[#111726] shrink-0">
-              {(['standard', 'examples', 'lecture', 'pdf'] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setPreviewTab(tab)}
-                  className={`flex-1 py-3 text-center text-xs font-extrabold uppercase tracking-wide border-b-2 -mb-px transition-all ${
-                    previewTab === tab
-                      ? 'border-[#2D5BE3] text-[#2D5BE3]'
-                      : 'border-transparent text-slate-500 hover:text-slate-800 dark:hover:text-white'
-                  }`}
-                >
-                  {tab}
-                </button>
-              ))}
-            </div>
-
-            {/* Tab Contents Preview rendering identical to user layout */}
-            <div className="flex-1 p-6 overflow-y-auto space-y-6">
-              {previewTab === 'standard' && (
-                <div className="space-y-4">
-                  {blocks.length === 0 ? (
-                    <div className="text-center py-12 text-slate-400 text-xs font-semibold">No visual blocks created yet. Go to Content tab to assemble curriculum blocks.</div>
-                  ) : (
-                    blocks.map((block, blockIdx) => {
-                      if (block.hidden) return null
-                      switch (block.type) {
-                        case 'HEADING':
-                          return (
-                            <h3 key={blockIdx} className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider mt-5 first:mt-0 border-b border-slate-100 dark:border-gray-800 pb-2">
-                              {renderTextWithReferences(block.content)}
-                            </h3>
-                          )
-                        case 'SUB_HEADING':
-                          return (
-                            <h4 key={blockIdx} className="text-xs font-bold text-slate-900 dark:text-white mt-4 mb-2">
-                              {renderTextWithReferences(block.content)}
-                            </h4>
-                          )
-                        case 'PARAGRAPH':
-                          return (
-                            <p key={blockIdx} className="text-xs text-slate-600 dark:text-gray-300 leading-relaxed font-semibold">
-                              {renderTextWithReferences(block.content)}
-                            </p>
-                          )
-                        case 'NOTE':
-                        case 'EXAM_TRAP':
-                        case 'PRACTICAL_USE': {
-                          const bg = {
-                            NOTE: 'bg-slate-50 dark:bg-slate-900/60 border-slate-200 dark:border-gray-800 text-slate-700 dark:text-gray-300',
-                            EXAM_TRAP: 'bg-red-50/50 dark:bg-red-950/20 border-red-200 dark:border-red-900/30 text-red-800 dark:text-red-300',
-                            PRACTICAL_USE: 'bg-green-50/50 dark:bg-green-950/20 border-green-200 dark:border-green-900/30 text-green-800 dark:text-green-300'
-                          }[block.type as string] || ''
-
-                          return (
-                            <div key={blockIdx} className={`p-4 rounded-xl border ${bg} space-y-1`}>
-                              {block.title && <h5 className="text-xs font-extrabold uppercase tracking-wider">{block.title}</h5>}
-                              <p className="text-xs leading-relaxed font-semibold whitespace-pre-line">{renderTextWithReferences(block.body)}</p>
-                            </div>
-                          )
-                        }
-                        case 'CASE_LAW':
-                          return (
-                            <div key={blockIdx} className="p-4 rounded-xl border border-blue-200 bg-blue-50/30 dark:border-blue-900/30 dark:bg-blue-950/15 space-y-2">
-                              <div className="flex justify-between items-center">
-                                <h5 className="text-xs font-extrabold text-blue-900 dark:text-blue-300 uppercase tracking-wide">Case Law Reference</h5>
-                                {block.citation && <span className="text-[10px] font-mono text-blue-500">{block.citation}</span>}
-                              </div>
-                              <p className="text-xs font-bold text-slate-800 dark:text-white">{block.title}</p>
-                              <p className="text-xs italic text-slate-600 dark:text-gray-300 whitespace-pre-line">{"\""}{block.verdict}{"\""}</p>
-                            </div>
-                          )
-                        case 'TABLE':
-                          return (
-                            <div key={blockIdx} className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden shadow-2xs">
-                              <table className="w-full text-left text-xs border-collapse">
-                                <thead>
-                                  <tr className="bg-slate-50 dark:bg-[#0D121F] border-b border-slate-200 dark:border-gray-800">
-                                    {block.headers?.map((h: string, hIdx: number) => (
-                                      <th key={hIdx} className="p-3 font-bold text-slate-700 dark:text-gray-300 uppercase tracking-wider">{h}</th>
-                                    ))}
-                                  </tr>
-                                </thead>
-                                <tbody className="divide-y divide-slate-100 dark:divide-gray-800">
-                                  {block.rows?.map((row: string[], rIdx: number) => (
-                                    <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/30 transition-colors">
-                                      {row.map((cell: string, cIdx: number) => (
-                                        <td key={cIdx} className="p-3 text-slate-600 dark:text-gray-400 font-semibold">{renderTextWithReferences(cell)}</td>
-                                      ))}
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          )
-                        case 'FAQ':
-                          return (
-                            <div key={blockIdx} className="p-4 rounded-xl border border-slate-200 bg-slate-50/30 dark:border-gray-850 dark:bg-slate-900/10 space-y-2">
-                              <div className="flex items-center justify-between text-[9px] font-extrabold uppercase text-slate-400">
-                                <span>FAQ · {block.faqCategory}</span>
-                                {block.sourceRef && <span>Ref: {block.sourceRef}</span>}
-                              </div>
-                              <h5 className="text-xs font-bold text-slate-900 dark:text-white">Q: {block.question}</h5>
-                              <p className="text-xs text-slate-600 dark:text-gray-300 whitespace-pre-line">A: {block.answer}</p>
-                            </div>
-                          )
-                        case 'PDF_REFERENCE':
-                          return (
-                            <div key={blockIdx} className="p-3 border border-red-200 bg-red-50/20 dark:border-red-950/40 rounded-xl flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <FileText size={14} className="text-[#C0392B]" />
-                                <span className="text-xs font-bold text-slate-900 dark:text-white">{block.title || 'Official PDF Document'}</span>
-                              </div>
-                              {block.url && <a href={block.url} target="_blank" rel="noopener noreferrer" className="text-xs text-red-600 font-bold hover:underline">View PDF</a>}
-                            </div>
-                          )
-                        case 'VIDEO':
-                          return (
-                            <div key={blockIdx} className="p-3 border border-blue-200 bg-blue-50/20 dark:border-blue-950/40 rounded-xl flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <Video size={14} className="text-[#2D5BE3]" />
-                                <span className="text-xs font-bold text-slate-900 dark:text-white">{block.title || 'Video Lecture Reference'}</span>
-                              </div>
-                              {block.url && <a href={block.url} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-600 font-bold hover:underline">Watch Class</a>}
-                            </div>
-                          )
-                        case 'DOWNLOAD_SECTION':
-                          return (
-                            <div key={blockIdx} className="p-4 rounded-xl border border-dashed border-red-300 bg-red-50/50 dark:border-red-900/40 dark:bg-red-950/10 flex items-center justify-between">
-                              <div className="flex items-center gap-2.5">
-                                <FileText size={16} className="text-red-500" />
-                                <span className="text-xs font-bold text-slate-900 dark:text-white">{block.title || 'Download Study Material'}</span>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => alert('PDF generation is simulated. Prints website content directly.')}
-                                className="text-xs font-bold text-red-600 hover:underline"
-                              >
-                                Print Guide
-                              </button>
-                            </div>
-                          )
-                        case 'IMAGE':
-                          return (
-                            <div key={blockIdx} className="my-6 flex flex-col items-center justify-center gap-2">
-                              {block.url && (
-                                <img
-                                  src={block.url}
-                                  alt={block.caption || 'Image block'}
-                                  className="max-w-full rounded-xl border border-slate-200 dark:border-gray-800 shadow-xs max-h-[300px] object-contain"
-                                />
-                              )}
-                              {block.caption && (
-                                <p className="text-[10px] text-slate-500 italic text-center font-medium">
-                                  {block.caption}
-                                </p>
-                              )}
-                            </div>
-                          )
-                        default:
-                          return null
-                      }
-                    })
-                  )}
-                </div>
-              )}
-
-              {previewTab === 'examples' && (
-                <div className="space-y-4">
-                  {blocks.filter(b => b.type === 'ILLUSTRATION' || b.type === 'EXAMPLE').length === 0 ? (
-                    <div className="text-center py-12 text-slate-400 text-xs font-semibold">No illustrations created. Go to Content tab and add Illustration block type.</div>
-                  ) : (
-                    blocks.filter(b => b.type === 'ILLUSTRATION' || b.type === 'EXAMPLE').map((block, blockIdx) => (
-                      <div key={blockIdx} className="bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-xl p-5 space-y-4">
-                        <div className="flex justify-between items-center border-b border-slate-200 dark:border-gray-800 pb-2">
-                          <h4 className="text-xs font-bold text-slate-900 dark:text-white">{block.title || 'Example Illustration'}</h4>
-                        </div>
-                        {block.scenario && (
-                          <div>
-                            <span className="text-[9px] uppercase font-extrabold text-slate-400">Scenario / Issue</span>
-                            <p className="text-xs text-slate-800 dark:text-gray-200 whitespace-pre-line font-semibold mt-0.5">{renderTextWithReferences(block.scenario)}</p>
-                          </div>
-                        )}
-                        {block.working && (
-                          <div className="p-3 bg-white dark:bg-gray-850 border border-slate-200 dark:border-gray-800 rounded">
-                            <span className="text-[9px] uppercase font-extrabold text-slate-400">Working Details</span>
-                            <p className="text-xs text-slate-600 dark:text-gray-400 whitespace-pre-line font-semibold mt-0.5">{renderTextWithReferences(block.working)}</p>
-                          </div>
-                        )}
-                        {block.answer && (
-                          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/30 rounded">
-                            <span className="text-[9px] uppercase font-extrabold text-[#1A7A4A]">Conclusion Treatment</span>
-                            <p className="text-xs text-[#1A7A4A] dark:text-emerald-400 whitespace-pre-line font-semibold mt-0.5">{renderTextWithReferences(block.answer)}</p>
-                          </div>
-                        )}
-                      </div>
-                    ))
-                  )}
-                </div>
-              )}
-
-              {previewTab === 'lecture' && (
-                <div className="space-y-4 text-center py-8">
-                  {videos.length === 0 ? (
-                    <div className="text-slate-400 text-xs">No lecture video resources linked. Go to Resources tab to attach a video.</div>
-                  ) : (
-                    videos.map((vid, idx) => (
-                      <div key={idx} className="bg-slate-50 dark:bg-[#0D121F] p-4 rounded-xl border border-slate-200 dark:border-gray-800 max-w-sm mx-auto space-y-2">
-                        <Video className="mx-auto text-blue-500" size={32} />
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">{vid.resourceTitle || 'Lecture Class'}</h4>
-                        <p className="text-[10px] text-slate-500">{vid.videoChannel || 'Instructor'}</p>
-                        {vid.resourceUrl && (
-                          <a
-                            href={vid.resourceUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block mt-2 text-xs bg-blue-600 hover:bg-blue-700 text-white px-4 py-1.5 rounded-lg font-semibold"
-                          >
-                            Watch Video
-                          </a>
-                        )}
-                      </div>
-                    ))
-                  )}
-                </div>
-              )}
-
-              {previewTab === 'pdf' && (
-                <div className="space-y-4 text-center py-8">
-                  {references.filter(r => r.resourceType === 'PDF').length === 0 ? (
-                    <div className="text-slate-400 text-xs">No PDF reference files uploaded. Go to Resources tab to upload standard document PDF.</div>
-                  ) : (
-                    references.filter(r => r.resourceType === 'PDF').map((ref, idx) => (
-                      <div key={idx} className="bg-slate-50 dark:bg-[#0D121F] p-4 rounded-xl border border-slate-200 dark:border-gray-800 max-w-sm mx-auto space-y-2">
-                        <FileText className="mx-auto text-red-500" size={32} />
-                        <h4 className="text-xs font-bold text-slate-900 dark:text-white">{ref.resourceTitle || 'Official PDF Publication'}</h4>
-                        <p className="text-[10px] text-slate-500">{ref.sourceType}</p>
-                        {ref.resourceUrl && (
-                          <a
-                            href={ref.resourceUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block mt-2 text-xs bg-red-650 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg font-semibold"
-                          >
-                            Download Source PDF
-                          </a>
-                        )}
-                      </div>
-                    ))
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Side-by-side Revision Comparison Modal overlay */}
