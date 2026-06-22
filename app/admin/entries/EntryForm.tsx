@@ -289,6 +289,96 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     }, 500)
   }
 
+  const triggerEditorUpdate = () => {
+    if (editorRef.current) {
+      const parsed = htmlToBlocks(editorRef.current.innerHTML)
+      setBlocks(parsed)
+    }
+  }
+
+  const triggerExamplesUpdate = () => {
+    if (examplesRef.current) {
+      setExamplesHtml(examplesRef.current.innerHTML)
+    }
+  }
+
+  const insertHtmlIntoEditor = (html: string, ref: React.RefObject<HTMLDivElement | null>) => {
+    if (!ref.current) return
+    ref.current.focus()
+    const sel = window.getSelection()
+    if (sel && sel.rangeCount > 0) {
+      const range = sel.getRangeAt(0)
+      let isInside = false
+      let node: Node | null = range.commonAncestorContainer
+      while (node) {
+        if (node === ref.current) {
+          isInside = true
+          break
+        }
+        node = node.parentNode
+      }
+      if (isInside) {
+        range.deleteContents()
+        const el = document.createElement("div")
+        el.innerHTML = html
+        const frag = document.createDocumentFragment()
+        let childNode
+        let lastChild
+        while ((childNode = el.firstChild)) {
+          lastChild = frag.appendChild(childNode)
+        }
+        range.insertNode(frag)
+        if (lastChild) {
+          const nextRange = range.cloneRange()
+          nextRange.setStartAfter(lastChild)
+          nextRange.collapse(true)
+          sel.removeAllRanges()
+          sel.addRange(nextRange)
+        }
+        return
+      }
+    }
+    const tempDiv = document.createElement("div")
+    tempDiv.innerHTML = html
+    while (tempDiv.firstChild) {
+      ref.current.appendChild(tempDiv.firstChild)
+    }
+  }
+
+  const insertSpecialBlock = (type: 'NOTE' | 'EXAM_TRAP' | 'PRACTICAL_USE' | 'CASE_LAW', isExamples: boolean) => {
+    let title = ''
+    let citation = ''
+    if (type === 'NOTE') {
+      title = prompt('Enter Note Title (optional):') || ''
+    } else if (type === 'EXAM_TRAP') {
+      title = prompt('Enter Exam Trap Title (optional):') || ''
+    } else if (type === 'PRACTICAL_USE') {
+      title = prompt('Enter Practical Use Title (optional):') || ''
+    } else if (type === 'CASE_LAW') {
+      title = prompt('Enter Case Title:') || 'Case Law'
+      citation = prompt('Enter Case Citation (optional):') || ''
+    }
+
+    let html = ''
+    if (type === 'NOTE') {
+      html = `<div data-block-type="NOTE" data-title="${title}" class="editor-note-block">${title ? `<strong class="note-title">${title}</strong>` : ''}<div class="note-body">Enter note body here...</div></div><p><br></p>`
+    } else if (type === 'EXAM_TRAP') {
+      html = `<div data-block-type="EXAM_TRAP" data-title="${title}" class="editor-exam-trap"><span class="trap-label">⚠️ EXAM TRAP</span>${title ? `<strong class="trap-title">${title}</strong>` : ''}<div class="trap-body">Enter exam trap body here...</div></div><p><br></p>`
+    } else if (type === 'PRACTICAL_USE') {
+      html = `<div data-block-type="PRACTICAL_USE" data-title="${title}" class="editor-practical-use"><span class="practical-label">💡 PRACTICAL USE / REAL WORLD</span>${title ? `<strong class="practical-title">${title}</strong>` : ''}<div class="practical-body">Enter practical application here...</div></div><p><br></p>`
+    } else if (type === 'CASE_LAW') {
+      html = `<div data-block-type="CASE_LAW" data-title="${title}" data-citation="${citation}" class="editor-case-law"><span class="case-label">⚖️ CASE LAW</span><strong class="case-title">${title}</strong>${citation ? `<span class="case-citation">Citation: ${citation}</span>` : ''}<div class="case-body">Enter case law details here...</div></div><p><br></p>`
+    }
+
+    if (isExamples) {
+      insertHtmlIntoEditor(html, examplesRef)
+      triggerExamplesUpdate()
+    } else {
+      insertHtmlIntoEditor(html, editorRef)
+      triggerEditorUpdate()
+    }
+  }
+
   useEffect(() => {
     const focus = searchParams?.get('focus')
     if (focus === 'pdf' || focus === 'video') {
@@ -1306,9 +1396,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
             {/* TAB 2: WYSIWYG PAGE EDITOR — Same layout as public standard page */}
             {activeTab === 'content' && (
               <div className="flex flex-col min-h-full bg-[#F5F4F1] dark:bg-[#0D121F]">
-                <div className="bg-red-600 text-white font-extrabold text-center py-4 text-lg uppercase tracking-widest shadow-lg border-b-4 border-white animate-pulse shrink-0">
-                  🚀 DEPLOYMENT TEST — 22-JUN-2026 — BUILD-XYZ 🚀
-                </div>
                 <style dangerouslySetInnerHTML={{ __html: `
                   .canvas-editor {
                     outline: none;
@@ -1443,20 +1530,67 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                 ` }} />
 
                 {/* Editor toolbar strip */}
-                <div className="flex items-center gap-3 px-6 py-2.5 border-b border-[#E2E1DD]/60 dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F] shrink-0">
+                <div className="flex items-center gap-3 px-6 py-2.5 border-b border-[#E2E1DD]/60 dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F] shrink-0 flex-wrap">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#76767E]">Document Editor</span>
                   <span className="text-[10px] text-[#A0A0A8]">·</span>
-                  <span className="text-[10px] text-[#A0A0A8]">Type freely — paste from Word or PDF — formatting is preserved</span>
-                  <div className="ml-auto flex items-center gap-1.5">
-                    <button type="button" onClick={() => document.execCommand('bold')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 font-bold text-xs">B</button>
-                    <button type="button" onClick={() => document.execCommand('italic')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 italic text-xs">I</button>
-                    <button type="button" onClick={() => document.execCommand('underline')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 underline text-xs">U</button>
+                  <span className="text-[10px] text-[#A0A0A8]">Type freely — paste from Word or PDF</span>
+                  <div className="ml-auto flex items-center gap-1.5 flex-wrap">
+                    <button type="button" onClick={() => { document.execCommand('bold'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 font-bold text-xs" title="Bold">B</button>
+                    <button type="button" onClick={() => { document.execCommand('italic'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 italic text-xs" title="Italic">I</button>
+                    <button type="button" onClick={() => { document.execCommand('underline'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 underline text-xs" title="Underline">U</button>
+                    <button type="button" onClick={() => { document.execCommand('strikeThrough'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 line-through text-xs" title="Strikethrough">S</button>
+                    
                     <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
-                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'h2')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H2</button>
-                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'h3')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H3</button>
-                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'p')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">P</button>
+                    
+                    <button type="button" onClick={() => { document.execCommand('justifyLeft'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-[10px]" title="Align Left">Align L</button>
+                    <button type="button" onClick={() => { document.execCommand('justifyCenter'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-[10px]" title="Align Center">Align C</button>
+                    <button type="button" onClick={() => { document.execCommand('justifyRight'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-[10px]" title="Align Right">Align R</button>
+                    <button type="button" onClick={() => { document.execCommand('justifyFull'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-[10px]" title="Justify">Justify</button>
+                    
                     <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
-                    <button type="button" onClick={() => document.execCommand('insertUnorderedList')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">• List</button>
+
+                    <button type="button" onClick={() => { document.execCommand('formatBlock', false, 'h2'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H2</button>
+                    <button type="button" onClick={() => { document.execCommand('formatBlock', false, 'h3'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H3</button>
+                    <button type="button" onClick={() => { document.execCommand('formatBlock', false, 'p'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">P</button>
+                    
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+                    
+                    <button type="button" onClick={() => { document.execCommand('insertUnorderedList'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs" title="Bullet List">• List</button>
+                    <button type="button" onClick={() => { document.execCommand('insertOrderedList'); triggerEditorUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs" title="Numbered List">1. List</button>
+                    
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+                    
+                    <button type="button" onClick={() => {
+                      const url = prompt("Enter hyperlink URL:");
+                      if (url) {
+                        document.execCommand('createLink', false, url);
+                        triggerEditorUpdate();
+                      }
+                    }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-medium" title="Insert Link">Link</button>
+                    
+                    <button type="button" onClick={() => {
+                      const tableHtml = `<table class="w-full text-left text-xs border-collapse border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden mb-6"><thead><tr class="bg-slate-50 dark:bg-slate-850"><th class="p-3 font-bold border-b border-[#E2E1DD] dark:border-gray-800">Header 1</th><th class="p-3 font-bold border-b border-[#E2E1DD] dark:border-gray-800">Header 2</th></tr></thead><tbody><tr><td class="p-3 border-b border-[#E2E1DD] dark:border-gray-800">Cell 1</td><td class="p-3 border-b border-[#E2E1DD] dark:border-gray-800">Cell 2</td></tr></tbody></table><p><br></p>`;
+                      insertHtmlIntoEditor(tableHtml, editorRef);
+                      triggerEditorUpdate();
+                    }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-medium" title="Insert Table">Table</button>
+                    
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+
+                    <select 
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (!val) return;
+                        insertSpecialBlock(val as any, false);
+                        e.target.value = '';
+                      }}
+                      className="p-1 px-1.5 bg-white dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded text-xs text-slate-700 dark:text-gray-300 font-medium cursor-pointer"
+                    >
+                      <option value="">+ Add Block...</option>
+                      <option value="NOTE">📝 Note Block</option>
+                      <option value="EXAM_TRAP">⚠️ Exam Trap</option>
+                      <option value="PRACTICAL_USE">💡 Practical Use</option>
+                      <option value="CASE_LAW">⚖️ Case Law</option>
+                    </select>
                   </div>
                 </div>
 
@@ -1480,9 +1614,6 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
             {/* TAB 2.5: WYSIWYG EXAMPLES EDITOR — Same layout as public standard page */}
             {activeTab === 'examples' && (
               <div className="flex flex-col min-h-full bg-[#F5F4F1] dark:bg-[#0D121F]">
-                <div className="bg-red-600 text-white font-extrabold text-center py-4 text-lg uppercase tracking-widest shadow-lg border-b-4 border-white animate-pulse shrink-0">
-                  🚀 DEPLOYMENT TEST — 22-JUN-2026 — BUILD-XYZ 🚀
-                </div>
                 <style dangerouslySetInnerHTML={{ __html: `
                   .canvas-editor {
                     outline: none;
@@ -1617,20 +1748,67 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                 ` }} />
 
                 {/* Editor toolbar strip */}
-                <div className="flex items-center gap-3 px-6 py-2.5 border-b border-[#E2E1DD]/60 dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F] shrink-0">
+                <div className="flex items-center gap-3 px-6 py-2.5 border-b border-[#E2E1DD]/60 dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F] shrink-0 flex-wrap">
                   <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#76767E]">Examples / Case Law Editor</span>
                   <span className="text-[10px] text-[#A0A0A8]">·</span>
                   <span className="text-[10px] text-[#A0A0A8]">Type or paste examples directly</span>
-                  <div className="ml-auto flex items-center gap-1.5">
-                    <button type="button" onClick={() => document.execCommand('bold')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 font-bold text-xs">B</button>
-                    <button type="button" onClick={() => document.execCommand('italic')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 italic text-xs">I</button>
-                    <button type="button" onClick={() => document.execCommand('underline')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 underline text-xs">U</button>
+                  <div className="ml-auto flex items-center gap-1.5 flex-wrap">
+                    <button type="button" onClick={() => { document.execCommand('bold'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 font-bold text-xs" title="Bold">B</button>
+                    <button type="button" onClick={() => { document.execCommand('italic'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 italic text-xs" title="Italic">I</button>
+                    <button type="button" onClick={() => { document.execCommand('underline'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 underline text-xs" title="Underline">U</button>
+                    <button type="button" onClick={() => { document.execCommand('strikeThrough'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 line-through text-xs" title="Strikethrough">S</button>
+                    
                     <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
-                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'h2')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H2</button>
-                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'h3')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H3</button>
-                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'p')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">P</button>
+                    
+                    <button type="button" onClick={() => { document.execCommand('justifyLeft'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-[10px]" title="Align Left">Align L</button>
+                    <button type="button" onClick={() => { document.execCommand('justifyCenter'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-[10px]" title="Align Center">Align C</button>
+                    <button type="button" onClick={() => { document.execCommand('justifyRight'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-[10px]" title="Align Right">Align R</button>
+                    <button type="button" onClick={() => { document.execCommand('justifyFull'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-[10px]" title="Justify">Justify</button>
+                    
                     <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
-                    <button type="button" onClick={() => document.execCommand('insertUnorderedList')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">• List</button>
+
+                    <button type="button" onClick={() => { document.execCommand('formatBlock', false, 'h2'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H2</button>
+                    <button type="button" onClick={() => { document.execCommand('formatBlock', false, 'h3'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H3</button>
+                    <button type="button" onClick={() => { document.execCommand('formatBlock', false, 'p'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">P</button>
+                    
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+                    
+                    <button type="button" onClick={() => { document.execCommand('insertUnorderedList'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs" title="Bullet List">• List</button>
+                    <button type="button" onClick={() => { document.execCommand('insertOrderedList'); triggerExamplesUpdate(); }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs" title="Numbered List">1. List</button>
+                    
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+                    
+                    <button type="button" onClick={() => {
+                      const url = prompt("Enter hyperlink URL:");
+                      if (url) {
+                        document.execCommand('createLink', false, url);
+                        triggerExamplesUpdate();
+                      }
+                    }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-medium" title="Insert Link">Link</button>
+                    
+                    <button type="button" onClick={() => {
+                      const tableHtml = `<table class="w-full text-left text-xs border-collapse border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden mb-6"><thead><tr class="bg-slate-50 dark:bg-slate-850"><th class="p-3 font-bold border-b border-[#E2E1DD] dark:border-gray-800">Header 1</th><th class="p-3 font-bold border-b border-[#E2E1DD] dark:border-gray-800">Header 2</th></tr></thead><tbody><tr><td class="p-3 border-b border-[#E2E1DD] dark:border-gray-800">Cell 1</td><td class="p-3 border-b border-[#E2E1DD] dark:border-gray-800">Cell 2</td></tr></tbody></table><p><br></p>`;
+                      insertHtmlIntoEditor(tableHtml, examplesRef);
+                      triggerExamplesUpdate();
+                    }} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-medium" title="Insert Table">Table</button>
+                    
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+
+                    <select 
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (!val) return;
+                        insertSpecialBlock(val as any, true);
+                        e.target.value = '';
+                      }}
+                      className="p-1 px-1.5 bg-white dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded text-xs text-slate-700 dark:text-gray-300 font-medium cursor-pointer"
+                    >
+                      <option value="">+ Add Block...</option>
+                      <option value="NOTE">📝 Note Block</option>
+                      <option value="EXAM_TRAP">⚠️ Exam Trap</option>
+                      <option value="PRACTICAL_USE">💡 Practical Use</option>
+                      <option value="CASE_LAW">⚖️ Case Law</option>
+                    </select>
                   </div>
                 </div>
 

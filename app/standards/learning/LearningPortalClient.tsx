@@ -1677,9 +1677,6 @@ export default function LearningPortalClient({
           {/* 2. EXAMPLES & CASE LAW VIEW */}
           {activeTab === 'examples' && (
             <div className="w-full space-y-8 animate-fade-in">
-              <div className="bg-red-600 text-white font-extrabold text-center py-4 text-lg uppercase tracking-widest rounded-xl shadow-lg border-4 border-white animate-pulse">
-                🚀 DEPLOYMENT TEST — 22-JUN-2026 — BUILD-XYZ 🚀
-              </div>
               {currentStandard.examplesHtml ? (
                 <div 
                   className="w-full bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xs font-sans prose dark:prose-invert max-w-none
@@ -1692,8 +1689,29 @@ export default function LearningPortalClient({
                     [&_table]:w-full [&_table]:text-left [&_table]:text-xs [&_table]:border-collapse [&_table]:border [&_table]:border-[#E2E1DD] [&_table]:dark:border-gray-800 [&_table]:rounded-xl [&_table]:overflow-hidden [&_table]:mb-6
                     [&_th]:bg-slate-50 [&_th]:dark:bg-slate-850 [&_th]:p-3 [&_th]:font-bold [&_th]:border-b [&_th]:border-[#E2E1DD] [&_th]:dark:border-gray-850
                     [&_td]:p-3 [&_td]:text-slate-700 [&_td]:dark:text-gray-300 [&_td]:border-b [&_td]:border-[#E2E1DD] [&_td]:dark:border-gray-850
+                    [&_.editor-note-block]:p-6 [&_.editor-note-block]:rounded-2xl [&_.editor-note-block]:border [&_.editor-note-block]:border-[#C5C3BC]/50 [&_.editor-note-block]:bg-[#FAFAF8]/60 [&_.editor-note-block]:dark:bg-[#1E2640]/55 [&_.editor-note-block]:mb-8
+                    [&_.editor-exam-trap]:p-5 [&_.editor-exam-trap]:rounded-xl [&_.editor-exam-trap]:bg-[#FDEEEE] [&_.editor-exam-trap]:dark:bg-[#2C1D1D] [&_.editor-exam-trap]:border [&_.editor-exam-trap]:border-[#F5C6C0] [&_.editor-exam-trap]:dark:border-red-900/50 [&_.editor-exam-trap]:mb-4
+                    [&_.editor-practical-use]:p-5 [&_.editor-practical-use]:rounded-xl [&_.editor-practical-use]:bg-[#E8F7EE] [&_.editor-practical-use]:dark:bg-[#1A2C22] [&_.editor-practical-use]:border [&_.editor-practical-use]:border-[#C5E9D4] [&_.editor-practical-use]:dark:border-green-900/50 [&_.editor-practical-use]:mb-4
+                    [&_.editor-case-law]:p-5 [&_.editor-case-law]:rounded-xl [&_.editor-case-law]:bg-[#EEF2FD] [&_.editor-case-law]:dark:bg-[#1A2542] [&_.editor-case-law]:border [&_.editor-case-law]:border-[#C5D5F8] [&_.editor-case-law]:dark:border-blue-900/50 [&_.editor-case-law]:mb-4
                   "
-                  dangerouslySetInnerHTML={{ __html: currentStandard.examplesHtml }}
+                  onClick={(e) => {
+                    const target = e.target as HTMLElement;
+                    const pdfBtn = target.closest('[data-pdf-page]');
+                    if (pdfBtn) {
+                      const page = parseInt(pdfBtn.getAttribute('data-pdf-page') || '', 10);
+                      if (page) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        navigateToPdfPage(page);
+                      }
+                    }
+                  }}
+                  dangerouslySetInnerHTML={{
+                    __html: currentStandard.examplesHtml.replace(
+                      /\[(?:Source:\s*ICAI\s*AS\s*1\s*PDF\s*Page\s*|Page\s*|ICAI\s*Ref:\s*Page\s*4\.|PDF\s*|Official\s*|Ref\s*|Citation\s*:\s*|Official\s*Ref\s*:\s*Page\s*|MCA\s*Ref\s*:\s*Page\s*|ICAI\s*Ref\s*:\s*Page\s*)(\d+)(?:\s*[^\]]*)?\]/gi,
+                      (match, pageNum) => `<button type="button" data-pdf-page="${pageNum}" class="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded text-[11px] font-extrabold cursor-pointer transition-all" title="Click to jump to PDF Page ${pageNum}">📄 Page ${pageNum}</button>`
+                    )
+                  }}
                 />
               ) : currentStandard.id === 'as-1' ? (
                 <AS1ExamplesCustomContent
@@ -2091,7 +2109,8 @@ export default function LearningPortalClient({
             <div className="w-full h-[calc(100vh-130px)] min-h-[600px] bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-xl overflow-hidden shadow-xs flex flex-col">
               <iframe
                 ref={iframeRef}
-                src={`/api/pdfs/${currentStandard.id}`}
+                key={`${currentStandard.id}-${pdfPage}`}
+                src={`/api/pdfs/${currentStandard.id}#page=${pdfPage}`}
                 className="w-full flex-1 border-0"
                 title={`PDF View for ${currentStandard.title}`}
               />
