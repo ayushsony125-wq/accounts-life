@@ -1677,7 +1677,12 @@ export default function LearningPortalClient({
           {/* 2. EXAMPLES & CASE LAW VIEW */}
           {activeTab === 'examples' && (
             <div className="w-full space-y-8 animate-fade-in">
-              {currentStandard.examplesHtml ? (
+              {currentStandard.id === 'as-1' ? (
+                <AS1ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.examplesHtml ? (
                 <div 
                   className="w-full bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xs font-sans prose dark:prose-invert max-w-none
                     [&_h2]:text-xl [&_h2]:sm:text-2xl [&_h2]:font-bold [&_h2]:text-[#1C1C1E] [&_h2]:dark:text-white [&_h2]:pb-2 [&_h2]:border-b [&_h2]:border-gray-100 [&_h2]:dark:border-gray-800 [&_h2]:mt-8 [&_h2]:mb-4
@@ -1712,11 +1717,6 @@ export default function LearningPortalClient({
                       (match, pageNum) => `<button type="button" data-pdf-page="${pageNum}" class="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded text-[11px] font-extrabold cursor-pointer transition-all" title="Click to jump to PDF Page ${pageNum}">📄 Page ${pageNum}</button>`
                     )
                   }}
-                />
-              ) : currentStandard.id === 'as-1' ? (
-                <AS1ExamplesCustomContent
-                  navigateToPdfPage={navigateToPdfPage}
-                  renderTextWithReferences={renderTextWithReferences}
                 />
               ) : (
                 <div className="space-y-8">

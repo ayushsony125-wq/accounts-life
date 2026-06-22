@@ -285,7 +285,8 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         return parts.join('\n')
       }).join('<hr/>')
     }
-    return ''
+    // Return placeholder so the editor is never visually blank
+    return '<p>Type or paste Examples / Case Law content here. This content will be saved to the database and displayed on the public Examples tab. Remove this placeholder before saving.</p>'
   })
 
   const [examplesHtml, setExamplesHtml] = useState(initialExamplesHtml)
@@ -409,6 +410,27 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       setActiveTab('resources')
     }
   }, [searchParams])
+
+  // Sync editor DOM to current blocks state when the content tab becomes active
+  useEffect(() => {
+    if (activeTab === 'content' && editorRef.current) {
+      const currentHtml = blocksToHtml(blocks)
+      // Only reset if content differs (avoids cursor jump on initial load)
+      if (editorRef.current.innerHTML !== currentHtml) {
+        editorRef.current.innerHTML = currentHtml
+      }
+    }
+  }, [activeTab])
+
+  // Sync examples editor DOM when examples tab becomes active
+  useEffect(() => {
+    if (activeTab === 'examples' && examplesRef.current) {
+      if (examplesRef.current.innerHTML !== examplesHtml) {
+        examplesRef.current.innerHTML = examplesHtml
+      }
+    }
+  }, [activeTab])
+
 
   // --- FORM STATES ---
   const [id, setId] = useState<number | undefined>(initialEntry?.id)
@@ -1019,10 +1041,12 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
           } else {
             window.open(`/standards/${standardFramework.toLowerCase() === 'as' ? 'as' : 'ind-as'}/${entrySlug}`, '_blank')
           }
-        } else {
+        } else if (publishNow) {
+          // Only redirect on explicit publish
           router.push('/admin/entries')
           router.refresh()
         }
+        // Draft save: stay on the page — lastSaved timestamp already updated above
       } else {
         alert('Error saving: ' + (res.error || 'Server error'))
       }

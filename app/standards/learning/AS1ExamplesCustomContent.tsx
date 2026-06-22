@@ -12,11 +12,11 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 1 PDF — Page ${page}`}
+      className="inline-flex items-center justify-center w-5 h-5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle leading-none shrink-0"
+      title={`Open PDF — Page ${page}`}
+      aria-label={`Open PDF page ${page}`}
     >
-      <FileText size={9} className="shrink-0" />
-      p.{page}
+      <FileText size={10} className="shrink-0" />
     </button>
   )
 
@@ -601,29 +601,27 @@ Credit Project Work-in-Progress (WIP) A/c                  ₹4,000,000
     <div className="w-full space-y-12 animate-fade-in font-sans">
       {cases.map((activeCase, idx) => (
         <div key={idx} className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xs space-y-8">
-          {/* Header */}
+          {/* 1. Header / Title */}
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E2E1DD]/60 dark:border-gray-800/60 pb-5">
             <div className="space-y-2">
-              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-snug">
-                {activeCase.title}
-              </h3>
-              <div className="flex items-center gap-3 text-[12px] font-bold text-slate-500 dark:text-gray-400">
-                <span>Difficulty:</span>
-                <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider ${
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-gray-500">Case {idx + 1}</span>
+                <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold ${
                   activeCase.difficulty === "BEGINNER"
-                    ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-450 border border-emerald-250/30"
+                    ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200/30"
                     : activeCase.difficulty === "INTERMEDIATE"
-                    ? "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-450 border border-blue-200/30"
-                    : "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-450 border border-rose-200/30"
+                    ? "bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200/30"
+                    : "bg-rose-50 text-rose-700 dark:bg-rose-950/40 dark:text-rose-400 border border-rose-200/30"
                 }`}>
                   {activeCase.difficulty}
                 </span>
-                <span className="mx-1">•</span>
-                <span>Section:</span>
-                <span className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-slate-700 dark:text-gray-300">
+                <span className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-[10px] font-bold text-slate-600 dark:text-gray-300">
                   {activeCase.paraRef}
                 </span>
               </div>
+              <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-snug">
+                {activeCase.title}
+              </h3>
             </div>
           </div>
 
@@ -631,32 +629,32 @@ Credit Project Work-in-Progress (WIP) A/c                  ₹4,000,000
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left Column: Context */}
             <div className="space-y-6">
-              {/* 2. Facts */}
+              {/* 1. Facts */}
               <div className="bg-[#FAFAF8] dark:bg-[#171C2B] p-5 sm:p-6 rounded-xl border border-[#E2E1DD] dark:border-gray-800">
                 <h5 className="text-[11px] font-extrabold text-slate-450 dark:text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                  <span>📋</span> 2. Facts
+                  <span>📋</span> Facts
                 </h5>
-                <div className="text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+                <div className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
                   {activeCase.facts}
                 </div>
               </div>
 
-              {/* 3. Issue */}
+              {/* 2. Issue */}
               <div className="bg-[#FFFDF5] dark:bg-[#25201A] p-5 sm:p-6 rounded-xl border border-[#F6EED5] dark:border-amber-900/30">
                 <h5 className="text-[11px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                  <span>🔍</span> 3. The Issue
+                  <span>🔍</span> The Issue
                 </h5>
-                <div className="text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+                <div className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
                   {activeCase.issue}
                 </div>
               </div>
 
-              {/* 4. Relevant AS 1 Principle */}
+              {/* 3. Relevant AS 1 Principle */}
               <div className="bg-[#F5F8FF] dark:bg-[#1A2035] p-5 sm:p-6 rounded-xl border border-[#DCE4FF] dark:border-blue-900/30">
                 <h5 className="text-[11px] font-extrabold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                  <span>⚖️</span> 4. Relevant AS 1 Principle
+                  <span>⚖️</span> Relevant AS 1 Principle
                 </h5>
-                <div className="text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+                <div className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
                   {activeCase.principle}
                 </div>
               </div>
@@ -664,32 +662,32 @@ Credit Project Work-in-Progress (WIP) A/c                  ₹4,000,000
 
             {/* Right Column: Implementation */}
             <div className="space-y-6">
-              {/* 5. Analysis */}
+              {/* 4. Analysis */}
               <div className="bg-[#F5F5FF] dark:bg-[#1F1A35] p-5 sm:p-6 rounded-xl border border-[#E1E1FF] dark:border-indigo-900/30">
                 <h5 className="text-[11px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                  <span>⚙️</span> 5. Analysis &amp; Legal Application
+                  <span>⚙️</span> Analysis &amp; Legal Application
                 </h5>
-                <div className="text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+                <div className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
                   {activeCase.analysis}
                 </div>
               </div>
 
-              {/* 6. Correct Accounting Treatment */}
+              {/* 5. Correct Accounting Treatment */}
               <div className="bg-[#F6FCF8] dark:bg-[#17271F] p-5 sm:p-6 rounded-xl border border-[#D2ECD9] dark:border-green-900/30">
                 <h5 className="text-[11px] font-extrabold text-emerald-600 dark:text-emerald-450 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                  <span>✏️</span> 6. Correct Accounting Treatment
+                  <span>✏️</span> Correct Accounting Treatment
                 </h5>
-                <div className="text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+                <div className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
                   {activeCase.treatment}
                 </div>
               </div>
 
-              {/* 7. Disclosure Requirement */}
+              {/* 6. Disclosure Requirement */}
               <div className="bg-[#FCF5FF] dark:bg-[#251A35] p-5 sm:p-6 rounded-xl border border-[#F2DCFF] dark:border-purple-900/30">
                 <h5 className="text-[11px] font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                  <span>📝</span> 7. Disclosure Requirement
+                  <span>📝</span> Disclosure Requirement
                 </h5>
-                <div className="text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
+                <div className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
                   {activeCase.disclosure}
                 </div>
               </div>
@@ -698,47 +696,51 @@ Credit Project Work-in-Progress (WIP) A/c                  ₹4,000,000
 
           {/* Full Width Panels */}
           <div className="space-y-6 pt-2">
-            {/* 8. Auditor's View */}
+            {/* 7. Auditor's View */}
             <div className="bg-[#FFF5F5] dark:bg-[#2A1E1E] p-6 rounded-xl border border-[#FFE1E1] dark:border-red-950/60">
               <h5 className="text-[11px] font-extrabold text-red-650 dark:text-red-400 uppercase tracking-widest mb-3.5 flex items-center gap-1.5">
-                <span>🚨</span> 8. Auditor&apos;s View &amp; Reporting Impact
+                <span>🚨</span> Auditor&apos;s View &amp; Reporting Impact
               </h5>
-              <div className="text-[16px] text-slate-700 dark:text-gray-350 leading-relaxed font-medium">
+              <div className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
                 {activeCase.auditorView}
               </div>
             </div>
 
-            {/* 9. Real-life Importance */}
+            {/* 8. Real-life Importance */}
             <div className="bg-slate-50 dark:bg-[#1E2640]/40 p-6 rounded-xl border border-slate-200 dark:border-gray-800">
               <h5 className="text-[11px] font-extrabold text-slate-650 dark:text-gray-350 uppercase tracking-widest mb-3.5 flex items-center gap-1.5">
-                <span>💡</span> 9. Commercial Real-Life Importance
+                <span>💡</span> Commercial Real-Life Importance
               </h5>
-              <div className="text-[16px] text-slate-700 dark:text-gray-355 leading-relaxed font-medium">
+              <div className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
                 {activeCase.importance}
               </div>
             </div>
 
-            {/* 10. Common Trap / Red Flag */}
+            {/* 9. Common Trap / Red Flag */}
             <div className="bg-[#FFF9F5] dark:bg-[#2B2117] p-6 rounded-xl border-l-4 border-orange-500 border-t border-b border-r border-[#FFE9DC] dark:border-orange-950/40">
               <h5 className="text-[11px] font-extrabold text-orange-650 dark:text-orange-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                <span>⚠️</span> 10. Common Trap / Red Flag
+                <span>⚠️</span> Common Trap / Red Flag
               </h5>
-              <div className="text-[16px] text-orange-900 dark:text-orange-355 leading-relaxed font-semibold">
+              <div className="text-[15px] text-orange-900 dark:text-orange-300 leading-relaxed font-semibold">
                 {activeCase.trap}
               </div>
             </div>
 
-            {/* 11. Reference Footnote */}
-            <div className="pt-2 text-[11px] text-slate-450 dark:text-gray-500 font-bold flex flex-wrap items-center gap-1.5">
-              <span>🔗</span>
-              <span>11. Reference Sources:</span>
-              <span className="text-slate-600 dark:text-gray-350">
+            {/* 10. Reference Sources */}
+            <div className="pt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+              <span className="text-[10px] font-extrabold uppercase tracking-widest text-slate-400 dark:text-gray-500">🔗 Source:</span>
+              <span className="text-[11px] text-slate-500 dark:text-gray-400 font-medium">
                 {activeCase.ref}
               </span>
               {activeCase.refPage && (
-                <span className="flex items-center gap-0.5 shrink-0 ml-1">
-                  [PDF page: <PdfRef page={activeCase.refPage} />]
-                </span>
+                <button
+                  onClick={() => navigateToPdfPage(activeCase.refPage!)}
+                  className="inline-flex items-center gap-1 px-2 py-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer"
+                  title={`Open PDF page ${activeCase.refPage}`}
+                >
+                  <FileText size={10} className="shrink-0" />
+                  PDF p.{activeCase.refPage}
+                </button>
               )}
             </div>
           </div>
