@@ -16,6 +16,199 @@ interface EntryFormProps {
   domains: any[]
 }
 
+// Helper functions for WYSIWYG editor translation
+function cleanHtmlToMarkup(html: string): string {
+  if (!html) return '';
+  let str = html;
+  str = str.replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**');
+  str = str.replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**');
+  str = str.replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*');
+  str = str.replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*');
+  str = str.replace(/<u[^>]*>(.*?)<\/u>/gi, '[u]$1[/u]');
+  str = str.replace(/<mark[^>]*>(.*?)<\/mark>/gi, '[highlight]$1[/highlight]');
+  
+  str = str.replace(/<[^>]+>/g, '');
+  
+  str = str.replace(/&nbsp;/g, ' ')
+           .replace(/&amp;/g, '&')
+           .replace(/&lt;/g, '<')
+           .replace(/&gt;/g, '>')
+           .replace(/&quot;/g, '"');
+  return str.trim();
+}
+
+function markupToHtml(str: string): string {
+  if (!str) return '';
+  let html = str;
+  html = html.replace(/\[highlight\](.*?)\[\/highlight\]/gi, '<mark>$1</mark>');
+  html = html.replace(/\[u\](.*?)\[\/u\]/gi, '<u>$1</u>');
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  return html;
+}
+
+function blocksToHtml(blocks: any[]): string {
+  if (!blocks || blocks.length === 0) return '';
+  return blocks
+    .map((block) => {
+      if (block.hidden) return '';
+      switch (block.type) {
+        case 'HEADING':
+          return `<h2>${markupToHtml(block.content || '')}</h2>`;
+        case 'SUB_HEADING':
+          return `<h3>${markupToHtml(block.content || '')}</h3>`;
+        case 'PARAGRAPH':
+          return `<p>${markupToHtml(block.content || '')}</p>`;
+        case 'NOTE':
+          return `<div data-block-type="NOTE" data-title="${block.title || ''}" class="editor-note-block">
+            ${block.title ? `<strong class="note-title">${markupToHtml(block.title)}</strong>` : ''}
+            <div class="note-body">${markupToHtml(block.body || '')}</div>
+          </div>`;
+        case 'EXAM_TRAP':
+          return `<div data-block-type="EXAM_TRAP" data-title="${block.title || ''}" class="editor-exam-trap">
+            <span class="trap-label">⚠️ EXAM TRAP</span>
+            ${block.title ? `<strong class="trap-title">${markupToHtml(block.title)}</strong>` : ''}
+            <div class="trap-body">${markupToHtml(block.body || '')}</div>
+          </div>`;
+        case 'PRACTICAL_USE':
+          return `<div data-block-type="PRACTICAL_USE" data-title="${block.title || ''}" class="editor-practical-use">
+            <span class="practical-label">💡 PRACTICAL USE / REAL WORLD</span>
+            ${block.title ? `<strong class="practical-title">${markupToHtml(block.title)}</strong>` : ''}
+            <div class="practical-body">${markupToHtml(block.body || '')}</div>
+          </div>`;
+        case 'CASE_LAW':
+          return `<div data-block-type="CASE_LAW" data-title="${block.title || ''}" data-citation="${block.citation || ''}" class="editor-case-law">
+            <span class="case-label">⚖️ CASE LAW</span>
+            <strong class="case-title">${markupToHtml(block.title || '')}</strong>
+            ${block.citation ? `<span class="case-citation">Citation: ${markupToHtml(block.citation)}</span>` : ''}
+            <div class="case-body">${markupToHtml(block.body || '')}</div>
+          </div>`;
+        case 'EXAMPLE':
+        case 'ILLUSTRATION':
+          return `<div data-block-type="ILLUSTRATION" data-title="${block.title || ''}" class="editor-illustration-block">
+            <strong class="illus-title">📋 Example: ${markupToHtml(block.title || '')}</strong>
+            <div class="illus-scenario"><strong>Scenario: </strong>${markupToHtml(block.scenario || '')}</div>
+            ${block.working ? `<div class="illus-working"><strong>Working: </strong>${markupToHtml(block.working)}</div>` : ''}
+            ${block.answer ? `<div class="illus-answer"><strong>Solution / Treatment: </strong>${markupToHtml(block.answer)}</div>` : ''}
+          </div>`;
+        case 'TABLE': {
+          const headers = (block.headers || []).map((h: string) => `<th>${markupToHtml(h)}</th>`).join('');
+          const rows = (block.rows || [])
+            .map((row: string[]) => `<tr>${row.map((cell) => `<td>${markupToHtml(cell)}</td>`).join('')}</tr>`)
+            .join('');
+          return `<table><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
+        }
+        case 'FAQ':
+          return `<div data-block-type="FAQ" data-question="${block.question || ''}" class="editor-faq-block">
+            <strong class="faq-question">❓ Question: ${markupToHtml(block.question || '')}</strong>
+            <div class="faq-answer"><strong>Answer: </strong>${markupToHtml(block.answer || '')}</div>
+          </div>`;
+        case 'IMAGE':
+          return `<img src="${block.url || ''}" alt="${block.caption || ''}" class="editor-image-block" />`;
+        default:
+          return `<p>${markupToHtml(block.content || '')}</p>`;
+      }
+    })
+    .join('\n');
+}
+
+function htmlToBlocks(html: string): any[] {
+  if (typeof window === 'undefined') return [];
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  const blocks: any[] = [];
+  
+  const children = Array.from(doc.body.children);
+  for (const el of children) {
+    const tagName = el.tagName.toLowerCase();
+    const blockType = el.getAttribute('data-block-type');
+    
+    if (blockType === 'NOTE') {
+      const title = el.getAttribute('data-title') || '';
+      const bodyEl = el.querySelector('.note-body');
+      const body = cleanHtmlToMarkup(bodyEl ? bodyEl.innerHTML : el.innerHTML);
+      blocks.push({ type: 'NOTE', title, body });
+    } else if (blockType === 'EXAM_TRAP') {
+      const title = el.getAttribute('data-title') || '';
+      const bodyEl = el.querySelector('.trap-body');
+      const body = cleanHtmlToMarkup(bodyEl ? bodyEl.innerHTML : el.innerHTML);
+      blocks.push({ type: 'EXAM_TRAP', title, body });
+    } else if (blockType === 'PRACTICAL_USE') {
+      const title = el.getAttribute('data-title') || '';
+      const bodyEl = el.querySelector('.practical-body');
+      const body = cleanHtmlToMarkup(bodyEl ? bodyEl.innerHTML : el.innerHTML);
+      blocks.push({ type: 'PRACTICAL_USE', title, body });
+    } else if (blockType === 'CASE_LAW') {
+      const title = el.getAttribute('data-title') || '';
+      const citation = el.getAttribute('data-citation') || '';
+      const bodyEl = el.querySelector('.case-body');
+      const body = cleanHtmlToMarkup(bodyEl ? bodyEl.innerHTML : el.innerHTML);
+      blocks.push({ type: 'CASE_LAW', title, citation, body });
+    } else if (blockType === 'ILLUSTRATION' || blockType === 'EXAMPLE') {
+      const title = el.getAttribute('data-title') || '';
+      const scenarioEl = el.querySelector('.illus-scenario');
+      let scenario = scenarioEl ? scenarioEl.innerHTML : '';
+      if (scenario.startsWith('<strong>Scenario: </strong>')) {
+        scenario = scenario.replace('<strong>Scenario: </strong>', '');
+      }
+      scenario = cleanHtmlToMarkup(scenario);
+      
+      const workingEl = el.querySelector('.illus-working');
+      let working = workingEl ? workingEl.innerHTML : '';
+      if (working.startsWith('<strong>Working: </strong>')) {
+        working = working.replace('<strong>Working: </strong>', '');
+      }
+      working = cleanHtmlToMarkup(working);
+      
+      const answerEl = el.querySelector('.illus-answer');
+      let answer = answerEl ? answerEl.innerHTML : '';
+      if (answer.startsWith('<strong>Solution / Treatment: </strong>')) {
+        answer = answer.replace('<strong>Solution / Treatment: </strong>', '');
+      }
+      answer = cleanHtmlToMarkup(answer);
+      
+      blocks.push({ type: 'ILLUSTRATION', title, scenario, working, answer });
+    } else if (blockType === 'FAQ') {
+      const question = el.getAttribute('data-question') || '';
+      const answerEl = el.querySelector('.faq-answer');
+      let answer = answerEl ? answerEl.innerHTML : '';
+      if (answer.startsWith('<strong>Answer: </strong>')) {
+        answer = answer.replace('<strong>Answer: </strong>', '');
+      }
+      answer = cleanHtmlToMarkup(answer);
+      blocks.push({ type: 'FAQ', question, answer });
+    } else if (tagName === 'table') {
+      const headers: string[] = [];
+      const rows: string[][] = [];
+      
+      const ths = el.querySelectorAll('th');
+      ths.forEach(th => headers.push(cleanHtmlToMarkup(th.innerHTML)));
+      
+      const trs = el.querySelectorAll('tbody tr');
+      trs.forEach(tr => {
+        const row: string[] = [];
+        const tds = tr.querySelectorAll('td');
+        tds.forEach(td => row.push(cleanHtmlToMarkup(td.innerHTML)));
+        rows.push(row);
+      });
+      
+      blocks.push({ type: 'TABLE', headers, rows });
+    } else if (tagName === 'h2') {
+      blocks.push({ type: 'HEADING', content: cleanHtmlToMarkup(el.innerHTML) });
+    } else if (tagName === 'h3' || tagName === 'h4') {
+      blocks.push({ type: 'SUB_HEADING', content: cleanHtmlToMarkup(el.innerHTML) });
+    } else if (tagName === 'img') {
+      blocks.push({ type: 'IMAGE', url: (el as HTMLImageElement).src || '', caption: (el as HTMLImageElement).alt || '' });
+    } else {
+      const text = cleanHtmlToMarkup(el.innerHTML);
+      if (text) {
+        blocks.push({ type: 'PARAGRAPH', content: text });
+      }
+    }
+  }
+  return blocks;
+}
+
 export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -27,6 +220,35 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   const [lastSaved, setLastSaved] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'resources' | 'history' | 'publish'>('identity')
   const [previewTab, setPreviewTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
+
+  const editorRef = useRef<HTMLDivElement>(null)
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null)
+  const [initialHtml] = useState(() => {
+    // Generate initial blocks if possible
+    if (initialEntry?.entryBody) {
+      try {
+        const bodyObj = typeof initialEntry.entryBody === 'string'
+          ? JSON.parse(initialEntry.entryBody)
+          : initialEntry.entryBody
+        if (bodyObj && bodyObj.blocks && Array.isArray(bodyObj.blocks)) {
+          return blocksToHtml(bodyObj.blocks)
+        }
+      } catch (err) {}
+    }
+    return '';
+  })
+
+  const handleEditorInput = () => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current)
+    }
+    debounceTimerRef.current = setTimeout(() => {
+      if (editorRef.current) {
+        const parsed = htmlToBlocks(editorRef.current.innerHTML)
+        setBlocks(parsed)
+      }
+    }, 500)
+  }
 
   useEffect(() => {
     const focus = searchParams?.get('focus')
@@ -493,6 +715,9 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setVideos(snap.videos || [])
     setReferences(snap.references || [])
     setBlocks(snap.blocks || [])
+    if (editorRef.current) {
+      editorRef.current.innerHTML = blocksToHtml(snap.blocks || [])
+    }
   }
 
   const handleUndo = () => {
@@ -1015,475 +1240,155 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                 </div>
               </div>
             )}
-
-            {/* TAB 2: VISUAL BLOCK EDITOR */}
+            {/* TAB 2: WYSIWYG PAGE EDITOR — Same layout as public standard page */}
             {activeTab === 'content' && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-800 pb-2">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">Curriculum Visual Blocks</h3>
-                  <div className="flex flex-wrap gap-1">
-                    {(['HEADING', 'SUB_HEADING', 'PARAGRAPH', 'IMAGE', 'NOTE', 'EXAM_TRAP', 'PRACTICAL_USE', 'CASE_LAW', 'ILLUSTRATION', 'TABLE', 'FAQ', 'PDF_REFERENCE', 'VIDEO', 'DOWNLOAD_SECTION'] as const).map(type => (
-                      <button
-                        key={type}
-                        type="button"
-                        onClick={() => addBlock(type)}
-                        className="text-[9px] bg-slate-100 hover:bg-[#EEF2FD] hover:text-[#2D5BE3] dark:bg-gray-800 dark:hover:bg-gray-700 px-2 py-1 rounded font-bold transition-all"
-                      >
-                        + {type.replace('_', ' ')}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+              <div className="flex flex-col gap-0">
+                <style dangerouslySetInnerHTML={{ __html: `
+                  .canvas-editor {
+                    outline: none;
+                    min-height: 500px;
+                  }
+                  .canvas-editor h2 {
+                    font-size: 1.875rem;
+                    font-weight: 800;
+                    color: #1C1C1E;
+                    text-transform: uppercase;
+                    letter-spacing: 0.025em;
+                    border-bottom: 2px solid #E2E1DD;
+                    padding-bottom: 0.875rem;
+                    margin-top: 3rem;
+                    margin-bottom: 2rem;
+                  }
+                  .canvas-editor h3 {
+                    font-size: 1.3125rem;
+                    font-weight: 800;
+                    color: #1C1C1E;
+                    margin-top: 2.25rem;
+                    margin-bottom: 1rem;
+                  }
+                  .canvas-editor p {
+                    font-family: 'Lora', serif;
+                    font-size: 1.156rem;
+                    line-height: 1.7;
+                    color: #333333;
+                    margin-bottom: 1.75rem;
+                  }
+                  .canvas-editor table {
+                    width: 100%;
+                    text-align: left;
+                    font-size: 0.75rem;
+                    border-collapse: collapse;
+                    border: 1px solid #E2E1DD;
+                    margin-bottom: 1.5rem;
+                    border-radius: 0.75rem;
+                    overflow: hidden;
+                  }
+                  .canvas-editor th {
+                    background-color: #F8FAFC;
+                    color: #4A5568;
+                    border-bottom: 1px solid #E2E1DD;
+                    padding: 0.75rem;
+                    font-weight: bold;
+                  }
+                  .canvas-editor td {
+                    padding: 0.75rem;
+                    color: #2D3748;
+                    border-bottom: 1px solid #E2E1DD;
+                    font-weight: 600;
+                  }
+                  .canvas-editor .editor-note-block {
+                    padding: 1.5rem 2rem;
+                    border-radius: 1rem;
+                    border: 1px solid rgba(197, 195, 188, 0.5);
+                    background-color: rgba(250, 250, 248, 0.6);
+                    margin-bottom: 2rem;
+                  }
+                  .canvas-editor .editor-note-block strong {
+                    font-size: 1.09rem;
+                    font-weight: 800;
+                    color: #1C1C1E;
+                    display: block;
+                    margin-bottom: 0.75rem;
+                  }
+                  .canvas-editor .editor-exam-trap {
+                    padding: 1.25rem 1.5rem;
+                    border-radius: 0.75rem;
+                    border: 1px solid #F5C6C0;
+                    background-color: #FDEEEE;
+                    margin-bottom: 1rem;
+                  }
+                  .canvas-editor .editor-practical-use {
+                    padding: 1.25rem 1.5rem;
+                    border-radius: 0.75rem;
+                    border: 1px solid #C5E9D4;
+                    background-color: #E8F7EE;
+                    margin-bottom: 1rem;
+                  }
+                  .canvas-editor .editor-case-law {
+                    padding: 1.25rem 1.5rem;
+                    border-radius: 0.75rem;
+                    border: 1px solid #DCE6FF;
+                    background-color: #EEF2FD;
+                    margin-bottom: 1rem;
+                  }
+                  .dark .canvas-editor {
+                    color: #f3f4f6;
+                  }
+                  .dark .canvas-editor h2 {
+                    color: #ffffff;
+                    border-color: #1e2640;
+                  }
+                  .dark .canvas-editor h3 {
+                    color: #ffffff;
+                  }
+                  .dark .canvas-editor p {
+                    color: #e5e7eb;
+                  }
+                  .dark .canvas-editor table {
+                    border-color: #1e2640;
+                  }
+                  .dark .canvas-editor th {
+                    background-color: #1e2640;
+                    color: #d1d5db;
+                    border-color: #1e2640;
+                  }
+                  .dark .canvas-editor td {
+                    color: #d1d5db;
+                    border-color: #1e2640;
+                  }
+                  .dark .canvas-editor .editor-note-block {
+                    border-color: #1e2640;
+                    background-color: rgba(30, 38, 64, 0.55);
+                  }
+                  .dark .canvas-editor .editor-note-block strong {
+                    color: #ffffff;
+                  }
+                  .dark .canvas-editor .editor-exam-trap {
+                    background-color: #2c1d1d;
+                    border-color: rgba(245, 198, 192, 0.5);
+                  }
+                  .dark .canvas-editor .editor-practical-use {
+                    background-color: #1a2c22;
+                    border-color: rgba(197, 233, 212, 0.5);
+                  }
+                  .dark .canvas-editor .editor-case-law {
+                    background-color: #1a2542;
+                    border-color: rgba(220, 230, 255, 0.5);
+                  }
+                ` }} />
 
-                <div className="space-y-3">
-                  {blocks.map((block, idx) => {
-                    const blockTypeColor = {
-                      HEADING: 'border-l-4 border-slate-900 dark:border-white',
-                      SUB_HEADING: 'border-l-4 border-slate-400',
-                      PARAGRAPH: 'border-l-4 border-emerald-400',
-                      IMAGE: 'border-l-4 border-teal-400 bg-teal-50/20',
-                      NOTE: 'border-l-4 border-amber-400 bg-amber-50/20',
-                      EXAM_TRAP: 'border-l-4 border-red-400 bg-red-50/20',
-                      PRACTICAL_USE: 'border-l-4 border-green-400 bg-green-50/20',
-                      CASE_LAW: 'border-l-4 border-blue-400 bg-blue-50/20',
-                      ILLUSTRATION: 'border-l-4 border-purple-400 bg-purple-50/20',
-                      TABLE: 'border-l-4 border-pink-400 bg-pink-50/20',
-                      FAQ: 'border-l-4 border-violet-400 bg-violet-50/20',
-                      PDF_REFERENCE: 'border-l-4 border-rose-450 bg-rose-50/20',
-                      VIDEO: 'border-l-4 border-indigo-400 bg-indigo-50/20',
-                      DOWNLOAD_SECTION: 'border-l-4 border-red-500 bg-red-50/30'
-                    }[block.type as string] || 'border-l-4 border-gray-300'
-
-                    return (
-                      <div
-                        key={block.id || idx}
-                        className={`p-4 border border-slate-200 dark:border-gray-800 rounded-xl relative space-y-3 transition-all ${blockTypeColor} ${block.hidden ? 'opacity-40' : ''}`}
-                      >
-                        {/* Block Control Header */}
-                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-gray-800/50 pb-2">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-extrabold uppercase bg-slate-200 dark:bg-gray-850 px-2 py-0.5 rounded text-slate-800 dark:text-gray-300">
-                              {block.type}
-                            </span>
-                            {block.hidden && <span className="text-[8px] font-bold text-red-500 dark:text-red-400 uppercase tracking-widest">Hidden</span>}
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <button
-                              type="button"
-                              onClick={() => moveBlockUp(idx)}
-                              disabled={idx === 0}
-                              className="p-1 text-slate-500 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-gray-800 rounded transition-all"
-                            >
-                              <ArrowUp size={11} />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => moveBlockDown(idx)}
-                              disabled={idx === blocks.length - 1}
-                              className="p-1 text-slate-500 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-gray-800 rounded transition-all"
-                            >
-                              <ArrowDown size={11} />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => duplicateBlock(idx)}
-                              className="p-1 text-slate-500 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-gray-800 rounded transition-all"
-                              title="Duplicate Block"
-                            >
-                              <Copy size={11} />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => toggleBlockHidden(idx)}
-                              className="p-1 text-slate-500 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-gray-800 rounded transition-all"
-                              title="Toggle Visibility"
-                            >
-                              {block.hidden ? <EyeOff size={11} /> : <Eye size={11} />}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => removeBlock(idx)}
-                              className="p-1 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 rounded transition-all"
-                              title="Delete Block"
-                            >
-                              <Trash2 size={11} />
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Block Type Fields */}
-                        {(block.type === 'HEADING' || block.type === 'SUB_HEADING' || block.type === 'PARAGRAPH') && (
-                          <div className="space-y-1 w-full">
-                            <div className="flex items-center gap-1.5 p-1 bg-slate-50 dark:bg-slate-900/50 rounded-md border border-slate-100 dark:border-gray-800 w-fit select-none">
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'content', 'bold')}
-                                className="px-1.5 py-0.5 text-[10px] font-bold bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white"
-                                title="Bold: **text**"
-                              >
-                                B
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'content', 'italic')}
-                                className="px-1.5 py-0.5 text-[10px] italic bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white font-serif"
-                                title="Italic: *text*"
-                              >
-                                I
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'content', 'underline')}
-                                className="px-1.5 py-0.5 text-[10px] underline bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white"
-                                title="Underline: [u]text[/u]"
-                              >
-                                U
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'content', 'highlight')}
-                                className="px-1.5 py-0.5 text-[10px] bg-amber-100 text-amber-900 border border-amber-250 rounded-sm hover:bg-amber-200 font-bold"
-                                title="Highlight: [highlight]text[/highlight]"
-                              >
-                                Highlight
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'content', 'color')}
-                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#2D5BE3] font-semibold"
-                                title="Color: [color=hex]text[/color]"
-                              >
-                                Color
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'content', 'size')}
-                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-slate-700 dark:text-gray-300 font-semibold"
-                                title="Size: [size=lg]text[/size]"
-                              >
-                                Size
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'content', 'page')}
-                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-slate-650 dark:text-gray-300 font-semibold"
-                                title="Page link: [Page X]"
-                              >
-                                Page Link
-                              </button>
-                            </div>
-                            <textarea
-                              id={`textarea-block-${idx}-content`}
-                              value={block.content || ''}
-                              onChange={(e) => updateBlock(idx, 'content', e.target.value)}
-                              className="w-full p-2 bg-transparent text-xs outline-hidden border-b border-slate-100 dark:border-gray-800 focus:border-blue-500 font-mono"
-                              placeholder="Enter text content here... supports [Page X] references"
-                              rows={block.type === 'PARAGRAPH' ? 3 : 1}
-                            />
-                          </div>
-                        )}
-
-                        {(block.type === 'NOTE' || block.type === 'EXAM_TRAP' || block.type === 'PRACTICAL_USE') && (
-                          <div className="space-y-2 w-full">
-                            <input
-                              type="text"
-                              value={block.title || ''}
-                              onChange={(e) => updateBlock(idx, 'title', e.target.value)}
-                              className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
-                              placeholder="Optional Headline"
-                            />
-                            <div className="flex items-center gap-1.5 p-1 bg-slate-50 dark:bg-slate-900/50 rounded-md border border-slate-100 dark:border-gray-800 w-fit select-none">
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'body', 'bold')}
-                                className="px-1.5 py-0.5 text-[10px] font-bold bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white"
-                                title="Bold: **text**"
-                              >
-                                B
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'body', 'italic')}
-                                className="px-1.5 py-0.5 text-[10px] italic bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white font-serif"
-                                title="Italic: *text*"
-                              >
-                                I
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'body', 'underline')}
-                                className="px-1.5 py-0.5 text-[10px] underline bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#1C1C1E] dark:text-white"
-                                title="Underline: [u]text[/u]"
-                              >
-                                U
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'body', 'highlight')}
-                                className="px-1.5 py-0.5 text-[10px] bg-amber-100 text-amber-900 border border-amber-250 rounded-sm hover:bg-amber-200 font-bold"
-                                title="Highlight: [highlight]text[/highlight]"
-                              >
-                                Highlight
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'body', 'color')}
-                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-[#2D5BE3] font-semibold"
-                                title="Color: [color=hex]text[/color]"
-                              >
-                                Color
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'body', 'size')}
-                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-slate-700 dark:text-gray-300 font-semibold"
-                                title="Size: [size=lg]text[/size]"
-                              >
-                                Size
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => insertFormattingTag(idx, 'body', 'page')}
-                                className="px-1.5 py-0.5 text-[10px] bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-sm hover:bg-slate-100 text-slate-650 dark:text-gray-300 font-semibold"
-                                title="Page link: [Page X]"
-                              >
-                                Page Link
-                              </button>
-                            </div>
-                            <textarea
-                              id={`textarea-block-${idx}-body`}
-                              value={block.body || ''}
-                              onChange={(e) => updateBlock(idx, 'body', e.target.value)}
-                              className="w-full p-2 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500 font-mono"
-                              placeholder="Enter message body..."
-                              rows={2}
-                            />
-                          </div>
-                        )}
-
-                        {block.type === 'IMAGE' && (
-                          <div className="space-y-2 w-full">
-                            <input
-                              type="text"
-                              value={block.url || ''}
-                              onChange={(e) => updateBlock(idx, 'url', e.target.value)}
-                              className="w-full p-1.5 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs"
-                              placeholder="Image URL (e.g. /images/example.png or external link)"
-                            />
-                            <input
-                              type="text"
-                              value={block.caption || ''}
-                              onChange={(e) => updateBlock(idx, 'caption', e.target.value)}
-                              className="w-full p-1.5 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded-lg text-xs italic"
-                              placeholder="Optional Caption / Description"
-                            />
-                          </div>
-                        )}
-
-                        {block.type === 'CASE_LAW' && (
-                          <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
-                              <input
-                                type="text"
-                                value={block.title || ''}
-                                onChange={(e) => updateBlock(idx, 'title', e.target.value)}
-                                className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
-                                placeholder="Case Name / Title"
-                              />
-                              <input
-                                type="text"
-                                value={block.citation || ''}
-                                onChange={(e) => updateBlock(idx, 'citation', e.target.value)}
-                                className="w-full p-1 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
-                                placeholder="Citation (e.g. 2024 SC 12)"
-                              />
-                            </div>
-                            <textarea
-                              value={block.verdict || ''}
-                              onChange={(e) => updateBlock(idx, 'verdict', e.target.value)}
-                              className="w-full p-2 bg-transparent text-xs border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
-                              placeholder="Verdict / Court Outcome..."
-                              rows={2}
-                            />
-                          </div>
-                        )}
-
-                        {(block.type === 'EXAMPLE' || block.type === 'ILLUSTRATION') && (
-                          <div className="space-y-2 bg-[#FAFAF8] dark:bg-[#0D121F] p-3 rounded-lg">
-                            <input
-                              type="text"
-                              value={block.title || ''}
-                              onChange={(e) => updateBlock(idx, 'title', e.target.value)}
-                              className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-200 dark:border-gray-800 focus:border-blue-500"
-                              placeholder="Illustration Title"
-                            />
-                            <textarea
-                              value={block.scenario || ''}
-                              onChange={(e) => updateBlock(idx, 'scenario', e.target.value)}
-                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-850 rounded"
-                              placeholder="Transaction scenario question..."
-                              rows={2}
-                            />
-                            <textarea
-                              value={block.working || ''}
-                              onChange={(e) => updateBlock(idx, 'working', e.target.value)}
-                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-850 rounded"
-                              placeholder="Show step-by-step working notes..."
-                              rows={2}
-                            />
-                            <textarea
-                              value={block.answer || ''}
-                              onChange={(e) => updateBlock(idx, 'answer', e.target.value)}
-                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-850 rounded"
-                              placeholder="Final guidance / conclusion outcome..."
-                              rows={2}
-                            />
-                          </div>
-                        )}
-
-                        {block.type === 'FAQ' && (
-                          <div className="space-y-2">
-                            <div className="grid grid-cols-2 gap-2">
-                              <select
-                                value={block.faqCategory || 'GENERAL'}
-                                onChange={(e) => updateBlock(idx, 'faqCategory', e.target.value)}
-                                className="w-full px-2 py-1 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-800 rounded text-[11px]"
-                              >
-                                <option value="GENERAL">General Guidance</option>
-                                <option value="APPLICABILITY">Applicability & Limits</option>
-                                <option value="RECOGNITION">Recognition rules</option>
-                                <option value="MEASUREMENT">Measurement bases</option>
-                              </select>
-                              <input
-                                type="text"
-                                value={block.sourceRef || ''}
-                                onChange={(e) => updateBlock(idx, 'sourceRef', e.target.value)}
-                                className="w-full px-2 py-1 bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-800 rounded text-[11px]"
-                                placeholder="Source Clause (e.g. Para 12)"
-                              />
-                            </div>
-                            <input
-                              type="text"
-                              value={block.question || ''}
-                              onChange={(e) => updateBlock(idx, 'question', e.target.value)}
-                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-800 rounded font-bold"
-                              placeholder="FAQ Question"
-                            />
-                            <textarea
-                              value={block.answer || ''}
-                              onChange={(e) => updateBlock(idx, 'answer', e.target.value)}
-                              className="w-full p-1.5 bg-white dark:bg-gray-850 text-xs border border-slate-200 dark:border-gray-800 rounded"
-                              placeholder="FAQ Answer"
-                              rows={2}
-                            />
-                          </div>
-                        )}
-
-                        {block.type === 'TABLE' && (
-                          <div className="space-y-2 overflow-x-auto">
-                            <table className="w-full border-collapse text-left text-[11px]">
-                              <thead>
-                                <tr className="bg-slate-100 dark:bg-gray-800">
-                                  {block.headers.map((h: string, hIdx: number) => (
-                                    <th key={hIdx} className="p-1 border border-slate-200 dark:border-gray-700">
-                                      <input
-                                        type="text"
-                                        value={h}
-                                        onChange={(e) => {
-                                          const nextHeaders = [...block.headers]
-                                          nextHeaders[hIdx] = e.target.value
-                                          updateBlock(idx, 'headers', nextHeaders)
-                                        }}
-                                        className="bg-transparent font-bold w-full focus:outline-hidden"
-                                      />
-                                    </th>
-                                  ))}
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {block.rows.map((row: string[], rIdx: number) => (
-                                  <tr key={rIdx}>
-                                    {row.map((cell: string, cIdx: number) => (
-                                      <td key={cIdx} className="p-1 border border-slate-200 dark:border-gray-700">
-                                        <input
-                                          type="text"
-                                          value={cell}
-                                          onChange={(e) => {
-                                            const nextRows = [...block.rows]
-                                            nextRows[rIdx][cIdx] = e.target.value
-                                            updateBlock(idx, 'rows', nextRows)
-                                          }}
-                                          className="bg-transparent w-full focus:outline-hidden"
-                                        />
-                                      </td>
-                                    ))}
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                            <div className="flex gap-2">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  const nextRows = [...block.rows, Array(block.headers.length).fill('')]
-                                  updateBlock(idx, 'rows', nextRows)
-                                }}
-                                className="text-[10px] bg-slate-100 dark:bg-gray-800 hover:bg-slate-200 px-2 py-0.5 rounded font-semibold"
-                              >
-                                + Add Row
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  if (block.rows.length > 1) {
-                                    updateBlock(idx, 'rows', block.rows.slice(0, -1))
-                                  }
-                                }}
-                                className="text-[10px] bg-slate-100 dark:bg-gray-800 hover:bg-red-50 text-red-600 px-2 py-0.5 rounded font-semibold"
-                              >
-                                - Remove Row
-                              </button>
-                            </div>
-                          </div>
-                        )}
-
-                        {(block.type === 'PDF_REFERENCE' || block.type === 'VIDEO' || block.type === 'DOWNLOAD_SECTION') && (
-                          <div className="grid grid-cols-2 gap-3">
-                            <input
-                              type="text"
-                              value={block.title || ''}
-                              onChange={(e) => updateBlock(idx, 'title', e.target.value)}
-                              className="w-full p-1 bg-transparent text-xs font-bold border-b border-slate-100 dark:border-gray-800 focus:border-blue-500"
-                              placeholder="Display Title / Action Name"
-                            />
-                            <div className="flex gap-1.5 items-center">
-                              <input
-                                type="text"
-                                value={block.url || ''}
-                                onChange={(e) => updateBlock(idx, 'url', e.target.value)}
-                                className="flex-1 px-2 py-1 bg-slate-50 dark:bg-[#0D121F] border border-slate-200 dark:border-gray-800 rounded text-[11px]"
-                                placeholder="Download Link / URL"
-                              />
-                              {block.type === 'PDF_REFERENCE' && (
-                                <label className="bg-[#FFF0F0] text-[#E15252] hover:bg-[#FFE2E2] px-2 py-1 border border-[#FFE2E2] rounded text-[10px] font-bold cursor-pointer whitespace-nowrap">
-                                  Upload
-                                  <input
-                                    type="file"
-                                    accept=".pdf"
-                                    className="hidden"
-                                    onChange={(e) => {
-                                      const file = e.target.files?.[0]
-                                      if (file) handleBlockPdfUpload(idx, file)
-                                    }}
-                                  />
-                                </label>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    )
-                  })}
+                {/* Public-page styled document canvas */}
+                <div className={`bg-white dark:bg-[#111726] border rounded-2xl p-8 sm:p-12 space-y-0 min-h-[500px] ${
+                  standardFramework === 'AS' ? 'border-[#C5C3BC]' : 'border-[#E2E1DD]'
+                }`}>
+                  <div
+                    ref={editorRef}
+                    contentEditable
+                    onInput={handleEditorInput}
+                    onBlur={handleEditorInput}
+                    className="canvas-editor w-full min-h-[500px] outline-none text-[#1C1C1E] dark:text-white focus:outline-none"
+                    dangerouslySetInnerHTML={{ __html: initialHtml }}
+                  />
                 </div>
               </div>
             )}

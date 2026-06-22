@@ -952,7 +952,7 @@ export default function LearningPortalClient({
       {/* ─── Sidebar ────────────────────────────────────────────────────────── */}
       <aside className={`
         ${isSidebarOpen ? 'fixed inset-y-0 left-0 top-16 z-40 w-[320px] shadow-2xl flex border-r' : 'hidden'}
-        lg:flex lg:static lg:w-[320px] lg:shadow-none lg:z-auto lg:h-full
+        ${activeTab === 'examples' ? 'lg:hidden' : 'lg:flex lg:static lg:w-[320px] lg:shadow-none lg:z-auto lg:h-full'}
         bg-white dark:bg-[#111726] border-[#E2E1DD] dark:border-gray-800 flex flex-col shrink-0 lg:sticky lg:top-16 overflow-hidden
       `}>
         
@@ -1129,23 +1129,35 @@ export default function LearningPortalClient({
         {/* Top Control Bar */}
         <div className="bg-white dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800 p-2.5 sm:p-3 flex flex-row flex-nowrap items-center justify-between gap-3 shrink-0 sticky top-0 z-30">
           <div className="flex items-center gap-2 min-w-0 flex-1">
-            <Link
-              href="/accounts"
-              onClick={handleBackClick}
-              className="flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
-            >
-              <ArrowLeft size={15} />
-              Back
-            </Link>
+            {activeTab === 'examples' ? (
+              <button
+                onClick={() => setActiveTab('standard')}
+                className="flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#2D5BE3] dark:text-blue-400 hover:bg-[#F4F3F0] transition-colors shrink-0 cursor-pointer"
+              >
+                <ArrowLeft size={15} />
+                Back to Standard
+              </button>
+            ) : (
+              <>
+                <Link
+                  href="/accounts"
+                  onClick={handleBackClick}
+                  className="flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
+                >
+                  <ArrowLeft size={15} />
+                  Back
+                </Link>
 
-            <button
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="lg:hidden flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
-              aria-label="Toggle standards menu"
-            >
-              <BookOpen size={15} />
-              Menu
-            </button>
+                <button
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  className="lg:hidden flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
+                  aria-label="Toggle standards menu"
+                >
+                  <BookOpen size={15} />
+                  Menu
+                </button>
+              </>
+            )}
             
             {/* Prominent Standard Title */}
             <h1 className="text-[16px] sm:text-[22px] md:text-[24px] font-semibold text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
@@ -1711,24 +1723,24 @@ export default function LearningPortalClient({
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
                         {/* Facts & Issue */}
-                        <div className="space-y-4">
-                          <div className="bg-[#FAFAF8] dark:bg-[#1C2335]/30 p-4 sm:p-5 rounded-xl border border-[#E2E1DD]/80 dark:border-gray-800/80">
-                            <p className="text-[10.5px] text-[#A0A0A8] dark:text-gray-400 font-extrabold uppercase tracking-wider mb-2.5">
+                        <div className="space-y-6">
+                          <div className="bg-[#FAFAF8] dark:bg-[#1C2335]/30 p-5 sm:p-6 rounded-xl border border-[#E2E1DD]/80 dark:border-gray-800/80">
+                            <p className="text-[11px] text-[#A0A0A8] dark:text-gray-400 font-extrabold uppercase tracking-wider mb-2.5">
                               Facts
                             </p>
-                            <p className="text-xs text-[#33333A] dark:text-gray-250 leading-relaxed font-semibold">
+                            <p className="text-[16px] text-[#33333A] dark:text-gray-250 leading-relaxed font-medium">
                               {renderTextWithReferences(item.scenario)}
                             </p>
                           </div>
                           
                           {item.working && (
-                            <div className="bg-[#FAFAF8] dark:bg-[#1C2335]/30 p-4 sm:p-5 rounded-xl border border-[#E2E1DD]/80 dark:border-gray-800/80">
-                              <p className="text-[10.5px] text-[#A0A0A8] dark:text-gray-400 font-extrabold uppercase tracking-wider mb-2.5">
+                            <div className="bg-[#FAFAF8] dark:bg-[#1C2335]/30 p-5 sm:p-6 rounded-xl border border-[#E2E1DD]/80 dark:border-gray-800/80">
+                              <p className="text-[11px] text-[#A0A0A8] dark:text-gray-400 font-extrabold uppercase tracking-wider mb-2.5">
                                 Issue
                               </p>
-                              <p className="text-xs text-[#33333A] dark:text-gray-250 leading-relaxed font-semibold">
+                              <p className="text-[16px] text-[#33333A] dark:text-gray-250 leading-relaxed font-medium">
                                 {renderTextWithReferences(item.working)}
                               </p>
                             </div>
@@ -1736,22 +1748,22 @@ export default function LearningPortalClient({
                         </div>
 
                         {/* Analysis & Conclusion */}
-                        <div className="space-y-4">
-                          <div className="bg-[#E8F7EE] dark:bg-[#182B22]/40 p-4 sm:p-5 rounded-xl border border-[#C5E9D4]/60 dark:border-green-950/60">
-                            <p className="text-[10.5px] text-[#1A7A4A] dark:text-emerald-400 font-extrabold uppercase tracking-wider mb-2.5">
+                        <div className="space-y-6">
+                          <div className="bg-[#E8F7EE] dark:bg-[#182B22]/40 p-5 sm:p-6 rounded-xl border border-[#C5E9D4]/60 dark:border-green-950/60">
+                            <p className="text-[11px] text-[#1A7A4A] dark:text-emerald-400 font-extrabold uppercase tracking-wider mb-2.5">
                               Analysis &amp; Conclusion
                             </p>
-                            <p className="text-xs text-[#2A2A35] dark:text-gray-250 leading-relaxed font-semibold">
+                            <p className="text-[16px] text-[#2A2A35] dark:text-gray-250 leading-relaxed font-medium">
                               {renderTextWithReferences(item.answer || item.guidance)}
                             </p>
                           </div>
 
                           {item.note && (
-                            <div className="bg-[#FFF8E6] dark:bg-[#2C241B]/40 p-4 sm:p-5 rounded-xl border border-[#F5E1B8]/60 dark:border-amber-950/60">
-                              <p className="text-[10.5px] text-[#B7791F] dark:text-amber-400 font-extrabold uppercase tracking-wider mb-1">
+                            <div className="bg-[#FFF8E6] dark:bg-[#2C241B]/40 p-5 sm:p-6 rounded-xl border border-[#F5E1B8]/60 dark:border-amber-950/60">
+                              <p className="text-[11px] text-[#B7791F] dark:text-amber-400 font-extrabold uppercase tracking-wider mb-1">
                                 Key Takeaway / Note
                               </p>
-                              <p className="text-xs text-[#33333A] dark:text-gray-205 leading-relaxed font-semibold">
+                              <p className="text-[16px] text-[#33333A] dark:text-gray-200 leading-relaxed font-medium">
                                 {renderTextWithReferences(item.note)}
                               </p>
                             </div>
