@@ -1448,6 +1448,11 @@ export default function LearningPortalClient({
                         }
                       })}
                     </div>
+                  ) : currentStandard.id === 'as-1' ? (
+                    <AS1StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                      renderTextWithReferences={renderTextWithReferences}
+                    />
                   ) : (
                     <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
                   
