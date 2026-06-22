@@ -248,7 +248,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
           : initialEntry.entryBody
         if (bodyObj?.examplesHtml) return bodyObj.examplesHtml
         // Fallback: convert example blocks to html if any
-        if (bodyObj?.examples && Array.isArray(bodyObj.examples)) {
+        if (bodyObj?.examples && Array.isArray(bodyObj.examples) && bodyObj.examples.length > 0) {
           return bodyObj.examples.map((ex: any) => {
             const parts = []
             if (ex.title) parts.push(`<h2>${ex.title}</h2>`)
@@ -260,6 +260,30 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
           }).join('<hr/>')
         }
       } catch (err) {}
+    }
+    // Check root level illustrations
+    if (initialEntry?.illustrations && Array.isArray(initialEntry.illustrations) && initialEntry.illustrations.length > 0) {
+      return initialEntry.illustrations.map((ex: any) => {
+        const parts = []
+        if (ex.illusTitle || ex.title) parts.push(`<h2>${ex.illusTitle || ex.title}</h2>`)
+        if (ex.illusScenario || ex.scenario) parts.push(`<h3>Facts</h3><p>${ex.illusScenario || ex.scenario}</p>`)
+        if (ex.illusWorking || ex.working) parts.push(`<h3>Issue / Working</h3><p>${ex.illusWorking || ex.working}</p>`)
+        if (ex.illusAnswer || ex.answer) parts.push(`<h3>Analysis &amp; Conclusion</h3><p>${ex.illusAnswer || ex.answer}</p>`)
+        if (ex.illusNote || ex.note) parts.push(`<blockquote>${ex.illusNote || ex.note}</blockquote>`)
+        return parts.join('\n')
+      }).join('<hr/>')
+    }
+    // Check root level examples
+    if (initialEntry?.examples && Array.isArray(initialEntry.examples) && initialEntry.examples.length > 0) {
+      return initialEntry.examples.map((ex: any) => {
+        const parts = []
+        if (ex.title) parts.push(`<h2>${ex.title}</h2>`)
+        if (ex.scenario) parts.push(`<h3>Facts</h3><p>${ex.scenario}</p>`)
+        if (ex.working) parts.push(`<h3>Issue / Working</h3><p>${ex.working}</p>`)
+        if (ex.answer) parts.push(`<h3>Analysis &amp; Conclusion</h3><p>${ex.answer}</p>`)
+        if (ex.note) parts.push(`<blockquote>${ex.note}</blockquote>`)
+        return parts.join('\n')
+      }).join('<hr/>')
     }
     return ''
   })
