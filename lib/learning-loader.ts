@@ -91,6 +91,7 @@ export interface Standard {
     rows: { criterion: string; as: string; indAs: string; isDifferent?: boolean; differenceNote?: string }[]
   }
   blocks?: any[]
+  examplesHtml?: string
 }
 
 // Complete static indices with professional naming
@@ -375,7 +376,10 @@ function mapStaticEntryToStandard(staticEntry: any, framework: 'AS' | 'Ind AS'):
         isDifferent: row.isDifferent || undefined,
         differenceNote: row.differenceNote || undefined
       }))
-    } : undefined
+    } : undefined,
+    examplesHtml: (staticEntry.entryBody && typeof staticEntry.entryBody === 'object' && 'examplesHtml' in staticEntry.entryBody)
+      ? (staticEntry.entryBody as any).examplesHtml
+      : staticEntry.examplesHtml || undefined
   }
 }
 
@@ -560,6 +564,9 @@ export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'
     },
     blocks: (entry.entryBody && typeof entry.entryBody === 'object' && 'blocks' in entry.entryBody)
       ? (entry.entryBody as any).blocks
+      : undefined,
+    examplesHtml: (entry.entryBody && typeof entry.entryBody === 'object' && 'examplesHtml' in entry.entryBody)
+      ? (entry.entryBody as any).examplesHtml
       : undefined
   }
 

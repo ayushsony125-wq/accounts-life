@@ -7,7 +7,7 @@ import { saveEntry, getEntryRevisions, getRevisionSnapshot } from '../actions'
 import {
   Info, Book, Image, Video, CheckCircle, ArrowRight, ArrowLeft, Plus,
   Trash2, HelpCircle, History, FileText, Link2, ExternalLink, X,
-  ArrowUp, ArrowDown, Eye, EyeOff, Copy, RefreshCw, Columns, Maximize2, Sparkles, ChevronRight
+  ArrowUp, ArrowDown, Eye, EyeOff, Copy, RefreshCw, Columns, Maximize2, Sparkles, ChevronRight, Scale
 } from 'lucide-react'
 import GlobalActionBar from '../GlobalActionBar'
 
@@ -218,7 +218,7 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
   // Local undo/redo history stack maintained as a unified state to prevent React state updater side-effects
   const [historyState, setHistoryState] = useState<{ list: any[], pointer: number }>({ list: [], pointer: -1 })
   const [lastSaved, setLastSaved] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'resources' | 'history' | 'publish'>('identity')
+  const [activeTab, setActiveTab] = useState<'identity' | 'content' | 'examples' | 'resources' | 'history' | 'publish'>('identity')
   const [previewTab, setPreviewTab] = useState<'standard' | 'examples' | 'lecture' | 'pdf'>('standard')
 
   const editorRef = useRef<HTMLDivElement>(null)
@@ -237,6 +237,45 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     }
     return '';
   })
+
+  const examplesRef = useRef<HTMLDivElement>(null)
+  const examplesDebounceRef = useRef<NodeJS.Timeout | null>(null)
+  const [initialExamplesHtml] = useState(() => {
+    if (initialEntry?.entryBody) {
+      try {
+        const bodyObj = typeof initialEntry.entryBody === 'string'
+          ? JSON.parse(initialEntry.entryBody)
+          : initialEntry.entryBody
+        if (bodyObj?.examplesHtml) return bodyObj.examplesHtml
+        // Fallback: convert example blocks to html if any
+        if (bodyObj?.examples && Array.isArray(bodyObj.examples)) {
+          return bodyObj.examples.map((ex: any) => {
+            const parts = []
+            if (ex.title) parts.push(`<h2>${ex.title}</h2>`)
+            if (ex.scenario) parts.push(`<h3>Facts</h3><p>${ex.scenario}</p>`)
+            if (ex.working) parts.push(`<h3>Issue / Working</h3><p>${ex.working}</p>`)
+            if (ex.answer) parts.push(`<h3>Analysis &amp; Conclusion</h3><p>${ex.answer}</p>`)
+            if (ex.note) parts.push(`<blockquote>${ex.note}</blockquote>`)
+            return parts.join('\n')
+          }).join('<hr/>')
+        }
+      } catch (err) {}
+    }
+    return ''
+  })
+
+  const [examplesHtml, setExamplesHtml] = useState(initialExamplesHtml)
+
+  const handleExamplesInput = () => {
+    if (examplesDebounceRef.current) {
+      clearTimeout(examplesDebounceRef.current)
+    }
+    examplesDebounceRef.current = setTimeout(() => {
+      if (examplesRef.current) {
+        setExamplesHtml(examplesRef.current.innerHTML)
+      }
+    }, 500)
+  }
 
   const handleEditorInput = () => {
     if (debounceTimerRef.current) {
@@ -646,7 +685,8 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         applicabilitySummary,
         videos,
         references,
-        blocks
+        blocks,
+        examplesHtml
       }
       setHistoryState(prev => {
         const nextHist = prev.list.slice(0, prev.pointer + 1)
@@ -688,7 +728,8 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     applicabilitySummary,
     videos,
     references,
-    blocks
+    blocks,
+    examplesHtml
   ])
 
   const restoreFormStateSnapshot = (snap: any) => {
@@ -715,8 +756,12 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
     setVideos(snap.videos || [])
     setReferences(snap.references || [])
     setBlocks(snap.blocks || [])
+    setExamplesHtml(snap.examplesHtml || '')
     if (editorRef.current) {
       editorRef.current.innerHTML = blocksToHtml(snap.blocks || [])
+    }
+    if (examplesRef.current) {
+      examplesRef.current.innerHTML = snap.examplesHtml || ''
     }
   }
 
@@ -824,7 +869,8 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         ...references
       ],
       entryBody: {
-        blocks: blocks
+        blocks: blocks,
+        examplesHtml: examplesHtml
       },
       standardCode,
       standardFramework,
@@ -1024,14 +1070,31 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         <div className="w-full flex flex-col bg-white dark:bg-[#111726] overflow-y-auto">
           {/* Visual Tabs Header */}
           <div className="flex border-b border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F]">
-            {(['identity', 'content', 'resources', 'history', 'publish'] as const).map((tab) => {
+            <Link
+              href="/admin/entries"
+              className="flex items-center gap-1.5 px-4 py-3 text-xs font-bold border-r border-[#E2E1DD] dark:border-gray-800 text-[#76767E] hover:text-[#1C1C1E] dark:hover:text-white"
+            >
+              <ArrowLeft size={12} />
+              <span>Back</span>
+            </Link>
+            {(['identity', 'content', 'examples', 'resources', 'history', 'publish'] as const).map((tab) => {
               const active = activeTab === tab
               const Icon = {
                 identity: Info,
                 content: Book,
+                examples: Scale,
                 resources: Video,
                 history: History,
                 publish: CheckCircle
+              }[tab]
+
+              const label = {
+                identity: 'Identity',
+                content: 'Standard',
+                examples: 'Examples / Case Law',
+                resources: 'Resources',
+                history: 'History',
+                publish: 'Publish'
               }[tab]
 
               return (
@@ -1045,13 +1108,13 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                   }`}
                 >
                   <Icon size={12} />
-                  <span>{tab}</span>
+                  <span>{label}</span>
                 </button>
               )
             })}
           </div>
 
-          <div className={`flex-1 ${activeTab === 'content' ? 'p-0' : 'p-6 space-y-6'}`}>
+          <div className={`flex-1 ${(activeTab === 'content' || activeTab === 'examples') ? 'p-0' : 'p-6 space-y-6'}`}>
             {/* TAB 1: IDENTITY METADATA */}
             {activeTab === 'identity' && (
               <div className="space-y-5">
@@ -1243,6 +1306,9 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
             {/* TAB 2: WYSIWYG PAGE EDITOR — Same layout as public standard page */}
             {activeTab === 'content' && (
               <div className="flex flex-col min-h-full bg-[#F5F4F1] dark:bg-[#0D121F]">
+                <div className="bg-red-600 text-white font-extrabold text-center py-4 text-lg uppercase tracking-widest shadow-lg border-b-4 border-white animate-pulse shrink-0">
+                  🚀 DEPLOYMENT TEST — 22-JUN-2026 — BUILD-XYZ 🚀
+                </div>
                 <style dangerouslySetInnerHTML={{ __html: `
                   .canvas-editor {
                     outline: none;
@@ -1405,6 +1471,180 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
                       suppressContentEditableWarning
                       className="canvas-editor w-full min-h-[600px] outline-none text-[#1C1C1E] dark:text-white focus:outline-none bg-white dark:bg-[#111726] rounded-2xl px-10 py-12 border border-[#E2E1DD] dark:border-gray-800 shadow-sm"
                       dangerouslySetInnerHTML={{ __html: initialHtml }}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2.5: WYSIWYG EXAMPLES EDITOR — Same layout as public standard page */}
+            {activeTab === 'examples' && (
+              <div className="flex flex-col min-h-full bg-[#F5F4F1] dark:bg-[#0D121F]">
+                <div className="bg-red-600 text-white font-extrabold text-center py-4 text-lg uppercase tracking-widest shadow-lg border-b-4 border-white animate-pulse shrink-0">
+                  🚀 DEPLOYMENT TEST — 22-JUN-2026 — BUILD-XYZ 🚀
+                </div>
+                <style dangerouslySetInnerHTML={{ __html: `
+                  .canvas-editor {
+                    outline: none;
+                    min-height: 600px;
+                  }
+                  .canvas-editor h1 {
+                    font-size: 2.25rem;
+                    font-weight: 900;
+                    color: #1C1C1E;
+                    letter-spacing: -0.02em;
+                    margin-bottom: 0.5rem;
+                    line-height: 1.15;
+                  }
+                  .canvas-editor h2 {
+                    font-size: 1.5rem;
+                    font-weight: 800;
+                    color: #1C1C1E;
+                    text-transform: uppercase;
+                    letter-spacing: 0.04em;
+                    border-bottom: 2px solid #E2E1DD;
+                    padding-bottom: 0.75rem;
+                    margin-top: 3rem;
+                    margin-bottom: 1.5rem;
+                  }
+                  .canvas-editor h3 {
+                    font-size: 1.25rem;
+                    font-weight: 800;
+                    color: #1C1C1E;
+                    margin-top: 2rem;
+                    margin-bottom: 0.875rem;
+                  }
+                  .canvas-editor h4 {
+                    font-size: 1.05rem;
+                    font-weight: 700;
+                    color: #333;
+                    margin-top: 1.5rem;
+                    margin-bottom: 0.5rem;
+                  }
+                  .canvas-editor p {
+                    font-size: 1.09rem;
+                    line-height: 1.85;
+                    color: #2A2A35;
+                    margin-bottom: 1.5rem;
+                  }
+                  .canvas-editor ul, .canvas-editor ol {
+                    padding-left: 1.75rem;
+                    margin-bottom: 1.5rem;
+                  }
+                  .canvas-editor li {
+                    font-size: 1.04rem;
+                    line-height: 1.8;
+                    color: #2A2A35;
+                    margin-bottom: 0.375rem;
+                  }
+                  .canvas-editor strong { font-weight: 800; }
+                  .canvas-editor em { font-style: italic; }
+                  .canvas-editor u { text-decoration: underline; }
+                  .canvas-editor blockquote {
+                    border-left: 3px solid #2D5BE3;
+                    padding-left: 1.25rem;
+                    margin: 1.5rem 0;
+                    color: #555;
+                    font-style: italic;
+                  }
+                  .canvas-editor table {
+                    width: 100%;
+                    text-align: left;
+                    font-size: 0.875rem;
+                    border-collapse: collapse;
+                    border: 1px solid #E2E1DD;
+                    margin-bottom: 2rem;
+                    border-radius: 0.5rem;
+                    overflow: hidden;
+                  }
+                  .canvas-editor th {
+                    background-color: #F8FAFC;
+                    color: #4A5568;
+                    border-bottom: 1px solid #E2E1DD;
+                    padding: 0.75rem 1rem;
+                    font-weight: bold;
+                    font-size: 0.75rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                  }
+                  .canvas-editor td {
+                    padding: 0.75rem 1rem;
+                    color: #2D3748;
+                    border-bottom: 1px solid #E2E1DD;
+                  }
+                  .canvas-editor .editor-note-block {
+                    padding: 1.5rem 2rem;
+                    border-radius: 1rem;
+                    border: 1px solid rgba(197, 195, 188, 0.5);
+                    background-color: rgba(250, 250, 248, 0.6);
+                    margin-bottom: 2rem;
+                  }
+                  .canvas-editor .editor-exam-trap {
+                    padding: 1.25rem 1.5rem;
+                    border-radius: 0.75rem;
+                    border: 1px solid #F5C6C0;
+                    background-color: #FDEEEE;
+                    margin-bottom: 1rem;
+                  }
+                  .canvas-editor .editor-practical-use {
+                    padding: 1.25rem 1.5rem;
+                    border-radius: 0.75rem;
+                    border: 1px solid #C5E9D4;
+                    background-color: #E8F7EE;
+                    margin-bottom: 1rem;
+                  }
+                  .canvas-editor .editor-case-law {
+                    padding: 1.25rem 1.5rem;
+                    border-radius: 0.75rem;
+                    border: 1px solid #DCE6FF;
+                    background-color: #EEF2FD;
+                    margin-bottom: 1rem;
+                  }
+                  .dark .canvas-editor h1,
+                  .dark .canvas-editor h2,
+                  .dark .canvas-editor h3,
+                  .dark .canvas-editor h4 { color: #ffffff; }
+                  .dark .canvas-editor h2 { border-color: #1e2640; }
+                  .dark .canvas-editor p,
+                  .dark .canvas-editor li { color: #d1d5db; }
+                  .dark .canvas-editor table { border-color: #1e2640; }
+                  .dark .canvas-editor th { background-color: #1e2640; color: #d1d5db; border-color: #1e2640; }
+                  .dark .canvas-editor td { color: #d1d5db; border-color: #1e2640; }
+                  .dark .canvas-editor .editor-note-block { border-color: #1e2640; background-color: rgba(30,38,64,0.55); }
+                  .dark .canvas-editor .editor-exam-trap { background-color: #2c1d1d; border-color: rgba(245,198,192,0.5); }
+                  .dark .canvas-editor .editor-practical-use { background-color: #1a2c22; border-color: rgba(197,233,212,0.5); }
+                  .dark .canvas-editor .editor-case-law { background-color: #1a2542; border-color: rgba(220,230,255,0.5); }
+                ` }} />
+
+                {/* Editor toolbar strip */}
+                <div className="flex items-center gap-3 px-6 py-2.5 border-b border-[#E2E1DD]/60 dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#0D121F] shrink-0">
+                  <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#76767E]">Examples / Case Law Editor</span>
+                  <span className="text-[10px] text-[#A0A0A8]">·</span>
+                  <span className="text-[10px] text-[#A0A0A8]">Type or paste examples directly</span>
+                  <div className="ml-auto flex items-center gap-1.5">
+                    <button type="button" onClick={() => document.execCommand('bold')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 font-bold text-xs">B</button>
+                    <button type="button" onClick={() => document.execCommand('italic')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 italic text-xs">I</button>
+                    <button type="button" onClick={() => document.execCommand('underline')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 underline text-xs">U</button>
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'h2')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H2</button>
+                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'h3')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs font-bold">H3</button>
+                    <button type="button" onClick={() => document.execCommand('formatBlock', false, 'p')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">P</button>
+                    <span className="w-px h-4 bg-slate-200 dark:bg-gray-700 mx-0.5" />
+                    <button type="button" onClick={() => document.execCommand('insertUnorderedList')} className="p-1.5 rounded hover:bg-slate-200 dark:hover:bg-gray-700 text-slate-600 dark:text-gray-400 text-xs">• List</button>
+                  </div>
+                </div>
+
+                {/* Document canvas */}
+                <div className="flex-1 overflow-y-auto py-10 px-4 sm:px-8">
+                  <div className="max-w-4xl mx-auto">
+                    <div
+                      ref={examplesRef}
+                      contentEditable
+                      onInput={handleExamplesInput}
+                      onBlur={handleExamplesInput}
+                      suppressContentEditableWarning
+                      className="canvas-editor w-full min-h-[600px] outline-none text-[#1C1C1E] dark:text-white focus:outline-none bg-white dark:bg-[#111726] rounded-2xl px-10 py-12 border border-[#E2E1DD] dark:border-gray-800 shadow-sm"
+                      dangerouslySetInnerHTML={{ __html: initialExamplesHtml }}
                     />
                   </div>
                 </div>

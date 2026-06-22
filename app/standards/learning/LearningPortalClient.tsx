@@ -952,7 +952,7 @@ export default function LearningPortalClient({
       {/* ─── Sidebar ────────────────────────────────────────────────────────── */}
       <aside className={`
         ${isSidebarOpen ? 'fixed inset-y-0 left-0 top-16 z-40 w-[320px] shadow-2xl flex border-r' : 'hidden'}
-        ${activeTab === 'examples' ? 'lg:hidden' : 'lg:flex lg:static lg:w-[320px] lg:shadow-none lg:z-auto lg:h-full'}
+        lg:flex lg:static lg:w-[320px] lg:shadow-none lg:z-auto lg:h-full
         bg-white dark:bg-[#111726] border-[#E2E1DD] dark:border-gray-800 flex flex-col shrink-0 lg:sticky lg:top-16 overflow-hidden
       `}>
         
@@ -1129,35 +1129,25 @@ export default function LearningPortalClient({
         {/* Top Control Bar */}
         <div className="bg-white dark:bg-[#111726] border-b border-[#E2E1DD] dark:border-gray-800 p-2.5 sm:p-3 flex flex-row flex-nowrap items-center justify-between gap-3 shrink-0 sticky top-0 z-30">
           <div className="flex items-center gap-2 min-w-0 flex-1">
-            {activeTab === 'examples' ? (
-              <button
-                onClick={() => setActiveTab('standard')}
-                className="flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#2D5BE3] dark:text-blue-400 hover:bg-[#F4F3F0] transition-colors shrink-0 cursor-pointer"
+            <>
+              <Link
+                href="/accounts"
+                onClick={handleBackClick}
+                className="flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
               >
                 <ArrowLeft size={15} />
-                Back to Standard
-              </button>
-            ) : (
-              <>
-                <Link
-                  href="/accounts"
-                  onClick={handleBackClick}
-                  className="flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
-                >
-                  <ArrowLeft size={15} />
-                  Back
-                </Link>
+                Back
+              </Link>
 
-                <button
-                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                  className="lg:hidden flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
-                  aria-label="Toggle standards menu"
-                >
-                  <BookOpen size={15} />
-                  Menu
-                </button>
-              </>
-            )}
+              <button
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="lg:hidden flex items-center gap-1.5 px-3 py-2 bg-[#FAFAF8] dark:bg-[#1E2640] border border-[#E2E1DD] dark:border-gray-800 rounded-md text-[12.5px] font-bold text-[#1C1C1E] dark:text-white hover:bg-[#F4F3F0] transition-colors shrink-0"
+                aria-label="Toggle standards menu"
+              >
+                <BookOpen size={15} />
+                Menu
+              </button>
+            </>
             
             {/* Prominent Standard Title */}
             <h1 className="text-[16px] sm:text-[22px] md:text-[24px] font-semibold text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
@@ -1687,7 +1677,25 @@ export default function LearningPortalClient({
           {/* 2. EXAMPLES & CASE LAW VIEW */}
           {activeTab === 'examples' && (
             <div className="w-full space-y-8 animate-fade-in">
-              {currentStandard.id === 'as-1' ? (
+              <div className="bg-red-600 text-white font-extrabold text-center py-4 text-lg uppercase tracking-widest rounded-xl shadow-lg border-4 border-white animate-pulse">
+                🚀 DEPLOYMENT TEST — 22-JUN-2026 — BUILD-XYZ 🚀
+              </div>
+              {currentStandard.examplesHtml ? (
+                <div 
+                  className="w-full bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xs font-sans prose dark:prose-invert max-w-none
+                    [&_h2]:text-xl [&_h2]:sm:text-2xl [&_h2]:font-bold [&_h2]:text-[#1C1C1E] [&_h2]:dark:text-white [&_h2]:pb-2 [&_h2]:border-b [&_h2]:border-gray-100 [&_h2]:dark:border-gray-800 [&_h2]:mt-8 [&_h2]:mb-4
+                    [&_h3]:text-base [&_h3]:font-bold [&_h3]:text-slate-800 [&_h3]:dark:text-slate-100 [&_h3]:mt-6 [&_h3]:mb-3
+                    [&_p]:text-[15px] [&_p]:sm:text-[16px] [&_p]:text-slate-700 [&_p]:dark:text-gray-300 [&_p]:leading-relaxed [&_p]:mb-4
+                    [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4
+                    [&_li]:text-[15px] [&_li]:text-slate-700 [&_li]:dark:text-gray-300 [&_li]:leading-relaxed [&_li]:mb-1.5
+                    [&_blockquote]:border-l-4 [&_blockquote]:border-[#2D5BE3] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-4 [&_blockquote]:text-slate-600 [&_blockquote]:dark:text-gray-400
+                    [&_table]:w-full [&_table]:text-left [&_table]:text-xs [&_table]:border-collapse [&_table]:border [&_table]:border-[#E2E1DD] [&_table]:dark:border-gray-800 [&_table]:rounded-xl [&_table]:overflow-hidden [&_table]:mb-6
+                    [&_th]:bg-slate-50 [&_th]:dark:bg-slate-850 [&_th]:p-3 [&_th]:font-bold [&_th]:border-b [&_th]:border-[#E2E1DD] [&_th]:dark:border-gray-850
+                    [&_td]:p-3 [&_td]:text-slate-700 [&_td]:dark:text-gray-300 [&_td]:border-b [&_td]:border-[#E2E1DD] [&_td]:dark:border-gray-850
+                  "
+                  dangerouslySetInnerHTML={{ __html: currentStandard.examplesHtml }}
+                />
+              ) : currentStandard.id === 'as-1' ? (
                 <AS1ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
