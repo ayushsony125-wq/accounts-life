@@ -185,18 +185,29 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
 
       {/* Main Content Card */}
-      <div className="w-full space-y-8 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-9 shadow-xs text-[14.5px] sm:text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed">
+      <div className="w-full space-y-10 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-9 shadow-xs text-[15.5px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed">
 
         {/* Section 1: Introduction & Purpose */}
-        <section id="as1-overview" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/60">
+        <section id="as1-overview" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             1. Introduction &amp; Purpose of the Standard
           </h2>
           <p>
-            Irrespective of the extent of standardization, diversity in accounting policies is unavoidable for two reasons. First, accounting standards cannot and do not cover all possible areas of accounting, leaving enterprises with the freedom to adopt any reasonable accounting policy in areas not covered by a standard. Second, since enterprises operate in diverse situations, it is impossible to develop a single set of policies applicable to all enterprises for all time. <PdfRef page={2} />
+            Irrespective of the extent of standardization, diversity in accounting policies is unavoidable for two primary reasons:
+          </p>
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+            <li>
+              <strong>Standardization Limits:</strong> Accounting standards cannot and do not cover all possible areas of accounting, leaving enterprises with the freedom to adopt any reasonable accounting policy in areas not covered by a standard. <PdfRef page={2} />
+            </li>
+            <li>
+              <strong>Operating Diversity:</strong> Since enterprises operate in diverse situations, it is impossible to develop a single set of policies applicable to all enterprises for all time. <PdfRef page={2} />
+            </li>
+          </ul>
+          <p>
+            The accounting standards, therefore, permit more than one policy even in areas covered by them. Differences in accounting policies lead to differences in reported financial information even if the underlying transactions are identical.
           </p>
           <p>
-            The accounting standards, therefore, permit more than one policy even in areas covered by them. Differences in accounting policies lead to differences in reported financial information even if the underlying transactions are identical. The qualitative characteristic of comparability of financial statements, therefore, suffers due to this diversity of accounting policies. Since uniformity is impossible, and accounting standards permit alternatives, it is not enough to say that all standards have been complied with. <PdfRef page={2} />
+            The qualitative characteristic of comparability of financial statements, therefore, suffers due to this diversity of accounting policies. Since uniformity is impossible, and accounting standards permit alternatives, it is not enough to say that all standards have been complied with. <PdfRef page={2} />
           </p>
           <p>
             For these reasons, Accounting Standard 1 requires enterprises to disclose significant accounting policies actually adopted by them in the preparation of their financial statements. Such disclosures allow the users of financial statements to take the differences in accounting policies into consideration and to make necessary adjustments in their analysis of such financial statements. <PdfRef page={2} />
@@ -207,157 +218,229 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
         </section>
 
         {/* Section 2: Scope */}
-        <section id="as1-scope" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/60">
+        <section id="as1-scope" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             2. Scope &amp; Applicability
           </h2>
           <p>
             This Accounting Standard applies to all enterprises in the preparation and presentation of general-purpose financial statements. <PdfRef page={2} />
           </p>
+          <p>
+            It is applicable to financial statements that are prepared and presented for the use of external users (such as shareholders, creditors, financial institutions, regulators, and the general public).
+          </p>
         </section>
 
         {/* Section 3: Definition of Policies */}
-        <section id="as1-definition" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/60">
+        <section id="as1-definition" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             3. Definition of Accounting Policies
           </h2>
-          <p>
+          
+          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
+            <span className="font-bold text-slate-900 dark:text-white block mb-1">Accounting Policies Definition:</span>
             Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise in the preparation and presentation of financial statements. <PdfRef page={4} />
+          </div>
+
+          <p>
+            The choice of appropriate accounting policies requires management judgement to portray a true and fair view of the enterprise's state of affairs. For every item, right from the valuation of assets and liabilities to the recognition of revenue and providing for expected losses, management needs to select principles and adopt methods of applying them.
           </p>
           <p>
-            The choice of appropriate accounting policies requires management judgement to portray a true and fair view of the enterprise's state of affairs. For every item right from valuation of assets and liabilities to recognition of revenue and providing for expected losses, the management needs to form principles and adopt methods of applying them. Accounting is both science (relying on universally applicable tested principles) and art (depending on the personal judgement of the accountant in applying those principles). Because different accountants may have different approaches, enterprises within the same industry often follow different policies, which affects comparability. <PdfRef page={4} />
+            Accounting can be viewed through two dimensions:
+          </p>
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+            <li>
+              <strong>As a Science:</strong> It relies on structured, tested, and universally applicable accounting concepts and standards.
+            </li>
+            <li>
+              <strong>As an Art:</strong> It depends on the professional judgement of the accountant in applying those concepts to diverse and changing transaction structures.
+            </li>
+          </ul>
+          <p>
+            Because different accountants and management teams may exercise judgement differently, enterprises within the same industry often follow different policies. This variation in approach is what makes disclosure essential to restore comparability. <PdfRef page={4} />
           </p>
         </section>
 
         {/* Section 4: Key Areas of Diversity */}
-        <section id="as1-areas" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/60">
+        <section id="as1-areas" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             4. Key Areas of Diversity
           </h2>
           <p>
-            Examples of areas in which different accounting policies are adopted by different enterprises: <PdfRef page={4} />
+            The standard identifies several key areas where different accounting policies may be adopted by different enterprises: <PdfRef page={4} />
           </p>
-          <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300">
-            <li>Methods of depreciation, depletion and amortisation <PdfRef page={4} /></li>
-            <li>Valuation of inventories <PdfRef page={4} /></li>
-            <li>Treatment of goodwill <PdfRef page={4} /></li>
-            <li>Valuation of investments <PdfRef page={4} /></li>
-            <li>Treatment of retirement benefits <PdfRef page={4} /></li>
-            <li>Recognition of profit on long-term contracts <PdfRef page={4} /></li>
-            <li>Valuation of fixed assets <PdfRef page={4} /></li>
-            <li>Treatment of contingent liabilities <PdfRef page={4} /></li>
-          </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 pl-4">
+            <div className="flex items-start gap-2">
+              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
+              <span>Methods of depreciation, depletion, and amortisation</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
+              <span>Valuation of inventories</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
+              <span>Treatment of goodwill</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
+              <span>Valuation of investments</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
+              <span>Treatment of retirement benefits</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
+              <span>Recognition of profit on long-term contracts</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
+              <span>Valuation of fixed assets</span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
+              <span>Treatment of contingent liabilities</span>
+            </div>
+          </div>
         </section>
 
         {/* Section 5: Considerations in Selection */}
-        <section id="as1-selection" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/60">
+        <section id="as1-selection" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             5. Considerations in Selection of Accounting Policies
           </h2>
           <p>
-            Financial statements are prepared to portray a true and fair view of the performance and state of affairs of an enterprise. In selecting an accounting policy, alternative accounting policies should be evaluated in that light. In particular, major considerations that govern selection of a particular policy are: <PdfRef page={5} />
+            Financial statements are prepared to portray a true and fair view of the performance and state of affairs of an enterprise. In selecting an accounting policy, alternative accounting policies should be evaluated in that light.
           </p>
-          <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300">
-            <li><strong>Prudence:</strong> Profits are not anticipated, but provisions are made for all known losses and liabilities under conditions of uncertainty. <PdfRef page={5} /></li>
-            <li><strong>Substance over Form:</strong> Transactions are accounted for according to their economic substance and financial reality, not merely legal form. <PdfRef page={6} /></li>
-            <li><strong>Materiality:</strong> Financial statements should disclose all material items whose omission might influence the economic decisions of users. <PdfRef page={6} /></li>
+          <p>
+            The choice of specific accounting policies is governed by three major considerations:
+          </p>
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+            <li><strong>Prudence:</strong> Provisions are made for all known losses and liabilities, while profits are not anticipated.</li>
+            <li><strong>Substance over Form:</strong> Accounting treatment must reflect the economic substance and financial reality of transactions, not merely legal form.</li>
+            <li><strong>Materiality:</strong> Financial statements must disclose all items whose omission could influence the decisions of users.</li>
           </ul>
         </section>
 
         {/* Section 5A: Prudence */}
-        <section id="as1-prudence" className="scroll-mt-24 space-y-3">
-          <h3 className="text-[14px] sm:text-[14.5px] font-bold text-slate-800 dark:text-white uppercase tracking-wider">
+        <section id="as1-prudence" className="scroll-mt-24 space-y-4">
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
             5A. Prudence
           </h3>
           <p>
-            In view of the uncertainty associated with future events, profits are not anticipated, but losses are provided for as a matter of conservatism. Provision should be created for all known liabilities and losses even though the amount cannot be determined with certainty and represents only a best estimate in the light of available information. <PdfRef page={5} />
+            In view of the uncertainty associated with future events, profits are not anticipated, but losses are provided for as a matter of conservatism. Provisions must be created for all known liabilities and losses even though the amount cannot be determined with certainty and represents only a best estimate in the light of available information. <PdfRef page={5} />
           </p>
           <p>
-            The exercise of prudence in the selection and application of accounting policies ensures that: <PdfRef page={5} />
+            The exercise of prudence ensures that the financial statements remain realistic:
           </p>
-          <ul className="list-disc pl-6 space-y-1 text-slate-700 dark:text-gray-300">
-            <li>Profits are not overstated</li>
-            <li>Losses are not understated</li>
-            <li>Assets are not overstated</li>
-            <li>Liabilities are not understated</li>
-          </ul>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/50 dark:bg-[#1E2640]/10 p-4 border border-slate-200/60 dark:border-gray-800/60 rounded-lg">
+            <div>
+              <span className="font-semibold text-red-600 dark:text-red-400">Assets &amp; Profits:</span>
+              <p className="text-[14.5px] text-slate-650 dark:text-gray-400">Must not be overstated or recognized prematurely without reasonable certainty.</p>
+            </div>
+            <div>
+              <span className="font-semibold text-amber-600 dark:text-amber-500">Liabilities &amp; Losses:</span>
+              <p className="text-[14.5px] text-slate-650 dark:text-gray-400">Must not be understated, and must be provided for if they are probable and estimate-able.</p>
+            </div>
+          </div>
           <p>
-            However, the exercise of prudence does not permit the creation of hidden reserves by understating profits and assets or by overstating liabilities and losses, which would prevent the financial statements from showing a true and fair view. <PdfRef page={6} />
+            However, the exercise of prudence does not permit the creation of hidden or secret reserves by deliberately understating profits and assets, or by deliberately overstating liabilities and losses. Such practices are unacceptable as they prevent the financial statements from presenting a true and fair view. <PdfRef page={6} />
           </p>
         </section>
 
         {/* Section 5B: Substance over Form */}
-        <section id="as1-substance" className="scroll-mt-24 space-y-3">
-          <h3 className="text-[14px] sm:text-[14.5px] font-bold text-slate-800 dark:text-white uppercase tracking-wider">
+        <section id="as1-substance" className="scroll-mt-24 space-y-4">
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
             5B. Substance over Form
           </h3>
           <p>
-            Transactions and other events should be accounted for and presented in accordance with their economic substance and financial reality, and not merely by their legal form. The accounting treatment must reflect the economic truth of a transaction rather than its legal structure alone. <PdfRef page={6} />
+            Transactions and other events should be accounted for and presented in accordance with their economic substance and financial reality, and not merely by their legal form. <PdfRef page={6} />
+          </p>
+          <p>
+            Under this principle, the accounting treatment must reflect the economic truth of a transaction. If there is a conflict between the legal structure of a transaction and its economic reality, the economic reality takes precedence. This ensures that the financial statements reflect the real economic position of the enterprise rather than just its legal agreements.
           </p>
         </section>
 
         {/* Section 5C: Materiality */}
-        <section id="as1-materiality" className="scroll-mt-24 space-y-3">
-          <h3 className="text-[14px] sm:text-[14.5px] font-bold text-slate-800 dark:text-white uppercase tracking-wider">
+        <section id="as1-materiality" className="scroll-mt-24 space-y-4">
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
             5C. Materiality
           </h3>
+          
+          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
+            <span className="font-bold text-slate-900 dark:text-white block mb-1">Materiality Principle:</span>
+            Financial statements should disclose all material items—i.e., items the knowledge of which might influence the economic decisions of the user of the financial statements. <PdfRef page={6} />
+          </div>
+
           <p>
-            Financial statements should disclose all material items—i.e., items the knowledge of which might influence the economic decisions of the user of the financial statements. Materiality depends on size, nature, and context. <PdfRef page={6} />
+            Materiality depends on the size, nature, and context of the item. An item may be material not always because of its relative size, but due to its nature.
           </p>
           <p>
-            An item may be material not always because of its relative size, but due to its nature. For example, a small amount lost by fraudulent practices indicates a flaw in internal control systems requiring immediate attention. Accounting Standards apply only to items that are material. <PdfRef page={6} />
+            For instance, a minor transaction might be immaterial by size, but a small discrepancy involving fraud or irregularity is material by nature because it indicates a flaw in internal control systems. Accounting standards apply only to items that are material. <PdfRef page={6} />
           </p>
         </section>
 
         {/* Section 6: Fundamental Accounting Assumptions */}
-        <section id="as1-assumptions" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/80">
+        <section id="as1-assumptions" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             6. Fundamental Accounting Assumptions
           </h2>
-          <p className="italic font-semibold text-slate-800 dark:text-slate-250">
-            Certain fundamental accounting assumptions underline the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is necessary if they are not followed. <PdfRef page={3} />
-          </p>
+          
+          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
+            <span className="font-bold text-slate-900 dark:text-white block mb-1">Fundamental Assumptions:</span>
+            Going Concern, Consistency, and Accrual are fundamental assumptions that underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. <PdfRef page={3} />
+          </div>
+
+          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
+            <span className="font-bold text-slate-900 dark:text-white block mb-1">Disclosure Required if Assumptions Not Followed:</span>
+            If any of these fundamental assumptions—Going Concern, Consistency, or Accrual—is NOT followed, that fact must be explicitly and clearly disclosed in the financial statements. <PdfRef page={8} />
+          </div>
+
           <p>
-            The fundamental accounting assumptions recognised by Accounting Standard 1 are: <PdfRef page={3} />
-          </p>
-          <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300">
-            <li><strong>Going Concern:</strong> The enterprise will continue its operations in the foreseeable future with neither the intention nor the need to materially curtail the scale of operations. <PdfRef page={3} /></li>
-            <li><strong>Consistency:</strong> The practice of using the same accounting policies for similar transactions in all accounting periods. <PdfRef page={3} /></li>
-            <li><strong>Accrual:</strong> Transactions are recognised as soon as they occur, whether or not cash or cash equivalent is received or paid. <PdfRef page={3} /></li>
-          </ul>
-          <p>
-            If these fundamental assumptions are followed, specific disclosure is not required. If any of these assumptions is not followed, that fact should be explicitly disclosed. <PdfRef page={8} />
+            If these fundamental assumptions are followed in the preparation of financial statements, no specific disclosure or explanation is required.
           </p>
         </section>
 
         {/* Section 6A: Going Concern */}
-        <section id="as1-going-concern" className="scroll-mt-24 space-y-3">
-          <h3 className="text-[14px] sm:text-[14.5px] font-bold text-slate-800 dark:text-white uppercase tracking-wider">
+        <section id="as1-going-concern" className="scroll-mt-24 space-y-4">
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
             6A. Going Concern
           </h3>
           <p>
-            The financial statements are normally prepared on the assumption that an enterprise will continue its operations in the foreseeable future and has neither the intention, nor the need to materially curtail the scale of operations. Financial statements prepared on a going concern basis recognise among other things the need for sufficient retention of profit to replace assets consumed in operation and for making adequate provision for settlement of its liabilities. <PdfRef page={3} />
+            The financial statements are normally prepared on the assumption that an enterprise will continue its operations in the foreseeable future and has neither the intention, nor the need to materially curtail the scale of operations. <PdfRef page={3} />
+          </p>
+          <p>
+            Financial statements prepared on a going concern basis recognise the need for sufficient retention of profit to replace assets consumed in operation and for making adequate provision for settlement of its liabilities. Under this assumption, assets are recorded at values representing their service potential rather than net realisable values.
           </p>
         </section>
 
         {/* Section 6B: Consistency */}
-        <section id="as1-consistency" className="scroll-mt-24 space-y-3">
-          <h3 className="text-[14px] sm:text-[14.5px] font-bold text-slate-800 dark:text-white uppercase tracking-wider">
+        <section id="as1-consistency" className="scroll-mt-24 space-y-4">
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
             6B. Consistency
           </h3>
           <p>
-            The principle of consistency refers to the practice of using same accounting policies for similar transactions in all accounting periods. Consistency improves comparability of financial statements through time. An accounting policy can be changed if the change is required: <PdfRef page={3} />
+            The principle of consistency refers to the practice of using same accounting policies for similar transactions in all accounting periods. Consistency improves comparability of financial statements through time. <PdfRef page={3} />
           </p>
-          <ol className="list-decimal pl-6 space-y-1 text-slate-700 dark:text-gray-300">
-            <li>By a statute</li>
-            <li>By an accounting standard</li>
-            <li>For more appropriate presentation of financial statements</li>
+          <p>
+            An accounting policy can be changed if and only if the change is required by one of the following circumstances:
+          </p>
+          <ol className="list-decimal pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+            <li>
+              <strong>By Statute:</strong> To comply with the provisions of applicable laws or regulations.
+            </li>
+            <li>
+              <strong>By Accounting Standard:</strong> For compliance with a newly issued or revised accounting standard.
+            </li>
+            <li>
+              <strong>Better Presentation:</strong> When management determines that the change will result in a more appropriate and fairer presentation of financial transactions.
+            </li>
           </ol>
         </section>
 
         {/* Section 6C: Accrual */}
-        <section id="as1-accrual" className="scroll-mt-24 space-y-3">
-          <h3 className="text-[14px] sm:text-[14.5px] font-bold text-slate-800 dark:text-white uppercase tracking-wider">
+        <section id="as1-accrual" className="scroll-mt-24 space-y-4">
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
             6C. Accrual
           </h3>
           <p>
@@ -369,61 +452,82 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
         </section>
 
         {/* Section 7: Manner of Disclosure */}
-        <section id="as1-disclosure" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/60">
+        <section id="as1-disclosure" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             7. Manner of Disclosure
           </h2>
           <p>
             To ensure proper understanding of financial statements, all significant accounting policies adopted in the preparation and presentation of financial statements should be disclosed. <PdfRef page={7} />
           </p>
           <p>
-            The disclosure of the significant accounting policies as such should form part of the financial statements and they should normally be disclosed in one place. <PdfRef page={7} />
+            The disclosure of accounting policies must follow these two rules:
           </p>
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+            <li>
+              <strong>Integral Part:</strong> The disclosure of the significant accounting policies as such should form part of the financial statements themselves.
+            </li>
+            <li>
+              <strong>One Place:</strong> They should normally be disclosed together in one place (such as in a single note to the accounts) to facilitate ease of access and readability.
+            </li>
+          </ul>
         </section>
 
         {/* Section 8: Disclosure of Changes */}
-        <section id="as1-change-policy" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/60">
+        <section id="as1-change-policy" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             8. Disclosure of Changes in Accounting Policies
           </h2>
           <p>
             Any change in the accounting policies which has a material effect in the current period or which is reasonably expected to have a material effect in a later period should be disclosed. <PdfRef page={7} />
           </p>
           <p>
-            In the case of a change in accounting policies which has a material effect in the current period, the amount by which any item in the financial statements is affected by such change should also be disclosed to the extent ascertainable. Where such amount is not ascertainable, wholly or in part, the fact should be indicated. <PdfRef page={7} />
+            The manner of disclosing changes in accounting policies is as follows:
           </p>
-          <p>
-            If the change has no material effect in the current period but is expected to have a material effect in later periods, the fact of such change should be appropriately disclosed in the period of adoption. <PdfRef page={7} />
-          </p>
+          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+            <li>
+              <strong>Material Current Effect:</strong> The amount by which any item in the financial statements is affected by such change should be disclosed to the extent ascertainable.
+            </li>
+            <li>
+              <strong>Non-Ascertainable Amount:</strong> Where the amount is not ascertainable, wholly or in part, that fact must be explicitly indicated in the disclosure notes.
+            </li>
+            <li>
+              <strong>Material Later Effect:</strong> If the change has no material effect in the current period but is expected to have a material effect in later periods, the fact of such change should be appropriately disclosed in the period of adoption.
+            </li>
+          </ul>
         </section>
 
         {/* Section 8A: Para 23 Rule */}
-        <section id="as1-para23" className="scroll-mt-24 space-y-3">
-          <h3 className="text-[14px] sm:text-[14.5px] font-bold text-slate-805 dark:text-white uppercase tracking-wider">
-            8A. Inappropriate Treatment Remedies (Para 23)
+        <section id="as1-para23" className="scroll-mt-24 space-y-4">
+          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+            8A. Para 23 Rule
           </h3>
-          <p className="font-semibold text-slate-850 dark:text-white">
+          
+          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
+            <span className="font-bold text-slate-900 dark:text-white block mb-1">Para 23 Critical Rule:</span>
             Disclosure of accounting policies or of changes therein cannot remedy a wrong or inappropriate treatment of an item in the accounts. <PdfRef page={5} />
-          </p>
+          </div>
+
           <p>
-            Footnote disclosures or explanations of wrong accounting treatments do not make the treatment correct under generally accepted accounting principles. The auditor is required to qualify the audit report for such non-compliances.
+            Footnote disclosures or explanations of wrong accounting treatments do not make the treatment correct under generally accepted accounting principles. The disclosure of a wrong treatment is not a substitute for correct accounting. If an incorrect policy has been followed, the auditor remains obligated to qualify the audit report.
           </p>
         </section>
 
         {/* Section 9: Footnotes */}
-        <section id="as1-footnotes" className="scroll-mt-24 space-y-3">
-          <h2 className="text-[15.5px] sm:text-[16.5px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-200/50 dark:border-gray-800/60">
+        <section id="as1-footnotes" className="scroll-mt-24 space-y-4">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             9. Statutory Footnotes &amp; Scope Limits
           </h2>
-          <p>
-            <strong>Footnote 1: Materiality Scope:</strong> Accounting Standards apply only to items which are material. Immaterial items do not require explicit compliance or policy disclosure. <PdfRef page={2} />
-          </p>
-          <p>
-            <strong>Footnote 2: Forex translation:</strong> Companies rules require disclosure of translation policies in respect of foreign currency items. <PdfRef page={2} />
-          </p>
-          <p>
-            <strong>Footnote 3: Alternatives reduction:</strong> Standard-setting bodies strive to reduce alternatives, but diversity remains due to business climate variations. <PdfRef page={2} />
-          </p>
+          <div className="space-y-3 pl-2">
+            <p>
+              <strong>Footnote 1: Materiality Scope:</strong> Accounting Standards apply only to items which are material. Immaterial items do not require explicit compliance or policy disclosure. <PdfRef page={2} />
+            </p>
+            <p>
+              <strong>Footnote 2: Forex translation:</strong> Companies rules require disclosure of translation policies in respect of foreign currency items. <PdfRef page={2} />
+            </p>
+            <p>
+              <strong>Footnote 3: Alternatives reduction:</strong> Standard-setting bodies strive to reduce alternatives, but diversity remains due to business climate variations. <PdfRef page={2} />
+            </p>
+          </div>
         </section>
       </div>
     </div>
