@@ -146,6 +146,35 @@ const as1Sections = [
 ]
 
 function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: AS1StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('overview')
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id.replace('as1-', ''))
+          }
+        })
+      },
+      {
+        rootMargin: '-110px 0px -50% 0px',
+        threshold: 0
+      }
+    )
+
+    as1Sections.forEach((sec) => {
+      const el = document.getElementById(`as1-${sec.id}`)
+      if (el) {
+        observer.observe(el)
+      }
+    })
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
   // Inline PDF page reference button — clicking opens the uploaded ICAI PDF at the given page
   const PdfRef = ({ page }: { page: number }) => (
     <button
@@ -159,33 +188,38 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   )
 
   return (
-    <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div className="sticky top-[58px] bg-[#FAFAF8]/80 dark:bg-[#0B0F19]/80 backdrop-blur-xs py-1 px-1 border-b border-slate-200/40 dark:border-gray-800/40 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none max-w-5xl mx-auto">
-        <span className="text-[10px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={10} />
-          AS 1 Sections:
-        </span>
-        {as1Sections.map((sec) => (
-          <button
-            key={sec.id}
-            onClick={() => {
-              const el = document.getElementById(`as1-${sec.id}`);
-              if (el) {
-                const yOffset = -110;
-                const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                window.scrollTo({ top: y, behavior: 'smooth' });
-              }
-            }}
-            className="text-[10px] font-bold px-2.5 py-0.5 bg-white hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border border-slate-200/80 dark:border-gray-700 rounded text-slate-650 dark:text-gray-300 transition-all whitespace-nowrap cursor-pointer"
-          >
-            {sec.title.split('. ')[1] || sec.title}
-          </button>
-        ))}
+    <div className="w-full animate-fade-in font-sans space-y-6">
+      {/* Sticky Table of Contents Header */}
+      <div className="sticky top-[58px] bg-white/95 dark:bg-[#0B0F19]/95 backdrop-blur-sm py-3 px-4 border-b border-slate-200 dark:border-slate-800/80 z-20 max-w-5xl mx-auto w-full select-none">
+        <div className="flex flex-row flex-nowrap items-center justify-start gap-x-4 overflow-x-auto whitespace-nowrap text-[12px] sm:text-[13px] text-slate-500 dark:text-gray-400 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <span className="font-bold text-slate-400 dark:text-gray-500 uppercase tracking-wider mr-1 text-[11px] select-none shrink-0">
+            TOC:
+          </span>
+          {as1Sections.map((sec) => (
+            <button
+              key={sec.id}
+              onClick={() => {
+                const el = document.getElementById(`as1-${sec.id}`);
+                if (el) {
+                  const yOffset = -110;
+                  const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
+              }}
+              className={`transition-colors hover:text-slate-900 dark:hover:text-white cursor-pointer py-0.5 ${
+                activeSection === sec.id
+                  ? 'text-slate-900 dark:text-white font-semibold border-b-2 border-slate-800 dark:border-slate-100'
+                  : 'text-slate-500 dark:text-gray-400 font-medium border-b-2 border-transparent'
+              }`}
+            >
+              {sec.title.split('. ')[1] || sec.title}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="max-w-5xl mx-auto space-y-10 text-[15.5px] sm:text-[16px] text-slate-800 dark:text-gray-200 leading-relaxed pb-12 px-4 sm:px-6">
+      <div className="max-w-5xl mx-auto space-y-12 text-[15.5px] sm:text-[16px] text-slate-800 dark:text-gray-200 leading-relaxed pb-16 px-4 sm:px-6">
 
         {/* Section 1: Introduction & Purpose */}
         <section id="as1-overview" className="scroll-mt-24 space-y-4">
@@ -226,20 +260,44 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             This Accounting Standard applies to all enterprises in the preparation and presentation of general-purpose financial statements. <PdfRef page={2} />
           </p>
           <p>
-            General-purpose financial statements are those prepared and presented at least annually to meet the common informational needs of a wide spectrum of external stakeholders. These key users include:
+            General-purpose financial statements are those prepared and presented at least annually to meet the common informational needs of a wide spectrum of external stakeholders.
           </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li><strong>Shareholders and Investors:</strong> Who require clear information on accounting policies to evaluate earnings quality and assess the management's stewardship of capital.</li>
-            <li><strong>Creditors and Suppliers:</strong> Who analyze asset valuations and liability provisions to evaluate creditworthiness and liquidity.</li>
-            <li><strong>Financial Institutions and Lenders:</strong> Who require consistent policy application to evaluate debt service coverage ratios and compliance with loan covenants.</li>
-            <li><strong>Regulators and Government Authorities:</strong> Who monitor statutory compliance and taxation based on standard-compliant financial statements.</li>
-            <li><strong>Employees and the General Public:</strong> Who assess the stability and growth prospects of the enterprise.</li>
-          </ul>
-          <p>
-            Consequently, disclosures regarding the accounting policies adopted by an enterprise are critical for ensuring that these statements are interpreted correctly. Under the framework established by the Institute of Chartered Accountants of India (ICAI) and the Companies Act, 2013, the applicability of AS 1 is universal across all classes of enterprises, including corporate and non-corporate entities.
-          </p>
-          <p>
-            For corporate entities, compliance is mandated by Section 129(1) of the Companies Act, 2013, while for non-corporate entities (such as sole proprietorships, partnership firms, LLPs, and trusts), compliance is required under the announcements and guidelines issued by the ICAI. The standard is applicable in its entirety across Level I, Level II, Level III, and Level IV enterprises, with no exemptions or relaxations granted regarding the disclosure of significant accounting policies, as they form the very foundation of financial reporting.
+          
+          <div className="overflow-x-auto my-6 border border-slate-200/60 dark:border-slate-800/60 rounded-md">
+            <table className="w-full text-left border-collapse text-[14px]">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                  <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-1/3">External Stakeholder</th>
+                  <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-2/3">Analytical Needs &amp; AS 1 Relevance</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200/60 dark:divide-gray-800/60">
+                <tr>
+                  <td className="py-3 px-4 font-semibold text-slate-850 dark:text-gray-200">Shareholders &amp; Investors</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Require clear information on accounting policies to evaluate earnings quality and assess management's stewardship of capital.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-semibold text-slate-850 dark:text-gray-200">Creditors &amp; Suppliers</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Analyze asset valuations and liability provisions to evaluate creditworthiness and liquidity.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-semibold text-slate-850 dark:text-gray-200">Banks &amp; Lenders</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Require consistent policy application to evaluate debt service coverage ratios and compliance with loan covenants.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-semibold text-slate-850 dark:text-gray-200">Regulators &amp; Tax Authorities</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Monitor statutory compliance and taxation based on standard-compliant financial statements.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-semibold text-slate-850 dark:text-gray-200">Employees &amp; Public</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Assess the stability, employment prospects, and growth path of the enterprise.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <p className="mt-4">
+            Consequently, disclosures regarding the accounting policies adopted by an enterprise are critical for ensuring that these statements are interpreted correctly. Under the framework established by the Institute of Chartered Accountants of India (ICAI) and the Companies Act, 2013, the applicability of AS 1 is universal across all classes of enterprises, including corporate and non-corporate entities. compliance is mandated by Section 129(1) of the Companies Act, 2013, while for non-corporate entities compliance is required under the announcements and guidelines issued by the ICAI.
           </p>
         </section>
 
@@ -251,24 +309,70 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise in the preparation and presentation of financial statements. <PdfRef page={4} />
           </p>
-          <p>
-            This definition consists of two interrelated components that management must determine for every class of transaction:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong>Accounting Principles:</strong> The core theoretical concepts and measurement bases chosen for recording transactions (for example, historical cost, revaluation model, or net realizable value).
-            </li>
-            <li>
-              <strong>Methods of Application:</strong> The specific procedures or formulas used to implement those principles in the books of accounts (for example, using the FIFO or weighted average cost formula for inventory valuation, or using the straight-line or written-down value method for depreciation).
-            </li>
-          </ul>
+          
+          <div className="overflow-x-auto my-6 border border-slate-200/60 dark:border-slate-800/60 rounded-md">
+            <table className="w-full text-left border-collapse text-[14px]">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                  <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-1/3">Component</th>
+                  <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-2/3">Meaning &amp; Scope</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200/60 dark:divide-gray-800/60">
+                <tr>
+                  <td className="py-3 px-4 font-bold text-slate-800 dark:text-gray-200">Accounting Principles</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">The core theoretical concepts and measurement bases chosen for recording transactions (for example, historical cost, revaluation model, or net realizable value).</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-bold text-slate-800 dark:text-gray-200">Methods of Application</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">The specific procedures or formulas used to implement those principles in the books of accounts (for example, using the FIFO or weighted average cost formula for inventory valuation, or using the straight-line or written-down value method for depreciation).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
           <p>
             Accounting involves both science and art. It is a science because it is based on structured, tested, and universally applicable accounting principles and frameworks. Simultaneously, it is an art because the practical application of these principles relies heavily on the personal ability, professional judgment, and estimates of the accountant. Since different accountants and management teams may exercise judgment differently under similar circumstances, enterprises within the same industry often adopt different accounting policies. <PdfRef page={5} />
           </p>
-          <p>
-            <strong>Distinction Between Accounting Policies and Accounting Estimates:</strong> It is critical to distinguish between the selection of an accounting policy and the estimation of balances (accounting estimates). A selection or change of an accounting policy refers to adopting different principles or methods of application (such as switching from FIFO to Weighted Average). Conversely, an accounting estimate relates to judgments made to estimate the carrying value of assets or liabilities under the selected policy (such as estimating the provision required for non-moving inventory based on a technical evaluation rather than a fixed aging schedule). A change in an estimate does not constitute a change in an accounting policy. <PdfRef page={16} />
-          </p>
-          <p>
+          
+          <div className="mt-6 space-y-3">
+            <p className="font-extrabold text-[12px] uppercase tracking-wider text-slate-400 dark:text-gray-500">Comparative Rationale: Policies vs. Estimates</p>
+            <div className="overflow-x-auto border border-slate-200/60 dark:border-slate-800/60 rounded-md">
+              <table className="w-full text-left border-collapse text-[14px]">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                    <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-1/4">Attribute</th>
+                    <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-3/8">Accounting Policy</th>
+                    <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-3/8">Accounting Estimate</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200/60 dark:divide-gray-800/60">
+                  <tr>
+                    <td className="py-3 px-4 font-bold text-slate-850 dark:text-gray-200">Definition</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Specific accounting principles and the methods of applying those principles.</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Judgments made to estimate the carrying value of assets or liabilities under the selected policy.</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 font-bold text-slate-850 dark:text-gray-200">Responsibility</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Board of Directors (statutory Directors' Responsibility Statement under Section 134(5)).</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Management and operational accountants based on the latest available information.</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 font-bold text-slate-850 dark:text-gray-200">Examples</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Switching from FIFO to Weighted Average cost formula.</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Estimating provision for non-moving inventory based on a technical evaluation.</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 font-bold text-slate-850 dark:text-gray-200">Change Criteria</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Allowed only if required by statute, standard, or for more appropriate presentation.</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Updated based on new information, experience, or technical evaluations.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <p className="mt-4">
             Under Section 134(5) of the Companies Act, 2013, the responsibility for selecting appropriate accounting policies and applying them consistently rests with the Board of Directors of the company. The Directors' Responsibility Statement must explicitly state that the policies selected are reasonable and prudent, so as to give a true and fair view of the state of affairs and the profit or loss of the enterprise.
           </p>
         </section>
@@ -279,145 +383,236 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             4. Key Areas of Diversity in Accounting Policies
           </h2>
           <p>
-            Due to the diverse operating environments of enterprises, different accounting policies are encountered in various areas of financial reporting. The official standard lists several key areas where different accounting policies can be adopted by different enterprises, leading to variations in reported financial performance and position: <PdfRef page={4} />
+            Due to the diverse operating environments of enterprises, different accounting policies are encountered in various areas of financial reporting. The official standard lists several key areas where different accounting policies can be adopted by different enterprises: <PdfRef page={4} />
           </p>
-          <div className="space-y-6">
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.1 Methods of Depreciation, Depletion, and Amortisation
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Enterprises have choices regarding how they write down the depreciable amount of tangible fixed assets, intangible assets, and natural resources over their useful lives. The primary methods include the Straight-Line Method (SLM), the Written Down Value (WDV) method, and the Units of Production method. Choosing SLM spreads the cost evenly, presenting stable profit figures, whereas WDV charges higher depreciation in the initial years, reducing initial profits and asset carrying values. Differences also arise in estimating the useful lives and residual values of similar assets.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.2 Valuation of Inventories
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                For determining the cost of inventories under AS 2, enterprises may choose between cost formulas such as First-In, First-Out (FIFO) or Weighted Average. The FIFO method assumes older inventory is sold first, which in times of rising prices results in lower cost of goods sold, higher ending inventory valuation, and higher reported profits. The Weighted Average method smooths out price fluctuations. Additionally, differences exist in how enterprises allocate manufacturing overheads to inventory cost.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.3 Treatment of Goodwill and Other Intangibles
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Policies differ regarding whether goodwill generated through acquisitions is amortized over an estimated useful life or written off against reserves, as well as the methods used to estimate the useful lives of other intangible assets like patents, copyrights, and software.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.4 Valuation of Investments
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Under AS 13, investments are classified as current or long-term. Current investments are valued at the lower of cost and fair value, which requires policy choices on how fair value is determined. Long-term investments are carried at cost, but policies differ on how enterprises determine and recognize provisions for a "diminution other than temporary" in the value of these investments.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.5 Treatment of Retirement Benefits
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Accounting for employee benefits under AS 15 involves significant policy variations. Enterprises may account for gratuity, pension, and leave encashment using actuarial valuation methods (such as the Projected Unit Credit method) or, in the case of small enterprises, on an accrual basis using simpler estimates. The choice of discount rates, salary escalation rates, and mortality tables varies based on actuarial assumptions.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.6 Recognition of Profit on Long-Term Contracts
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Under AS 7, enterprises engaged in construction or long-term service contracts must determine the stage of completion. Policies differ in measuring the stage of completion, such as comparing contract costs incurred to date with total estimated contract costs (cost-to-cost method), physical surveys of work performed, or physical completion of a physical proportion of the contract work.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.7 Valuation of Fixed Assets
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Policies vary regarding whether property, plant, and equipment are carried at historical cost less accumulated depreciation or periodically revalued. Furthermore, enterprises adopt different policies regarding the capitalization of borrowing costs under AS 16 and the treatment of direct and indirect overheads during construction of self-constructed fixed assets.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.8 Treatment of Contingent Liabilities and Provisions
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Under AS 29, management must assess the probability of outflows of resources embodying economic benefits to decide whether to recognize a provision in the balance sheet or disclose a contingent liability in the notes. The threshold of probability ("probable", "possible", or "remote") and the method of estimating the provision require significant management judgment, leading to diversity.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.9 Conversion or Translation of Foreign Currency Items
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Under AS 11, translation of foreign currency transactions and foreign operations depends on whether the operation is classified as integral or non-integral. Policies differ in translating foreign branch accounts and recognizing exchange gains or losses (charging directly to the profit and loss account or deferring in a foreign currency translation reserve).
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.10 Treatment of Government Grants
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Under AS 12, government grants may be treated as capital receipts (credited to capital reserve) or revenue receipts (credited to the profit and loss account or deducted from the cost of the related asset), depending on the nature of the grant and the conditions attached to it.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.11 Treatment of Research and Development Costs
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Under AS 26, research costs are always expensed as incurred, but development costs must be capitalized if specific criteria are met. The timing of when an asset enters the development phase and meets capitalization criteria involves substantial judgment, leading to differences.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.12 Valuation of Patents, Trademarks, and Franchise Rights
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Policies differ in how cost is assigned to internally generated intangible assets versus acquired intangible assets, and the methods used to amortize these assets over their estimated useful economic lives.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.13 Recognition of Revenue from Sales and Services
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Under AS 9, revenue recognition depends on the transfer of significant risks and rewards of ownership to the buyer. Policy differences arise in determining the point of transfer (e.g., dispatch, delivery, or acceptance) and in recognizing revenue from services (percentage of completion vs. completed service method).
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.14 Treatment of Leases and Hire-Purchase Transactions
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Under AS 19, leases are classified as finance or operating leases. Policy variations arise in the classification criteria, such as determining whether the lease term covers the major part of the economic life of the asset, or whether the present value of minimum lease payments amounts to at least substantially all of the fair value of the leased asset.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-slate-905 dark:text-white">
-                4.15 Treatment of Expenditure During Construction
-              </p>
-              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
-                Enterprises adopt different policies regarding the allocation of indirect administration and overhead expenses to fixed assets under construction, and the capitalization of start-up or trial-run expenses prior to commencement of commercial production.
-              </p>
-            </div>
+          
+          <div className="overflow-x-auto my-6 border border-slate-200/60 dark:border-slate-800/60 rounded-md">
+            <table className="w-full text-left border-collapse text-[13.5px]">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                  <th className="py-2.5 px-4 font-bold text-slate-900 dark:text-white w-2/5">Area of Diversity</th>
+                  <th className="py-2.5 px-4 font-bold text-slate-900 dark:text-white w-3/5">Permitted Alternative Policies / Diversity Points</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200/60 dark:divide-gray-800/60">
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">1. Depreciation, Depletion &amp; Amortisation</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">SLM vs. WDV vs. Units of Production methods; varying estimates of useful lives.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">2. Valuation of Inventories</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">FIFO vs. Weighted Average cost formulas; varying overhead allocation methods.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">3. Goodwill &amp; Intangible Assets</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Amortisation over estimated useful life vs. immediate write-off against reserves.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">4. Valuation of Investments</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Lower of cost and fair value for current; Cost less provision for long-term investments.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">5. Retirement &amp; Employee Benefits</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Actuarial valuation (Projected Unit Credit) vs. simpler accrual estimates.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">6. Long-Term Contracts</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Stage of completion via cost-to-cost vs. physical surveys vs. physical completion.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">7. Valuation of Fixed Assets</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Historical cost model vs. periodic revaluation model; borrowing cost capitalization rules.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">8. Contingent Liabilities &amp; Provisions</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Threshold assessment for provision recognition vs. disclosure of contingent liabilities.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">9. Foreign Currency Translation</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Integral vs. Non-integral operation classification; immediate charge vs. deferral in translation reserve.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">10. Government Grants</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Capital approach (reserves) vs. Income approach (adjusted in P&amp;L or asset cost).</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">11. Research &amp; Development</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Immediate expensing of research costs vs. capitalization of development costs if criteria met.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">12. Patents, Trademarks &amp; Franchises</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Policies on assigning cost to internal vs. acquired intangibles; varying amortization periods.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">13. Revenue Recognition</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Point of transfer (dispatch vs. delivery) vs. percentage of completion for services.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">14. Leases &amp; Hire-Purchase</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Finance vs. Operating lease classification based on risk/reward transfer thresholds.</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-850 dark:text-gray-200">15. Expenditure during Construction</td>
+                  <td className="py-2.5 px-4 text-slate-700 dark:text-gray-300">Allocation of indirect admin overheads vs. capitalization of start-up and trial-run expenses.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <p className="text-slate-600 dark:text-gray-400 italic text-[14.5px] mt-2">
+
+          <div className="space-y-3 mt-8">
+            <p className="text-[12.5px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-gray-500 mb-2">Technical Details for all 15 Areas (Click to Expand)</p>
+            
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-300 flex items-center justify-between text-[15px] select-none">
+                <span>4.1 Methods of Depreciation, Depletion, and Amortisation</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-2 leading-relaxed pl-2">
+                Enterprises have choices regarding how they write down the depreciable amount of tangible fixed assets, intangible assets, and natural resources over their useful lives. The primary methods include the Straight-Line Method (SLM), the Written Down Value (WDV) method, and the Units of Production method. Choosing SLM spreads the cost evenly, presenting stable profit figures, whereas WDV charges higher depreciation in the initial years, reducing initial profits and asset carrying values. Differences also arise in estimating the useful lives and residual values of similar assets.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-300 flex items-center justify-between text-[15px] select-none">
+                <span>4.2 Valuation of Inventories</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-2 leading-relaxed pl-2">
+                For determining the cost of inventories under AS 2, enterprises may choose between cost formulas such as First-In, First-Out (FIFO) or Weighted Average. The FIFO method assumes older inventory is sold first, which in times of rising prices results in lower cost of goods sold, higher ending inventory valuation, and higher reported profits. The Weighted Average method smooths out price fluctuations. Additionally, differences exist in how enterprises allocate manufacturing overheads to inventory cost.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-300 flex items-center justify-between text-[15px] select-none">
+                <span>4.3 Treatment of Goodwill and Other Intangibles</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-2 leading-relaxed pl-2">
+                Policies differ regarding whether goodwill generated through acquisitions is amortized over an estimated useful life or written off against reserves, as well as the methods used to estimate the useful lives of other intangible assets like patents, copyrights, and software.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-300 flex items-center justify-between text-[15px] select-none">
+                <span>4.4 Valuation of Investments</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-2 leading-relaxed pl-2">
+                Under AS 13, investments are classified as current or long-term. Current investments are valued at the lower of cost and fair value, which requires policy choices on how fair value is determined. Long-term investments are carried at cost, but policies differ on how enterprises determine and recognize provisions for a "diminution other than temporary" in the value of these investments.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-300 flex items-center justify-between text-[15px] select-none">
+                <span>4.5 Treatment of Retirement Benefits</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-2 leading-relaxed pl-2">
+                Accounting for employee benefits under AS 15 involves significant policy variations. Enterprises may account for gratuity, pension, and leave encashment using actuarial valuation methods (such as the Projected Unit Credit method) or, in the case of small enterprises, on an accrual basis using simpler estimates. The choice of discount rates, salary escalation rates, and mortality tables varies based on actuarial assumptions.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.6 Recognition of Profit on Long-Term Contracts</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-2 leading-relaxed pl-2">
+                Under AS 7, enterprises engaged in construction or long-term service contracts must determine the stage of completion. Policies differ in measuring the stage of completion, such as comparing contract costs incurred to date with total estimated contract costs (cost-to-cost method), physical surveys of work performed, or physical completion of a physical proportion of the contract work.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.7 Valuation of Fixed Assets</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-2 leading-relaxed pl-2">
+                Policies vary regarding whether property, plant, and equipment are carried at historical cost less accumulated depreciation or periodically revalued. Furthermore, enterprises adopt different policies regarding the capitalization of borrowing costs under AS 16 and the treatment of direct and indirect overheads during construction of self-constructed fixed assets.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.8 Treatment of Contingent Liabilities and Provisions</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-2 leading-relaxed pl-2">
+                Under AS 29, management must assess the probability of outflows of resources embodying economic benefits to decide whether to recognize a provision in the balance sheet or disclose a contingent liability in the notes. The threshold of probability ("probable", "possible", or "remote") and the method of estimating the provision require significant management judgment, leading to diversity.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.9 Conversion or Translation of Foreign Currency Items</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-305 mt-2 leading-relaxed pl-2">
+                Under AS 11, translation of foreign currency transactions and foreign operations depends on whether the operation is classified as integral or non-integral. Policies differ in translating foreign branch accounts and recognizing exchange gains or losses (charging directly to the profit and loss account or deferring in a foreign currency translation reserve).
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.10 Treatment of Government Grants</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-305 mt-2 leading-relaxed pl-2">
+                Under AS 12, government grants may be treated as capital receipts (credited to capital reserve) or revenue receipts (credited to the profit and loss account or deducted from the cost of the related asset), depending on the nature of the grant and the conditions attached to it.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.11 Treatment of Research and Development Costs</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-305 mt-2 leading-relaxed pl-2">
+                Under AS 26, research costs are always expensed as incurred, but development costs must be capitalized if specific criteria are met. The timing of when an asset enters the development phase and meets capitalization criteria involves substantial judgment, leading to differences.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.12 Valuation of Patents, Trademarks, and Franchise Rights</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-305 mt-2 leading-relaxed pl-2">
+                Policies differ in how cost is assigned to internally generated intangible assets versus acquired intangible assets, and the methods used to amortize these assets over their estimated useful economic lives.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.13 Recognition of Revenue from Sales and Services</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-350 mt-2 leading-relaxed pl-2">
+                Under AS 9, revenue recognition depends on the transfer of significant risks and rewards of ownership to the buyer. Policy differences arise in determining the point of transfer (e.g., dispatch, delivery, or acceptance) and in recognizing revenue from services (percentage of completion vs. completed service method).
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.14 Treatment of Leases and Hire-Purchase Transactions</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-350 mt-2 leading-relaxed pl-2">
+                Under AS 19, leases are classified as finance or operating leases. Policy variations arise in the classification criteria, such as determining whether the lease term covers the major part of the economic life of the asset, or whether the present value of minimum lease payments amounts to at least substantially all of the fair value of the leased asset.
+              </div>
+            </details>
+
+            <details className="group border-b border-slate-200/50 dark:border-gray-800/50 pb-3">
+              <summary className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:text-slate-700 dark:hover:text-gray-305 flex items-center justify-between text-[15px] select-none">
+                <span>4.15 Treatment of Expenditure During Construction</span>
+                <ChevronDown size={14} className="transform group-open:rotate-180 transition-transform text-slate-400" />
+              </summary>
+              <div className="text-[14.5px] text-slate-700 dark:text-gray-355 mt-2 leading-relaxed pl-2">
+                Enterprises adopt different policies regarding the allocation of indirect administration and overhead expenses to fixed assets under construction, and the capitalization of start-up and trial-run expenses prior to commencement of commercial production.
+              </div>
+            </details>
+          </div>
+          <p className="text-slate-500 dark:text-gray-400 italic text-[14px] mt-4">
             * Note: This list is illustrative and not exhaustive, as indicated by paragraph 15 of the standard. It highlights that in the absence of a single uniform policy, disclosure of the chosen policy is the only way to ensure comparability of financial statements across enterprises.
           </p>
         </section>
@@ -433,25 +628,32 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             The preparation of financial statements requires management to exercise significant judgment. In doing so, the primary consideration is that the financial statements must present a true and fair view of the financial position (Balance Sheet) and performance (Statement of Profit and Loss) of the enterprise.
           </p>
-          <p>
-            To achieve this primary objective, the selection of appropriate accounting policies is governed by three major considerations:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong>Prudence:</strong> Provisions are made for all known losses and liabilities, while profits are not anticipated, ensuring that assets and profits are not overstated.
-            </li>
-            <li>
-              <strong>Substance over Form:</strong> Accounting treatments must reflect the economic substance and financial reality of transactions, not merely their legal form.
-            </li>
-            <li>
-              <strong>Materiality:</strong> Financial statements must disclose all items whose omission or misstatement could influence the economic decisions of users.
-            </li>
-          </ul>
+          
+          <div className="space-y-6 my-6 border-y border-slate-200/60 dark:border-slate-800/60 py-6">
+            <div className="pl-4 border-l-2 border-slate-400 dark:border-slate-650 space-y-1">
+              <h4 className="font-bold text-slate-900 dark:text-white text-[15.5px]">5A. Prudence (Conservatism)</h4>
+              <p className="text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+                In view of uncertainty associated with future events, profits are not anticipated, but losses are provided for as conservatism. Assets/profits must not be overstated, and liabilities/losses must not be understated.
+              </p>
+            </div>
+            <div className="pl-4 border-l-2 border-slate-400 dark:border-slate-650 space-y-1">
+              <h4 className="font-bold text-slate-900 dark:text-white text-[15.5px]">5B. Substance over Form</h4>
+              <p className="text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+                Transactions and other events should be accounted for and presented in accordance with their economic substance and financial reality, and not merely by their legal form. Economic reality overrides pure legal structure.
+              </p>
+            </div>
+            <div className="pl-4 border-l-2 border-slate-400 dark:border-slate-650 space-y-1">
+              <h4 className="font-bold text-slate-900 dark:text-white text-[15.5px]">5C. Materiality</h4>
+              <p className="text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+                Financial statements should disclose all material items—i.e., items the knowledge of which might influence the economic decisions of the user of the financial statements.
+              </p>
+            </div>
+          </div>
         </section>
 
         {/* Section 5A: Prudence */}
         <section id="as1-prudence" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
+          <h3 className="text-[17px] sm:text-[18px] font-bold text-slate-900 dark:text-white mt-10 mb-3 border-l-2 border-slate-700 dark:border-slate-300 pl-3">
             5A. Prudence
           </h3>
           <p>
@@ -468,13 +670,13 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             However, the exercise of prudence does not permit the creation of hidden or secret reserves by deliberately understating profits and assets, or by deliberately overstating liabilities and losses, which would prevent the financial statements from presenting a true and fair view. The standard requires that prudence must be exercised with neutrality and must not result in intentional bias. <PdfRef page={6} />
           </p>
           <p>
-            <strong>The Provision vs. Contingency Rule (Pending Damage Suit):</strong> Under the principles of prudence, when an enterprise is facing a legal claim or a damage suit, a provision should only be recognized by a charge against profit if the probability of losing the suit is higher than the probability of not losing it (i.e., it is probable that an outflow of resources will occur). If it is only possible or remote, it must not be provisioned, as doing so would lead to the creation of an unauthorized hidden reserve, thereby understating profits and assets in violation of the true and fair view requirement.
+            <strong>The Provision vs. Contingency Rule (Pending Damage Suit):</strong> Under the principles of prudence, when an enterprise is facing a legal claim or a damage suit, a provision should only be recognized by a charge against profit if the probability of losing the suit is more than the probability of not losing it (i.e., it is probable that an outflow of resources will occur). If it is only possible or remote, it must not be provisioned, as doing so would lead to the creation of an unauthorized hidden reserve, thereby understating profits and assets in violation of the true and fair view requirement.
           </p>
         </section>
 
         {/* Section 5B: Substance over Form */}
         <section id="as1-substance" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
+          <h3 className="text-[17px] sm:text-[18px] font-bold text-slate-900 dark:text-white mt-10 mb-3 border-l-2 border-slate-700 dark:border-slate-300 pl-3">
             5B. Substance over Form
           </h3>
           <p>
@@ -490,7 +692,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
         {/* Section 5C: Materiality */}
         <section id="as1-materiality" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
+          <h3 className="text-[17px] sm:text-[18px] font-bold text-slate-900 dark:text-white mt-10 mb-3 border-l-2 border-slate-700 dark:border-slate-300 pl-3">
             5C. Materiality
           </h3>
           <p>
@@ -499,17 +701,30 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             Materiality depends on the size, nature, and context of the item. An item may be material not always because of its relative size, but due to its nature. For instance, a minor transaction might be immaterial by size, but a small discrepancy involving fraud or irregularity is material by nature because it indicates a flaw in internal control systems. Accounting standards apply only to items that are material. <PdfRef page={6} />
           </p>
-          <p>
-            <strong>Quantitative Limits and Indian Statutory Thresholds:</strong> In financial reporting, statutory frameworks specify quantitative limits to ensure consistent disclosure of material items. For instance:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong>Schedule III to the Companies Act, 2013 (Statement of Profit and Loss):</strong> A company must disclose by way of notes additional information regarding any item of income or expenditure which exceeds 1% of the revenue from operations or ₹1,00,000, whichever is higher.
-            </li>
-            <li>
-              <strong>Schedule III to the Companies Act, 2013 (Balance Sheet):</strong> A company must disclose in its Notes to Accounts shares in the company held by each shareholder holding more than 5 percent shares, specifying the number of shares held.
-            </li>
-          </ul>
+          
+          <div className="mt-6 space-y-3">
+            <p className="font-extrabold text-[12px] uppercase tracking-wider text-slate-400 dark:text-gray-500">Quantitative Limits and Indian Statutory Thresholds</p>
+            <div className="overflow-x-auto border border-slate-200/60 dark:border-slate-800/60 rounded-md">
+              <table className="w-full text-left border-collapse text-[14px]">
+                <thead>
+                  <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                    <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-1/2">Statutory Disclosure Item</th>
+                    <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-1/2">Schedule III Quantitative Threshold</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200/60 dark:divide-gray-800/60">
+                  <tr>
+                    <td className="py-3 px-4 font-medium text-slate-800 dark:text-gray-200">Income or Expenditure Items</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Exceeding 1% of the revenue from operations or ₹1,00,000, whichever is higher.</td>
+                  </tr>
+                  <tr>
+                    <td className="py-3 px-4 font-medium text-slate-800 dark:text-gray-200">Shareholder Notes</td>
+                    <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Details of shareholders holding more than 5 percent of the total shares in the company.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </section>
 
         {/* Section 6: Fundamental Accounting Assumptions */}
@@ -521,27 +736,42 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is necessary if they are not followed. <PdfRef page={3} />
           </p>
           <p>
-            These assumptions serve as "silent assumptions" or "implicit defaults." The user of financial statements operates on the presumption that these three core assumptions have been followed in the preparation of the statements. If they are followed, no specific disclosure is required. However, if any of these assumptions is violated or not followed, the fact must be disclosed in a prominent manner, along with the reasons and the financial impact of the deviation.
+            These assumptions serve as "silent assumptions" or "implicit defaults." The user of financial statements operates on the presumption that these three core assumptions have been followed in the preparation of the statements.
           </p>
-          <p>
-            The fundamental accounting assumptions recognised by Accounting Standard 1 are:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong>Going Concern:</strong> The enterprise will continue its operations in the foreseeable future with neither the intention nor the need to materially curtail the scale of operations. <PdfRef page={3} />
-            </li>
-            <li>
-              <strong>Consistency:</strong> The practice of using the same accounting policies for similar transactions in all accounting periods. <PdfRef page={3} />
-            </li>
-            <li>
-              <strong>Accrual:</strong> Transactions are recognised as soon as they occur, whether or not cash or cash equivalent is received or paid. <PdfRef page={3} />
-            </li>
-          </ul>
+          
+          <div className="overflow-x-auto my-6 border border-slate-200/60 dark:border-slate-800/60 rounded-md">
+            <table className="w-full text-left border-collapse text-[14px]">
+              <thead>
+                <tr className="bg-slate-50 dark:bg-slate-900/50 border-b border-slate-200 dark:border-slate-800">
+                  <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-1/4">Assumption</th>
+                  <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-3/8">Meaning</th>
+                  <th className="py-3 px-4 font-bold text-slate-900 dark:text-white w-3/8">Disclosure Requirement if Violated</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200/60 dark:divide-gray-800/60">
+                <tr>
+                  <td className="py-3 px-4 font-bold text-slate-800 dark:text-gray-200">Going Concern</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">The enterprise will continue operations in the foreseeable future with neither intention nor need to liquidate or curtail scale.</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300 font-semibold text-red-650 dark:text-red-400">Mandatory disclosure of the fact, reasons, and the new basis of valuation used.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-bold text-slate-800 dark:text-gray-200">Consistency</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Same accounting policies are used for similar transactions from one period to another.</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300 font-semibold text-red-650 dark:text-red-400">Mandatory disclosure of the fact of change, reasons, and the current/future financial impact.</td>
+                </tr>
+                <tr>
+                  <td className="py-3 px-4 font-bold text-slate-800 dark:text-gray-200">Accrual</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300">Transactions are recognised when they occur (earned/incurred), regardless of cash receipt or payment.</td>
+                  <td className="py-3 px-4 text-slate-700 dark:text-gray-300 font-semibold text-red-650 dark:text-red-400">Mandatory disclosure of the items recognized on cash basis and their impact.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </section>
 
         {/* Section 6A: Going Concern */}
         <section id="as1-going-concern" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
+          <h3 className="text-[17px] sm:text-[18px] font-bold text-slate-900 dark:text-white mt-10 mb-3 border-l-2 border-slate-700 dark:border-slate-300 pl-3">
             6A. Going Concern
           </h3>
           <p>
@@ -557,7 +787,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
         {/* Section 6B: Consistency */}
         <section id="as1-consistency" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
+          <h3 className="text-[17px] sm:text-[18px] font-bold text-slate-900 dark:text-white mt-10 mb-3 border-l-2 border-slate-700 dark:border-slate-300 pl-3">
             6B. Consistency
           </h3>
           <p>
@@ -584,7 +814,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
         {/* Section 6C: Accrual */}
         <section id="as1-accrual" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
+          <h3 className="text-[17px] sm:text-[18px] font-bold text-slate-900 dark:text-white mt-10 mb-3 border-l-2 border-slate-700 dark:border-slate-300 pl-3">
             6C. Accrual
           </h3>
           <p>
@@ -609,17 +839,30 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             To ensure proper understanding of financial statements, all significant accounting policies adopted in the preparation and presentation of financial statements should be disclosed. <PdfRef page={7} />
           </p>
-          <p>
-            The disclosure of accounting policies must follow these two absolute rules:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong>Form Part of Financial Statements:</strong> The disclosure of significant accounting policies must form an integral part of the financial statements themselves. They are not supplementary or external notes, but core components of the accounts.
-            </li>
-            <li>
-              <strong>Disclosed in One Place:</strong> Significant accounting policies should normally be disclosed together in a single place (such as in Note 1 of the financial statements) rather than being scattered across different schedules, statements, or notes. Disclosing them in a scattered manner leads to confusion and increases the risk of users overlooking critical information. <PdfRef page={7} />
-            </li>
-          </ul>
+          
+          <div className="space-y-4 my-6">
+            <div className="flex items-start gap-4">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs flex items-center justify-center font-bold mt-0.5 select-none">✓</span>
+              <div>
+                <strong className="text-slate-900 dark:text-white text-[15px] block">Significant Policies Disclosure</strong>
+                <p className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-0.5">All significant accounting policies adopted in the preparation and presentation of financial statements must be disclosed to ensure proper understanding.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs flex items-center justify-center font-bold mt-0.5 select-none">✓</span>
+              <div>
+                <strong className="text-slate-900 dark:text-white text-[15px] block">Form Part of Financial Statements</strong>
+                <p className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-0.5">The disclosures must form an integral part of the financial statements. They are not supplementary or external notes, but core components of the accounts.</p>
+              </div>
+            </div>
+            <div className="flex items-start gap-4">
+              <span className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs flex items-center justify-center font-bold mt-0.5 select-none">✓</span>
+              <div>
+                <strong className="text-slate-900 dark:text-white text-[15px] block">Disclosed in One Place</strong>
+                <p className="text-[14.5px] text-slate-700 dark:text-gray-300 mt-0.5">All disclosures should normally be presented together in a single place (Note 1 of the accounts) to facilitate reading and prevent scattering. Scattered disclosures increase the risk of users overlooking critical information. <PdfRef page={7} /></p>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Section 8: Disclosure of Changes in Accounting Policies */}
@@ -630,39 +873,87 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             Any change in the accounting policies which has a material effect in the current period or which is reasonably expected to have a material effect in a later period should be disclosed. <PdfRef page={7} />
           </p>
-          <p>
-            The manner of disclosing changes in accounting policies is governed by specific rules:
+          
+          <div className="space-y-6 my-6 pl-2">
+            <div className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center font-serif text-[14px] text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 font-bold select-none">01</span>
+                <div className="w-px h-full bg-slate-200 dark:bg-slate-800 mt-2"></div>
+              </div>
+              <div className="pb-4">
+                <h4 className="font-bold text-[15.5px] text-slate-900 dark:text-white">Identify the Nature of the Change</h4>
+                <p className="text-[14.5px] text-slate-700 dark:text-gray-350 mt-1">Management must identify the specific accounting policy that has been changed (e.g., changing inventory cost formulas from FIFO to Weighted Average).</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center font-serif text-[14px] text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 font-bold select-none">02</span>
+                <div className="w-px h-full bg-slate-200 dark:bg-slate-800 mt-2"></div>
+              </div>
+              <div className="pb-4">
+                <h4 className="font-bold text-[15.5px] text-slate-900 dark:text-white">Justify the Change</h4>
+                <p className="text-[14.5px] text-slate-700 dark:text-gray-355 mt-1">Verify that the change falls under one of the three permissible criteria: (i) required by a statute, (ii) required for compliance with an accounting standard, or (iii) it will result in a more appropriate and fairer presentation.</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center font-serif text-[14px] text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 font-bold select-none">03</span>
+                <div className="w-px h-full bg-slate-200 dark:bg-slate-800 mt-2"></div>
+              </div>
+              <div className="pb-4">
+                <h4 className="font-bold text-[15.5px] text-slate-900 dark:text-white">Quantify the Current Financial Impact</h4>
+                <p className="text-[14.5px] text-slate-700 dark:text-gray-355 mt-1">Calculate and disclose the amount by which items in the financial statements are affected by such change in the current period, to the extent ascertainable.</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center font-serif text-[14px] text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 font-bold select-none">04</span>
+                <div className="w-px h-full bg-slate-200 dark:bg-slate-800 mt-2"></div>
+              </div>
+              <div className="pb-4">
+                <h4 className="font-bold text-[15.5px] text-slate-900 dark:text-white">Handle Non-Ascertainability</h4>
+                <p className="text-[14.5px] text-slate-700 dark:text-gray-355 mt-1">If the impact amount is not ascertainable (wholly or in part), state this fact explicitly in the notes, along with the reasons why it cannot be determined.</p>
+              </div>
+            </div>
+            <div className="flex gap-4">
+              <div className="flex flex-col items-center">
+                <span className="flex-shrink-0 w-8 h-8 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center font-serif text-[14px] text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-900 font-bold select-none">05</span>
+              </div>
+              <div className="pb-4">
+                <h4 className="font-bold text-[15.5px] text-slate-900 dark:text-white">Disclose Expected Later-Period Effects</h4>
+                <p className="text-[14.5px] text-slate-700 dark:text-gray-355 mt-1">If the change does not have a material impact in the current period but is expected to have a material impact in later periods, the fact of the change must be disclosed in the period of adoption.</p>
+              </div>
+            </div>
+          </div>
+          
+          <p className="mt-4">
+            A change in accounting policy is to be disclosed if the change is reasonably expected to have material effect in future accounting periods, even if the change has no material effect in the current accounting period. This requirement ensures that all important changes in accounting policies are actually disclosed. <PdfRef page={7} />
           </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              <strong>Material Current Effect:</strong> The amount by which any item in the financial statements is affected by such change should be disclosed to the extent ascertainable. Where the amount is not ascertainable, wholly or in part, that fact must be explicitly indicated in the notes.
-            </li>
-            <li>
-              <strong>Material Later Effect:</strong> If the change has no material effect in the current period but is expected to have a material effect in later periods, the fact of such change should be appropriately disclosed in the period of adoption. <PdfRef page={7} />
-            </li>
-          </ul>
-          <p>
-            <strong>Mechanics of Policy Change Disclosures:</strong> When an enterprise changes its accounting policy, the disclosure must follow a structured step-by-step presentation:
-          </p>
-          <ol className="list-decimal pl-6 space-y-2">
-            <li>Identify the nature of the change (e.g., transition from FIFO to Weighted Average).</li>
-            <li>State the reason for the change (e.g., to comply with a new standard or to achieve a more appropriate presentation of inventory consumption).</li>
-            <li>Quantify the impact of the change on the financial statements for the current period (e.g., how it has affected inventory valuation and net profit).</li>
-            <li>If the amount of the impact cannot be determined (wholly or partially), state this fact clearly, explaining why the amount is not ascertainable.</li>
-          </ol>
         </section>
 
         {/* Section 8A: Para 23 Rule */}
         <section id="as1-para23" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
+          <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             8A. Para 23 Rule
-          </h3>
-          <p className="font-semibold text-slate-850 dark:text-white">
-            Disclosure of accounting policies or of changes therein cannot remedy a wrong or inappropriate treatment of an item in the accounts. <PdfRef page={5} />
-          </p>
-          <p>
-            This is one of the most critical provisions of AS 1. Footnote disclosures or explanations of wrong accounting treatments do not make the treatment correct under generally accepted accounting principles. The disclosure of an incorrect policy is not a substitute for correct accounting. If an incorrect policy has been followed (for example, expensing a capital asset or recognizing revenue prematurely), the auditor remains obligated to qualify the audit report for such non-compliance under Section 143(3) of the Companies Act, 2013, regardless of how clearly the wrong policy is described in the notes.
-          </p>
+          </h2>
+          
+          <div className="border-l-4 border-amber-600 dark:border-amber-500 bg-amber-50/15 dark:bg-amber-950/5 p-6 rounded-r-md my-6 space-y-4">
+            <div className="flex items-center gap-2 text-amber-800 dark:text-amber-400 font-bold uppercase tracking-wider text-[12px]">
+              <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              Critical Audit &amp; Legal Precedent
+            </div>
+            <blockquote className="border-l border-amber-200 dark:border-amber-850 pl-4 py-1 italic font-serif text-[16px] sm:text-[17px] text-slate-900 dark:text-slate-100 font-medium leading-relaxed">
+              "Disclosure of accounting policies or of changes therein cannot remedy a wrong or inappropriate treatment of an item in the accounts." <PdfRef page={5} />
+            </blockquote>
+            <p className="text-[14.5px] text-slate-700 dark:text-gray-350 leading-relaxed">
+              This is one of the most critical legal provisions in Accounting Standard 1. Footnote disclosures or explanations of wrong accounting treatments do not make the treatment correct under generally accepted accounting principles. The disclosure of an incorrect policy is not a substitute for correct accounting. 
+            </p>
+            <p className="text-[14.5px] text-slate-705 dark:text-gray-350 leading-relaxed">
+              If an incorrect policy has been followed (for example, expensing a capital asset or recognizing revenue prematurely), the auditor remains obligated to qualify the audit report for such non-compliance under Section 143(3) of the Companies Act, 2013, regardless of how clearly the wrong policy is described in the notes.
+            </p>
+          </div>
         </section>
 
         {/* Section 9: Statutory Footnotes & Scope Limits */}
@@ -670,19 +961,32 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             9. Statutory Footnotes &amp; Scope Limits
           </h2>
-          <div className="space-y-4 text-[14.5px] text-slate-600 dark:text-gray-400">
-            <p>
-              <strong>Footnote 1: Materiality Scope (Preface to Accounting Standards):</strong> Accounting Standards apply only to items which are material. Immaterial items do not require explicit compliance or policy disclosure. The determination of materiality is a matter of professional judgment based on the size and nature of the item. <PdfRef page={2} />
-            </p>
-            <p>
-              <strong>Footnote 2: Companies Act, 2013 Statutory Compliance:</strong> Section 129(1) of the Act mandates that financial statements must comply with accounting standards. Section 134(5) requires directors to certify that policies are consistent, reasonable, and prudent. Section 143(3)(e) requires auditors to report on compliance. Non-compliance must be reported in the Auditor's Report, including the financial impact of deviations. <PdfRef page={2} />
-            </p>
-            <p>
-              <strong>Footnote 3: Foreign Currency Translation Policies:</strong> Under AS 11 and Schedule III requirements, companies must disclose translation policies in respect of foreign currency transactions and branches, detailing how exchange gains or losses are recognized. <PdfRef page={2} />
-            </p>
-            <p>
-              <strong>Footnote 4: Standards and Regulatory Drive to Reduce Diversity:</strong> Regulators and standard-setting bodies (such as the ICAI and NFRA) strive to reduce acceptable alternative accounting treatments to improve comparability. However, some diversity remains due to differences in business models and operating conditions. <PdfRef page={5} />
-            </p>
+          
+          <div className="space-y-4 text-[13.5px] text-slate-500 dark:text-gray-400 border-t border-slate-200 dark:border-slate-800 pt-6">
+            <div className="flex gap-2">
+              <span className="font-bold select-none text-slate-400 mr-1">[1]</span>
+              <p>
+                <strong>Materiality Scope (Preface to Accounting Standards):</strong> Accounting Standards apply only to items which are material. Immaterial items do not require explicit compliance or policy disclosure. The determination of materiality is a matter of professional judgment based on the size and nature of the item. <PdfRef page={2} />
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <span className="font-bold select-none text-slate-400 mr-1">[2]</span>
+              <p>
+                <strong>Companies Act, 2013 Statutory Compliance:</strong> Section 129(1) of the Act mandates that financial statements must comply with accounting standards. Section 134(5) requires directors to certify that policies are consistent, reasonable, and prudent. Section 143(3)(e) requires auditors to report on compliance. Non-compliance must be reported in the Auditor's Report, including the financial impact of deviations. <PdfRef page={2} />
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <span className="font-bold select-none text-slate-400 mr-1">[3]</span>
+              <p>
+                <strong>Foreign Currency Translation Policies:</strong> Under AS 11 and Schedule III requirements, companies must disclose translation policies in respect of foreign currency transactions and branches, detailing how exchange gains or losses are recognized. <PdfRef page={2} />
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <span className="font-bold select-none text-slate-400 mr-1">[4]</span>
+              <p>
+                <strong>Standards and Regulatory Drive to Reduce Diversity:</strong> Regulators and standard-setting bodies (such as the ICAI and NFRA) strive to reduce acceptable alternative accounting treatments to improve comparability. However, some diversity remains due to differences in business models and operating conditions. <PdfRef page={5} />
+              </p>
+            </div>
           </div>
         </section>
       </div>
