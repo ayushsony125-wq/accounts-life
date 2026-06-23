@@ -161,7 +161,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   return (
     <div className="w-full animate-fade-in font-sans space-y-4">
       {/* Sticky Section Sub-Navbar */}
-      <div className="sticky top-[58px] bg-[#FAFAF8]/95 dark:bg-[#0B0F19]/95 backdrop-blur-xs py-2 px-1 border-b border-slate-200/60 dark:border-gray-800/60 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none max-w-3xl mx-auto">
+      <div className="sticky top-[58px] bg-[#FAFAF8]/80 dark:bg-[#0B0F19]/80 backdrop-blur-xs py-1 px-1 border-b border-slate-200/40 dark:border-gray-800/40 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none max-w-5xl mx-auto">
         <span className="text-[10px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
           <BookOpen size={10} />
           AS 1 Sections:
@@ -184,8 +184,8 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
         ))}
       </div>
 
-      {/* Main Content Card */}
-      <div className="max-w-3xl mx-auto space-y-10 text-[15.5px] sm:text-[16px] text-slate-800 dark:text-gray-200 leading-relaxed pb-12">
+      {/* Main Content Area */}
+      <div className="max-w-5xl mx-auto space-y-10 text-[15.5px] sm:text-[16px] text-slate-800 dark:text-gray-200 leading-relaxed pb-12 px-4 sm:px-6">
 
         {/* Section 1: Introduction & Purpose */}
         <section id="as1-overview" className="scroll-mt-24 space-y-4">
@@ -217,7 +217,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </p>
         </section>
 
-        {/* Section 2: Scope */}
+        {/* Section 2: Scope & Applicability */}
         <section id="as1-scope" className="scroll-mt-24 space-y-4">
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             2. Scope &amp; Applicability
@@ -226,11 +226,24 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             This Accounting Standard applies to all enterprises in the preparation and presentation of general-purpose financial statements. <PdfRef page={2} />
           </p>
           <p>
-            It is applicable to financial statements that are prepared and presented for the use of external users (such as shareholders, creditors, financial institutions, regulators, and the general public).
+            General-purpose financial statements are those prepared and presented at least annually to meet the common informational needs of a wide spectrum of external stakeholders. These key users include:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Shareholders and Investors:</strong> Who require clear information on accounting policies to evaluate earnings quality and assess the management's stewardship of capital.</li>
+            <li><strong>Creditors and Suppliers:</strong> Who analyze asset valuations and liability provisions to evaluate creditworthiness and liquidity.</li>
+            <li><strong>Financial Institutions and Lenders:</strong> Who require consistent policy application to evaluate debt service coverage ratios and compliance with loan covenants.</li>
+            <li><strong>Regulators and Government Authorities:</strong> Who monitor statutory compliance and taxation based on standard-compliant financial statements.</li>
+            <li><strong>Employees and the General Public:</strong> Who assess the stability and growth prospects of the enterprise.</li>
+          </ul>
+          <p>
+            Consequently, disclosures regarding the accounting policies adopted by an enterprise are critical for ensuring that these statements are interpreted correctly. Under the framework established by the Institute of Chartered Accountants of India (ICAI) and the Companies Act, 2013, the applicability of AS 1 is universal across all classes of enterprises, including corporate and non-corporate entities.
+          </p>
+          <p>
+            For corporate entities, compliance is mandated by Section 129(1) of the Companies Act, 2013, while for non-corporate entities (such as sole proprietorships, partnership firms, LLPs, and trusts), compliance is required under the announcements and guidelines issued by the ICAI. The standard is applicable in its entirety across Level I, Level II, Level III, and Level IV enterprises, with no exemptions or relaxations granted regarding the disclosure of significant accounting policies, as they form the very foundation of financial reporting.
           </p>
         </section>
 
-        {/* Section 3: Definition of Policies */}
+        {/* Section 3: Definition of Accounting Policies */}
         <section id="as1-definition" className="scroll-mt-24 space-y-4">
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             3. Definition of Accounting Policies
@@ -239,59 +252,200 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise in the preparation and presentation of financial statements. <PdfRef page={4} />
           </p>
           <p>
-            The choice of appropriate accounting policies requires management judgement to portray a true and fair view of the enterprise's state of affairs. For every item, right from the valuation of assets and liabilities to the recognition of revenue and providing for expected losses, management needs to select principles and adopt methods of applying them.
-          </p>
-          <p>
-            Accounting can be viewed through two dimensions:
+            This definition consists of two interrelated components that management must determine for every class of transaction:
           </p>
           <ul className="list-disc pl-6 space-y-2">
             <li>
-              <strong>As a Science:</strong> It relies on structured, tested, and universally applicable accounting concepts and standards.
+              <strong>Accounting Principles:</strong> The core theoretical concepts and measurement bases chosen for recording transactions (for example, historical cost, revaluation model, or net realizable value).
             </li>
             <li>
-              <strong>As an Art:</strong> It depends on the professional judgement of the accountant in applying those concepts to diverse and changing transaction structures.
+              <strong>Methods of Application:</strong> The specific procedures or formulas used to implement those principles in the books of accounts (for example, using the FIFO or weighted average cost formula for inventory valuation, or using the straight-line or written-down value method for depreciation).
             </li>
           </ul>
           <p>
-            Because different accountants and management teams may exercise judgement differently, enterprises within the same industry often follow different policies. This variation in approach is what makes disclosure essential to restore comparability. <PdfRef page={4} />
+            Accounting involves both science and art. It is a science because it is based on structured, tested, and universally applicable accounting principles and frameworks. Simultaneously, it is an art because the practical application of these principles relies heavily on the personal ability, professional judgment, and estimates of the accountant. Since different accountants and management teams may exercise judgment differently under similar circumstances, enterprises within the same industry often adopt different accounting policies. <PdfRef page={5} />
+          </p>
+          <p>
+            <strong>Distinction Between Accounting Policies and Accounting Estimates:</strong> It is critical to distinguish between the selection of an accounting policy and the estimation of balances (accounting estimates). A selection or change of an accounting policy refers to adopting different principles or methods of application (such as switching from FIFO to Weighted Average). Conversely, an accounting estimate relates to judgments made to estimate the carrying value of assets or liabilities under the selected policy (such as estimating the provision required for non-moving inventory based on a technical evaluation rather than a fixed aging schedule). A change in an estimate does not constitute a change in an accounting policy. <PdfRef page={16} />
+          </p>
+          <p>
+            Under Section 134(5) of the Companies Act, 2013, the responsibility for selecting appropriate accounting policies and applying them consistently rests with the Board of Directors of the company. The Directors' Responsibility Statement must explicitly state that the policies selected are reasonable and prudent, so as to give a true and fair view of the state of affairs and the profit or loss of the enterprise.
           </p>
         </section>
 
-        {/* Section 4: Key Areas of Diversity */}
+        {/* Section 4: Key Areas of Diversity in Accounting Policies */}
         <section id="as1-areas" className="scroll-mt-24 space-y-4">
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
-            4. Key Areas of Diversity
+            4. Key Areas of Diversity in Accounting Policies
           </h2>
           <p>
-            Examples of areas in which different accounting policies are adopted by different enterprises: <PdfRef page={4} />
+            Due to the diverse operating environments of enterprises, different accounting policies are encountered in various areas of financial reporting. The official standard lists several key areas where different accounting policies can be adopted by different enterprises, leading to variations in reported financial performance and position: <PdfRef page={4} />
           </p>
-          <ul className="list-disc pl-6 space-y-1.5">
-            <li>Methods of depreciation, depletion and amortisation</li>
-            <li>Valuation of inventories</li>
-            <li>Treatment of goodwill</li>
-            <li>Valuation of investments</li>
-            <li>Treatment of retirement benefits</li>
-            <li>Recognition of profit on long-term contracts</li>
-            <li>Valuation of fixed assets</li>
-            <li>Treatment of contingent liabilities</li>
-          </ul>
+          <div className="space-y-6">
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.1 Methods of Depreciation, Depletion, and Amortisation
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Enterprises have choices regarding how they write down the depreciable amount of tangible fixed assets, intangible assets, and natural resources over their useful lives. The primary methods include the Straight-Line Method (SLM), the Written Down Value (WDV) method, and the Units of Production method. Choosing SLM spreads the cost evenly, presenting stable profit figures, whereas WDV charges higher depreciation in the initial years, reducing initial profits and asset carrying values. Differences also arise in estimating the useful lives and residual values of similar assets.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.2 Valuation of Inventories
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                For determining the cost of inventories under AS 2, enterprises may choose between cost formulas such as First-In, First-Out (FIFO) or Weighted Average. The FIFO method assumes older inventory is sold first, which in times of rising prices results in lower cost of goods sold, higher ending inventory valuation, and higher reported profits. The Weighted Average method smooths out price fluctuations. Additionally, differences exist in how enterprises allocate manufacturing overheads to inventory cost.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.3 Treatment of Goodwill and Other Intangibles
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Policies differ regarding whether goodwill generated through acquisitions is amortized over an estimated useful life or written off against reserves, as well as the methods used to estimate the useful lives of other intangible assets like patents, copyrights, and software.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.4 Valuation of Investments
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Under AS 13, investments are classified as current or long-term. Current investments are valued at the lower of cost and fair value, which requires policy choices on how fair value is determined. Long-term investments are carried at cost, but policies differ on how enterprises determine and recognize provisions for a "diminution other than temporary" in the value of these investments.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.5 Treatment of Retirement Benefits
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Accounting for employee benefits under AS 15 involves significant policy variations. Enterprises may account for gratuity, pension, and leave encashment using actuarial valuation methods (such as the Projected Unit Credit method) or, in the case of small enterprises, on an accrual basis using simpler estimates. The choice of discount rates, salary escalation rates, and mortality tables varies based on actuarial assumptions.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.6 Recognition of Profit on Long-Term Contracts
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Under AS 7, enterprises engaged in construction or long-term service contracts must determine the stage of completion. Policies differ in measuring the stage of completion, such as comparing contract costs incurred to date with total estimated contract costs (cost-to-cost method), physical surveys of work performed, or physical completion of a physical proportion of the contract work.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.7 Valuation of Fixed Assets
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Policies vary regarding whether property, plant, and equipment are carried at historical cost less accumulated depreciation or periodically revalued. Furthermore, enterprises adopt different policies regarding the capitalization of borrowing costs under AS 16 and the treatment of direct and indirect overheads during construction of self-constructed fixed assets.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.8 Treatment of Contingent Liabilities and Provisions
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Under AS 29, management must assess the probability of outflows of resources embodying economic benefits to decide whether to recognize a provision in the balance sheet or disclose a contingent liability in the notes. The threshold of probability ("probable", "possible", or "remote") and the method of estimating the provision require significant management judgment, leading to diversity.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.9 Conversion or Translation of Foreign Currency Items
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Under AS 11, translation of foreign currency transactions and foreign operations depends on whether the operation is classified as integral or non-integral. Policies differ in translating foreign branch accounts and recognizing exchange gains or losses (charging directly to the profit and loss account or deferring in a foreign currency translation reserve).
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.10 Treatment of Government Grants
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Under AS 12, government grants may be treated as capital receipts (credited to capital reserve) or revenue receipts (credited to the profit and loss account or deducted from the cost of the related asset), depending on the nature of the grant and the conditions attached to it.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.11 Treatment of Research and Development Costs
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Under AS 26, research costs are always expensed as incurred, but development costs must be capitalized if specific criteria are met. The timing of when an asset enters the development phase and meets capitalization criteria involves substantial judgment, leading to differences.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.12 Valuation of Patents, Trademarks, and Franchise Rights
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Policies differ in how cost is assigned to internally generated intangible assets versus acquired intangible assets, and the methods used to amortize these assets over their estimated useful economic lives.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.13 Recognition of Revenue from Sales and Services
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Under AS 9, revenue recognition depends on the transfer of significant risks and rewards of ownership to the buyer. Policy differences arise in determining the point of transfer (e.g., dispatch, delivery, or acceptance) and in recognizing revenue from services (percentage of completion vs. completed service method).
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.14 Treatment of Leases and Hire-Purchase Transactions
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Under AS 19, leases are classified as finance or operating leases. Policy variations arise in the classification criteria, such as determining whether the lease term covers the major part of the economic life of the asset, or whether the present value of minimum lease payments amounts to at least substantially all of the fair value of the leased asset.
+              </p>
+            </div>
+
+            <div>
+              <p className="font-semibold text-slate-905 dark:text-white">
+                4.15 Treatment of Expenditure During Construction
+              </p>
+              <p className="text-[15px] text-slate-700 dark:text-gray-300 mt-1">
+                Enterprises adopt different policies regarding the allocation of indirect administration and overhead expenses to fixed assets under construction, and the capitalization of start-up or trial-run expenses prior to commencement of commercial production.
+              </p>
+            </div>
+          </div>
+          <p className="text-slate-600 dark:text-gray-400 italic text-[14.5px] mt-2">
+            * Note: This list is illustrative and not exhaustive, as indicated by paragraph 15 of the standard. It highlights that in the absence of a single uniform policy, disclosure of the chosen policy is the only way to ensure comparability of financial statements across enterprises.
+          </p>
         </section>
 
-        {/* Section 5: Considerations in Selection */}
+        {/* Section 5: Considerations in Selection of Accounting Policies */}
         <section id="as1-selection" className="scroll-mt-24 space-y-4">
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             5. Considerations in Selection of Accounting Policies
           </h2>
           <p>
-            Financial statements are prepared to portray a true and fair view of the performance and state of affairs of an enterprise. In selecting an accounting policy, alternative accounting policies should be evaluated in that light.
+            Financial statements are prepared to portray a true and fair view of the performance and state of affairs of an enterprise. In selecting an accounting policy, alternative accounting policies should be evaluated in that light. <PdfRef page={5} />
           </p>
           <p>
-            The choice of specific accounting policies is governed by three major considerations:
+            The preparation of financial statements requires management to exercise significant judgment. In doing so, the primary consideration is that the financial statements must present a true and fair view of the financial position (Balance Sheet) and performance (Statement of Profit and Loss) of the enterprise.
+          </p>
+          <p>
+            To achieve this primary objective, the selection of appropriate accounting policies is governed by three major considerations:
           </p>
           <ul className="list-disc pl-6 space-y-2">
-            <li><strong>Prudence:</strong> Provisions are made for all known losses and liabilities, while profits are not anticipated.</li>
-            <li><strong>Substance over Form:</strong> Accounting treatment must reflect the economic substance and financial reality of transactions, not merely legal form.</li>
-            <li><strong>Materiality:</strong> Financial statements must disclose all items whose omission could influence the decisions of users.</li>
+            <li>
+              <strong>Prudence:</strong> Provisions are made for all known losses and liabilities, while profits are not anticipated, ensuring that assets and profits are not overstated.
+            </li>
+            <li>
+              <strong>Substance over Form:</strong> Accounting treatments must reflect the economic substance and financial reality of transactions, not merely their legal form.
+            </li>
+            <li>
+              <strong>Materiality:</strong> Financial statements must disclose all items whose omission or misstatement could influence the economic decisions of users.
+            </li>
           </ul>
         </section>
 
@@ -311,7 +465,10 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             <li>Losses and liabilities are not understated.</li>
           </ul>
           <p>
-            However, the exercise of prudence does not permit the creation of hidden or secret reserves by deliberately understating profits and assets, or by deliberately overstating liabilities and losses, which would prevent the financial statements from presenting a true and fair view. <PdfRef page={6} />
+            However, the exercise of prudence does not permit the creation of hidden or secret reserves by deliberately understating profits and assets, or by deliberately overstating liabilities and losses, which would prevent the financial statements from presenting a true and fair view. The standard requires that prudence must be exercised with neutrality and must not result in intentional bias. <PdfRef page={6} />
+          </p>
+          <p>
+            <strong>The Provision vs. Contingency Rule (Pending Damage Suit):</strong> Under the principles of prudence, when an enterprise is facing a legal claim or a damage suit, a provision should only be recognized by a charge against profit if the probability of losing the suit is higher than the probability of not losing it (i.e., it is probable that an outflow of resources will occur). If it is only possible or remote, it must not be provisioned, as doing so would lead to the creation of an unauthorized hidden reserve, thereby understating profits and assets in violation of the true and fair view requirement.
           </p>
         </section>
 
@@ -326,6 +483,9 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             The economic substance of a transaction determines its accounting treatment and presentation, ensuring that financial statements reflect the actual financial reality rather than just legal structures. Under this principle, legal form is subordinate to the underlying economic realities of transactions.
           </p>
+          <p>
+            <strong>Hire-Purchase and Lease Transactions:</strong> A classic application of this principle is a hire-purchase agreement. Under legal form, the ownership of the asset remains with the seller until the final installment is paid. However, in economic substance, the buyer gains immediate control, use, and risks and rewards of the asset from day one. Therefore, the asset is capitalized in the books of the buyer, and a corresponding liability is recorded, reflecting the substance of the transaction. Similarly, under AS 19, a finance lease is recorded as an asset and a liability by the lessee because the economic risks and rewards of ownership are transferred, irrespective of who holds the legal title.
+          </p>
         </section>
 
         {/* Section 5C: Materiality */}
@@ -339,6 +499,17 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             Materiality depends on the size, nature, and context of the item. An item may be material not always because of its relative size, but due to its nature. For instance, a minor transaction might be immaterial by size, but a small discrepancy involving fraud or irregularity is material by nature because it indicates a flaw in internal control systems. Accounting standards apply only to items that are material. <PdfRef page={6} />
           </p>
+          <p>
+            <strong>Quantitative Limits and Indian Statutory Thresholds:</strong> In financial reporting, statutory frameworks specify quantitative limits to ensure consistent disclosure of material items. For instance:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              <strong>Schedule III to the Companies Act, 2013 (Statement of Profit and Loss):</strong> A company must disclose by way of notes additional information regarding any item of income or expenditure which exceeds 1% of the revenue from operations or ₹1,00,000, whichever is higher.
+            </li>
+            <li>
+              <strong>Schedule III to the Companies Act, 2013 (Balance Sheet):</strong> A company must disclose in its Notes to Accounts shares in the company held by each shareholder holding more than 5 percent shares, specifying the number of shares held.
+            </li>
+          </ul>
         </section>
 
         {/* Section 6: Fundamental Accounting Assumptions */}
@@ -348,6 +519,9 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </h2>
           <p>
             Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is necessary if they are not followed. <PdfRef page={3} />
+          </p>
+          <p>
+            These assumptions serve as "silent assumptions" or "implicit defaults." The user of financial statements operates on the presumption that these three core assumptions have been followed in the preparation of the statements. If they are followed, no specific disclosure is required. However, if any of these assumptions is violated or not followed, the fact must be disclosed in a prominent manner, along with the reasons and the financial impact of the deviation.
           </p>
           <p>
             The fundamental accounting assumptions recognised by Accounting Standard 1 are:
@@ -363,9 +537,6 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <strong>Accrual:</strong> Transactions are recognised as soon as they occur, whether or not cash or cash equivalent is received or paid. <PdfRef page={3} />
             </li>
           </ul>
-          <p>
-            If these fundamental assumptions are followed in the preparation of financial statements, no specific disclosure or explanation is required. If any of these assumptions—Going Concern, Consistency, or Accrual—is NOT followed, that fact must be explicitly and clearly disclosed. <PdfRef page={8} />
-          </p>
         </section>
 
         {/* Section 6A: Going Concern */}
@@ -379,6 +550,9 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             Financial statements prepared on a going concern basis recognise the need for sufficient retention of profit to replace assets consumed in operation and for making adequate provision for settlement of its liabilities. Under this assumption, assets are recorded at values representing their service potential rather than net realisable values.
           </p>
+          <p>
+            <strong>Impact of Going Concern Violations on Asset and Liability Valuation:</strong> If the going concern assumption is no longer valid (for example, if the enterprise is undergoing liquidation, faces closure by court order, or has its principal license revoked), the basis of preparing financial statements changes completely. Assets must no longer be valued at historical cost less depreciation (amortized cost) but must be written down to their net realizable values (liquidation values). Similarly, long-term liabilities must be reclassified as current liabilities, and provisions must be recognized for any constructive obligations or termination costs arising from closure. Under AS 1, a failure to follow the going concern assumption requires the enterprise to disclose this fact explicitly, stating the basis of valuation used.
+          </p>
         </section>
 
         {/* Section 6B: Consistency */}
@@ -390,17 +564,20 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             The principle of consistency refers to the practice of using same accounting policies for similar transactions in all accounting periods. Consistency improves comparability of financial statements through time. <PdfRef page={3} />
           </p>
           <p>
+            Consistency ensures that management cannot manipulate the financial results of different periods by frequently changing accounting policies to suit short-term goals.
+          </p>
+          <p>
             An accounting policy can be changed if and only if the change is required by one of the following circumstances:
           </p>
           <ol className="list-decimal pl-6 space-y-2">
             <li>
-              <strong>By Statute:</strong> To comply with the provisions of applicable laws or regulations.
+              <strong>By Statute:</strong> To comply with the provisions of applicable laws or regulations (for example, if a new statutory rule overrides an existing accounting policy).
             </li>
             <li>
-              <strong>By Accounting Standard:</strong> For compliance with a newly issued or revised accounting standard.
+              <strong>By Accounting Standard:</strong> For compliance with a newly issued or revised accounting standard (for example, when transitioning to a new standard that mandates a specific treatment).
             </li>
             <li>
-              <strong>Better Presentation:</strong> When management determines that the change will result in a more appropriate and fairer presentation of financial transactions.
+              <strong>Better Presentation:</strong> When management determines that the change will result in a more appropriate and fairer presentation of financial transactions in the statements. The burden of proof lies on management to demonstrate that the new policy is superior to the old one.
             </li>
           </ol>
         </section>
@@ -416,6 +593,12 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             While accrual basis is a more logical approach to profit determination than the cash basis of accounting, it exposes an enterprise to the risk of recognising an income before actual receipt. The accrual basis can, therefore, overstate the divisible profits and dividend decisions based on such overstated profit lead to erosion of capital. For this reason, accounting standards require that no revenue should be recognised unless the amount of consideration and actual realisation is reasonably certain. <PdfRef page={4} />
           </p>
+          <p>
+            <strong>The Matching Concept and Statutory Mandate:</strong> The accrual basis is directly linked to the matching concept, which requires that costs incurred to earn revenue must be recognized in the same period as the revenue. This leads to the recognition of outstanding/prepaid expenses and accrued/unearned incomes on the Balance Sheet.
+          </p>
+          <p>
+            Under Section 128(1) of the Companies Act, 2013, it is mandatory for all corporate entities in India to maintain their books of accounts on an accrual basis only. Non-compliance with Section 128(1) attracts strict legal penalties for directors and officers in default. In case any income or expense is recognized on a cash basis by a non-corporate enterprise, that fact must be explicitly disclosed in the notes.
+          </p>
         </section>
 
         {/* Section 7: Manner of Disclosure */}
@@ -427,19 +610,19 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             To ensure proper understanding of financial statements, all significant accounting policies adopted in the preparation and presentation of financial statements should be disclosed. <PdfRef page={7} />
           </p>
           <p>
-            The disclosure of accounting policies must follow these two rules:
+            The disclosure of accounting policies must follow these two absolute rules:
           </p>
           <ul className="list-disc pl-6 space-y-2">
             <li>
-              The disclosure of the significant accounting policies as such should form part of the financial statements themselves.
+              <strong>Form Part of Financial Statements:</strong> The disclosure of significant accounting policies must form an integral part of the financial statements themselves. They are not supplementary or external notes, but core components of the accounts.
             </li>
             <li>
-              They should normally be disclosed together in one place (such as in a single note to the accounts) to facilitate ease of access and readability. <PdfRef page={7} />
+              <strong>Disclosed in One Place:</strong> Significant accounting policies should normally be disclosed together in a single place (such as in Note 1 of the financial statements) rather than being scattered across different schedules, statements, or notes. Disclosing them in a scattered manner leads to confusion and increases the risk of users overlooking critical information. <PdfRef page={7} />
             </li>
           </ul>
         </section>
 
-        {/* Section 8: Disclosure of Changes */}
+        {/* Section 8: Disclosure of Changes in Accounting Policies */}
         <section id="as1-change-policy" className="scroll-mt-24 space-y-4">
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             8. Disclosure of Changes in Accounting Policies
@@ -448,7 +631,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             Any change in the accounting policies which has a material effect in the current period or which is reasonably expected to have a material effect in a later period should be disclosed. <PdfRef page={7} />
           </p>
           <p>
-            The manner of disclosing changes in accounting policies is as follows:
+            The manner of disclosing changes in accounting policies is governed by specific rules:
           </p>
           <ul className="list-disc pl-6 space-y-2">
             <li>
@@ -458,6 +641,15 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <strong>Material Later Effect:</strong> If the change has no material effect in the current period but is expected to have a material effect in later periods, the fact of such change should be appropriately disclosed in the period of adoption. <PdfRef page={7} />
             </li>
           </ul>
+          <p>
+            <strong>Mechanics of Policy Change Disclosures:</strong> When an enterprise changes its accounting policy, the disclosure must follow a structured step-by-step presentation:
+          </p>
+          <ol className="list-decimal pl-6 space-y-2">
+            <li>Identify the nature of the change (e.g., transition from FIFO to Weighted Average).</li>
+            <li>State the reason for the change (e.g., to comply with a new standard or to achieve a more appropriate presentation of inventory consumption).</li>
+            <li>Quantify the impact of the change on the financial statements for the current period (e.g., how it has affected inventory valuation and net profit).</li>
+            <li>If the amount of the impact cannot be determined (wholly or partially), state this fact clearly, explaining why the amount is not ascertainable.</li>
+          </ol>
         </section>
 
         {/* Section 8A: Para 23 Rule */}
@@ -469,24 +661,27 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             Disclosure of accounting policies or of changes therein cannot remedy a wrong or inappropriate treatment of an item in the accounts. <PdfRef page={5} />
           </p>
           <p>
-            Footnote disclosures or explanations of wrong accounting treatments do not make the treatment correct under generally accepted accounting principles. The disclosure of a wrong treatment is not a substitute for correct accounting. If an incorrect policy has been followed, the auditor remains obligated to qualify the audit report for such non-compliance.
+            This is one of the most critical provisions of AS 1. Footnote disclosures or explanations of wrong accounting treatments do not make the treatment correct under generally accepted accounting principles. The disclosure of an incorrect policy is not a substitute for correct accounting. If an incorrect policy has been followed (for example, expensing a capital asset or recognizing revenue prematurely), the auditor remains obligated to qualify the audit report for such non-compliance under Section 143(3) of the Companies Act, 2013, regardless of how clearly the wrong policy is described in the notes.
           </p>
         </section>
 
-        {/* Section 9: Footnotes */}
+        {/* Section 9: Statutory Footnotes & Scope Limits */}
         <section id="as1-footnotes" className="scroll-mt-24 space-y-4">
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             9. Statutory Footnotes &amp; Scope Limits
           </h2>
-          <div className="space-y-3">
+          <div className="space-y-4 text-[14.5px] text-slate-600 dark:text-gray-400">
             <p>
-              <strong>Footnote 1: Materiality Scope:</strong> Accounting Standards apply only to items which are material. Immaterial items do not require explicit compliance or policy disclosure. <PdfRef page={2} />
+              <strong>Footnote 1: Materiality Scope (Preface to Accounting Standards):</strong> Accounting Standards apply only to items which are material. Immaterial items do not require explicit compliance or policy disclosure. The determination of materiality is a matter of professional judgment based on the size and nature of the item. <PdfRef page={2} />
             </p>
             <p>
-              <strong>Footnote 2: Forex translation:</strong> Companies rules require disclosure of translation policies in respect of foreign currency items. <PdfRef page={2} />
+              <strong>Footnote 2: Companies Act, 2013 Statutory Compliance:</strong> Section 129(1) of the Act mandates that financial statements must comply with accounting standards. Section 134(5) requires directors to certify that policies are consistent, reasonable, and prudent. Section 143(3)(e) requires auditors to report on compliance. Non-compliance must be reported in the Auditor's Report, including the financial impact of deviations. <PdfRef page={2} />
             </p>
             <p>
-              <strong>Footnote 3: Alternatives reduction:</strong> Standard-setting bodies strive to reduce alternatives, but diversity remains due to business climate variations. <PdfRef page={2} />
+              <strong>Footnote 3: Foreign Currency Translation Policies:</strong> Under AS 11 and Schedule III requirements, companies must disclose translation policies in respect of foreign currency transactions and branches, detailing how exchange gains or losses are recognized. <PdfRef page={2} />
+            </p>
+            <p>
+              <strong>Footnote 4: Standards and Regulatory Drive to Reduce Diversity:</strong> Regulators and standard-setting bodies (such as the ICAI and NFRA) strive to reduce acceptable alternative accounting treatments to improve comparability. However, some diversity remains due to differences in business models and operating conditions. <PdfRef page={5} />
             </p>
           </div>
         </section>
