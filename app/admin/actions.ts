@@ -160,10 +160,18 @@ export async function saveEntry(entryData: any) {
       // IMPORTANT: EntryResources with mediaFileId (uploaded PDFs/videos) are preserved
       // Only non-media resources (form-managed references) are deleted+recreated
       if (entryId) {
-        await prisma.entryNote.deleteMany({ where: { entryId } })
-        await prisma.entryFAQ.deleteMany({ where: { entryId } })
-        await prisma.entryJournalEntry.deleteMany({ where: { entryId } })
-        await prisma.entryIllustration.deleteMany({ where: { entryId } })
+        if (entryData.notes !== undefined) {
+          await prisma.entryNote.deleteMany({ where: { entryId } })
+        }
+        if (entryData.faqs !== undefined) {
+          await prisma.entryFAQ.deleteMany({ where: { entryId } })
+        }
+        if (entryData.journalEntries !== undefined) {
+          await prisma.entryJournalEntry.deleteMany({ where: { entryId } })
+        }
+        if (entryData.illustrations !== undefined) {
+          await prisma.entryIllustration.deleteMany({ where: { entryId } })
+        }
         // CRITICAL FIX: Only delete manual/link resources (mediaFileId IS NULL).
         // Uploaded PDF/video resources (mediaFileId IS NOT NULL) must be preserved
         // across saves so that a PDF uploaded via the Media tab is not wiped when
@@ -211,15 +219,21 @@ export async function saveEntry(entryData: any) {
         publishedAt: entryData.status === 'PUBLISHED' ? new Date() : null,
         lastReviewedAt: new Date(),
         entryBody: entryData.entryBody || null,
-        notes: {
+      }
+
+      if (entryData.notes !== undefined) {
+        dataPayload.notes = {
           create: (entryData.notes || []).map((n: any, idx: number) => ({
             noteType: n.noteType || 'NOTE',
             noteTitle: n.noteTitle || null,
             noteBody: n.noteBody || '',
             sortOrder: idx,
           })),
-        },
-        faqs: {
+        }
+      }
+
+      if (entryData.faqs !== undefined) {
+        dataPayload.faqs = {
           create: (entryData.faqs || []).map((f: any, idx: number) => ({
             faqQuestion: f.faqQuestion || '',
             faqAnswer: f.faqAnswer || '',
@@ -227,8 +241,11 @@ export async function saveEntry(entryData: any) {
             faqCategory: f.faqCategory || 'GENERAL',
             sortOrder: idx,
           })),
-        },
-        journalEntries: {
+        }
+      }
+
+      if (entryData.journalEntries !== undefined) {
+        dataPayload.journalEntries = {
           create: (entryData.journalEntries || []).map((je: any, jeIdx: number) => ({
             jeScenarioTitle: je.jeScenarioTitle || null,
             jeLabel: je.jeLabel || null,
@@ -245,8 +262,11 @@ export async function saveEntry(entryData: any) {
               })),
             },
           })),
-        },
-        illustrations: {
+        }
+      }
+
+      if (entryData.illustrations !== undefined) {
+        dataPayload.illustrations = {
           create: (entryData.illustrations || []).map((illus: any, idx: number) => ({
             illusTitle: illus.illusTitle || '',
             illusScenario: illus.illusScenario || null,
@@ -256,10 +276,10 @@ export async function saveEntry(entryData: any) {
             illusDifficulty: illus.illusDifficulty || 'BEGINNER',
             sortOrder: idx,
           })),
-        },
-        // Resources are handled separately below (after entry upsert)
-        // to allow upsert-by-type logic that preserves uploaded files.
+        }
       }
+      // Resources are handled separately below (after entry upsert)
+      // to allow upsert-by-type logic that preserves uploaded files.
 
       // Embed standard detail if entry type is STANDARD
       if (entryData.entryType === 'STANDARD') {

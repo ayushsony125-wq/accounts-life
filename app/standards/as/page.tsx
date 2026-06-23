@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import LearningPortal from '../learning/page'
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 export const metadata: Metadata = {
   title: 'Accounting Standards (AS) — Complete Reference & Learning Portal',
   description:

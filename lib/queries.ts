@@ -24,6 +24,13 @@ function sanitizeText(str: string): string {
     .trim()
 }
 
+const EXCLUDED_SANITIZATION_KEYS = new Set([
+  'entryBody', 'blocks', 'examplesHtml', 'illustrations', 'notes', 'faqs',
+  'definitions', 'disclosureGroups', 'comparisonRows', 'comparison',
+  'content', 'examples', 'scenario', 'working', 'answer', 'note',
+  'body', 'question', 'text', 'statement', 'included', 'excluded'
+])
+
 function sanitizeObject<T>(obj: T): T {
   if (obj === null || obj === undefined) return obj
   if (typeof obj === 'string') {
@@ -35,7 +42,13 @@ function sanitizeObject<T>(obj: T): T {
   if (typeof obj === 'object') {
     const newObj = {} as any
     for (const key of Object.keys(obj)) {
-      if (key.toLowerCase().includes('url') || key === 'id' || key === 'slug' || key === 'href') {
+      if (
+        key.toLowerCase().includes('url') || 
+        key === 'id' || 
+        key === 'slug' || 
+        key === 'href' ||
+        EXCLUDED_SANITIZATION_KEYS.has(key)
+      ) {
         newObj[key] = (obj as any)[key]
       } else {
         newObj[key] = sanitizeObject((obj as any)[key])

@@ -983,6 +983,55 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       return
     }
 
+    // Synchronously sync editor DOM content right before payload construction
+    let finalBlocks = blocks
+    if (editorRef.current) {
+      finalBlocks = htmlToBlocks(editorRef.current.innerHTML)
+      setBlocks(finalBlocks)
+    }
+    let finalExamplesHtml = examplesHtml
+    if (examplesRef.current) {
+      finalExamplesHtml = examplesRef.current.innerHTML
+      setExamplesHtml(finalExamplesHtml)
+    }
+
+    // Extract child relation records from blocks to sync database tables
+    const extractedNotes = finalBlocks
+      .filter((b: any) => b && (b.type === 'NOTE' || b.type === 'EXAM_TRAP' || b.type === 'PRACTICAL_USE'))
+      .map((b: any, idx: number) => {
+        let noteType = 'NOTE'
+        if (b.type === 'EXAM_TRAP') noteType = 'CAUTION'
+        if (b.type === 'PRACTICAL_USE') noteType = 'TIP'
+        return {
+          noteType,
+          noteTitle: b.title || null,
+          noteBody: b.body || '',
+          sortOrder: idx
+        }
+      })
+
+    const extractedFaqs = finalBlocks
+      .filter((b: any) => b && b.type === 'FAQ')
+      .map((b: any, idx: number) => ({
+        faqQuestion: b.question || '',
+        faqAnswer: b.answer || '',
+        faqSourceRef: b.sourceRef || null,
+        faqCategory: b.category || 'GENERAL',
+        sortOrder: idx
+      }))
+
+    const extractedIllustrations = finalBlocks
+      .filter((b: any) => b && b.type === 'ILLUSTRATION')
+      .map((b: any, idx: number) => ({
+        illusTitle: b.title || '',
+        illusScenario: b.scenario || null,
+        illusWorking: b.working || null,
+        illusAnswer: b.answer || null,
+        illusNote: b.note || null,
+        illusDifficulty: b.difficulty || 'BEGINNER',
+        sortOrder: idx
+      }))
+
     const payload = {
       id,
       entryTitle,
@@ -1005,9 +1054,12 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
         ...references
       ],
       entryBody: {
-        blocks: blocks,
-        examplesHtml: examplesHtml
+        blocks: finalBlocks,
+        examplesHtml: finalExamplesHtml
       },
+      notes: extractedNotes,
+      faqs: extractedFaqs,
+      illustrations: extractedIllustrations,
       standardCode,
       standardFramework,
       standardStatus,
@@ -1019,13 +1071,13 @@ export default function EntryForm({ initialEntry, domains }: EntryFormProps) {
       disclosureGroups: initialEntry?.standardDetail?.disclosureGroups || [],
       comparisonRows: initialEntry?.standardDetail?.comparisonRows || [],
       objective: {
-        text: blocks.find(b => b.type === 'PARAGRAPH' && b.id?.includes('obj'))?.content || initialEntry?.standardDetail?.objectiveText || '',
+        text: finalBlocks.find((b: any) => b.type === 'PARAGRAPH' && b.id?.includes('obj'))?.content || initialEntry?.standardDetail?.objectiveText || '',
         sourcePara: initialEntry?.standardDetail?.objectiveSourcePara || 'Paragraph 1',
         commentary: initialEntry?.standardDetail?.objectiveCommentary || '',
         keyIssues: initialEntry?.standardDetail?.objectiveKeyIssues || []
       },
       scope: {
-        statement: blocks.find(b => b.type === 'PARAGRAPH' && b.id?.includes('scope'))?.content || initialEntry?.standardDetail?.scopeStatement || '',
+        statement: finalBlocks.find((b: any) => b.type === 'PARAGRAPH' && b.id?.includes('scope'))?.content || initialEntry?.standardDetail?.scopeStatement || '',
         included: initialEntry?.standardDetail?.scopeIncluded || [],
         excluded: initialEntry?.standardDetail?.scopeExcluded || []
       }
