@@ -150,7 +150,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 1 PDF — Page ${page}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -161,7 +161,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   return (
     <div className="w-full animate-fade-in font-sans space-y-4">
       {/* Sticky Section Sub-Navbar */}
-      <div className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+      <div className="sticky top-[58px] bg-[#FAFAF8]/95 dark:bg-[#0B0F19]/95 backdrop-blur-xs py-2 px-1 border-b border-slate-200/60 dark:border-gray-800/60 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none max-w-3xl mx-auto">
         <span className="text-[10px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
           <BookOpen size={10} />
           AS 1 Sections:
@@ -177,7 +177,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 window.scrollTo({ top: y, behavior: 'smooth' });
               }
             }}
-            className="text-[10px] font-bold px-2.5 py-0.5 bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border border-slate-200 dark:border-gray-700 rounded text-slate-600 dark:text-gray-300 transition-all whitespace-nowrap cursor-pointer"
+            className="text-[10px] font-bold px-2.5 py-0.5 bg-white hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border border-slate-200/80 dark:border-gray-700 rounded text-slate-650 dark:text-gray-300 transition-all whitespace-nowrap cursor-pointer"
           >
             {sec.title.split('. ')[1] || sec.title}
           </button>
@@ -185,7 +185,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
 
       {/* Main Content Card */}
-      <div className="w-full space-y-10 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-9 shadow-xs text-[15.5px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed">
+      <div className="max-w-3xl mx-auto space-y-10 text-[15.5px] sm:text-[16px] text-slate-800 dark:text-gray-200 leading-relaxed pb-12">
 
         {/* Section 1: Introduction & Purpose */}
         <section id="as1-overview" className="scroll-mt-24 space-y-4">
@@ -195,7 +195,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             Irrespective of the extent of standardization, diversity in accounting policies is unavoidable for two primary reasons:
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+          <ul className="list-disc pl-6 space-y-2">
             <li>
               <strong>Standardization Limits:</strong> Accounting standards cannot and do not cover all possible areas of accounting, leaving enterprises with the freedom to adopt any reasonable accounting policy in areas not covered by a standard. <PdfRef page={2} />
             </li>
@@ -235,19 +235,16 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             3. Definition of Accounting Policies
           </h2>
-          
-          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
-            <span className="font-bold text-slate-900 dark:text-white block mb-1">Accounting Policies Definition:</span>
+          <p>
             Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise in the preparation and presentation of financial statements. <PdfRef page={4} />
-          </div>
-
+          </p>
           <p>
             The choice of appropriate accounting policies requires management judgement to portray a true and fair view of the enterprise's state of affairs. For every item, right from the valuation of assets and liabilities to the recognition of revenue and providing for expected losses, management needs to select principles and adopt methods of applying them.
           </p>
           <p>
             Accounting can be viewed through two dimensions:
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+          <ul className="list-disc pl-6 space-y-2">
             <li>
               <strong>As a Science:</strong> It relies on structured, tested, and universally applicable accounting concepts and standards.
             </li>
@@ -266,42 +263,18 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             4. Key Areas of Diversity
           </h2>
           <p>
-            The standard identifies several key areas where different accounting policies may be adopted by different enterprises: <PdfRef page={4} />
+            Examples of areas in which different accounting policies are adopted by different enterprises: <PdfRef page={4} />
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 pl-4">
-            <div className="flex items-start gap-2">
-              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
-              <span>Methods of depreciation, depletion, and amortisation</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
-              <span>Valuation of inventories</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
-              <span>Treatment of goodwill</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
-              <span>Valuation of investments</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
-              <span>Treatment of retirement benefits</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
-              <span>Recognition of profit on long-term contracts</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
-              <span>Valuation of fixed assets</span>
-            </div>
-            <div className="flex items-start gap-2">
-              <span className="text-slate-400 dark:text-gray-500 mt-1.5">•</span>
-              <span>Treatment of contingent liabilities</span>
-            </div>
-          </div>
+          <ul className="list-disc pl-6 space-y-1.5">
+            <li>Methods of depreciation, depletion and amortisation</li>
+            <li>Valuation of inventories</li>
+            <li>Treatment of goodwill</li>
+            <li>Valuation of investments</li>
+            <li>Treatment of retirement benefits</li>
+            <li>Recognition of profit on long-term contracts</li>
+            <li>Valuation of fixed assets</li>
+            <li>Treatment of contingent liabilities</li>
+          </ul>
         </section>
 
         {/* Section 5: Considerations in Selection */}
@@ -315,7 +288,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             The choice of specific accounting policies is governed by three major considerations:
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+          <ul className="list-disc pl-6 space-y-2">
             <li><strong>Prudence:</strong> Provisions are made for all known losses and liabilities, while profits are not anticipated.</li>
             <li><strong>Substance over Form:</strong> Accounting treatment must reflect the economic substance and financial reality of transactions, not merely legal form.</li>
             <li><strong>Materiality:</strong> Financial statements must disclose all items whose omission could influence the decisions of users.</li>
@@ -324,59 +297,47 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
         {/* Section 5A: Prudence */}
         <section id="as1-prudence" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
             5A. Prudence
           </h3>
           <p>
             In view of the uncertainty associated with future events, profits are not anticipated, but losses are provided for as a matter of conservatism. Provisions must be created for all known liabilities and losses even though the amount cannot be determined with certainty and represents only a best estimate in the light of available information. <PdfRef page={5} />
           </p>
           <p>
-            The exercise of prudence ensures that the financial statements remain realistic:
+            The exercise of prudence in the selection and application of accounting policies ensures that:
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/50 dark:bg-[#1E2640]/10 p-4 border border-slate-200/60 dark:border-gray-800/60 rounded-lg">
-            <div>
-              <span className="font-semibold text-red-600 dark:text-red-400">Assets &amp; Profits:</span>
-              <p className="text-[14.5px] text-slate-650 dark:text-gray-400">Must not be overstated or recognized prematurely without reasonable certainty.</p>
-            </div>
-            <div>
-              <span className="font-semibold text-amber-600 dark:text-amber-500">Liabilities &amp; Losses:</span>
-              <p className="text-[14.5px] text-slate-650 dark:text-gray-400">Must not be understated, and must be provided for if they are probable and estimate-able.</p>
-            </div>
-          </div>
+          <ul className="list-disc pl-6 space-y-1.5">
+            <li>Profits and assets are not overstated.</li>
+            <li>Losses and liabilities are not understated.</li>
+          </ul>
           <p>
-            However, the exercise of prudence does not permit the creation of hidden or secret reserves by deliberately understating profits and assets, or by deliberately overstating liabilities and losses. Such practices are unacceptable as they prevent the financial statements from presenting a true and fair view. <PdfRef page={6} />
+            However, the exercise of prudence does not permit the creation of hidden or secret reserves by deliberately understating profits and assets, or by deliberately overstating liabilities and losses, which would prevent the financial statements from presenting a true and fair view. <PdfRef page={6} />
           </p>
         </section>
 
         {/* Section 5B: Substance over Form */}
         <section id="as1-substance" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
             5B. Substance over Form
           </h3>
           <p>
             Transactions and other events should be accounted for and presented in accordance with their economic substance and financial reality, and not merely by their legal form. <PdfRef page={6} />
           </p>
           <p>
-            Under this principle, the accounting treatment must reflect the economic truth of a transaction. If there is a conflict between the legal structure of a transaction and its economic reality, the economic reality takes precedence. This ensures that the financial statements reflect the real economic position of the enterprise rather than just its legal agreements.
+            The economic substance of a transaction determines its accounting treatment and presentation, ensuring that financial statements reflect the actual financial reality rather than just legal structures. Under this principle, legal form is subordinate to the underlying economic realities of transactions.
           </p>
         </section>
 
         {/* Section 5C: Materiality */}
         <section id="as1-materiality" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
             5C. Materiality
           </h3>
-          
-          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
-            <span className="font-bold text-slate-900 dark:text-white block mb-1">Materiality Principle:</span>
-            Financial statements should disclose all material items—i.e., items the knowledge of which might influence the economic decisions of the user of the financial statements. <PdfRef page={6} />
-          </div>
-
           <p>
-            Materiality depends on the size, nature, and context of the item. An item may be material not always because of its relative size, but due to its nature.
+            Financial statements should disclose all material items—i.e., items the knowledge of which might influence the economic decisions of the user of the financial statements. <PdfRef page={6} />
           </p>
           <p>
-            For instance, a minor transaction might be immaterial by size, but a small discrepancy involving fraud or irregularity is material by nature because it indicates a flaw in internal control systems. Accounting standards apply only to items that are material. <PdfRef page={6} />
+            Materiality depends on the size, nature, and context of the item. An item may be material not always because of its relative size, but due to its nature. For instance, a minor transaction might be immaterial by size, but a small discrepancy involving fraud or irregularity is material by nature because it indicates a flaw in internal control systems. Accounting standards apply only to items that are material. <PdfRef page={6} />
           </p>
         </section>
 
@@ -385,25 +346,31 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             6. Fundamental Accounting Assumptions
           </h2>
-          
-          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
-            <span className="font-bold text-slate-900 dark:text-white block mb-1">Fundamental Assumptions:</span>
-            Going Concern, Consistency, and Accrual are fundamental assumptions that underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. <PdfRef page={3} />
-          </div>
-
-          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
-            <span className="font-bold text-slate-900 dark:text-white block mb-1">Disclosure Required if Assumptions Not Followed:</span>
-            If any of these fundamental assumptions—Going Concern, Consistency, or Accrual—is NOT followed, that fact must be explicitly and clearly disclosed in the financial statements. <PdfRef page={8} />
-          </div>
-
           <p>
-            If these fundamental assumptions are followed in the preparation of financial statements, no specific disclosure or explanation is required.
+            Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is necessary if they are not followed. <PdfRef page={3} />
+          </p>
+          <p>
+            The fundamental accounting assumptions recognised by Accounting Standard 1 are:
+          </p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>
+              <strong>Going Concern:</strong> The enterprise will continue its operations in the foreseeable future with neither the intention nor the need to materially curtail the scale of operations. <PdfRef page={3} />
+            </li>
+            <li>
+              <strong>Consistency:</strong> The practice of using the same accounting policies for similar transactions in all accounting periods. <PdfRef page={3} />
+            </li>
+            <li>
+              <strong>Accrual:</strong> Transactions are recognised as soon as they occur, whether or not cash or cash equivalent is received or paid. <PdfRef page={3} />
+            </li>
+          </ul>
+          <p>
+            If these fundamental assumptions are followed in the preparation of financial statements, no specific disclosure or explanation is required. If any of these assumptions—Going Concern, Consistency, or Accrual—is NOT followed, that fact must be explicitly and clearly disclosed. <PdfRef page={8} />
           </p>
         </section>
 
         {/* Section 6A: Going Concern */}
         <section id="as1-going-concern" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
             6A. Going Concern
           </h3>
           <p>
@@ -416,7 +383,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
         {/* Section 6B: Consistency */}
         <section id="as1-consistency" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
             6B. Consistency
           </h3>
           <p>
@@ -425,7 +392,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             An accounting policy can be changed if and only if the change is required by one of the following circumstances:
           </p>
-          <ol className="list-decimal pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+          <ol className="list-decimal pl-6 space-y-2">
             <li>
               <strong>By Statute:</strong> To comply with the provisions of applicable laws or regulations.
             </li>
@@ -440,7 +407,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
         {/* Section 6C: Accrual */}
         <section id="as1-accrual" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
             6C. Accrual
           </h3>
           <p>
@@ -462,12 +429,12 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             The disclosure of accounting policies must follow these two rules:
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+          <ul className="list-disc pl-6 space-y-2">
             <li>
-              <strong>Integral Part:</strong> The disclosure of the significant accounting policies as such should form part of the financial statements themselves.
+              The disclosure of the significant accounting policies as such should form part of the financial statements themselves.
             </li>
             <li>
-              <strong>One Place:</strong> They should normally be disclosed together in one place (such as in a single note to the accounts) to facilitate ease of access and readability.
+              They should normally be disclosed together in one place (such as in a single note to the accounts) to facilitate ease of access and readability. <PdfRef page={7} />
             </li>
           </ul>
         </section>
@@ -483,32 +450,26 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <p>
             The manner of disclosing changes in accounting policies is as follows:
           </p>
-          <ul className="list-disc pl-6 space-y-2 text-slate-700 dark:text-gray-300">
+          <ul className="list-disc pl-6 space-y-2">
             <li>
-              <strong>Material Current Effect:</strong> The amount by which any item in the financial statements is affected by such change should be disclosed to the extent ascertainable.
+              <strong>Material Current Effect:</strong> The amount by which any item in the financial statements is affected by such change should be disclosed to the extent ascertainable. Where the amount is not ascertainable, wholly or in part, that fact must be explicitly indicated in the notes.
             </li>
             <li>
-              <strong>Non-Ascertainable Amount:</strong> Where the amount is not ascertainable, wholly or in part, that fact must be explicitly indicated in the disclosure notes.
-            </li>
-            <li>
-              <strong>Material Later Effect:</strong> If the change has no material effect in the current period but is expected to have a material effect in later periods, the fact of such change should be appropriately disclosed in the period of adoption.
+              <strong>Material Later Effect:</strong> If the change has no material effect in the current period but is expected to have a material effect in later periods, the fact of such change should be appropriately disclosed in the period of adoption. <PdfRef page={7} />
             </li>
           </ul>
         </section>
 
         {/* Section 8A: Para 23 Rule */}
         <section id="as1-para23" className="scroll-mt-24 space-y-4">
-          <h3 className="text-[16px] sm:text-[18px] font-semibold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+          <h3 className="text-[16.5px] sm:text-[17.5px] font-bold text-slate-900 dark:text-white mt-8 mb-3">
             8A. Para 23 Rule
           </h3>
-          
-          <div className="my-4 p-4 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-lg text-slate-700 dark:text-gray-300">
-            <span className="font-bold text-slate-900 dark:text-white block mb-1">Para 23 Critical Rule:</span>
+          <p className="font-semibold text-slate-850 dark:text-white">
             Disclosure of accounting policies or of changes therein cannot remedy a wrong or inappropriate treatment of an item in the accounts. <PdfRef page={5} />
-          </div>
-
+          </p>
           <p>
-            Footnote disclosures or explanations of wrong accounting treatments do not make the treatment correct under generally accepted accounting principles. The disclosure of a wrong treatment is not a substitute for correct accounting. If an incorrect policy has been followed, the auditor remains obligated to qualify the audit report.
+            Footnote disclosures or explanations of wrong accounting treatments do not make the treatment correct under generally accepted accounting principles. The disclosure of a wrong treatment is not a substitute for correct accounting. If an incorrect policy has been followed, the auditor remains obligated to qualify the audit report for such non-compliance.
           </p>
         </section>
 
@@ -517,7 +478,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <h2 className="text-[18px] sm:text-[20px] font-bold text-slate-900 dark:text-white uppercase tracking-wider pb-2 border-b border-slate-200 dark:border-slate-800/80">
             9. Statutory Footnotes &amp; Scope Limits
           </h2>
-          <div className="space-y-3 pl-2">
+          <div className="space-y-3">
             <p>
               <strong>Footnote 1: Materiality Scope:</strong> Accounting Standards apply only to items which are material. Immaterial items do not require explicit compliance or policy disclosure. <PdfRef page={2} />
             </p>
