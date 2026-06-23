@@ -165,11 +165,11 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   )
 
   return (
-    <div className="w-full animate-fade-in font-sans space-y-6">
+    <div className="w-full animate-fade-in font-sans space-y-5">
       {/* Sticky Section Sub-Navbar */}
-      <div className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2.5 px-4 border border-[#E2E1DD] dark:border-gray-800 rounded-xl z-20 flex flex-row items-center gap-2 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[10px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-2 flex items-center gap-1">
-          <BookOpen size={10} />
+      <div className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1.5 flex items-center gap-1">
+          <BookOpen size={9} />
           AS 1 Sections:
         </span>
         {as1Sections.map((sec) => (
@@ -178,12 +178,12 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             onClick={() => {
               const el = document.getElementById(`as1-${sec.id}`);
               if (el) {
-                const yOffset = -120;
+                const yOffset = -110;
                 const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
                 window.scrollTo({ top: y, behavior: 'smooth' });
               }
             }}
-            className="text-[10px] font-bold px-2.5 py-1 bg-[#FAFAF8] hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border border-slate-200 dark:border-gray-700 rounded-md text-slate-600 dark:text-gray-300 transition-all whitespace-nowrap cursor-pointer hover:text-slate-900 dark:hover:text-white"
+            className="text-[9px] font-bold px-2 py-0.5 bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border border-slate-200 dark:border-gray-700 rounded text-slate-600 dark:text-gray-300 transition-all whitespace-nowrap cursor-pointer"
           >
             {sec.title.split('. ')[1] || sec.title}
           </button>
@@ -191,871 +191,445 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
 
       {/* Main Content Card */}
-      <div className="w-full space-y-12 bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 shadow-xs">
+      <div className="w-full space-y-8 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-5 sm:p-8 shadow-xs">
 
         {/* Section 1: Executive Overview */}
-        <section id="as1-overview" className="scroll-mt-28 space-y-5">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
-            1. Executive Overview &amp; The Comparability Mandate
+        <section id="as1-overview" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
+            1. Introduction &amp; Purpose of the Standard
           </h2>
-          <div className="bg-gradient-to-br from-[#EEF2FD] to-[#F5F0FF] dark:from-[#1A2542] dark:to-[#1E1A35] border border-[#C5D5F8] dark:border-[#2D3F7A] rounded-xl p-5 space-y-3">
-            <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider">Official Standard Identity</p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-[12px]">
-              {[{label:'Standard Code',value:'AS 1'},{label:'Issued By',value:'ICAI'},{label:'Year of Issue',value:'1979'},{label:'Mandatory Date',value:'01 Apr 1991'}].map(item => (
-                <div key={item.label} className="bg-white/70 dark:bg-white/5 rounded-lg p-2.5 text-center border border-slate-200/50 dark:border-gray-800/30">
-                  <p className="text-slate-500 dark:text-gray-400 font-semibold uppercase tracking-wider text-[10px] mb-1">{item.label}</p>
-                  <p className="text-slate-900 dark:text-white font-bold">{item.value}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            Accounting Standard 1 (AS 1), <strong>Disclosure of Accounting Policies</strong>, is the foundational standard of the Indian GAAP framework. It governs how significant accounting choices are communicated to the public. The ultimate goal is to enforce disclosure transparency so that users can understand the financial records and compare them across different enterprises or periods. <PdfRef page={2} />
+          <p className="text-[13.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            Accounting Standard 1 (AS 1) governs the disclosure of significant accounting policies adopted in the preparation and presentation of financial statements. <PdfRef page={2} />
           </p>
-
-          <div className="space-y-4">
-            <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">1.1 Why Diversity in Accounting Policies is Unavoidable (ICAI Paras 1-2)</h3>
-            <p className="text-[14px] text-slate-650 dark:text-gray-350 leading-relaxed">
-              Accounting policies are the specific principles and the methods of applying them. In preparing financial statements, management must choose policies that fit their operations. However, diversity in policies is inevitable because:
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-200 dark:border-gray-800">
-                <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider mb-2">① Codification Limits (Para 1)</p>
-                <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                  Accounting standards cannot cover all possible areas of business transactions. In areas where no standard exists, enterprises have the freedom to adopt any reasonable accounting policy. <PdfRef page={2} />
-                </p>
-              </div>
-              <div className="p-4 bg-slate-50 dark:bg-[#1E2640] rounded-xl border border-slate-200 dark:border-gray-800">
-                <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider mb-2">② Diverse Operating Conditions (Para 2)</p>
-                <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                  Enterprises operate in different industries, economic climates, and legal frameworks. A single set of accounting policies applicable to all enterprises for all time is not practicable. <PdfRef page={2} />
-                </p>
-              </div>
-            </div>
+          <div className="p-4 bg-slate-50 dark:bg-[#1E2640]/40 rounded-lg border border-slate-200 dark:border-gray-800/80 space-y-2">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Why Diversity in Accounting Policies is Unavoidable (Paras 1-2)</p>
+            <ul className="list-disc pl-4 space-y-1 text-[12.5px] text-slate-650 dark:text-gray-350">
+              <li><strong>Codification limits:</strong> Accounting standards cannot cover all possible areas of transactions. Enterprises have the freedom to adopt any reasonable policy in areas not covered by a standard. <PdfRef page={2} /></li>
+              <li><strong>Diverse operating climates:</strong> Enterprises operate in diverse situations. It is impossible to develop a single set of policies applicable to all enterprises for all time. <PdfRef page={2} /></li>
+            </ul>
           </div>
-
-          <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/25 space-y-3 text-[13px] text-slate-700 dark:text-gray-350 font-semibold leading-relaxed">
-            <p className="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest">Historical Context &amp; Dissemination Variance (Para 5-7)</p>
-            <p>
-              • <strong>Historical Disclosures:</strong> Historically, a few enterprises voluntarily included a separate Statement of Accounting Policies in their annual reports, but the practice was not uniform, and disclosures were often incomplete or scattered. <PdfRef page={2} />
-            </p>
-            <p>
-              • <strong>Present Uniformity Requirement:</strong> To establish uniformity, AS 1 requires that all significant accounting policies form an integral part of the financial statements and be presented in one place. <PdfRef page={7} />
-            </p>
-          </div>
-
-          <div className="bg-[#EEF2FD] dark:bg-[#1A2542] border-l-4 border-[#2D5BE3] p-4 rounded-r-xl">
-            <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider mb-2">The Comparability Barrier</p>
-            <p className="text-[13px] text-slate-700 dark:text-gray-305 leading-relaxed font-semibold">
-              When two different companies adopt different but acceptable accounting policies for similar transactions, their final profits and balances are not directly comparable. This standard addresses this limitation by requiring explicit disclosure of the policies adopted so that users can make necessary adjustments. <PdfRef page={2} />
-            </p>
-          </div>
+          <p className="text-[12.5px] text-slate-600 dark:text-gray-400 leading-relaxed">
+            Differences in policies lead to differences in reported information even for similar transactions, which affects comparability. AS 1 seeks to promote a better understanding of financial statements by requiring orderly disclosures. <PdfRef page={2} />
+          </p>
         </section>
 
         {/* Section 2: Purpose & Objective */}
-        <section id="as1-objective" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-objective" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             2. Purpose &amp; Objective
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            The core objective of AS 1 is to ensure that financial statements are <strong>understandable</strong> and <strong>comparable</strong> by requiring systematic, orderly disclosures of all significant accounting policies. <PdfRef page={2} />
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            The standard is designed to require disclosure of policies in an orderly manner. Such disclosure: <PdfRef page={2} />
           </p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="flex gap-3 p-4 bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-950/50 rounded-xl">
-              <span className="text-2xl mt-1">📊</span>
-              <div>
-                <p className="text-xs font-bold text-[#1A7A4A] dark:text-emerald-400 uppercase tracking-wider mb-1">Cross-Enterprise Comparability (Para 8)</p>
-                <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                  Allows stakeholders to compare the financial reports of different entities in the same industry by identifying policy differences (e.g., FIFO vs. Weighted Average for inventories). <PdfRef page={2} />
-                </p>
-              </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[12.5px]">
+            <div className="p-3 bg-slate-50 dark:bg-[#1E2640]/30 rounded-lg border border-slate-200 dark:border-gray-800">
+              <span className="font-bold text-slate-800 dark:text-white">Inter-Enterprise Comparison</span>
+              <p className="text-slate-600 dark:text-gray-400 mt-1">Facilitates comparison of financial statements of different enterprises for the same accounting period. <PdfRef page={2} /></p>
             </div>
-            <div className="flex gap-3 p-4 bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#C5D5F8] dark:border-blue-950/50 rounded-xl">
-              <span className="text-2xl mt-1">📅</span>
-              <div>
-                <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider mb-1">Intra-Enterprise Consistency (Para 8)</p>
-                <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                  Allows comparison of the same enterprise's records over different periods. If a policy changes, the nature, justification, and quantified impact must be disclosed. <PdfRef page={2} />
-                </p>
-              </div>
+            <div className="p-3 bg-slate-50 dark:bg-[#1E2640]/30 rounded-lg border border-slate-200 dark:border-gray-800">
+              <span className="font-bold text-slate-800 dark:text-white">Intra-Enterprise Comparison</span>
+              <p className="text-slate-600 dark:text-gray-400 mt-1">Facilitates comparison of financial statements of the same enterprise for different periods by showing changes in policies. <PdfRef page={2} /></p>
             </div>
-          </div>
-
-          <div className="bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 p-4 rounded-r-xl">
-            <p className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-1">Crucial Concept Alert</p>
-            <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-              AS 1 is strictly a <strong>disclosure standard</strong>. It does not dictate what accounting policy a company must select. It only states that whichever policy is selected and adopted must be clearly disclosed.
-            </p>
           </div>
         </section>
 
         {/* Section 3: Scope */}
-        <section id="as1-scope" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-scope" className="scroll-mt-24 space-y-2">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             3. Scope &amp; Applicability
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            AS 1 applies to <strong>all enterprises</strong> in the preparation and presentation of general-purpose financial statements. <PdfRef page={2} />
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            This Accounting Standard applies to **all enterprises** preparing and presenting general-purpose financial statements. <PdfRef page={2} />
           </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-            <div className="p-5 rounded-xl bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-950/50">
-              <p className="text-xs font-bold text-[#1A7A4A] dark:text-emerald-400 uppercase tracking-widest mb-2.5">Mandatory For</p>
-              <ul className="space-y-2 text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-500 mt-0.5 shrink-0">✓</span> 
-                  <span>All corporate entities preparing financial statements under Indian GAAP (AS framework).</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-500 mt-0.5 shrink-0">✓</span> 
-                  <span>Non-corporate entities: sole proprietorships, partnerships, LLPs, trusts, and societies that prepare formal financial statements.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-500 mt-0.5 shrink-0">✓</span> 
-                  <span>All general-purpose financial statements intended for public or stakeholder use. <PdfRef page={2} /></span>
-                </li>
-              </ul>
-            </div>
-            <div className="p-5 rounded-xl bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-950/50">
-              <p className="text-xs font-bold text-[#C0392B] dark:text-red-400 uppercase tracking-widest mb-2.5">Exempted / Not Applicable To</p>
-              <ul className="space-y-2 text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5 shrink-0">✗</span> 
-                  <span>Entities adopting **Indian Accounting Standards (Ind AS)** — they must comply with Ind AS 1 instead.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5 shrink-0">✗</span> 
-                  <span>Internal management accounting records, cash budgets, or temporary financial models.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5 shrink-0">✗</span> 
-                  <span>Immaterial items (per Footnote 1, standards apply only to material items). <PdfRef page={2} /></span>
-                </li>
-              </ul>
-            </div>
-          </div>
         </section>
 
         {/* Section 4: Definition */}
-        <section id="as1-definition" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-definition" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             4. Definition of Accounting Policies
           </h2>
-          <div className="bg-gradient-to-r from-slate-50 to-blue-50 dark:from-[#1E2640] dark:to-[#1A2542] border border-slate-200 dark:border-gray-700 rounded-xl p-5">
-            <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider mb-2">Official Definition — Para 11</p>
-            <p className="text-[15px] text-slate-800 dark:text-gray-100 leading-relaxed font-semibold italic">
-              &ldquo;Accounting policies refer to the <strong>specific accounting principles</strong> and the <strong>methods of applying those principles</strong> adopted by an enterprise in the preparation and presentation of financial statements.&rdquo; <PdfRef page={4} />
-            </p>
-          </div>
-          <p className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            To satisfy the standard, disclosures must cover both aspects of this definition:
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-4 bg-white dark:bg-[#1E2640]/40 rounded-xl border border-slate-200 dark:border-gray-800 space-y-1">
-              <span className="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase">Part A: Specific Accounting Principles</span>
-              <p className="text-[13px] text-slate-750 dark:text-gray-350 font-medium">
-                The conceptual rule followed by the enterprise. For example, recognizing revenue only when the risk and reward of ownership transfers to the buyer.
-              </p>
-            </div>
-            <div className="p-4 bg-white dark:bg-[#1E2640]/40 rounded-xl border border-slate-200 dark:border-gray-800 space-y-1">
-              <span className="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase">Part B: Methods of Applying Principles</span>
-              <p className="text-[13px] text-slate-750 dark:text-gray-350 font-medium">
-                The formula or computation method chosen to implement the principle. For example, applying FIFO vs. Weighted Average to value inventories.
-              </p>
-            </div>
-          </div>
-
-          <div className="p-4 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/30 text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-            <p className="text-xs font-bold text-slate-600 dark:text-gray-400 uppercase tracking-wider mb-1.5">Regulatory Reduction of Alternatives (Para 13)</p>
-            <p>
-              Through standardisation efforts of the ICAI and government notifications, the number of acceptable alternative accounting policies has been reduced over time. However, choice is still necessary due to diverse business models. This choice highlights the ongoing importance of disclosure. <PdfRef page={5} />
+          <div className="p-3 bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 rounded-lg">
+            <p className="text-[13px] font-semibold text-slate-800 dark:text-slate-200 italic leading-relaxed">
+              &ldquo;Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise in the preparation and presentation of financial statements.&rdquo; <PdfRef page={4} />
             </p>
           </div>
         </section>
 
         {/* Section 5: Areas */}
-        <section id="as1-areas" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
-            5. Key Areas of Policy Diversity (Para 14)
+        <section id="as1-areas" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
+            5. Key Areas of Diversity (Para 14)
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            ICAI identifies specific areas where different enterprises commonly adopt varying accounting policies. For these areas, explicit policy disclosure is critical: <PdfRef page={4} />
+          <p className="text-[12.5px] text-slate-650 dark:text-gray-350">
+            Common areas in which different accounting policies are adopted by different enterprises: <PdfRef page={4} />
           </p>
-
-          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-gray-700">
-            <table className="w-full text-[13px] text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-50 dark:bg-[#1E2640] border-b border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200">
-                  <th className="p-3 font-bold w-1/3">Area of Diversity</th>
-                  <th className="p-3 font-bold w-[120px]">Governing Standard</th>
-                  <th className="p-3 font-bold">Common Alternative Options Permitted</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-gray-800 text-slate-700 dark:text-gray-300">
-                {[
-                  { area: 'Depreciation & Amortisation methods', std: 'AS 10 / AS 26', opts: 'Straight-Line Method (SLM), Written Down Value (WDV), or Units of Production.' },
-                  { area: 'Valuation of inventories', std: 'AS 2', opts: 'FIFO (First-In, First-Out) or Weighted Average Cost (WAC).' },
-                  { area: 'Treatment of goodwill', std: 'AS 14 / AS 26', opts: 'Amortisation over estimated useful life vs. immediate write-off to reserves (for amalgamations).' },
-                  { area: 'Valuation of investments', std: 'AS 13', opts: 'Current investments valued at lower of cost and fair value; long-term investments at cost unless permanent diminution.' },
-                  { area: 'Retirement and employee benefits', std: 'AS 15', opts: 'Defined benefit obligations actuarial valuation vs. defined contribution expensing.' },
-                  { area: 'Profit recognition on long-term contracts', std: 'AS 7', opts: 'Percentage of Completion Method (POCM) based on costs incurred vs. other inputs.' },
-                  { area: 'Conversion/translation of forex items', std: 'AS 11', opts: 'Average rate, transaction-date rate, or closing-date rate translation.' },
-                  { area: 'Expenditure during construction', std: 'AS 10 / AS 16', opts: 'Capitalisation as fixed asset cost vs. immediate expensing as revenue expenditure.' },
-                  { area: 'Valuation of fixed assets', std: 'AS 10', opts: 'Historical cost model vs. revaluation model.' },
-                  { area: 'Treatment of contingent liabilities', std: 'AS 29', opts: 'Disclosure as a note in the accounts vs. recognition of provision if liability is probable.' }
-                ].map((row, i) => (
-                  <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-transparent' : 'bg-slate-50/40 dark:bg-[#1E2640]/20'}>
-                    <td className="p-3 font-bold text-slate-900 dark:text-white">{row.area}</td>
-                    <td className="p-3"><span className="text-[10px] bg-[#EEF2FD] dark:bg-[#1A2542] text-[#2D5BE3] dark:text-blue-400 font-extrabold px-2 py-0.5 rounded">{row.std}</span></td>
-                    <td className="p-3 font-medium text-slate-600 dark:text-gray-400">{row.opts}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <div className="bg-[#FAFAF8] dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded-xl p-4 flex items-center gap-3">
-            <span className="text-xl">💼</span>
-            <div>
-              <p className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">Audit Relevance</p>
-              <p className="text-[12.5px] text-slate-600 dark:text-gray-450 font-medium">
-                Auditors must verify that policies chosen in these areas match industry norms, are applied consistently, and comply with standard rules. If a client changes an inventory valuation method, the auditor must verify that it results in a more appropriate presentation.
-              </p>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[12.5px] text-slate-700 dark:text-gray-350">
+            {[
+              'Methods of depreciation, depletion and amortisation',
+              'Valuation of inventories',
+              'Treatment of goodwill',
+              'Valuation of investments',
+              'Treatment of retirement benefits',
+              'Recognition of profit on long-term contracts',
+              'Valuation of fixed assets',
+              'Treatment of contingent liabilities'
+            ].map((item, idx) => (
+              <div key={idx} className="flex items-center gap-2 p-2 bg-slate-50 dark:bg-[#1E2640]/25 border border-slate-200/50 dark:border-gray-800 rounded">
+                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full shrink-0" />
+                <span className="font-semibold text-slate-750 dark:text-slate-250 text-[12px]">{item}</span>
+              </div>
+            ))}
           </div>
         </section>
 
         {/* Section 6: Considerations in Selection */}
-        <section id="as1-selection" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-selection" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             6. Considerations in the Selection of Accounting Policies (Para 16)
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            The primary criterion governing the selection of accounting policies is that the financial statements must present a <strong>true and fair view</strong> of the financial position and performance. Three considerations guide this selection: <PdfRef page={5} />
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            The primary consideration governing selection is that financial statements should portray a **true and fair view**. <PdfRef page={5} />
           </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-5 rounded-xl border bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/40 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-widest">01. Prudence</span>
-                <span className="text-lg">⚖️</span>
-              </div>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-                Anticipate no profits, but provide for all known losses and liabilities. Do not overstate assets/revenue or understate liabilities/expenses.
-              </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-[12.5px]">
+            <div className="p-3 bg-amber-50/50 dark:bg-amber-950/10 border border-amber-200 dark:border-amber-900 rounded-lg space-y-1">
+              <span className="font-bold text-amber-800 dark:text-amber-400">Prudence</span>
+              <p className="text-slate-650 dark:text-gray-400 text-[11.5px] leading-relaxed">Profits are not anticipated, but provisions are made for all known losses and liabilities. <PdfRef page={5} /></p>
             </div>
-            <div className="p-5 rounded-xl border bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-900/40 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-purple-700 dark:text-purple-400 uppercase tracking-widest">02. Substance over Form</span>
-                <span className="text-lg">🔍</span>
-              </div>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-                Account for transactions according to their economic substance and financial reality, not merely their legal form.
-              </p>
+            <div className="p-3 bg-purple-50/50 dark:bg-purple-950/10 border border-purple-200 dark:border-purple-900 rounded-lg space-y-1">
+              <span className="font-bold text-purple-800 dark:text-purple-400">Substance over Form</span>
+              <p className="text-slate-650 dark:text-gray-400 text-[11.5px] leading-relaxed">Transactions are accounted for according to their substance and financial reality, not merely legal form. <PdfRef page={6} /></p>
             </div>
-            <div className="p-5 rounded-xl border bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900/40 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-extrabold text-blue-700 dark:text-blue-400 uppercase tracking-widest">03. Materiality</span>
-                <span className="text-lg">📢</span>
-              </div>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-                Disclose all items whose omission or misstatement could influence the economic decisions of financial statement users.
-              </p>
+            <div className="p-3 bg-blue-50/50 dark:bg-blue-950/10 border border-blue-200 dark:border-blue-900 rounded-lg space-y-1">
+              <span className="font-bold text-blue-800 dark:text-blue-400">Materiality</span>
+              <p className="text-slate-650 dark:text-gray-400 text-[11.5px] leading-relaxed">Financial statements should disclose all items whose knowledge might influence economic decisions of users. <PdfRef page={6} /></p>
             </div>
           </div>
         </section>
 
         {/* Section 7: Prudence */}
-        <section id="as1-prudence" className="scroll-mt-28 space-y-5">
-          <h2 className="text-lg sm:text-xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1 h-5 bg-amber-500 rounded-full" />
-            7. Prudence (Conservatism) (Para 17(a))
+        <section id="as1-prudence" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-amber-500 rounded-full" />
+            7. Prudence (Para 17(a))
           </h2>
-          <p className="text-[14px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-            Prudence requires that under conditions of uncertainty, transactions be recorded conservatively. Profits are recognized only when realized, but provisions must be made for all known losses, even if the amount is an estimate. <PdfRef page={5} />
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            In view of uncertainty associated with future events, provision is made for all known liabilities and losses even though the amount represents only a best estimate. <PdfRef page={5} />
           </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-4 bg-[#E8F7EE] dark:bg-[#1A2C22] border border-[#C5E9D4] dark:border-green-900/50 rounded-xl">
-              <p className="text-xs font-bold text-[#1A7A4A] dark:text-emerald-400 uppercase tracking-wider mb-2">Prudence Mandates</p>
-              <ul className="space-y-1.5 text-[13px] text-slate-700 dark:text-gray-300 font-semibold">
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-500 mt-0.5">✓</span> 
-                  <span>Valuing inventories at the lower of cost and net realisable value (NRV).</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-emerald-500 mt-0.5">✓</span> 
-                  <span>Making provisions for bad debts, warranty claims, and expected legal losses.</span>
-                </li>
-              </ul>
-            </div>
-            <div className="p-4 bg-[#FDEEEE] dark:bg-[#2C1D1D] border border-[#F5C6C0] dark:border-red-900/50 rounded-xl">
-              <p className="text-xs font-bold text-[#C0392B] dark:text-red-400 uppercase tracking-wider mb-2">Prudence Prohibits</p>
-              <ul className="space-y-1.5 text-[13px] text-slate-700 dark:text-gray-300 font-semibold">
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">✗</span> 
-                  <span>Creating <strong>hidden reserves</strong> by deliberately understating assets or overstating liabilities.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-red-500 mt-0.5">✗</span> 
-                  <span>Providing for speculative, hypothetical losses without a reasonable basis.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="p-5 border border-slate-200 dark:border-gray-800 bg-[#FAFAF8] dark:bg-slate-900/30 rounded-xl space-y-3">
-            <p className="text-xs font-bold text-slate-650 dark:text-slate-200 uppercase tracking-wider">Example: Inventory Lower of Cost and NRV</p>
-            <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold">
-              Suppose a trader bought 500 units of an item at ₹10/unit. 400 units were sold. 100 units remain.
+          <div className="p-4 border border-slate-200 dark:border-gray-800 bg-[#FAFAF8] dark:bg-slate-900/30 rounded-lg space-y-2">
+            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Example: Inventory Cost vs NRV (Example 1)</p>
+            <p className="text-[12px] text-slate-650 dark:text-gray-300">
+              Trader bought 500 units @ ₹10/unit. 400 sold. 100 remain. <PdfRef page={5} />
             </p>
             <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left border border-slate-200 dark:border-gray-700 rounded-lg overflow-hidden">
+              <table className="w-full text-[11.5px] text-left border border-slate-200 dark:border-gray-700 rounded overflow-hidden">
                 <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-gray-700">
-                    <th className="p-2.5 font-bold">Scenario</th>
-                    <th className="p-2.5 font-bold">Cost per unit</th>
-                    <th className="p-2.5 font-bold">NRV per unit</th>
-                    <th className="p-2.5 font-bold">Valuation rate</th>
-                    <th className="p-2.5 font-bold">Closing Inventory Value</th>
-                    <th className="p-2.5 font-bold">Reasoning under Prudence</th>
+                  <tr className="bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-gray-700 font-bold">
+                    <th className="p-2">NRV of Unsold Stock</th>
+                    <th className="p-2">Valuation Rate</th>
+                    <th className="p-2">Closing Stock Value</th>
+                    <th className="p-2">Effect under Prudence</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-gray-800 text-slate-700 dark:text-gray-300 font-medium">
+                <tbody className="divide-y divide-slate-100 dark:divide-gray-800 text-slate-650 dark:text-gray-300">
                   <tr>
-                    <td className="p-2.5 font-bold text-slate-900 dark:text-white">A: NRV = ₹15</td>
-                    <td className="p-2.5">₹10</td>
-                    <td className="p-2.5">₹15</td>
-                    <td className="p-2.5 font-bold text-emerald-600">₹10 (Cost)</td>
-                    <td className="p-2.5">₹1,000</td>
-                    <td className="p-2.5">We ignore the potential ₹5/unit profit until it is realized in next period.</td>
+                    <td className="p-2 font-bold">Scenario A: ₹15/unit</td>
+                    <td className="p-2">₹10 (Cost)</td>
+                    <td className="p-2">₹1,000</td>
+                    <td className="p-2">Ignore potential profit of ₹500 until realized. <PdfRef page={5} /></td>
                   </tr>
                   <tr>
-                    <td className="p-2.5 font-bold text-slate-900 dark:text-white">B: NRV = ₹8</td>
-                    <td className="p-2.5">₹10</td>
-                    <td className="p-2.5">₹8</td>
-                    <td className="p-2.5 font-bold text-red-600">₹8 (NRV)</td>
-                    <td className="p-2.5">₹800</td>
-                    <td className="p-2.5">We immediately recognize the ₹200 loss in the current year.</td>
+                    <td className="p-2 font-bold">Scenario B: ₹8/unit</td>
+                    <td className="p-2">₹8 (NRV)</td>
+                    <td className="p-2">₹800</td>
+                    <td className="p-2">Immediately recognize possible loss of ₹200. <PdfRef page={5} /></td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </div>
+          <div className="p-3 bg-red-50/50 dark:bg-red-950/10 border border-red-200 dark:border-red-900 rounded-lg text-[12px] text-slate-705 dark:text-gray-350">
+            <strong>Prohibition:</strong> Prudence does not permit the creation of hidden reserves by understating profits/assets or overstating liabilities/losses (Example 2). <PdfRef page={6} />
+          </div>
         </section>
 
         {/* Section 8: Substance over Form */}
-        <section id="as1-substance" className="scroll-mt-28 space-y-4">
-          <h2 className="text-lg sm:text-xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1 h-5 bg-purple-500 rounded-full" />
+        <section id="as1-substance" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-purple-500 rounded-full" />
             8. Substance over Form (Para 17(b))
           </h2>
-          <p className="text-[14px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-            This principle dictates that transactions must be accounted for based on their economic substance and financial reality, not merely their legal form. <PdfRef page={6} />
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            Transactions must be presented in accordance with their economic substance and financial reality, not merely by their legal form. <PdfRef page={6} />
           </p>
-
-          <div className="bg-slate-50 dark:bg-[#1E2640] border border-slate-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
-            <p className="text-xs font-bold text-slate-650 dark:text-gray-200 uppercase tracking-wider">Example: Hire Purchase Agreements</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <p className="text-[12px] font-bold text-red-650 dark:text-red-400 uppercase mb-1">Legal Form</p>
-                <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-                  Legal ownership of the asset remains with the financier until the final installment is paid. The buyer does not own the asset.
-                </p>
-              </div>
-              <div>
-                <p className="text-[12px] font-bold text-emerald-650 dark:text-emerald-400 uppercase mb-1">Economic Substance</p>
-                <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-                  The buyer uses the asset for their operations, takes on all operational risks, and receives the economic benefits from day one.
-                </p>
-              </div>
-            </div>
-            <div className="pt-2 border-t border-slate-200 dark:border-gray-700 text-[13px] font-semibold text-slate-700 dark:text-gray-300">
-              <span className="font-bold text-[#2D5BE3] dark:text-blue-400">GAAP Accounting Treatment:</span> The buyer capitalizes the asset in their books and charges depreciation from the date of possession, representing the economic substance. <PdfRef page={6} />
-            </div>
+          <div className="p-3 bg-slate-50 dark:bg-[#1E2640]/40 border border-slate-200 dark:border-gray-800 rounded-lg text-[12.5px] text-slate-650 dark:text-gray-350">
+            <strong>Example:</strong> In a hire purchase agreement, although legal ownership remains with the financier until the final installment is paid, the substance is that the hirer enjoys the benefits and bears the risks. The hirer, therefore, records the asset and charges depreciation. <PdfRef page={6} />
           </div>
         </section>
 
         {/* Section 9: Materiality */}
-        <section id="as1-materiality" className="scroll-mt-28 space-y-4">
-          <h2 className="text-lg sm:text-xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1 h-5 bg-blue-500 rounded-full" />
+        <section id="as1-materiality" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-500 rounded-full" />
             9. Materiality (Para 17(c))
           </h2>
-          <p className="text-[14px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-            An item is material if its omission or misstatement could influence the economic decisions of users. Materiality depends on the size, nature, and context of the item. <PdfRef page={6} />
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            Financial statements should disclose all material items whose omission or misstatement could influence economic decisions. Materiality depends on size, nature, and context. <PdfRef page={6} />
           </p>
-
-          <div className="bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#C5D5F8] dark:border-blue-900/50 p-5 rounded-xl space-y-3">
-            <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider">Statutory Materiality Limits (Schedule III of Companies Act 2013)</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[13px] text-slate-700 dark:text-gray-300 font-semibold">
-              <div className="p-3 bg-white dark:bg-[#111726] rounded-lg border border-slate-200 dark:border-gray-750">
-                <span className="text-blue-600 dark:text-blue-400 font-extrabold mr-1">①</span>
-                <strong>P&amp;L Disclosures:</strong> Disclose any expense or income item that exceeds 1% of revenue from operations or ₹1,00,000, whichever is higher.
-              </div>
-              <div className="p-3 bg-white dark:bg-[#111726] rounded-lg border border-slate-200 dark:border-gray-750">
-                <span className="text-blue-600 dark:text-blue-400 font-extrabold mr-1">②</span>
-                <strong>Balance Sheet Disclosures:</strong> Disclose the details of any shareholder who holds more than 5% of the company's shares.
-              </div>
-            </div>
+          <div className="p-3 bg-slate-50 dark:bg-[#1E2640]/40 border border-slate-200 dark:border-gray-800 rounded-lg text-[12.5px] text-slate-650 dark:text-gray-350 space-y-1.5">
+            <p className="text-[11px] font-bold text-slate-500 uppercase">Statutory Materiality Limits (Schedule III to the Companies Act, 2013)</p>
+            <ul className="list-disc pl-4 space-y-1 text-[12px]">
+              <li><strong>Income/Expenditure:</strong> Disclose any item exceeding 1% of revenue from operations or ₹1,00,000 (whichever is higher). <PdfRef page={6} /></li>
+              <li><strong>Shareholdings:</strong> Disclose details of shareholders holding more than 5% shares. <PdfRef page={6} /></li>
+            </ul>
           </div>
         </section>
 
         {/* Section 10: Fundamental Assumptions */}
-        <section id="as1-assumptions" className="scroll-mt-28 space-y-5">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-assumptions" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             10. Fundamental Accounting Assumptions (Para 9-10)
           </h2>
-          <div className="bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#C5D5F8] dark:border-[#2D3F7A] rounded-xl p-5">
-            <p className="text-xs font-bold text-[#2D5BE3] dark:text-blue-400 uppercase tracking-wider mb-2">Para 9 — The Core Assumption Rule</p>
-            <p className="text-[14px] text-slate-800 dark:text-gray-100 leading-relaxed font-semibold italic">
-              &ldquo;Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is necessary if they are not followed.&rdquo; <PdfRef page={3} />
-            </p>
-          </div>
-          <p className="text-[15px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            There are three fundamental assumptions. If followed, no disclosure is required. If any assumption is breached, the fact must be disclosed:
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold italic">
+            &ldquo;Certain fundamental accounting assumptions underline the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is necessary if they are not followed.&rdquo; <PdfRef page={3} />
           </p>
-
-          {/* Visual Assumptions Flowchart */}
-          <div className="p-6 border border-[#E2E1DD] dark:border-gray-800 rounded-xl bg-slate-50/50 dark:bg-[#1E2640]/10 flex flex-col items-center gap-4">
-            <p className="text-xs font-bold text-slate-500 dark:text-gray-400 uppercase tracking-widest text-center">Fundamental Assumptions Decision Path</p>
-            <div className="flex flex-col md:flex-row items-center gap-4 w-full max-w-3xl text-center text-xs font-bold mt-2">
-              <div className="bg-blue-600 text-white rounded-lg p-3.5 flex-1 border border-blue-700 shadow-2xs">
-                <p className="uppercase text-[10px] text-blue-200 mb-1">Assumptions Check</p>
-                <p className="text-[12px]">Are Going Concern, Consistency, and Accrual followed?</p>
-              </div>
-              <div className="text-slate-400 text-lg md:rotate-0 rotate-90">➔</div>
-              <div className="bg-emerald-600 text-white rounded-lg p-3.5 flex-1 border border-emerald-700 shadow-2xs">
-                <p className="uppercase text-[10px] text-emerald-200 mb-1">Yes</p>
-                <p className="text-[12px]">No explicit disclosure required. The user assumes they are followed.</p>
-              </div>
-              <div className="text-slate-400 text-lg md:rotate-0 rotate-90">➔</div>
-              <div className="bg-rose-600 text-white rounded-lg p-3.5 flex-1 border border-rose-700 shadow-2xs">
-                <p className="uppercase text-[10px] text-rose-200 mb-1">No (Breached)</p>
-                <p className="text-[12px]">Explicit disclosure of the fact and the reasons is mandatory.</p>
-              </div>
+          <div className="flex flex-col sm:flex-row items-center gap-2 justify-center py-2 text-center text-[11px] font-bold">
+            <div className="bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 p-2.5 rounded-lg border border-blue-200 dark:border-blue-900 w-full sm:w-1/3">
+              1. Going Concern
             </div>
-          </div>
-
-          <div className="p-4 bg-slate-50 dark:bg-[#1A2542]/20 border border-slate-200 dark:border-gray-800 rounded-xl text-xs text-slate-600 dark:text-gray-400 font-semibold">
-            <strong>Auditor Note:</strong> If a company prepares accounts on a cash basis instead of accrual, this constitutes a breach of a fundamental assumption. The auditor must qualify the report for non-compliance.
+            <div className="bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 p-2.5 rounded-lg border border-blue-200 dark:border-blue-900 w-full sm:w-1/3">
+              2. Consistency
+            </div>
+            <div className="bg-blue-50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 p-2.5 rounded-lg border border-blue-200 dark:border-blue-900 w-full sm:w-1/3">
+              3. Accrual
+            </div>
           </div>
         </section>
 
         {/* Section 10A: Going Concern */}
-        <section id="as1-going-concern" className="scroll-mt-28 space-y-4">
-          <h2 className="text-lg sm:text-xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1 h-5 bg-blue-500 rounded-full" />
-            10A. Going Concern (Para 10(a))
-          </h2>
-          <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/30 dark:bg-[#1E2640]/40 space-y-3">
-            <p className="text-[14px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-              The enterprise is assumed to continue in operation for the foreseeable future, with neither the intention nor the necessity of liquidation or material curtailment of operations. <PdfRef page={3} />
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-3 bg-white dark:bg-[#111726] rounded-lg border border-slate-200 dark:border-gray-700">
-                <p className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider mb-1">Assumption Followed</p>
-                <p className="text-[13px] text-slate-650 dark:text-gray-350 font-medium">
-                  Assets are valued at historical cost minus depreciation. No disclosure of this assumption is required.
-                </p>
-              </div>
-              <div className="p-3 bg-white dark:bg-[#111726] rounded-lg border border-slate-200 dark:border-gray-700">
-                <p className="text-[11px] font-bold text-red-600 dark:text-red-400 uppercase tracking-wider mb-1">Assumption Breached</p>
-                <p className="text-[13px] text-slate-650 dark:text-gray-350 font-medium">
-                  Assets must be valued on a <strong>liquidation basis (net realisable value)</strong>. The breach must be disclosed with justification.
-                </p>
-              </div>
-            </div>
-          </div>
+        <section id="as1-going-concern" className="scroll-mt-24 space-y-2">
+          <h3 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider">10A. Going Concern</h3>
+          <p className="text-[13px] text-slate-755 dark:text-gray-350 leading-relaxed">
+            The enterprise is normally assumed to continue operations in the foreseeable future and has neither the intention nor the necessity of liquidation or material curtailment of operations. <PdfRef page={3} />
+          </p>
         </section>
 
         {/* Section 10B: Consistency */}
-        <section id="as1-consistency" className="scroll-mt-28 space-y-4">
-          <h2 className="text-lg sm:text-xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1 h-5 bg-blue-500 rounded-full" />
-            10B. Consistency (Para 10(b))
-          </h2>
-          <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/30 dark:bg-[#1E2640]/40 space-y-3">
-            <p className="text-[14px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-              Accounting policies are assumed to be consistent from one period to another to ensure period-to-period comparability. <PdfRef page={3} />
-            </p>
-            <p className="text-[13px] font-bold text-slate-700 dark:text-gray-200">A change in accounting policy is permitted only under three conditions:</p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {[
-                { num: 'i', title: 'Required by Statute', desc: 'Compliance with a law or act (e.g., Companies Act changes).' },
-                { num: 'ii', title: 'Required by Standard', desc: 'Compliance with a new or revised Accounting Standard issued by ICAI.' },
-                { num: 'iii', title: 'Better Presentation', desc: 'The change results in a more appropriate presentation of financial records.' },
-              ].map(item => (
-                <div key={item.num} className="p-3.5 bg-white dark:bg-[#111726] rounded-lg border border-slate-200 dark:border-gray-700 text-[13px] text-slate-750 dark:text-gray-350 space-y-1">
-                  <span className="font-extrabold text-[#2D5BE3] dark:text-blue-400">({item.num}) {item.title}</span>
-                  <p className="font-medium text-[12px]">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-            <p className="text-[12.5px] text-amber-700 dark:text-amber-400 font-semibold italic">
-              Note: Management convenience is not a valid reason for changing an accounting policy. <PdfRef page={3} />
-            </p>
-          </div>
+        <section id="as1-consistency" className="scroll-mt-24 space-y-2">
+          <h3 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider">10B. Consistency</h3>
+          <p className="text-[13px] text-slate-755 dark:text-gray-350 leading-relaxed">
+            Accounting policies are assumed to be consistent from one period to another. A change in policy is permitted only if required by: (i) Statute, (ii) Accounting Standard, or (iii) For more appropriate presentation. <PdfRef page={3} />
+          </p>
         </section>
 
         {/* Section 10C: Accrual */}
-        <section id="as1-accrual" className="scroll-mt-28 space-y-4">
-          <h2 className="text-lg sm:text-xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1 h-5 bg-blue-500 rounded-full" />
-            10C. Accrual (Para 10(c))
-          </h2>
-          <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/30 dark:bg-[#1E2640]/40 space-y-3">
-            <p className="text-[14px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-              Transactions and events are recognized when they occur (and not when cash or cash equivalent is received or paid) and are recorded in the periods to which they relate. <PdfRef page={3} />
-            </p>
-            <div className="bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 p-4 rounded-r-xl">
-              <p className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-1">Matching Concept Limit (Para 10(c) Footnote)</p>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed font-semibold">
-                The accrual assumption is basic to the matching concept. However, the specific considerations affecting the process of matching costs with revenues under the accrual assumption are not dealt with in this Standard. <PdfRef page={3} />
-              </p>
-            </div>
-            <div className="bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#C5D5F8] dark:border-[#2D3F7A] rounded-lg p-3 text-[13px] font-semibold text-slate-700 dark:text-gray-300">
-              <span className="font-bold text-[#2D5BE3] dark:text-blue-400">Statutory Requirement:</span> Section 128(1) of the Companies Act, 2013 makes accrual-basis accounting mandatory for all companies in India. <PdfRef page={4} />
-            </div>
-          </div>
+        <section id="as1-accrual" className="scroll-mt-24 space-y-2">
+          <h3 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider">10C. Accrual</h3>
+          <p className="text-[13px] text-slate-755 dark:text-gray-350 leading-relaxed">
+            Transactions are recognised as soon as they occur, whether or not cash or cash equivalent is actually received or paid, ensuring proper matching of costs and revenues. <PdfRef page={3} />
+          </p>
         </section>
 
         {/* Section 11: Disclosure Requirements */}
-        <section id="as1-disclosure" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-disclosure" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             11. Disclosure Requirements
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            To comply with AS 1, enterprises must adhere to these disclosure principles: <PdfRef page={7} />
-          </p>
-          <div className="space-y-3">
-            {[
-              { title: 'Part of Financial Statements (Para 22)', text: 'All disclosures of accounting policies must form an integral part of the financial statements, not presented separately.' },
-              { title: 'Preferred Single Location (Para 23)', text: 'Significant accounting policies should be disclosed in one place (typically as Note 1: Summary of Significant Accounting Policies), not scattered.' },
-              { title: 'Comprehensive Disclosure (Para 24)', text: 'Any significant policy that affects the understanding of the financial statements must be disclosed. The list of examples in the standard is illustrative, not exhaustive.' }
-            ].map((item, i) => (
-              <div key={i} className="p-4 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-700 rounded-xl">
-                <p className="font-bold text-[14px] text-slate-800 dark:text-gray-100 mb-1">{item.title}</p>
-                <p className="text-[13px] text-slate-650 dark:text-gray-450 font-medium leading-relaxed">{item.text}</p>
-              </div>
-            ))}
-          </div>
+          <ul className="list-disc pl-4 space-y-1.5 text-[13px] text-slate-700 dark:text-gray-300">
+            <li><strong>Integral Part:</strong> Disclosures of policies must form an integral part of the financial statements. <PdfRef page={7} /></li>
+            <li><strong>Single Location:</strong> Disclosures should normally be presented in one place. <PdfRef page={7} /></li>
+            <li><strong>Significant Policies:</strong> All significant accounting policies adopted should be disclosed. <PdfRef page={7} /></li>
+          </ul>
         </section>
 
         {/* Section 12: Disclosure of Changes */}
-        <section id="as1-change-policy" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-change-policy" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             12. Disclosure of Changes in Accounting Policies (Paras 25-27)
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            When an enterprise changes a significant accounting policy, it must disclose the change according to its material impact: <PdfRef page={7} />
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            Any change in the accounting policies which has a material effect must be disclosed: <PdfRef page={7} />
           </p>
-
-          <div className="space-y-3">
-            <div className="p-4 bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#C5D5F8] dark:border-[#2D3F7A] rounded-xl">
-              <p className="text-[13px] font-bold text-[#2D5BE3] dark:text-blue-400 mb-1">Rule 1: Material Effect in the Current Period</p>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-                The enterprise must disclose: (a) the nature of the change, (b) the reason for the change, and (c) the amount by which items are affected (quantified impact). If the amount is not ascertainable, that fact must be explicitly stated. <PdfRef page={7} />
-              </p>
+          <div className="space-y-2 text-[12.5px]">
+            <div className="p-3 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded">
+              <strong>Material in Current Period:</strong> Disclose the nature, reason, and quantified monetary effect. If the amount is not ascertainable, disclose that fact. <PdfRef page={7} />
             </div>
-            <div className="p-4 bg-[#EEF2FD] dark:bg-[#1A2542] border border-[#C5D5F8] dark:border-[#2D3F7A] rounded-xl">
-              <p className="text-[13px] font-bold text-[#2D5BE3] dark:text-blue-400 mb-1">Rule 2: Expected Future Material Effect (No Current Impact)</p>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-                If the change does not have a material effect in the current period but is expected to have one in later periods, the fact of the change must be disclosed in the period of adoption. <PdfRef page={7} />
-              </p>
+            <div className="p-3 bg-slate-50 dark:bg-[#1E2640]/30 border border-slate-200 dark:border-gray-800 rounded">
+              <strong>Expected Material Future Effect:</strong> If there is no current impact but a future impact is reasonably expected, disclose the fact of the change in the period of adoption. <PdfRef page={7} />
             </div>
           </div>
         </section>
 
         {/* Section 13: Critical Rule - Para 23 */}
-        <section id="as1-para23" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
-            13. The Critical Rule — Para 23
+        <section id="as1-para23" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
+            13. Inappropriate Treatment Remedies
           </h2>
-          <div className="bg-red-50 dark:bg-red-950/20 border-2 border-red-350 dark:border-red-800 p-6 rounded-xl space-y-3">
-            <p className="text-sm font-black text-red-700 dark:text-red-400 uppercase tracking-wider flex items-center gap-1.5">
-              <span>⚠️</span> CRITICAL RULE — PARA 23 OF AS 1
-            </p>
-            <p className="text-[16px] sm:text-[18px] font-bold text-slate-900 dark:text-white leading-snug italic">
+          <div className="bg-red-50 dark:bg-red-950/15 border border-red-200 dark:border-red-900 p-4 rounded-lg space-y-2">
+            <p className="text-[13px] font-bold text-red-800 dark:text-red-400 italic leading-relaxed">
               &ldquo;Disclosure of accounting policies or of changes therein cannot remedy a wrong or inappropriate treatment of an item in the accounts.&rdquo; <PdfRef page={5} />
             </p>
-            <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-              If an item is accounted for incorrectly (violating accounting standards), merely disclosing this incorrect treatment in the notes does not make it acceptable. The auditor is still required to qualify the audit report and note the deviation.
+            <p className="text-[12px] text-slate-600 dark:text-gray-400">
+              An incorrect accounting treatment is not validated or cured by disclosing it in the footnotes or notes on accounts.
             </p>
-          </div>
-          <div className="p-4 bg-slate-50 dark:bg-[#1E2640] border border-slate-200 dark:border-gray-700 rounded-xl text-[13px] text-slate-700 dark:text-gray-300 font-semibold leading-relaxed">
-            <strong>Example:</strong> A company capitalises regular advertising expenses (₹50 Lakhs) as an asset and notes: <em>"The company capitalises advertising expenditures and amortises them over 3 years."</em> Since this violates AS 26, the note does not correct the treatment. The auditor must qualify the report. <PdfRef page={11} />
           </div>
         </section>
 
         {/* Section 14: Financial Statement Impact */}
-        <section id="as1-financial-impact" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-financial-impact" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             14. Financial Statement Impact of Policy Changes
           </h2>
-          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-gray-700">
-            <table className="w-full text-[13px] text-left border-collapse">
-              <thead>
-                <tr className="bg-slate-150 dark:bg-[#1E2640] border-b border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200">
-                  <th className="p-3 font-bold w-1/3">Disclosure Requirement</th>
-                  <th className="p-3 font-bold">Standard to Apply</th>
-                  <th className="p-3 font-bold w-[120px]">Mandatory?</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-gray-800 text-slate-700 dark:text-gray-300 font-medium">
-                {[
-                  { req: 'Nature & Reason of Change', std: 'State the old policy, new policy, and justification for the change (e.g., standard revised).', mand: 'Yes' },
-                  { req: 'Quantified Current Period Impact', std: 'State the monetary effect on profit/loss and balance sheet items in the current period.', mand: 'Yes' },
-                  { req: 'Non-Ascertainability Fact', std: 'If the monetary impact cannot be calculated, explicitly state that fact in the notes.', mand: 'Yes' },
-                  { req: 'Expected Future Effect', std: 'Disclose the change in the period of adoption even if there is no material impact in the current period.', mand: 'Yes' }
-                ].map((row, i) => (
-                  <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-transparent' : 'bg-slate-50/40 dark:bg-[#1E2640]/20'}>
-                    <td className="p-3 font-bold text-slate-900 dark:text-white">{row.req}</td>
-                    <td className="p-3 text-slate-650 dark:text-gray-400">{row.std}</td>
-                    <td className="p-3">
-                      <span className="text-[10px] bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-400 font-extrabold px-2 py-0.5 rounded">
-                        {row.mand}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="p-3 bg-slate-50 dark:bg-[#1E2640]/40 border border-slate-200 dark:border-gray-800 rounded-lg text-[12.5px] text-slate-650 dark:text-gray-350 space-y-2">
+            <span className="font-bold text-slate-800 dark:text-white">Example: FIFO to Weighted Average formula (Example 3)</span>
+            <p className="text-[12px] leading-relaxed">
+              If inventory values are ₹2 Lakhs under FIFO and ₹1.8 Lakhs under WAC, the change reduces profit and inventory by ₹20,000. <PdfRef page={8} />
+            </p>
+            <p className="text-[11.5px] text-slate-500 font-mono italic p-2 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-850 rounded">
+              &ldquo;The company has changed to weighted average method, which better reflects the consumption pattern of inventory, from the earlier practice of using FIFO method. The change in policy has reduced profit for the year and value of inventory by ₹20,000.&rdquo;
+            </p>
           </div>
         </section>
 
         {/* Section 15: Practical Application */}
-        <section id="as1-practical" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-practical" className="scroll-mt-24 space-y-2">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             15. Practical Application in Corporate Reporting
           </h2>
-          <p className="text-[15px] sm:text-[16px] text-slate-700 dark:text-gray-300 leading-relaxed font-medium">
-            In corporate reporting, AS 1 is implemented by presenting <strong>Note 1 — Summary of Significant Accounting Policies</strong> at the beginning of the notes to financial statements. Common policies disclosed include: <PdfRef page={2} />
+          <p className="text-[13px] text-slate-700 dark:text-gray-300 leading-relaxed">
+            Significant accounting policies are typically compiled as **Note 1** to the annual financial statements, describing policies for fixed assets, depreciation, investments, inventories, retirement benefits, taxation, and revenue recognition. <PdfRef page={7} />
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[13px] font-semibold text-slate-700 dark:text-gray-300">
-            {[
-              'Basis of preparation of financial statements (historical cost model)',
-              'Revenue recognition criteria for goods, services, interest, and dividends',
-              'Valuation rules for raw materials, work-in-progress, and finished goods',
-              'Depreciation rates and methods (Straight-Line or WDV)',
-              'Treatment of foreign currency transactions and translation differences',
-              'Employee retirement benefits valuation (gratuity, provident fund)',
-              'Current and deferred taxation provisions',
-              'Provisions, contingent liabilities, and contingent assets definitions'
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-2.5 p-3 bg-slate-50 dark:bg-[#1E2640]/40 border border-slate-200 dark:border-gray-850 rounded-lg">
-                <span className="w-5 h-5 bg-[#2D5BE3]/10 text-[#2D5BE3] dark:text-blue-400 rounded text-[11px] flex items-center justify-center shrink-0 font-extrabold">{i+1}</span>
-                <span className="font-medium text-slate-700 dark:text-gray-300">{item}</span>
-              </div>
-            ))}
-          </div>
         </section>
 
         {/* Section 16: AS 1 vs Ind AS 1 */}
-        <section id="as1-comparison" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-comparison" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             16. Comparison: AS 1 vs Ind AS 1
           </h2>
-          <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-gray-700">
-            <table className="w-full text-[13px] text-left border-collapse">
+          <div className="overflow-x-auto rounded border border-slate-200 dark:border-gray-700">
+            <table className="w-full text-[11.5px] text-left border-collapse">
               <thead>
-                <tr className="bg-slate-100 dark:bg-[#1E2640] border-b border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-200">
-                  <th className="p-3 font-bold w-1/4">Criterion</th>
-                  <th className="p-3 font-bold text-blue-600 dark:text-blue-400">AS 1 (Indian GAAP)</th>
-                  <th className="p-3 font-bold text-purple-600 dark:text-purple-400">Ind AS 1 (IFRS-converged)</th>
+                <tr className="bg-slate-50 dark:bg-[#1E2640] border-b border-slate-200 dark:border-gray-700 text-slate-700 dark:text-gray-250 font-bold">
+                  <th className="p-2 w-1/4">Criterion</th>
+                  <th className="p-2 text-blue-600 dark:text-blue-400">AS 1 (Indian GAAP)</th>
+                  <th className="p-2 text-purple-600 dark:text-purple-400">Ind AS 1 (IFRS-converged)</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-gray-800 text-slate-700 dark:text-gray-300 font-medium">
-                {[
-                  { crit: 'Primary Purpose', as: 'Focuses primarily on the disclosure of accounting policies.', ind: 'Complete framework for the presentation of financial statements, including classification, structures, and disclosures.' },
-                  { crit: 'Fundamental Assumptions', as: 'Identifies 3 fundamental assumptions: Going Concern, Consistency, and Accrual.', ind: 'Recognizes only Going Concern in the standard; Accrual and Consistency are moved to the conceptual framework.' },
-                  { crit: 'Statement of Changes in Equity', as: 'Not required under AS 1 (disclosed in schedule reserve notes).', ind: 'Mandatory component of a complete set of financial statements.' },
-                  { crit: 'Other Comprehensive Income (OCI)', as: 'No concept of OCI exists under the AS framework.', ind: 'Mandatory division: Profit/Loss and Other Comprehensive Income.' },
-                  { crit: 'Accounting Policy Changes', as: 'Quantifies current impact. Retrospective recalculation depends on the specific standard changed.', ind: 'Requires retrospective restatement of opening balances of the earliest comparative period (unless impracticable).' },
-                  { crit: 'Prior Period Corrections', as: 'Adjusted in the current period P&L as prior period items.', ind: 'Requires retrospective restatement of comparative periods (opening balance correction).' }
-                ].map((row, i) => (
-                  <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-transparent' : 'bg-slate-50/40 dark:bg-[#1E2640]/20'}>
-                    <td className="p-3 font-bold text-slate-900 dark:text-white">{row.crit}</td>
-                    <td className="p-3 text-slate-650 dark:text-gray-400">{row.as}</td>
-                    <td className="p-3 text-slate-650 dark:text-gray-400">{row.ind}</td>
-                  </tr>
-                ))}
+              <tbody className="divide-y divide-slate-100 dark:divide-gray-800 text-slate-650 dark:text-gray-350">
+                <tr>
+                  <td className="p-2 font-bold text-slate-850 dark:text-white">Primary Purpose</td>
+                  <td className="p-2">Focuses on disclosure of accounting policies.</td>
+                  <td className="p-2">Broad framework for overall presentation of financial statements.</td>
+                </tr>
+                <tr>
+                  <td className="p-2 font-bold text-slate-850 dark:text-white">Assumptions</td>
+                  <td className="p-2">Identifies 3 assumptions: Going Concern, Consistency, Accrual.</td>
+                  <td className="p-2">Identifies Going Concern; others are in the conceptual framework.</td>
+                </tr>
+                <tr>
+                  <td className="p-2 font-bold text-slate-850 dark:text-white">Changes in Policies</td>
+                  <td className="p-2">Quantifies current period impact. Retrospective depends on standard.</td>
+                  <td className="p-2">Requires retrospective restatement of opening balances.</td>
+                </tr>
               </tbody>
             </table>
           </div>
         </section>
 
         {/* Section 17: Journal Entry Guidance */}
-        <section id="as1-journal" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
+        <section id="as1-journal" className="scroll-mt-24 space-y-2">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
             17. Journal Entry Guidance for Policy Adjustments
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/30 space-y-2">
-              <h3 className="text-[14px] font-bold text-slate-900 dark:text-white">A. Depreciation Method Change (SLM → WDV)</h3>
-              <p className="text-[12.5px] text-slate-600 dark:text-gray-400 font-semibold leading-relaxed">
-                If the company changes its method from SLM to WDV retrospectively, charge the excess depreciation to the P&L:
-              </p>
-              <div className="bg-slate-950 p-4 rounded-lg font-mono text-[11px] text-slate-200 overflow-x-auto">
-                <span className="text-emerald-400">Debit</span> Depreciation Adjustment A/c &nbsp;&nbsp;₹X<br />
-                <span className="text-red-400">Credit</span> Accumulated Depreciation A/c &nbsp;&nbsp;₹X<br />
-                <span className="text-slate-400">(Being the cumulative depreciation difference charged to P&L on change of policy)</span>
-              </div>
-            </div>
-            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/30 space-y-2">
-              <h3 className="text-[14px] font-bold text-slate-900 dark:text-white">B. Provision for Inventory Write-down (Prudence)</h3>
-              <p className="text-[12.5px] text-slate-600 dark:text-gray-400 font-semibold leading-relaxed">
-                When inventory net realisable value drops below cost, create a provision to apply prudence:
-              </p>
-              <div className="bg-slate-950 p-4 rounded-lg font-mono text-[11px] text-slate-200 overflow-x-auto">
-                <span className="text-emerald-400">Debit</span> Cost of Goods Sold / Loss A/c &nbsp;&nbsp;₹X<br />
-                <span className="text-red-400">Credit</span> Provision for Inventory Write-down A/c &nbsp;&nbsp;₹X<br />
-                <span className="text-slate-400">(Being the inventory written down to NRV in accordance with AS 2 and AS 1)</span>
-              </div>
+          <div className="bg-slate-900 p-3 rounded text-[11px] font-mono text-slate-200 space-y-2 overflow-x-auto">
+            <div>
+              <p className="text-slate-400 font-bold mb-1">// Inventory write-down to NRV (Prudence)</p>
+              <p>Debit: P&amp;L Account (Inventory loss) ... ₹X</p>
+              <p>Credit: Inventory valuation / Provision ... ₹X</p>
             </div>
           </div>
         </section>
 
         {/* Section 18: Examination Focus */}
-        <section id="as1-exam-focus" className="scroll-mt-28 space-y-5">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
-            18. Examination Focus &amp; Case Studies (CA Intermediate / Final)
+        <section id="as1-exam-focus" className="scroll-mt-24 space-y-4">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
+            18. Examination Focus &amp; Case Studies (Compendium Illustrations)
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              {
-                topic: 'Three Fundamental Assumptions',
-                points: ['Name the assumptions: Going Concern, Consistency, Accrual.', 'No disclosure if followed; mandatory disclosure of fact and justification if breached.', 'Review audit notes for departures.'],
-                color: 'blue'
-              },
-              {
-                topic: 'Policy vs. Estimate Changes',
-                points: ['Policy Change (AS 1) involves principles or application methods (e.g., inventory method change).', 'Estimate Change (AS 5) involves judgements (e.g., asset useful life).', 'Policy changes require retrospective adjustment.'],
-                color: 'purple'
-              },
-              {
-                topic: 'Para 23 Wrong Treatment Correction',
-                points: ['Disclosure cannot cure an incorrect accounting entry.', 'If an item is recorded incorrectly, the auditor must qualify the report despite disclosure in notes.', 'Most tested theory question in AS 1 exams.'],
-                color: 'red'
-              },
-              {
-                topic: 'Quantification Rules',
-                points: ['Quantify the financial impact in the current period.', 'If the amount is not ascertainable, disclose that fact explicitly.', 'Disclose changes with future effects in the period of adoption.']
-              }
-            ].map((item, i) => (
-              <div key={i} className={`p-5 rounded-xl border ${
-                item.color === 'blue' ? 'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-900/40' :
-                item.color === 'purple' ? 'bg-purple-50 dark:bg-purple-950/20 border-purple-200 dark:border-purple-900/40' :
-                item.color === 'red' ? 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-900/40' :
-                'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/40'
-              }`}>
-                <p className="text-xs font-extrabold uppercase tracking-wider mb-2.5 text-slate-800 dark:text-slate-200">{item.topic}</p>
-                <ul className="space-y-1.5 text-[12.5px] text-slate-650 dark:text-gray-305 font-medium">
-                  {item.points.map((pt, idx) => (
-                    <li key={idx} className="flex items-start gap-1.5">
-                      <span className="text-[#2D5BE3] dark:text-blue-400 mt-0.5">•</span>
-                      <span>{pt}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          <div className="space-y-6 pt-4">
-            <h3 className="text-base font-bold text-slate-850 dark:text-slate-100">Detailed ICAI Compendium Case Studies</h3>
-
+          <div className="space-y-4">
             {/* Case Study 1 */}
-            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-white dark:bg-[#111726] space-y-3">
-              <span className="text-[10px] bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-400 font-extrabold px-2 py-0.5 rounded">CASE 1: INVENTORY METHOD SWITCH (Para 26)</span>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold">
-                <strong>Scenario:</strong> Prashant Ltd. values closing inventory using FIFO. On March 31, 2026, the value is ₹1,63,000. The company decides to switch to the Weighted Average Method to better reflect consumption patterns. Under WAC, the inventory value is ₹1,47,000. The net realisable value is ₹1,95,000. How should this be disclosed? <PdfRef page={9} />
+            <div className="p-4 border border-slate-200 dark:border-gray-800 rounded bg-slate-50/50 dark:bg-slate-900/10 space-y-2">
+              <span className="text-[9px] bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-400 font-extrabold px-1.5 py-0.5 rounded uppercase">Illustration 1: FIFO to WAC Switch</span>
+              <p className="text-[12.5px] text-slate-700 dark:text-gray-300 font-semibold">
+                Prashant Ltd. values closing inventory under FIFO. Decides to change to Weighted Average Cost (WAC) on 31.03.20X2. FIFO cost is ₹1,63,000. WAC cost is ₹1,47,000. Realisable value (NRV) is ₹1,95,000. Discuss disclosure. <PdfRef page={9} />
               </p>
-              <div className="text-[13px] text-slate-600 dark:text-gray-400 pl-4 border-l-2 border-slate-200 dark:border-gray-700 space-y-1">
-                <p><strong>Accounting Treatment:</strong> Inventory must be valued at the lower of cost and NRV. WAC cost is ₹1,47,000 and NRV is ₹1,95,000, so inventory is valued at ₹1,47,000. The switch reduces current assets and profits by ₹16,000 (₹1,63,000 - ₹1,47,000).</p>
-                <p><strong>Disclosure Note to draft:</strong> <em>"The company has changed its inventory valuation cost formula from FIFO to the Weighted Average Method during the year to better reflect inventory consumption. This change has reduced the year-end inventory valuation and profit for the year by ₹16,000."</em></p>
+              <div className="text-[12px] text-slate-600 dark:text-gray-400 pl-3 border-l-2 border-slate-200 dark:border-gray-700 space-y-1">
+                <p><strong>Accounting Treatment:</strong> Inventory is valued at lower of cost and NRV. WAC cost (₹1,47,000) is lower than NRV (₹1,95,000). The valuation changes from ₹1,63,000 to ₹1,47,000, reducing current profit and inventory by ₹16,000.</p>
+                <p><strong>Disclosure Note:</strong> <em>&ldquo;The company values its inventory at lower of cost and net realizable value. In the present year, the company has changed to weighted average method for ascertaining inventory costs from the earlier practice of using FIFO. The change has reduced current profit and value of inventory by ₹16,000.&rdquo;</em></p>
               </div>
             </div>
 
             {/* Case Study 2 */}
-            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-white dark:bg-[#111726] space-y-3">
-              <span className="text-[10px] bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-400 font-extrabold px-2 py-0.5 rounded">CASE 2: DEPRECIATION METHOD SWITCH VS. USEFUL LIFE REVISION (AS 1 vs. AS 5)</span>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold">
-                <strong>Scenario:</strong> A company changes its depreciation method for machinery from SLM to WDV, increasing the current depreciation charge by ₹120 Lakhs. It also revises the estimated remaining useful life of its delivery trucks from 8 to 5 years. Management wants to classify both changes as "Accounting Policy Changes" in Note 1.
+            <div className="p-4 border border-slate-200 dark:border-gray-800 rounded bg-slate-50/50 dark:bg-slate-900/10 space-y-2">
+              <span className="text-[9px] bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-400 font-extrabold px-1.5 py-0.5 rounded uppercase">Illustration 2: Valuation Method Switch &amp; Investment Diminution</span>
+              <p className="text-[12.5px] text-slate-700 dark:text-gray-300 font-semibold">
+                Jagannath Ltd. decides to: (i) Value year-end inventory at factory cost (₹50 Cr) instead of prime cost (₹30 Cr). (ii) Provide ₹10 Cr for permanent diminution in investments over 5 years. Draft notes. <PdfRef page={9} />
               </p>
-              <div className="text-[13px] text-slate-600 dark:text-gray-400 pl-4 border-l-2 border-slate-200 dark:border-gray-700 space-y-1">
-                <p><strong>Accounting Treatment:</strong> Changing the depreciation method is a change in accounting policy (AS 1) and requires retrospective recalculation. Revising the estimated useful life of trucks is a change in accounting estimate (AS 5) and is applied prospectively. These are distinct adjustments and must be disclosed separately.</p>
-                <p><strong>Disclosure Note to draft:</strong> Disclose the depreciation method policy change showing the nature, reason, and ₹120 Lakhs impact in Note 1(a). Disclose the truck useful life estimate change prospectively in Note 1(b).</p>
+              <div className="text-[12px] text-slate-600 dark:text-gray-400 pl-3 border-l-2 border-slate-200 dark:border-gray-700 space-y-1">
+                <p><strong>Notes on Accounts:</strong></p>
+                <p>• <em>&ldquo;During the year, inventory has been valued at factory cost against the practice of prime cost. This change has increased the year-end inventory value and current profit by ₹20 crores.&rdquo;</em></p>
+                <p>• <em>&ldquo;The company has provided ₹10 crores for permanent diminution in investments. This provision has reduced current profit by ₹10 crores.&rdquo;</em></p>
               </div>
             </div>
 
             {/* Case Study 3 */}
-            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-white dark:bg-[#111726] space-y-3">
-              <span className="text-[10px] bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-400 font-extrabold px-2 py-0.5 rounded">CASE 3: GOING CONCERN UNDER SEVERE FINANCIAL DISTRESS (Para 10(a))</span>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold">
-                <strong>Scenario:</strong> UrbanStores Ltd has suffered losses over three years, leading to a negative net worth of ₹350 Lakhs. Current liabilities exceed current assets by ₹800 Lakhs, and creditors have filed insolvency petitions. The board prepares financial statements on a Going Concern basis, noting debt restructuring talks. Is this correct?
+            <div className="p-4 border border-slate-200 dark:border-gray-800 rounded bg-slate-50/50 dark:bg-slate-900/10 space-y-2">
+              <span className="text-[9px] bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-400 font-extrabold px-1.5 py-0.5 rounded uppercase">Illustration 3: Overdue Interest Non-Provision</span>
+              <p className="text-[12.5px] text-slate-700 dark:text-gray-300 font-semibold">
+                XYZ Company undergoing tight liquidity did not provide for overdue interest on deposits, disclosing it as a &ldquo;claim not acknowledged as debt&rdquo; by a note. Is this correct? <PdfRef page={10} />
               </p>
-              <div className="text-[13px] text-slate-600 dark:text-gray-400 pl-4 border-l-2 border-slate-200 dark:border-gray-700 space-y-1">
-                <p><strong>Accounting Treatment:</strong> If there is no realistic alternative but to liquidate or cease trading, the going concern assumption is invalid. Preparing accounts on a going concern basis is incorrect. The company must prepare statements on a liquidation basis (valuing assets at NRV and providing for expected liabilities).</p>
-                <p><strong>Disclosure Note:</strong> The breach of the going concern assumption and the valuation on a liquidation basis must be explicitly disclosed.</p>
+              <div className="text-[12px] text-slate-600 dark:text-gray-400 pl-3 border-l-2 border-slate-200 dark:border-gray-700 space-y-1">
+                <p><strong>Solution:</strong> No, the treatment is incorrect. Accrual is a fundamental accounting assumption. The interest obligation must be accrued in the books. Non-provision of overdue interest violates the accrual basis of accounting. <PdfRef page={11} /></p>
               </div>
             </div>
 
             {/* Case Study 4 */}
-            <div className="p-5 border border-slate-200 dark:border-gray-800 rounded-xl bg-white dark:bg-[#111726] space-y-3">
-              <span className="text-[10px] bg-orange-100 dark:bg-orange-950 text-orange-850 dark:text-orange-400 font-extrabold px-2 py-0.5 rounded">CASE 4: INCORRECT DISCLOSURE CURE ATTEMPT (Para 23)</span>
-              <p className="text-[13px] text-slate-700 dark:text-gray-300 font-semibold">
-                <strong>Scenario:</strong> XYZ Ltd has capitalized research costs of ₹40 Lakhs as fixed assets, which violates AS 26. The company discloses this capitalization in Note 1: <em>"The company capitalises all research costs as fixed assets and amortises them over 5 years."</em> The director argues that the note makes the treatment acceptable under GAAP. Is this correct?
+            <div className="p-4 border border-slate-200 dark:border-gray-800 rounded bg-slate-50/50 dark:bg-slate-900/10 space-y-2">
+              <span className="text-[9px] bg-orange-100 dark:bg-orange-950 text-orange-800 dark:text-orange-400 font-extrabold px-1.5 py-0.5 rounded uppercase">Illustration 8: Non-Moving Inventory Revision</span>
+              <p className="text-[12.5px] text-slate-700 dark:text-gray-300 font-semibold">
+                ABC Ltd. changing its method of provision for non-moving inventories from a 12-month issue history (₹3.5 Lakhs) to technical evaluation (₹2.5 Lakhs). Does this constitute a policy change? <PdfRef page={13} />
               </p>
-              <div className="text-[13px] text-slate-600 dark:text-gray-400 pl-4 border-l-2 border-slate-200 dark:border-gray-700 space-y-1">
-                <p><strong>Governing Principle:</strong> Per Para 23, disclosure of accounting policies or changes does not remedy incorrect treatment in the books. The capitalization of research costs remains incorrect, and the auditor must qualify the audit report despite the disclosure.</p>
+              <div className="text-[12px] text-slate-600 dark:text-gray-400 pl-3 border-l-2 border-slate-200 dark:border-gray-700 space-y-1">
+                <p><strong>Solution:</strong> No, it does not amount to a change in accounting policy. It is a change in accounting estimate. The change should be disclosed: <em>&ldquo;The company has provided for non-moving inventories on the basis of technical evaluation. Had the same method been followed as in the previous year, current profit would have been lower by ₹1 Lakh.&rdquo;</em> <PdfRef page={16} /></p>
               </div>
             </div>
           </div>
         </section>
 
         {/* Section 19: Statutory Footnotes */}
-        <section id="as1-footnotes" className="scroll-mt-28 space-y-4">
-          <h2 className="text-xl sm:text-2xl font-bold text-[#1C1C1E] dark:text-white pb-2 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-            <span className="w-1.5 h-6 bg-[#2D5BE3] dark:bg-blue-500 rounded-full" />
-            19. Statutory Footnotes &amp; Compendium Context
+        <section id="as1-footnotes" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-white uppercase tracking-wider pb-1 border-b border-slate-100 dark:border-gray-800 flex items-center gap-1.5">
+            <span className="w-1 h-3.5 bg-blue-600 rounded-full" />
+            19. Statutory Footnotes
           </h2>
-          <div className="p-5 border border-dashed border-[#E2E1DD] dark:border-gray-800 rounded-xl bg-[#FAFAF8] dark:bg-[#1E2640]/30 space-y-4 text-xs text-slate-600 dark:text-gray-400 leading-relaxed font-semibold">
-            <div>
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">Footnote 1: Materiality Scope Limit</p>
-              <p className="mt-1 font-medium">
-                Attention is drawn to paragraph 4.3 of the Preface to the Statements of Accounting Standards, which states that Accounting Standards are intended to apply only to items that are material. Immaterial items do not require explicit compliance or policy disclosure.
-              </p>
-            </div>
-            <div className="pt-3 border-t border-slate-200 dark:border-gray-800">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">Footnote 2: Foreign Currency Translation Disclosure</p>
-              <p className="mt-1 font-medium">
-                Under paragraph 4 of the Companies (Accounting Standards) Rules, 2021, accounting standards require the disclosure of translation policies in respect of foreign currency items.
-              </p>
-            </div>
-            <div className="pt-3 border-t border-slate-200 dark:border-gray-800">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">Footnote 3: Alternative reduction</p>
-              <p className="mt-1 font-medium">
-                Under the Companies (Accounting Standards) Rules, 2021, standard-setting and government bodies have reduced acceptable alternative policies, particularly for corporate enterprises. However, alternatives cannot be eliminated completely due to diverse business models.
-              </p>
-            </div>
+          <div className="p-4 rounded border border-slate-200 dark:border-gray-850 bg-slate-50/40 dark:bg-slate-900/30 text-[11px] text-slate-600 dark:text-gray-400 space-y-2">
+            <p><strong>Footnote 1: Materiality Scope:</strong> Accounting Standards apply only to items which are material. <PdfRef page={2} /></p>
+            <p><strong>Footnote 2: Translation Policies:</strong> Companies rules require disclosure of translation policies for foreign currency items. <PdfRef page={2} /></p>
+            <p><strong>Footnote 3: Alternatives Reduction:</strong> Standards-setting bodies strive to reduce alternatives, but diversity remains due to business climate variations. <PdfRef page={2} /></p>
           </div>
         </section>
       </div>
@@ -1796,10 +1370,6 @@ export default function LearningPortalClient({
               {/* 1. STANDARD VIEW */}
               {activeTab === 'standard' && (
                 <div className="w-full space-y-8 animate-fade-in font-sans">
-                  {/* Temporary Test Banner */}
-                  <div className="w-full bg-red-600 text-white font-bold text-center py-3 rounded-lg shadow-md tracking-wider text-sm">
-                    AS1 TEST BUILD 2026
-                  </div>
                   {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && currentStandard.id !== 'as-1' ? (
                     <div className={`bg-white dark:bg-[#111726] border dark:border-gray-800 rounded-2xl shadow-xs ${
                       framework === 'AS' ? 'border-[#C5C3BC] p-8 sm:p-12 space-y-12' : 'border-[#E2E1DD] p-6 sm:p-10 space-y-10'
