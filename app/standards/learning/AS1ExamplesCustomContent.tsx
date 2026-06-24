@@ -89,22 +89,24 @@ function CaseStudyCard({
       {/* Top Banner Accent */}
       <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${activeTheme.accent}`} />
       
-      {/* Card Title & Meta Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4 pt-1">
-        <h3 className="text-[17px] sm:text-[18px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
-          {title}
-        </h3>
-        <div className="flex items-center gap-2">
+      {/* Card Title & Meta Header — single row layout */}
+      <div className="flex items-start gap-3 border-b border-slate-100 dark:border-slate-800 pb-4 pt-1">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-[16px] sm:text-[17.5px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-snug">
+            {title}
+          </h3>
+        </div>
+        <div className="flex items-center gap-2 shrink-0 pt-0.5">
           {pdfPage && navigateToPdfPage && (
             <button
               onClick={() => navigateToPdfPage(pdfPage)}
-              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded cursor-pointer transition-all shrink-0"
+              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded cursor-pointer transition-all"
               title={`Open ICAI AS 1 PDF — Page ${pdfPage}`}
             >
               <FileText size={11} />
             </button>
           )}
-          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${activeTheme.badge} shrink-0`}>
+          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${activeTheme.badge}`}>
             {category}
           </span>
         </div>
