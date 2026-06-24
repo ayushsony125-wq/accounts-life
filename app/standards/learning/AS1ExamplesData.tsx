@@ -47,7 +47,7 @@ export const PdfRefInline = ({ page }: { page: number }) => (
 export const icaiIllustrations: CaseStudy[] = [
   {
     id: "1-1",
-    title: "Illustration 1.1: Accounting Policies vs. Estimates (WIP Overheads vs. Warranty Provision)",
+    title: "Illustration 3.1: Accounting Policies vs. Estimates (WIP Overheads vs. Warranty Provision)",
     category: "ICAI Study Material",
     pdfPage: 4,
     panels: [
@@ -112,7 +112,7 @@ export const icaiIllustrations: CaseStudy[] = [
   },
   {
     id: "1-2",
-    title: "Illustration 1.2: Materiality in Office Equipment Write-Off (Immediate Expensing)",
+    title: "Illustration 3.2: Materiality in Office Equipment Write-Off (Immediate Expensing)",
     category: "ICAI Study Material",
     pdfPage: 6,
     panels: [
@@ -164,7 +164,7 @@ export const icaiIllustrations: CaseStudy[] = [
   },
   {
     id: "1-3",
-    title: "Illustration 1.3: Para 23 Rule — Disclosure Cannot Cure Incorrect Accounting (Interest Capitalization)",
+    title: "Illustration 3.3: Para 23 Rule — Disclosure Cannot Cure Incorrect Accounting (Interest Capitalization)",
     category: "ICAI Study Material",
     pdfPage: 7,
     panels: [
@@ -216,7 +216,7 @@ export const icaiIllustrations: CaseStudy[] = [
   },
   {
     id: "1-4",
-    title: "Illustration 1.4: Fundamental Assumptions — Going Concern Defeated (Operating License Revoked)",
+    title: "Illustration 3.4: Fundamental Assumptions — Going Concern Defeated (Operating License Revoked)",
     category: "ICAI Study Material",
     pdfPage: 13,
     panels: [
