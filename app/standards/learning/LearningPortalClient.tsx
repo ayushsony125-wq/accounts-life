@@ -42,6 +42,7 @@ import {
 import { Standard } from '@/lib/learning-loader'
 import { getStandardDetailAction } from './actions'
 import { AS1ExamplesCustomContent } from './AS1ExamplesCustomContent'
+import { AS2ExamplesCustomContent } from './AS2ExamplesCustomContent'
 
 const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   // AS
@@ -1228,6 +1229,498 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 }
 
 
+
+// ─── AS 2 Standard Tab Sections ──────────────────────────────────────────────
+const as2Sections = [
+  { id: 'as2-overview',        title: '1. Introduction & Purpose' },
+  { id: 'as2-scope',           title: '2. Scope (Para 1)' },
+  { id: 'as2-definitions',     title: '3. Definitions (Para 2)' },
+  { id: 'as2-measurement',     title: '4. Measurement (Para 3)' },
+  { id: 'as2-cost-purchase',   title: '5. Cost of Purchase (Para 5)' },
+  { id: 'as2-cost-conversion', title: '6. Cost of Conversion (Para 6)' },
+  { id: 'as2-other-costs',     title: '7. Other Costs (Para 7)' },
+  { id: 'as2-excluded',        title: '8. Excluded Costs (Para 8)' },
+  { id: 'as2-service',         title: '9. Service Providers (Para 9)' },
+  { id: 'as2-formulas',        title: '10. Cost Formulas (Para 10–13)' },
+  { id: 'as2-nrv',             title: '11. NRV (Para 14–17)' },
+  { id: 'as2-recognition',     title: '12. Recognition (Para 18)' },
+  { id: 'as2-disclosure',      title: '13. Disclosure (Para 19)' },
+  { id: 'as2-comparison',      title: '14. AS 2 vs Ind AS 2' },
+]
+
+interface AS2StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+  renderTextWithReferences: (text: string) => React.ReactNode;
+}
+
+function AS2StandardTabContent({ navigateToPdfPage }: AS2StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as2-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({ fifo: true, wa: true, specid: false })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as2-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as2Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as2Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-red-600 dark:text-red-400',      border: 'border-red-400',     badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800' },
+    '9':  { num: 'text-fuchsia-600 dark:text-fuchsia-400',border:'border-fuchsia-400',badge: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200 dark:bg-fuchsia-950/40 dark:text-fuchsia-400 dark:border-fuchsia-800' },
+    '10': { num: 'text-sky-600 dark:text-sky-400',      border: 'border-sky-400',     badge: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-400 dark:border-sky-800' },
+    '11': { num: 'text-orange-600 dark:text-orange-400',border: 'border-orange-400',  badge: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-800' },
+    '12': { num: 'text-lime-600 dark:text-lime-400',    border: 'border-lime-400',    badge: 'bg-lime-50 text-lime-700 border-lime-200 dark:bg-lime-950/40 dark:text-lime-400 dark:border-lime-800' },
+    '13': { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+    '14': { num: 'text-slate-600 dark:text-slate-400',  border: 'border-slate-400',   badge: 'bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-400 dark:border-slate-700' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <span className="inline-flex items-center gap-1 ml-1.5">
+      <button onClick={() => navigateToPdfPage(page)} className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded text-[10px] font-bold cursor-pointer transition-all" title={`AS 2 PDF — Page ${page}`}>
+        <FileText size={9} /> p.{page}
+      </button>
+      <span className="text-[10px] font-mono text-slate-400">{para}</span>
+    </span>
+  )
+
+  const DefCard = ({ term, para, page, official, plain }: { term: string; para: string; page: number; official: string; plain: string }) => (
+    <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-[#FAFAF8] dark:bg-[#1A2035] overflow-hidden mb-5">
+      <div className="flex items-center justify-between px-5 py-3 bg-slate-100/60 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+        <span className="font-extrabold text-[14.5px] text-slate-900 dark:text-white">{term}</span>
+        <ParaRef page={page} para={para} />
+      </div>
+      <div className="px-5 py-4 space-y-3">
+        <p className="text-[13.5px] italic text-slate-600 dark:text-slate-400 leading-relaxed border-l-4 border-indigo-400 pl-3">{official}</p>
+        <p className="text-[14px] text-slate-800 dark:text-slate-200 leading-relaxed"><strong className="text-indigo-600 dark:text-indigo-400">Plain explanation: </strong>{plain}</p>
+      </div>
+    </div>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19]">
+      {/* Sticky TOC */}
+      <div id="as2-standard-sticky-toc" className="sticky top-[58px] z-20 bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 shadow-sm select-none">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-4 sm:px-8 lg:px-12 py-2">
+          <div ref={tocScrollRef} style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', gap: '4px' }} className="[-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5">
+            {as2Sections.map((s, i) => {
+              const num = String(i + 1)
+              const c = secColors[num] || secColors['1']
+              const isActive = activeSection === s.id
+              return (
+                <button key={s.id} data-sec-id={s.id} onClick={() => handleSectionClick(s.id)}
+                  className={`px-3.5 py-1.5 rounded-full text-[11px] font-semibold shrink-0 whitespace-nowrap transition-all cursor-pointer border ${isActive ? `${c.badge} font-bold shadow-sm` : 'text-slate-500 dark:text-slate-400 border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'}`}>
+                  {s.title}
+                </button>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Canvas */}
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-10 lg:px-16 py-10 sm:py-14 my-4">
+
+        {/* 1. Introduction */}
+        <SecHeader id="as2-overview" num="1" title="Introduction & Purpose" />
+        <p className="text-[16.5px] sm:text-[17.5px] leading-relaxed text-slate-700 dark:text-slate-200 mb-6 font-serif">
+          AS 2 — Valuation of Inventories was originally issued in 1981, revised in 1994, and became mandatory from <strong>1 April 1999</strong>. It prescribes the accounting treatment for inventories, guidance on cost determination — cost of purchase, cost of conversion, other costs — and subsequent recognition of inventory as an expense, including any write-down to net realisable value.
+          <ParaRef page={1} para="Introduction" />
+        </p>
+        <NoteBox type="info" title="Fundamental Rule — Para 3">
+          Inventories shall be measured at the <strong>lower of cost and net realisable value (NRV)</strong>. This reflects the principle of prudence — losses are recognised immediately, gains only when realised.
+        </NoteBox>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+          {[{ icon: '📦', l: 'Measurement', d: 'Lower of Cost and NRV' }, { icon: '📊', l: 'Cost Formulas', d: 'FIFO or Weighted Average (LIFO Prohibited)' }, { icon: '📅', l: 'Effective From', d: '1 April 1999' }].map((b, i) => (
+            <div key={i} className="flex items-start gap-3 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#1A2035]">
+              <span className="text-2xl">{b.icon}</span>
+              <div><p className="font-bold text-[11.5px] text-slate-500 dark:text-slate-400 uppercase tracking-wider">{b.l}</p><p className="font-semibold text-[14px] text-slate-800 dark:text-white mt-0.5">{b.d}</p></div>
+            </div>
+          ))}
+        </div>
+
+        {/* 2. Scope */}
+        <SecHeader id="as2-scope" num="2" title="Scope (Para 1)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          AS 2 applies to all inventories — assets held for sale in ordinary course of business, in process of production for such sale, or in the form of materials/supplies to be consumed in production or service rendering.
+          <ParaRef page={1} para="Para 1" />
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+          <div className="p-5 rounded-xl border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/50 dark:bg-emerald-950/10">
+            <p className="font-extrabold text-[11px] text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3">✓ Included in Scope</p>
+            <ul className="space-y-2 text-[14px] text-slate-700 dark:text-slate-300">
+              {['Finished goods held for sale', 'Work-in-progress (WIP) during manufacturing', 'Raw materials and stores awaiting use', 'Goods purchased for trading/resale', 'Land held for sale by real estate developers', 'Service provider WIP — direct labour, materials, attributable overheads'].map((item, i) => (
+                <li key={i} className="flex items-start gap-2"><span className="text-emerald-600 font-bold shrink-0">✓</span>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="p-5 rounded-xl border border-red-200 dark:border-red-900/40 bg-red-50/50 dark:bg-red-950/10">
+            <p className="font-extrabold text-[11px] text-red-700 dark:text-red-400 uppercase tracking-wider mb-3">✗ Excluded from Scope</p>
+            <ul className="space-y-2 text-[14px] text-slate-700 dark:text-slate-300">
+              {['WIP under construction contracts (AS 7)', 'Financial instruments — shares, debentures (AS 13)', 'Biological assets — agricultural produce at harvest', 'Producers of agricultural/forest/mineral products measuring at NRV by industry tradition'].map((item, i) => (
+                <li key={i} className="flex items-start gap-2"><span className="text-red-600 font-bold shrink-0">✗</span>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as2-definitions" num="3" title="Definitions (Para 2)" />
+        <DefCard term="Inventories" para="Para 2" page={2}
+          official='"Inventories are assets: (a) held for sale in the ordinary course of business; (b) in the process of production for such sale; or (c) in the form of materials or supplies to be consumed in the production process or in the rendering of services."'
+          plain="Three categories: (1) Finished Goods — ready for sale; (2) Work-In-Progress (WIP) — partially manufactured; (3) Raw Materials and Stores — inputs for production. Each requires independent cost determination and NRV comparison." />
+        <DefCard term="Net Realisable Value (NRV)" para="Para 2" page={2}
+          official='"Net realisable value is the estimated selling price in the ordinary course of business less the estimated costs of completion and the estimated costs necessary to make the sale."'
+          plain="NRV = Estimated Selling Price − Cost to Complete − Selling Costs. For finished goods, cost to complete = zero. For WIP, cost to complete must be deducted. This is entity-specific — differs from Fair Value." />
+        <DefCard term="Fair Value" para="Para 2" page={2}
+          official="Fair value is the amount for which an asset could be exchanged, or a liability settled, between knowledgeable, willing parties in an arm's length transaction."
+          plain="NRV is entity-specific (what THIS entity expects to realise from its sales channels). Fair Value is market-based. They are conceptually different. AS 2 uses NRV — not Fair Value — for inventory measurement." />
+        <DefCard term="Cost of Inventories" para="Para 4" page={3}
+          official='"The cost of inventories should comprise all costs of purchase, costs of conversion and other costs incurred in bringing the inventories to their present location and condition."'
+          plain="Total Cost = Purchase Cost + Conversion Cost + Other Costs. This is the fully-landed cost concept. Selling and general administrative overheads are always excluded." />
+
+        {/* 4. Measurement */}
+        <SecHeader id="as2-measurement" num="4" title="Measurement — Lower of Cost and NRV (Para 3)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          Inventories should be valued at the <strong>lower of cost and net realisable value</strong>.<ParaRef page={3} para="Para 3" />
+        </p>
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead><tr className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+              {['Situation', 'Cost', 'NRV', 'Balance Sheet Value', 'Write-down Required'].map(h => <th key={h} className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">{h}</th>)}
+            </tr></thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              {[['Normal goods — NRV > Cost', '₹100', '₹120', '₹100 (Cost)', 'No'],
+                ['NRV decline — NRV < Cost', '₹100', '₹80', '₹80 (NRV)', 'Yes — ₹20'],
+                ['NRV = Cost', '₹100', '₹100', '₹100', 'No'],
+                ['WIP — NRV of finished product > total cost', '₹60 WIP', '₹90 (net)', '₹60 (Cost)', 'No'],
+                ['WIP — NRV of finished product < total cost', '₹60 WIP', '₹40 (net)', '₹40 (NRV)', 'Yes — ₹20'],
+              ].map((row, i) => (
+                <tr key={i} className={`hover:bg-slate-50/50 dark:hover:bg-slate-900/20 ${row[4] !== 'No' ? 'bg-red-50/20 dark:bg-red-950/10' : ''}`}>
+                  {row.map((cell, j) => <td key={j} className={`p-3 text-slate-800 dark:text-slate-200 ${j === 4 && cell !== 'No' ? 'font-bold text-red-600 dark:text-red-400' : ''}`}>{cell}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* 5. Cost of Purchase */}
+        <SecHeader id="as2-cost-purchase" num="5" title="Cost of Purchase (Para 5)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={3} para="Para 5" /> Cost of purchase = purchase price including duties and taxes + freight inwards + other directly attributable acquisition costs − trade discounts − rebates − duty drawbacks.
+        </p>
+        <div className="bg-slate-50 dark:bg-[#1A2035] rounded-xl border border-slate-200 dark:border-slate-800 p-5 mb-6 font-mono text-[12.5px]">
+          <p className="font-bold text-slate-900 dark:text-white mb-3">Cost of Purchase Formula:</p>
+          <div className="space-y-0.5 text-slate-700 dark:text-slate-300">
+            {[['Invoice price (including CIF)','[+]'],['Basic Customs Duty','[+]'],['Social Welfare Surcharge','[+]'],['IGST (if non-creditable)','[+]'],['Freight inwards (port to factory)','[+]'],['Insurance during transit','[+]']].map(([l,v]) => <p key={l}>{`  ${l.padEnd(40,' ')}${v}`}</p>)}
+            <p className="border-t border-slate-300 dark:border-slate-700 pt-1 mt-1">{'  Trade discounts / Rebates / Duty drawback    [−]'}</p>
+            <p className="border-t-2 border-slate-400 dark:border-slate-600 pt-1 mt-1 font-extrabold text-slate-900 dark:text-white">= Cost of Purchase</p>
+          </div>
+        </div>
+        <NoteBox type="exam" title="Exam Trap — Trade Discount vs Cash Discount">
+          <strong>Trade discounts → DEDUCTED</strong> from cost (Para 5). <strong>Cash discounts → NOT deducted</strong> — credited to P&amp;L as income. If IGST is fully creditable as ITC, it is NOT included in cost.
+        </NoteBox>
+
+        {/* 6. Cost of Conversion */}
+        <SecHeader id="as2-cost-conversion" num="6" title="Cost of Conversion — Normal Capacity Rule (Para 6)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={4} para="Para 6" /> Cost of conversion = direct labour + fixed production overheads (allocated at <strong>normal capacity</strong>) + variable production overheads (allocated at actual use).
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+          <div className="p-5 rounded-xl border border-violet-200 dark:border-violet-900/40 bg-violet-50/40 dark:bg-violet-950/10">
+            <p className="font-bold text-[12px] text-violet-700 dark:text-violet-400 uppercase tracking-wider mb-2">Variable Production OH</p>
+            <p className="text-[14px] text-slate-700 dark:text-slate-200 leading-relaxed">Allocated based on <strong>actual use</strong> of production facilities. Cost per unit changes with actual output volume. E.g., direct power, direct consumables tied to output.</p>
+          </div>
+          <div className="p-5 rounded-xl border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/40 dark:bg-indigo-950/10">
+            <p className="font-bold text-[12px] text-indigo-700 dark:text-indigo-400 uppercase tracking-wider mb-2">Fixed Production OH</p>
+            <p className="text-[14px] text-slate-700 dark:text-slate-200 leading-relaxed">Allocated based on <strong>normal capacity</strong> (long-run average). Unabsorbed fixed OH in periods of abnormal idleness is a <strong>period cost</strong> — NOT inventoried.</p>
+          </div>
+        </div>
+        <NoteBox type="info" title="Normal Capacity — Definition">
+          Normal capacity = production expected to be achieved on average over a number of periods under normal circumstances, accounting for planned maintenance. It is a long-run average, NOT the theoretical maximum or current-year actual output.
+        </NoteBox>
+        <div className="bg-slate-50 dark:bg-[#1A2035] rounded-xl border border-slate-200 dark:border-slate-800 p-5 font-mono text-[12.5px] mb-6">
+          <p className="font-bold text-slate-900 dark:text-white mb-2">Worked Example — Fixed OH Absorption (Normal Capacity):</p>
+          <div className="text-slate-700 dark:text-slate-300 space-y-0.5">
+            <p>Normal Capacity          = 10,000 units/month</p>
+            <p>Actual Production        = 7,000 units (abnormal strike)</p>
+            <p>Total Fixed Production OH = ₹10,00,000</p>
+            <p className="border-t mt-1 pt-1">Fixed OH Rate (Normal)   = ₹10,00,000 ÷ 10,000 = ₹100/unit</p>
+            <p>OH Absorbed into Inventory = 7,000 × ₹100 = ₹7,00,000</p>
+            <p className="text-red-600 dark:text-red-400 font-bold">Unabsorbed (Period Cost)  = ₹3,00,000 → charged to P&amp;L</p>
+          </div>
+        </div>
+        <NoteBox type="exam" title="Critical Exam Trap — Normal vs Actual Capacity">
+          Students often absorb all ₹10L at actual rate (₹10L ÷ 7,000 = ₹142.86/unit). <strong>This is WRONG.</strong> Fixed OH must always be absorbed at the NORMAL CAPACITY rate. Unabsorbed fixed OH due to abnormal idleness is a period cost — never inventoried.
+        </NoteBox>
+
+        {/* 7. Other Costs */}
+        <SecHeader id="as2-other-costs" num="7" title="Other Costs (Para 7)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={5} para="Para 7" /> Other costs are included in inventory cost only to the extent they are incurred in bringing inventories to their present location and condition. Examples include non-production overheads for specific products and costs of designing products for specific customers.
+        </p>
+        <NoteBox type="info">
+          Examples of permissible "other costs": (a) Job-specific design costs for custom orders; (b) Import agent commission directly attributable to bringing goods to the factory. Non-attributable general overhead is always excluded.
+        </NoteBox>
+
+        {/* 8. Excluded Costs */}
+        <SecHeader id="as2-excluded" num="8" title="Costs Excluded from Inventories (Para 8)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={5} para="Para 8" /> The following are excluded from inventory cost and recognised as expenses in the period incurred:
+        </p>
+        <div className="space-y-3 mb-6">
+          {[
+            { l: 'Abnormal amounts of wasted materials, labour, or other production costs', n: 'Normal wastage is absorbed into cost. Only ABNORMAL amounts are expensed.' },
+            { l: 'Storage costs (unless necessary in the production process before a further production stage)', n: 'Finished goods warehouse costs are excluded. Cold storage for maturing cheese is includable.' },
+            { l: 'Administrative overheads not contributing to bringing inventories to present location/condition', n: 'CEO salary, HR, finance team costs — all period costs.' },
+            { l: 'Selling costs', n: 'Delivery, advertising, sales commissions — all period costs.' },
+            { l: 'Borrowing costs (interest)', n: 'Key difference vs Ind AS 2: under AS 2, interest is never included in inventory cost regardless of asset type.' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-3 p-4 rounded-xl border border-red-100 dark:border-red-900/30 bg-red-50/40 dark:bg-red-950/10">
+              <span className="text-red-500 font-bold mt-0.5 shrink-0 text-lg">✗</span>
+              <div>
+                <p className="font-semibold text-[14px] text-slate-800 dark:text-slate-200">{item.l}</p>
+                <p className="text-[12.5px] text-slate-500 dark:text-slate-400 mt-0.5 italic">{item.n}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 9. Service Providers */}
+        <SecHeader id="as2-service" num="9" title="Service Provider Inventory Costing (Para 9)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={5} para="Para 9" /> For service providers, inventories (WIP) include costs of service for which revenue has not yet been recognised. The cost includes labour and costs of personnel directly engaged in providing the service, supervisory personnel, and attributable overheads.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div className="p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/40 dark:bg-emerald-950/10">
+            <p className="font-bold text-[11.5px] text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3">✓ Include in Service WIP</p>
+            <ul className="space-y-1.5 text-[13.5px] text-slate-700 dark:text-slate-300">
+              {['Labour of personnel directly engaged in service delivery','Supervisory personnel (project managers)','Directly attributable materials (software licenses, consumables)','Attributable overheads (IT infrastructure used for project)'].map((i, k) => <li key={k} className="flex items-start gap-2"><span className="text-emerald-600 shrink-0">✓</span>{i}</li>)}
+            </ul>
+          </div>
+          <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/40 bg-red-50/40 dark:bg-red-950/10">
+            <p className="font-bold text-[11.5px] text-red-700 dark:text-red-400 uppercase tracking-wider mb-3">✗ Exclude from Service WIP</p>
+            <ul className="space-y-1.5 text-[13.5px] text-slate-700 dark:text-slate-300">
+              {['Sales and business development costs','General administrative staff (CEO, CFO, HR)','Non-attributable general overheads','Profit margins'].map((i, k) => <li key={k} className="flex items-start gap-2"><span className="text-red-600 shrink-0">✗</span>{i}</li>)}
+            </ul>
+          </div>
+        </div>
+
+        {/* 10. Cost Formulas */}
+        <SecHeader id="as2-formulas" num="10" title="Cost Formulas (Para 10–13)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          AS 2 permits three cost formulas. The same formula must be applied to all inventories of similar nature and use.<ParaRef page={6} para="Para 10–13" />
+        </p>
+        {[{key:'specid',label:'Specific Identification (Para 10)',color:'sky',content:<><p className="mb-2">Each specific inventory item is tracked to its actual cost. Used for <strong>inventories that are not ordinarily interchangeable</strong> and for goods/services produced for specific projects.</p><p className="text-[12.5px] text-slate-500 dark:text-slate-400 italic">Example: Custom jewellery, bespoke machinery components. NOT appropriate for fungible items — FIFO or WA must be used for those.</p></>},
+         {key:'fifo',label:'FIFO — First-In, First-Out (Para 11)',color:'blue',content:<><p className="mb-2">Oldest inventory is assumed used/sold first. Closing stock represents most recent purchases.</p><p className="mb-1"><strong>Rising prices:</strong> FIFO gives lower COGS (older prices), higher closing stock (recent prices). Balance sheet inventory ≈ current replacement cost.</p><p className="text-[12.5px] text-slate-500 dark:text-slate-400 italic">Best for perishables or items where physical flow truly follows FIFO.</p></>},
+         {key:'wa',label:'Weighted Average Cost — WAC (Para 12)',color:'indigo',content:<><p className="mb-2">WAC = Total Cost of Available Inventory ÷ Total Units Available. Recalculated after each receipt (moving) or period-end (periodic).</p><p className="mb-1"><strong>Rising prices:</strong> WAC gives slightly higher COGS than FIFO, lower closing stock. Smooths price fluctuations.</p><p className="font-bold text-red-600 dark:text-red-400">LIFO is PROHIBITED under AS 2 Para 12.</p></>},
+        ].map(({key,label,color,content}) => (
+          <div key={key} className="mb-4">
+            <button onClick={() => toggleAccordion(key)} className={`w-full text-left flex items-center justify-between p-4 rounded-xl border border-${color}-200 dark:border-${color}-900/40 bg-${color}-50/40 dark:bg-${color}-950/10 transition-all`}>
+              <span className={`font-bold text-[15px] text-${color}-700 dark:text-${color}-300`}>{label}</span>
+              <ChevronDown size={16} className={`text-${color}-600 transition-transform ${openAccordions[key] ? 'rotate-180' : ''}`} />
+            </button>
+            {openAccordions[key] && <div className="mt-1 mb-1 px-5 py-4 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900/20 text-[14.5px] text-slate-700 dark:text-slate-200 leading-relaxed">{content}</div>}
+          </div>
+        ))}
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead><tr className="bg-slate-100 dark:bg-slate-800">{['Criterion','FIFO','Weighted Average','LIFO'].map(h=><th key={h} className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">{h}</th>)}</tr></thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              {[['Permitted under AS 2?','✓ Yes','✓ Yes','✗ PROHIBITED'],['Closing Stock (rising prices)','Higher','Middle','Lower'],['COGS (rising prices)','Lower','Middle','Higher'],['Balance Sheet value','Near current','Average','Understated']].map((row,i)=>(
+                <tr key={i} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/20">{row.map((cell,j)=><td key={j} className={`p-3 ${j===3?'text-red-500 dark:text-red-400 font-bold':''}`}>{cell}</td>)}</tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <NoteBox type="info" title="Consistency Rule (Para 13)">
+          Same cost formula must be used for all inventories of <strong>similar nature and use</strong>. Switching formulas between periods is a change in accounting policy under AS 1, Para 25 — must be disclosed with quantified impact.
+        </NoteBox>
+
+        {/* 11. NRV */}
+        <SecHeader id="as2-nrv" num="11" title="Net Realisable Value — NRV (Para 14–17)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={7} para="Para 14" /> NRV assessments should be based on the most reliable evidence available. Inventories should be written down to NRV when their NRV has declined below cost.
+        </p>
+        <div className="space-y-4 mb-6">
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#1A2035]">
+            <p className="font-bold text-[14px] text-slate-900 dark:text-white mb-3">When to write down to NRV (Para 15–16):</p>
+            <ul className="space-y-2 text-[14px] text-slate-700 dark:text-slate-300">
+              {['Inventories are damaged or wholly / partially obsolete','Selling prices have declined since acquisition','Estimated costs of completion or selling costs have increased','WIP: NRV of finished product < total cost (existing + cost to complete)','Materials: if finished product cost > NRV, write materials down too'].map((item,i)=>(
+                <li key={i} className="flex items-start gap-2"><span className="text-orange-500 font-bold shrink-0 mt-0.5">•</span>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <NoteBox type="warning" title="NRV Assessment — Item by Item (Para 16)">
+            Write-down must be assessed <strong>item by item</strong> (or by similar group). Gains (NRV &gt; Cost) on one item cannot offset write-downs on another. Total inventory-level assessment is NOT permitted.
+          </NoteBox>
+          <NoteBox type="success" title="Reversal of Write-down (Para 17)">
+            When circumstances causing the write-down no longer exist, reverse the write-down. Recognised as <strong>reduction in inventory expense in the period of reversal</strong>. Cannot result in inventory being carried above original cost.
+          </NoteBox>
+        </div>
+        <div className="bg-slate-50 dark:bg-[#1A2035] rounded-xl border border-slate-200 dark:border-slate-800 p-5 font-mono text-[12.5px] mb-6">
+          <p className="font-bold text-slate-900 dark:text-white mb-2">NRV for WIP:</p>
+          <div className="text-slate-700 dark:text-slate-300 space-y-0.5">
+            <p>NRV of WIP  = Expected Selling Price of Finished Product</p>
+            <p>              − Estimated Cost to Complete</p>
+            <p>              − Estimated Selling Costs</p>
+            <p className="border-t mt-1 pt-1 text-amber-600 dark:text-amber-400 font-bold">Exam trap: students forget to deduct "cost to complete" from NRV of WIP</p>
+          </div>
+        </div>
+
+        {/* 12. Recognition */}
+        <SecHeader id="as2-recognition" num="12" title="Recognition as Expense (Para 18)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={8} para="Para 18" /> When inventories are sold, the carrying amount is recognised as an expense in the period in which the related revenue is recognised. Write-downs are also recognised as expenses in the period they occur.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+          {[{l:'On Sale of Inventory',e:'Dr Cost of Goods Sold\n  Cr Inventory',n:'Matched against revenue in same period'},
+            {l:'NRV Write-down',e:'Dr Loss on NRV Write-down\n  Cr Inventory',n:'Recognised immediately in period of NRV decline'},
+            {l:'Reversal of Write-down',e:'Dr Inventory\n  Cr Cost of Goods Sold (Reduction)',n:'Capped at original write-down amount — cannot exceed cost'},
+            {l:'Abnormal Wastage',e:'Dr Abnormal Loss A/c (P&L)\n  Cr WIP / Raw Materials',n:'Always a period cost — excluded from inventory'},
+          ].map((item,i)=>(
+            <div key={i} className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#1A2035]">
+              <p className="font-bold text-[11.5px] text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">{item.l}</p>
+              <pre className="font-mono text-[11.5px] text-slate-800 dark:text-slate-200 leading-relaxed bg-white dark:bg-slate-900 rounded-lg p-3 border border-slate-200 dark:border-slate-700 whitespace-pre-wrap">{item.e}</pre>
+              <p className="text-[11.5px] text-slate-400 dark:text-slate-500 italic mt-1.5">{item.n}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* 13. Disclosure */}
+        <SecHeader id="as2-disclosure" num="13" title="Disclosure Requirements (Para 19)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={9} para="Para 19" /> Financial statements shall disclose:
+        </p>
+        <div className="space-y-3 mb-8">
+          {[{r:true,t:'Accounting policy — cost formula used (FIFO or Weighted Average)'},
+            {r:true,t:'Total carrying amount classified by category (Raw Materials, WIP, Finished Goods, Stores & Spares)'},
+            {r:true,t:'Carrying amount of inventories carried at fair value less costs to sell'},
+            {r:true,t:'Amount of inventories recognised as expense during the period (COGS)'},
+            {r:false,t:'Amount of any NRV write-down recognised as expense (if occurred)'},
+            {r:false,t:'Amount of any write-down reversal recognised (if occurred)'},
+            {r:false,t:'Circumstances that led to the reversal'},
+            {r:false,t:'Carrying amount of inventories pledged as security for liabilities'},
+          ].map((item,i)=>(
+            <div key={i} className={`flex items-start gap-3 p-3.5 rounded-xl border ${item.r?'border-blue-200 dark:border-blue-900/30 bg-blue-50/30':'border-amber-200 dark:border-amber-900/30 bg-amber-50/30'}`}>
+              <span className={`shrink-0 font-bold text-[14px] ${item.r?'text-blue-500':'text-amber-500'}`}>{item.r?'☑':'☐'}</span>
+              <div>
+                <p className="text-[14px] text-slate-800 dark:text-slate-200 leading-relaxed">{item.t}</p>
+                {!item.r&&<span className="text-[10.5px] text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wide">Conditional — if event occurred</span>}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 14. Comparison */}
+        <SecHeader id="as2-comparison" num="14" title="AS 2 vs Ind AS 2 — Key Differences" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead><tr className="bg-slate-100 dark:bg-slate-800">{['Criterion','AS 2 (Indian GAAP)','Ind AS 2 (IFRS-aligned)'].map(h=><th key={h} className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">{h}</th>)}</tr></thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              {[{c:'Measurement',a:'Lower of Cost and NRV',ia:'Same',d:false},
+                {c:'Cost Formulas',a:'FIFO or WA; LIFO PROHIBITED',ia:'Same',d:false},
+                {c:'Borrowing Costs',a:'EXCLUDED — always period cost',ia:'INCLUDED for qualifying assets (Ind AS 23)',d:true},
+                {c:'Write-down Reversal',a:'Permitted (Para 17)',ia:'Permitted',d:false},
+                {c:'Biological Assets',a:'Excluded from scope',ia:'Excluded — covered by Ind AS 41',d:false},
+                {c:'COGS Disclosure',a:'Required (Para 19)',ia:'Required',d:false},
+              ].map((row,i)=>(
+                <tr key={i} className={`hover:bg-slate-50/50 dark:hover:bg-slate-900/20 ${row.d?'bg-amber-50/20 dark:bg-amber-950/10':''}`}>
+                  <td className="p-3 font-semibold text-slate-900 dark:text-white">{row.c}</td>
+                  <td className="p-3 text-slate-700 dark:text-slate-300">{row.a}</td>
+                  <td className={`p-3 ${row.d?'text-amber-700 dark:text-amber-300 font-semibold':' text-slate-700 dark:text-slate-300'}`}>{row.ia}{row.d&&<span className="ml-2 text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded">DIFFERENT</span>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <NoteBox type="exam" title="Most Critical Difference for Exams">
+          <strong>Borrowing costs</strong> = biggest AS 2 vs Ind AS 2 difference. Under <strong>AS 2</strong>, interest is NEVER part of inventory cost. Under <strong>Ind AS 2</strong> (read with Ind AS 23), borrowing costs may be included for qualifying inventory assets (e.g., maturing wines, real estate WIP taking substantial time to prepare).
+        </NoteBox>
+
+      </div>
+    </div>
+  )
+}
+
+
 interface LearningPortalClientProps {
   initialStandards: Standard[]
   initialSelectedStandardDetails: Standard
@@ -2149,6 +2642,11 @@ export default function LearningPortalClient({
                       navigateToPdfPage={navigateToPdfPage}
                       renderTextWithReferences={renderTextWithReferences}
                     />
+                  ) : currentStandard.id === 'as-2' ? (
+                    <AS2StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                      renderTextWithReferences={renderTextWithReferences}
+                    />
                   ) : (
                     <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
                   
@@ -2380,6 +2878,11 @@ export default function LearningPortalClient({
             <div className="w-full space-y-8 animate-fade-in">
               {currentStandard.id === 'as-1' ? (
                 <AS1ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-2' ? (
+                <AS2ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />

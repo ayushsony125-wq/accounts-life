@@ -434,6 +434,10 @@ export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'
       const { AS_1_ENTRY } = require('./data/static-entries')
       return mapStaticEntryToStandard(AS_1_ENTRY, 'AS')
     }
+    if (id === 'as-2') {
+      const { AS_2_ENTRY } = require('./data/static-entries')
+      return mapStaticEntryToStandard(AS_2_ENTRY, 'AS')
+    }
     if (id === 'ind-as-1') {
       const { IND_AS_1_ENTRY } = require('./data/static-entries')
       return mapStaticEntryToStandard(IND_AS_1_ENTRY, 'Ind AS')

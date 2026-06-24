@@ -11,6 +11,8 @@ async function main() {
   await page.waitForTimeout(5000);
 
   // Click the Examples & Case Law tab
+  // Let's find the button for Examples & Case Law tab.
+  // Standard tab is usually active by default. Let's see the tab buttons.
   const tabs = await page.$$('button');
   for (const tab of tabs) {
     const text = await tab.innerText();
@@ -22,13 +24,25 @@ async function main() {
   }
   await page.waitForTimeout(2000);
 
+  // Now, let's print all section headings (h2) in the Examples tab container
+  console.log('--- H2 Headings ---');
   const h2s = await page.$$('h2');
-  for (let i = 0; i < h2s.length; i++) {
-    const text = await h2s[i].innerText();
-    const html = await h2s[i].evaluate(el => el.outerHTML);
-    console.log(`H2 #${i}:`);
-    console.log('  Text:', JSON.stringify(text));
-    console.log('  HTML:', html);
+  for (const h2 of h2s) {
+    console.log('H2:', await h2.innerText());
+  }
+
+  // Also print the text inside the sub-navbar buttons
+  console.log('--- Sub-navbar buttons ---');
+  const subNavs = await page.$$('#as1-examples-sticky-toc button');
+  for (const btn of subNavs) {
+    console.log('Btn:', await btn.innerText());
+  }
+
+  // Also print first few illustration titles (h3)
+  console.log('--- First 5 H3 Titles ---');
+  const h3s = await page.$$('h3');
+  for (let i = 0; i < Math.min(h3s.length, 10); i++) {
+    console.log('H3:', await h3s[i].innerText());
   }
 
   await browser.close();

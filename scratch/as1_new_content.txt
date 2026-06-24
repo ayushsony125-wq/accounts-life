@@ -1,0 +1,2626 @@
+'use client'
+
+import React, { useState, useEffect, useRef } from 'react'
+import { FileText, AlertTriangle, Scale, BookOpen, CheckCircle, Info, HelpCircle, Award } from 'lucide-react'
+
+interface AS1ExamplesCustomContentProps {
+  navigateToPdfPage: (page: number) => void;
+  renderTextWithReferences: (text: string) => React.ReactNode;
+}
+
+interface CardPanel {
+  title: string;
+  content: React.ReactNode;
+  bgClass?: string;
+  borderClass?: string;
+  textClass?: string;
+}
+
+interface CaseStudyCardProps {
+  id: string;
+  title: string;
+  category: string;
+  badgeColor?: string;
+  pdfPage?: number;
+  navigateToPdfPage?: (page: number) => void;
+  panels: CardPanel[];
+  examFocus?: string;
+  examFocusType?: 'trap' | 'focus' | 'trick' | 'concept' | 'adjustment';
+}
+
+function CaseStudyCard({
+  id,
+  title,
+  category,
+  badgeColor = 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200/30',
+  pdfPage,
+  navigateToPdfPage,
+  panels,
+  examFocus,
+  examFocusType = 'focus'
+}: CaseStudyCardProps) {
+  return (
+    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all duration-300 space-y-6 relative overflow-hidden">
+      {/* Top Banner Accent */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600" />
+      
+      {/* Card Title & Meta Header */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4 pt-1">
+        <h3 className="text-[16px] sm:text-[18px] font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+          {title}
+        </h3>
+        <div className="flex items-center gap-2">
+          {pdfPage && navigateToPdfPage && (
+            <button
+              onClick={() => navigateToPdfPage(pdfPage)}
+              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded cursor-pointer transition-all shrink-0"
+              title={`Open ICAI AS 1 PDF — Page ${pdfPage}`}
+            >
+              <FileText size={11} />
+            </button>
+          )}
+          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${badgeColor} shrink-0`}>
+            {category}
+          </span>
+        </div>
+      </div>
+
+      {/* Panels Layout */}
+      <div className="grid grid-cols-1 gap-5 font-sans">
+        {panels.map((panel, idx) => {
+          const isMono = panel.bgClass?.includes('font-mono') || panel.title.toLowerCase().includes('disclosure');
+          const panelBg = isMono 
+            ? 'bg-slate-50 dark:bg-slate-900/40 border-slate-200/80 dark:border-slate-800 text-slate-850 dark:text-slate-250 font-mono' 
+            : (panel.bgClass || 'bg-slate-50/70 dark:bg-slate-900/40 border-slate-200/50 dark:border-slate-800/70 text-slate-700 dark:text-slate-300');
+          const panelBorder = panel.borderClass || 'border';
+          
+          return (
+            <div 
+              key={idx} 
+              className={`p-5 rounded-xl space-y-3 ${panelBg} ${panelBorder}`}
+            >
+              <div className="flex items-center gap-2.5 text-[11px] font-extrabold uppercase tracking-wider select-none">
+                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-850 text-[10px] text-slate-700 dark:text-slate-350 font-bold font-mono shrink-0">
+                  {idx + 1}
+                </span>
+                <span className="text-slate-850 dark:text-slate-200 font-bold font-sans">
+                  {panel.title}
+                </span>
+              </div>
+              <div className={`text-[13.5px] leading-relaxed font-serif ${isMono ? 'font-mono whitespace-pre-line' : ''}`}>
+                {panel.content}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Optional Exam Corner Box */}
+        {examFocus && (
+          <div className="p-4 bg-amber-500/10 dark:bg-amber-500/5 border border-amber-500/30 rounded-xl space-y-1.5 font-sans">
+            <div className="flex items-center gap-1.5 text-[10.5px] font-extrabold text-amber-800 dark:text-amber-400 uppercase tracking-wider select-none">
+              <AlertTriangle size={13} className="text-amber-600 dark:text-amber-400 shrink-0" />
+              <span>
+                {examFocusType === 'trap'
+                  ? 'Exam Trap Warning'
+                  : examFocusType === 'trick'
+                  ? 'Mnemonic / Memory Trick'
+                  : examFocusType === 'concept'
+                  ? 'Most Asked Concept'
+                  : examFocusType === 'adjustment'
+                  ? 'Likely ICAI Adjustment'
+                  : 'Exam Focus & Learning'}
+              </span>
+            </div>
+            <div className="text-[13px] leading-relaxed text-slate-800 dark:text-slate-200 font-serif font-medium">{examFocus}</div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithReferences }: AS1ExamplesCustomContentProps) {
+  const [activeSection, setActiveSection] = useState('icai-illustrations')
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const exampleChapters = [
+    { id: 'icai-illustrations', title: '1. ICAI Illustrations' },
+    { id: 'business-examples',  title: '2. Practical Business Examples' },
+    { id: 'audit-cases',       title: '3. Audit Case Studies' },
+    { id: 'regulatory-obs',    title: '4. Regulatory Observations' },
+    { id: 'legal-cases',       title: '5. Landmark Judicial Cases' },
+    { id: 'exam-oriented',     title: '6. Exam-Oriented Corner' },
+    { id: 'audit-notes',       title: '7. Audit Notes & Reporting' }
+  ]
+
+  const handleChapterClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(`sec-${id}`)
+    const stickyToc = document.getElementById('as1-examples-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let stickyOffset = 98
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        stickyOffset = tocRect.bottom - containerRect.top
+      }
+      const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset - 10
+      container.scrollTo({ top: targetScrollTop, behavior: 'auto' })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return;
+    const activeBtn = tocScrollRef.current.querySelector(`[data-toc-id="${activeSection}"]`);
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [activeSection]);
+
+  useEffect(() => {
+    let observer: IntersectionObserver | undefined;
+    const initObserver = () => {
+      const scrollContainer = document.getElementById('as1-scroll-container');
+      if (!scrollContainer) {
+        setTimeout(initObserver, 50);
+        return;
+      }
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const secId = entry.target.id.replace('sec-', '');
+              setActiveSection(secId);
+            }
+          });
+        },
+        {
+          root: scrollContainer,
+          rootMargin: '-90px 0px -65% 0px',
+          threshold: 0
+        }
+      );
+
+      exampleChapters.forEach((sec) => {
+        const el = document.getElementById(`sec-${sec.id}`);
+        if (el) {
+          observer?.observe(el);
+        }
+      });
+    };
+
+    initObserver();
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      el.scrollLeft += e.deltaY;
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+    }
+  }, [])
+
+  // Upgraded Section heading generator matching real workbook chapter headings
+  const renderSectionHeader = (num: string, title: string, description: string) => {
+    const doubleDigitNum = num.padStart(2, '0');
+    return (
+      <div className="w-full mb-10 mt-20 first:mt-4 font-sans relative border-l-4 border-indigo-650 dark:border-indigo-500 pl-5 sm:pl-7 py-2">
+        <div className="flex flex-col gap-2">
+          <span className="text-[11px] sm:text-[12px] font-mono font-extrabold text-indigo-650 dark:text-indigo-400 uppercase tracking-widest block">
+            Chapter {doubleDigitNum}
+          </span>
+          <h2 className="text-[22px] sm:text-[26px] font-sans font-black text-slate-900 dark:text-white tracking-tight leading-none uppercase">
+            {title}
+          </h2>
+        </div>
+        {description && (
+          <p className="text-[14px] sm:text-[15px] text-slate-500 dark:text-slate-400 mt-3 leading-relaxed max-w-5xl font-serif italic">
+            {description}
+          </p>
+        )}
+        <div className="h-[1px] w-full bg-gradient-to-r from-slate-200 via-slate-100 to-transparent dark:from-slate-800 dark:via-slate-900/50 mt-6" />
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+      {/* Sticky Tab-Specific Navbar (matching Standard Tab design layout) */}
+      <div id="as1-examples-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
+          <div
+            ref={tocScrollRef}
+            style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }}
+            className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5"
+          >
+            {exampleChapters.map((sec) => (
+              <button
+                key={sec.id}
+                data-toc-id={sec.id}
+                onClick={() => handleChapterClick(sec.id)}
+                className={`transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap ${
+                  activeSection === sec.id
+                    ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                }`}
+              >
+                {sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Publication Sheet Canvas */}
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-16 relative my-4">
+
+        {/* ─── SECTION 1: ICAI ILLUSTRATIONS ────────────────────────────────────── */}
+        <section id="sec-icai-illustrations" className="scroll-mt-36 space-y-8 w-full">
+          {renderSectionHeader(
+            '1',
+            'ICAI Illustrations',
+            'Authentic illustrations, selection considerations, and measurement decisions mapped directly to the ICAI Study Material.'
+          )}
+
+          <div className="space-y-12">
+            <CaseStudyCard
+              id="1-1"
+              title="Illustration 1.1: Accounting Policies vs. Estimates (WIP Overheads vs. Warranty)"
+              category="ICAI Study Material"
+              pdfPage={4}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Industry Context:</strong> RealChem India Ltd is a public listed specialty chemicals manufacturer supplying polymers to the automotive sector. The company operates continuous-flow production reactors where capital depreciation and utilities drive 85% of factory costs.</p>
+                      <p><strong>Historical Accounting Treatment:</strong> Historically, WIP inventories were allocated fixed factory overheads using a direct-labor absorption rate (25% of wages). However, due to recent automation, direct labor now represents only 6% of total manufacturing costs.</p>
+                      <p><strong>The Trigger:</strong> During the year, cost studies showed that the direct-labor method heavily distorted inventory values during low-labor periods. Consequently, management decided to switch to a machine-hour rate system. In the same year, the company increased its provision for product warranty claims from 1.5% to 3.5% of annual sales after early mechanical failures were identified in its new consumer electronics chemical coatings line.</p>
+                      <p><strong>Management Position & Reasoning:</strong> Management seeks to classify both adjustments as accounting policy revisions under Note 1. They argue that because both are backed by technical studies, they represent changes in the application of principles, allowing them to restate past figures retrospectively to stabilize current year earnings.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does changing the base of overhead absorption represent a policy change under AS 1, and does modifying the warranty provision constitute an estimate change under AS 5? Are they retrospectively restatable?</p>
+                      <p><strong>Accounting & Reporting Risk:</strong> Bypassing the standard by classifying the warranty estimate revision as a policy change allows management to avoid charging a ₹15 Lakhs charge to the current P&L, overstating current profits through a retrospective retained earnings adjustment.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 1 Paragraph 11</strong>, accounting policies refer to the specific principles and the methods of applying them. Changing the overhead cost absorption method alters the cost accumulation formula, constituting a policy change. Restructuring warranty provisions is based on updated empirical failure logs, representing a change in estimate based on new data under <strong>AS 5</strong>.</p>
+                      <p><strong>Alternatives Evaluated:</strong> (a) Classify both changes as policy adjustments under Note 1 (Non-compliant); (b) Treat both as estimate adjustments under AS 5 to avoid retrospective restatements (Non-compliant); (c) Classify WIP overhead allocation change as a policy revision and the warranty change as an estimate adjustment (Standard-compliant).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2.5">
+                      <p><strong>Mandated Treatment:</strong> Apply the WIP overhead allocation method change retrospectively. Apply the warranty provision increase prospectively under AS 5.</p>
+                      <div className="p-3 bg-emerald-50/50 dark:bg-slate-900 rounded border border-emerald-100 dark:border-emerald-900/50 font-mono text-[12px] space-y-1">
+                        <p className="font-bold text-slate-800 dark:text-slate-200">Financial Impact Summary:</p>
+                        <p>• WIP Inventory overhead adjustment (Retrospective): Decreased opening inventory by ₹28 Lakhs (debited directly to opening reserves).</p>
+                        <p>• Warranty Provision increase (Prospective): Charged ₹15 Lakhs directly to current year's P&L under Selling Expenses.</p>
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Significant Accounting Policies): The Company has changed its method of allocating factory overheads to work-in-progress inventories from a direct-labor absorption rate to a technical machine-hour rate system to reflect automation levels. This change in accounting policy has been applied retrospectively, decreasing inventory carrying value and opening reserves by ₹28 Lakhs. 
+                      Separately, the warranty provision has been revised from 1.5% to 3.5% based on updated technical reports. This change in estimate under AS 5 has been applied prospectively, increasing current year selling expenses by ₹15 Lakhs."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Audit Risk:</strong> Risk of management misclassifying estimate changes as policy adjustments to avoid profit volatility.</p>
+                      <p><strong>Procedures:</strong> 1. Review the independent engineering reports on machine-hour cost drivers. 2. Verify WIP valuation sheets under both methods to confirm the ₹28 Lakhs restatement. 3. Review historical warranty claims registers to validate the 3.5% failure rate estimation basis.</p>
+                      <p><strong>CARO 2020:</strong> Verify under Clause 3(ii) that inventory valuations comply with AS 2 and proper adjustments have been recorded.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="ICAI Exam Trap: Do not confuse changes in accounting estimates with changes in accounting policies. Revisions in estimate (like warranty percentage) are applied prospectively under AS 5. Methods of applying accounting principles (like WIP overhead allocation basis) are policy changes and require retrospective restatement with clear disclosure of the quantified impact in Note 1. ALWAYS quote AS 1 Para 22 and AS 5 in your answer."
+              examFocusType="trap"
+            />
+
+            <CaseStudyCard
+              id="1-2"
+              title="Illustration 1.2: Materiality in Office Equipment Write-Off (Immediate Expensing)"
+              category="ICAI Study Material"
+              pdfPage={6}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Industry Context:</strong> MegaMart Logistics Ltd operates a nationwide logistics network, managing 40 warehousing facilities. The company has a total asset base of ₹850 Crores and annual revenue of ₹1,200 Crores.</p>
+                      <p><strong>The Transaction:</strong> During the financial year, the company purchased office printing machinery and industrial storage bins for ₹3,50,000. These assets have an expected physical life of 4 years.</p>
+                      <p><strong>Management Action:</strong> Management expensed the entire ₹3,50,000 immediately in the current year under office expenses, rather than capitalizing it as Property, Plant & Equipment (PPE) and calculating depreciation. They argue that the expense is highly immaterial relative to their revenue, and tracking depreciation for low-value items creates unnecessary administrative work.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does immediately expensing long-term assets violate the matching principle and capitalization rules under AS 1 and AS 10?</p>
+                      <p><strong>Reporting Risk:</strong> Risk of cumulative write-offs becoming material in the aggregate, which would violate the completeness and valuation assertions of fixed assets.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 1 Paragraph 17(c)</strong>, financial statements should disclose all material items—defined as items the knowledge of which might influence the economic decisions of users. If an item is immaterial, strict compliance with accounting standards (such as capitalizing fixed assets under AS 10) is not required. The printing equipment is highly immaterial to any stakeholder, justifying immediate expensing.</p>
+                      <p><strong>Alternatives Evaluated:</strong> (a) Capitalise as PPE and calculate annual depreciation of ₹87,500 (administratively inefficient); (b) Charge the ₹3,50,000 directly to expenses under the materiality principle (Standard-compliant).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2.5">
+                      <p><strong>Recommended Treatment:</strong> Charge the ₹3,50,000 directly to office expenses. No capitalization is required.</p>
+                      <div className="p-3 bg-emerald-50/50 dark:bg-slate-900 rounded border border-emerald-100 dark:border-emerald-900/50 font-mono text-[12px] space-y-1">
+                        <p>• Operating expenses increase by: ₹3,50,000</p>
+                        <p>• Net profit before tax decreases by: ₹3,50,000</p>
+                        <p>• PPE net block is lower by: ₹2,62,500 (net of first-year depreciation) compared to capitalization</p>
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Capitalization Policy): In accordance with the materiality concept of AS 1, individual assets costing less than ₹5,00,000 are expensed to the Statement of Profit and Loss in the year of acquisition, regardless of their estimated useful lives."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify the purchase invoice for printing equipment to confirm the purchase price. 2. Verify that the client consistently applies its internal capitalization threshold. 3. Check for systemic write-offs of similar low-value items that might be material in the aggregate.</p>
+                      <p><strong>CARO 2020:</strong> Ensure these assets are not included in the physical asset register, preventing record mismatches under Clause 3(i).</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Most Asked Concept: Materiality. Immaterial items do not require strict compliance with standard accounting policies. For example, immediate expensing of low-value assets like printing equipment is allowed to save administrative costs. In exams, emphasize that the threshold is relative to the enterprise's asset base and revenue."
+              examFocusType="concept"
+            />
+
+            <CaseStudyCard
+              id="1-3"
+              title="Illustration 1.3: Para 23 — Disclosure Cannot Cure Incorrect Accounting (Interest Capitalization)"
+              category="ICAI Study Material"
+              pdfPage={7}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> PrimeBuilders Ltd is a listed commercial real estate developer constructing IT parks. The company has outstanding bank loans of ₹320 Crores.</p>
+                      <p><strong>The Event:</strong> During the construction of a new IT block, a major labor dispute occurred, suspending active construction for a continuous period of 9 months. The company continued to capitalize borrowing costs (interest) of ₹45 Lakhs incurred during this suspension period as part of the asset cost.</p>
+                      <p><strong>Management Action:</strong> Management recognized the incorrect capitalization but attempted to resolve it by adding a detailed footnote in Note 1: 'Interest capitalized during construction suspension periods has been included in fixed assets to preserve gross margins, and will be depreciated over 30 years.'</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Can management capitalize interest during an extended construction suspension period if they disclose it in Note 1, or does this violate AS 1 and AS 16?</p>
+                      <p><strong>Accounting & Reporting Risk:</strong> Capitalizing interest during suspension overstates fixed assets (Valuation) and net profit, presenting a false view of financial performance in violation of AS 16.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 1 Paragraph 23</strong>, disclosure of the accounting policies adopted or changes therein cannot remedy an incorrect or inappropriate accounting treatment. AS 16 explicitly requires that capitalization of borrowing costs must be suspended during extended periods when active development is interrupted.</p>
+                      <p><strong>Alternatives Evaluated:</strong> (a) Capitalize interest and add a footnote (incorrect); (b) Reverse capitalization and expense the ₹45 Lakhs to the P&L (Standard-compliant).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2.5">
+                      <p><strong>Mandated Treatment:</strong> Reverse the interest capitalized during the 9-month suspension. Expense the ₹45 Lakhs directly to the current P&L.</p>
+                      <div className="p-3 bg-emerald-50/50 dark:bg-slate-900 rounded border border-emerald-100 dark:border-emerald-900/50 font-mono text-[12px] space-y-1">
+                        <p className="font-bold text-slate-800 dark:text-slate-200">Reversal Entries:</p>
+                        <p>Debit: Profit &amp; Loss A/c (Finance Costs) — ₹45,00,000</p>
+                        <p>Credit: Capital Work-in-Progress (IT Block) — ₹45,00,000</p>
+                      </div>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Borrowing Costs): Borrowing costs directly attributable to construction of qualifying assets are capitalized. Capitalization is suspended during extended periods of construction interruption, and interest incurred during such periods is expensed to the P&L."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Inspect construction progress logs to identify the suspension periods. 2. Verify interest calculations for the 9-month period. 3. Check if capitalization was halted in the ledger. 4. If management refuses to correct, qualify the audit report.</p>
+                      <p><strong>CARO 2020:</strong> Clause 3(i) requires checking the correctness of capital assets records.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Likely ICAI Adjustment / Exam Trap: Inappropriate accounting treatments cannot be rectified or cured by footnote disclosures. This is a very common exam scenario where management capitalizes abnormal costs (like interest during suspension) and attempts to resolve it via detailed footnotes. In your answer, state clearly that the treatment violates AS 1 Para 23 and the auditor must qualify the report."
+              examFocusType="adjustment"
+            />
+
+            <CaseStudyCard
+              id="1-4"
+              title="Illustration 1.4: Inventory Valuation Formula Change (FIFO to Weighted Average)"
+              category="ICAI Study Material"
+              pdfPage={5}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Industry Context:</strong> MetalCraft Ltd is a steel fabricator and structural engineering company sourcing raw steel billets. The company has used the FIFO method for raw material valuation for ten years.</p>
+                      <p><strong>The Situation:</strong> Due to extreme raw material price volatility (40% fluctuations in FY 2025-26), FIFO has resulted in significant margin distortions. Management decides to change its inventory valuation formula to the Weighted Average Cost (WAC) method at the year-end, which reduces the year-end inventory carrying value by ₹62 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does changing the formula to smoothen profits represent a valid accounting policy change, or does it violate the consistency assumption of AS 1?</p>
+                      <p><strong>Accounting Risk:</strong> Risk of consistency violation under AS 1 unless the change is justified by standard compliance or results in a more appropriate presentation of transactions.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 1 Paragraph 22</strong>, a change in accounting policy is permissible if: (a) required by statute, (b) for compliance with a standard, or (c) if it results in a more appropriate presentation. Changing to Weighted Average Cost during highly volatile price periods smoothens inventory costs, providing a more appropriate presentation of cost of goods sold. The financial impact must be quantified and disclosed.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Value the year-end inventory using WAC (reducing valuation by ₹62 Lakhs). Recognize the ₹62 Lakhs decrease in current year's profit.</p>
+                      <p><strong>Financial Impact:</strong> Closing inventory assets are reduced by ₹62 Lakhs, and net profit before tax is reduced by ₹62 Lakhs in the current year.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Inventory Policy Change): In the current financial year, the Company changed its inventory valuation formula from FIFO to Weighted Average Cost to better reflect raw material price volatility. This change in accounting policy has decreased the closing inventory carrying value and current profit before tax by ₹62 Lakhs."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify raw material price sheets to assess volatility. 2. Recompute inventory valuation using both FIFO and WAC on a sample basis. 3. Verify that the ₹62 Lakhs impact is correctly calculated. 4. Ensure proper disclosure under Note 1.</p>
+                      <p><strong>CARO 2020:</strong> Verify that physical stock verification matches records under Clause 3(ii).</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Mnemonic / Memory Trick: When raw material prices are highly volatile, switching from FIFO to WAC provides a more appropriate representation of COGS. Switch is allowed if it meets three conditions (Statute, Standard compliance, or Better Presentation). Memorize the mnemonic 'S-S-B' for these conditions."
+              examFocusType="trick"
+            />
+
+            <CaseStudyCard
+              id="1-5"
+              title="Illustration 1.5: Depreciation Method Change (SLM to WDV)"
+              category="ICAI Study Material"
+              pdfPage={5}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> Precision Engineering Ltd operates automated production plants using CNC machinery.</p>
+                      <p><strong>The Scenario:</strong> The CNC machines were previously depreciated under the Straight-Line Method (SLM). Based on an engineering study showing high technical wear and tear in the early years of operation, the board shifts to the Written Down Value (WDV) method, increasing depreciation by ₹18 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Is a change in the depreciation method classified as a change in accounting policy or a change in accounting estimate under AS 1?</p>
+                      <p><strong>Technical Challenge:</strong> Under old standards, depreciation method changes were treated as policy changes. Under revised AS 10, they are treated as estimates. However, the change must still be disclosed if it has a material impact.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 10 (Revised)</strong>, a change in depreciation method is treated as a change in accounting estimate. Under AS 1, any material change in the application of accounting principles or estimates must be disclosed if it has a material impact.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Apply the WDV method prospectively over the remaining useful life of the machinery. No retrospective restatement is required.</p>
+                      <p><strong>Financial Impact:</strong> Current-year depreciation increases by ₹18 Lakhs, and net profit before tax is reduced by ₹18 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Depreciation Method Change): In accordance with AS 10 (Revised), the Company changed its depreciation method for CNC machinery from SLM to WDV to reflect the consumption pattern of economic benefits. This change in accounting estimate increased current year depreciation by ₹18 Lakhs, reducing profits by a corresponding amount."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Inspect the technical assessment report justifying the change in consumption pattern. 2. Verify that depreciation calculations are applied prospectively. 3. Check disclosure compliance under AS 1 and AS 10.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Concept Link: A change in depreciation method is treated as a change in accounting estimate under AS 10 (Revised), and must be applied prospectively, unlike a change in accounting policy which requires retrospective adjustment. However, it must still be disclosed in Note 1 under AS 1."
+              examFocusType="concept"
+            />
+
+            <CaseStudyCard
+              id="1-6"
+              title="Illustration 1.6: Revenue Recognition Uncertainty (Export Incentives)"
+              category="ICAI Study Material"
+              pdfPage={6}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Industry Context:</strong> AgroFoods India Ltd exports grain globally. The government offers a 5% export incentive claim, but eligibility requires formal customs validation and lodgement, which takes 9 months.</p>
+                      <p><strong>The Transaction:</strong> AgroFoods exported grain worth ₹5 Crores in March 2026. Management wishes to accrue the incentive of ₹25 Lakhs as other income in FY 2025-26, before customs approval has been secured.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does accruing the incentive before customs validation violate the prudence concept of AS 1, or is it justified under the accrual concept?</p>
+                      <p><strong>Accounting Risk:</strong> Recognizing revenue before it is reasonably assured leads to overstating assets and revenue, violating the prudence principle.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 9 (Revenue Recognition)</strong> and the <strong>Prudence concept of AS 1</strong>, revenue should not be recognized when significant uncertainties exist regarding its measurability or ultimate collection. Since customs approvals can be rejected, recognition must be deferred until validation is received.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Defer recognition of the export incentive until customs approval is received. Do not record any receivable in FY 2025-26.</p>
+                      <p><strong>Financial Impact:</strong> Current-year revenues and net profit are lower by ₹25 Lakhs compared to early accrual.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Revenue Policy): Government export incentives are recognized as revenue only upon customs validation and establishment of reasonable certainty of collection."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Inspect export shipping documents and incentive eligibility rules. 2. Review historical customs rejection rates. 3. Check year-end receivables to ensure no unapproved incentives were accrued.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Exam Focus: Under AS 9 and the prudence concept of AS 1, revenue should not be recognized when there is significant uncertainty regarding collectability. In this case, since customs validation is pending, recognition must be deferred."
+              examFocusType="focus"
+            />
+
+            <CaseStudyCard
+              id="1-7"
+              title="Illustration 1.7: Foreign Exchange Rate Shift (Translation Method)"
+              category="ICAI Study Material"
+              pdfPage={4}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> GlobalTech India Ltd has a branch office in Germany. For five years, the company translated the branch's operating expenses using the average exchange rate for the year.</p>
+                      <p><strong>The Proposed Change:</strong> To show lower operational costs, management wants to translate expenses using the year-end closing exchange rate, which is highly favorable, reducing reported expenses by ₹40 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Is a change in foreign currency translation rate method a change in accounting policy under AS 1?</p>
+                      <p><strong>Technical Challenge:</strong> Management argues that this is merely a translation update, but under AS 11 and AS 1, currency translation methods are accounting policies and must be applied consistently.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 11</strong> and <strong>AS 1</strong>, the methods of translating foreign currency transactions are accounting policies. A change in the translation method is a policy change and must be justified by better presentation, requiring quantification and disclosure.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Retain the average rate method unless the closing rate provides a materially better presentation. If the method is changed, apply it retrospectively and quantify the impact.</p>
+                      <p><strong>Financial Impact:</strong> Using the closing rate would have reduced reported operating expenses by ₹40 Lakhs and inflated net profit by ₹40 Lakhs, which is not justified.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Translation Policy): Foreign branch expenses are translated using the average exchange rate for the year. This method has been applied consistently to ensure comparability."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Challenge management's justification for the translation change. 2. Verify calculations of branch expenses under both average and closing rates. 3. If change is unjustifiable, qualify the audit report.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Exam Trap: Revisions in translation methods represent changes in accounting policies under AS 1 and AS 11. Changing methods to window-dress profits violates consistency and prudence."
+              examFocusType="trap"
+            />
+
+            <CaseStudyCard
+              id="1-8"
+              title="Illustration 1.8: Investment Valuation policy (Current vs. Long-Term)"
+              category="ICAI Study Material"
+              pdfPage={5}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> Vanguard Holdings Ltd holds a portfolio of mutual fund units. Previously, the company classified all units as long-term and carried them at cost.</p>
+                      <p><strong>The Transaction:</strong> In the current year, the company reclassifies half the units as current investments and continues to value them at cost, despite a 30% drop in market value (₹35 Lakhs drop).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does carrying current investments at cost when market value is lower violate the prudence and consistency principles of AS 1?</p>
+                      <p><strong>Technical Challenge:</strong> Management claims that since they intend to hold the units, they do not need to write them down. However, reclassification triggers AS 13 rules.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 13 (Accounting for Investments)</strong>, current investments must be carried at the lower of cost and fair value. Carrying current investments at cost when NAV is lower violates the prudence concept of AS 1.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Value the reclassified current investments at lower of cost or fair value, recognizing the ₹35 Lakhs write-down in the current P&L.</p>
+                      <p><strong>Financial Impact:</strong> Current-year profits decrease by ₹35 Lakhs, and current assets (investments) decrease by ₹35 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Investment Policy): Current investments are carried at the lower of cost and fair value. Long-term investments are carried at cost, less provision for diminution other than temporary."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify mutual fund NAVs at the balance sheet date. 2. Verify that the reclassification triggers lower-of-cost-or-fair-value valuation. 3. Ensure the ₹35 Lakhs write-down is recorded in the ledger.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Likely ICAI Adjustment: Reclassified current investments must be valued at lower of cost or fair value under AS 13. Write-down is mandatory under the prudence principle of AS 1."
+              examFocusType="adjustment"
+            />
+
+            <CaseStudyCard
+              id="1-9"
+              title="Illustration 1.9: Government Grants Policy Change (Deferred Income vs. Cost Reduction)"
+              category="ICAI Study Material"
+              pdfPage={5}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> GreenEnergy Ltd received a government grant of ₹1.5 Crores toward the cost of wind turbines.</p>
+                      <p><strong>The Proposed Change:</strong> Previously, the company's policy was to reduce the cost of the asset by the grant amount. In the current year, to show higher gross block values, management wants to change the policy and treat the grant as deferred income.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Is a change in the method of accounting for government grants a change in accounting policy, and is it valid under AS 1?</p>
+                      <p><strong>Technical Challenge:</strong> Management claims that both methods are permitted under AS 12, so the change does not violate consistency if disclosed.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Alternatives",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 12</strong> and <strong>AS 1</strong>, the accounting for government grants is an accounting policy. A change in the method is a change in accounting policy and must be applied retrospectively with full disclosure of the impact.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Apply the deferred income method retrospectively, increasing gross block and creating a deferred grant liability of ₹1.5 Crores, and adjust depreciation accordingly.</p>
+                      <p><strong>Financial Impact:</strong> Gross block of fixed assets increases by ₹1.5 Crores. Deferred government grant liability increases by ₹1.2 Crores (net of amortization).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Government Grants Policy Change): The Company changed its policy for government grants from asset cost reduction to deferred income. This retrospective change increased gross fixed assets by ₹1.5 Crores."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify retrospective calculations for grant amortization. 2. Verify that depreciation is adjusted for past periods. 3. Check compliance with AS 12 disclosure rules.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Concept Link: Both cost reduction and deferred income are valid methods under AS 12, but switching between them is a change in accounting policy under AS 1 and requires retrospective adjustment."
+              examFocusType="concept"
+            />
+
+            <CaseStudyCard
+              id="1-10"
+              title="Illustration 1.10: Employee Benefits Accrual Transition (Cash to Actuarial)"
+              category="ICAI Study Material"
+              pdfPage={3}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> Hindustan Services Ltd has 800 employees. For ten years, the company accounted for employee gratuity payments on a cash basis (when paid to retiring employees).</p>
+                      <p><strong>The Change:</strong> In FY 2025-26, to comply with the accrual principle, the board decides to set up a gratuity fund and account for obligations on an actuarial basis (past service liability is ₹1.8 Crores).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> How should the transition from cash-basis to actuarial accrual of gratuity be accounted for and disclosed under AS 1?</p>
+                      <p><strong>Technical Challenge:</strong> Charging the entire past service liability to the current P&L would distort current year profits. However, cash basis employee benefits violated AS 15.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Evaluation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 1</strong>, accrual is a fundamental accounting assumption. Cash-basis employee benefits violated AS 15. The transition represents the correction of an inappropriate policy, requiring retrospective adjustment of opening reserves.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Calculate the actuarial liability for past service (₹1.8 Crores) and adjust opening retained earnings retrospectively, charging current-year service cost to the P&L.</p>
+                      <p><strong>Financial Impact:</strong> Retained earnings opening balance decreases by ₹1.8 Crores, and current liability for gratuity increases by ₹1.8 Crores.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Employee Benefits Policy): Gratuity obligations are determined based on actuarial valuations. The transition from cash basis to actuarial accrual resulted in a retrospective downward adjustment of opening reserves by ₹1.8 Crores."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify actuarial report signed by a certified actuary. 2. Verify that retrospective adjustments are correct. 3. Check compliance with AS 15 and AS 1 accrual requirements.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Concept Link: Accrual is a fundamental accounting assumption of AS 1. Shifting from cash to actuarial employee benefits is the correction of a non-compliant policy and requires retrospective restatement."
+              examFocusType="concept"
+            />
+
+            <CaseStudyCard
+              id="1-11"
+              title="Illustration 1.11: Substance Over Form in Hire Purchase Lease"
+              category="ICAI Study Material"
+              pdfPage={6}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> LogiTrans India Ltd leased 50 delivery trucks under a contract labeled 'Operating Lease.'</p>
+                      <p><strong>The Transaction:</strong> The lease term covers 95% of the useful life of the trucks, and the present value of lease payments equals 98% of the trucks' market value. The company recorded lease payments as rent expense, keeping the trucks off the balance sheet.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does accounting for a finance lease as an operating lease violate the Substance over Form principle of AS 1?</p>
+                      <p><strong>Technical Challenge:</strong> Management claims that the legal contract title is 'Operating Lease', so capitalizing the trucks would violate the legal terms of the lease.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Evaluation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Under <strong>AS 1</strong>, transactions must be accounted for in accordance with their economic substance, not merely their legal form. Under AS 19, a lease that transfers substantially all risks and rewards is a finance lease and must be capitalized.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Capitalize the trucks at their fair value (₹6 Crores), recognize a corresponding lease liability, and charge depreciation and interest.</p>
+                      <p><strong>Financial Impact:</strong> Assets and liabilities increase by ₹6 Crores. Operating expenses decrease by ₹1.2 Crores (replaced by depreciation and interest of ₹1.4 Crores).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Lease Policy): Assets acquired under finance leases are capitalized at the inception of the lease at the fair value of the leased assets, reflecting the economic substance of the transaction."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Analyze lease agreement terms (payments, life, ownership transfer). 2. Verify that risks and rewards are transferred. 3. Force management to capitalize or qualify the report.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Concept Link: Under the Substance over Form principle of AS 1, the economic reality of a lease transfers risks and rewards, requiring capitalization regardless of the legal Operating Lease label."
+              examFocusType="concept"
+            />
+
+            <CaseStudyCard
+              id="1-12"
+              title="Illustration 1.12: Going Concern Defeated (Operating License Revoked)"
+              category="ICAI Study Material"
+              pdfPage={5}
+              navigateToPdfPage={navigateToPdfPage}
+              panels={[
+                {
+                  title: "Background & Business Situation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> Bharat Airways Ltd has grounded its entire fleet due to safety violations. The airline has outstanding loans of ₹450 Crores and negative net worth.</p>
+                      <p><strong>The Trigger:</strong> The operating license has been suspended indefinitely. Management prepared the financial statements on a going concern basis, valuing planes at historical cost less depreciation.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Controversy & Accounting Challenge",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Is preparing accounts on a going concern basis valid under AS 1 when operations are suspended and liquidation is likely?</p>
+                      <p><strong>Technical Challenge:</strong> Management claims that since they are appealing the suspension, going concern remains valid. However, they have no alternative revenue sources.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Standard & Evaluation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Relevant Standard:</strong> Going concern is a fundamental assumption. If liquidation or cessation of operations is imminent, the assumption is invalid, and assets must be valued at net realizable value (NRV) rather than historical cost.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Treatment & Financial Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Prepare financial statements on a liquidation basis. Write down all assets to their estimated net realizable values, and reclassify long-term liabilities as current.</p>
+                      <p><strong>Financial Impact:</strong> Assets value decreases by ₹180 Crores due to write-down to NRV. Net loss increases by ₹180 Crores.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Going Concern Disclosures): These financial statements have been prepared on a liquidation basis as the company is unable to continue as a going concern. All assets have been written down to their net realizable values."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor's View & Work Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Review regulatory notifications regarding license revocation. 2. Verify net realizable values of airplanes and parts. 3. Assess appropriateness of liquidation basis preparation.</p>
+                    </div>
+                  )
+                }
+              ]}
+              examFocus="Exam Trap: Going concern is assumed to be followed. If it is violated, the statements must be prepared on a liquidation basis, and the non-compliance must be explicitly disclosed in Note 1."
+              examFocusType="trap"
+            />
+          </div>
+        </section>
+
+        {/* ─── SECTION 2: PRACTICAL BUSINESS EXAMPLES ────────────────────────────── */}
+        <section id="sec-business-examples" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+          {renderSectionHeader(
+            '2',
+            'Practical Business Examples',
+            'Realistic commercial scenarios showing the selection and application of accounting policies across diverse industrial sectors.'
+          )}
+          <div className="space-y-12">
+            <CaseStudyCard
+              id="2-1"
+              title="Example 2.1: Manufacturing — Overhead Allocation under Idle Capacity"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-200/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> TexSpun India Ltd is a textile manufacturer with a plant in Gujarat. The plant has a normal capacity of 1,00,000 units per month.</p>
+                      <p><strong>The Scenario:</strong> Due to a labor strike, production volume fell to 60,000 units in the current month. Fixed factory overheads remained constant at ₹1.2 Crores.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Management allocated the entire fixed overheads (₹1.2 Crores) to the lower production volume (60,000 units), which inflated closing inventory cost by ₹45 per unit.</p>
+                      <p><strong>Accounting Risk:</strong> Capitalizing abnormal idle capacity costs overstates inventory assets and defers operational losses to future periods, violating the prudence concept of AS 1.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Allocate fixed overheads based on normal capacity (60,000 / 1,00,000 * 1.2 Crores = ₹72 Lakhs capitalized). Expense the remaining ₹48 Lakhs of idle overheads to the P&L.</p>
+                      <p><strong>Financial Impact:</strong> Net profit before tax decreases by ₹48 Lakhs, and closing inventory assets are reduced by ₹48 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Inventory Valuation Policy): Fixed production overheads are allocated to inventory based on normal operating capacity. Abnormal unallocated overheads resulting from underutilization are expensed directly to the P&L."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify plant capacity records and normal production volume. 2. Verify that unallocated fixed overheads are charged directly to the P&L. 3. Check closing inventory calculations for compliance with AS 2.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-2"
+              title="Example 2.2: Trading — Accrual of Claims for Damaged Goods in Transit"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> PrimeDistributors Ltd is a bulk electronic goods trading company operating across South Asia.</p>
+                      <p><strong>The Scenario:</strong> In February 2026, a shipment of consumer goods worth ₹18 Lakhs was severely damaged in transit. The company filed an insurance claim. In April 2026, before approval of accounts, the insurer acknowledged liability for only 75% (₹13.5 Lakhs).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Management wants to record the full ₹18 Lakhs as a receivable, arguing that they will recover the balance in court.</p>
+                      <p><strong>Accounting Risk:</strong> Overstating assets and revenue based on unconfirmed recoveries violates the prudence principle.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Recognize the loss of ₹4.5 Lakhs in the current year and record a claim receivable of ₹13.5 Lakhs.</p>
+                      <p><strong>Financial Impact:</strong> Current-year net profit and receivables are reduced by ₹4.5 Lakhs compared to accruing the full claim.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Claims Policy): Claims receivable in respect of transit damages are recognized upon acknowledgement of liability by the insurer. The unconfirmed balance of transit loss has been written off."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Inspect insurer's acknowledgment letter. 2. Verify that the claim receivable is recorded at the verified recovery value. 3. Check for subsequent recoveries or receipts.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-3"
+              title="Example 2.3: Tea Industry — Valuation of Harvested Green Leaves at Plucking"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> AssamTea Estates Ltd manages 12 tea gardens. Plucked green leaves are transferred to the factory for processing into black tea.</p>
+                      <p><strong>The Scenario:</strong> At year-end, 12,000 kg of harvested leaves are in transit. Management wants to value them at estimated market selling price less transport costs, rather than actual cultivation cost.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does agricultural produce qualify for net realizable value (NRV) valuation prior to final processing under AS 1?</p>
+                      <p><strong>Accounting Risk:</strong> Valuing green leaves at NRV anticipates agricultural profits before the final sale, violating the prudence principle.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Value the green leaves at plucking and transport costs (actual cultivation cost). Do not recognize any agricultural profit until the tea is processed and sold.</p>
+                      <p><strong>Financial Impact:</strong> Closing inventory and net profits are lower by ₹3.8 Lakhs compared to NRV valuation.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Agricultural Inventory Policy): Harvested green leaves in transit are valued at actual plucking and transport costs. Revenue/profit is recognized only upon completion of processing and sale of finished black tea."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify plucking wage sheets and transport bills. 2. Verify that no market profit margin is included in raw stocks. 3. Check compliance with AS 2 rules.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-4"
+              title="Example 2.4: Service Industry — Revenue Recognition on Software Consulting Milestones"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> SoftTech Consulting Ltd builds billing systems for enterprise clients.</p>
+                      <p><strong>The Contract:</strong> A project worth ₹50 Lakhs has 4 milestones. At year-end, milestone 3 is 90% complete but not yet approved by the client. Management wants to accrue ₹11.25 Lakhs (90% of milestone 3 revenue).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does accruing revenue on unapproved milestones satisfy the accrual and prudence concepts of AS 1?</p>
+                      <p><strong>Accounting Risk:</strong> Unapproved milestones contain high billing risk. Accruing revenue before client sign-off overstates receivables and revenue.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Defer revenue recognition for milestone 3 until client sign-off. Carry the incurred work cost as work-in-progress (WIP).</p>
+                      <p><strong>Financial Impact:</strong> Current revenues are lower by ₹11.25 Lakhs. WIP assets increase by the actual cost incurred (₹6.8 Lakhs).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Revenue Policy): Revenue from software consulting contracts is recognized only upon achievement and formal client acceptance of specified contract milestones."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Inspect contract terms and customer sign-off sheets. 2. Verify that no revenue is recognized on unapproved milestones. 3. Check audit trails for milestone sign-offs.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-5"
+              title="Example 2.5: Construction — Cost Estimate Changes in POCM"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> Landmark Infrastructures Ltd constructs bridges and highways.</p>
+                      <p><strong>The Project:</strong> Total contract value is ₹55 Crores, and initial estimated cost was ₹40 Crores. In Year 2, due to steel inflation, estimated project cost increases to ₹48 Crores. Management wants to ignore this estimate change, claiming steel prices will fall in Year 3.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does ignoring updated cost estimates comply with prudence and consistency under AS 1?</p>
+                      <p><strong>Accounting Risk:</strong> Ignoring overruns overstates the progress percentage and current profits, presenting a misleading view of project profitability.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Update the total cost estimate to ₹48 Crores. Recalculate percentage of completion, and charge the cumulative impact of the lower margin to the P&L.</p>
+                      <p><strong>Financial Impact:</strong> Current-year revenues are lower by ₹2.4 Crores, and contract WIP is adjusted down.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Construction Contract Policy): Revenue is recognized under the percentage-of-completion method. Project cost estimates are reviewed continuously, and adjustments to profit margins are recognized in the period they occur."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify purchase invoices and engineering estimation logs. 2. Verify percentage of completion recalculations. 3. Check for loss provisions on onerous contracts under AS 7.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-6"
+              title="Example 2.6: Infrastructure — Toll Amortization Policy Change"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> Tollways India Ltd operates a BOT toll road under a 20-year concession.</p>
+                      <p><strong>The Scenario:</strong> Previously, the company amortized the intangible toll asset over the concession period of 20 years on a straight-line basis (SLM). In the current year, to match high traffic volume, the company changes the policy to amortize based on projected traffic volume, reducing amortization by ₹3 Crores.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Is changing the amortization method from SLM to traffic-volume basis a change in accounting policy under AS 1?</p>
+                      <p><strong>Accounting Risk:</strong> Risk of choosing a method that artificially reduces amortization expense to inflate current profits, violating the prudence principle.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Apply the traffic-volume amortization method retrospectively. Adjust opening reserves and disclose the nature and financial impact of the change.</p>
+                      <p><strong>Financial Impact:</strong> Current amortization expense is reduced by ₹3 Crores, increasing reported net profits by ₹3 Crores. Accumulated amortization is restated retrospectively.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Amortization Policy Change): The Company changed its amortization method for toll road rights from SLM to traffic-volume projection. This retrospective change reduced accumulated amortization by ₹1.2 Crores."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Review traffic study reports by independent experts. 2. Verify calculations of toll amortization. 3. Check compliance with AS 26 and AS 1 disclosure rules.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-7"
+              title="Example 2.7: NBFC — Accounting Policy for Loan Provisioning (RBI vs. Prudence)"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> GoldFinance NBFC provides rural gold and vehicle loans.</p>
+                      <p><strong>The Scenario:</strong> RBI requires a minimum 0.25% provision for standard assets. However, due to crop failures, vehicle loan defaults are expected to increase. Management wants to limit the provision to the minimum RBI rate of 0.25% (₹12 Lakhs) to show higher profits.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does regulatory compliance override the prudence concept of AS 1 when estimating loan defaults?</p>
+                      <p><strong>Accounting Risk:</strong> Understating provisions to inflate profits violates prudence and fails to represent the true asset valuation.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Increase the provision to 1.5% (₹72 Lakhs) based on crop failure reports and default models, following the prudence principle.</p>
+                      <p><strong>Financial Impact:</strong> Current-year profits are lower by ₹60 Lakhs, and net loan assets are reduced by ₹60 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Provisioning Policy): Provisions for loans and receivables are made based on RBI guidelines and management assessments of portfolio defaults. Additional provisions are made based on crop conditions and market default indicators under the prudence principle."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Review loan default trends and crop failure data. 2. Verify provision calculations against internal credit policy. 3. Confirm compliance with RBI provisioning norms.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-8"
+              title="Example 2.8: Retail — Customer Loyalty Points Program Revenue Deferral"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> Trendz Retail Ltd operates 80 apparel showrooms.</p>
+                      <p><strong>The Scenario:</strong> The company awards loyalty points on every purchase (1 point per ₹100 spent, redeemable within 1 year). In FY 2025-26, points issued have an estimated redemption value of ₹45 Lakhs. Management wants to recognize the full sales revenue immediately, recording no provision for future redemptions.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does full revenue recognition on points-eligible sales satisfy the matching and accrual concepts of AS 1?</p>
+                      <p><strong>Accounting Risk:</strong> Recognizing revenue for points that will be redeemed in the future overstates current revenues and understates future liabilities.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Defer revenue recognition for the loyalty points (₹45 Lakhs) until redemption or expiry. Record a deferred revenue liability.</p>
+                      <p><strong>Financial Impact:</strong> Current-year revenue and profits are reduced by ₹45 Lakhs, and current liabilities (deferred revenue) increase by ₹45 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Loyalty Program Policy): The fair value of loyalty points awarded is deferred and recognized as revenue only when the points are redeemed or expire."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify loyalty program rules and points balance sheets. 2. Verify redemption rates and calculations. 3. Check that deferred revenue is correctly recorded in the ledger.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-9"
+              title="Example 2.9: Pharma — R&D Clinical Trial Expensing vs. Capitalization"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> BioPharma India Ltd develops generic and specialty formulations.</p>
+                      <p><strong>The Scenario:</strong> The company is developing a new molecule. Phase I clinical trials cost ₹1.5 Crores, and the molecule has a 20% probability of success. Management wants to capitalize the ₹1.5 Crores as an intangible asset to show higher research assets.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does capitalizing low-probability Phase I research comply with the prudence and matching principles under AS 1?</p>
+                      <p><strong>Accounting Risk:</strong> Capitalizing research before technical feasibility is established violates AS 26 and the prudence principle, overstating assets.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Expense the ₹1.5 Crores Phase I research cost immediately in the P&L as research and development expense, complying with AS 26.</p>
+                      <p><strong>Financial Impact:</strong> Current-year research expenses increase by ₹1.5 Crores, and intangible assets are lower by ₹1.5 Crores compared to capitalization.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (R&D Policy): Research costs are expensed to the P&L as incurred. Development costs are capitalized only when technical feasibility and commercial viability are established."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify R&D spending invoices and clinical trial progress reports. 2. Verify that technical feasibility is not yet achieved. 3. Ensure compliance with AS 26 research capitalization rules.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="2-10"
+              title="Example 2.10: IT Companies — Software Development Capitalization (Internal Use vs. Product)"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              panels={[
+                {
+                  title: "Business Situation & Sector Dynamics",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Company Profile:</strong> CyberSystems Ltd develops enterprise cloud-based software products.</p>
+                      <p><strong>The Scenario:</strong> The company spends ₹2.2 Crores developing an internal payroll system. They capitalized the entire cost, including post-implementation support, under intangible assets.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Controversy & Accounting Risk",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Controversy:</strong> Does capitalizing internal-use software post-implementation comply with AS 26 and AS 1?</p>
+                      <p><strong>Accounting Risk:</strong> Capitalizing post-implementation support overstates fixed assets and understates operating expenses.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Technical Treatment & Impact",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Recommended Treatment:</strong> Capitalize only direct development costs up to the implementation date (₹1.8 Crores). Expense post-implementation support (₹40 Lakhs) directly to the P&L.</p>
+                      <p><strong>Financial Impact:</strong> Intangible assets are lower by ₹40 Lakhs, and current-year operating expenses increase by ₹40 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Disclosure Note Presentation",
+                  content: (
+                    <span>
+                      {`"Note 1 (Software Development Policy): Internal-use software is capitalized up to the implementation date. Post-implementation maintenance and support costs are expensed to the P&L."`}
+                    </span>
+                  )
+                },
+                {
+                  title: "Auditor Verification Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify project logs and implementation timelines. 2. Verify direct development expense records. 3. Check post-implementation support agreements.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+          </div>
+        </section>
+
+        {/* ─── SECTION 3: AUDIT CASE STUDIES ────────────────────────────────────── */}
+        <section id="sec-audit-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+          {renderSectionHeader(
+            '3',
+            'Audit Case Studies',
+            'In-depth statutory audit case studies detailing management treatments, violations, audit programs, and reporting impact.'
+          )}
+          <div className="space-y-12">
+            <CaseStudyCard
+              id="3-1"
+              title="Case 3.1: Electra Appliance Ltd — Unjustified Change in Warranty Provision Policy"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> Electra Appliance Ltd (listed consumer electronics manufacturer).</p>
+                      <p><strong>The Issue:</strong> To meet the market profit forecast, the CFO reduced the product warranty provision rate from 3.0% of sales (historical claim level) to 1.0%, reducing warranty expenses by ₹85 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Risk of material misstatement in liabilities (Valuation and allocation) due to unjustified reduction in provisioning.</p>
+                      <p><strong>Assertion Affected:</strong> Valuation &amp; Allocation (understating liabilities), and completeness of expenses.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify actual historical claims logs and repair costs. 2. Challenge management's technical justification for the claim reduction. 3. Recalculate provisions using historical averages.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: Note [X] describes a change in the product warranty provision method. However, management has not provided a valid technical justification for reducing the provision rate to 1.0%. Based on historical claim logs, the provision should be ₹85 Lakhs higher, and profit before tax is overstated by ₹85 Lakhs."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-2"
+              title="Case 3.2: SteelForge India Ltd — Inconsistent Depreciation Applied to Similar Assets"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> SteelForge India Ltd (steel mill operator).</p>
+                      <p><strong>The Issue:</strong> The company depreciates blast furnace assets at Plant A using SLM, but blast furnace assets at Plant B using WDV, claiming Plant B is in a coastal zone with higher corrosion. This inconsistency reduces Plant B depreciation by ₹42 Lakhs.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Inconsistent depreciation methods applied to similar classes of assets without robust justification, violating AS 10 consistency rules.</p>
+                      <p><strong>Assertion Affected:</strong> Valuation &amp; Allocation of PPE, and consistency of disclosure under AS 1.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify the technical corrosion assessment report for Plant B. 2. Verify that similar asset classes use consistent methods unless physical usage conditions differ. 3. Recompute depreciation charges for consistency.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: The Company applies inconsistent depreciation methods to similar blast furnace assets at Plant A and Plant B. This method inconsistency violates AS 10 (Revised) and has not been adequately justified, overstating fixed assets and profits by ₹42 Lakhs."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-3"
+              title="Case 3.3: Apex Textiles Ltd — Capitalization of Administrative Overheads in Inventory"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> Apex Textiles Ltd (textile mills operator).</p>
+                      <p><strong>The Issue:</strong> Management capitalized ₹38 Lakhs of corporate head office administration costs (HR, legal, finance salaries) into the closing inventory value, claiming these departments support factory operations.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Capitalizing administrative costs that do not bring inventory to its present location and condition violates AS 2, overstating assets.</p>
+                      <p><strong>Assertion Affected:</strong> Valuation &amp; Allocation of inventory, and completeness of administrative expenses.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Review cost-accounting sheets for inventory overhead allocations. 2. Verify salary logs and job cards of capitalized departments. 3. Direct management to write off administrative overheads.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: Closing inventory contains capitalized corporate administrative costs of ₹38 Lakhs in violation of AS 2. Consequently, inventories and profits are overstated by ₹38 Lakhs."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-4"
+              title="Case 3.4: Indus Logistics Ltd — Omission of Critical Lease accounting policy"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> Indus Logistics Ltd (distribution and shipping network operator).</p>
+                      <p><strong>The Issue:</strong> The company entered into 15 warehouse leases. Management omitted the lease accounting policy from Note 1 to avoid disclosing future lease liability commitments (totaling ₹18 Crores).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Omission of a significant accounting policy violates the presentation and disclosure requirements of AS 1 and AS 19.</p>
+                      <p><strong>Assertion Affected:</strong> Completeness of disclosure, and presentation transparency.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Verify lease contracts against the ledger lease accounts. 2. Confirm future lease payments schedules. 3. Check for disclosure completeness under Note 1.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: The Company has failed to disclose its accounting policy for warehouse leases and the future lease commitments totaling ₹18 Crores, in violation of AS 19 and AS 1."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-5"
+              title="Case 3.5: Zenith Electronics Ltd — Revenue Recognized on Unapproved Bill-and-Hold Transactions"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> Zenith Electronics Ltd (appliance supplier).</p>
+                      <p><strong>The Issue:</strong> The company recorded ₹2.5 Crores of sales revenue for products held in its own warehouse under 'bill-and-hold' agreements. There is no customer sign-off or shipping confirmation.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Revenue recognized before risk and ownership transfer violates AS 9 and the prudence concept of AS 1, overstating sales.</p>
+                      <p><strong>Assertion Affected:</strong> Occurrence and Valuation of sales, and existence of trade receivables.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Inspect customer purchase orders to verify bill-and-hold instructions. 2. Perform a physical inventory check at year-end. 3. Reverse any revenue recorded without risk transfer.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: The Company recognized revenue of ₹2.5 Crores on bill-and-hold sales where risk and rewards remained with the company, violating AS 9. Receivables and profits are overstated by ₹2.5 Crores."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-6"
+              title="Case 3.6: OceanCruises India Ltd — Provision for Environmental Cleanup Omitted"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> OceanCruises India Ltd (shipping and cruise operator).</p>
+                      <p><strong>The Issue:</strong> A vessel fuel leak polluted a coastal area, triggering legal liability and fine estimates of ₹1.2 Crores. Management did not record any provision, claiming the dispute was pending in court.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Omission of a legal provision under AS 29 violates the prudence principle of AS 1, understating current liabilities.</p>
+                      <p><strong>Assertion Affected:</strong> Completeness of liabilities, and prudence in financial reporting.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Review legal advisor confirmations and environmental notice letters. 2. Verify the cost estimate reports for coastal cleanup. 3. Require management to record a provision.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: The Company failed to record a provision for environmental cleanup liability of ₹1.2 Crores under AS 29. Current liabilities are understated and profits are overstated by ₹1.2 Crores."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-7"
+              title="Case 3.7: SunPower Ltd — Going Concern Omitted Despite Plant Closure"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> SunPower Ltd (power plant operator).</p>
+                      <p><strong>The Issue:</strong> The main power plant was shut down by pollution control regulators. The company has defaults of ₹80 Crores and negative net worth. Management prepared the statements under going concern without adding any disclosure notes.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Preparing statements under going concern when the assumption is defeated violates AS 1, presenting a misleading view.</p>
+                      <p><strong>Assertion Affected:</strong> Valuation &amp; Allocation of assets, and completeness of disclosure.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Inspect the regulatory plant shutdown orders. 2. Verify cash flow forecasts and loan agreement defaults. 3. Require liquidation basis accounts preparation or qualify the report.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Adverse Opinion: The Company is unable to continue operations due to plant closure and defaults, making the going concern assumption invalid. However, the financial statements continue to be prepared on a going concern basis, overstating asset carrying values."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-8"
+              title="Case 3.8: NovaPharma Ltd — Aggressive Capitalization of Phase I Clinical Trials"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> NovaPharma Ltd (pharmaceutical laboratory).</p>
+                      <p><strong>The Issue:</strong> Management capitalized ₹1.2 Crores of Phase I clinical trial costs under intangible assets, despite a historical success rate of under 15% for early-stage trials.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Capitalizing research costs before technical feasibility and economic viability are established violates AS 26 and prudence.</p>
+                      <p><strong>Assertion Affected:</strong> Existence and Valuation of intangible assets.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Review scientific research logs and board approval minutes. 2. Verify industry success benchmarks for Phase I trials. 3. Direct management to write off research expenditures.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: The Company capitalized research costs of ₹1.2 Crores for Phase I clinical trials in violation of AS 26. Intangible assets and current profits are overstated by ₹1.2 Crores."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-9"
+              title="Case 3.9: DeltaEngineering Ltd — Misleading Policy Disclosure on Revenue Recognition"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> DeltaEngineering Ltd (industrial construction company).</p>
+                      <p><strong>The Issue:</strong> The company's policy states that revenue is recognized under the percentage-of-completion method (POCM). However, they recognized ₹3.4 Crores of revenue based on billings to clients rather than actual physical work progress.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Overstating revenue by utilizing a billing-based approach rather than the percentage-of-completion method required by AS 7.</p>
+                      <p><strong>Assertion Affected:</strong> Accuracy and Occurrence of construction revenues.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Inspect engineer certs of completion and actual costs incurred. 2. Recalculate progress percentages under the cost-to-cost method. 3. Reconcile ledger accounts with project progress sheets.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: The Company recognized revenue based on billing milestones rather than actual work progress in violation of AS 7. Construction revenue and profit before tax are overstated by ₹3.4 Crores."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="3-10"
+              title="Case 3.10: PioneerMining Ltd — CFO Override of Obsolescence policy"
+              category="Audit Case Study"
+              badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
+              panels={[
+                {
+                  title: "Client Profile & Transaction Details",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Client:</strong> PioneerMining Ltd (mining equipment company).</p>
+                      <p><strong>The Issue:</strong> The company has a policy to write down spare parts inventory older than 3 years. The CFO bypassed this policy to avoid a ₹55 Lakhs inventory write-down, keeping slow-moving items at cost.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Key Risks & Assertion Challenges",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Risks:</strong> Risk of inventory overvaluation (Valuation and allocation) due to failure to apply the obsolescence policy consistently.</p>
+                      <p><strong>Assertion Affected:</strong> Valuation &amp; Allocation of inventory, and consistency of accounting policy application under AS 1.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Auditor Verification & Testing Program",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Procedures:</strong> 1. Review inventory aging schedules. 2. Verify compliance with internal obsolescence policies on a sample basis. 3. Recompute inventory carrying values and require adjustments.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Reporting Impact & Proposed Opinion Draft",
+                  content: (
+                    <span>
+                      {`"Basis for Qualified Opinion: Note [X] describes the Company's policy for writing down slow-moving spares. However, management failed to write down slow-moving items older than 3 years, overstating inventories and profits by ₹55 Lakhs."`}
+                    </span>
+                  )
+                }
+              ]}
+            />
+          </div>
+        </section>
+
+        {/* ─── SECTION 4: REGULATORY OBSERVATIONS ────────────────────────────────── */}
+        <section id="sec-regulatory-obs" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+          {renderSectionHeader(
+            '4',
+            'Regulatory Observations',
+            'NFRA, SEBI, and MCA directives regarding compliance failures in accounting policy disclosures.'
+          )}
+          <div className="space-y-12">
+            <CaseStudyCard
+              id="4-1"
+              title="Observation 4.1: NFRA — Boilerplate and Generic Disclosure of Accounting Policies"
+              category="Regulatory Observation"
+              badgeColor="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200/30"
+              panels={[
+                {
+                  title: "Regulator Citation & Focus Area",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Regulator:</strong> National Financial Reporting Authority (NFRA).</p>
+                      <p><strong>Focus Area:</strong> Boilerplate, non-specific disclosure of inventory cost formulas and revenue recognition timing in corporate reports.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Failure Details & Accounting Violation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Failure:</strong> Listed companies copy generic policy templates (e.g. 'Inventory is valued at lower of cost and net realizable value') without specifying the cost formula used (FIFO, Weighted Average) or the treatment of overheads.</p>
+                      <p><strong>Violation:</strong> Violates AS 1 and AS 2 requirements to disclose the specific accounting principles and methods of applying them.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Disclosure Expectation & Action Item",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Expectation:</strong> Disclose specific cost formulas and recognition rules (e.g., 'Raw materials are valued at cost computed on a Weighted Average basis. Finished goods include direct materials and allocated factory overheads').</p>
+                      <p><strong>Auditor Action:</strong> Verify that Note 1 disclosures are entity-specific and do not rely on boilerplate text.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="4-2"
+              title="Observation 4.2: SEBI — Revenue Recognition Disclosures without Specific Milestones"
+              category="Regulatory Observation"
+              badgeColor="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200/30"
+              panels={[
+                {
+                  title: "Regulator Citation & Focus Area",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Regulator:</strong> Securities and Exchange Board of India (SEBI).</p>
+                      <p><strong>Focus Area:</strong> Revenue recognition policy disclosures in complex service or bundled contract structures.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Failure Details & Accounting Violation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Failure:</strong> Software companies with bundled software/hardware contracts disclose generic revenue policies without detailing how transaction values are allocated to different performance obligations or milestones.</p>
+                      <p><strong>Violation:</strong> Non-disclosure of revenue recognition rules violates AS 9 and the transparency requirements of AS 1.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Disclosure Expectation & Action Item",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Expectation:</strong> Disclose allocation methods and recognition milestones for bundled contracts in Note 1.</p>
+                      <p><strong>Auditor Action:</strong> Audit the client's customer contracts to ensure Note 1 accurately reflects revenue milestones.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="4-3"
+              title="Observation 4.3: MCA — Omission of Material Accounting Policies"
+              category="Regulatory Observation"
+              badgeColor="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200/30"
+              panels={[
+                {
+                  title: "Regulator Citation & Focus Area",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Regulator:</strong> Ministry of Corporate Affairs (MCA).</p>
+                      <p><strong>Focus Area:</strong> Inspections highlighting omissions of critical policies (foreign branch translations, government grants, leases).</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Failure Details & Accounting Violation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Failure:</strong> Companies omit foreign branch translation or grant accounting policies, preventing proper interpretation of statements.</p>
+                      <p><strong>Violation:</strong> Non-disclosure of significant policies violates AS 1 Para 14.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Disclosure Expectation & Action Item",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Expectation:</strong> Ensure all material accounting policies are disclosed in Note 1.</p>
+                      <p><strong>Auditor Action:</strong> Verify that no significant balance sheet line items lack corresponding policy disclosures in Note 1.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="4-4"
+              title="Observation 4.4: NFRA — Inconsistent Depreciation Useful Lives without Justification"
+              category="Regulatory Observation"
+              badgeColor="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200/30"
+              panels={[
+                {
+                  title: "Regulator Citation & Focus Area",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Regulator:</strong> National Financial Reporting Authority (NFRA).</p>
+                      <p><strong>Focus Area:</strong> Useful lives of plant and machinery differing from Schedule II limits without technical support.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Failure Details & Accounting Violation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Failure:</strong> Infrastructure companies use longer useful lives for machinery than prescribed in Schedule II without acquiring certified technical justification reports.</p>
+                      <p><strong>Violation:</strong> Violates Schedule II of the Companies Act 2013 and the disclosure requirements of AS 10 and AS 1.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Disclosure Expectation & Action Item",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Expectation:</strong> Technical justification reports signed by certified engineers must support any useful lives exceeding Schedule II limits, and the variation must be disclosed.</p>
+                      <p><strong>Auditor Action:</strong> Audit the technical justification reports and verify the useful lives disclosures.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="4-5"
+              title="Observation 4.5: SEBI — Failure to Quantify Financial Impact of Policy Changes"
+              category="Regulatory Observation"
+              badgeColor="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200/30"
+              panels={[
+                {
+                  title: "Regulator Citation & Focus Area",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Regulator:</strong> Securities and Exchange Board of India (SEBI).</p>
+                      <p><strong>Focus Area:</strong> Disclosure of accounting policy changes without quantifying the financial impact.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Failure Details & Accounting Violation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Failure:</strong> Listed companies state the nature of a policy change (e.g., inventory method change) but add boilerplate text claiming the impact is 'not ascertainable' or 'immaterial' without performing actual calculations.</p>
+                      <p><strong>Violation:</strong> Violates AS 1 Paragraph 22, which requires disclosing and quantifying the financial impact of policy changes.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Disclosure Expectation & Action Item",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Expectation:</strong> Perform detailed recomputions and state the exact impact (e.g. ₹62 Lakhs profit reduction) in Note 1.</p>
+                      <p><strong>Auditor Action:</strong> Verify the recomputation calculations and audit the 'non-ascertainability' claims.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="4-6"
+              title="Observation 4.6: MCA — Omission of Going Concern doubts in Notes"
+              category="Regulatory Observation"
+              badgeColor="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200/30"
+              panels={[
+                {
+                  title: "Regulator Citation & Focus Area",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Regulator:</strong> Ministry of Corporate Affairs (MCA).</p>
+                      <p><strong>Focus Area:</strong> Failure to disclose material uncertainties affecting Going Concern.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Failure Details & Accounting Violation",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The Failure:</strong> Companies with eroded net worth and debt defaults omit disclosures regarding going concern doubts, claiming they will secure new funding.</p>
+                      <p><strong>Violation:</strong> Non-disclosure of going concern uncertainties violates AS 1 and the requirements of SA 570.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Correct Disclosure Expectation & Action Item",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Expectation:</strong> Disclose all debt defaults, net worth erosion, and mitigating plans in Note 1.</p>
+                      <p><strong>Auditor Action:</strong> Audit the mitigating plans and verify going concern disclosure sufficiency.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+          </div>
+        </section>
+
+        {/* ─── SECTION 5: LANDMARK JUDICIAL CASES ────────────────────────────────── */}
+        <section id="sec-legal-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+          {renderSectionHeader(
+            '5',
+            'Landmark Judicial Cases',
+            'Landmark Supreme Court and High Court judgments clarifying the application of accounting principles under tax and corporate law.'
+          )}
+          <div className="space-y-12">
+            <CaseStudyCard
+              id="5-1"
+              title="Case 5.1: CIT vs. Woodward Governor India Pvt. Ltd. (SC [2009] 312 ITR 254)"
+              category="Landmark Judicial Case"
+              badgeColor="bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200/30"
+              panels={[
+                {
+                  title: "Legal Dispute & Facts of the Case",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The dispute:</strong> The taxpayer incurred foreign exchange losses on long-term capital loans due to currency fluctuations. The company recognized these losses on the balance sheet date, even though they were unrealized, as per AS 11 and consistent accrual accounting.</p>
+                      <p><strong>Tax Department Position:</strong> The Income Tax department denied the deduction, claiming that unrealized foreign exchange losses are national/notional losses and cannot be claimed until realized.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "The Core Accrual/Consistency Question",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Question:</strong> Can unrealized exchange losses calculated at the year-end exchange rate be claimed as business expenditure under the accrual concept?</p>
+                      <p><strong>Relevance to AS 1:</strong> The case establishes the alignment between taxable profits and a True and Fair View under consistent accrual principles.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Supreme Court Verdict & Rationale",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Verdict:</strong> The Supreme Court ruled in favor of the taxpayer, holding that 'profits' must reflect a True and Fair View. In line with AS 11 and consistent accrual principles, year-end exchange rate fluctuations must be recognized immediately in the P&L.</p>
+                      <p><strong>Rationale:</strong> Profits must be computed based on standard commercial accounting principles, and consistent year-end rate updates satisfy the accrual concept.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Impact on Financial Statements & Tax Assessment",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Impact:</strong> Taxpayers are allowed tax deductions for year-end exchange rate adjustments, and the judgment establishes that accounting standards issued by the ICAI are mandatory for determining business profits.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="5-2"
+              title="Case 5.2: CIT vs. British Paints India Ltd. (SC [1991] 188 ITR 44)"
+              category="Landmark Judicial Case"
+              badgeColor="bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200/30"
+              panels={[
+                {
+                  title: "Legal Dispute & Facts of the Case",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The dispute:</strong> The taxpayer valued its WIP and finished stock by excluding overhead costs, showing only the cost of raw materials. The company argued that since it had followed this method consistently for decades, the Revenue could not challenge it.</p>
+                      <p><strong>Tax Department Position:</strong> The Income Tax department recalculated stock values by including overheads, arguing that the company's method understated profits.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "The Core Accrual/Consistency Question",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Question:</strong> Does consistency in accounting policies justify a valuation policy that understates stock values and profits?</p>
+                      <p><strong>Relevance to AS 1:</strong> The case checks whether consistency overrides the True and Fair View requirement when the underlying policy is incorrect.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Supreme Court Verdict & Rationale",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Verdict:</strong> The Supreme Court held that consistency cannot justify an incorrect valuation policy. Inventory must include overhead costs to represent the correct value and true and fair view of profits.</p>
+                      <p><strong>Rationale:</strong> The primary consideration is a True and Fair View (AS 1 Para 16), which overrides consistency if the existing policy is incorrect.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Impact on Financial Statements & Tax Assessment",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Impact:</strong> Valuation methods must comply with AS 2 overhead capitalization requirements. Consistency cannot validate non-compliant accounting treatments.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="5-3"
+              title="Case 5.3: Challapalli Sugars Ltd. vs. CIT (SC [1975] 98 ITR 167)"
+              category="Landmark Judicial Case"
+              badgeColor="bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200/30"
+              panels={[
+                {
+                  title: "Legal Dispute & Facts of the Case",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The dispute:</strong> The company capitalized interest paid on loans taken to purchase plant machinery before the machinery commenced production. The Income Tax department claimed that interest is a revenue expense and cannot be capitalized.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "The Core Accrual/Consistency Question",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Question:</strong> Can pre-production interest costs be capitalized as part of the asset cost under general accounting concepts?</p>
+                      <p><strong>Relevance to AS 1:</strong> Establishes the economic substance of asset acquisition (Substance over Form) and capitalization rules.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Supreme Court Verdict & Rationale",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Verdict:</strong> The Supreme Court held that in accordance with standard accounting principles, all costs incurred to bring an asset to its working condition for its intended use, including pre-production interest, must be capitalized.</p>
+                      <p><strong>Rationale:</strong> Pre-production interest represents part of the cost of the asset, reflecting the economic substance of the acquisition.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Impact on Financial Statements & Tax Assessment",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Impact:</strong> This ruling established the legal basis for Substance over Form and capitalization rules subsequently formalized in AS 10 and AS 16.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="5-4"
+              title="Case 5.4: CIT vs. H.G.E.C. Ltd. (HC [1983] 143 ITR 614)"
+              category="Landmark Judicial Case"
+              badgeColor="bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200/30"
+              panels={[
+                {
+                  title: "Legal Dispute & Facts of the Case",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The dispute:</strong> A heavy engineering company entered into long-term contracts. The company recognized anticipated profits based on work completed, but deferred anticipated losses, claiming they were not yet realized.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "The Core Accrual/Consistency Question",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Question:</strong> Is deferring anticipated losses on long-term contracts permissible under the prudence concept?</p>
+                      <p><strong>Relevance to AS 1:</strong> Analyzes the asymmetry of the prudence concept under AS 1.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Supreme Court Verdict & Rationale",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Verdict:</strong> The High Court held that under the prudence concept, anticipated losses must be recognized immediately, whereas anticipated profits cannot be recognized until realized. The company's treatment was incorrect.</p>
+                      <p><strong>Rationale:</strong> Prudence requires that losses must be provided for immediately, while revenue is only recognized when realized.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Impact on Financial Statements & Tax Assessment",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Impact:</strong> Reinforced the Prudence consideration of AS 1, establishing that expected losses must be recognized immediately in the statements.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+
+            <CaseStudyCard
+              id="5-5"
+              title="Case 5.5: Kedarnath Jute Mfg. Co. Ltd. vs. CIT (SC [1971] 82 ITR 363)"
+              category="Landmark Judicial Case"
+              badgeColor="bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200/30"
+              panels={[
+                {
+                  title: "Legal Dispute & Facts of the Case",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>The dispute:</strong> The taxpayer did not record a sales tax liability in its books of account during the relevant year, as it was contesting the tax in court. The company claimed the tax deduction for income tax purposes anyway.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "The Core Accrual/Consistency Question",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Question:</strong> Does the omission of a liability in the books of account prevent it from being accrued or deducted under the accrual assumption?</p>
+                      <p><strong>Relevance to AS 1:</strong> Explores the relationship between book entries and the accrual assumption.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Supreme Court Verdict & Rationale",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Verdict:</strong> The Supreme Court held that the accrual of a liability depends on the event that creates the liability, not on whether an entry is made in the books of account. The tax accrued when the sales occurred, regardless of the books.</p>
+                      <p><strong>Rationale:</strong> The accrual assumption is based on the substance of transactions and events, and book entries are not conclusive.</p>
+                    </div>
+                  )
+                },
+                {
+                  title: "Impact on Financial Statements & Tax Assessment",
+                  content: (
+                    <div className="space-y-2">
+                      <p><strong>Impact:</strong> Confirmed that true and fair view requires accrual of all known obligations, and tax deductions do not depend on whether a book entry has been made.</p>
+                    </div>
+                  )
+                }
+              ]}
+            />
+          </div>
+        </section>
+
+        {/* ─── SECTION 6: EXAM-ORIENTED CORNER ───────────────────────────────────── */}
+        <section id="sec-exam-oriented" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+          {renderSectionHeader(
+            '6',
+            'Exam-Oriented Corner',
+            'High-yield study notes, revision one-liners, past questions, and diagnostic charts for exam preparation.'
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-serif">
+            {/* Quick Revision Notes */}
+            <div className="bg-[#FAFAF8] dark:bg-[#151C2C] p-6 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4 font-sans">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-650 dark:text-indigo-400 flex items-center gap-2">
+                <Award size={14} />
+                <span>Quick Revision Notes</span>
+              </h4>
+              <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
+                <li><strong>Fundamental Assumptions (GAC):</strong> Going Concern, Accrual, Consistency. If they are followed, no disclosure is required. If they are violated, disclosure is mandatory.</li>
+                <li><strong>Selection Considerations (PSM):</strong> Prudence, Substance over Form, Materiality. The primary objective is a True and Fair View.</li>
+                <li><strong>Manner of Disclosure:</strong> All significant policies must form part of the accounts and be disclosed in one place (normally as Note 1).</li>
+                <li><strong>Para 23 Rule:</strong> Footnote disclosures cannot cure incorrect accounting. The entry must be corrected.</li>
+              </ul>
+            </div>
+
+            {/* Common Mistakes */}
+            <div className="bg-[#FFF5F5] dark:bg-[#2A1E1E] p-6 rounded-xl border border-[#FFE1E1] dark:border-red-900/40 space-y-4 font-sans">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-red-650 dark:text-red-400 flex items-center gap-2">
+                <AlertTriangle size={14} />
+                <span>Common Exam Mistakes</span>
+              </h4>
+              <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
+                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Claiming that Going Concern is always followed. <em>Fact:</em> If liquidation is imminent, it must be rejected and accounts prepared on NRV.</li>
+                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Mislabeling estimate changes as policy changes. <em>Fact:</em> Useful life changes or provisions are estimate changes (AS 5), not policy changes (AS 1).</li>
+                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Believing that disclosure cures incorrect accounting. <em>Fact:</em> Under Para 23, disclosure cannot justify incorrect accounting.</li>
+              </ul>
+            </div>
+
+            {/* High-Yield One-Liners */}
+            <div className="bg-[#F5FFF9] dark:bg-[#15251C] p-6 rounded-xl border border-[#D5F5E3] dark:border-emerald-900/40 space-y-4 font-sans">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+                <CheckCircle size={14} />
+                <span>High-Yield One-Liners</span>
+              </h4>
+              <div className="space-y-3 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
+                <p><strong>1. Disclosure location:</strong> Policies must be in one place (usually Note 1), not scattered.</p>
+                <p><strong>2. Fundamental assumptions status:</strong> They are assumed to be followed; disclosure is only required if NOT followed.</p>
+                <p><strong>3. Policy change justification:</strong> Only allowed if required by statute, for compliance with standard, or for a better presentation.</p>
+                <p><strong>4. Quantification:</strong> If a policy change has a material impact, the exact financial impact must be quantified and disclosed.</p>
+              </div>
+            </div>
+
+            {/* Important Definitions */}
+            <div className="bg-[#FBF5FF] dark:bg-[#20152C] p-6 rounded-xl border border-[#F1D5F5] dark:border-purple-900/40 space-y-4 font-sans">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-purple-700 dark:text-purple-400 flex items-center gap-2">
+                <BookOpen size={14} />
+                <span>Important Definitions</span>
+              </h4>
+              <div className="space-y-3 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
+                <p><strong>1. Accounting Policies:</strong> Specific accounting principles and the methods of applying those principles adopted by the enterprise (AS 1 Para 11).</p>
+                <p><strong>2. Accrual:</strong> Revenues and costs are accrued, i.e., recognized as they are earned or incurred and recorded in the financial statements of the periods to which they relate (AS 1 Para 13).</p>
+                <p><strong>3. Prudence:</strong> A degree of caution in making estimates under conditions of uncertainty, such that assets or income are not overstated and liabilities or expenses are not understated.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Mnemonic and RTP/MTP references */}
+          <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-800 rounded-xl p-6 sm:p-8 space-y-4 font-serif">
+            <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-650 dark:text-indigo-400 flex items-center gap-2">
+              <Info size={14} />
+              <span>PYQ & Mnemonic Revision Trap</span>
+            </h4>
+            <div className="space-y-4 text-xs sm:text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300 font-sans">
+              <p>
+                <strong>ICAI Exam Questions (PYQ):</strong> In almost every exam, a case study is asked where a company changes its policy (e.g. inventory formula or depreciation) but does not disclose the impact, or changes the policy to manage earnings. Always refer to **AS 1 Para 22** and **Para 23** in your answers.
+              </p>
+              <div className="p-4 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 font-mono text-[12.5px] text-slate-700 dark:text-slate-300">
+                <span className="font-bold text-indigo-600 dark:text-indigo-400 block mb-1">Mnemonic Tricks:</span>
+                <p>• <strong>G-A-C:</strong> Going Concern, Accrual, Consistency (Fundamental Assumptions)</p>
+                <p>• <strong>P-S-M:</strong> Prudence, Substance over Form, Materiality (Selection Considerations)</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── SECTION 7: AUDIT NOTES & REPORTING ────────────────────────────────── */}
+        <section id="sec-audit-notes" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+          {renderSectionHeader(
+            '7',
+            'Audit Notes & Reporting',
+            'Audit checklist, red flags, and drafting templates for statutory auditor reports under Section 143(3).'
+          )}
+
+          <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+            <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white font-sans flex items-center gap-2">
+              <HelpCircle className="text-indigo-650 dark:text-indigo-400" size={18} />
+              <span>Audit Report Drafting: Deviation from AS 1 (Section 143(3))</span>
+            </h3>
+
+            <div className="space-y-4 text-[13.5px] leading-[1.7] text-slate-750 dark:text-slate-300 font-serif">
+              <p>
+                When an enterprise fails to disclose significant accounting policies, or changes them without valid justification, the auditor must issue a qualified or adverse opinion. Below is a standard template for an audit qualification:
+              </p>
+
+              <div className="bg-white dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 font-mono text-xs text-slate-800 dark:text-slate-300 leading-relaxed space-y-3">
+                <p className="font-extrabold text-slate-900 dark:text-white">BASIS FOR QUALIFIED OPINION</p>
+                <p className="italic">
+                  "Note [X] to the financial statements describes a change in the Company's accounting policy for inventory valuation from FIFO to Weighted Average. However, the Company has failed to disclose the quantified impact of this change on the current year's financial performance. Based on our audit procedures, had the Company valued its inventory on WAC, the closing inventory would have been lower by ₹70 Lakhs, and the profit before tax would have been lower by ₹70 Lakhs.
+                </p>
+                <p className="italic">
+                  Consequently, the profit before tax and current assets are overstated by ₹70 Lakhs. The Company has also failed to comply with the disclosure requirements of Accounting Standard 1 (AS 1), 'Disclosure of Accounting Policies'."
+                </p>
+                <p className="font-extrabold text-slate-900 dark:text-white mt-4">QUALIFIED OPINION</p>
+                <p className="italic">
+                  "In our opinion and to the best of our information and according to the explanations given to us, except for the effects of the matter described in the Basis for Qualified Opinion paragraph, the aforesaid financial statements give a true and fair view in conformity with the accounting principles generally accepted in India..."
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 text-xs font-sans">
+                <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg">
+                  <span className="font-extrabold text-indigo-650 dark:text-indigo-400 block mb-1">AUDIT RED FLAGS</span>
+                  <ul className="list-disc pl-4 space-y-1 text-slate-700 dark:text-slate-300">
+                    <li>Inconsistencies between Note 1 disclosures and actual balances.</li>
+                    <li>Failure to quantify the impact of accounting policy changes.</li>
+                    <li>Mislabeled write-downs as estimate revisions.</li>
+                  </ul>
+                </div>
+                <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg">
+                  <span className="font-extrabold text-indigo-650 dark:text-indigo-400 block mb-1">REPRESENTATION POINTS</span>
+                  <ul className="list-disc pl-4 space-y-1 text-slate-700 dark:text-slate-300">
+                    <li>Obtain management representation letters confirming policy selection.</li>
+                    <li>Confirm that all significant policies have been disclosed.</li>
+                    <li>Document board approvals for any policy changes.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  )
+}

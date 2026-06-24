@@ -1,4 +1,5 @@
 const { chromium } = require('playwright');
+const path = require('path');
 
 async function main() {
   const browser = await chromium.launch({ headless: true });
@@ -20,16 +21,11 @@ async function main() {
       break;
     }
   }
-  await page.waitForTimeout(2000);
+  await page.waitForTimeout(3000);
 
-  const h2s = await page.$$('h2');
-  for (let i = 0; i < h2s.length; i++) {
-    const text = await h2s[i].innerText();
-    const html = await h2s[i].evaluate(el => el.outerHTML);
-    console.log(`H2 #${i}:`);
-    console.log('  Text:', JSON.stringify(text));
-    console.log('  HTML:', html);
-  }
+  const screenshotPath = path.join('C:/Users/ayush/.gemini/antigravity/brain/990b0c71-333d-4e0a-8054-4eed28bae673', 'examples_tab_live.png');
+  console.log(`Saving screenshot to: ${screenshotPath}`);
+  await page.screenshot({ path: screenshotPath, fullPage: true });
 
   await browser.close();
 }

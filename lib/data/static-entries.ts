@@ -950,6 +950,254 @@ export const AS_1_ENTRY = {
   ],
 }
 
+// ─── Full AS Standard: AS 2 ──────────────────────────────────────────────────
+
+export const AS_2_ENTRY = {
+  entryTitle: 'AS 2 — Valuation of Inventories',
+  entrySlug: 'as-2',
+  summary:
+    'AS 2 prescribes the accounting treatment for inventories. It provides guidance on the determination of cost, including the cost of purchase, cost of conversion and other costs, and on the subsequent recognition of inventories as an expense, including any write-down to net realisable value.',
+  verificationLevel: 'VERIFIED' as const,
+  wordCount: 2400,
+  lastReviewedAt: '2024-03-01',
+  authorityPrimary: 'ICAI — Accounting Standard 2 (Revised)',
+  authorityPrimaryUrl: 'https://www.icai.org/post/accounting-standards-as-2',
+  standardCode: 'AS 2',
+  standardFramework: 'AS' as const,
+  standardStatus: 'ACTIVE' as const,
+  issuingBody: 'ICAI (Institute of Chartered Accountants of India)',
+  dateIssued: '1981-01-01',
+  dateEffective: '1999-04-01',
+  applicabilitySummary: 'Mandatory for all enterprises preparing financial statements under Indian GAAP. Applicable to all inventories except work in progress arising under construction contracts (AS 7), financial instruments, and inventories of agricultural/livestock/mineral products measured at NRV by tradition.',
+  quickBullets: [
+    { icon: '📦', label: 'Measurement', desc: 'Lower of Cost and NRV' },
+    { icon: '📊', label: 'Cost Formulas', desc: 'FIFO or Weighted Average' },
+    { icon: '📋', label: 'Key Rule', desc: 'Write down to NRV when cost > NRV' },
+  ],
+  objective: {
+    text: 'The objective of AS 2 is to formulate the method of accounting for inventories and to determine the value at which inventories are to be carried in the financial statements until the related revenues are recognised. It provides guidance on the determination of cost, the cost formulas to be used, and on the subsequent recognition of inventories as an expense including any write-down to net realisable value.',
+    sourcePara: 'Introduction',
+    commentary: 'AS 2 establishes the lower of cost and net realisable value (NRV) as the fundamental measurement basis for inventories. This is based on the principle of prudence — losses are recognised immediately when inventory value falls below cost, but gains are not recognised until realised.',
+    keyIssues: [
+      'How should the cost of inventories be determined for different types of businesses?',
+      'When should inventories be written down to Net Realisable Value (NRV)?',
+      'Which cost formula — FIFO or Weighted Average — should be applied?',
+      'What must be disclosed in financial statements regarding inventory valuation?',
+    ],
+  },
+  scope: {
+    statement: 'AS 2 applies to all inventories, being assets: (a) held for sale in the ordinary course of business; (b) in the process of production for such sale; or (c) in the form of materials or supplies to be consumed in the production process or in the rendering of services.',
+    included: [
+      'Finished goods held for sale',
+      'Work-in-progress (WIP) during manufacturing',
+      'Raw materials and stores awaiting use in production',
+      'Goods purchased for trading/resale (merchandise)',
+      'Land and other property held for sale in the ordinary course of business by developers',
+      'Inventories of service providers (direct labour, materials, attributable overheads)',
+    ],
+    excluded: [
+      'Work in progress arising under construction contracts (governed by AS 7)',
+      'Work in progress arising in the ordinary course of business of service concession arrangements',
+      'Financial instruments (shares, debentures, futures) — governed by AS 13',
+      'Biological assets related to agricultural activity and agricultural produce at the point of harvest',
+      'Producers of agricultural and forest products, mineral ores measured at NRV in accordance with well-established practices in those industries',
+    ],
+  },
+  definitions: [
+    {
+      term: 'Inventories',
+      paraRef: 'Para 2',
+      officialText:
+        '"Inventories are assets: (a) held for sale in the ordinary course of business; (b) in the process of production for such sale; or (c) in the form of materials or supplies to be consumed in the production process or in the rendering of services."',
+      plainExplanation:
+        'Inventories encompass three categories: (1) Finished Goods — ready for sale; (2) Work-In-Progress (WIP) — partially manufactured; and (3) Raw Materials and Stores — inputs for production. Each category requires cost determination and NRV comparison.',
+    },
+    {
+      term: 'Net Realisable Value (NRV)',
+      paraRef: 'Para 2',
+      officialText:
+        '"Net realisable value is the estimated selling price in the ordinary course of business less the estimated costs of completion and the estimated costs necessary to make the sale."',
+      plainExplanation:
+        'NRV = Estimated Selling Price − Estimated Cost of Completion − Estimated Selling Costs. For example, if finished goods are expected to sell at ₹100, with ₹5 delivery cost, the NRV is ₹95. Compare this with cost — whichever is lower is used for valuation.',
+    },
+    {
+      term: 'Fair Value',
+      paraRef: 'Para 2',
+      officialText:
+        '"Fair value is the amount for which an asset could be exchanged, or a liability settled, between knowledgeable, willing parties in an arm\'s length transaction."',
+      plainExplanation:
+        'Fair value is the market price between informed willing parties. Under AS 2, NRV (entity-specific) differs from fair value (market-based). NRV may differ from fair value because NRV reflects entity-specific estimates of selling price and completion costs, while fair value reflects market conditions regardless of the entity.',
+    },
+    {
+      term: 'Cost of Inventories',
+      paraRef: 'Para 4',
+      officialText:
+        '"The cost of inventories should comprise all costs of purchase, costs of conversion and other costs incurred in bringing the inventories to their present location and condition."',
+      plainExplanation:
+        'Total cost = Cost of Purchase + Cost of Conversion + Other Costs. This is the fully-landed cost concept. For a manufacturer, it includes raw material cost, direct labour, and production overheads (absorbed on a systematic basis). Selling and administrative overheads are excluded.',
+    },
+    {
+      term: 'Cost of Purchase',
+      paraRef: 'Para 5',
+      officialText:
+        '"The costs of purchase consist of the purchase price including duties and taxes, freight inwards and other expenditure directly attributable to the acquisition. Trade discounts, rebates, duty drawbacks and other similar items are deducted in determining the cost of purchase."',
+      plainExplanation:
+        'Cost of Purchase = Invoice Price + Duties/Taxes + Freight + Direct Acquisition Costs − Trade Discounts − Rebates − Duty Drawback. Note: Cash discounts are NOT deducted from cost of purchase under AS 2 (they are credited to P&L). Interest on credit purchases is also excluded.',
+    },
+    {
+      term: 'Cost of Conversion',
+      paraRef: 'Para 6',
+      officialText:
+        '"The costs of conversion of inventories include costs directly related to the units of production, such as direct labour. They also include a systematic allocation of fixed and variable production overheads that are incurred in converting materials into finished goods."',
+      plainExplanation:
+        'Cost of Conversion = Direct Labour + Fixed Production OH (absorbed at normal capacity) + Variable Production OH. Fixed OH is allocated based on normal capacity, not actual output. If actual production is abnormally low, the unabsorbed fixed OH is charged to the period (not inventoried).',
+    },
+    {
+      term: 'Normal Capacity',
+      paraRef: 'Para 6',
+      officialText:
+        '"Normal capacity is the production expected to be achieved on an average over a number of periods or seasons under normal circumstances, taking into account the loss of capacity resulting from planned maintenance."',
+      plainExplanation:
+        'Normal capacity is a long-run average of expected production (excluding abnormal shutdowns). It is used as the denominator for absorbing fixed production overheads into inventory cost. Using actual capacity when lower than normal would overstate inventory cost.',
+    },
+  ],
+  recognitionRules:
+    'Under AS 2, inventories must be measured at the lower of cost and net realisable value (Para 3). When inventories are sold, the carrying amount must be recognised as an expense in the period in which the related revenue is recognised (Para 18). When inventories are written down to NRV, the write-down amount is recognised as an expense immediately. Any reversal of write-down (Para 17) is recognised as a reduction in the amount of inventories recognised as an expense in the period of reversal.',
+  measurementRules:
+    'Measurement is at the lower of cost and NRV. Cost is determined using either FIFO (First-In, First-Out) or Weighted Average Cost formula — not LIFO (LIFO is specifically excluded under AS 2). For items of similar nature and use, the same cost formula must be applied consistently. Specific identification applies only to inventories that are not ordinarily interchangeable and for goods/services produced for specific projects.',
+  disclosureGroups: [
+    {
+      heading: 'Mandatory Disclosures in Financial Statements',
+      paraRange: 'Para 19',
+      items: [
+        { text: 'Accounting policy adopted for measuring inventories (cost formula used — FIFO or Weighted Average)' },
+        { text: 'Total carrying amount of inventories in classifications appropriate to the enterprise (e.g., raw materials, WIP, finished goods, stores and spares)' },
+        { text: 'Carrying amount of inventories carried at fair value less costs to sell' },
+        { text: 'Amount of inventories recognised as expense during the period (cost of goods sold/cost of revenue)' },
+        { text: 'Amount of any write-down of inventories to NRV recognised as an expense in the period', isConditional: true },
+        { text: 'Amount of any reversal of write-down that is recognised as a reduction in the amount of inventories expensed', isConditional: true },
+        { text: 'Circumstances or events that led to reversal of write-down of inventories', isConditional: true },
+        { text: 'Carrying amount of inventories pledged as security for liabilities', isConditional: true },
+      ],
+    },
+    {
+      heading: 'Additional Disclosures Encouraged',
+      paraRange: 'Para 19 (Guidance)',
+      items: [
+        { text: 'Break-up of inventories by category — Raw Materials, Work-in-Progress, Finished Goods, Stores & Spares', isConditional: true },
+        { text: 'Method of absorption of fixed overheads and basis of normal capacity', isConditional: true },
+        { text: 'Specific identification method use and the basis for selection of items', isConditional: true },
+      ],
+    },
+  ],
+  journalEntryNotes: [
+    {
+      scenario: 'Write-down of Inventory to NRV (Cost > NRV)',
+      treatment:
+        'When the NRV of inventory falls below its cost, the difference must be recognised as an expense immediately. Entry: Debit — Loss on Inventory Write-down A/c (or included in Cost of Goods Sold), Credit — Inventory A/c. The inventory appears at NRV in the Balance Sheet. Note: The write-down is not a provision — it directly reduces the inventory value.',
+    },
+    {
+      scenario: 'Reversal of NRV Write-down (NRV recovers in subsequent period)',
+      treatment:
+        'If circumstances that caused the write-down no longer exist, the write-down is reversed. Entry: Debit — Inventory A/c, Credit — Cost of Goods Sold A/c (or Inventory Write-down Reversal). The reversal is capped at the amount of original write-down — inventory cannot be written UP above original cost.',
+    },
+    {
+      scenario: 'Goods Received but Invoice Not Yet Received (GRNI — Goods Received Not Invoiced)',
+      treatment:
+        'Include goods in inventory as they have transferred to the entity: Debit — Inventory / Raw Materials A/c, Credit — Goods Received Not Invoiced A/c (current liability). Upon receipt of invoice: Debit — GRNI A/c, Credit — Creditors A/c. This ensures inventories include all goods physically received.',
+    },
+    {
+      scenario: 'Abnormal Wastage / Spoilage — Excluded from Inventory Cost',
+      treatment:
+        'Abnormal amounts of wasted materials, labour, or other production costs are expensed as period costs under Para 8. Entry: Debit — Abnormal Loss A/c (P&L), Credit — WIP / Inventory A/c. Only normal wastage is absorbed into production cost.',
+    },
+    {
+      scenario: 'Fixed Overhead Absorbed at Normal Capacity',
+      treatment:
+        'Fixed production OH per unit = Total fixed OH ÷ Normal Capacity (units). If actual production = 8,000 units, Normal = 10,000 units, Fixed OH = ₹10,00,000. OH rate = ₹100/unit. Inventory absorbs ₹8,00,000 (8,000 × ₹100). Unabsorbed OH = ₹2,00,000 is charged to P&L as period cost — not inventoried.',
+    },
+  ],
+  comparison: {
+    std2Title: 'Ind AS 2 — Inventories',
+    rows: [
+      { criterion: 'Measurement Basis', as: 'Lower of cost and NRV', indAs: 'Lower of cost and NRV (same)', isDifferent: false },
+      { criterion: 'Allowed Cost Formulas', as: 'FIFO or Weighted Average; LIFO NOT permitted', indAs: 'FIFO or Weighted Average; LIFO NOT permitted (same)', isDifferent: false },
+      { criterion: 'Specific Identification', as: 'Applies to non-interchangeable items and project inventories', indAs: 'Same (applies to non-interchangeable items)', isDifferent: false },
+      { criterion: 'Service Provider Inventories', as: 'Cost of services = direct labour + direct costs + attributable OH', indAs: 'Same treatment', isDifferent: false },
+      { criterion: 'Borrowing Costs in Inventory', as: 'Excluded from cost (AS 2 explicitly excludes)', indAs: 'Permitted only for qualifying assets (long maturing WIP) per Ind AS 23', isDifferent: true },
+      { criterion: 'Write-down Reversal', as: 'Reversal is permitted when circumstances change', indAs: 'Reversal permitted (same)', isDifferent: false },
+      { criterion: 'Fair Value vs NRV', as: 'Distinguishes NRV from Fair Value conceptually', indAs: 'Same distinction; additionally aligned with IFRS 13', isDifferent: false },
+      { criterion: 'Biological Assets', as: 'Explicitly excluded from scope', indAs: 'Excluded (covered by Ind AS 41 Agriculture)', isDifferent: false },
+      { criterion: 'Disclosure — Cost of Goods Sold', as: 'Required (carrying amount of inventories expensed)', indAs: 'Required (same)', isDifferent: false },
+    ],
+  },
+  relatedStandards: [
+    { code: 'AS 7', title: 'Construction Contracts', slug: 'as-7', color: '#0F6B5E', framework: 'AS' },
+    { code: 'AS 9', title: 'Revenue Recognition', slug: 'as-9', color: '#0F6B5E', framework: 'AS' },
+    { code: 'AS 13', title: 'Accounting for Investments', slug: 'as-13', color: '#0F6B5E', framework: 'AS' },
+    { code: 'AS 16', title: 'Borrowing Costs', slug: 'as-16', color: '#0F6B5E', framework: 'AS' },
+    { code: 'Ind AS 2', title: 'Inventories', slug: 'ind-as-2', color: '#6B3FA0', framework: 'Ind AS' },
+  ],
+  faqs: [
+    {
+      id: 1,
+      question: 'Can LIFO (Last-In, First-Out) be used for inventory valuation under AS 2?',
+      answer:
+        'No. AS 2 specifically prohibits the LIFO cost formula. Only FIFO (First-In, First-Out) and Weighted Average Cost are permitted. This is because LIFO results in an outdated, understated inventory value on the balance sheet during rising prices, which reduces the usefulness of financial statements.',
+      sourceRef: 'AS 2, Para 11–12',
+    },
+    {
+      id: 2,
+      question: 'What is the correct treatment when actual production is below normal capacity?',
+      answer:
+        'Fixed production overheads are allocated based on normal capacity, not actual production. If actual production is lower than normal, fixed OH per unit remains the same (based on normal capacity). The unabsorbed portion of fixed OH (due to lower actual production) is recognised as an expense in the current period — it is NOT added to inventory cost. This prevents inventory from being overstated during periods of abnormally low production.',
+      sourceRef: 'AS 2, Para 6',
+    },
+    {
+      id: 3,
+      question: 'Should trade discounts be deducted in calculating cost of purchase under AS 2?',
+      answer:
+        'Yes. Trade discounts, rebates, duty drawbacks and other similar items are deducted from cost of purchase under Para 5. However, cash discounts (discounts for early payment) are NOT deducted from cost — they are credited to P&L as "Discount Received" income. This distinction is important: trade discounts reduce cost, cash discounts do not.',
+      sourceRef: 'AS 2, Para 5',
+    },
+    {
+      id: 4,
+      question: 'When should inventory be written down to NRV?',
+      answer:
+        'Inventory should be written down to NRV when its cost exceeds its estimated NRV. This typically happens when: (a) inventories are damaged; (b) inventories are wholly or partially obsolete; (c) selling prices have declined; (d) estimated costs of completion or selling costs have increased. The write-down is recognised as an expense in the period it occurs. The write-down should be assessed item by item or by groups of similar items — not at the total inventory level.',
+      sourceRef: 'AS 2, Para 14–16',
+    },
+    {
+      id: 5,
+      question: 'Can a write-down of inventory to NRV be reversed in a subsequent period?',
+      answer:
+        'Yes. Under Para 17, when the circumstances that caused the write-down no longer exist (e.g., selling price recovers), the write-down can be reversed. The reversal amount is recognised as a reduction in the amount of inventories recognised as an expense in the period of reversal. However, the reversal cannot result in a carrying amount that exceeds the original cost — inventory cannot be written UP above its original cost.',
+      sourceRef: 'AS 2, Para 17',
+    },
+    {
+      id: 6,
+      question: 'How is the cost of inventories determined for a service provider?',
+      answer:
+        'Under Para 9, the cost of inventories of a service provider consists of labour and other costs of personnel directly engaged in providing the service, including supervisory personnel, and attributable overheads. Labour and other costs relating to sales and general administrative personnel are excluded. The cost does not include profit margins or non-attributable overheads.',
+      sourceRef: 'AS 2, Para 9',
+    },
+    {
+      id: 7,
+      question: 'Is borrowing cost included in the cost of inventories under AS 2?',
+      answer:
+        'No. AS 2 specifically excludes borrowing costs (interest) from the cost of inventories. Para 8 lists excluded costs: abnormal wastage, storage costs (unless necessary in the production process), administrative overheads not contributing to production, and selling costs. Note: Under Ind AS 2 read with Ind AS 23, borrowing costs may be included in the cost of inventories that are qualifying assets (e.g., whisky maturing over 3 years), but this is NOT the case under AS 2.',
+      sourceRef: 'AS 2, Para 8',
+    },
+    {
+      id: 8,
+      question: 'What is the rule regarding consistency of cost formula across different inventory types?',
+      answer:
+        'Para 13 requires that the same cost formula (FIFO or Weighted Average) must be used for all inventories having similar nature and use. If different groups of inventories have different nature or use to the enterprise, different cost formulas can be applied. For example, a company could use FIFO for finished goods and Weighted Average for raw materials if they have genuinely different characteristics. But two types of finished goods of similar nature must use the same formula.',
+      sourceRef: 'AS 2, Para 13',
+    },
+  ],
+}
+
 // ─── Full Ind AS Standard: Ind AS 1 ──────────────────────────────────────────
 
 export const IND_AS_1_ENTRY = {
