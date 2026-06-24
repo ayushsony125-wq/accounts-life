@@ -395,6 +395,10 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
     const target = document.getElementById(`sec-${id}`)
     const stickyNavbar = document.getElementById('as1-examples-sticky-toc')
     if (container && target) {
+      if (id === 'icai-illustrations') {
+        container.scrollTo({ top: 0, behavior: 'auto' })
+        return
+      }
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
       let stickyOffset = 98
