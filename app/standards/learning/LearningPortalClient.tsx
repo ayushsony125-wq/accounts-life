@@ -206,7 +206,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
         },
         {
           root: scrollContainer,
-          rootMargin: '-110px 0px -50% 0px',
+          rootMargin: '-90px 0px -60% 0px',
           threshold: 0
         }
       );
@@ -523,7 +523,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   return (
     <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
       {/* Sticky Contents Bar */}
-      <div id="as1-sticky-toc" className="sticky top-[58px] bg-[#F5F5F3]/97 dark:bg-[#0B0F19]/97 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+      <div id="as1-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
         <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
           <div
             ref={tocScrollRef}
@@ -535,15 +535,26 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 key={sec.id}
                 data-toc-id={sec.id}
                 onClick={() => {
-                  const el = document.getElementById(`as1-${sec.id}`);
-                  if (el) {
-                    el.scrollIntoView({ behavior: 'smooth' });
+                  const container = document.getElementById('as1-scroll-container');
+                  const target = document.getElementById(`as1-${sec.id}`);
+                  const stickyToc = document.getElementById('as1-sticky-toc');
+                  setActiveSection(sec.id);
+                  if (container && target) {
+                    const containerRect = container.getBoundingClientRect();
+                    const targetRect = target.getBoundingClientRect();
+                    let stickyOffset = 98;
+                    if (stickyToc) {
+                      const tocRect = stickyToc.getBoundingClientRect();
+                      stickyOffset = tocRect.bottom - containerRect.top;
+                    }
+                    const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2;
+                    container.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
                   }
                 }}
                 className={`transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap ${
                   activeSection === sec.id
                     ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 }`}
               >
                 {sec.title}
