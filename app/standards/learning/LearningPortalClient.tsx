@@ -549,7 +549,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                     }
                     const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2;
                     console.log('[React TOC Click]', sec.id, 'targetScrollTop:', targetScrollTop, 'containerScrollTop:', container.scrollTop, 'targetRectTop:', targetRect.top, 'containerRectTop:', containerRect.top, 'stickyOffset:', stickyOffset);
-                    container.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
+                    container.scrollTo({ top: targetScrollTop, behavior: 'auto' });
                   } else {
                     console.log('[React TOC Click] Elements missing: container=', !!container, 'target=', !!target);
                   }
