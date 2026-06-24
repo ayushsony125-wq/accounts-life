@@ -8,17 +8,19 @@ interface AS1ExamplesCustomContentProps {
   renderTextWithReferences: (text: string) => React.ReactNode;
 }
 
-// ─── HELPER COMPONENTS FOR HIGH-QUALITY STRUCTURED DATA ───────────────────
+// ─── UNIFIED STRUCTURED CARD (10-POINT CA/AUDIT TRAINING WORKBOOK LAYOUT) ──
 
-// Card for Section 3: ICAI Illustrations (10-point structure)
-interface ExampleCardProps {
+interface StructuredCardProps {
   id: string
   title: string
   category: string
   badgeColor?: string
+  pdfPage?: number
+  navigateToPdfPage: (page: number) => void
+  // The 10 Points
   facts: string
   issue: string
-  principle: string
+  standard: string
   alternatives: string
   correctTreatment: string
   analysis: string
@@ -26,160 +28,156 @@ interface ExampleCardProps {
   disclosure: string
   auditorView: string
   conclusion: string
-  pdfPage?: number
-  navigateToPdfPage: (page: number) => void
 }
 
-function ExampleCard({
+function StructuredCard({
   id,
   title,
   category,
   badgeColor = 'bg-blue-50 text-blue-700 dark:bg-blue-955/40 dark:text-blue-400 border-blue-200/30',
+  pdfPage,
+  navigateToPdfPage,
   facts,
   issue,
-  principle,
+  standard,
   alternatives,
   correctTreatment,
   analysis,
   impact,
   disclosure,
   auditorView,
-  conclusion,
-  pdfPage,
-  navigateToPdfPage
-}: ExampleCardProps) {
-  const renderRow = (num: string, label: string, content: string) => (
-    <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 border-b border-slate-100 dark:border-slate-850/50 py-3.5 last:border-0">
-      <div className="sm:w-52 shrink-0 flex items-center gap-2">
-        <span className="flex items-center justify-center w-5.5 h-5.5 rounded-full bg-indigo-50 dark:bg-indigo-950 text-indigo-650 dark:text-indigo-400 border border-indigo-200/30 dark:border-indigo-800 text-[10.5px] font-mono font-bold select-none shrink-0">
-          {num}
-        </span>
-        <span className="text-[11px] font-sans font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-          {label}
-        </span>
-      </div>
-      <div className="flex-1 text-[13.5px] leading-relaxed text-slate-750 dark:text-slate-300 font-serif">
-        {content}
-      </div>
-    </div>
-  )
-
+  conclusion
+}: StructuredCardProps) {
   return (
-    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/70 dark:border-slate-850 rounded-xl p-6 sm:p-8 shadow-xs hover:shadow-sm transition-all duration-200 space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-850 pb-4">
-        <h3 className="text-[15px] font-bold text-slate-900 dark:text-white font-sans flex items-center gap-2">
-          <span>{title}</span>
+    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/80 dark:border-slate-850 rounded-2xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all duration-300 space-y-6 relative overflow-hidden">
+      {/* Top Banner Accent */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600" />
+      
+      {/* Card Title & Meta Header */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-850 pb-4 pt-1">
+        <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans tracking-tight">
+          {title}
         </h3>
         <div className="flex items-center gap-2">
           {pdfPage && (
             <button
               onClick={() => navigateToPdfPage(pdfPage)}
-              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded cursor-pointer transition-all"
+              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded cursor-pointer transition-all shrink-0"
               title={`Open ICAI AS 1 PDF — Page ${pdfPage}`}
             >
               <FileText size={11} />
             </button>
           )}
-          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${badgeColor}`}>
+          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${badgeColor} shrink-0`}>
             {category}
           </span>
         </div>
       </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-850">
-        {renderRow('1', 'Facts', facts)}
-        {renderRow('2', 'Issue', issue)}
-        {renderRow('3', 'Relevant AS 1 Principle', principle)}
-        {renderRow('4', 'Alternative Treatments', alternatives)}
-        {renderRow('5', 'Correct Treatment', correctTreatment)}
-        {renderRow('6', 'Analysis', analysis)}
-        {renderRow('7', 'Financial Impact', impact)}
-        {renderRow('8', 'Disclosure', disclosure)}
-        {renderRow('9', 'Auditor\'s View', auditorView)}
-        {renderRow('10', 'Conclusion', conclusion)}
+
+      {/* 10-Point Sequential Visual Panels */}
+      <div className="grid grid-cols-1 gap-4.5 font-sans">
+        {/* 1. Facts & Background */}
+        <div className="p-4 bg-slate-50/70 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/70 rounded-xl space-y-1.5">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-slate-500 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-slate-200 dark:bg-slate-800 text-[10px]">1</span>
+            <span>Facts &amp; Background</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300 font-serif">{facts}</p>
+        </div>
+
+        {/* 2. Core Issue */}
+        <div className="p-4 bg-amber-50/30 dark:bg-amber-955/10 border border-amber-200/40 dark:border-amber-900/40 rounded-xl space-y-1.5">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-amber-750 dark:text-amber-400 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-[10px]">2</span>
+            <span>Core Accounting Issue</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-slate-350 font-serif">{issue}</p>
+        </div>
+
+        {/* 3. Relevant Standard */}
+        <div className="p-4 bg-blue-50/30 dark:bg-blue-955/10 border border-blue-200/40 dark:border-blue-900/40 rounded-xl space-y-1.5">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-blue-750 dark:text-blue-400 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-[10px]">3</span>
+            <span>Relevant Standard / AS 1 Principle</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-slate-350 font-serif">{standard}</p>
+        </div>
+
+        {/* 4. Alternative Treatments */}
+        <div className="p-4 bg-slate-50/20 dark:bg-slate-900/20 border border-slate-200/30 dark:border-slate-800/30 rounded-xl space-y-1.5">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-slate-500 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-slate-200/60 dark:bg-slate-800/40 text-[10px]">4</span>
+            <span>Alternative Treatments Evaluated</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-350 font-serif">{alternatives}</p>
+        </div>
+
+        {/* 5. Correct Accounting Treatment */}
+        <div className="p-4.5 bg-emerald-50/40 dark:bg-emerald-955/10 border border-emerald-250/50 dark:border-emerald-900/40 rounded-xl space-y-1.5 shadow-2xs">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-emerald-700 dark:text-emerald-450 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-[10px]">5</span>
+            <span>Correct Accounting Treatment</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed text-slate-850 dark:text-slate-200 font-serif font-semibold">{correctTreatment}</p>
+        </div>
+
+        {/* 6. Technical Analysis */}
+        <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 border border-transparent border-l-4 border-slate-300 dark:border-slate-800 rounded-r-xl space-y-1.5 pl-4.5">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-slate-500 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-slate-200/40 dark:bg-slate-800/20 text-[10px]">6</span>
+            <span>Technical Analysis &amp; Rationale</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300 font-serif">{analysis}</p>
+        </div>
+
+        {/* 7. Financial Statement Impact */}
+        <div className="p-4 bg-rose-50/20 dark:bg-rose-955/5 border border-rose-200/40 dark:border-rose-900/40 rounded-xl space-y-1.5">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-rose-700 dark:text-rose-450 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-rose-100 dark:bg-rose-900/40 text-[10px]">7</span>
+            <span>Financial Statement Impact</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed text-slate-755 dark:text-slate-300 font-serif">{impact}</p>
+        </div>
+
+        {/* 8. Disclosure Requirements */}
+        <div className="p-4 bg-slate-900 dark:bg-slate-950 border border-slate-800 dark:border-slate-900 rounded-xl space-y-2.5 font-mono text-[11px] text-slate-350 dark:text-slate-400">
+          <div className="flex items-center gap-2 text-[10.5px] font-sans font-extrabold text-slate-400 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-slate-800 dark:bg-slate-900 text-[10px] text-slate-300">8</span>
+            <span>Disclosure Note Presentation</span>
+          </div>
+          <div className="bg-slate-950/60 p-3.5 rounded-lg border border-slate-850 dark:border-slate-900 italic font-medium leading-relaxed">
+            {disclosure}
+          </div>
+        </div>
+
+        {/* 9. Auditor's View */}
+        <div className="p-4 bg-indigo-50/40 dark:bg-indigo-955/10 border border-indigo-200/40 dark:border-indigo-900/40 rounded-xl space-y-1.5">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-[10px]">9</span>
+            <span>Auditor\'s View &amp; Implication Checklist</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-slate-300 font-serif">{auditorView}</p>
+        </div>
+
+        {/* 10. Conclusion & Takeaway */}
+        <div className="p-4.5 bg-indigo-900 dark:bg-indigo-950 text-white dark:text-indigo-100 rounded-xl space-y-1.5 shadow-sm">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-indigo-200 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-indigo-850 dark:bg-indigo-900 text-[10px] text-indigo-100">10</span>
+            <span>Final Conclusion &amp; Key Takeaway</span>
+          </div>
+          <p className="text-[13.5px] leading-relaxed font-serif font-medium">{conclusion}</p>
+        </div>
       </div>
     </div>
   )
 }
 
-// Card for Section 4: Practical Business Examples (9-point structure)
-interface BusinessExampleCardProps {
-  id: string
-  title: string
-  industry: string
-  badgeColor?: string
-  situation: string
-  issue: string
-  alternatives: string
-  analysis: string
-  correctTreatment: string
-  disclosure: string
-  auditImpact: string
-  observation: string
-  takeaway: string
-}
+// ─── CUSTOM STRUCTURED SUB-COMPONENTS (MAPPED TO 10-POINT FLOW) ────────────
 
-function BusinessExampleCard({
-  id,
-  title,
-  industry,
-  badgeColor = 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-250/30',
-  situation,
-  issue,
-  alternatives,
-  analysis,
-  correctTreatment,
-  disclosure,
-  auditImpact,
-  observation,
-  takeaway
-}: BusinessExampleCardProps) {
-  const renderRow = (num: string, label: string, content: string) => (
-    <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 border-b border-slate-100 dark:border-slate-850/50 py-3.5 last:border-0">
-      <div className="sm:w-52 shrink-0 flex items-center gap-2">
-        <span className="flex items-center justify-center w-5.5 h-5.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-750 dark:text-emerald-455 border border-emerald-200/30 dark:border-emerald-800 text-[10.5px] font-mono font-bold select-none shrink-0">
-          {num}
-        </span>
-        <span className="text-[11px] font-sans font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-          {label}
-        </span>
-      </div>
-      <div className="flex-1 text-[13.5px] leading-relaxed text-slate-755 dark:text-slate-300 font-serif">
-        {content}
-      </div>
-    </div>
-  )
-
-  return (
-    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/70 dark:border-slate-850 rounded-xl p-6 sm:p-8 shadow-xs hover:shadow-sm transition-all duration-200 space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-850 pb-4">
-        <h3 className="text-[15px] font-bold text-slate-900 dark:text-white font-sans flex items-center gap-2">
-          <span>{title}</span>
-        </h3>
-        <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${badgeColor}`}>
-          {industry}
-        </span>
-      </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-850">
-        {renderRow('1', 'Business Situation', situation)}
-        {renderRow('2', 'Issue', issue)}
-        {renderRow('3', 'Available Alternatives', alternatives)}
-        {renderRow('4', 'AS 1 Analysis', analysis)}
-        {renderRow('5', 'Correct Treatment', correctTreatment)}
-        {renderRow('6', 'Disclosure Requirement', disclosure)}
-        {renderRow('7', 'Audit Impact', auditImpact)}
-        {renderRow('8', 'Professional Observation', observation)}
-        {renderRow('9', 'Key Takeaway', takeaway)}
-      </div>
-    </div>
-  )
-}
-
-// Card for Section 5: Audit Case Studies (10-point structure)
 interface AuditCaseCardProps {
   id: string
   title: string
   client: string
-  badgeColor?: string
   facts: string
   problem: string
   risk: string
@@ -195,7 +193,6 @@ function AuditCaseCard({
   id,
   title,
   client,
-  badgeColor = 'bg-red-50 text-red-700 dark:bg-red-955/40 dark:text-red-400 border-red-200/30',
   facts,
   problem,
   risk,
@@ -206,54 +203,31 @@ function AuditCaseCard({
   conclusion,
   learningPoint
 }: AuditCaseCardProps) {
-  const renderRow = (num: string, label: string, content: string) => (
-    <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 border-b border-slate-100 dark:border-slate-850/50 py-3.5 last:border-0">
-      <div className="sm:w-52 shrink-0 flex items-center gap-2">
-        <span className="flex items-center justify-center w-5.5 h-5.5 rounded-full bg-red-50 dark:bg-red-950 text-red-700 dark:text-red-400 border border-red-200/30 dark:border-red-800 text-[10.5px] font-mono font-bold select-none shrink-0">
-          {num}
-        </span>
-        <span className="text-[11px] font-sans font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-          {label}
-        </span>
-      </div>
-      <div className="flex-1 text-[13.5px] leading-relaxed text-slate-755 dark:text-slate-300 font-serif">
-        {content}
-      </div>
-    </div>
-  )
-
   return (
-    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/70 dark:border-slate-850 rounded-xl p-6 sm:p-8 shadow-xs hover:shadow-sm transition-all duration-200 space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-850 pb-4">
-        <h3 className="text-[15px] font-bold text-slate-900 dark:text-white font-sans flex items-center gap-2">
-          <span>{title}</span>
-        </h3>
-        <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${badgeColor}`}>
-          {client}
-        </span>
-      </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-850">
-        {renderRow('1', 'Client Background', client)}
-        {renderRow('2', 'Facts', facts)}
-        {renderRow('3', 'Problem', problem)}
-        {renderRow('4', 'Risk', risk)}
-        {renderRow('5', 'Audit Procedures', procedures)}
-        {renderRow('6', 'Findings', findings)}
-        {renderRow('7', 'AS 1 Violation', violation)}
-        {renderRow('8', 'Reporting Impact', reportingImpact)}
-        {renderRow('9', 'Auditor Conclusion', conclusion)}
-        {renderRow('10', 'Learning Point', learningPoint)}
-      </div>
-    </div>
+    <StructuredCard
+      id={id}
+      title={`${title} — ${client}`}
+      category="Audit Case Study"
+      badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-955/40 dark:text-amber-400 border-amber-200/30"
+      navigateToPdfPage={() => {}}
+      facts={facts}
+      issue={problem}
+      standard={violation}
+      alternatives="Management proposed cash-basis, deferred, or non-compliant presentation of the transaction to preserve reported earnings."
+      correctTreatment={conclusion}
+      analysis={findings}
+      impact={risk}
+      disclosure={reportingImpact}
+      auditorView={procedures}
+      conclusion={learningPoint}
+    />
   )
 }
 
-// Card for Section 6: Regulatory Observations (6-point structure)
 interface RegulatoryObsCardProps {
   id: string
   title: string
   regulator: string
-  badgeColor?: string
   observation: string
   issue: string
   principle: string
@@ -265,57 +239,37 @@ function RegulatoryObsCard({
   id,
   title,
   regulator,
-  badgeColor = 'bg-amber-50 text-amber-700 dark:bg-amber-950/40 dark:text-amber-400 border-amber-250/30',
   observation,
   issue,
   principle,
   impact,
   bestPractice
 }: RegulatoryObsCardProps) {
-  const renderRow = (num: string, label: string, content: string) => (
-    <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 border-b border-slate-100 dark:border-slate-850/50 py-3.5 last:border-0">
-      <div className="sm:w-52 shrink-0 flex items-center gap-2">
-        <span className="flex items-center justify-center w-5.5 h-5.5 rounded-full bg-amber-50 dark:bg-amber-955 text-amber-750 dark:text-amber-400 border border-amber-200/30 dark:border-amber-800 text-[10.5px] font-mono font-bold select-none shrink-0">
-          {num}
-        </span>
-        <span className="text-[11px] font-sans font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-          {label}
-        </span>
-      </div>
-      <div className="flex-1 text-[13.5px] leading-relaxed text-slate-755 dark:text-slate-300 font-serif">
-        {content}
-      </div>
-    </div>
-  )
-
   return (
-    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/70 dark:border-slate-850 rounded-xl p-6 sm:p-8 shadow-xs hover:shadow-sm transition-all duration-200 space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-850 pb-4">
-        <h3 className="text-[15px] font-bold text-slate-900 dark:text-white font-sans flex items-center gap-2">
-          <span>{title}</span>
-        </h3>
-        <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${badgeColor}`}>
-          {regulator}
-        </span>
-      </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-850">
-        {renderRow('1', 'Regulator', regulator)}
-        {renderRow('2', 'Observation', observation)}
-        {renderRow('3', 'Issue', issue)}
-        {renderRow('4', 'AS 1 Principle Involved', principle)}
-        {renderRow('5', 'Impact', impact)}
-        {renderRow('6', 'Best Practice', bestPractice)}
-      </div>
-    </div>
+    <StructuredCard
+      id={id}
+      title={`${title} — ${regulator}`}
+      category="Regulatory Observation"
+      badgeColor="bg-red-50 text-red-700 dark:bg-red-955/40 dark:text-red-400 border-red-200/30"
+      navigateToPdfPage={() => {}}
+      facts={observation}
+      issue={issue}
+      standard={principle}
+      alternatives="Boilerplate generic notes or non-disclosure under the guise of immateriality."
+      correctTreatment={bestPractice}
+      analysis="Active inspection of public corporate reports and audit working papers by regulators showing systematic disclosure failures."
+      impact={impact}
+      disclosure="Provide entity-specific, clear, and quantified policy disclosures in Note 1."
+      auditorView="Verify that the client has a disclosure checklist and does not rely on boilerplate text."
+      conclusion="Regulatory standards require specific, non-boilerplate disclosures of cost formulas, recognition timing, and policy change impacts."
+    />
   )
 }
 
-// Card for Section 7: Landmark Judicial Cases (7-point structure)
 interface JudicialCaseCardProps {
   id: string
   title: string
   court: string
-  badgeColor?: string
   facts: string
   issue: string
   judgment: string
@@ -327,82 +281,68 @@ function JudicialCaseCard({
   id,
   title,
   court,
-  badgeColor = 'bg-purple-50 text-purple-700 dark:bg-purple-955/40 dark:text-purple-400 border-purple-200/30',
   facts,
   issue,
   judgment,
   relevance,
   learning
 }: JudicialCaseCardProps) {
-  const renderRow = (num: string, label: string, content: string) => (
-    <div className="flex flex-col sm:flex-row gap-2 sm:gap-6 border-b border-slate-100 dark:border-slate-850/50 py-3.5 last:border-0">
-      <div className="sm:w-52 shrink-0 flex items-center gap-2">
-        <span className="flex items-center justify-center w-5.5 h-5.5 rounded-full bg-purple-50 dark:bg-purple-950 text-purple-750 dark:text-purple-400 border border-purple-200/30 dark:border-purple-800 text-[10.5px] font-mono font-bold select-none shrink-0">
-          {num}
-        </span>
-        <span className="text-[11px] font-sans font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-          {label}
-        </span>
-      </div>
-      <div className="flex-1 text-[13.5px] leading-relaxed text-slate-755 dark:text-slate-300 font-serif">
-        {content}
-      </div>
-    </div>
-  )
-
   return (
-    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/70 dark:border-slate-850 rounded-xl p-6 sm:p-8 shadow-xs hover:shadow-sm transition-all duration-200 space-y-6">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-850 pb-4">
-        <h3 className="text-[15px] font-bold text-slate-900 dark:text-white font-sans flex items-center gap-2">
-          <span>{title}</span>
-        </h3>
-        <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${badgeColor}`}>
-          {court}
-        </span>
-      </div>
-      <div className="divide-y divide-slate-100 dark:divide-slate-850">
-        {renderRow('1', 'Case Name', title)}
-        {renderRow('2', 'Court', court)}
-        {renderRow('3', 'Facts', facts)}
-        {renderRow('4', 'Issue', issue)}
-        {renderRow('5', 'Judgment', judgment)}
-        {renderRow('6', 'AS 1 Relevance', relevance)}
-        {renderRow('7', 'Practical Learning', learning)}
-      </div>
-    </div>
+    <StructuredCard
+      id={id}
+      title={`${title} — ${court}`}
+      category="Landmark Judicial Case"
+      badgeColor="bg-purple-50 text-purple-700 dark:bg-purple-955/40 dark:text-purple-400 border-purple-200/30"
+      navigateToPdfPage={() => {}}
+      facts={facts}
+      issue={issue}
+      standard={relevance}
+      alternatives="Deferring liability until final resolution in court vs. immediate accrual on occurrence of event."
+      correctTreatment={judgment}
+      analysis="Judicial scrutiny on the definition of accrual, the role of book entries, and the asymmetry of the prudence concept."
+      impact="Ensures tax deductions and financial statements align with legal and commercial reality."
+      disclosure="Disclose the accounting policy for disputed liabilities, provisions, and contingent liabilities."
+      auditorView="Examine legal confirmations, board minutes, and verify that accruals do not depend purely on book entries."
+      conclusion={learning}
+    />
   )
 }
 
-// ─── MAIN EXAMPLES CONTENT COMPONENT ───────────────────────────────────────
+// ─── MAIN PORTAL COMPONENT ────────────────────────────────────────────────
 
 export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCustomContentProps) {
   const [activeSection, setActiveSection] = useState('icai-illustrations')
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
   const exampleChapters = [
-    { id: 'icai-illustrations', title: '3. ICAI Illustrations' },
-    { id: 'business-examples',  title: '4. Practical Business Examples' },
-    { id: 'audit-cases',       title: '5. Audit Case Studies' },
-    { id: 'regulatory-obs',    title: '6. Regulatory Observations' },
-    { id: 'legal-cases',       title: '7. Landmark Judicial Cases' },
-    { id: 'exam-oriented',     title: '8. Exam-Oriented Corner' },
-    { id: 'audit-notes',       title: '9. Audit Notes & Reporting' }
+    { id: 'icai-illustrations', title: 'ICAI Illustrations' },
+    { id: 'business-examples',  title: 'Practical Business Examples' },
+    { id: 'audit-cases',       title: 'Audit Case Studies' },
+    { id: 'regulatory-obs',    title: 'Regulatory Observations' },
+    { id: 'legal-cases',       title: 'Landmark Judicial Cases' },
+    { id: 'exam-oriented',     title: 'Exam-Oriented Corner' },
+    { id: 'audit-notes',       title: 'Audit Notes & Reporting' }
   ]
 
   const handleChapterClick = (id: string) => {
     setActiveSection(id)
     const container = document.getElementById('as1-scroll-container')
     const target = document.getElementById(`sec-${id}`)
+    const stickyToc = document.getElementById('as1-examples-sticky-toc')
     if (container && target) {
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
-      const stickyOffset = 98 // Stuck TOC bottom relative to container top
+      let stickyOffset = 98
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        stickyOffset = tocRect.bottom - containerRect.top
+      }
       const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2
       container.scrollTo({ top: targetScrollTop, behavior: 'auto' })
     }
   }
 
-  // Auto-scroll TOC button into view when activeSection changes
+  // Auto-scroll sub-nav TOC button into view when activeSection changes
   useEffect(() => {
     if (!activeSection || !tocScrollRef.current) return;
     const activeBtn = tocScrollRef.current.querySelector(`[data-toc-id="${activeSection}"]`);
@@ -411,7 +351,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
     }
   }, [activeSection]);
 
-  // Set up intersection observer to sync scroll position with active sub-nav tab
+  // Set up intersection observer to sync scroll spy with active sub-nav tab
   useEffect(() => {
     let observer: IntersectionObserver | undefined;
     const initObserver = () => {
@@ -453,18 +393,33 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
     }
   }, [])
 
-  // Custom heading renderer to keep styling professional, publishing-oriented and non-heavy
+  // Enable horizontal mouse wheel scrolling for the sub-navbar
+  useEffect(() => {
+    const el = tocScrollRef.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      el.scrollLeft += e.deltaY;
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+    }
+  }, [])
+
+  // Section heading generator matching the Standard tab's professional publishing hierarchy
   const renderSectionHeader = (num: string, title: string, description: string) => (
-    <div className="w-full mb-6 mt-12 first:mt-2">
+    <div className="w-full mb-6 mt-12 first:mt-2 font-sans">
       <div className="flex items-baseline gap-2 mb-2">
-        <h2 className="text-[17px] sm:text-[18px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-          <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{num}.</span>
+        <h2 className="text-[17px] sm:text-[18px] font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+          <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{num}.</span>
           <span>{title}</span>
         </h2>
       </div>
       <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
       {description && (
-        <p className="text-[13px] font-sans font-medium text-slate-500 dark:text-gray-400 mt-1 leading-relaxed">
+        <p className="text-[13px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
           {description}
         </p>
       )}
@@ -473,7 +428,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
 
   return (
     <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
-      {/* Sticky Tab-Specific Sub-Navbar */}
+      {/* Sticky Tab-Specific Navbar (matching Standard Tab design layout) */}
       <div id="as1-examples-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
         <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
           <div
@@ -507,38 +462,38 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
           {renderSectionHeader(
             '3',
             'ICAI Illustrations',
-            'Mandatory illustrations, measurement scenarios, and selection situations from the ICAI Study Material mapped directly to standard references.'
+            'Authentic illustrations, selection considerations, and measurement decisions mapped directly to the ICAI Study Material.'
           )}
 
-          <div className="space-y-10">
-            <ExampleCard
+          <div className="space-y-12">
+            <StructuredCard
               id="3-1"
-              title="Illustration 3.1: Accounting Policies vs. Estimates (Overhead vs. Warranty)"
-              category="ICAI SM"
+              title="Illustration 3.1: Accounting Policies vs. Estimates (WIP Overheads vs. Warranty)"
+              category="ICAI Study Material"
               pdfPage={4}
               navigateToPdfPage={navigateToPdfPage}
-              facts="RealChem India Ltd, a chemical manufacturer, decides to change its method of allocating factory overheads to its work-in-progress (WIP) inventories from a direct-labor absorption rate (25% of wages) to a machine-hour rate system based on technical factory studies. In the same year, the company increases its provision for product warranty claims from 1.5% to 3.5% of annual sales due to early mechanical failures identified in its recently launched consumer electronics line."
+              facts="RealChem India Ltd decides to change its method of allocating factory overheads to its work-in-progress (WIP) inventories from a direct-labor absorption rate (25% of wages) to a machine-hour rate system based on technical factory studies. In the same year, the company increases its provision for product warranty claims from 1.5% to 3.5% of annual sales due to early mechanical failures identified in its recently launched consumer electronics line."
               issue="Do these adjustments represent changes in accounting policies under AS 1, or changes in accounting estimates under AS 5?"
-              principle="Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise (AS 1 Para 11). Accounting estimates, however, involve judgments made under uncertainty regarding useful lives, liabilities, or warranty provisions (AS 5)."
-              alternatives="Management could classify both changes as policy adjustments under Note 1 to reduce profit volatility, treat both as estimate adjustments to avoid retrospective restatements, or separate the overhead change as a policy revision and the warranty change as an estimate adjustment."
-              correctTreatment="The company must classify the WIP overhead allocation method change as a change in accounting policy. The warranty provision shift must be treated as a change in accounting estimate under AS 5."
-              analysis="Changing the overhead absorption rate is a change in the method of applying the cost valuation principle, which is an accounting policy. Revision of warranty provisions is based on updated technical failure data, representing a change in estimate based on new information."
-              impact="The WIP inventory valuation recalculation decreases current assets and profits by ₹28 Lakhs. The warranty provision increase results in an additional prospective expense charge of ₹15 Lakhs in the current P&L."
-              disclosure="Disclose the quantified impact of the WIP overhead policy change in Note 1. Separately disclose the nature and current-year impact of the warranty estimate change in the notes as per AS 5."
-              auditorView="Ensure that the WIP allocation calculations are mathematically correct and consistently applied. Confirm that warranty revisions are not misclassified as policy changes to avoid audit qualification."
-              conclusion="The overhead change is a policy change; the warranty revision is an estimate change. Disclosures must be kept strictly separate."
+              standard="Under AS 1 Paragraph 11, accounting policies refer to the specific accounting principles and the methods of applying those principles. AS 5 governs changes in accounting estimates, which arise from updated information or subsequent developments."
+              alternatives="Management could attempt to: (a) classify both changes as policy adjustments under Note 1 to reduce profit volatility; (b) treat both as estimate adjustments to avoid retrospective restatement; or (c) classify the overhead allocation change as a policy revision and the warranty change as an estimate adjustment."
+              correctTreatment="The WIP overhead allocation method change is a change in accounting policy. The warranty provision revision must be treated as a change in accounting estimate under AS 5."
+              analysis="Changing the overhead allocation method changes the way cost is applied to inventories, making it a policy change. Restructuring warranty provisions is based on updated technical product failure logs, representing a change in estimate based on new data."
+              impact="The WIP inventory overhead recalculation decreases current asset inventory value and current profit before tax by ₹28 Lakhs. The warranty provision increase results in an additional expense of ₹15 Lakhs charged prospectively to the P&L."
+              disclosure="Note 1: 'The Company has changed its WIP overhead allocation method from direct-labor absorption to a technical machine-hour rate system. This change has decreased inventory carrying value and current profits by ₹28 Lakhs. Gratuity and warranty provisions have been revised based on updated engineering failure reports as a change in estimate under AS 5.'"
+              auditorView="Verify that the WIP allocation method recalculations are mathematically correct and applied consistently. Confirm that the warranty revision is not misclassified as a policy change to avoid audit qualification."
+              conclusion="Classify the overhead allocation method change as a policy change with retrospective restatement. The warranty provision change is prospective as an estimate change."
             />
 
-            <ExampleCard
+            <StructuredCard
               id="3-2"
-              title="Illustration 3.2: Materiality in Office Stationery Write-Off (Immediate Expensing)"
-              category="ICAI SM"
+              title="Illustration 3.2: Materiality in Office Equipment Write-Off (Immediate Expensing)"
+              category="ICAI Study Material"
               pdfPage={6}
               navigateToPdfPage={navigateToPdfPage}
-              facts="A trading firm purchases office printing equipment and storage bins for ₹3,50,000. Although the bins are expected to last for 4 years, the company decides to charge the entire amount to the current year's profit and loss statement as stationery expense rather than capitalising them and charging depreciation."
+              facts="A trading company purchases office printing equipment and storage bins for ₹3,50,000. Although the bins are expected to last for 4 years, the company decides to charge the entire amount to the current year's profit and loss statement as stationery expense rather than capitalising them and charging depreciation."
               issue="Does immediate expensing of long-term assets violate the matching principle and AS 1?"
-              principle="Financial statements should disclose all material items, i.e., items the knowledge of which might influence the decisions of users (AS 1 Para 17(c)). Immaterial items do not require strict compliance with standard capitalization rules if the administrative costs exceed the reporting benefit."
-              alternatives="Capitalise as property, plant, and equipment and depreciate over 4 years, or charge to expense immediately under the materiality principle."
+              standard="AS 1 Para 17(c) states that financial statements should disclose all material items, i.e., items the knowledge of which might influence the decisions of users. Immaterial items do not require strict compliance with standard capitalization rules if the administrative costs exceed the reporting benefit."
+              alternatives="(a) Capitalise as property, plant, and equipment and depreciate over 4 years; (b) charge to expense immediately under the materiality principle."
               correctTreatment="Charge the ₹3,50,000 immediately to the P&L statement under general office expenses."
               analysis="The equipment value represents less than 0.05% of the company's total asset base and has no bearing on shareholders' analytical decisions. Therefore, capitalizing and calculating annual depreciation of ₹87,500 is immaterial and not practically justified."
               impact="Current-year operating expenses increase by ₹3,50,000. Fixed assets are lower by ₹2,62,500 compared to capitalization."
@@ -547,15 +502,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="Writing off the bins immediately is acceptable and complies with the materiality consideration of AS 1."
             />
 
-            <ExampleCard
+            <StructuredCard
               id="3-3"
               title="Illustration 3.3: Para 23 — Disclosure Cannot Cure Incorrect Accounting (Interest Capitalization)"
-              category="Para 23"
+              category="ICAI Study Material"
               pdfPage={7}
               navigateToPdfPage={navigateToPdfPage}
               facts="PrimeBuilders Ltd capitalized interest on general borrowing during a two-year period when construction on a new office block was suspended due to labor disputes. To address the incorrect capitalization, the directors added a detailed footnote in Note 1 stating: 'Interest capitalized during construction suspension periods has been included in fixed assets to preserve gross margins, and will be depreciated over 30 years.'"
               issue="Does a clear footnote disclosure validate the incorrect capitalization of borrowing costs under AS 1?"
-              principle="Under Paragraph 23, disclosure of accounting policies or changes therein cannot remedy a wrong or inappropriate accounting treatment."
+              standard="Under Paragraph 23, disclosure of accounting policies or changes therein cannot remedy a wrong or inappropriate accounting treatment."
               alternatives="Retain capitalization and rely on the footnote, or reverse the interest from fixed assets and charge it directly to the current P&L as required by AS 16."
               correctTreatment="The company must expense the interest of ₹45 Lakhs incurred during the suspension period directly to the P&L statement."
               analysis="Since AS 16 prohibits capitalizing borrowing costs when active development is interrupted, the accounting treatment is wrong. The footnote disclosure cannot justify or remedy this incorrect treatment."
@@ -565,15 +520,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="Footnote disclosures cannot cure incorrect accounting. The interest must be expensed."
             />
 
-            <ExampleCard
+            <StructuredCard
               id="3-4"
-              title="Illustration 3.4: Disclosure of Inventory Valuation Formula Change (FIFO to Weighted Average)"
-              category="Inventory"
+              title="Illustration 3.4: Inventory Valuation Formula Change (FIFO to Weighted Average)"
+              category="ICAI Study Material"
               pdfPage={5}
               navigateToPdfPage={navigateToPdfPage}
               facts="MetalCraft Ltd, a steel fabricator, has valued its steel stock using the FIFO method for ten years. Due to volatile raw material prices, the company changes its valuation formula to the Weighted Average Cost (WAC) method at the year-end. The change reduces the year-end inventory value by ₹62 Lakhs."
               issue="Is the change in inventory valuation formula permissible under AS 1, and what are the disclosure requirements?"
-              principle="A change in accounting policy is permissible if required by statute, for compliance with an accounting standard, or if it results in a more appropriate presentation. Under AS 1, the impact of such change must be quantified and disclosed."
+              standard="A change in accounting policy is permissible if required by statute, for compliance with an accounting standard, or if it results in a more appropriate presentation. Under AS 1, the impact of such change must be quantified and disclosed."
               alternatives="Retain FIFO to show higher profits; change to Weighted Average and disclose the nature but not the impact; or change to Weighted Average, disclose the nature, and quantify the full financial impact (standard-compliant)."
               correctTreatment="Value inventory on Weighted Average Cost at ₹3.4 Crores. Recognize the reduction of ₹62 Lakhs in current profit."
               analysis="Using WAC during highly volatile price periods smoothens inventory costs, resulting in a more appropriate presentation of cost of goods sold. The change is justified, but the financial impact must be disclosed."
@@ -583,15 +538,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="The formula change is permissible, provided the change is justified and its financial impact is fully quantified and disclosed."
             />
 
-            <ExampleCard
+            <StructuredCard
               id="3-5"
               title="Illustration 3.5: Depreciation Method Change (SLM to WDV)"
-              category="Depreciation"
+              category="ICAI Study Material"
               pdfPage={5}
               navigateToPdfPage={navigateToPdfPage}
               facts="Precision Engineering Ltd has depreciated its high-precision CNC machines using the Straight-Line Method (SLM). In the current year, due to heavy operational wear and tear in early years, the company shifts to the Written Down Value (WDV) method."
               issue="Is this change classified as a change in accounting policy or accounting estimate, and does it require disclosure under AS 1?"
-              principle="Under AS 10 (Revised), a change in depreciation method is treated as a change in accounting estimate. However, under AS 1, any material change in the method of applying accounting principles must be disclosed if it has a material impact."
+              standard="Under AS 10 (Revised), a change in depreciation method is treated as a change in accounting estimate. However, under AS 1, any material change in the method of applying accounting principles must be disclosed if it has a material impact."
               alternatives="Treat as a change in accounting policy and apply retrospectively, or treat as a change in accounting estimate and apply prospectively with appropriate disclosure (standard-compliant)."
               correctTreatment="Apply the WDV method prospectively over the remaining useful life of the machinery. Charge the higher depreciation of ₹18 Lakhs to the P&L."
               analysis="Since the method change reflects an updated estimation of the pattern of consumption of economic benefits, it is an estimate change under AS 10. No retrospective adjustment is required, but disclosure of the prospective change is necessary."
@@ -601,17 +556,17 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="Reclassify and apply the change prospectively as an estimate change. Disclose the nature and impact clearly."
             />
 
-            <ExampleCard
+            <StructuredCard
               id="3-6"
               title="Illustration 3.6: Revenue Recognition Uncertainty (Export Incentives)"
-              category="Revenue"
+              category="ICAI Study Material"
               pdfPage={6}
               navigateToPdfPage={navigateToPdfPage}
               facts="AgroFoods India Ltd exported grain worth ₹5 Crores in March 2026. The government offers a 5% export incentive claim, but the company is eligible only after formal approval from customs, which usually takes 9 months. Management wants to accrue the incentive of ₹25 Lakhs in FY 2025-26 profit."
               issue="Does the accrual of export incentive claims before custom approval violate the Prudence principle of AS 1?"
-              principle="Under AS 9 and AS 1, revenue should not be recognized when significant uncertainties exist regarding its measurability or ultimate collection. Prudence dictates that revenue should only be recognized when it is reasonably certain."
+              standard="Under AS 9 and AS 1, revenue should not be recognized when significant uncertainties exist regarding its measurability or ultimate collection. Prudence dictates that revenue should only be recognized when it is reasonably certain."
               alternatives="Accrue the incentive immediately as other income; recognize on a cash basis upon receipt; or defer recognition until formal claim lodgement and custom validation (standard-compliant)."
-              correctTreatment="Defer recognition of the ₹25 Lakhs export incentive until custom validation is secured. Do not accrue in current FY."
+              correctTreatment="Defer recognition of the ₹25 Lakhs export incentive until customs validation is secured. Do not accrue in current FY."
               analysis="Since customs has the right to deny claims based on strict verification criteria, the ultimate collection of the incentive remains uncertain at year-end. Accruing it violates prudence and anticipates revenue."
               impact="Current-year net profit and receivables are lower by ₹25 Lakhs compared to aggressive accrual."
               disclosure="Disclose the accounting policy for government incentives: 'Government export incentives are recognized as revenue only upon customs validation and establishment of reasonable certainty of collection.'"
@@ -619,15 +574,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="Do not recognize the incentive. Prudence overrides early accrual when significant collection uncertainty exists."
             />
 
-            <ExampleCard
+            <StructuredCard
               id="3-7"
               title="Illustration 3.7: Foreign Exchange Rate Shift (Translation Method)"
-              category="Foreign Exchange"
+              category="ICAI Study Material"
               pdfPage={4}
               navigateToPdfPage={navigateToPdfPage}
               facts="GlobalTech India Ltd has a branch office in Germany. For five years, the company translated the branch's operating expenses using the average exchange rate for the year. In FY 2025-26, to show lower operational costs, management wants to translate expenses using the year-end closing exchange rate, which is highly favorable."
               issue="Is a change in foreign currency translation rate method a change in accounting policy under AS 1?"
-              principle="The currency translation rates and method are methods of applying accounting principles, which constitute an accounting policy. A change in the method of translating foreign currency transactions is a change in accounting policy under AS 11 and AS 1."
+              standard="The currency translation rates and method are methods of applying accounting principles, which constitute an accounting policy. A change in the method of translating foreign currency transactions is a change in accounting policy under AS 11 and AS 1."
               alternatives="Adopt the closing rate and disclose it; retain the average rate method; or change to closing rate only if justified as a better presentation, and disclose the impact."
               correctTreatment="Retain the average rate method for expenses unless closing rate provides a materially better presentation. If changed, disclose the impact."
               analysis="The average rate represents transaction values throughout the year more appropriately. Shifting to closing rate just to manipulate expenses does not represent a true and fair view and violates consistency."
@@ -637,15 +592,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="A translation method change is a change in accounting policy. It must be justified and its impact quantified."
             />
 
-            <ExampleCard
+            <StructuredCard
               id="3-8"
               title="Illustration 3.8: Investment Valuation policy (Current vs. Long-Term)"
-              category="Investments"
+              category="ICAI Study Material"
               pdfPage={5}
               navigateToPdfPage={navigateToPdfPage}
               facts="Vanguard Holdings Ltd holds a portfolio of mutual fund units. Previously, the company classified all units as long-term and carried them at cost. In the current year, the company reclassifies half the units as current investments and continues to value them at cost, despite a 30% drop in market value."
               issue="Does carrying reclassified current investments at cost violate the prudence and consistency principles of AS 1?"
-              principle="Under AS 13, current investments must be carried at the lower of cost and fair value. Carrying them at cost when market value is lower violates both AS 13 and the prudence concept of AS 1."
+              standard="Under AS 13, current investments must be carried at the lower of cost and fair value. Carrying them at cost when market value is lower violates both AS 13 and the prudence concept of AS 1."
               alternatives="Carry all investments at cost; value current investments at lower of cost or fair value (standard-compliant); or write down all investments including long-term ones."
               correctTreatment="Value the current investments at fair value, writing down their value by ₹35 Lakhs to the P&L statement."
               analysis="Current investments are short-term assets held for ready realization. Under the prudence principle, anticipated losses in current asset values must be recognized immediately in the P&L."
@@ -655,33 +610,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="The current investments must be valued at fair value (lower than cost) to comply with AS 13 and prudence."
             />
 
-            <ExampleCard
+            <StructuredCard
               id="3-9"
-              title="Illustration 3.9: Borrowing Costs on Qualifying Assets"
-              category="Borrowing Costs"
-              pdfPage={5}
-              navigateToPdfPage={navigateToPdfPage}
-              facts="Apex Power Ltd is constructing a thermal power plant. The construction takes 3 years. The company capitalized interest on loans taken for the project. In the current year, construction was halted for 6 months because of a government safety audit. Management capitalized interest of ₹1.2 Crores incurred during this halt."
-              issue="Is capitalizing borrowing costs during a regulatory suspension period compliant with AS 1 and AS 16?"
-              principle="Under AS 16, capitalization of borrowing costs must be suspended during extended periods in which active development is interrupted. Capitalizing during suspension violates AS 16 and overstates profits under AS 1."
-              alternatives="Expense the interest of ₹1.2 Crores to P&L during the halt (standard-compliant); capitalise the interest to fixed assets; or capitalise a portion based on management estimate."
-              correctTreatment="Charge the interest of ₹1.2 Crores incurred during the suspension period directly to the P&L as a finance cost."
-              analysis="Capitalization is only allowed when active development of the asset is underway. A safety audit that halts construction is an interruption that requires suspension of interest capitalization."
-              impact="Net profit before tax decreases by ₹1.2 Crores. Capital work-in-progress is reduced by ₹1.2 Crores."
-              disclosure="Disclose the borrowing cost policy: 'Borrowing costs directly attributable to qualifying assets are capitalized. Capitalization is suspended during extended construction interruptions.'"
-              auditorView="Audit project schedules and logbooks. Ensure capitalization is paused during suspension periods."
-              conclusion="Suspended period interest must be expensed immediately to present a true and fair view of asset cost."
-            />
-
-            <ExampleCard
-              id="3-10"
-              title="Illustration 3.10: Government Grants Policy Change"
-              category="Govt Grants"
+              title="Illustration 3.9: Government Grants Policy Change (Deferred Income vs. Cost Reduction)"
+              category="ICAI Study Material"
               pdfPage={5}
               navigateToPdfPage={navigateToPdfPage}
               facts="GreenEnergy Ltd received a government grant of ₹1.5 Crores toward the cost of wind turbines. Previously, the company's policy was to reduce the cost of the asset by the grant amount. In the current year, to show higher gross block values, management wants to change the policy and treat the grant as deferred income."
               issue="Is a change in the method of accounting for government grants a change in accounting policy, and is it valid under AS 1?"
-              principle="Accounting for government grants is an accounting policy. A change in method (cost reduction vs. deferred income) is a change in accounting policy under AS 12 and AS 1, and is valid if it results in a more appropriate presentation."
+              standard="Accounting for government grants is an accounting policy. A change in method (cost reduction vs. deferred income) is a change in accounting policy under AS 12 and AS 1, and is valid if it results in a more appropriate presentation."
               alternatives="Retain the cost reduction method; change to deferred income method and apply retrospectively (standard-compliant); or apply prospectively without adjusting historical blocks."
               correctTreatment="Apply the deferred income method retrospectively, increasing gross block and creating a deferred grant liability of ₹1.5 Crores, and adjust depreciation accordingly."
               analysis="Both methods are permitted under AS 12. Changing the method is a change in accounting policy. The company must apply the change retrospectively and disclose its financial impact."
@@ -691,15 +628,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="The policy change is permissible. It must be applied retrospectively with full disclosure of the impact."
             />
 
-            <ExampleCard
-              id="3-11"
-              title="Illustration 3.11: Employee Benefits Accrual Transition"
-              category="Employee Benefits"
+            <StructuredCard
+              id="3-10"
+              title="Illustration 3.10: Employee Benefits Accrual Transition (Cash to Actuarial)"
+              category="ICAI Study Material"
               pdfPage={3}
               navigateToPdfPage={navigateToPdfPage}
               facts="Hindustan Services Ltd has 800 employees. For ten years, the company accounted for employee gratuity payments on a cash basis (when paid to retiring employees). In FY 2025-26, to comply with the accrual principle, the board decides to set up a gratuity fund and account for obligations on an actuarial basis."
               issue="How should the transition from cash-basis to actuarial accrual of gratuity be accounted for and disclosed under AS 1?"
-              principle="Accrual is a fundamental accounting assumption under AS 1. Accounting for employee benefits on a cash basis is incorrect. Shifting to actuarial accrual is correcting a fundamental error and implementing the accrual assumption."
+              standard="Accrual is a fundamental accounting assumption under AS 1. Accounting for employee benefits on a cash basis is incorrect. Shifting to actuarial accrual is correcting a fundamental error and implementing the accrual assumption."
               alternatives="Charge the entire past service liability to current P&L; adjust retrospectively through opening reserves (standard-compliant); or change prospectively without accounting for past service."
               correctTreatment="Calculate the actuarial liability for past service (₹1.8 Crores). Adjust the opening balance of retained earnings retrospectively, and charge current-year service cost to the P&L."
               analysis="Under AS 15 and AS 1, accrual is mandatory. Cash-basis gratuity was an incorrect accounting treatment. The transition is correcting an inappropriate policy, requiring retrospective restatement of reserves."
@@ -709,51 +646,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="Transitioning to accrual gratuity is mandatory to satisfy the fundamental accounting assumptions of AS 1."
             />
 
-            <ExampleCard
-              id="3-12"
-              title="Illustration 3.12: Materiality in Low-Value Assets Write-Off"
-              category="Materiality"
-              pdfPage={6}
-              navigateToPdfPage={navigateToPdfPage}
-              facts="RetailTech Ltd operates a chain of 150 supermarkets. During the year, the company spent ₹45,000 per store (totaling ₹67.5 Lakhs) on barcode scanners, security brackets, and cash drawer inserts. The items have a useful life of 3 years. The company expensed the entire amount in the current year."
-              issue="Does immediate expensing of low-value assets across multiple locations violate the matching principle of AS 1?"
-              principle="Under AS 1, materiality is a core selection consideration. Items of low unit value can be expensed immediately even if their useful life exceeds one year, provided the aggregate amount does not materially distort the financial statements."
-              alternatives="Capitalise as fixed assets and depreciate over 3 years; expense immediately based on materiality (standard-compliant); or capitalize only for stores with sales above a certain threshold."
-              correctTreatment="Expense the ₹67.5 Lakhs immediately. Maintain an operational register of the equipment for physical control."
-              analysis="Although the aggregate amount of ₹67.5 Lakhs is noticeable, the unit cost per item is very low (under ₹5,000). The cost of tracking depreciation and tagging thousands of small items exceeds the accounting benefit, justifying immediate write-off."
-              impact="Current-year profits are lower by ₹45 Lakhs (net of first-year depreciation). Fixed assets are lower by ₹45 Lakhs."
-              disclosure="No specific policy disclosure is required, but the accounting policy for fixed assets should state that assets under a certain threshold are expensed."
-              auditorView="Verify that the expensing is consistent with the company's written capitalization threshold policy."
-              conclusion="Expensing low-value assets immediately is acceptable under the materiality concept of AS 1."
-            />
-
-            <ExampleCard
-              id="3-13"
-              title="Illustration 3.13: Prudence in Provisioning Contingent Liability"
-              category="Prudence"
-              pdfPage={6}
-              navigateToPdfPage={navigateToPdfPage}
-              facts="ChemPharma Ltd is sued by a local environmental group for dumping untreated waste. Legal counsel estimates a 70% probability that the court will impose a fine of ₹1.2 Crores. Management wants to disclose this only as a contingent liability in the footnotes without making a provision, to avoid depressing earnings."
-              issue="Does the omission of a provision for a probable legal liability violate the prudence principle of AS 1?"
-              principle="Prudence requires that provisions should be made for all known liabilities and losses, even if the amount is estimated. Under AS 29, a provision is required if a liability is probable (over 50% chance) and can be estimated reliably."
-              alternatives="Disclose as a contingent liability in notes only; make a provision for the full ₹1.2 Crores in P&L (standard-compliant); or make a partial provision of ₹50 Lakhs."
-              correctTreatment="Create a provision of ₹1.2 Crores in the P&L and recognize a corresponding current liability."
-              analysis="Since the liability is probable (70% chance) and the amount is estimated at ₹1.2 Crores, the prudence concept requires immediate recognition. Failure to recognize the loss represents a lack of prudence and misleads users."
-              impact="Net profit before tax decreases by ₹1.2 Crores. Current liabilities increase by ₹1.2 Crores."
-              disclosure="Disclose the legal case details and the provision in the notes: 'A provision of ₹1.2 Crores has been made for estimated environmental damages in connection with the ongoing litigation.'"
-              auditorView="Review legal counsel correspondence. If management refuses to provide, qualify the audit report for under-provisioning."
-              conclusion="A provision must be made. Prudence overrides management's desire to maintain reported profit levels."
-            />
-
-            <ExampleCard
-              id="3-14"
-              title="Illustration 3.14: Substance Over Form in Equipment Lease"
-              category="Substance"
+            <StructuredCard
+              id="3-11"
+              title="Illustration 3.11: Substance Over Form in Hire Purchase Lease"
+              category="ICAI Study Material"
               pdfPage={6}
               navigateToPdfPage={navigateToPdfPage}
               facts="LogiTrans India Ltd leased 50 delivery trucks under a contract labeled 'Operating Lease.' The lease term covers 95% of the useful life of the trucks, and the present value of lease payments equals 98% of the trucks' market value. The company recorded lease payments as rent expense, keeping the trucks off the balance sheet."
               issue="Does accounting for a finance lease as an operating lease violate the Substance over Form principle of AS 1?"
-              principle="Under AS 1, transactions must be accounted for in accordance with their substance and financial reality, not merely their legal form. Under AS 19, a lease that transfers substantially all risks and rewards is a finance lease."
+              standard="Under AS 1, transactions must be accounted for in accordance with their substance and financial reality, not merely their legal form. Under AS 19, a lease that transfers substantially all risks and rewards is a finance lease."
               alternatives="Record as rent expense (operating lease); capitalize the trucks and record a lease liability (standard-compliant); or record as a joint venture asset."
               correctTreatment="Capitalize the trucks at their fair value (₹6 Crores), recognize a corresponding lease liability, and charge depreciation and interest."
               analysis="Although the contract is legally structured as a lease/rental agreement, the economic substance is a financed purchase of the trucks. Under the Substance over Form principle, the trucks must be capitalized on the balance sheet."
@@ -763,15 +664,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               conclusion="The lease must be capitalized. Accounting must reflect the economic substance of the transaction."
             />
 
-            <ExampleCard
-              id="3-15"
-              title="Illustration 3.15: Going Concern Assumption Defeated"
-              category="Going Concern"
+            <StructuredCard
+              id="3-12"
+              title="Illustration 3.12: Going Concern Defeated (Operating License Revoked)"
+              category="ICAI Study Material"
               pdfPage={5}
               navigateToPdfPage={navigateToPdfPage}
               facts="Bharat Airways Ltd has grounded its entire fleet due to safety violations. The airline has outstanding loans of ₹450 Crores and negative net worth. The operating license has been suspended indefinitely. Management prepared the financial statements on a going concern basis, valuing planes at historical cost less depreciation."
               issue="Is preparing accounts on a going concern basis valid under AS 1 when operations are suspended and liquidation is likely?"
-              principle="Going concern is a fundamental assumption. If liquidation or cessation of operations is imminent, the assumption is invalid, and assets must be valued at net realizable value (NRV) rather than historical cost."
+              standard="Going concern is a fundamental assumption. If liquidation or cessation of operations is imminent, the assumption is invalid, and assets must be valued at net realizable value (NRV) rather than historical cost."
               alternatives="Prepare accounts on going concern basis with a warning footnote; prepare accounts on liquidation (NRV) basis (standard-compliant); or prepare accounts on a cash-only basis."
               correctTreatment="Prepare financial statements on a liquidation basis. Write down all assets to their estimated net realizable values, and reclassify long-term liabilities as current."
               analysis="Since the operating license is suspended and net worth is eroded, the company is unlikely to continue operations. Preparing accounts on a going concern basis is misleading. Assets must be written down to salvage value."
@@ -784,175 +685,205 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
         </section>
 
         {/* ─── SECTION 4: PRACTICAL BUSINESS EXAMPLES ────────────────────────────── */}
-        <section id="sec-business-examples" className="scroll-mt-36 space-y-8 w-full border-t border-slate-250 dark:border-slate-800 pt-8">
+        <section id="sec-business-examples" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
           {renderSectionHeader(
             '4',
             'Practical Business Examples',
-            'Industry-specific accounting challenges detailing business situations, permitted alternatives, AS 1 qualitative analyses, and final accounting treatments.'
+            'Realistic commercial scenarios showing the selection and application of accounting policies across diverse industrial sectors.'
           )}
 
-          <div className="space-y-10">
-            <BusinessExampleCard
+          <div className="space-y-12">
+            <StructuredCard
               id="4-1"
-              title="Example 4.1: Manufacturing — Fixed Overhead Allocation under Idle Capacity"
-              industry="Manufacturing"
-              situation="TexSpun India Ltd experienced a 40% reduction in production volume due to a labor strike. The fixed factory overheads remained constant at ₹1.2 Crores. Management allocated the entire fixed overheads to the lower volume of finished goods, which inflated the unit cost of ending inventory by ₹45 per unit."
+              title="Example 4.1: Manufacturing — Overhead Allocation under Idle Capacity"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="TexSpun India Ltd experienced a 40% reduction in production volume due to a labor strike. The fixed factory overheads remained constant at ₹1.2 Crores. Management allocated the entire fixed overheads to the lower volume of finished goods, which inflated the unit cost of ending inventory by ₹45 per unit."
               issue="Should the abnormal fixed overheads arising from low production be capitalized into inventory values under AS 1?"
+              standard="Under the Prudence and True and Fair View considerations of AS 1, abnormal costs must not be capitalized into inventory as it overstates current assets and defers operational losses to future periods (AS 2 overlap)."
               alternatives="(a) Allocate fixed overheads based on actual production volume, which inflates inventory assets; (b) allocate fixed overheads based on normal capacity, expensing the unallocated overheads to the P&L (standard-compliant)."
-              analysis="Under the Prudence and True and Fair View considerations of AS 1, abnormal costs must not be capitalized into inventory as it overstates current assets and defers operational losses to future periods (AS 2 overlap)."
               correctTreatment="Allocate fixed overheads to inventory based on normal capacity (e.g. ₹80 Lakhs). Charge the remaining ₹40 Lakhs of unallocated fixed overheads directly to the P&L statement as 'abnormal idle capacity expense.'"
-              disclosure="State the policy for allocating fixed overheads in Note 1: 'Fixed production overheads are allocated to inventory based on normal operating capacity. Abnormal unallocated overheads are charged directly to the P&L.'"
-              auditImpact="Verify normal capacity calculations and actual production records. Ensure that unallocated overheads are not included in inventory cost sheets."
-              observation="Capitalizing idle capacity costs is a common earnings management tactic during recessions. Auditors must enforce AS 2 and AS 1 compliance strictly."
-              takeaway="Abnormal overheads must be expensed immediately to present a true and fair view of cost and asset values."
+              analysis="Fixed overhead allocation is a method of cost application under AS 2. Allocating fixed overheads using actual low volumes leads to overstating inventory value, which violates the prudence assumption of AS 1."
+              impact="Net profit before tax and closing inventory assets are reduced by ₹40 Lakhs in the current year."
+              disclosure="Note 1: 'Fixed production overheads are allocated to inventory based on normal operating capacity. Abnormal unallocated overheads resulting from underutilization are charged directly to the P&L.'"
+              auditorView="Verify that the normal capacity figures match historical plant utilization logs and that no idle-capacity overheads are capitalized."
+              conclusion="Abnormal overheads must be expensed immediately. Inventory carrying value must reflect normal operational conditions."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-2"
               title="Example 4.2: Trading — Accrual of Claims for Damaged Goods in Transit"
-              industry="Trading"
-              situation="PrimeDistributors Ltd had goods worth ₹18 Lakhs damaged in transit in February 2026. The company filed an insurance claim. In April 2026, before approval of accounts, the insurance company acknowledged the claim but agreed to pay only 75% (₹13.5 Lakhs). Management wants to record the full ₹18 Lakhs as a receivable in FY 2025-26."
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="PrimeDistributors Ltd had goods worth ₹18 Lakhs damaged in transit in February 2026. The company filed an insurance claim. In April 2026, before approval of accounts, the insurance company acknowledged the claim but agreed to pay only 75% (₹13.5 Lakhs). Management wants to record the full ₹18 Lakhs as a receivable in FY 2025-26."
               issue="Is accruing the full claim amount permissible under the accrual and prudence concepts of AS 1?"
+              standard="Prudence requires recognizing only the portion acknowledged by the insurer. Accrual requires recording the loss net of the probable recovery."
               alternatives="(a) Accrue the full ₹18 Lakhs as receivable; (b) accrue ₹13.5 Lakhs based on insurance acknowledgement (standard-compliant); (c) record no claim receivable until the money is received."
-              analysis="Accruing the full ₹18 Lakhs anticipates a profit/recovery that is not assured. Prudence requires recognizing only the portion acknowledged by the insurer. Accrual requires recording the loss net of the probable recovery."
               correctTreatment="Recognize a loss of ₹4.5 Lakhs in the P&L and record an insurance claim receivable of ₹13.5 Lakhs in the balance sheet for FY 2025-26."
-              disclosure="Disclose the claim details in the notes: 'An insurance claim of ₹13.5 Lakhs acknowledged by the insurer has been recognized as other current assets, and the balance loss of ₹4.5 Lakhs has been charged to P&L.'"
-              auditImpact="Inspect the correspondence from the insurance company. Verify the date of acknowledgment and the approved settlement amount."
-              observation="Trading companies often delay recording inventory losses by keeping unapproved insurance claims as assets. This must be prevented."
-              takeaway="Recognize claims only to the extent of confirmed recovery. Unconfirmed balances must be written off."
+              analysis="Accruing the full ₹18 Lakhs anticipates a profit/recovery that is not assured. Prudence requires recognizing only the portion acknowledged by the insurer. Accrual requires recording the loss net of the probable recovery."
+              impact="Current-year net profit and receivables are lower by ₹4.5 Lakhs compared to aggressive accrual."
+              disclosure="Note 1: 'Claims receivable in respect of transit damages are recognized upon acknowledgement of liability by the insurer. The unconfirmed balance of transit loss has been written off.'"
+              auditorView="Examine insurer's acknowledgment letter. Confirm that the receivable is recorded only at the verified recovery value."
+              conclusion="Claims must be recognized only to the extent of confirmed recovery. The unconfirmed loss must be written off immediately."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-3"
               title="Example 4.3: Tea Industry — Valuation of Harvested Green Leaves at Plucking"
-              industry="Tea Industry"
-              situation="AssamTea Estates Ltd harvests green leaves from its tea gardens. The leaves are then processed into black tea. At the year-end, the company has 12,000 kg of harvested green leaves in transit. Management wants to value these leaves at their estimated market selling price less transport costs, rather than actual cultivation cost."
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="AssamTea Estates Ltd harvests green leaves from its tea gardens. The leaves are then processed into black tea. At the year-end, the company has 12,000 kg of harvested green leaves in transit. Management wants to value these leaves at their estimated market selling price less transport costs, rather than actual cultivation cost."
               issue="Is agricultural produce valued at net realizable value or cost prior to final processing under AS 1?"
+              standard="Under the Prudence principle, profits must not be anticipated. Inventory must be carried at cost unless net realizable value is lower. Since green leaves are intermediate agricultural produce, they must be valued at cost."
               alternatives="(a) Value at net realizable value (NRV) (accrues unrealized agricultural profits); (b) value at cost of plucking and transportation (standard-compliant)."
-              analysis="Under the Prudence principle, profits must not be anticipated. Inventory must be carried at cost unless net realizable value is lower. Since green leaves are intermediate agricultural produce, they must be valued at cost."
               correctTreatment="Value the green leaves at the direct cost of plucking and transport to the processing facility. Do not recognize any agricultural profit until the tea is sold."
-              disclosure="State the policy in Note 1: 'Harvested green leaves are valued at cost, representing direct agricultural pluck costs and transit overheads.'"
-              auditImpact="Check labor logs for plucking wages and transport invoices. Confirm that no market price margins are added to raw agricultural inventories."
-              observation="Agricultural entities often attempt to recognize profit at harvest. In the Indian GAAP framework, cost-based valuation remains mandatory under AS 2."
-              takeaway="Harvested produce must be carried at cost. Profit is realized only on final sale."
+              analysis="Valuing unprocessed agricultural inventory at market prices anticipates revenue before the final sale transaction, violating the accrual and prudence principles of AS 1."
+              impact="Closing inventory and net profits are lower by ₹3.8 Lakhs compared to NRV valuation."
+              disclosure="Note 1: 'Harvested agricultural produce (green leaves) is carried at actual plucking cost and transit expenses. Realization of agricultural profit is deferred until sale.'"
+              auditorView="Check plucking wage sheets and transportation invoices. Ensure no market margins are added to raw stocks."
+              conclusion="Agricultural inventories must be valued at cost until the sale transaction is completed."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-4"
               title="Example 4.4: Service Industry — Revenue Recognition on Software Consulting Milestones"
-              industry="Service Industry"
-              situation="SoftTech Consulting Ltd entered into a contract to build a billing system for a client for ₹50 Lakhs. The contract has 4 milestones. At the year-end, milestone 3 is 90% complete, but not yet approved by the client. Management wants to recognize 90% of the milestone revenue (₹11.25 Lakhs) in the current year."
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="SoftTech Consulting Ltd entered into a contract to build a billing system for a client for ₹50 Lakhs. The contract has 4 milestones. At the year-end, milestone 3 is 90% complete, but not yet approved by the client. Management wants to recognize 90% of the milestone revenue (₹11.25 Lakhs) in the current year."
               issue="Does revenue recognition on unapproved milestones satisfy the accrual and prudence concepts of AS 1?"
+              standard="Under AS 9, revenue from service contracts is recognized only when no significant uncertainties exist regarding realization. Unapproved milestones contain high billing risk."
               alternatives="(a) Recognize ₹11.25 Lakhs as revenue; (b) recognize no revenue for milestone 3 until formal client sign-off (standard-compliant); (c) recognize the entire contract value based on progress."
-              analysis="Under AS 9, revenue is recognized when there is no significant uncertainty regarding its measurement and collection. Recognizing revenue before client approval introduces collection risk, violating prudence."
               correctTreatment="Do not recognize revenue for milestone 3 in FY 2025-26. Carry the incurred work cost as work-in-progress on the balance sheet."
-              disclosure="Disclose the policy: 'Revenue from software development contracts is recognized upon achievement and formal client acceptance of specified contract milestones.'"
-              auditImpact="Examine the contract terms and milestone sign-off sheets. Verify that no revenue is accrued for pending milestones."
-              observation="Service companies often accelerate revenue recognition by estimating progress. Milestone approvals are the only objective evidence."
-              takeaway="Do not accrue revenue on milestones until formal client acceptance is obtained."
+              disclosure="Note 1: 'Revenue from software development contracts is recognized upon achievement and formal client acceptance of specified contract milestones.'"
+              analysis="Accruing revenue on unapproved milestones violates the accrual assumption because the client has not accepted the work and has no legal obligation to pay at this stage."
+              impact="Current revenues are reduced by ₹11.25 Lakhs, and work-in-progress assets are increased by the actual cost incurred (₹6.8 Lakhs)."
+              auditorView="Inspect contract terms and customer sign-off sheets. Force reversal of any revenues recorded for unapproved milestones."
+              conclusion="Do not accrue revenue on milestones until formal client acceptance is obtained."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-5"
-              title="Example 4.5: Construction — Estimation Change in Percentage of Completion Method"
-              industry="Construction"
-              situation="Landmark Infrastructures Ltd is building a bridge. Total estimated cost was ₹40 Crores. In Year 2, due to steel price inflation, the technical team increases the total cost estimate to ₹48 Crores. Management wants to ignore this estimate change in current-year revenue calculations, claiming steel prices will fall in Year 3."
+              title="Example 4.5: Construction — Cost Estimate Changes in POCM"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="Landmark Infrastructures Ltd is building a bridge. Total estimated cost was ₹40 Crores. In Year 2, due to steel price inflation, the technical team increases the total cost estimate to ₹48 Crores. Management wants to ignore this estimate change in current-year revenue calculations, claiming steel prices will fall in Year 3."
               issue="Is ignoring an updated cost estimate in construction accounting compliant with consistency and prudence under AS 1?"
+              standard="Prudence requires immediate recognition of anticipated losses. Under AS 7 and AS 1, construction cost estimates must be updated dynamically to reflect the true percentage of completion."
               alternatives="(a) Ignore the cost increase and calculate revenue based on old estimates; (b) update the cost estimate immediately and recognize the cumulative impact in current P&L (standard-compliant)."
-              analysis="Prudence requires immediate recognition of anticipated losses. Ignoring the updated estimate overstates the percentage of completion and current-year profits, representing a false view."
               correctTreatment="Update the total cost estimate to ₹48 Crores. Recalculate the percentage of completion, and charge the cumulative impact of the lower profit margin to the current P&L."
-              disclosure="Disclose the policy and change: 'Total project costs are reviewed periodically, and adjustments are made in the period when changes become known. Cost estimates were updated, reducing current profit by ₹1.6 Crores.'"
-              auditImpact="Audit the engineering cost estimation sheets. Verify steel purchase invoices and verify that all current cost increases are factored into project cost sheets."
-              observation="Construction companies often hide cost overruns by delaying cost estimate updates. Auditors must review project status files."
-              takeaway="All cost estimate revisions must be recognized immediately to maintain a true and fair view of progress."
+              analysis="Ignoring cost overruns overstates the progress percentage and current profits, presenting a misleading view of project profitability and violating the prudence principle."
+              impact="Current-year revenues are lower by ₹2.4 Crores, and contract work-in-progress is adjusted down."
+              disclosure="Note 1: 'Contract revenue is recognized under the percentage-of-completion method. Estimated project costs are reviewed continuously, and any adjustments to profits or losses are recognized in the period they occur.'"
+              auditorView="Verify steel purchase invoices and engineering estimation logs. Ensure all cost revisions are factored into contract billing sheets."
+              conclusion="Update cost estimates dynamically. Recognize all cost overruns immediately."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-6"
-              title="Example 4.6: Infrastructure — Toll Amortization Policy Change (Traffic vs. Time)"
-              industry="Infrastructure"
-              situation="Tollways India Ltd operates a BOT toll road. Previously, the company amortized the intangible toll asset over the concession period of 20 years on a straight-line basis. In the current year, to match high traffic volume, the company changes the policy to amortize based on projected traffic volume, reducing amortization by ₹3 Crores."
+              title="Example 4.6: Infrastructure — Toll Amortization Policy Change"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="Tollways India Ltd operates a BOT toll road. Previously, the company amortized the intangible toll asset over the concession period of 20 years on a straight-line basis. In the current year, to match high traffic volume, the company changes the policy to amortize based on projected traffic volume, reducing amortization by ₹3 Crores."
               issue="Is changing the amortization method from SLM to traffic-volume basis a change in accounting policy under AS 1?"
+              standard="Amortization methods for intangible assets are accounting policies. Changes in amortization policies must be applied retrospectively under AS 26 and AS 1, and their impact must be disclosed."
               alternatives="(a) Change the amortization method and apply retrospectively (standard-compliant); (b) retain SLM; (c) apply the change prospectively without restating past amortization."
-              analysis="The amortization method of intangible assets is an accounting policy. A change in the method must be applied retrospectively under AS 26 and AS 1, and its impact must be disclosed."
               correctTreatment="Apply the traffic-volume amortization method retrospectively. Adjust opening reserves and disclose the nature and financial impact of the change."
-              disclosure="Disclose in Note 1: 'The Company changed its amortization method for toll road rights from SLM to traffic-volume projection. This retrospective change reduced accumulated amortization by ₹1.2 Crores.'"
-              auditImpact="Review the independent traffic projection study report. Verify that the projected traffic calculations are reasonable and verified."
-              observation="Infrastructure entities change amortization methods to manage earnings during low-traffic startup years. Technical justification is key."
-              takeaway="Amortization method changes are policy changes and require retrospective restatement and disclosure."
+              analysis="A change in the amortization pattern is a change in the application of accounting principles. Retrospective application is mandatory to ensure comparability."
+              impact="Current amortization expense is reduced by ₹3 Crores, increasing reported net profits by ₹3 Crores. Accumulated amortization is restated retrospectively."
+              disclosure="Note 1: 'The Company changed its amortization method for toll road rights from SLM to traffic-volume projection. This retrospective change reduced accumulated amortization by ₹1.2 Crores.'"
+              auditorView="Review traffic projection reports prepared by independent agencies. Verify that the projected traffic calculations are reasonable and verified."
+              conclusion="Amortization method changes are policy changes and require retrospective restatement and disclosure."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-7"
               title="Example 4.7: NBFC — Accounting Policy for Loan Provisioning (RBI vs. Prudence)"
-              industry="NBFC"
-              situation="FinHold Capital Ltd has a loan portfolio of ₹150 Crores. Under RBI guidelines, the company is required to maintain a general provision of 10% on substandard loans. However, due to systemic defaults in the agricultural sector, the management estimates that actual defaults will be 18%. The board wants to provision only 10% to comply with RBI rules."
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="FinHold Capital Ltd has a loan portfolio of ₹150 Crores. Under RBI guidelines, the company is required to maintain a general provision of 10% on substandard loans. However, due to systemic defaults in the agricultural sector, the management estimates that actual defaults will be 18%. The board wants to provision only 10% to comply with RBI rules."
               issue="Does provisioning based on minimum regulatory guidelines rather than actual estimated defaults satisfy prudence under AS 1?"
-              analysis="Prudence is a primary consideration in selecting accounting policies. Minimum regulatory requirements do not override the necessity to provide for actual estimated losses to represent a true and fair view."
+              standard="Prudence is a primary consideration in selecting accounting policies. Minimum regulatory requirements do not override the necessity to provide for actual estimated losses to represent a true and fair view."
               alternatives="(a) Provision 10% as per RBI rules; (b) provision 18% based on actual estimated defaults (standard-compliant); (c) provision 10% and disclose the extra risk in footnotes."
               correctTreatment="Make a provision of 18% (₹2.7 Crores) on substandard loans, charging the extra 8% directly to the P&L statement."
-              disclosure="Disclose the provisioning policy: 'Provisions for loan losses are made based on management's estimate of actual defaults, subject to the minimum provisioning norms prescribed by the RBI.'"
-              auditImpact="Review default logs and credit rating reports of borrowers. Ensure provisions match actual risk, not just legal minimums."
-              observation="Financial institutions often treat regulatory minimums as maximums. True and fair view requires provisioning for all estimated losses."
-              takeaway="Regulatory minimums do not override prudence. Provision for actual estimated defaults."
+              analysis="NBFC regulatory guidelines are minimum requirements. Under AS 1, if management has objective evidence of higher actual defaults, it must increase the provision to present a true and fair view."
+              impact="Current-year profits are reduced by ₹1.2 Crores. Provision liabilities increase by ₹1.2 Crores."
+              disclosure="Note 1: 'Provisions for loan losses are made based on management's estimate of actual defaults, subject to the minimum provisioning norms prescribed by the RBI.'"
+              auditorView="Audit credit assessment records and default registers. Ensure provisioning reflects actual default rates, not just regulatory minimums."
+              conclusion="Regulatory minimums do not override prudence. Provision for actual estimated defaults."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-8"
               title="Example 4.8: Retail — Customer Loyalty Points Program Revenue Deferral"
-              industry="Retail"
-              situation="MegaMart India Ltd runs a loyalty program. Customers earn 1 point for every ₹100 spent. Points can be redeemed within 2 years. In FY 2025-26, customers earned points worth ₹40 Lakhs. The company recorded the entire sales value as revenue, making no adjustment for the outstanding points."
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="MegaMart India Ltd runs a loyalty program. Customers earn 1 point for every ₹100 spent. Points can be redeemed within 2 years. In FY 2025-26, customers earned points worth ₹40 Lakhs. The company recorded the entire sales value as revenue, making no adjustment for the outstanding points."
               issue="Does immediate recognition of revenue from transactions with outstanding loyalty points violate the matching and accrual concepts of AS 1?"
+              standard="Under the accrual assumption of AS 1, revenue must be recognized only when the service is delivered. Loyalty points represent a separate performance obligation."
               alternatives="(a) Recognize full revenue immediately; (b) defer revenue by allocating transaction price to points based on fair value (standard-compliant); (c) record a general provision in P&L."
-              analysis="Loyalty points represent a separate performance obligation. Recognizing full revenue immediately anticipates income before the service is delivered, violating accrual and matching."
               correctTreatment="Defer revenue of ₹40 Lakhs by recognizing it as deferred revenue (current liability). Recognize the revenue only when the points are redeemed or expire."
-              disclosure="Disclose the policy: 'Revenue from sales is allocated between the product sold and the loyalty points awarded. The portion allocated to points is deferred and recognized when points are redeemed.'"
-              auditImpact="Verify the point ledger and redemption rate calculations. Ensure the deferred revenue is properly classified as a current liability."
-              observation="Retailers often ignore loyalty point liabilities due to low unit values. In aggregate, they represent material liabilities."
-              takeaway="Defer revenue for loyalty points to match income with the delivery of the redemption service."
+              analysis="Immediate revenue recognition anticipates income before the redemption obligation is fulfilled, violating the accrual and matching principles of AS 1."
+              impact="Current sales revenue is reduced by ₹40 Lakhs, and current liabilities increase by ₹40 Lakhs."
+              disclosure="Note 1: 'Revenue from sales is allocated between the product sold and the loyalty points awarded. The portion allocated to points is deferred and recognized when points are redeemed.'"
+              auditorView="Audit the loyalty points ledger and redemption rates. Verify that the deferred revenue is properly classified as a current liability."
+              conclusion="Defer revenue for loyalty points to match income with the delivery of the redemption service."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-9"
-              title="Example 4.9: Pharma — R&D Expenditure Expensing vs. Capitalization"
-              industry="Pharma"
-              situation="BioCure Laboratories Ltd spent ₹3.2 Crores on clinical trials for a new diabetic drug. Phase II trials were successful, but Phase III trials are pending approval. The management capitalized the ₹3.2 Crores as 'intangible asset under development' to avoid showing a loss."
+              title="Example 4.9: Pharma — R&D Clinical Trial Expensing vs. Capitalization"
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="BioCure Laboratories Ltd spent ₹3.2 Crores on clinical trials for a new drug. Phase II trials were successful, but Phase III trials are pending regulatory approval. Management capitalized the ₹3.2 Crores as 'intangible asset under development' to avoid showing an operating loss."
               issue="Is capitalizing clinical trial costs prior to final regulatory approval compliant with AS 1 and AS 26?"
-              alternatives="(a) Capitalise the trial costs as intangible assets; (b) expense the trial costs immediately to P&L (standard-compliant); (c) capitalize and write off over 5 years."
-              analysis="Under AS 26, research and development costs must be expensed unless technical feasibility and commercial viability are established. Since Phase III trials and approval are pending, viability is not established, and capitalizing violates prudence."
+              standard="Under AS 26 and the prudence principle of AS 1, research and development costs must be expensed as incurred until technical feasibility and commercial viability are established."
+              alternatives="(a) Capitalize trial costs as intangible assets; (b) expense trial costs immediately to P&L (standard-compliant); (c) capitalize and amortize over 5 years."
               correctTreatment="Charge the ₹3.2 Crores of R&D expenses directly to the P&L statement. Do not capitalize until regulatory approval is secure."
-              disclosure="Disclose the R&D policy in Note 1: 'Research costs are expensed as incurred. Development costs are capitalized only when technical feasibility and regulatory approval are established.'"
-              auditImpact="Examine the drug trial status report and FDA/CDSCO correspondence. Ensure all unapproved drug costs are expensed."
-              observation="Pharma companies face intense pressure to capitalize R&D. Technical validation must be audited strictly."
-              takeaway="R&D costs must be expensed until final technical and regulatory approvals are secured."
+              analysis="Since Phase III trials are pending, viability is not established, and capitalizing violates prudence because the drug may fail to gain final approval."
+              impact="Current-year profits decrease by ₹3.2 Crores, and development assets decrease by ₹3.2 Crores."
+              disclosure="Note 1: 'Research costs are expensed as incurred. Development costs are capitalized only when technical feasibility and regulatory approval are established.'"
+              auditorView="Examine drug trial status reports and FDA/CDSCO correspondence. Ensure all unapproved drug costs are expensed."
+              conclusion="R&D costs must be expensed until final technical and regulatory approvals are secured."
             />
 
-            <BusinessExampleCard
+            <StructuredCard
               id="4-10"
               title="Example 4.10: IT Companies — Software Development Capitalization (Internal Use vs. Product)"
-              industry="IT Companies"
-              situation="CloudSolutions Ltd developed an internal project management tool for its staff, costing ₹45 Lakhs. The IT director wants to capitalize this cost as a software asset and depreciate it over 5 years. However, the software does not generate direct cash inflows and is only for internal administrative use."
+              category="Practical Business Example"
+              badgeColor="bg-emerald-50 text-emerald-700 dark:bg-emerald-955/40 dark:text-emerald-400 border-emerald-250/30"
+              navigateToPdfPage={navigateToPdfPage}
+              facts="CloudSolutions Ltd developed an internal project management tool for its staff, costing ₹45 Lakhs. The IT director wants to capitalize this cost as a software asset and depreciate it over 5 years. However, the software does not generate direct cash inflows and is only for internal administrative use."
               issue="Is capitalizing software that does not generate direct economic benefits permissible under AS 1 and AS 26?"
+              standard="Under AS 26, an intangible asset must generate future economic benefits (e.g. revenue or cost savings). Internal administrative software that does not produce verifiable cost savings must be expensed under prudence."
               alternatives="(a) Capitalise the software and depreciate; (b) expense the software development cost immediately to P&L (standard-compliant); (c) capitalize and amortize over 2 years."
-              analysis="Under AS 26, an intangible asset must generate future economic benefits (e.g. revenue or cost savings). Internal administrative software that does not produce verifiable cost savings must be expensed under prudence."
               correctTreatment="Expense the ₹45 Lakhs software development cost directly to the P&L statement under operational overheads."
-              disclosure="Disclose the policy: 'Costs incurred on software developed for internal administrative use are expensed as incurred, unless they lead to verifiable future economic benefits.'"
-              auditImpact="Review the software's functional specifications. Verify that no future economic benefits or cost savings are documented to justify capitalization."
-              observation="IT companies capitalize general software maintenance and internal tools to inflate assets. Ensure strict compliance with AS 26."
-              takeaway="Internal-use software must be expensed unless it leads to verifiable and direct cost savings."
+              analysis="Internal software that does not generate direct economic benefits or cost savings must be expensed under prudence to prevent overstatement of assets."
+              impact="Current-year expenses increase by ₹45 Lakhs, and software assets are reduced by ₹45 Lakhs."
+              disclosure="Note 1: 'Costs incurred on software developed for internal administrative use are expensed as incurred, unless they lead to verifiable future economic benefits.'"
+              auditorView="Review software functional specifications. Verify that no future economic benefits or cost savings are documented to justify capitalization."
+              conclusion="Internal-use software must be expensed unless it leads to verifiable and direct cost savings."
             />
           </div>
         </section>
 
         {/* ─── SECTION 5: AUDIT CASE STUDIES ────────────────────────────────────── */}
-        <section id="sec-audit-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-250 dark:border-slate-800 pt-8">
+        <section id="sec-audit-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
           {renderSectionHeader(
             '5',
             'Audit Case Studies',
-            'Real-world practitioner case studies detailing client backgrounds, audit findings, identified violations, and the resulting impact on audit reporting.'
+            'In-depth statutory audit case studies detailing management treatments, violations, audit programs, and reporting impact.'
           )}
 
-          <div className="space-y-10">
+          <div className="space-y-12">
             <AuditCaseCard
               id="5-1"
               title="Case 5.1: Unjustified Change in Warranty Provision Policy"
@@ -1090,7 +1021,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
 
             <AuditCaseCard
               id="5-10"
-              title="Case 5.10: Management Override of Inventory Obsolescence Policy"
+              title="Case 5.10: CFO Override of Obsolescence policy"
               client="PioneerMining Ltd (Mining & Minerals)"
               facts="The company's written policy requires writing off spare parts that have been inactive for over 3 years. The inventory register showed ₹80 Lakhs of inactive parts. The CFO instructed the warehouse manager to override the policy and keep them at cost."
               problem="The CFO overrode the obsolescence policy to prevent writing off inventory and depressing operating margins."
@@ -1106,14 +1037,14 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
         </section>
 
         {/* ─── SECTION 6: REGULATORY OBSERVATIONS ────────────────────────────────── */}
-        <section id="sec-regulatory-obs" className="scroll-mt-36 space-y-8 w-full border-t border-slate-250 dark:border-slate-800 pt-8">
+        <section id="sec-regulatory-obs" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
           {renderSectionHeader(
             '6',
             'Regulatory Observations',
-            'Core observations, directives, and enforcement findings from regulators (NFRA, SEBI, MCA) regarding compliance with accounting policy disclosures.'
+            'NFRA, SEBI, and MCA directives regarding compliance failures in accounting policy disclosures.'
           )}
 
-          <div className="space-y-10">
+          <div className="space-y-12">
             <RegulatoryObsCard
               id="6-1"
               title="Observation 6.1: Boilerplate and Generic Disclosure of Accounting Policies"
@@ -1183,14 +1114,14 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
         </section>
 
         {/* ─── SECTION 7: LANDMARK JUDICIAL CASES ────────────────────────────────── */}
-        <section id="sec-legal-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-250 dark:border-slate-800 pt-8">
+        <section id="sec-legal-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
           {renderSectionHeader(
             '7',
             'Landmark Judicial Cases',
-            'Precedent-setting Supreme Court and High Court judgments regarding the consistency, applicability, and validity of accounting policies.'
+            'Landmark Supreme Court and High Court judgments clarifying the application of accounting principles under tax and corporate law.'
           )}
 
-          <div className="space-y-10">
+          <div className="space-y-12">
             <JudicialCaseCard
               id="7-1"
               title="CIT vs. Woodward Governor India Pvt. Ltd."
@@ -1249,11 +1180,11 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
         </section>
 
         {/* ─── SECTION 8: EXAM-ORIENTED CORNER ───────────────────────────────────── */}
-        <section id="sec-exam-oriented" className="scroll-mt-36 space-y-8 w-full border-t border-slate-250 dark:border-slate-800 pt-8">
+        <section id="sec-exam-oriented" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
           {renderSectionHeader(
             '8',
             'Exam-Oriented Corner',
-            'Revision aids, high-yield one-liners, past exam questions (PYQ), and common student traps to master AS 1 for CA Exams.'
+            'High-yield study notes, revision one-liners, past questions, and diagnostic charts for exam preparation.'
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-serif">
@@ -1263,7 +1194,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
                 <Award size={14} />
                 <span>Quick Revision Notes</span>
               </h4>
-              <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed">
+              <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
                 <li><strong>Fundamental Assumptions (GAC):</strong> Going Concern, Accrual, Consistency. If they are followed, no disclosure is required. If they are violated, disclosure is mandatory.</li>
                 <li><strong>Selection Considerations (PSM):</strong> Prudence, Substance over Form, Materiality. The primary objective is a True and Fair View.</li>
                 <li><strong>Manner of Disclosure:</strong> All significant policies must form part of the accounts and be disclosed in one place (normally as Note 1).</li>
@@ -1277,7 +1208,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
                 <AlertTriangle size={14} />
                 <span>Common Exam Mistakes</span>
               </h4>
-              <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-350 text-xs sm:text-[13px] leading-relaxed">
+              <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-355 text-xs sm:text-[13px] leading-relaxed font-serif">
                 <li><strong className="text-red-650">Mistake:</strong> Claiming that Going Concern is always followed. <em>Fact:</em> If liquidation is imminent, it must be rejected and accounts prepared on NRV.</li>
                 <li><strong className="text-red-650">Mistake:</strong> Mislabeling estimate changes as policy changes. <em>Fact:</em> Useful life changes or provisions are estimate changes (AS 5), not policy changes (AS 1).</li>
                 <li><strong className="text-red-650">Mistake:</strong> Believing that disclosure cures incorrect accounting. <em>Fact:</em> Under Para 23, disclosure cannot justify incorrect accounting.</li>
@@ -1290,7 +1221,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
                 <CheckCircle size={14} />
                 <span>High-Yield One-Liners</span>
               </h4>
-              <div className="space-y-3 text-slate-700 dark:text-slate-350 text-xs sm:text-[13px] leading-relaxed">
+              <div className="space-y-3 text-slate-700 dark:text-slate-350 text-xs sm:text-[13px] leading-relaxed font-serif animate-fade-in">
                 <p><strong>1. Disclosure location:</strong> Policies must be in one place (usually Note 1), not scattered.</p>
                 <p><strong>2. Fundamental assumptions status:</strong> They are assumed to be followed; disclosure is only required if NOT followed.</p>
                 <p><strong>3. Policy change justification:</strong> Only allowed if required by statute, for compliance with standard, or for a better presentation.</p>
@@ -1304,7 +1235,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
                 <BookOpen size={14} />
                 <span>Important Definitions</span>
               </h4>
-              <div className="space-y-3 text-slate-700 dark:text-slate-350 text-xs sm:text-[13px] leading-relaxed">
+              <div className="space-y-3 text-slate-700 dark:text-slate-350 text-xs sm:text-[13px] leading-relaxed font-serif">
                 <p><strong>1. Accounting Policies:</strong> Specific accounting principles and the methods of applying those principles adopted by the enterprise (AS 1 Para 11).</p>
                 <p><strong>2. Accrual:</strong> Revenues and costs are accrued, i.e., recognized as they are earned or incurred and recorded in the financial statements of the periods to which they relate (AS 1 Para 13).</p>
                 <p><strong>3. Prudence:</strong> A degree of caution in making estimates under conditions of uncertainty, such that assets or income are not overstated and liabilities or expenses are not understated.</p>
@@ -1312,7 +1243,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
             </div>
           </div>
 
-          {/* Exam Questions & Mnemonic Box */}
+          {/* Mnemonic and RTP/MTP references */}
           <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-850 rounded-xl p-6 sm:p-8 space-y-4 font-serif">
             <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-650 dark:text-indigo-400 flex items-center gap-2">
               <Info size={14} />
@@ -1332,22 +1263,22 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
         </section>
 
         {/* ─── SECTION 9: AUDIT NOTES & REPORTING ────────────────────────────────── */}
-        <section id="sec-audit-notes" className="scroll-mt-36 space-y-8 w-full border-t border-slate-250 dark:border-slate-800 pt-8">
+        <section id="sec-audit-notes" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
           {renderSectionHeader(
             '9',
             'Audit Notes & Reporting',
-            'Documentation checklists, audit red flags, and drafting templates for qualified opinions under Section 143(3) of the Companies Act, 2013.'
+            'Audit checklist, red flags, and drafting templates for statutory auditor reports under Section 143(3).'
           )}
 
           <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-850 rounded-2xl p-6 sm:p-8 space-y-6">
             <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white font-sans flex items-center gap-2">
               <HelpCircle className="text-indigo-600 dark:text-indigo-400" size={18} />
-              <span>Audit Report Drafting: Qualification for Non-Compliance with AS 1</span>
+              <span>Audit Report Drafting: Deviation from AS 1 (Section 143(3))</span>
             </h3>
 
-            <div className="space-y-4 text-[13.5px] leading-[1.7] text-slate-750 dark:text-slate-350 font-serif">
+            <div className="space-y-4 text-[13.5px] leading-[1.7] text-slate-750 dark:text-slate-355 font-serif">
               <p>
-                When an enterprise changes an accounting policy without justification, fails to disclose the impact, or uses inappropriate policies, the auditor must qualify the report. Below is a standard template for an audit qualification under Section 143(3):
+                When an enterprise fails to disclose significant accounting policies, or changes them without valid justification, the auditor must issue a qualified or adverse opinion. Below is a standard template for an audit qualification:
               </p>
 
               <div className="bg-white dark:bg-slate-950 p-5 rounded-xl border border-slate-250 dark:border-slate-800 font-mono text-xs text-slate-800 dark:text-slate-300 leading-relaxed space-y-3">
@@ -1366,63 +1297,22 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 text-xs font-sans">
                 <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg">
-                  <span className="font-extrabold text-indigo-600 dark:text-indigo-400 block mb-1">AUDIT RED FLAGS</span>
+                  <span className="font-extrabold text-indigo-650 dark:text-indigo-400 block mb-1">AUDIT RED FLAGS</span>
                   <ul className="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
-                    <li>Inconsistencies between Note 1 disclosures and actual account balances.</li>
-                    <li>Failure to quantify the financial impact of accounting policy changes.</li>
-                    <li>Mislabeled write-downs of inventory or assets as estimate revisions.</li>
+                    <li>Inconsistencies between Note 1 disclosures and actual balances.</li>
+                    <li>Failure to quantify the impact of accounting policy changes.</li>
+                    <li>Mislabeled write-downs as estimate revisions.</li>
                   </ul>
                 </div>
                 <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg">
-                  <span className="font-extrabold text-indigo-600 dark:text-indigo-400 block mb-1">REPRESENTATION POINTS</span>
-                  <ul className="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
-                    <li>Obtain management representation letters confirming selection of policies.</li>
-                    <li>Confirm that all significant policies have been disclosed in one place.</li>
-                    <li>Document board approval and justification for policy changes.</li>
+                  <span className="font-extrabold text-indigo-650 dark:text-indigo-400 block mb-1">REPRESENTATION POINTS</span>
+                  <ul className="list-disc pl-4 space-y-1 text-slate-650 dark:text-slate-400">
+                    <li>Obtain management representation letters confirming policy selection.</li>
+                    <li>Confirm that all significant policies have been disclosed.</li>
+                    <li>Document board approvals for any policy changes.</li>
                   </ul>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Final Quality Check Self-Assessment */}
-          <div className="bg-[#FFFDF5] dark:bg-[#25201A] border border-[#F6EED5] dark:border-amber-900/30 rounded-xl p-6 sm:p-8 space-y-4">
-            <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-amber-700 dark:text-amber-400 flex items-center gap-2">
-              <CheckCircle size={14} />
-              <span>Final Quality Check Self-Assessment (Target: &gt;9.5/10)</span>
-            </h4>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead>
-                  <tr className="border-b border-[#E2E1DD] dark:border-gray-800 text-slate-500 font-sans uppercase">
-                    <th className="py-2 font-extrabold">Quality Category</th>
-                    <th className="py-2 font-extrabold text-center">Score</th>
-                    <th className="py-2 font-extrabold">Auditor Justification</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100 dark:divide-slate-850 font-serif">
-                  <tr>
-                    <td className="py-2.5 font-bold text-slate-800 dark:text-slate-200">Content Depth</td>
-                    <td className="py-2.5 text-center font-extrabold text-emerald-600">10/10</td>
-                    <td className="py-2.5 text-slate-600 dark:text-slate-400">15 Illustrations, 10 Business Examples, and 10 Case Studies mapped in full detail.</td>
-                  </tr>
-                  <tr>
-                    <td className="py-2.5 font-bold text-slate-800 dark:text-slate-200">Professional Relevance</td>
-                    <td className="py-2.5 text-center font-extrabold text-emerald-600">9.8/10</td>
-                    <td className="py-2.5 text-slate-600 dark:text-slate-400">Addresses practical manufacturing, tea, infrastructure, and retail scenarios.</td>
-                  </tr>
-                  <tr>
-                    <td className="py-2.5 font-bold text-slate-800 dark:text-slate-200">CA Student Usefulness</td>
-                    <td className="py-2.5 text-center font-extrabold text-emerald-600">9.7/10</td>
-                    <td className="py-2.5 text-slate-600 dark:text-slate-400">Exam-trap boxes, memory tricks, and clear serial-numbered points for study.</td>
-                  </tr>
-                  <tr>
-                    <td className="py-2.5 font-bold text-slate-800 dark:text-slate-200">Presentation Quality</td>
-                    <td className="py-2.5 text-center font-extrabold text-emerald-600">9.9/10</td>
-                    <td className="py-2.5 text-slate-600 dark:text-slate-400">Responsive grid layouts with customized sequential bullet alignments and borders.</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </section>
