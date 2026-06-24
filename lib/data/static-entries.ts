@@ -1428,4 +1428,181 @@ export const AS_9_ENTRY = {
   ],
 }
 
+// ─── Full AS Standard: AS 10 ─────────────────────────────────────────────────
+
+export const AS_10_ENTRY = {
+  entryTitle: 'AS 10 — Property, Plant and Equipment',
+  entrySlug: 'as-10',
+  summary:
+    'AS 10 (Revised 2016) establishes the accounting treatment for Property, Plant and Equipment. It covers the initial recognition criteria, components of cost, subsequent revaluation vs cost model, component accounting, depreciation methods, impairment, and derecognition of PPE assets.',
+  verificationLevel: 'VERIFIED' as const,
+  wordCount: 2800,
+  lastReviewedAt: '2024-03-01',
+  authorityPrimary: 'ICAI — Accounting Standard 10 (Revised)',
+  authorityPrimaryUrl: 'https://www.icai.org/post/accounting-standards-as-10',
+  standardCode: 'AS 10',
+  standardFramework: 'AS' as const,
+  standardStatus: 'ACTIVE' as const,
+  issuingBody: 'ICAI (Institute of Chartered Accountants of India)',
+  dateIssued: '2016-03-30',
+  dateEffective: '2016-04-01',
+  applicabilitySummary: 'Mandatory for all enterprises preparing financial statements under Indian GAAP (AS framework). Specifically governs the acquisition, revaluation, depreciation, and disposal of tangible fixed assets.',
+  quickBullets: [
+    { icon: '🏗️', label: 'Recognition', desc: 'General & Safety/Environmental equipment' },
+    { icon: '🔧', label: 'Initial Cost', desc: 'Purchase price + direct costs + dismantling estimate' },
+    { icon: '🔄', label: 'Models', desc: 'Cost Model or Revaluation Model' },
+    { icon: '⏳', label: 'Depreciation', desc: 'Component accounting & annual reviews' },
+  ],
+  objective: {
+    text: 'The objective of AS 10 is to prescribe the accounting treatment for property, plant and equipment so that users of financial statements can discern information about an investment in PPE and the changes in such investment. The principal issues are the timing of recognition, carrying amounts, depreciation charges, and impairment losses.',
+    sourcePara: 'Objective',
+    commentary: 'AS 10 (Revised) represents a major convergence step with Ind AS 16. It replaces the old rules-based depreciation and introduces component accounting, dismantling cost capitalization, and stricter revaluation criteria.',
+    keyIssues: [
+      'What items qualify as Property, Plant and Equipment?',
+      'What components of cost must be capitalized during initial acquisition?',
+      'When should subsequent costs (replacements/inspections) be capitalized vs expensed?',
+      'How is depreciation computed using component accounting?',
+      'How are revaluation gains and losses accounted for?',
+    ],
+  },
+  scope: {
+    statement: 'AS 10 applies to all Property, Plant and Equipment, except when another standard requires or permits a different accounting treatment.',
+    included: [
+      'Land, buildings, office premises',
+      'Plant and machinery, factory equipment',
+      'Computers, office devices, and furniture',
+      'Vehicles and transport equipment',
+      'Safety and environmental equipment required to obtain economic benefits from other assets',
+      'Bearer plants (biological assets related to agricultural activity that are used to grow produce over multiple periods)',
+    ],
+    excluded: [
+      'Biological assets (other than bearer plants) related to agricultural activity (e.g., livestock, crops)',
+      'Wasting assets, mineral rights, reserves of natural gas, oil, and similar non-regenerative resources',
+      'Investment property (governed by AS 13)',
+    ],
+  },
+  definitions: [
+    {
+      term: 'Property, Plant and Equipment (PPE)',
+      paraRef: 'Para 7',
+      officialText:
+        '"Property, plant and equipment are tangible items that: (a) are held for use in the production or supply of goods or services, for rental to others, or for administrative purposes; and (b) are expected to be used during more than a period of twelve months."',
+      plainExplanation:
+        'Tangible physical assets with two attributes: (1) held for operations/leasing/admin (not for resale in ordinary course), and (2) useful life is longer than one year. Handtools or small parts are typically expensed under materiality rather than capitalized.',
+    },
+    {
+      term: 'Bearer Plant',
+      paraRef: 'Para 7',
+      officialText:
+        '"A bearer plant is a living plant that: (a) is used in the production or supply of agricultural produce; (b) is expected to bear produce for more than a period of twelve months; and (c) has a remote likelihood of being sold as agricultural produce, except for incidental scrap sales."',
+      plainExplanation:
+        'Plants used over multiple periods to harvest agricultural crops (e.g., tea bushes, grape vines, rubber trees). Bearer plants are treated as PPE (capitalized at cost, depreciated over useful life). The harvested produce is inventory under AS 2.',
+    },
+    {
+      term: 'Depreciable Amount',
+      paraRef: 'Para 7',
+      officialText:
+        '"Depreciable amount is the cost of an asset, or other amount substituted for cost, less its residual value."',
+      plainExplanation:
+        'The total value of the asset that will be expensed over its useful life. For example, if a machine costs ₹10 Lakhs, and has a salvage value of ₹1 Lakh, the depreciable amount is ₹9 Lakhs.',
+    },
+    {
+      term: 'Useful Life',
+      paraRef: 'Para 7',
+      officialText:
+        '"Useful life is: (a) the period over which an asset is expected to be available for use by an enterprise; or (b) the number of production or similar units expected to be obtained from the asset by an enterprise."',
+      plainExplanation:
+        'The period of expected utility to the enterprise (which can be shorter than the asset\'s physical life), or the estimated output capacity.',
+    },
+  ],
+  recognitionRules:
+    'PPE should be recognised if: (a) it is probable that future economic benefits associated with the item will flow to the enterprise, and (b) the cost of the item can be measured reliably. Safety/environmental equipment is capitalized if required to obtain economic benefits from other assets.',
+  measurementRules:
+    'Initially measured at cost. Cost comprises purchase price (including non-refundable duties/taxes less discounts), directly attributable costs to bring the asset to location/condition, and the initial estimate of dismantling/restoration costs. Subsequently, choice between Cost Model (cost less accumulated depreciation/impairment) and Revaluation Model (fair value less subsequent depreciation/impairment).',
+  disclosureGroups: [
+    {
+      heading: 'General Disclosures',
+      paraRange: 'Para 73–78',
+      items: [
+        { text: 'Measurement bases used for determining the gross carrying amount (Cost vs Revaluation)' },
+        { text: 'Depreciation methods used (SLM, WDV, etc.) and useful lives or depreciation rates' },
+        { text: 'Gross carrying amount and accumulated depreciation (together with accumulated impairment losses) at the beginning and end of the period' },
+        { text: 'A detailed reconciliation of the carrying amount at the beginning and end of the period showing additions, disposals, revaluations, and depreciation' },
+      ],
+    },
+    {
+      heading: 'Revalued Asset Disclosures',
+      paraRange: 'Para 79',
+      items: [
+        { text: 'Effective date of the revaluation' },
+        { text: 'Whether an independent valuer was involved' },
+        { text: 'The methods and significant assumptions applied in estimating the assets\' fair values' },
+        { text: 'Revaluation surplus, indicating the change for the period and any restrictions on distribution to shareholders' },
+      ],
+    },
+  ],
+  journalEntryNotes: [
+    {
+      scenario: 'Initial Recognition of Dismantling Cost',
+      treatment:
+        'Debit Machinery A/c, Credit Provision for Dismantling (Current/Non-Current Liability) A/c at present value of expected dismantling cost.',
+    },
+    {
+      scenario: 'Revaluation Surplus (Upward Revaluation)',
+      treatment:
+        'Debit Accumulated Depreciation A/c (to eliminate), Debit Machinery A/c (to increase carrying value), Credit Revaluation Reserve / Surplus A/c (equity).',
+    },
+    {
+      scenario: 'Downward Revaluation reversing prior surplus',
+      treatment:
+        'Debit Revaluation Reserve A/c (up to prior surplus amount), Debit Profit & Loss A/c (for the excess deficit), Credit Machinery A/c.',
+    },
+  ],
+  comparison: {
+    std2Title: 'Ind AS 16 — Property, Plant and Equipment',
+    rows: [
+      { criterion: 'Dismantling Cost Adjustment', as: 'Initial estimate capitalized. Subsequent changes in dismantling provision are adjusted to the asset carrying value (under cost model) or revaluation reserve (under revaluation model)', indAs: 'Similar, but uses Ind AS 37 and requires accounting for discounting interest accretion to finance costs in P&L', isDifferent: true },
+      { criterion: 'Investment Property', as: 'Investment property is NOT covered by AS 10; it is governed by AS 13 (Accounting for Investments)', indAs: 'Investment property is excluded from Ind AS 16 but governed by Ind AS 40, which permits only the cost model (with fair value disclosures)', isDifferent: true },
+      { criterion: 'Component Accounting', as: 'Mandatory under AS 10 (Revised) if components have significant cost and different useful lives', indAs: 'Mandatory, using stand-alone indicators and strict control tests under Ind AS 16', isDifferent: false },
+      { criterion: 'Valuation of exchanges', as: 'Measured at fair value of asset given up (or asset acquired if more clearly evident) unless exchange lacks commercial substance', indAs: 'Same commercial substance-based model', isDifferent: false },
+    ],
+  },
+  relatedStandards: [
+    { code: 'AS 28', title: 'Impairment of Assets', slug: 'as-28', color: '#0F6B5E', framework: 'AS' },
+    { code: 'AS 16', title: 'Borrowing Costs', slug: 'as-16', color: '#0F6B5E', framework: 'AS' },
+    { code: 'Ind AS 16', title: 'Property, Plant and Equipment', slug: 'ind-as-16', color: '#6B3FA0', framework: 'Ind AS' },
+  ],
+  faqs: [
+    {
+      id: 1,
+      question: 'What are bearer plants and how are they accounted for under AS 10?',
+      answer:
+        'Bearer plants are living plants used in the production of agricultural produce, expected to bear produce for >12 months, and have remote likelihood of sale as produce (except for scrap). Under AS 10, they are accounted for exactly like PPE (capitalized at cost, depreciated over useful life). Harvested produce is inventory under AS 2.',
+      sourceRef: 'AS 10, Para 7 & 8',
+    },
+    {
+      id: 2,
+      question: 'Can an entity change its depreciation method mid-way?',
+      answer:
+        'Yes, but only if the change results in a more appropriate presentation of financial statements. Under AS 10 (Revised) and AS 5, this change is classified as a change in accounting estimate. It is applied prospectively (no retrospective adjustments) by allocating the remaining depreciable value over the remaining useful life.',
+      sourceRef: 'AS 10, Para 62–65',
+    },
+    {
+      id: 3,
+      question: 'How is revaluation surplus treated when the asset is retired or disposed of?',
+      answer:
+        'The revaluation surplus in the Revaluation Reserve may be transferred directly to Retained Earnings (General Reserve) when the asset is derecognised (either fully on disposal, or gradually as the asset is used, equal to the difference between depreciation on revalued cost and historical cost). It must NOT be transferred to the Statement of Profit and Loss.',
+      sourceRef: 'AS 10, Para 45',
+    },
+    {
+      id: 4,
+      question: 'Should safety and environmental equipment be capitalized?',
+      answer:
+        'Yes. Although they do not directly increase future economic benefits, they are necessary for the entity to obtain economic benefits from its other assets (e.g., chemical plant installing safety filters to comply with environmental laws).',
+      sourceRef: 'AS 10, Para 13',
+    },
+  ],
+}
+
+
 

@@ -44,6 +44,7 @@ import { getStandardDetailAction } from './actions'
 import { AS1ExamplesCustomContent } from './AS1ExamplesCustomContent'
 import { AS2ExamplesCustomContent } from './AS2ExamplesCustomContent'
 import { AS9ExamplesCustomContent } from './AS9ExamplesCustomContent'
+import { AS10ExamplesCustomContent } from './AS10ExamplesCustomContent'
 
 const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   // AS
@@ -2133,6 +2134,485 @@ function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabContentProps
   )
 }
 
+const as10Sections = [
+  { id: 'as10-overview',      title: '1. Overview & Purpose' },
+  { id: 'as10-scope',         title: '2. Scope & Exclusions (Para 1–6)' },
+  { id: 'as10-definitions',   title: '3. Definitions (Para 7–8)' },
+  { id: 'as10-recognition',   title: '4. Recognition Criteria (Para 9–13)' },
+  { id: 'as10-cost-comp',     title: '5. Components of Cost (Para 14–22)' },
+  { id: 'as10-special-costs', title: '6. Self-Constructed & Exchanges (Para 23–28)' },
+  { id: 'as10-subsequent',    title: '7. Subsequent Costs (Para 29–33)' },
+  { id: 'as10-models',        title: '8. Cost vs Revaluation Models (Para 34–45)' },
+  { id: 'as10-depreciation',  title: '9. Depreciation & Components (Para 46–65)' },
+  { id: 'as10-derecognition', title: '10. Derecognition & Retirements (Para 68–72)' },
+  { id: 'as10-disclosure',    title: '11. Disclosure Requirements (Para 73–82)' },
+  { id: 'as10-comparison',    title: '12. AS 10 vs Ind AS 16' },
+]
+
+interface AS10StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+  renderTextWithReferences: (text: string) => React.ReactNode;
+}
+
+function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as10-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({ costModel: true, revalModel: true })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as10-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as10Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as10Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-red-600 dark:text-red-400',      border: 'border-red-400',     badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800' },
+    '9':  { num: 'text-fuchsia-600 dark:text-fuchsia-400',border:'border-fuchsia-400',badge: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200 dark:bg-fuchsia-950/40 dark:text-fuchsia-400 dark:border-fuchsia-800' },
+    '10': { num: 'text-sky-600 dark:text-sky-400',      border: 'border-sky-400',     badge: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-400 dark:border-sky-800' },
+    '11': { num: 'text-orange-600 dark:text-orange-400',border: 'border-orange-400',  badge: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-800' },
+    '12': { num: 'text-lime-600 dark:text-lime-400',    border: 'border-lime-400',    badge: 'bg-lime-50 text-lime-700 border-lime-200 dark:bg-lime-950/40 dark:text-lime-400 dark:border-lime-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button onClick={() => navigateToPdfPage(page)} className="ml-1 inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 text-[10px] font-bold text-red-600 dark:text-red-400 border border-red-200/50 dark:border-red-800/40 rounded transition-all cursor-pointer">
+      <FileText size={9.5} />
+      <span>{para}</span>
+    </button>
+  )
+
+  const DefCard = ({ term, para, page, official, plain }: { term: string; para: string; page: number; official: string; plain: string }) => (
+    <div className="bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 rounded-xl p-5 mb-5 space-y-3 font-sans">
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/60 pb-2">
+        <span className="font-extrabold text-[15px] text-slate-900 dark:text-white tracking-tight">{term}</span>
+        <ParaRef page={page} para={para} />
+      </div>
+      <p className="text-[13px] leading-relaxed text-slate-800 dark:text-slate-350 italic font-mono whitespace-pre-line bg-white dark:bg-slate-950 p-3 rounded-lg border border-slate-250 dark:border-slate-800/60">{official}</p>
+      <p className="text-[14px] leading-relaxed text-slate-700 dark:text-slate-300 font-serif">{plain}</p>
+    </div>
+  )
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="w-full font-sans text-[15.5px] leading-relaxed text-slate-800 dark:text-slate-300">
+      {/* Sticky horizontal TOC */}
+      <div id="as10-standard-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-250 dark:border-slate-800 z-15 w-full select-none shadow-xs mb-6">
+        <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-2">
+          <div ref={tocScrollRef} className="flex items-center gap-1 overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-1">
+            {as10Sections.map((sec, i) => (
+              <button
+                key={sec.id}
+                data-sec-id={sec.id}
+                onClick={() => handleSectionClick(sec.id)}
+                className={`transition-all px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide cursor-pointer shrink-0 border ${
+                  activeSection === sec.id
+                    ? 'bg-indigo-600 text-white font-bold border-indigo-700 dark:bg-indigo-600'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border-transparent'
+                }`}
+              >
+                {sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Canvas */}
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-10 lg:px-16 py-10 sm:py-14 my-4">
+
+        {/* 1. Overview & Purpose */}
+        <SecHeader id="as10-overview" num="1" title="Overview & Purpose" />
+        <p className="text-[16.5px] sm:text-[17.5px] leading-relaxed text-slate-700 dark:text-slate-200 mb-6 font-serif">
+          AS 10 — Property, Plant and Equipment (Revised 2016) establishes the standard accounting treatment for tangible assets that are held for long-term operational use. It replaces the old AS 10 (Accounting for Fixed Assets) and AS 6 (Depreciation Accounting), aligning Indian GAAP closely with global standards (IAS 16 / Ind AS 16). The primary objective is to govern when an asset is recognized, how its carrying amount is determined, and how depreciation charges and impairment losses are measured.
+        </p>
+        <NoteBox type="info" title="The Convergence Impact">
+          The revised standard introduced mandatory component accounting, capitalization of decommissioning/dismantling estimates, and accounting for changes in depreciation methods prospectively as a change in estimate rather than retrospectively.
+        </NoteBox>
+
+        {/* 2. Scope & Exclusions */}
+        <SecHeader id="as10-scope" num="2" title="Scope & Exclusions (Para 1–6)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          AS 10 applies to all Property, Plant and Equipment, except when another accounting standard requires or permits a different accounting treatment.
+          <ParaRef page={2} para="Para 1–6" />
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+          <div className="p-5 rounded-xl border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/50 dark:bg-emerald-950/10">
+            <p className="font-extrabold text-[11px] text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3">✓ In Scope</p>
+            <ul className="space-y-2 text-[14px] text-slate-700 dark:text-slate-300">
+              {['Land and buildings (office premises, warehouse, factories)', 'Plant and machinery, factory equipment, assembly lines', 'Furniture, fixtures, computers, office devices, and tools', 'Vehicles, trucks, and specialized transport equipment', 'Safety and environmental equipment required to operate safely', 'Bearer plants (biological assets used to grow crops across multiple periods)'].map((item, i) => (
+                <li key={i} className="flex items-start gap-2"><span className="text-emerald-600 font-bold shrink-0">✓</span>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="p-5 rounded-xl border border-red-200 dark:border-red-900/40 bg-red-50/50 dark:bg-red-950/10">
+            <p className="font-extrabold text-[11px] text-red-700 dark:text-red-400 uppercase tracking-wider mb-3">✗ Excluded from Scope</p>
+            <ul className="space-y-2 text-[14px] text-slate-700 dark:text-slate-300">
+              {['Biological assets (other than bearer plants) related to agricultural activity (e.g., livestock, harvestable crops)', 'Wasting assets, mineral rights, reserves of natural gas, oil, coal, and similar non-regenerative resources', 'Investment property (governed by AS 13 — Accounting for Investments)'].map((item, i) => (
+                <li key={i} className="flex items-start gap-2"><span className="text-red-600 font-bold shrink-0">✗</span>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as10-definitions" num="3" title="Definitions (Para 7–8)" />
+        <DefCard term="Property, Plant and Equipment" para="Para 7" page={4}
+          official='"Property, plant and equipment are tangible items that: (a) are held for use in the production or supply of goods or services, for rental to others, or for administrative purposes; and (b) are expected to be used during more than a period of twelve months."'
+          plain="Physical tangible assets that must satisfy two tests: (1) held for operational, rental or administrative use (not for short-term trading/sale), and (2) expected utility exceeds 1 year." />
+        <DefCard term="Bearer Plant" para="Para 7" page={4}
+          official='"A bearer plant is a living plant that: (a) is used in the production or supply of agricultural produce; (b) is expected to bear produce for more than a period of twelve months; and (c) has a remote likelihood of being sold as agricultural produce, except for incidental scrap sales."'
+          plain="Biological assets that function like manufacturing machines (e.g., tea bushes, rubber trees, mango groves). They are capitalized as PPE and depreciated. The harvested crops (e.g., tea leaves, mangoes) are inventory under AS 2." />
+        <DefCard term="Depreciable Amount" para="Para 7" page={4}
+          official='"Depreciable amount is the cost of an asset, or other amount substituted for cost, less its residual value."'
+          plain="The total net cost to be expensed over the asset's useful life. For example, machine cost ₹10 Lakhs, salvage value ₹1 Lakh, depreciable amount is ₹9 Lakhs." />
+
+        {/* 4. Recognition Criteria */}
+        <SecHeader id="as10-recognition" num="4" title="Recognition Criteria (Para 9–13)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          An item of PPE must be recognized as an asset only if:
+          <ParaRef page={6} para="Para 9" />
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div className="p-5 rounded-xl border border-indigo-150 dark:border-indigo-900/50 bg-indigo-50/20 dark:bg-indigo-950/10">
+            <span className="font-extrabold text-[12px] text-indigo-700 dark:text-indigo-400 block mb-2 uppercase tracking-wide">1. Probable Inflow of Benefits</span>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-350">It is probable that future economic benefits associated with the item (e.g., revenues, cost savings, or production capacities) will flow to the enterprise.</p>
+          </div>
+          <div className="p-5 rounded-xl border border-indigo-150 dark:border-indigo-900/50 bg-indigo-50/20 dark:bg-indigo-950/10">
+            <span className="font-extrabold text-[12px] text-indigo-700 dark:text-indigo-400 block mb-2 uppercase tracking-wide">2. Reliable Measurement of Cost</span>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-355">The cost of the item can be measured reliably (e.g., supported by purchase invoices, contractor bills, or direct labor hours).</p>
+          </div>
+        </div>
+        <NoteBox type="warning" title="Safety and Environmental Equipment">
+          Under <ParaRef page={7} para="Para 13" />, safety and environmental equipment (e.g., pollution control scrubbers) do not directly increase benefits, but they are recognized as PPE because they are <strong>necessary</strong> for the enterprise to obtain economic benefits from its other assets.
+        </NoteBox>
+
+        {/* 5. Components of Cost */}
+        <SecHeader id="as10-cost-comp" num="5" title="Components of Cost (Para 14–22)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          The initial cost of an item of PPE comprises three parts:
+          <ParaRef page={8} para="Para 14" />
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
+            <span className="font-bold text-[13px] text-slate-900 dark:text-white block mb-1">A. Purchase Price</span>
+            <p className="text-[12.5px] text-slate-600 dark:text-slate-400">Includes import duties, non-refundable taxes, after deducting trade discounts/rebates.</p>
+          </div>
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
+            <span className="font-bold text-[13px] text-slate-900 dark:text-white block mb-1">B. Directly Attributable Costs</span>
+            <p className="text-[12.5px] text-slate-600 dark:text-slate-400">Costs incurred to bring the asset to the location/condition needed for it to operate as intended.</p>
+          </div>
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
+            <span className="font-bold text-[13px] text-slate-900 dark:text-white block mb-1">C. Dismantling & Restoration</span>
+            <p className="text-[12.5px] text-slate-600 dark:text-slate-400">Initial estimate of decommissioning and restoring the site (debit Asset, credit Provision).</p>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl mb-6">
+          <table className="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-350">
+                <th className="p-3 font-bold">Directly Attributable Costs (Capitalize)</th>
+                <th className="p-3 font-bold">Non-Attributable Costs (Expense in P&L)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              <tr>
+                <td className="p-3">Cost of site preparation (earthmoving, leveling)</td>
+                <td className="p-3">Costs of opening a new facility or branch</td>
+              </tr>
+              <tr>
+                <td className="p-3">Initial delivery and handling charges (freight, transit insurance)</td>
+                <td className="p-3">Costs of introducing a new product or service (advertising, marketing)</td>
+              </tr>
+              <tr>
+                <td className="p-3">Installation and assembly costs</td>
+                <td className="p-3">Costs of conducting business in a new location or with new customers (staff training)</td>
+              </tr>
+              <tr>
+                <td className="p-3">Professional fees (architects, installation engineers)</td>
+                <td className="p-3">Administration and general overheads</td>
+              </tr>
+              <tr>
+                <td className="p-3">Costs of testing whether the asset functions properly (net of sales proceeds of test samples)</td>
+                <td className="p-3">Initial operating losses or start-up costs before the asset achieves planned performance</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* 6. Special Cost Rules */}
+        <SecHeader id="as10-special-costs" num="6" title="Special Cost Rules (Self-Constructed & Exchanges) (Para 23–28)" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/20">
+            <span className="font-extrabold text-[12px] text-blue-600 dark:text-blue-400 block mb-2 uppercase tracking-wide">Self-Constructed Assets (Para 23–24)</span>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-300 mb-2">
+              Determined using the same principles as an acquired asset. Eliminate internal profits and abnormal amounts of wasted material, labor, or other resources.
+            </p>
+            <span className="text-[11.5px] text-amber-600 dark:text-amber-400 font-bold">⚠️ Wastes are strictly expensed, not capitalized.</span>
+          </div>
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/20">
+            <span className="font-extrabold text-[12px] text-teal-600 dark:text-teal-400 block mb-2 uppercase tracking-wide">Asset Exchanges (Para 25–28)</span>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-300 mb-2">
+              Measured at <strong>fair value</strong> unless (a) the exchange lacks commercial substance, or (b) fair value of neither asset is reliably measurable.
+            </p>
+            <span className="text-[11.5px] text-slate-500 dark:text-slate-400">If fair value is unavailable, measure at the <strong>carrying amount of the asset given up</strong>.</span>
+          </div>
+        </div>
+
+        {/* 7. Subsequent Costs */}
+        <SecHeader id="as10-subsequent" num="7" title="Subsequent Costs (Para 29–33)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          Subsequent expenditure incurred after the asset is ready for use is analyzed using the recognition criteria:
+          <ParaRef page={12} para="Para 29–33" />
+        </p>
+        <div className="space-y-4 mb-6">
+          <div className="flex gap-4 items-start p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+            <span className="px-2 py-1 bg-red-100 text-red-800 text-[10px] font-bold rounded uppercase shrink-0">EXPENSE (P&L)</span>
+            <div>
+              <span className="font-bold text-[14px] text-slate-950 dark:text-white block">Day-to-day Servicing (Repairs)</span>
+              <p className="text-[13px] text-slate-650 dark:text-slate-450">Costs of minor spare parts, regular servicing, and cleaning. These do not meet the PPE capitalization criteria.</p>
+            </div>
+          </div>
+          <div className="flex gap-4 items-start p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+            <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded uppercase shrink-0">CAPITALIZE</span>
+            <div>
+              <span className="font-bold text-[14px] text-slate-950 dark:text-white block">Replacement of Components</span>
+              <p className="text-[13px] text-slate-650 dark:text-slate-450">Replacing major parts (e.g., aircraft seats, furnace linings) if they satisfy recognition criteria. The carrying amount of the replaced parts is derecognized.</p>
+            </div>
+          </div>
+          <div className="flex gap-4 items-start p-4 rounded-xl border border-slate-200 dark:border-slate-800">
+            <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold rounded uppercase shrink-0">CAPITALIZE</span>
+            <div>
+              <span className="font-bold text-[14px] text-slate-950 dark:text-white block">Regular Major Inspections</span>
+              <p className="text-[13px] text-slate-650 dark:text-slate-455">Costs of major periodic safety checks (e.g., aircraft airworthiness certification) are capitalized as a replacement component, derecognizing previous inspection residuals.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* 8. Cost vs Revaluation Models */}
+        <SecHeader id="as10-models" num="8" title="Cost vs Revaluation Models (Para 34–45)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          An enterprise must choose either the Cost Model or the Revaluation Model as its accounting policy and apply it to an entire class of PPE.
+          <ParaRef page={14} para="Para 34" />
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/10">
+            <button onClick={() => toggleAccordion('costModel')} className="flex items-center justify-between w-full font-extrabold text-[14px] text-slate-950 dark:text-white mb-2 text-left cursor-pointer">
+              <span>COST MODEL</span>
+              <span>{openAccordions.costModel ? '▲' : '▼'}</span>
+            </button>
+            {openAccordions.costModel && (
+              <p className="text-[13px] text-slate-650 dark:text-slate-400 leading-relaxed mt-2">
+                The asset is carried at its cost less any accumulated depreciation and any accumulated impairment losses. This is the simple, historical cost basis.
+              </p>
+            )}
+          </div>
+
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/10">
+            <button onClick={() => toggleAccordion('revalModel')} className="flex items-center justify-between w-full font-extrabold text-[14px] text-slate-950 dark:text-white mb-2 text-left cursor-pointer">
+              <span>REVALUATION MODEL</span>
+              <span>{openAccordions.revalModel ? '▲' : '▼'}</span>
+            </button>
+            {openAccordions.revalModel && (
+              <div className="text-[13px] text-slate-650 dark:text-slate-400 leading-relaxed mt-2 space-y-2">
+                <p>The asset is carried at a revalued amount (fair value at revaluation date less subsequent depreciation/impairment).</p>
+                <p className="font-semibold text-indigo-600 dark:text-indigo-400">Rules of Revaluation:</p>
+                <ul className="list-disc pl-4 space-y-1 text-[12.5px]">
+                  <li>Must be performed regularly so carrying value is not materially different from fair value.</li>
+                  <li>Must revalue the <strong>entire class of assets</strong>, not individual cherry-picked assets.</li>
+                  <li><strong>Surplus</strong>: Credited to Revaluation Reserve (Equity), unless reversing a prior deficit (credited to P&L).</li>
+                  <li><strong>Deficit</strong>: Charged to P&L, unless reversing a prior surplus (debited to Revaluation Reserve).</li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* 9. Depreciation & Component Accounting */}
+        <SecHeader id="as10-depreciation" num="9" title="Depreciation & Components (Para 46–65)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          Depreciation must be computed separately for each significant component of an item of PPE.
+          <ParaRef page={18} para="Para 46" />
+        </p>
+
+        <div className="p-5 rounded-xl border border-amber-200 dark:border-amber-950/40 bg-amber-50/50 dark:bg-amber-950/10 mb-6">
+          <span className="font-extrabold text-[12px] text-amber-700 dark:text-amber-400 block mb-2 uppercase tracking-wide">Component Accounting (Para 47–48)</span>
+          <p className="text-[13.5px] text-slate-700 dark:text-slate-350 leading-relaxed mb-3">
+            If an asset has components with significant cost relative to total cost and different useful lives, each component <strong>must</strong> be depreciated separately.
+          </p>
+          <div className="p-4 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 text-[12.5px] text-slate-700 dark:text-slate-350 space-y-1">
+            <span className="font-bold text-slate-950 dark:text-white">Example (Aircraft):</span>
+            <div className="grid grid-cols-3 gap-2 pt-1 font-mono">
+              <div className="p-2 border border-slate-100 dark:border-slate-800 rounded">Airframe (Useful Life: 20 Yrs)</div>
+              <div className="p-2 border border-slate-100 dark:border-slate-800 rounded">Engines (Useful Life: 12 Yrs)</div>
+              <div className="p-2 border border-slate-100 dark:border-slate-800 rounded">Fittings/Interiors (Useful Life: 5 Yrs)</div>
+            </div>
+          </div>
+        </div>
+
+        <NoteBox type="exam" title="Change in Depreciation Method">
+          Under <ParaRef page={22} para="Para 62–65" />, a change in the depreciation method (e.g., from WDV to SLM) is treated as a <strong>change in accounting estimate</strong>. The remaining carrying value is allocated over the remaining useful life prospectively. Retrospective adjustments are no longer permitted.
+        </NoteBox>
+
+        {/* 10. Derecognition & Retirements */}
+        <SecHeader id="as10-derecognition" num="10" title="Derecognition & Retirements (Para 68–72)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          The carrying amount of an item of PPE must be derecognized (removed from Balance Sheet):
+          <ParaRef page={24} para="Para 68" />
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
+            <span className="font-bold text-[13.5px] text-slate-950 dark:text-white block mb-1">A. On Disposal</span>
+            <p className="text-[12.5px] text-slate-650 dark:text-slate-450">When the asset is sold, scrapped, or exchanged.</p>
+          </div>
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40">
+            <span className="font-bold text-[13.5px] text-slate-950 dark:text-white block mb-1">B. No Future Benefits Expected</span>
+            <p className="text-[12.5px] text-slate-650 dark:text-slate-450">When the asset is abandoned and no economic inflows are expected from its use or disposal.</p>
+          </div>
+        </div>
+        <p className="text-[14.5px] text-slate-700 dark:text-slate-300 font-sans">
+          The gain or loss on derecognition (difference between net proceeds and carrying amount) is credited or charged to the Statement of Profit and Loss.
+        </p>
+
+        {/* 11. Disclosure Requirements */}
+        <SecHeader id="as10-disclosure" num="11" title="Disclosure Requirements (Para 73–82)" />
+        <div className="space-y-4 text-[14.5px] text-slate-700 dark:text-slate-350">
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+            <span className="font-extrabold text-[12.5px] text-slate-950 dark:text-white block mb-2">GENERAL DISCLOSURES</span>
+            <ul className="list-disc pl-5 space-y-1.5 text-[13px]">
+              <li>Measurement bases used for determining gross carrying amounts (Cost vs Revaluation).</li>
+              <li>Depreciation methods used, useful lives, and depreciation rates.</li>
+              <li>Gross carrying amount, accumulated depreciation, and accumulated impairment at the beginning and end of the period.</li>
+              <li>A detailed reconciliation showing additions, disposals, revaluations, depreciation, impairments, and other adjustments.</li>
+            </ul>
+          </div>
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800">
+            <span className="font-extrabold text-[12.5px] text-slate-950 dark:text-white block mb-2">REVALUATION DISCLOSURES</span>
+            <ul className="list-disc pl-5 space-y-1.5 text-[13px]">
+              <li>Effective date of revaluation and whether an independent valuer was involved.</li>
+              <li>Methods and significant assumptions applied in estimating fair values.</li>
+              <li>Revaluation surplus movements, balance, and restrictions on distributions.</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* 12. AS 10 vs Ind AS 16 */}
+        <SecHeader id="as10-comparison" num="12" title="AS 10 vs Ind AS 16 - Key Differences" />
+        <div className="overflow-x-auto border border-slate-200 dark:border-slate-800 rounded-xl">
+          <table className="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-350">
+                <th className="p-3 font-bold">Criterion</th>
+                <th className="p-3 font-bold">Accounting Standard (AS) 10 (Revised)</th>
+                <th className="p-3 font-bold">Indian Accounting Standard (Ind AS) 16</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              <tr className="bg-amber-50/20 dark:bg-amber-950/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Dismantling Provisions</td>
+                <td className="p-3">Initial estimate capitalized. Subsequent changes are adjusted to the carrying amount (cost model) or revaluation surplus (revaluation model).</td>
+                <td className="p-3 text-amber-700 dark:text-amber-300 font-semibold">Similar, but uses Ind AS 37. Requires discounting the provision and recognizing the interest accretion as finance costs in P&L. <span className="ml-2 text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded">DIFFERENT</span></td>
+              </tr>
+              <tr className="bg-amber-50/20 dark:bg-amber-950/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Investment Property</td>
+                <td className="p-3">Excluded. Governing standard is AS 13 (Accounting for Investments), which has different measurement rules.</td>
+                <td className="p-3 text-amber-700 dark:text-amber-300 font-semibold">Governed by Ind AS 40. Requires separate classification. Under Ind AS 40, only the Cost Model is permitted (no revaluation model). <span className="ml-2 text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded">DIFFERENT</span></td>
+              </tr>
+              <tr>
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Component Accounting</td>
+                <td className="p-3">Mandatory if component costs are significant relative to total cost and have different useful lives.</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Mandatory, using equivalent criteria under Ind AS 16.</td>
+              </tr>
+              <tr>
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Asset Exchanges</td>
+                <td className="p-3">Measured at fair value unless transaction lacks commercial substance or fair values cannot be measured.</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Same principles based on commercial substance and fair value measurement.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  )
+}
 
 interface LearningPortalClientProps {
   initialStandards: Standard[]
@@ -3065,6 +3545,11 @@ export default function LearningPortalClient({
                       navigateToPdfPage={navigateToPdfPage}
                       renderTextWithReferences={renderTextWithReferences}
                     />
+                  ) : currentStandard.id === 'as-10' ? (
+                    <AS10StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                      renderTextWithReferences={renderTextWithReferences}
+                    />
                   ) : (
                     <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
                   
@@ -3306,6 +3791,11 @@ export default function LearningPortalClient({
                 />
               ) : currentStandard.id === 'as-9' ? (
                 <AS9ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-10' ? (
+                <AS10ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />
