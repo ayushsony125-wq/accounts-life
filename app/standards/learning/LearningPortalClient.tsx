@@ -159,7 +159,6 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
     'depr': true,
   })
-  const [diversitySearch, setDiversitySearch] = useState('')
 
   const toggleAccordion = (id: string) => {
     setOpenAccordions(prev => ({ ...prev, [id]: !prev[id] }))
@@ -514,12 +513,6 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
     }
   ];
 
-  const filteredDiversityAreas = diversityAreas.filter(area =>
-    area.title.toLowerCase().includes(diversitySearch.toLowerCase()) ||
-    area.detail.toLowerCase().includes(diversitySearch.toLowerCase()) ||
-    area.choice.toLowerCase().includes(diversitySearch.toLowerCase())
-  );
-
   return (
     <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
       {/* Sticky Contents Bar */}
@@ -803,47 +796,19 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             </p>
           </div>
 
-          {/* Interactive Search Tool */}
-          <div className="w-full my-6 font-sans">
-            <div className="relative">
-              <Search className="absolute left-3 top-3.5 text-slate-400" size={15} />
-              <input
-                type="text"
-                placeholder="Search diversity areas by keyword (e.g., depreciation, inventory)..."
-                value={diversitySearch}
-                onChange={(e) => setDiversitySearch(e.target.value)}
-                className="w-full pl-9 pr-4 py-3 text-xs bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-lg outline-none focus:border-amber-600 focus:ring-1 focus:ring-amber-650 transition-all font-semibold"
-              />
-              {diversitySearch && (
-                <button 
-                  onClick={() => setDiversitySearch('')}
-                  className="absolute right-3 top-3 text-[10px] uppercase font-bold text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 cursor-pointer"
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-          </div>
-
           <div className="space-y-4 w-full">
-            {filteredDiversityAreas.length > 0 ? (
-              filteredDiversityAreas.map((area) => (
-                <AccordionItem
-                  key={area.id}
-                  id={area.id}
-                  num={area.num}
-                  title={area.title}
-                  refStd={area.refStd}
-                  choice={area.choice}
-                  impact={area.impact}
-                  detail={area.detail}
-                />
-              ))
-            ) : (
-              <div className="p-8 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-xl font-serif text-slate-800 dark:text-slate-200">
-                No matching diversity areas found for "{diversitySearch}".
-              </div>
-            )}
+            {diversityAreas.map((area) => (
+              <AccordionItem
+                key={area.id}
+                id={area.id}
+                num={area.num}
+                title={area.title}
+                refStd={area.refStd}
+                choice={area.choice}
+                impact={area.impact}
+                detail={area.detail}
+              />
+            ))}
           </div>
         </section>
 
