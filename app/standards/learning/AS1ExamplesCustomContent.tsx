@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { FileText, AlertTriangle, Scale, BookOpen, CheckCircle, Info, HelpCircle, Award } from 'lucide-react'
+import { FileText, AlertTriangle, Scale, BookOpen, CheckCircle, Info, HelpCircle } from 'lucide-react'
 import {
   icaiIllustrations,
   businessExamples,
@@ -18,42 +18,80 @@ interface AS1ExamplesCustomContentProps {
 interface CardPanel {
   title: string;
   content: React.ReactNode;
-  bgClass?: string;
-  borderClass?: string;
-  textClass?: string;
 }
 
 interface CaseStudyCardProps {
   id: string;
   title: string;
   category: string;
-  badgeColor?: string;
   pdfPage?: number;
   navigateToPdfPage?: (page: number) => void;
   panels: CardPanel[];
   examFocus?: string;
   examFocusType?: 'trap' | 'focus' | 'trick' | 'concept' | 'adjustment';
+  themeColor: 'blue' | 'indigo' | 'emerald' | 'amber' | 'violet' | 'rose' | 'slate';
 }
 
 function CaseStudyCard({
   id,
   title,
   category,
-  badgeColor = 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200/30',
   pdfPage,
   navigateToPdfPage,
   panels,
   examFocus,
-  examFocusType = 'focus'
+  examFocusType = 'focus',
+  themeColor
 }: CaseStudyCardProps) {
+  // Theme styling configurations
+  const themeMap = {
+    blue: {
+      accent: 'from-blue-500 via-blue-600 to-indigo-600',
+      badge: 'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/30',
+      number: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200/40 dark:border-blue-800/40'
+    },
+    indigo: {
+      accent: 'from-indigo-500 via-indigo-600 to-purple-600',
+      badge: 'bg-indigo-50 text-indigo-700 border-indigo-200/50 dark:bg-indigo-955/40 dark:text-indigo-400 dark:border-indigo-800/30',
+      number: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 border-indigo-200/40 dark:border-indigo-800/40'
+    },
+    emerald: {
+      accent: 'from-emerald-500 via-emerald-600 to-teal-600',
+      badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-955/40 dark:text-emerald-400 dark:border-emerald-800/30',
+      number: 'bg-emerald-100 text-emerald-805 dark:bg-emerald-900/40 dark:text-emerald-300 border-emerald-200/40 dark:border-emerald-800/40'
+    },
+    amber: {
+      accent: 'from-amber-500 via-amber-600 to-orange-600',
+      badge: 'bg-amber-50 text-amber-700 border-amber-200/50 dark:bg-amber-955/40 dark:text-amber-400 dark:border-amber-800/30',
+      number: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200/40 dark:border-amber-800/40'
+    },
+    violet: {
+      accent: 'from-violet-500 via-violet-600 to-fuchsia-600',
+      badge: 'bg-violet-50 text-violet-700 border-violet-200/50 dark:bg-violet-955/40 dark:text-violet-400 dark:border-violet-800/30',
+      number: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300 border-violet-200/40 dark:border-violet-800/40'
+    },
+    rose: {
+      accent: 'from-rose-500 via-rose-600 to-pink-600',
+      badge: 'bg-rose-50 text-rose-700 border-rose-200/50 dark:bg-rose-955/40 dark:text-rose-400 dark:border-rose-800/30',
+      number: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300 border-rose-200/40 dark:border-rose-800/40'
+    },
+    slate: {
+      accent: 'from-slate-500 via-slate-600 to-slate-700',
+      badge: 'bg-slate-55 text-slate-700 border-slate-200/50 dark:bg-slate-900/30 dark:text-slate-400 dark:border-slate-800/30',
+      number: 'bg-slate-100 text-slate-850 dark:bg-slate-800 dark:text-slate-300 border-slate-200/50 dark:border-slate-700/50'
+    }
+  }
+
+  const activeTheme = themeMap[themeColor] || themeMap.indigo
+
   return (
     <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all duration-300 space-y-6 relative overflow-hidden">
       {/* Top Banner Accent */}
-      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600" />
+      <div className={`absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r ${activeTheme.accent}`} />
       
       {/* Card Title & Meta Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4 pt-1">
-        <h3 className="text-[16px] sm:text-[18px] font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+        <h3 className="text-[17px] sm:text-[18px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
           {title}
         </h3>
         <div className="flex items-center gap-2">
@@ -66,7 +104,7 @@ function CaseStudyCard({
               <FileText size={11} />
             </button>
           )}
-          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${badgeColor} shrink-0`}>
+          <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase tracking-wider font-extrabold border ${activeTheme.badge} shrink-0`}>
             {category}
           </span>
         </div>
@@ -75,26 +113,25 @@ function CaseStudyCard({
       {/* Panels Layout */}
       <div className="grid grid-cols-1 gap-5 font-sans">
         {panels.map((panel, idx) => {
-          const isMono = panel.bgClass?.includes('font-mono') || panel.title.toLowerCase().includes('disclosure') || panel.title.toLowerCase().includes('draft') || panel.title.toLowerCase().includes('note');
+          const isMono = panel.title.toLowerCase().includes('disclosure') || panel.title.toLowerCase().includes('draft') || panel.title.toLowerCase().includes('note') || panel.title.toLowerCase().includes('journal') || panel.title.toLowerCase().includes('entry');
           const panelBg = isMono 
-            ? 'bg-slate-50 dark:bg-slate-900/40 border-slate-200/80 dark:border-slate-800 text-slate-850 dark:text-slate-250 font-mono' 
-            : (panel.bgClass || 'bg-slate-50/70 dark:bg-slate-900/40 border-slate-200/50 dark:border-slate-800/70 text-slate-700 dark:text-slate-300');
-          const panelBorder = panel.borderClass || 'border';
+            ? 'bg-slate-50/70 dark:bg-slate-900/40 border-slate-200/80 dark:border-slate-800 text-slate-850 dark:text-slate-250 font-mono' 
+            : 'bg-slate-50/30 dark:bg-slate-900/10 border-slate-200/50 dark:border-slate-800/70 text-slate-700 dark:text-slate-300';
           
           return (
             <div 
               key={idx} 
-              className={`p-5 rounded-xl space-y-3 ${panelBg} ${panelBorder}`}
+              className={`p-5 rounded-xl border space-y-3 ${panelBg}`}
             >
               <div className="flex items-center gap-2.5 text-[11px] font-extrabold uppercase tracking-wider select-none">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-850 text-[10px] text-slate-700 dark:text-slate-350 font-bold font-mono shrink-0">
+                <span className={`flex items-center justify-center w-5 h-5 rounded-full border text-[10px] font-bold font-mono shrink-0 ${activeTheme.number}`}>
                   {idx + 1}
                 </span>
                 <span className="text-slate-850 dark:text-slate-200 font-bold font-sans">
                   {panel.title}
                 </span>
               </div>
-              <div className={`text-[13.5px] leading-relaxed font-serif ${isMono ? 'font-mono whitespace-pre-line' : ''}`}>
+              <div className={isMono ? "text-xs sm:text-[13px] leading-relaxed font-mono whitespace-pre-line text-slate-800 dark:text-slate-200" : "text-[15px] sm:text-[16px] leading-relaxed font-serif text-slate-750 dark:text-slate-300"}>
                 {panel.content}
               </div>
             </div>
@@ -105,7 +142,7 @@ function CaseStudyCard({
         {examFocus && (
           <div className="p-4 bg-amber-500/10 dark:bg-amber-500/5 border border-amber-500/30 rounded-xl space-y-1.5 font-sans">
             <div className="flex items-center gap-1.5 text-[10.5px] font-extrabold text-amber-800 dark:text-amber-400 uppercase tracking-wider select-none">
-              <AlertTriangle size={13} className="text-amber-600 dark:text-amber-400 shrink-0" />
+              <AlertTriangle size={13} className="text-amber-600 dark:text-amber-405 shrink-0" />
               <span>
                 {examFocusType === 'trap'
                   ? 'Exam Trap Warning'
@@ -118,7 +155,7 @@ function CaseStudyCard({
                   : 'Exam Focus & Learning'}
               </span>
             </div>
-            <div className="text-[13px] leading-relaxed text-slate-800 dark:text-slate-200 font-serif font-medium">{examFocus}</div>
+            <div className="text-[14px] leading-relaxed text-slate-800 dark:text-slate-200 font-serif font-medium">{examFocus}</div>
           </div>
         )}
       </div>
@@ -222,29 +259,52 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
   }, [])
 
   const renderSectionHeader = (num: string, title: string, description: string) => {
-    const doubleDigitNum = num.padStart(2, '0');
+    const numColorMap: Record<string, string> = {
+      '1': 'text-blue-600 dark:text-blue-400',
+      '2': 'text-indigo-600 dark:text-indigo-400',
+      '3': 'text-emerald-600 dark:text-emerald-450',
+      '4': 'text-amber-600 dark:text-amber-400',
+      '5': 'text-violet-600 dark:text-violet-400',
+      '6': 'text-rose-600 dark:text-rose-450',
+      '7': 'text-slate-650 dark:text-slate-400'
+    }
+    const numColor = numColorMap[num] || 'text-indigo-650 dark:text-indigo-400'
+
     return (
-      <div className="w-full mb-10 mt-20 first:mt-4 font-sans relative border-l-4 border-indigo-650 dark:border-indigo-500 pl-5 sm:pl-7 py-2">
-        <div className="flex flex-col gap-2">
-          <span className="text-[11px] sm:text-[12px] font-mono font-extrabold text-indigo-650 dark:text-indigo-400 uppercase tracking-widest block">
-            Chapter {doubleDigitNum}
-          </span>
-          <h2 className="text-[22px] sm:text-[26px] font-sans font-black text-slate-900 dark:text-white tracking-tight leading-none uppercase">
-            {title}
+      <div className="w-full mb-6 mt-12 first:mt-2">
+        <div className="flex items-baseline gap-2 mb-2">
+          <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+            <span className={`${numColor} font-mono font-bold mr-1 select-none`}>{num}.</span>
+            <span>{title}</span>
           </h2>
         </div>
+        <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
         {description && (
-          <p className="text-[14px] sm:text-[15px] text-slate-500 dark:text-slate-400 mt-3 leading-relaxed max-w-5xl font-serif italic">
+          <p className="text-[13.5px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
             {description}
           </p>
         )}
-        <div className="h-[1px] w-full bg-gradient-to-r from-slate-200 via-slate-100 to-transparent dark:from-slate-800 dark:via-slate-900/50 mt-6" />
       </div>
-    );
+    )
   }
 
   return (
-    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+    <div 
+      className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8"
+      onClick={(e) => {
+        // Event delegation to catch clicks on inline PDF reference buttons
+        const target = e.target as HTMLElement;
+        const pdfBtn = target.closest('[data-pdf-page]');
+        if (pdfBtn) {
+          const page = parseInt(pdfBtn.getAttribute('data-pdf-page') || '', 10);
+          if (page) {
+            e.preventDefault();
+            e.stopPropagation();
+            navigateToPdfPage(page);
+          }
+        }
+      }}
+    >
       {/* Sticky Tab-Specific Navbar */}
       <div id="as1-examples-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
         <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
@@ -260,7 +320,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                 onClick={() => handleChapterClick(sec.id)}
                 className={`transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap ${
                   activeSection === sec.id
-                    ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
+                    ? 'text-white bg-indigo-650 dark:bg-indigo-500 shadow-sm font-bold'
                     : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 }`}
               >
@@ -294,6 +354,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                 panels={card.panels}
                 examFocus={card.examFocus}
                 examFocusType={card.examFocusType}
+                themeColor="blue"
               />
             ))}
           </div>
@@ -318,6 +379,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                 panels={card.panels}
                 examFocus={card.examFocus}
                 examFocusType={card.examFocusType}
+                themeColor="indigo"
               />
             ))}
           </div>
@@ -342,6 +404,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                 panels={card.panels}
                 examFocus={card.examFocus}
                 examFocusType={card.examFocusType}
+                themeColor="emerald"
               />
             ))}
           </div>
@@ -366,6 +429,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                 panels={card.panels}
                 examFocus={card.examFocus}
                 examFocusType={card.examFocusType}
+                themeColor="amber"
               />
             ))}
           </div>
@@ -390,6 +454,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                 panels={card.panels}
                 examFocus={card.examFocus}
                 examFocusType={card.examFocusType}
+                themeColor="violet"
               />
             ))}
           </div>
@@ -406,15 +471,15 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Quick Summary Card */}
             <div className="bg-[#FAFAF8] dark:bg-[#151C2C] p-6 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4 font-sans">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-650 dark:text-indigo-400 flex items-center gap-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-rose-600 dark:text-rose-455 flex items-center gap-2">
                 <Info size={14} />
                 <span>AS 1 Core Quick-Reference</span>
               </h4>
               <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
-                <li><strong>Fundamental Assumptions (GAC):</strong> Going Concern, Accrual, Consistency. If they are followed, no disclosure is required. If they are violated, disclosure is mandatory.</li>
-                <li><strong>Selection Considerations (PSM):</strong> Prudence, Substance over Form, Materiality. The primary objective is a True and Fair View.</li>
-                <li><strong>Manner of Disclosure:</strong> All significant policies must form part of the accounts and be disclosed in one place (normally as Note 1).</li>
-                <li><strong>Para 23 Rule:</strong> Footnote disclosures cannot cure incorrect accounting. The entry must be corrected.</li>
+                <li><strong>Fundamental Assumptions (GAC):</strong> Going Concern, Accrual, Consistency. If they are followed, no disclosure is required. If they are violated, disclosure is mandatory. <button data-pdf-page={13} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></li>
+                <li><strong>Selection Considerations (PSM):</strong> Prudence, Substance over Form, Materiality. The primary objective is a True and Fair View. <button data-pdf-page={9} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></li>
+                <li><strong>Manner of Disclosure:</strong> All significant policies must form part of the accounts and be disclosed in one place (normally as Note 1). <button data-pdf-page={11} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></li>
+                <li><strong>Para 23 Rule:</strong> Footnote disclosures cannot cure incorrect accounting. The entry must be corrected. <button data-pdf-page={7} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></li>
               </ul>
             </div>
 
@@ -425,23 +490,23 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                 <span>Common Exam Mistakes</span>
               </h4>
               <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
-                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Claiming that Going Concern is always followed. <em>Fact:</em> If liquidation is imminent, it must be rejected and accounts prepared on NRV.</li>
+                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Claiming that Going Concern is always followed. <em>Fact:</em> If liquidation is imminent, it must be rejected and accounts prepared on NRV. <button data-pdf-page={13} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></li>
                 <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Mislabeling estimate changes as policy changes. <em>Fact:</em> Useful life changes or provisions are estimate changes (AS 5), not policy changes (AS 1).</li>
-                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Believing that disclosure cures incorrect accounting. <em>Fact:</em> Under Para 23, disclosure cannot justify incorrect accounting.</li>
+                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Believing that disclosure cures incorrect accounting. <em>Fact:</em> Under Para 23, disclosure cannot justify incorrect accounting. <button data-pdf-page={7} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></li>
               </ul>
             </div>
 
             {/* High-Yield One-Liners */}
             <div className="bg-[#F5FFF9] dark:bg-[#15251C] p-6 rounded-xl border border-[#D5F5E3] dark:border-emerald-900/40 space-y-4 font-sans">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-450 flex items-center gap-2">
                 <CheckCircle size={14} />
                 <span>High-Yield One-Liners</span>
               </h4>
               <div className="space-y-3 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
-                <p><strong>1. Disclosure location:</strong> Policies must be in one place (usually Note 1), not scattered.</p>
-                <p><strong>2. Fundamental assumptions status:</strong> They are assumed to be followed; disclosure is only required if NOT followed.</p>
-                <p><strong>3. Policy change justification:</strong> Only allowed if required by statute, for compliance with standard, or for a better presentation.</p>
-                <p><strong>4. Quantification:</strong> If a policy change has a material impact, the exact financial impact must be quantified and disclosed.</p>
+                <p><strong>1. Disclosure location:</strong> Policies must be in one place (usually Note 1), not scattered. <button data-pdf-page={11} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
+                <p><strong>2. Fundamental assumptions status:</strong> They are assumed to be followed; disclosure is only required if NOT followed. <button data-pdf-page={13} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
+                <p><strong>3. Policy change justification:</strong> Only allowed if required by statute, for compliance with standard, or for a better presentation. <button data-pdf-page={12} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
+                <p><strong>4. Quantification:</strong> If a policy change has a material impact, the exact financial impact must be quantified and disclosed. <button data-pdf-page={12} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
               </div>
             </div>
 
@@ -452,9 +517,9 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                 <span>Important Definitions</span>
               </h4>
               <div className="space-y-3 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
-                <p><strong>1. Accounting Policies:</strong> Specific accounting principles and the methods of applying those principles adopted by the enterprise (AS 1 Para 11).</p>
-                <p><strong>2. Accrual:</strong> Revenues and costs are accrued, i.e., recognized as they are earned or incurred and recorded in the financial statements of the periods to which they relate (AS 1 Para 13).</p>
-                <p><strong>3. Prudence:</strong> A degree of caution in making estimates under conditions of uncertainty, such that assets or income are not overstated and liabilities or expenses are not understated.</p>
+                <p><strong>1. Accounting Policies:</strong> Specific accounting principles and the methods of applying those principles adopted by the enterprise (AS 1 Para 11). <button data-pdf-page={9} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
+                <p><strong>2. Accrual:</strong> Revenues and costs are accrued, i.e., recognized as they are earned or incurred and recorded in the financial statements of the periods to which they relate (AS 1 Para 13). <button data-pdf-page={9} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
+                <p><strong>3. Prudence:</strong> A degree of caution in making estimates under conditions of uncertainty, such that assets or income are not overstated and liabilities or expenses are not understated. <button data-pdf-page={9} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
               </div>
             </div>
           </div>
@@ -467,12 +532,12 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
             </h4>
             <div className="space-y-4 text-xs sm:text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300 font-sans">
               <p>
-                <strong>ICAI Exam Questions (PYQ):</strong> In almost every exam, a case study is asked where a company changes its policy (e.g. inventory formula or depreciation) but does not disclose the impact, or changes the policy to manage earnings. Always refer to **AS 1 Para 22** and **Para 23** in your answers.
+                <strong>ICAI Exam Questions (PYQ):</strong> In almost every exam, a case study is asked where a company changes its policy (e.g. inventory formula or depreciation) but does not disclose the impact, or changes the policy to manage earnings. Always refer to **AS 1 Para 22** <button data-pdf-page={12} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button> and **Para 23** <button data-pdf-page={7} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button> in your answers.
               </p>
               <div className="p-4 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 font-mono text-[12.5px] text-slate-700 dark:text-slate-300">
                 <span className="font-bold text-indigo-600 dark:text-indigo-400 block mb-1">Mnemonic Tricks:</span>
-                <p>• <strong>G-A-C:</strong> Going Concern, Accrual, Consistency (Fundamental Assumptions)</p>
-                <p>• <strong>P-S-M:</strong> Prudence, Substance over Form, Materiality (Selection Considerations)</p>
+                <p>• <strong>G-A-C:</strong> Going Concern, Accrual, Consistency (Fundamental Assumptions) <button data-pdf-page={13} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
+                <p>• <strong>P-S-M:</strong> Prudence, Substance over Form, Materiality (Selection Considerations) <button data-pdf-page={9} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></p>
               </div>
             </div>
           </div>
@@ -516,7 +581,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
                   <span className="font-extrabold text-indigo-650 dark:text-indigo-400 block mb-1">AUDIT RED FLAGS</span>
                   <ul className="list-disc pl-4 space-y-1 text-slate-700 dark:text-slate-300">
                     <li>Inconsistencies between Note 1 disclosures and actual balances.</li>
-                    <li>Failure to quantify the impact of accounting policy changes.</li>
+                    <li>Failure to quantify the impact of accounting policy changes. <button data-pdf-page={12} className="inline-flex items-center justify-center w-3.5 h-3.5 bg-red-50 text-red-650 rounded border border-red-200"><FileText size={8}/></button></li>
                     <li>Mislabeled write-downs as estimate revisions.</li>
                   </ul>
                 </div>
