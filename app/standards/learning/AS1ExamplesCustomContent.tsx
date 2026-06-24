@@ -8,7 +8,7 @@ interface AS1ExamplesCustomContentProps {
   renderTextWithReferences: (text: string) => React.ReactNode;
 }
 
-// ─── UNIFIED STRUCTURED CARD (10-POINT CA/AUDIT TRAINING WORKBOOK LAYOUT) ──
+// ─── UNIFIED STRUCTURED CARD (10-POINT CA/AUDIT TRAINING WORKBOOK LAYOUT// ─── UNIFIED STRUCTURED CARD (5-PANEL GROUPED CASE STUDY LAYOUT) ────────────
 
 interface StructuredCardProps {
   id: string
@@ -17,7 +17,6 @@ interface StructuredCardProps {
   badgeColor?: string
   pdfPage?: number
   navigateToPdfPage: (page: number) => void
-  // The 10 Points
   facts: string
   issue: string
   standard: string
@@ -28,13 +27,15 @@ interface StructuredCardProps {
   disclosure: string
   auditorView: string
   conclusion: string
+  examFocus?: string
+  examFocusType?: 'trap' | 'focus' | 'trick' | 'concept' | 'adjustment'
 }
 
 function StructuredCard({
   id,
   title,
   category,
-  badgeColor = 'bg-blue-50 text-blue-700 dark:bg-blue-955/40 dark:text-blue-400 border-blue-200/30',
+  badgeColor = 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200/30',
   pdfPage,
   navigateToPdfPage,
   facts,
@@ -46,23 +47,25 @@ function StructuredCard({
   impact,
   disclosure,
   auditorView,
-  conclusion
+  conclusion,
+  examFocus,
+  examFocusType = 'focus'
 }: StructuredCardProps) {
   return (
-    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/80 dark:border-slate-850 rounded-2xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all duration-300 space-y-6 relative overflow-hidden">
+    <div id={`item-${id}`} className="bg-white dark:bg-[#111726] border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xs hover:shadow-md transition-all duration-300 space-y-6 relative overflow-hidden">
       {/* Top Banner Accent */}
       <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600" />
       
       {/* Card Title & Meta Header */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-850 pb-4 pt-1">
-        <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans tracking-tight">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-4 pt-1">
+        <h3 className="text-[15px] sm:text-[16px] font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
           {title}
         </h3>
         <div className="flex items-center gap-2">
           {pdfPage && (
             <button
               onClick={() => navigateToPdfPage(pdfPage)}
-              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded cursor-pointer transition-all shrink-0"
+              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded cursor-pointer transition-all shrink-0"
               title={`Open ICAI AS 1 PDF — Page ${pdfPage}`}
             >
               <FileText size={11} />
@@ -74,105 +77,116 @@ function StructuredCard({
         </div>
       </div>
 
-      {/* 10-Point Sequential Visual Panels */}
-      <div className="grid grid-cols-1 gap-4.5 font-sans">
-        {/* 1. Facts & Background */}
-        <div className="p-4 bg-slate-50/70 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-800/70 rounded-xl space-y-1.5">
-          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-slate-500 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-slate-200 dark:bg-slate-800 text-[10px]">1</span>
-            <span>Facts &amp; Background</span>
+      {/* 5-Panel Cohesive Visual Flow */}
+      <div className="grid grid-cols-1 gap-5 font-sans">
+        {/* 1. Background, Facts & Core Issue */}
+        <div className="p-4.5 bg-slate-50/70 dark:bg-slate-900/40 border border-slate-200/50 dark:border-slate-800/70 rounded-xl space-y-3">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-800 text-[10px] text-slate-700 dark:text-slate-300 font-bold font-mono">1</span>
+            <span>Background, Facts &amp; Core Issue</span>
           </div>
-          <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300 font-serif">{facts}</p>
+          <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-200 font-serif">{facts}</p>
+          <div className="p-3 bg-amber-500/5 dark:bg-amber-500/5 border-l-2 border-amber-500 rounded-r-lg text-slate-800 dark:text-slate-200 space-y-1">
+            <span className="font-bold text-[10.5px] uppercase tracking-wider text-amber-800 dark:text-amber-400 block">Core Accounting Challenge:</span>
+            <p className="text-[13.5px] leading-relaxed font-serif italic">{issue}</p>
+          </div>
         </div>
 
-        {/* 2. Core Issue */}
-        <div className="p-4 bg-amber-50/30 dark:bg-amber-955/10 border border-amber-200/40 dark:border-amber-900/40 rounded-xl space-y-1.5">
-          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-amber-750 dark:text-amber-400 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-[10px]">2</span>
-            <span>Core Accounting Issue</span>
+        {/* 2. Relevant Standard & Technical Analysis */}
+        <div className="p-4.5 bg-blue-50/20 dark:bg-blue-950/15 border border-blue-150/40 dark:border-blue-900/30 rounded-xl space-y-3">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-blue-800 dark:text-blue-400 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-[10px] text-blue-800 dark:text-blue-300 font-bold font-mono">2</span>
+            <span>Relevant Standard &amp; Technical Analysis</span>
           </div>
-          <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-slate-350 font-serif">{issue}</p>
+          <div className="space-y-2.5">
+            <div className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-200 font-serif">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-blue-800 dark:text-blue-400 block mb-1">Standard / AS 1 Reference:</span>
+              {standard}
+            </div>
+            <div className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-200 font-serif pt-1.5 border-t border-blue-100/50 dark:border-blue-900/20">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-1">Technical Analysis &amp; Judgement:</span>
+              {analysis}
+            </div>
+            {alternatives && (
+              <div className="p-3 bg-slate-100/60 dark:bg-slate-900/40 border-l-2 border-slate-400 dark:border-slate-700 rounded-r-lg text-slate-700 dark:text-slate-300 font-sans">
+                <span className="font-sans font-bold text-[10.5px] uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-0.5 font-sans">Alternatives Evaluated:</span>
+                <p className="text-[13px] leading-relaxed font-serif">{alternatives}</p>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* 3. Relevant Standard */}
-        <div className="p-4 bg-blue-50/30 dark:bg-blue-955/10 border border-blue-200/40 dark:border-blue-900/40 rounded-xl space-y-1.5">
-          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-blue-750 dark:text-blue-400 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-[10px]">3</span>
-            <span>Relevant Standard / AS 1 Principle</span>
+        {/* 3. Correct Accounting Treatment & Financial Impact */}
+        <div className="p-4.5 bg-emerald-50/20 dark:bg-emerald-950/15 border border-emerald-150/40 dark:border-emerald-900/30 rounded-xl space-y-3">
+          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider select-none">
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-[10px] text-emerald-800 dark:text-emerald-300 font-bold font-mono">3</span>
+            <span>Correct Accounting Treatment &amp; Financial Impact</span>
           </div>
-          <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-slate-350 font-serif">{standard}</p>
+          <div className="p-3.5 bg-emerald-500/10 dark:bg-emerald-500/10 border-l-3 border-emerald-500 rounded-r-lg text-slate-900 dark:text-slate-100">
+            <span className="font-bold text-[10.5px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400 block mb-1">Mandated Accounting Treatment:</span>
+            <p className="text-[13.5px] leading-relaxed font-serif font-semibold">{correctTreatment}</p>
+          </div>
+          <div className="p-3.5 bg-rose-500/10 dark:bg-rose-500/5 border-l-3 border-rose-500 rounded-r-lg text-slate-800 dark:text-slate-200">
+            <span className="font-bold text-[10.5px] uppercase tracking-wider text-rose-700 dark:text-rose-400 block mb-1">Balance Sheet &amp; Profit Impact:</span>
+            <p className="text-[13.5px] leading-relaxed font-serif font-medium">{impact}</p>
+          </div>
         </div>
 
-        {/* 4. Alternative Treatments */}
-        <div className="p-4 bg-slate-50/20 dark:bg-slate-900/20 border border-slate-200/30 dark:border-slate-800/30 rounded-xl space-y-1.5">
-          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-slate-500 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-slate-200/60 dark:bg-slate-800/40 text-[10px]">4</span>
-            <span>Alternative Treatments Evaluated</span>
-          </div>
-          <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-350 font-serif">{alternatives}</p>
-        </div>
-
-        {/* 5. Correct Accounting Treatment */}
-        <div className="p-4.5 bg-emerald-50/40 dark:bg-emerald-955/10 border border-emerald-250/50 dark:border-emerald-900/40 rounded-xl space-y-1.5 shadow-2xs">
-          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-emerald-700 dark:text-emerald-450 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-emerald-100 dark:bg-emerald-900/40 text-[10px]">5</span>
-            <span>Correct Accounting Treatment</span>
-          </div>
-          <p className="text-[13.5px] leading-relaxed text-slate-850 dark:text-slate-200 font-serif font-semibold">{correctTreatment}</p>
-        </div>
-
-        {/* 6. Technical Analysis */}
-        <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 border border-transparent border-l-4 border-slate-300 dark:border-slate-800 rounded-r-xl space-y-1.5 pl-4.5">
-          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-slate-500 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-slate-200/40 dark:bg-slate-800/20 text-[10px]">6</span>
-            <span>Technical Analysis &amp; Rationale</span>
-          </div>
-          <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300 font-serif">{analysis}</p>
-        </div>
-
-        {/* 7. Financial Statement Impact */}
-        <div className="p-4 bg-rose-50/20 dark:bg-rose-955/5 border border-rose-200/40 dark:border-rose-900/40 rounded-xl space-y-1.5">
-          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-rose-700 dark:text-rose-450 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-rose-100 dark:bg-rose-900/40 text-[10px]">7</span>
-            <span>Financial Statement Impact</span>
-          </div>
-          <p className="text-[13.5px] leading-relaxed text-slate-755 dark:text-slate-300 font-serif">{impact}</p>
-        </div>
-
-        {/* 8. Disclosure Requirements */}
-        <div className="p-4 bg-slate-900 dark:bg-slate-950 border border-slate-800 dark:border-slate-900 rounded-xl space-y-2.5 font-mono text-[11px] text-slate-350 dark:text-slate-400">
+        {/* 4. Disclosure Note Presentation */}
+        <div className="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-2 font-mono text-[11px] text-slate-200 select-all">
           <div className="flex items-center gap-2 text-[10.5px] font-sans font-extrabold text-slate-400 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-slate-800 dark:bg-slate-900 text-[10px] text-slate-300">8</span>
-            <span>Disclosure Note Presentation</span>
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-slate-800 dark:bg-slate-900 text-[10px] text-slate-350 font-bold font-mono">4</span>
+            <span>Disclosure Note Presentation (Note 1 Footnote)</span>
           </div>
-          <div className="bg-slate-950/60 p-3.5 rounded-lg border border-slate-850 dark:border-slate-900 italic font-medium leading-relaxed">
+          <div className="bg-slate-900/60 p-3.5 rounded-lg border border-slate-800 italic font-mono leading-relaxed text-slate-200 select-all">
             {disclosure}
           </div>
         </div>
 
-        {/* 9. Auditor's View */}
-        <div className="p-4 bg-indigo-50/40 dark:bg-indigo-955/10 border border-indigo-200/40 dark:border-indigo-900/40 rounded-xl space-y-1.5">
+        {/* 5. Auditor's View, Procedures & Final Conclusion */}
+        <div className="p-4.5 bg-indigo-50/20 dark:bg-indigo-900/10 border border-indigo-150/40 dark:border-indigo-900/30 rounded-xl space-y-3">
           <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-indigo-700 dark:text-indigo-400 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-[10px]">9</span>
-            <span>Auditor\'s View &amp; Implication Checklist</span>
+            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-[10px] text-indigo-800 dark:text-indigo-300 font-bold font-mono">5</span>
+            <span>Auditor's View &amp; Final Conclusion</span>
           </div>
-          <p className="text-[13.5px] leading-relaxed text-slate-750 dark:text-slate-300 font-serif">{auditorView}</p>
+          <div className="space-y-3">
+            <div className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-200 font-serif">
+              <span className="font-sans font-bold text-[11px] uppercase tracking-wider text-indigo-700 dark:text-indigo-400 block mb-1">Auditor Checklist &amp; Procedures:</span>
+              {auditorView}
+            </div>
+            <div className="p-4 bg-indigo-900 dark:bg-indigo-950 text-white rounded-xl space-y-1.5 shadow-sm">
+              <span className="font-extrabold text-[10.5px] uppercase tracking-wider text-indigo-200 block">Final Conclusion &amp; Key Takeaway:</span>
+              <p className="text-[13.5px] leading-relaxed font-serif font-medium text-white">{conclusion}</p>
+            </div>
+          </div>
         </div>
 
-        {/* 10. Conclusion & Takeaway */}
-        <div className="p-4.5 bg-indigo-900 dark:bg-indigo-950 text-white dark:text-indigo-100 rounded-xl space-y-1.5 shadow-sm">
-          <div className="flex items-center gap-2 text-[10.5px] font-extrabold text-indigo-200 uppercase tracking-wider select-none">
-            <span className="flex items-center justify-center w-4.5 h-4.5 rounded-full bg-indigo-850 dark:bg-indigo-900 text-[10px] text-indigo-100">10</span>
-            <span>Final Conclusion &amp; Key Takeaway</span>
+        {/* 6. Optional Exam Corner Box */}
+        {examFocus && (
+          <div className="p-4 bg-amber-500/10 dark:bg-amber-500/5 border border-amber-500/30 rounded-xl space-y-1.5 font-sans">
+            <div className="flex items-center gap-1.5 text-[10.5px] font-extrabold text-amber-800 dark:text-amber-400 uppercase tracking-wider select-none">
+              <AlertTriangle size={13} className="text-amber-600 dark:text-amber-400" />
+              <span>
+                {examFocusType === 'trap'
+                  ? 'Exam Trap Warning'
+                  : examFocusType === 'trick'
+                  ? 'Mnemonic / Memory Trick'
+                  : examFocusType === 'concept'
+                  ? 'Most Asked Concept'
+                  : examFocusType === 'adjustment'
+                  ? 'Likely ICAI Adjustment'
+                  : 'Exam Focus & Learning'}
+              </span>
+            </div>
+            <p className="text-[13px] leading-relaxed text-slate-800 dark:text-slate-200 font-serif font-medium">{examFocus}</p>
           </div>
-          <p className="text-[13.5px] leading-relaxed font-serif font-medium">{conclusion}</p>
-        </div>
+        )}
       </div>
     </div>
   )
 }
 
-// ─── CUSTOM STRUCTURED SUB-COMPONENTS (MAPPED TO 10-POINT FLOW) ────────────
+// ─── CUSTOM STRUCTURED SUB-COMPONENTS (MAPPED TO 5-PANEL FLOW) ─────────────
 
 interface AuditCaseCardProps {
   id: string
@@ -187,6 +201,8 @@ interface AuditCaseCardProps {
   reportingImpact: string
   conclusion: string
   learningPoint: string
+  examFocus?: string
+  examFocusType?: 'trap' | 'focus' | 'trick' | 'concept' | 'adjustment'
 }
 
 function AuditCaseCard({
@@ -201,14 +217,16 @@ function AuditCaseCard({
   violation,
   reportingImpact,
   conclusion,
-  learningPoint
+  learningPoint,
+  examFocus,
+  examFocusType
 }: AuditCaseCardProps) {
   return (
     <StructuredCard
       id={id}
       title={`${title} — ${client}`}
       category="Audit Case Study"
-      badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-955/40 dark:text-amber-400 border-amber-200/30"
+      badgeColor="bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200/30"
       navigateToPdfPage={() => {}}
       facts={facts}
       issue={problem}
@@ -220,6 +238,8 @@ function AuditCaseCard({
       disclosure={reportingImpact}
       auditorView={procedures}
       conclusion={learningPoint}
+      examFocus={examFocus}
+      examFocusType={examFocusType}
     />
   )
 }
@@ -233,6 +253,8 @@ interface RegulatoryObsCardProps {
   principle: string
   impact: string
   bestPractice: string
+  examFocus?: string
+  examFocusType?: 'trap' | 'focus' | 'trick' | 'concept' | 'adjustment'
 }
 
 function RegulatoryObsCard({
@@ -243,14 +265,16 @@ function RegulatoryObsCard({
   issue,
   principle,
   impact,
-  bestPractice
+  bestPractice,
+  examFocus,
+  examFocusType
 }: RegulatoryObsCardProps) {
   return (
     <StructuredCard
       id={id}
       title={`${title} — ${regulator}`}
       category="Regulatory Observation"
-      badgeColor="bg-red-50 text-red-700 dark:bg-red-955/40 dark:text-red-400 border-red-200/30"
+      badgeColor="bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200/30"
       navigateToPdfPage={() => {}}
       facts={observation}
       issue={issue}
@@ -262,6 +286,8 @@ function RegulatoryObsCard({
       disclosure="Provide entity-specific, clear, and quantified policy disclosures in Note 1."
       auditorView="Verify that the client has a disclosure checklist and does not rely on boilerplate text."
       conclusion="Regulatory standards require specific, non-boilerplate disclosures of cost formulas, recognition timing, and policy change impacts."
+      examFocus={examFocus}
+      examFocusType={examFocusType}
     />
   )
 }
@@ -275,6 +301,8 @@ interface JudicialCaseCardProps {
   judgment: string
   relevance: string
   learning: string
+  examFocus?: string
+  examFocusType?: 'trap' | 'focus' | 'trick' | 'concept' | 'adjustment'
 }
 
 function JudicialCaseCard({
@@ -285,14 +313,16 @@ function JudicialCaseCard({
   issue,
   judgment,
   relevance,
-  learning
+  learning,
+  examFocus,
+  examFocusType
 }: JudicialCaseCardProps) {
   return (
     <StructuredCard
       id={id}
       title={`${title} — ${court}`}
       category="Landmark Judicial Case"
-      badgeColor="bg-purple-50 text-purple-700 dark:bg-purple-955/40 dark:text-purple-400 border-purple-200/30"
+      badgeColor="bg-purple-50 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200/30"
       navigateToPdfPage={() => {}}
       facts={facts}
       issue={issue}
@@ -304,6 +334,8 @@ function JudicialCaseCard({
       disclosure="Disclose the accounting policy for disputed liabilities, provisions, and contingent liabilities."
       auditorView="Examine legal confirmations, board minutes, and verify that accruals do not depend purely on book entries."
       conclusion={learning}
+      examFocus={examFocus}
+      examFocusType={examFocusType}
     />
   )
 }
@@ -411,19 +443,24 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
 
   // Section heading generator matching the Standard tab's professional publishing hierarchy
   const renderSectionHeader = (num: string, title: string, description: string) => (
-    <div className="w-full mb-6 mt-12 first:mt-2 font-sans">
-      <div className="flex items-baseline gap-2 mb-2">
-        <h2 className="text-[17px] sm:text-[18px] font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-          <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{num}.</span>
-          <span>{title}</span>
+    <div className="w-full mb-8 mt-16 first:mt-2 font-sans relative">
+      <div className="flex flex-col gap-2.5">
+        <div className="flex items-center gap-3">
+          <span className="px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 border border-indigo-200/30 font-mono">
+            Section {num}
+          </span>
+          <div className="h-[1px] flex-grow bg-gradient-to-r from-indigo-200/60 via-slate-200/20 to-transparent dark:from-indigo-900/40 dark:via-slate-800/20" />
+        </div>
+        <h2 className="text-[20px] sm:text-[22px] font-sans font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+          {title}
         </h2>
       </div>
-      <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
       {description && (
-        <p className="text-[13px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+        <p className="text-[13.5px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-2 leading-relaxed max-w-4xl font-serif">
           {description}
         </p>
       )}
+      <div className="h-[2px] w-full bg-gradient-to-r from-indigo-600 via-indigo-100 to-transparent dark:from-indigo-500 dark:via-indigo-950/50 mt-4 mb-2" />
     </div>
   )
 
@@ -456,12 +493,12 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
       </div>
 
       {/* Main Publication Sheet Canvas */}
-      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-16 relative my-4">
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-16 relative my-4">
 
-        {/* ─── SECTION 3: ICAI ILLUSTRATIONS ────────────────────────────────────── */}
+        {/* ─── SECTION 1: ICAI ILLUSTRATIONS ────────────────────────────────────── */}
         <section id="sec-icai-illustrations" className="scroll-mt-36 space-y-8 w-full">
           {renderSectionHeader(
-            '3',
+            '1',
             'ICAI Illustrations',
             'Authentic illustrations, selection considerations, and measurement decisions mapped directly to the ICAI Study Material.'
           )}
@@ -481,8 +518,13 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               analysis="Changing the overhead allocation method changes the way cost is applied to inventories, making it a policy change. Restructuring warranty provisions is based on updated technical product failure logs, representing a change in estimate based on new data."
               impact="The WIP inventory overhead recalculation decreases current asset inventory value and current profit before tax by ₹28 Lakhs. The warranty provision increase results in an additional expense of ₹15 Lakhs charged prospectively to the P&L."
               disclosure="Note 1: 'The Company has changed its WIP overhead allocation method from direct-labor absorption to a technical machine-hour rate system. This change has decreased inventory carrying value and current profits by ₹28 Lakhs. Gratuity and warranty provisions have been revised based on updated engineering failure reports as a change in estimate under AS 5.'"
-              auditorView="Verify that the WIP allocation method recalculations are mathematically correct and applied consistently. Confirm that the warranty revision is not misclassified as a policy change to avoid audit qualification."
+              auditorView="• **Audit Risk & Assertions:** Risk of management misclassifying an estimate change as a policy change (or vice versa) to avoid profit volatility. Key assertions affected are Valuation and Allocation, and Presentation & Disclosure.
+• **Audit Procedures:** Inspect the technical factory overhead study to verify the basis of the machine-hour rate change. Re-perform the calculation of WIP valuation under both methods to confirm the ₹28 Lakhs impact. Inspect historical warranty claims logs to assess the reliability of the 3.5% failure rate estimate.
+• **CARO Implications:** Under CARO 2020, Clause 3(ii), verify if inventory records have been properly updated and whether any material discrepancies arose.
+• **Management Representation & Documentation:** Obtain a written representation from the CFO confirming the technical basis for both changes. Document the audit working paper detailing the evaluation of AS 1 vs AS 5 criteria, with calculation sheets."
               conclusion="Classify the overhead allocation method change as a policy change with retrospective restatement. The warranty provision change is prospective as an estimate change."
+              examFocus="ICAI Exam Trap: Do not confuse changes in accounting estimates with changes in accounting policies. Revisions in estimate (like warranty percentage) are applied prospectively under AS 5. Methods of applying accounting principles (like WIP overhead allocation basis) are policy changes and require retrospective restatement with clear disclosure of the quantified impact in Note 1. ALWAYS quote AS 1 Para 22 and AS 5 in your answer."
+              examFocusType="trap"
             />
 
             <StructuredCard
@@ -499,8 +541,13 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               analysis="The equipment value represents less than 0.05% of the company's total asset base and has no bearing on shareholders' analytical decisions. Therefore, capitalizing and calculating annual depreciation of ₹87,500 is immaterial and not practically justified."
               impact="Current-year operating expenses increase by ₹3,50,000. Fixed assets are lower by ₹2,62,500 compared to capitalization."
               disclosure="No specific disclosure or policy note is required, as the amount falls well below the materiality threshold."
-              auditorView="Verify that the write-off is consistent with the company's internal materiality policy (e.g. expensing all assets under ₹5,00,000)."
+              auditorView="• **Audit Risk & Assertions:** Risk of cumulative immaterial write-offs becoming material in the aggregate, violating the Valuation and completeness assertions.
+• **Audit Procedures:** Check the purchase invoices and verify that the items match the client's internal threshold policy (e.g. ₹5,00,000 limit). Perform a sample scan of general expense accounts to ensure capital items are not systematically expensed to suppress asset base or inflate tax deductions.
+• **CARO Implications:** Ensure write-offs are not capitalized as fixed assets, preventing discrepancies in property records under Clause 3(i).
+• **Management Representation & Documentation:** Obtain representation confirming that all written-off office equipment has been scrapped or is of negligible salvage value. Document the materiality threshold analysis in the audit file."
               conclusion="Writing off the bins immediately is acceptable and complies with the materiality consideration of AS 1."
+              examFocus="Most Asked Concept: Materiality. Immaterial items do not require strict compliance with standard accounting policies. For example, immediate expensing of low-value assets like printing equipment is allowed to save administrative costs. In exams, emphasize that the threshold is relative to the enterprise's asset base and revenue."
+              examFocusType="concept"
             />
 
             <StructuredCard
@@ -517,8 +564,14 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               analysis="Since AS 16 prohibits capitalizing borrowing costs when active development is interrupted, the accounting treatment is wrong. The footnote disclosure cannot justify or remedy this incorrect treatment."
               impact="Reversing the capitalization decreases fixed assets by ₹45 Lakhs and decreases net profit before tax by ₹45 Lakhs."
               disclosure="The incorrect policy note must be removed, and normal borrowing cost policies under AS 16 must be stated."
-              auditorView="The auditor must refuse the footnote remedy. If management fails to adjust the assets, the auditor must issue a qualified or adverse audit report."
+              auditorView="• **Audit Risk & Assertions:** Risk of material misstatement in Fixed Assets (Valuation and existence) due to improper capitalization of borrowing costs.
+• **Audit Procedures:** Review the construction progress log to identify the exact suspension period. Inspect borrowing agreements to calculate the interest incurred during the suspension (₹45 Lakhs). Verify that this interest is excluded from the cost of the asset.
+• **Possible Qualification Impact:** If management refuses to reverse the capitalization, the auditor must qualify the report under Section 143(3).
+• **CARO Implications:** Clause 3(i)(a) regarding proper maintenance of property, plant, and equipment records.
+• **Management Representation & Documentation:** Request management representation on construction suspension timelines. Document the audit memo rejecting the footnote remedy."
               conclusion="Footnote disclosures cannot cure incorrect accounting. The interest must be expensed."
+              examFocus="Likely ICAI Adjustment / Exam Trap: Inappropriate accounting treatments cannot be rectified or cured by footnote disclosures. This is a very common exam scenario where management capitalizes abnormal costs (like interest during suspension) and attempts to resolve it via detailed footnotes. In your answer, state clearly that the treatment violates AS 1 Para 23 and the auditor must qualify the report."
+              examFocusType="adjustment"
             />
 
             <StructuredCard
@@ -535,8 +588,13 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               analysis="Using WAC during highly volatile price periods smoothens inventory costs, resulting in a more appropriate presentation of cost of goods sold. The change is justified, but the financial impact must be disclosed."
               impact="Net profit before tax decreases by ₹62 Lakhs. Current assets (inventories) are reduced by ₹62 Lakhs."
               disclosure="Disclose in Note 1: 'The Company has changed its inventory valuation formula from FIFO to Weighted Average. This change has resulted in a decrease in current profit and inventory value by ₹62 Lakhs.'"
-              auditorView="Verify the mathematical accuracy of the transition calculations from FIFO to WAC. Ensure the disclosure is complete and cross-referenced to Note 1."
+              auditorView="• **Audit Risk & Assertions:** Risk of unjustified change in inventory valuation formula to manipulate profits. Affects Valuation and consistency assertions.
+• **Audit Procedures:** Verify that the change to Weighted Average Cost provides a more appropriate presentation. Recompute closing inventory at both FIFO and WAC to verify the ₹62 Lakhs impact.
+• **CARO Implications:** Verify if the physical inventory verification matches the revalued books (Clause 3(ii)).
+• **Management Representation & Documentation:** Obtain management representation justifying the change due to market volatility. Document the transition sheets and audit valuation memos."
               conclusion="The formula change is permissible, provided the change is justified and its financial impact is fully quantified and disclosed."
+              examFocus="Mnemonic / Memory Trick: When raw material prices are highly volatile, switching from FIFO to WAC provides a more appropriate representation of COGS. Switch is allowed if it meets three conditions (Statute, Standard compliance, or Better Presentation). Memorize the mnemonic 'S-S-B' for these conditions."
+              examFocusType="trick"
             />
 
             <StructuredCard
@@ -685,14 +743,13 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
           </div>
         </section>
 
-        {/* ─── SECTION 4: PRACTICAL BUSINESS EXAMPLES ────────────────────────────── */}
-        <section id="sec-business-examples" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
+        {/* ─── SECTION 2: PRACTICAL BUSINESS EXAMPLES ────────────────────────────── */}
+        <section id="sec-business-examples" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader(
-            '4',
+            '2',
             'Practical Business Examples',
             'Realistic commercial scenarios showing the selection and application of accounting policies across diverse industrial sectors.'
           )}
-
           <div className="space-y-12">
             <StructuredCard
               id="4-1"
@@ -876,10 +933,10 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
           </div>
         </section>
 
-        {/* ─── SECTION 5: AUDIT CASE STUDIES ────────────────────────────────────── */}
-        <section id="sec-audit-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
+        {/* ─── SECTION 3: AUDIT CASE STUDIES ────────────────────────────────────── */}
+        <section id="sec-audit-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader(
-            '5',
+            '3',
             'Audit Case Studies',
             'In-depth statutory audit case studies detailing management treatments, violations, audit programs, and reporting impact.'
           )}
@@ -1037,10 +1094,10 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
           </div>
         </section>
 
-        {/* ─── SECTION 6: REGULATORY OBSERVATIONS ────────────────────────────────── */}
-        <section id="sec-regulatory-obs" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
+        {/* ─── SECTION 4: REGULATORY OBSERVATIONS ────────────────────────────────── */}
+        <section id="sec-regulatory-obs" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader(
-            '6',
+            '4',
             'Regulatory Observations',
             'NFRA, SEBI, and MCA directives regarding compliance failures in accounting policy disclosures.'
           )}
@@ -1114,10 +1171,10 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
           </div>
         </section>
 
-        {/* ─── SECTION 7: LANDMARK JUDICIAL CASES ────────────────────────────────── */}
-        <section id="sec-legal-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
+        {/* ─── SECTION 5: LANDMARK JUDICIAL CASES ────────────────────────────────── */}
+        <section id="sec-legal-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader(
-            '7',
+            '5',
             'Landmark Judicial Cases',
             'Landmark Supreme Court and High Court judgments clarifying the application of accounting principles under tax and corporate law.'
           )}
@@ -1180,17 +1237,17 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
           </div>
         </section>
 
-        {/* ─── SECTION 8: EXAM-ORIENTED CORNER ───────────────────────────────────── */}
-        <section id="sec-exam-oriented" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
+        {/* ─── SECTION 6: EXAM-ORIENTED CORNER ───────────────────────────────────── */}
+        <section id="sec-exam-oriented" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader(
-            '8',
+            '6',
             'Exam-Oriented Corner',
             'High-yield study notes, revision one-liners, past questions, and diagnostic charts for exam preparation.'
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 font-serif">
             {/* Quick Revision Notes */}
-            <div className="bg-[#FAFAF8] dark:bg-[#151C2C] p-6 rounded-xl border border-slate-250 dark:border-slate-850 space-y-4">
+            <div className="bg-[#FAFAF8] dark:bg-[#151C2C] p-6 rounded-xl border border-slate-200 dark:border-slate-800 space-y-4 font-sans">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-650 dark:text-indigo-400 flex items-center gap-2">
                 <Award size={14} />
                 <span>Quick Revision Notes</span>
@@ -1204,25 +1261,25 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
             </div>
 
             {/* Common Mistakes */}
-            <div className="bg-[#FFF5F5] dark:bg-[#2A1E1E] p-6 rounded-xl border border-[#FFE1E1] dark:border-red-950/60 space-y-4">
+            <div className="bg-[#FFF5F5] dark:bg-[#2A1E1E] p-6 rounded-xl border border-[#FFE1E1] dark:border-red-900/40 space-y-4 font-sans">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-red-650 dark:text-red-400 flex items-center gap-2">
                 <AlertTriangle size={14} />
                 <span>Common Exam Mistakes</span>
               </h4>
-              <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-355 text-xs sm:text-[13px] leading-relaxed font-serif">
-                <li><strong className="text-red-650">Mistake:</strong> Claiming that Going Concern is always followed. <em>Fact:</em> If liquidation is imminent, it must be rejected and accounts prepared on NRV.</li>
-                <li><strong className="text-red-650">Mistake:</strong> Mislabeling estimate changes as policy changes. <em>Fact:</em> Useful life changes or provisions are estimate changes (AS 5), not policy changes (AS 1).</li>
-                <li><strong className="text-red-650">Mistake:</strong> Believing that disclosure cures incorrect accounting. <em>Fact:</em> Under Para 23, disclosure cannot justify incorrect accounting.</li>
+              <ul className="list-disc pl-5 space-y-2 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
+                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Claiming that Going Concern is always followed. <em>Fact:</em> If liquidation is imminent, it must be rejected and accounts prepared on NRV.</li>
+                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Mislabeling estimate changes as policy changes. <em>Fact:</em> Useful life changes or provisions are estimate changes (AS 5), not policy changes (AS 1).</li>
+                <li><strong className="text-red-600 dark:text-red-400">Mistake:</strong> Believing that disclosure cures incorrect accounting. <em>Fact:</em> Under Para 23, disclosure cannot justify incorrect accounting.</li>
               </ul>
             </div>
 
             {/* High-Yield One-Liners */}
-            <div className="bg-[#F5FFF9] dark:bg-[#15251C] p-6 rounded-xl border border-[#D5F5E3] dark:border-emerald-950/60 space-y-4">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-700 dark:text-emerald-400 flex items-center gap-2">
+            <div className="bg-[#F5FFF9] dark:bg-[#15251C] p-6 rounded-xl border border-[#D5F5E3] dark:border-emerald-900/40 space-y-4 font-sans">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-600 dark:text-emerald-405 flex items-center gap-2">
                 <CheckCircle size={14} />
                 <span>High-Yield One-Liners</span>
               </h4>
-              <div className="space-y-3 text-slate-700 dark:text-slate-350 text-xs sm:text-[13px] leading-relaxed font-serif animate-fade-in">
+              <div className="space-y-3 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
                 <p><strong>1. Disclosure location:</strong> Policies must be in one place (usually Note 1), not scattered.</p>
                 <p><strong>2. Fundamental assumptions status:</strong> They are assumed to be followed; disclosure is only required if NOT followed.</p>
                 <p><strong>3. Policy change justification:</strong> Only allowed if required by statute, for compliance with standard, or for a better presentation.</p>
@@ -1231,12 +1288,12 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
             </div>
 
             {/* Important Definitions */}
-            <div className="bg-[#FBF5FF] dark:bg-[#20152C] p-6 rounded-xl border border-[#F1D5F5] dark:border-purple-950/60 space-y-4">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-purple-700 dark:text-purple-400 flex items-center gap-2">
+            <div className="bg-[#FBF5FF] dark:bg-[#20152C] p-6 rounded-xl border border-[#F1D5F5] dark:border-purple-900/40 space-y-4 font-sans">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-purple-750 dark:text-purple-400 flex items-center gap-2">
                 <BookOpen size={14} />
                 <span>Important Definitions</span>
               </h4>
-              <div className="space-y-3 text-slate-700 dark:text-slate-350 text-xs sm:text-[13px] leading-relaxed font-serif">
+              <div className="space-y-3 text-slate-700 dark:text-slate-300 text-xs sm:text-[13px] leading-relaxed font-serif">
                 <p><strong>1. Accounting Policies:</strong> Specific accounting principles and the methods of applying those principles adopted by the enterprise (AS 1 Para 11).</p>
                 <p><strong>2. Accrual:</strong> Revenues and costs are accrued, i.e., recognized as they are earned or incurred and recorded in the financial statements of the periods to which they relate (AS 1 Para 13).</p>
                 <p><strong>3. Prudence:</strong> A degree of caution in making estimates under conditions of uncertainty, such that assets or income are not overstated and liabilities or expenses are not understated.</p>
@@ -1245,17 +1302,17 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
           </div>
 
           {/* Mnemonic and RTP/MTP references */}
-          <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-850 rounded-xl p-6 sm:p-8 space-y-4 font-serif">
+          <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-800 rounded-xl p-6 sm:p-8 space-y-4 font-serif">
             <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-650 dark:text-indigo-400 flex items-center gap-2">
               <Info size={14} />
               <span>PYQ & Mnemonic Revision Trap</span>
             </h4>
-            <div className="space-y-4 text-xs sm:text-[13.5px] leading-relaxed text-slate-750 dark:text-slate-300">
+            <div className="space-y-4 text-xs sm:text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300 font-sans">
               <p>
                 <strong>ICAI Exam Questions (PYQ):</strong> In almost every exam, a case study is asked where a company changes its policy (e.g. inventory formula or depreciation) but does not disclose the impact, or changes the policy to manage earnings. Always refer to **AS 1 Para 22** and **Para 23** in your answers.
               </p>
-              <div className="p-4 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 font-mono text-[12.5px] text-slate-800 dark:text-slate-300">
-                <span className="font-bold text-indigo-600 block mb-1">Mnemonic Tricks:</span>
+              <div className="p-4 bg-white dark:bg-slate-950 rounded-lg border border-slate-200 dark:border-slate-800 font-mono text-[12.5px] text-slate-700 dark:text-slate-300">
+                <span className="font-bold text-indigo-600 dark:text-indigo-400 block mb-1">Mnemonic Tricks:</span>
                 <p>• <strong>G-A-C:</strong> Going Concern, Accrual, Consistency (Fundamental Assumptions)</p>
                 <p>• <strong>P-S-M:</strong> Prudence, Substance over Form, Materiality (Selection Considerations)</p>
               </div>
@@ -1263,26 +1320,26 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
           </div>
         </section>
 
-        {/* ─── SECTION 9: AUDIT NOTES & REPORTING ────────────────────────────────── */}
-        <section id="sec-audit-notes" className="scroll-mt-36 space-y-8 w-full border-t border-slate-205 dark:border-slate-800 pt-8">
+        {/* ─── SECTION 7: AUDIT NOTES & REPORTING ────────────────────────────────── */}
+        <section id="sec-audit-notes" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader(
-            '9',
+            '7',
             'Audit Notes & Reporting',
             'Audit checklist, red flags, and drafting templates for statutory auditor reports under Section 143(3).'
           )}
 
-          <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-850 rounded-2xl p-6 sm:p-8 space-y-6">
+          <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
             <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white font-sans flex items-center gap-2">
-              <HelpCircle className="text-indigo-600 dark:text-indigo-400" size={18} />
+              <HelpCircle className="text-indigo-650 dark:text-indigo-400" size={18} />
               <span>Audit Report Drafting: Deviation from AS 1 (Section 143(3))</span>
             </h3>
 
-            <div className="space-y-4 text-[13.5px] leading-[1.7] text-slate-750 dark:text-slate-355 font-serif">
+            <div className="space-y-4 text-[13.5px] leading-[1.7] text-slate-750 dark:text-slate-300 font-serif">
               <p>
                 When an enterprise fails to disclose significant accounting policies, or changes them without valid justification, the auditor must issue a qualified or adverse opinion. Below is a standard template for an audit qualification:
               </p>
 
-              <div className="bg-white dark:bg-slate-950 p-5 rounded-xl border border-slate-250 dark:border-slate-800 font-mono text-xs text-slate-800 dark:text-slate-300 leading-relaxed space-y-3">
+              <div className="bg-white dark:bg-slate-950 p-5 rounded-xl border border-slate-200 dark:border-slate-800 font-mono text-xs text-slate-800 dark:text-slate-300 leading-relaxed space-y-3">
                 <p className="font-extrabold text-slate-900 dark:text-white">BASIS FOR QUALIFIED OPINION</p>
                 <p className="italic">
                   "Note [X] to the financial statements describes a change in the Company's accounting policy for inventory valuation from FIFO to Weighted Average. However, the Company has failed to disclose the quantified impact of this change on the current year's financial performance. Based on our audit procedures, had the Company valued its inventory on WAC, the closing inventory would have been lower by ₹70 Lakhs, and the profit before tax would have been lower by ₹70 Lakhs.
@@ -1299,7 +1356,7 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 text-xs font-sans">
                 <div className="p-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg">
                   <span className="font-extrabold text-indigo-650 dark:text-indigo-400 block mb-1">AUDIT RED FLAGS</span>
-                  <ul className="list-disc pl-4 space-y-1 text-slate-600 dark:text-slate-400">
+                  <ul className="list-disc pl-4 space-y-1 text-slate-700 dark:text-slate-300">
                     <li>Inconsistencies between Note 1 disclosures and actual balances.</li>
                     <li>Failure to quantify the impact of accounting policy changes.</li>
                     <li>Mislabeled write-downs as estimate revisions.</li>

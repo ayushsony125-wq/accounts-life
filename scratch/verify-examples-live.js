@@ -129,12 +129,12 @@ async function main() {
   }
   console.log('========================================================================');
 
-  // Verify that illustrations contain all 10 parts
+  // Verify that illustrations contain all 5 parts
   console.log('\nChecking structural completeness of ICAI Illustration 3.1:');
   // Selector for span.rounded-full:not(.uppercase) inside #item-3-1
   const item31RowsCount = await page.locator('#item-3-1 span.rounded-full:not(.uppercase)').count();
-  console.log(`Illustration 3.1 has ${item31RowsCount} serial-numbered structural elements (expected: 10)`);
-  if (item31RowsCount === 10) {
+  console.log(`Illustration 3.1 has ${item31RowsCount} serial-numbered structural elements (expected: 5)`);
+  if (item31RowsCount === 5) {
     console.log('Illustration 3.1 structure: PASS');
   } else {
     console.log('Illustration 3.1 structure: FAIL');
