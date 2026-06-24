@@ -215,11 +215,10 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none font-mono"
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
       title={`Open ICAI AS 1 PDF — Page ${page}`}
     >
-      <FileText size={9} className="shrink-0" />
-      p.${page}
+      <FileText size={10} className="shrink-0" />
     </button>
   )
 
@@ -236,8 +235,8 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   ]
 
   const ChapterHeader = ({ num, title, description }: { num: string; title: string; description: string }) => (
-    <div className="w-full mb-6 pb-4 border-b border-slate-200 dark:border-slate-800 select-none">
-      <h2 className="text-[18px] sm:text-[20px] font-serif font-semibold text-slate-800 dark:text-white tracking-tight leading-snug">
+    <div className="w-full mb-6 pb-4 border-b border-slate-200 dark:border-slate-800">
+      <h2 className="text-[17px] sm:text-[18px] font-serif font-semibold text-slate-800 dark:text-white tracking-tight leading-snug">
         {title}
       </h2>
       {description && (
@@ -465,26 +464,24 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   );
 
   return (
-    <div className="w-full animate-fade-in font-sans bg-white dark:bg-[#0b0f19] -m-4 md:-m-6 p-4 sm:p-6 lg:p-8">
+    <div className="w-full animate-fade-in font-sans bg-white dark:bg-[#0b0f19] -m-4 md:-m-6">
       {/* Sticky Contents Bar */}
       <div id="as1-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#0b0f19] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none">
-        <div className="w-full px-4 sm:px-6 lg:px-8 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-          <div className="flex items-center gap-x-1 whitespace-nowrap py-0">
+        <div className="w-full px-4 sm:px-6 lg:px-8 py-2.5">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5">
             {as1Chapters.map((sec) => (
               <button
                 key={sec.id}
                 onClick={() => {
                   const el = document.getElementById(`as1-${sec.id}`);
                   if (el) {
-                    const yOffset = -110;
-                    const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                    window.scrollTo({ top: y, behavior: 'smooth' });
+                    el.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className={`transition-all cursor-pointer px-3 py-2.5 text-[11px] font-sans font-medium tracking-wide shrink-0 border-b-2 ${
+                className={`transition-all cursor-pointer px-3 py-1.5 rounded-full text-[11px] font-sans font-semibold tracking-wide shrink-0 border ${
                   activeSection === sec.id
-                    ? 'text-amber-700 dark:text-amber-400 border-amber-600 dark:border-amber-400'
-                    : 'text-slate-500 dark:text-slate-400 border-transparent hover:text-slate-700 dark:hover:text-slate-300 hover:border-slate-300'
+                    ? 'text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/40 border-amber-250 dark:border-amber-800/80 shadow-3xs font-bold'
+                    : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 border-transparent hover:bg-slate-100/50 dark:hover:bg-slate-800/50'
                 }`}
               >
                 {sec.title}
@@ -496,33 +493,6 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
       {/* Main Publication Sheet Canvas - White document feel */}
       <div className="w-full bg-white dark:bg-[#0b0f19] px-4 sm:px-8 lg:px-10 py-10 sm:py-14 space-y-20 relative">
-        
-        {/* Cover Document Header */}
-        <div className="border-b border-slate-200 dark:border-slate-800 pb-10 mb-16 text-center select-none w-full relative">
-          <div className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 font-mono">
-            Accounting Standards Board • The Institute of Chartered Accountants of India
-          </div>
-          
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="w-8 h-8 rounded-full border border-slate-205 dark:border-slate-700 flex items-center justify-center text-slate-600 dark:text-slate-400 font-serif font-black text-xs">
-              AS
-            </div>
-            <span className="text-slate-200 dark:text-slate-800">|</span>
-            <span className="text-[10px] font-sans font-bold tracking-widest uppercase text-slate-450 dark:text-slate-400">Official Standard</span>
-          </div>
-
-          <h1 className="text-2xl sm:text-[28px] lg:text-[32px] font-serif font-medium text-slate-900 dark:text-white tracking-tight mb-2">
-            Accounting Standard (AS) 1
-          </h1>
-          <p className="text-lg sm:text-xl text-slate-550 dark:text-slate-400 font-serif italic font-normal">
-            Disclosure of Accounting Policies
-          </p>
-          <div className="flex items-center justify-center gap-3 mt-5 text-[9px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-            <span>Universal Application</span>
-            <span>•</span>
-            <span>Mandatory under Companies Act 2013</span>
-          </div>
-        </div>
 
         {/* Chapter 1: Introduction & Purpose */}
         <section id="as1-overview" className="scroll-mt-36 space-y-8 w-full">
@@ -743,7 +713,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </div>
 
           {/* Interactive Search Tool */}
-          <div className="max-w-4xl mx-auto my-6 font-sans">
+          <div className="w-full my-6 font-sans">
             <div className="relative">
               <Search className="absolute left-3 top-3.5 text-slate-400" size={15} />
               <input
@@ -764,7 +734,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             </div>
           </div>
 
-          <div className="space-y-4 max-w-4xl mx-auto w-full">
+          <div className="space-y-4 w-full">
             {filteredDiversityAreas.length > 0 ? (
               filteredDiversityAreas.map((area) => (
                 <AccordionItem
@@ -976,9 +946,9 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </div>
 
           {/* Audit Checklist Layout */}
-          <div className="my-8 space-y-6 max-w-4xl mx-auto font-serif">
+          <div className="my-8 space-y-6 w-full font-serif">
             <div className="flex gap-4 items-start">
-              <div className="w-5 h-5 rounded-full bg-amber-50 dark:bg-amber-955/20 border border-amber-200 dark:border-amber-800 flex items-center justify-center text-amber-700 dark:text-amber-505 shrink-0 mt-1">
+              <div className="w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-250 dark:border-emerald-800/85 flex items-center justify-center text-emerald-700 dark:text-emerald-450 shrink-0 mt-1">
                 <Check size={12} />
               </div>
               <div className="space-y-1">
@@ -989,7 +959,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </div>
             </div>
             <div className="flex gap-4 items-start">
-              <div className="w-5 h-5 rounded-full bg-amber-50 dark:bg-amber-955/20 border border-amber-200 dark:border-amber-800 flex items-center justify-center text-amber-700 dark:text-amber-505 shrink-0 mt-1">
+              <div className="w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-250 dark:border-emerald-800/85 flex items-center justify-center text-emerald-700 dark:text-emerald-450 shrink-0 mt-1">
                 <Check size={12} />
               </div>
               <div className="space-y-1">
@@ -1000,7 +970,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </div>
             </div>
             <div className="flex gap-4 items-start">
-              <div className="w-5 h-5 rounded-full bg-amber-50 dark:bg-amber-955/20 border border-amber-200 dark:border-amber-800 flex items-center justify-center text-amber-700 dark:text-amber-505 shrink-0 mt-1">
+              <div className="w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-250 dark:border-emerald-800/85 flex items-center justify-center text-emerald-700 dark:text-emerald-450 shrink-0 mt-1">
                 <Check size={12} />
               </div>
               <div className="space-y-1">
@@ -1028,7 +998,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </div>
 
           {/* Clean Vertical Timeline Step Layout */}
-          <div className="my-8 space-y-8 max-w-4xl mx-auto font-serif relative pl-8 border-l border-slate-200 dark:border-slate-800">
+          <div className="my-8 space-y-8 w-full font-serif relative pl-8 border-l border-slate-200 dark:border-slate-800">
             <div className="relative">
               <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#0b0f19] border-2 border-amber-600 dark:border-amber-500 flex items-center justify-center text-xs font-bold text-slate-900 dark:text-white font-mono select-none">
                 1
@@ -1088,8 +1058,8 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           {/* Section 8A: Para 23 Rule Warning Box */}
           <div id="as1-para23" className="scroll-mt-36 pt-6">
-            <div className="p-6 border-l-4 border-amber-600 dark:border-amber-500 bg-amber-50/10 dark:bg-amber-955/5 rounded-r-lg font-serif">
-              <div className="flex items-center gap-2 mb-3 text-amber-700 dark:text-amber-505 font-sans font-bold text-[13px] uppercase tracking-wider">
+            <div className="p-6 border-l-4 border-rose-600 dark:border-rose-500 bg-rose-50/10 dark:bg-rose-955/5 rounded-r-lg font-serif">
+              <div className="flex items-center gap-2 mb-3 text-rose-700 dark:text-rose-455 font-sans font-bold text-[13px] uppercase tracking-wider">
                 <AlertTriangle size={15} />
                 <span>Audit Warning: Disclosure is not a Cure</span>
               </div>
@@ -1329,11 +1299,10 @@ export default function LearningPortalClient({
             e.stopPropagation()
             navigateToPdfPage(pageNum)
           }}
-          className="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded text-[11px] font-extrabold transition-all cursor-pointer select-none align-middle"
+          className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-650 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
           title={`Click to jump to PDF Page ${pageNum}`}
         >
-          <FileText size={10} className="shrink-0 text-red-500 dark:text-red-400" />
-          Page {pageNum}
+          <FileText size={10} className="shrink-0 text-red-500 dark:text-red-450" />
         </button>
       )
       
@@ -1598,24 +1567,12 @@ export default function LearningPortalClient({
       `}>
         
         {/* Sidebar Header */}
-        <div className="px-3.5 py-4 border-b border-[#E2E1DD] dark:border-gray-800 flex flex-col gap-3">
+        <div className="px-3.5 py-4 border-b border-[#E2E1DD] dark:border-gray-800">
           <div className="flex items-center gap-2.5 pl-0.5 w-full overflow-visible">
             <BookOpen size={21} className="text-[#2D5BE3] dark:text-blue-400 shrink-0" />
             <span className="font-sans font-extrabold text-[16px] text-[#1C1C1E] dark:text-white uppercase tracking-widest whitespace-nowrap overflow-visible leading-tight">
               {framework === 'AS' ? 'Accounting Standards' : 'Indian Acc. Standards'}
             </span>
-          </div>
-
-          {/* Search box */}
-          <div className="relative">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#76767E] dark:text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search standards..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#FAFAF8] focus:bg-white dark:bg-[#0B0F19] dark:focus:bg-[#111726] border border-[#C5C3BC] dark:border-gray-750 focus:border-[#2D5BE3] rounded-lg pl-9 pr-3 py-2 text-[12.5px] font-semibold outline-none transition-all focus:ring-2 focus:ring-[#2D5BE3]/15 shadow-2xs text-[#1C1C1E] dark:text-white"
-            />
           </div>
         </div>
 
@@ -1791,7 +1748,7 @@ export default function LearningPortalClient({
             </>
             
             {/* Prominent Standard Title */}
-            <h1 className="text-[16px] sm:text-[22px] md:text-[24px] font-semibold text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate select-none leading-tight flex-1 min-w-0">
+            <h1 className="text-[16px] sm:text-[22px] md:text-[24px] font-semibold text-[#1C1C1E] dark:text-white tracking-tight border-l-2 border-[#2D5BE3] dark:border-blue-500 pl-2.5 sm:pl-3 truncate leading-tight flex-1 min-w-0">
               {currentStandard.id.includes('intro') ? 'Introduction to Accounting Standards and Their Applicability' : currentStandard.title}
             </h1>
           </div>
