@@ -393,19 +393,10 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
     setActiveSection(id)
     const container = document.getElementById('as1-scroll-container')
     const target = document.getElementById(`sec-${id}`)
-    const stickyNavbar = document.getElementById('as1-examples-sticky-toc')
     if (container && target) {
-      if (id === 'icai-illustrations') {
-        container.scrollTo({ top: 0, behavior: 'auto' })
-        return
-      }
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
-      let stickyOffset = 98
-      if (stickyNavbar) {
-        const navRect = stickyNavbar.getBoundingClientRect()
-        stickyOffset = navRect.bottom - containerRect.top
-      }
+      const stickyOffset = 98 // Stuck TOC bottom relative to container top
       const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2
       container.scrollTo({ top: targetScrollTop, behavior: 'auto' })
     }
