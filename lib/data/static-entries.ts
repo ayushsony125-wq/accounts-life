@@ -1276,3 +1276,156 @@ export const IND_AS_1_ENTRY = {
   ],
 }
 
+// ─── Full AS Standard: AS 9 ──────────────────────────────────────────────────
+
+export const AS_9_ENTRY = {
+  entryTitle: 'AS 9 — Revenue Recognition',
+  entrySlug: 'as-9',
+  summary:
+    'AS 9 establishes the principles for recognizing revenue in the statement of profit and loss of an enterprise. It outlines the criteria for revenue recognition from the sale of goods, rendering of services, and the use of enterprise resources by others (yielding interest, royalties, and dividends).',
+  verificationLevel: 'VERIFIED' as const,
+  wordCount: 2200,
+  lastReviewedAt: '2024-03-01',
+  authorityPrimary: 'ICAI — Accounting Standard 9',
+  authorityPrimaryUrl: 'https://www.icai.org/post/accounting-standards-as-9',
+  standardCode: 'AS 9',
+  standardFramework: 'AS' as const,
+  standardStatus: 'ACTIVE' as const,
+  issuingBody: 'ICAI (Institute of Chartered Accountants of India)',
+  dateIssued: '1985-06-01',
+  dateEffective: '1985-04-01',
+  applicabilitySummary: 'Mandatory for all enterprises preparing financial statements under Indian GAAP (AS framework). It governs the timing and conditions under which revenue is recognised from ordinary business operations.',
+  quickBullets: [
+    { icon: '📦', label: 'Sale of Goods', desc: 'Transfer of risks and rewards of ownership' },
+    { icon: '🛠️', label: 'Services', desc: 'Completed Contract or Proportionate Completion' },
+    { icon: '📈', label: 'Resources', desc: 'Accrual basis for Interest, Royalties & Dividends' },
+  ],
+  objective: {
+    text: 'The objective of AS 9 is to formulate the method of accounting for revenue in the statement of profit and loss. It prescribes the timing and conditions under which revenue should be recognised, particularly when there is uncertainty regarding the amount or collectability of the consideration.',
+    sourcePara: 'Introduction',
+    commentary: 'AS 9 establishes that revenue is the gross inflow of cash, receivables, or other consideration. The critical issue is the timing of recognition. Under accrual accounting, revenue is recognised when it is earned and realizable (i.e. no significant uncertainty of collection exists), not when cash is received.',
+    keyIssues: [
+      'When have the significant risks and rewards of ownership passed to the buyer?',
+      'Which service revenue recognition method should be applied — Completed Contract or Proportionate Completion?',
+      'How should revenue recognition be handled when collection is highly uncertain?',
+      'What is the timing of recognizing interest, royalty, and dividend revenue?',
+    ],
+  },
+  scope: {
+    statement: 'AS 9 applies to revenue arising in the course of the ordinary activities of an enterprise from: (1) Sale of goods; (2) Rendering of services; (3) Use by others of enterprise resources yielding interest, royalties, and dividends.',
+    included: [
+      'Revenue from sale of manufactured or purchased goods',
+      'Service fees from rendering technical, professional, or financial services',
+      'Interest earned on bank deposits, loans, or debentures',
+      'Royalties received for the use of patents, copyrights, and trademarks',
+      'Dividends declared on equity shares held as investments',
+    ],
+    excluded: [
+      'Revenue arising from construction contracts (governed by AS 7)',
+      'Revenue arising from hire-purchase and lease agreements (governed by AS 19)',
+      'Revenue arising from government grants and other subsidies (governed by AS 12)',
+      'Revenue of insurance companies arising from contracts of insurance',
+      'Realised/unrealised gains from sale of fixed assets or investments (these are gains, not revenue under ordinary activities)',
+    ],
+  },
+  definitions: [
+    {
+      term: 'Revenue',
+      paraRef: 'Para 3.1',
+      officialText:
+        '"Revenue is the gross inflow of cash, receivables or other consideration arising in the course of the ordinary activities of an enterprise from the sale of goods, from the rendering of services, and from the use by others of enterprise resources yielding interest, royalties and dividends."',
+      plainExplanation:
+        'Revenue represents the top-line income from ordinary business operations. Crucially, it only includes gross inflows of economic benefits received/receivable on the enterprise\'s own account. Amounts collected on behalf of third parties (like GST, sales tax, or agency commissions) are NOT revenue.',
+    },
+    {
+      term: 'Sale of Goods',
+      paraRef: 'Para 6',
+      officialText:
+        '"A key criterion for determining when to recognise revenue from a transaction involving the sale of goods is that the seller has transferred to the buyer the property in the goods for a price or all significant risks and rewards of ownership..."',
+      plainExplanation:
+        'Revenue from sales cannot be recognised merely because an invoice is raised or a contract is signed. The significant risks and rewards of ownership (such as the risk of obsolescence, damage, and price fluctuations) must have passed to the buyer, and the seller must retain no effective control.',
+    },
+    {
+      term: 'Rendering of Services',
+      paraRef: 'Para 7',
+      officialText:
+        '"Revenue from service transactions is usually recognised as the service is performed, either by the proportionate completion method or by the completed service contract method, whichever relation to the stage of completion of the specific transaction is more appropriate."',
+      plainExplanation:
+        'Service revenue can be recognised either: (1) as the service progresses (Proportionate Completion) or (2) only when the service is fully finished (Completed Contract). If a single act is critical, use the Completed Contract method.',
+    },
+  ],
+  recognitionRules:
+    'For sale of goods, recognise when property in goods / risks and rewards of ownership are transferred to the buyer, and no significant uncertainty exists as to measurement or collectability. For rendering of services, recognise as the service is performed. Interest is recognised on a time proportion basis; royalties on an accrual basis in accordance with terms; dividends when the right to receive payment is established.',
+  measurementRules:
+    'Revenue is measured by the charges made to customers for goods supplied and services rendered to them, and by the charges and interest/royalties/dividends accruing on resource usage. Trade discounts, volume rebates, and similar items are deducted in determining revenue. GST and sales tax are excluded.',
+  disclosureGroups: [
+    {
+      heading: 'Mandatory Disclosures',
+      paraRange: 'Para 14',
+      items: [
+        { text: 'All significant accounting policies adopted for revenue recognition, including methods used for service contracts' },
+        { text: 'The circumstances in which revenue recognition has been postponed pending the resolution of significant uncertainties, with reasons' },
+        { text: 'Separate disclosure of revenue from: (a) sale of goods, (b) rendering of services, and (c) interest, royalties, and dividends' },
+      ],
+    },
+  ],
+  journalEntryNotes: [
+    {
+      scenario: 'Postponement of Revenue due to Collection Uncertainty',
+      treatment:
+        'When goods are sold but there is severe uncertainty about collectability (e.g., export to a country with forex restrictions), no entry is passed for sale. Instead, hold inventory. Only when the uncertainty is resolved is the sale recorded: Debit Cash/Receivables A/c, Credit Revenue A/c.',
+    },
+    {
+      scenario: 'Accrual of Royalty Income',
+      treatment:
+        'Under AS 9, royalties must be recognised on an accrual basis as per the terms of the agreement: Debit Accrued Royalties A/c, Credit Royalty Income A/c.',
+    },
+  ],
+  comparison: {
+    std2Title: 'Ind AS 115 — Revenue from Contracts with Customers',
+    rows: [
+      { criterion: 'Core Model', as: 'Risk and rewards transfer model (separate rules for goods, services, and resources)', indAs: 'Unified 5-step control-based model for all contracts with customers', isDifferent: true },
+      { criterion: 'Service Revenue', as: 'Allows Completed Contract or Proportionate Completion method', indAs: 'Requires recognition over time (if specific criteria met) or at a point in time; completed contract is not a standard option unless control transfers at the end', isDifferent: true },
+      { criterion: 'Agent vs Principal', as: 'Indicates revenue is gross inflow on own account; excludes third-party collections (GST/Sales tax)', indAs: 'Provides detailed indicators to determine if entity acts as principal (recognise gross) or agent (recognise net commission)', isDifferent: true },
+      { criterion: 'Multiple Deliverables', as: 'No detailed guidance for separating components of a single transaction', indAs: 'Extensive rules for identifying distinct Performance Obligations and allocating transaction price based on standalone selling prices', isDifferent: true },
+      { criterion: 'Time Value of Money', as: 'Not considered in revenue measurement (except interest)', indAs: 'Requires adjustment of transaction price if the contract contains a significant financing component', isDifferent: true },
+    ],
+  },
+  relatedStandards: [
+    { code: 'AS 7', title: 'Construction Contracts', slug: 'as-7', color: '#0F6B5E', framework: 'AS' },
+    { code: 'AS 19', title: 'Leases', slug: 'as-19', color: '#0F6B5E', framework: 'AS' },
+    { code: 'Ind AS 115', title: 'Revenue from Contracts with Customers', slug: 'ind-as-115', color: '#6B3FA0', framework: 'Ind AS' },
+  ],
+  faqs: [
+    {
+      id: 1,
+      question: 'What is the primary condition for revenue recognition under AS 9?',
+      answer:
+        'The primary condition for revenue recognition is the transfer of risks and rewards of ownership (for goods) or performance of service, plus the absence of any significant uncertainty regarding the measurement of consideration or its collectability. If such uncertainty exists, recognition must be postponed.',
+      sourceRef: 'AS 9, Para 6 & 9',
+    },
+    {
+      id: 2,
+      question: 'Should GST / Excise duty collected be included in revenue?',
+      answer:
+        'Excise duty is a liability of the manufacturer and is included in gross revenue, but deducted on the face of the P&L. GST is collected on behalf of the government (agency relationship) and is excluded from revenue under AS 9 because it does not represent gross inflows to the enterprise on its own account.',
+      sourceRef: 'AS 9, Para 3.1 & 4',
+    },
+    {
+      id: 3,
+      question: 'What happens if uncertainty about collection arises after the sale has already been recognised?',
+      answer:
+        'If uncertainty about collection arises after the revenue has already been recognised, the original revenue entry is NOT adjusted. Instead, a separate provision for doubtful debts or write-off for bad debts is made in the profit and loss account (per Para 10).',
+      sourceRef: 'AS 9, Para 10',
+    },
+    {
+      id: 4,
+      question: 'When should dividend revenue be recognised?',
+      answer:
+        'Dividend revenue should be recognised when the shareholder\'s right to receive payment is established. This is typically when the dividend is declared by the board of directors and approved by the shareholders of the paying company.',
+      sourceRef: 'AS 9, Para 8.3',
+    },
+  ],
+}
+
+

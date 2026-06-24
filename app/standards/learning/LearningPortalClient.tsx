@@ -43,6 +43,7 @@ import { Standard } from '@/lib/learning-loader'
 import { getStandardDetailAction } from './actions'
 import { AS1ExamplesCustomContent } from './AS1ExamplesCustomContent'
 import { AS2ExamplesCustomContent } from './AS2ExamplesCustomContent'
+import { AS9ExamplesCustomContent } from './AS9ExamplesCustomContent'
 
 const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   // AS
@@ -1721,6 +1722,418 @@ function AS2StandardTabContent({ navigateToPdfPage }: AS2StandardTabContentProps
 }
 
 
+// ─── AS 9 Standard Tab Sections ──────────────────────────────────────────────
+const as9Sections = [
+  { id: 'as9-overview',        title: '1. Overview & Purpose' },
+  { id: 'as9-scope',           title: '2. Scope & Exclusions (Para 1–2)' },
+  { id: 'as9-definitions',     title: '3. Definitions (Para 3)' },
+  { id: 'as9-gross-inflows',   title: '4. Agent vs Principal (Para 4)' },
+  { id: 'as9-measurement',     title: '5. Measurement & Discounts (Para 5)' },
+  { id: 'as9-sale-goods',      title: '6. Sale of Goods (Para 6)' },
+  { id: 'as9-services',        title: '7. Rendering of Services (Para 7)' },
+  { id: 'as9-resources',       title: '8. Resources Usage (Para 8)' },
+  { id: 'as9-uncertainties',   title: '9. Postponement & Uncertainties (Para 9–10)' },
+  { id: 'as9-timing',          title: '10. Detailed Timing Rules (Para 11–13)' },
+  { id: 'as9-disclosure',      title: '11. Disclosures (Para 14)' },
+  { id: 'as9-comparison',      title: '12. AS 9 vs Ind AS 115' },
+]
+
+interface AS9StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+  renderTextWithReferences: (text: string) => React.ReactNode;
+}
+
+function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as9-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({ completed: true, prop: true })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as9-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as9Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as9Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-red-600 dark:text-red-400',      border: 'border-red-400',     badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800' },
+    '9':  { num: 'text-fuchsia-600 dark:text-fuchsia-400',border:'border-fuchsia-400',badge: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200 dark:bg-fuchsia-950/40 dark:text-fuchsia-400 dark:border-fuchsia-800' },
+    '10': { num: 'text-sky-600 dark:text-sky-400',      border: 'border-sky-400',     badge: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-400 dark:border-sky-800' },
+    '11': { num: 'text-orange-600 dark:text-orange-400',border: 'border-orange-400',  badge: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-800' },
+    '12': { num: 'text-lime-600 dark:text-lime-400',    border: 'border-lime-400',    badge: 'bg-lime-50 text-lime-700 border-lime-200 dark:bg-lime-950/40 dark:text-lime-400 dark:border-lime-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button onClick={() => navigateToPdfPage(page)} className="ml-1 inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 text-[10px] font-bold text-red-600 dark:text-red-400 border border-red-200/50 dark:border-red-800/40 rounded transition-all cursor-pointer">
+      <FileText size={9.5} />
+      <span>{para}</span>
+    </button>
+  )
+
+  const DefCard = ({ term, para, page, official, plain }: { term: string; para: string; page: number; official: string; plain: string }) => (
+    <div className="bg-slate-50 dark:bg-slate-900/30 border border-slate-200 dark:border-slate-800 rounded-xl p-5 mb-5 space-y-3 font-sans">
+      <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/60 pb-2">
+        <span className="font-extrabold text-[15px] text-slate-900 dark:text-white tracking-tight">{term}</span>
+        <ParaRef page={page} para={para} />
+      </div>
+      <p className="text-[13px] leading-relaxed text-slate-800 dark:text-slate-350 italic font-mono whitespace-pre-line bg-white dark:bg-slate-950 p-3 rounded-lg border border-slate-250 dark:border-slate-800/60">{official}</p>
+      <p className="text-[14px] leading-relaxed text-slate-700 dark:text-slate-300 font-serif">{plain}</p>
+    </div>
+  )
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="w-full font-sans text-[15.5px] leading-relaxed text-slate-800 dark:text-slate-300">
+      {/* Sticky horizontal TOC */}
+      <div id="as9-standard-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-250 dark:border-slate-800 z-15 w-full select-none shadow-xs mb-6">
+        <div className="max-w-[1720px] mx-auto w-full px-4 sm:px-6 lg:px-8 py-2">
+          <div ref={tocScrollRef} className="flex items-center gap-1 overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-1">
+            {as9Sections.map((sec, i) => (
+              <button
+                key={sec.id}
+                data-sec-id={sec.id}
+                onClick={() => handleSectionClick(sec.id)}
+                className={`transition-all px-3 py-1 rounded-full text-[11px] font-semibold tracking-wide cursor-pointer shrink-0 border ${
+                  activeSection === sec.id
+                    ? 'bg-indigo-600 text-white font-bold border-indigo-700 dark:bg-indigo-600'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border-transparent'
+                }`}
+              >
+                {sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Canvas */}
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-10 lg:px-16 py-10 sm:py-14 my-4">
+
+        {/* 1. Overview */}
+        <SecHeader id="as9-overview" num="1" title="Overview & Purpose" />
+        <p className="text-[16.5px] sm:text-[17.5px] leading-relaxed text-slate-700 dark:text-slate-200 mb-6 font-serif">
+          AS 9 — Revenue Recognition prescribes the basis, timing, and criteria for recognizing revenue in the Statement of Profit and Loss. Issued originally in 1985, it is a foundational standard under Indian GAAP. The standard defines revenue and establishes specific rules for sale of goods, rendering of services, and the use of enterprise resources by third parties.
+        </p>
+        <NoteBox type="info" title="Core Rule of Revenue Recognition">
+          Revenue is recognised when it is <strong>earned</strong> and there is <strong>no significant uncertainty</strong> regarding its ultimate collection. Under accrual accounting, cash receipt is not the trigger for revenue recognition.
+        </NoteBox>
+
+        {/* 2. Scope & Exclusions */}
+        <SecHeader id="as9-scope" num="2" title="Scope & Exclusions (Para 1–2)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          AS 9 applies to revenue arising from ordinary business activities. It has specific exclusions that are governed by other specialized accounting standards.
+          <ParaRef page={1} para="Para 1–2" />
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+          <div className="p-5 rounded-xl border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/50 dark:bg-emerald-950/10">
+            <p className="font-extrabold text-[11px] text-emerald-700 dark:text-emerald-400 uppercase tracking-wider mb-3">✓ In Scope</p>
+            <ul className="space-y-2 text-[14px] text-slate-700 dark:text-slate-300">
+              {['Sale of manufactured goods', 'Sale of merchandise/trading stock', 'Rendering of technical, professional, or financial services', 'Interest earned on deposits, loans, or bonds', 'Royalties from licensing patents, copy-rights, trademarks', 'Dividends declared on share investments'].map((item, i) => (
+                <li key={i} className="flex items-start gap-2"><span className="text-emerald-600 font-bold shrink-0">✓</span>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="p-5 rounded-xl border border-red-200 dark:border-red-900/40 bg-red-50/50 dark:bg-red-950/10">
+            <p className="font-extrabold text-[11px] text-red-700 dark:text-red-400 uppercase tracking-wider mb-3">✗ Excluded from Scope</p>
+            <ul className="space-y-2 text-[14px] text-slate-700 dark:text-slate-300">
+              {['Revenue from Construction Contracts (governed by AS 7)', 'Revenue from Lease/Hire-Purchase agreements (governed by AS 19)', 'Revenue from Government Grants and subsidies (governed by AS 12)', 'Insurance contract revenues of insurance companies', 'Gains from sale of fixed assets/investments (classified as other income/gains, not revenue from ordinary activities)'].map((item, i) => (
+                <li key={i} className="flex items-start gap-2"><span className="text-red-600 font-bold shrink-0">✗</span>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as9-definitions" num="3" title="Definitions (Para 3)" />
+        <DefCard term="Revenue" para="Para 3.1" page={2}
+          official='"Revenue is the gross inflow of cash, receivables or other consideration arising in the course of the ordinary activities of an enterprise from the sale of goods, from the rendering of services, and from the use by others of enterprise resources yielding interest, royalties and dividends."'
+          plain="Revenue measures the top-line inflows generated from regular business operations. It does not include capital receipts, loans, or gains on sale of fixed assets." />
+        <DefCard term="Sale of Goods" para="Para 6" page={3}
+          official='"A key criterion for determining when to recognise revenue from a transaction involving the sale of goods is that the seller has transferred to the buyer the property in the goods for a price or all significant risks and rewards of ownership..."'
+          plain="For goods, risk-and-reward transfer is the key test. If risks (like damage/obsolescence) and rewards (like price increases/use) remain with the seller, sales revenue cannot be recognised." />
+        <DefCard term="Rendering of Services" para="Para 7" page={4}
+          official='"Revenue from service transactions is usually recognised as the service is performed, either by the proportionate completion method or by the completed service contract method..."'
+          plain="Service revenue depends on the timing of service performance. Choose the completed service contract method for one-off/single-act contracts, and the proportionate completion method for ongoing/milestone-based services." />
+
+        {/* 4. Gross Inflows & Agency */}
+        <SecHeader id="as9-gross-inflows" num="4" title="Agent vs Principal (Para 4)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={2} para="Para 4" /> Revenue includes only <strong>gross inflows on the enterprise\'s own account</strong>. In an agency relationship, the gross inflows collected on behalf of the principal do not represent revenue for the agent. Instead, only the commission earned is the agent\'s revenue.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#1A2035]">
+            <span className="font-bold text-[13px] text-blue-600 dark:text-blue-400 block mb-1">Principal (Gross Basis)</span>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-300">If the entity bears credit risk, inventory risk, and establishes prices, it acts as a principal. It recognises the gross sale value as revenue.</p>
+          </div>
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#1A2035]">
+            <span className="font-bold text-[13px] text-teal-600 dark:text-teal-400 block mb-1">Agent (Net Basis)</span>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-300">If the entity only facilitates sales without taking title or risk, it acts as an agent. It recognises only the net commission as revenue.</p>
+          </div>
+        </div>
+
+        {/* 5. Measurement of Revenue */}
+        <SecHeader id="as9-measurement" num="5" title="Measurement & Discounts (Para 5)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={3} para="Para 5" /> Revenue is measured by the charges made to customers. Trade discounts, volume rebates, and early payment returns are deducted directly from the gross billing amount to determine the revenue to be recognised.
+        </p>
+        <div className="p-5 rounded-xl border border-amber-200 dark:border-amber-900/40 bg-amber-50/40 dark:bg-amber-950/15 mb-6 text-[14px]">
+          <p className="font-extrabold text-[11px] text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-2">⚠ Exam Trap: Trade Discount vs Cash Discount</p>
+          <ul className="space-y-1.5 text-slate-700 dark:text-slate-355 list-disc pl-4">
+            <li><strong>Trade Discounts / Volume Rebates</strong>: Deducted directly from gross billing. Recognise revenue net of trade discounts.</li>
+            <li><strong>Cash Discounts</strong>: Allowed for early payment. Do NOT deduct from revenue. Show revenue gross (before cash discount) and debit the cash discount as an expense to P&L.</li>
+            <li><strong>GST / Sales Tax</strong>: Collected on behalf of government. Exclude from revenue completely.</li>
+          </ul>
+        </div>
+
+        {/* 6. Sale of Goods */}
+        <SecHeader id="as9-sale-goods" num="6" title="Sale of Goods Criteria (Para 6)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          Revenue from sale of goods is recognised when <strong>all</strong> the following conditions are met:
+          <ParaRef page={3} para="Para 6" />
+        </p>
+        <div className="space-y-3.5 mb-8">
+          {[
+            { t: '1. Transfer of Risks and Rewards', d: 'The seller has transferred all significant risks and rewards of ownership (e.g. risk of loss, damage, obsolescence) to the buyer.' },
+            { t: '2. No Effective Control', d: 'The seller retains no effective managerial involvement or control over the goods sold.' },
+            { t: '3. Measurability', d: 'No significant uncertainty exists regarding the amount of consideration that will be derived from the sale.' },
+            { t: '4. Collectability Assured', d: 'At the time of sale, it is not unreasonable to expect ultimate collection of the amount.' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-3 p-4 rounded-xl border border-slate-150 dark:border-slate-800 bg-white dark:bg-slate-900/40 shadow-xs">
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-mono font-bold text-xs shrink-0">{i+1}</span>
+              <div>
+                <p className="font-bold text-[14.5px] text-slate-900 dark:text-white">{item.t}</p>
+                <p className="text-[13.5px] text-slate-500 dark:text-slate-400 mt-0.5">{item.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 7. Rendering of Services */}
+        <SecHeader id="as9-services" num="7" title="Rendering of Services (Para 7)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          AS 9 allows two primary methods for recognizing service revenue:
+          <ParaRef page={4} para="Para 7" />
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#1A2035]">
+            <p className="font-extrabold text-[12px] text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-2">1. Completed Service Contract Method</p>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-300 mb-3">Revenue is recognised only when the service is completed or substantially completed. Use this when a single act is critical to the contract (e.g. delivery of an audit report, or a single transport trip).</p>
+            <button onClick={() => toggleAccordion('completed')} className="text-[11.5px] font-bold text-indigo-600 hover:underline">Show Example</button>
+            {openAccordions.completed && (
+              <p className="text-[12.5px] text-slate-500 dark:text-slate-400 italic mt-2 border-t border-slate-200 dark:border-slate-700 pt-2">Example: A courier company books revenue only when the parcel is delivered to the consignee, as the final delivery is the sole critical performance obligation.</p>
+            )}
+          </div>
+          <div className="p-5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#1A2035]">
+            <p className="font-extrabold text-[12px] text-indigo-650 dark:text-indigo-400 uppercase tracking-wider mb-2">2. Proportionate Completion Method</p>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-300 mb-3">Revenue is recognised proportionately with the degree of completion of services under the contract (milestones, time elapsed, or costs incurred). Use this when services are rendered continuously over time.</p>
+            <button onClick={() => toggleAccordion('prop')} className="text-[11.5px] font-bold text-indigo-600 hover:underline">Show Example</button>
+            {openAccordions.prop && (
+              <p className="text-[12.5px] text-slate-500 dark:text-slate-400 italic mt-2 border-t border-slate-200 dark:border-slate-700 pt-2">Example: A coaching class runs a 6-month batch. It recognises revenue straight-line monthly (1/6th per month) as the instruction is provided.</p>
+            )}
+          </div>
+        </div>
+
+        {/* 8. Use of Resources */}
+        <SecHeader id="as9-resources" num="8" title="Interest, Royalties & Dividends (Para 8)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          Revenue from the use of enterprise resources by others should be recognised when no significant uncertainty exists:
+          <ParaRef page={4} para="Para 8" />
+        </p>
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead><tr className="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+              {['Resource Revenue', 'Basis of Recognition', 'Key Rule', 'Example'].map(h => <th key={h} className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">{h}</th>)}
+            </tr></thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              {[
+                ['Interest', 'Time proportion basis', 'Takes into account amount outstanding and rate applicable', 'Interest on FD accrued daily/monthly regardless of payout date'],
+                ['Royalties', 'Accrual basis', 'In accordance with terms of the licensing agreement', '2% of licensee sales, accrued when those sales occur'],
+                ['Dividends', 'Declaration basis', 'When owner\'s right to receive payment is established', 'Recognised on the date the dividend is declared at the shareholder AGM'],
+              ].map((row, i) => (
+                <tr key={i} className="hover:bg-slate-50/50 dark:hover:bg-slate-900/20">
+                  {row.map((cell, j) => <td key={j} className="p-3 text-slate-800 dark:text-slate-200">{cell}</td>)}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* 9. Uncertainties & Postponement */}
+        <SecHeader id="as9-uncertainties" num="9" title="Postponement & Uncertainties (Para 9–10)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          The concept of prudence requires that revenue recognition be deferred if significant uncertainty exists at the time of transaction.
+          <ParaRef page={5} para="Para 9–10" />
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+          <div className="p-5 rounded-xl border border-amber-200 dark:border-amber-900/40 bg-amber-50/30 dark:bg-amber-950/10">
+            <p className="font-extrabold text-[11px] text-amber-700 dark:text-amber-400 uppercase tracking-wider mb-2">Uncertainty at Time of Sale (Para 9)</p>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-350">
+              If collectability is not reasonably assured at the transaction date (e.g. export to a country with severe exchange transfer controls), revenue recognition MUST be postponed. Only when the uncertainty is resolved (cash received or bank guarantee issued) is the revenue recognised.
+            </p>
+          </div>
+          <div className="p-5 rounded-xl border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-950/10">
+            <p className="font-extrabold text-[11px] text-blue-700 dark:text-blue-400 uppercase tracking-wider mb-2">Uncertainty arising AFTER Sale (Para 10)</p>
+            <p className="text-[13.5px] text-slate-700 dark:text-slate-350">
+              If revenue has already been recognised, but later collection becomes doubtful, do NOT adjust or reverse the original revenue. Instead, create a provision for doubtful debts or write it off as a bad debt in the P&L as a separate expense.
+            </p>
+          </div>
+        </div>
+
+        {/* 10. Detailed Timing Rules */}
+        <SecHeader id="as9-timing" num="10" title="Detailed Timing Rules (Para 11–13)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          The Appendix to AS 9 details several practical scenarios and when revenue should be recognised:
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
+          {[
+            { t: 'Bill-and-Hold / Delayed Delivery', d: 'Recognise when title passes, billing is accepted, and items are completed, segregated, and ready to ship, provided the delay is buyer-requested.' },
+            { t: 'Complex Installation Contracts', d: 'Postpone recognition until installation and inspection are fully completed, unless installation is standard/plug-and-play.' },
+            { t: 'Sale on Approval / Return', d: 'Recognise when buyer accepts, does an adopting act (e.g. sells to third party), or time limit expires.' },
+            { t: 'Consignment Sales', d: 'Recognise only when the consignment agent sells the goods to the final retail customer.' },
+            { t: 'Installment Sales', d: 'Recognise sales price (excluding interest) on the date of sale. Interest is recognised on a time proportion basis over the credit period.' },
+            { t: 'Subscriptions for Publications', d: 'Recognise straight-line over the period in which the items are dispatched.' },
+          ].map((item, i) => (
+            <div key={i} className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/10 text-[13.5px]">
+              <p className="font-bold text-slate-900 dark:text-white mb-1">{item.t}</p>
+              <p className="text-slate-650 dark:text-slate-400">{item.d}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* 11. Disclosures */}
+        <SecHeader id="as9-disclosure" num="11" title="Disclosure Requirements (Para 14)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
+          <ParaRef page={7} para="Para 14" /> AS 9 mandates the following disclosures in the notes to financial statements:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+          <div className="p-5 rounded-xl border border-slate-250 dark:border-slate-800 bg-[#FAFAF8] dark:bg-slate-900/60 shadow-xs">
+            <span className="font-extrabold text-[11px] text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">1. Policies</span>
+            <p className="text-[13px] text-slate-700 dark:text-slate-350">Disclosure of significant accounting policies followed for revenue recognition, including methods used for service contracts.</p>
+          </div>
+          <div className="p-5 rounded-xl border border-slate-250 dark:border-slate-800 bg-[#FAFAF8] dark:bg-slate-900/60 shadow-xs">
+            <span className="font-extrabold text-[11px] text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">2. Postponements</span>
+            <p className="text-[13px] text-slate-700 dark:text-slate-350">Details and circumstances of any postponements of revenue recognition pending the resolution of significant uncertainties.</p>
+          </div>
+          <div className="p-5 rounded-xl border border-slate-250 dark:border-slate-800 bg-[#FAFAF8] dark:bg-slate-900/60 shadow-xs">
+            <span className="font-extrabold text-[11px] text-slate-400 dark:text-slate-500 uppercase tracking-widest block mb-2">3. Revenue Break-up</span>
+            <p className="text-[13px] text-slate-700 dark:text-slate-350">Separate disclosure of revenue from: (a) sale of goods, (b) rendering of services, and (c) interest, royalties, and dividends.</p>
+          </div>
+        </div>
+
+        {/* 12. Comparison */}
+        <SecHeader id="as9-comparison" num="12" title="AS 9 vs Ind AS 115 — Key Differences" />
+        <div className="overflow-x-auto">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800 text-slate-750 dark:text-slate-300">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-750 text-left w-1/4">Criterion</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-750 text-left w-3/8">AS 9 (Indian GAAP)</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-750 text-left w-3/8">Ind AS 115 (IFRS-Aligned)</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              {[
+                {c:'Core Model',a:'Risk and rewards transfer model (separate rules for goods, services, and resources)',ia:'Unified 5-step control-based model for all contracts with customers',d:true},
+                {c:'Multiple Deliverables',a:'No detailed guidance for separating components of a single transaction',ia:'Extensive rules for identifying distinct Performance Obligations and allocating transaction price based on stand-alone selling prices',d:true},
+                {c:'Service Revenue',a:'Allows Completed Contract or Proportionate Completion method',ia:'Requires recognition over time (if specific criteria met) or at a point in time; completed contract is not a standard option unless control transfers at the end',d:true},
+                {c:'Agent vs Principal',a:'Indicates revenue is gross inflow on own account; excludes third-party collections (GST/Sales tax)',ia:'Provides detailed indicators to determine if entity acts as principal (recognise gross) or agent (recognise net commission)',d:true},
+                {c:'Time Value of Money',a:'Not considered in revenue measurement (except interest)',ia:'Requires adjustment of transaction price if the contract contains a significant financing component',d:true},
+              ].map((row,i)=>(
+                <tr key={i} className={`hover:bg-slate-50/50 dark:hover:bg-slate-900/20 ${row.d?'bg-amber-50/20 dark:bg-amber-950/10':''}`}>
+                  <td className="p-3 font-semibold text-slate-900 dark:text-white">{row.c}</td>
+                  <td className="p-3 text-slate-700 dark:text-slate-300">{row.a}</td>
+                  <td className={`p-3 ${row.d?'text-amber-700 dark:text-amber-300 font-semibold':' text-slate-700 dark:text-slate-300'}`}>{row.ia}{row.d&&<span className="ml-2 text-[10px] font-bold bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded">DIFFERENT</span>}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <NoteBox type="exam" title="Most Critical Difference for Exams">
+          <strong>Risks & Rewards vs. Control</strong> = the core shift. Under <strong>AS 9</strong>, revenue from sales is recognised when risks and rewards of ownership pass. Under <strong>Ind AS 115</strong>, it is recognised when the customer obtains <strong>control</strong> of the goods or services.
+        </NoteBox>
+
+      </div>
+    </div>
+  )
+}
+
+
 interface LearningPortalClientProps {
   initialStandards: Standard[]
   initialSelectedStandardDetails: Standard
@@ -2647,6 +3060,11 @@ export default function LearningPortalClient({
                       navigateToPdfPage={navigateToPdfPage}
                       renderTextWithReferences={renderTextWithReferences}
                     />
+                  ) : currentStandard.id === 'as-9' ? (
+                    <AS9StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                      renderTextWithReferences={renderTextWithReferences}
+                    />
                   ) : (
                     <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
                   
@@ -2883,6 +3301,11 @@ export default function LearningPortalClient({
                 />
               ) : currentStandard.id === 'as-2' ? (
                 <AS2ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-9' ? (
+                <AS9ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />

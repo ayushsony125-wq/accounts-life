@@ -357,7 +357,7 @@ function mapStaticEntryToStandard(staticEntry: any, framework: 'AS' | 'Ind AS'):
     },
     examples: examples,
     lectureUrl: staticEntry.lectureUrl || 'https://www.youtube.com/watch?v=mock_lecture',
-    pdfPagesCount: staticEntry.entrySlug === 'as-1' ? 16 : 3,
+    pdfPagesCount: staticEntry.entrySlug === 'as-1' ? 16 : (staticEntry.entrySlug === 'as-2' ? 16 : (staticEntry.entrySlug === 'as-9' ? 12 : 3)),
     resources: resourcesList,
     faqs: (staticEntry.faqs || []).map((f: any) => ({
       id: f.id,
@@ -437,6 +437,10 @@ export async function fetchStandardDetail(id: string, framework: 'AS' | 'Ind AS'
     if (id === 'as-2') {
       const { AS_2_ENTRY } = require('./data/static-entries')
       return mapStaticEntryToStandard(AS_2_ENTRY, 'AS')
+    }
+    if (id === 'as-9') {
+      const { AS_9_ENTRY } = require('./data/static-entries')
+      return mapStaticEntryToStandard(AS_9_ENTRY, 'AS')
     }
     if (id === 'ind-as-1') {
       const { IND_AS_1_ENTRY } = require('./data/static-entries')
