@@ -337,7 +337,8 @@ export function AS1ExamplesCustomContent({ navigateToPdfPage }: AS1ExamplesCusto
         const tocRect = stickyToc.getBoundingClientRect()
         stickyOffset = tocRect.bottom - containerRect.top
       }
-      const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2
+      // Apply the 12px shift correction (subtract 10px instead of adding 2px) to align exactly with sticky bottom
+      const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset - 10
       container.scrollTo({ top: targetScrollTop, behavior: 'auto' })
     }
   }
