@@ -286,16 +286,16 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
     };
     const arabicNum = numMap[num] || num;
     return (
-      <div className="w-full mb-8 mt-14 first:mt-2">
-        <div className="flex items-center gap-0 mb-3">
-          <span className="text-[13px] font-mono font-bold text-slate-400 dark:text-slate-500 mr-3 select-none tabular-nums">{arabicNum}.</span>
-          <h2 className="text-[21px] sm:text-[23px] font-sans font-bold text-slate-950 dark:text-white tracking-tight leading-tight">
-            {title}
+      <div className="w-full mb-6 mt-12 first:mt-2">
+        <div className="flex items-baseline gap-2 mb-2">
+          <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+            <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span>{title}</span>
           </h2>
         </div>
-        <div className="h-[2px] w-full bg-gradient-to-r from-slate-200 via-slate-100 to-transparent dark:from-slate-700 dark:via-slate-800 dark:to-transparent mb-3" />
+        <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
         {description && (
-          <p className="text-[14px] font-sans font-medium text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
+          <p className="text-[13.5px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
             {description}
           </p>
         )}
@@ -521,10 +521,10 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   );
 
   return (
-    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] -m-4 md:-m-6 pb-8">
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
       {/* Sticky Contents Bar */}
       <div id="as1-sticky-toc" className="sticky top-[58px] bg-[#F5F5F3]/97 dark:bg-[#0B0F19]/97 backdrop-blur-sm border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
-        <div className="max-w-[1600px] mx-auto w-full px-3 sm:px-5 lg:px-8 py-2">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
           <div
             ref={tocScrollRef}
             style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }}
@@ -554,7 +554,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
 
       {/* Main Publication Sheet Canvas */}
-      <div className="mx-auto w-full max-w-[1600px] bg-white dark:bg-[#111726] shadow-sm border-x border-slate-200/70 dark:border-slate-800 px-4 sm:px-8 lg:px-14 py-10 sm:py-14 space-y-8 relative">
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
 
         {/* Chapter 1: Introduction & Purpose */}
         <section id="as1-overview" className="scroll-mt-36 space-y-8 w-full">
@@ -1946,7 +1946,7 @@ export default function LearningPortalClient({
         </div>
 
         {/* ─── Tab Content Views ──────────────────────────────────────────────── */}
-        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' ? 'p-2 sm:p-4 pt-1 sm:pt-2' : 'p-4 md:p-6'}`}>
+        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || (activeTab === 'standard' && currentStandard.id === 'as-1') ? 'p-0' : 'p-4 md:p-6'}`}>
 
           {isLoadingDetails ? (
             <div className="w-full space-y-8 animate-pulse p-4 flex-1 flex flex-col justify-start">
