@@ -467,7 +467,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   return (
     <div className="w-full animate-fade-in font-sans bg-white dark:bg-[#0b0f19] -m-4 md:-m-6 p-4 sm:p-6 lg:p-8">
       {/* Sticky Contents Bar */}
-      <div className="sticky top-[58px] bg-white dark:bg-[#0b0f19] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none">
+      <div id="as1-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#0b0f19] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none">
         <div className="w-full px-4 sm:px-6 lg:px-8 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <div className="flex items-center gap-x-1 whitespace-nowrap py-0">
             {as1Chapters.map((sec) => (
