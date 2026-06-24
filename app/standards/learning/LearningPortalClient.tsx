@@ -286,15 +286,14 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
     };
     const arabicNum = numMap[num] || num;
     return (
-      <div className="w-full mb-6 pb-3 border-b border-slate-200 dark:border-slate-800 mt-10 first:mt-2">
+      <div className="w-full mb-6 pb-4 border-b border-slate-200 dark:border-slate-800 mt-12 first:mt-2">
         <div className="flex items-baseline gap-2">
-          <h2 className="text-[19px] sm:text-[21px] font-sans font-semibold text-slate-950 dark:text-white tracking-tight leading-tight">
-            <span className="text-amber-700 dark:text-amber-400 font-mono font-bold mr-2 select-none">{arabicNum}.</span>
-            {title}
+          <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-950 dark:text-white tracking-tight leading-tight">
+            {arabicNum}. {title}
           </h2>
         </div>
         {description && (
-          <p className="text-[13px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed pl-0">
+          <p className="text-[14.5px] font-sans font-semibold text-slate-900 dark:text-slate-100 dark:text-slate-350 mt-2 leading-relaxed pl-0">
             {description}
           </p>
         )}
@@ -327,10 +326,10 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           className="w-full text-left font-serif font-bold text-slate-950 dark:text-white hover:text-amber-800 dark:hover:text-amber-400 flex items-center justify-between p-4 select-none cursor-pointer"
         >
           <span className="flex items-center gap-3">
-            <span className="text-amber-805 dark:text-amber-300 font-mono text-xs font-bold bg-amber-100/60 dark:bg-amber-955/20 px-2.5 py-0.5 rounded border border-amber-250/50 dark:border-amber-900/30 select-none">
+            <span className="text-slate-800 dark:text-slate-200 font-mono text-[11px] font-bold bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 select-none">
               {num}
             </span>
-            <span className="text-sm sm:text-[15px] tracking-tight font-sans font-bold text-slate-950 dark:text-white">{title}</span>
+            <span className="text-[15.5px] tracking-tight font-sans font-extrabold text-slate-950 dark:text-white">{title}</span>
             <PdfRef page={5} />
           </span>
           <ChevronDown 
@@ -342,7 +341,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="border-t border-slate-200 dark:border-slate-800 bg-slate-50/10 dark:bg-slate-900/10 p-6 space-y-4 font-serif text-[14.5px] w-full">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 border-b border-slate-100 dark:border-slate-800/60 pb-4">
               <div>
-                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1 font-sans">
+                <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 dark:text-slate-400 uppercase tracking-wider block mb-1 font-sans">
                   Standard Reference
                 </span>
                 <span className="text-slate-950 dark:text-slate-50 font-sans font-semibold text-xs bg-slate-50 dark:bg-slate-900 px-2 py-1 rounded border border-slate-200/60 dark:border-slate-800 inline-block font-mono">
@@ -350,7 +349,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 </span>
               </div>
               <div>
-                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1 font-sans">
+                <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 dark:text-slate-400 uppercase tracking-wider block mb-1 font-sans">
                   Key Policy Choice
                 </span>
                 <span className="text-slate-800 dark:text-slate-200 font-medium text-xs font-sans">
@@ -358,7 +357,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 </span>
               </div>
               <div>
-                <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1 font-sans">
+                <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 dark:text-slate-400 uppercase tracking-wider block mb-1 font-sans">
                   Financial Impact
                 </span>
                 <span className="text-slate-950 dark:text-slate-50 leading-normal font-sans text-xs">
@@ -522,7 +521,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   return (
     <div className="w-full animate-fade-in font-sans bg-[#FAFAF8] dark:bg-[#0B0F19] -m-4 md:-m-6 pb-8">      {/* Sticky Contents Bar */}
       <div id="as1-sticky-toc" className="sticky top-[58px] bg-[#FAFAF8]/95 dark:bg-[#0B0F19]/95 backdrop-blur-xs border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none">
-        <div className="max-w-[1280px] mx-auto w-full px-6 sm:px-10 lg:px-12 py-2.5">
+        <div className="max-w-[1400px] mx-auto w-full px-6 sm:px-10 lg:px-12 py-2.5">
           <div ref={tocScrollRef} style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap' }} className="flex flex-row flex-nowrap items-center gap-x-2 overflow-x-auto whitespace-nowrap scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-1">
             {as1Chapters.map((sec) => (
               <button
@@ -537,7 +536,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 className={`transition-all cursor-pointer px-3 py-1.5 rounded-full text-[11px] font-sans font-semibold tracking-wide shrink-0 border ${
                   activeSection === sec.id
                     ? 'text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-955/40 border-amber-250 dark:border-amber-850 shadow-3xs font-bold'
-                    : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 border-transparent hover:bg-slate-100/50 dark:hover:bg-slate-800/50'
+                    : 'text-slate-900 dark:text-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-200 border-transparent hover:bg-slate-100/50 dark:hover:bg-slate-800/50'
                 }`}
               >
                 {sec.title}
@@ -548,7 +547,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
 
       {/* Main Publication Sheet Canvas - White document feel */}
-      <div className="mx-auto w-full max-w-[1280px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200 dark:border-slate-800 px-6 sm:px-10 lg:px-12 py-10 sm:py-14 space-y-8 relative my-6 rounded-2xl">
+      <div className="mx-auto w-full max-w-[1400px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200 dark:border-slate-800 px-6 sm:px-10 lg:px-12 py-10 sm:py-14 space-y-8 relative my-6 rounded-2xl">
 
         {/* Chapter 1: Introduction & Purpose */}
         <section id="as1-overview" className="scroll-mt-36 space-y-8 w-full">
@@ -594,8 +593,11 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               The qualitative characteristic of comparability of financial statements, therefore, suffers due to this diversity of accounting policies. Since uniformity is impossible, and accounting standards permit alternatives, it is not enough to say that all standards have been complied with. <PdfRef page={2} />
             </p>
             
-            <div className="p-6 my-6 border border-amber-200 dark:border-amber-900/40 bg-amber-50/20 dark:bg-amber-955/5 rounded-xl font-serif">
-              <p className="text-[15.5px] font-semibold text-slate-950 dark:text-slate-50 dark:text-slate-100 leading-relaxed">
+            <div className="p-6 my-6 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/25 dark:bg-indigo-955/5 rounded-xl font-serif shadow-3xs">
+              <span className="text-[11.5px] font-bold text-indigo-850 dark:text-indigo-400 uppercase tracking-wider block mb-2 font-sans">
+                Core Analytical Observation
+              </span>
+              <p className="text-[15.5px] font-semibold text-slate-950 dark:text-slate-50 leading-relaxed">
                 For these reasons, Accounting Standard 1 requires enterprises to disclose significant accounting policies actually adopted by them in the preparation of their financial statements. Such disclosures allow the users of financial statements to take the differences in accounting policies into consideration and to make necessary adjustments in their analysis of such financial statements. <PdfRef page={2} />
               </p>
             </div>
@@ -686,8 +688,8 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           {/* Premium Gray Reference Card for Definition */}
           <div className="p-6 border border-slate-200 dark:border-slate-800 bg-slate-50/30 dark:bg-slate-900/35 rounded-xl my-6">
-            <div className="text-[10px] font-sans font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2 flex items-center gap-2">
-              <BookOpen size={13} className="text-slate-500" />
+            <div className="text-[10px] font-sans font-extrabold uppercase tracking-wider text-slate-800 dark:text-slate-200 dark:text-slate-400 mb-2 flex items-center gap-2">
+              <BookOpen size={13} className="text-slate-800 dark:text-slate-200" />
               <span>Official Definition (AS 1.11)</span>
             </div>
             <p className="text-[15.5px] font-serif font-semibold text-slate-950 dark:text-slate-50 leading-[1.8] italic">
@@ -816,7 +818,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 />
               ))
             ) : (
-              <div className="p-8 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-xl font-serif text-slate-500">
+              <div className="p-8 text-center border border-dashed border-slate-200 dark:border-slate-800 rounded-xl font-serif text-slate-800 dark:text-slate-200">
                 No matching diversity areas found for "{diversitySearch}".
               </div>
             )}
@@ -888,9 +890,15 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             <p>
               Transactions and other events should be accounted for and presented in accordance with their financial substance and economic reality, and not merely their legal form. <PdfRef page={6} />
             </p>
-            <p>
-              <strong>Precedent Case Example:</strong> In a Hire-Purchase or Lease Agreement under AS 19, legal ownership remains with the lessor/seller until the final installment is paid. However, since the lessee/buyer gains immediate economic benefits and bears the operating risks of the asset, <span className="bg-blue-50 dark:bg-blue-950/40 text-blue-800 dark:text-blue-300 border border-blue-200/50 dark:border-blue-900/40 px-1.5 py-0.5 rounded font-semibold">Substance over Form</span> dictates that the asset is capitalized and depreciated in the buyer's balance sheet, while recording a liability for future payments. Accounting strictly by legal form (which would treat it as rent) would misrepresent the economic reality of the enterprise's capital structure. <PdfRef page={6} />
-            </p>
+            <div className="p-5 border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/10 rounded-xl space-y-2.5 my-5 shadow-3xs font-serif">
+              <h4 className="font-sans font-bold text-[11px] uppercase tracking-wider text-indigo-700 dark:text-indigo-400 flex items-center gap-1.5">
+                <Info size={13} className="text-indigo-500" />
+                <span>Precedent Case Example: Hire-Purchase / Lease (AS 19)</span>
+              </h4>
+              <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+                In a Hire-Purchase or Lease Agreement under AS 19, legal ownership remains with the lessor/seller until the final installment is paid. However, since the lessee/buyer gains immediate economic benefits and bears the operating risks of the asset, <span className="bg-blue-50 dark:bg-blue-955/40 text-blue-900 dark:text-blue-350 border border-blue-250/50 dark:border-blue-900/40 px-1.5 py-0.5 rounded font-semibold font-mono text-[13.5px]">Substance over Form</span> dictates that the asset is capitalized and depreciated in the buyer's balance sheet, while recording a liability for future payments. Accounting strictly by legal form (which would treat it as rent) would misrepresent the economic reality of the enterprise's capital structure. <PdfRef page={6} />
+              </p>
+            </div>
           </div>
 
           <div id="as1-materiality" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-950 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
@@ -1091,7 +1099,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           {/* Clean Vertical Timeline Step Layout */}
           <div className="my-8 space-y-8 w-full font-serif relative pl-8 border-l border-slate-200 dark:border-slate-800">
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-amber-600 dark:border-amber-500 flex items-center justify-center text-xs font-bold text-amber-850 dark:text-amber-300 bg-amber-50 dark:bg-amber-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/20 font-mono select-none">
                 1
               </div>
               <div className="space-y-1">
@@ -1102,7 +1110,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-amber-600 dark:border-amber-500 flex items-center justify-center text-xs font-bold text-amber-850 dark:text-amber-300 bg-amber-50 dark:bg-amber-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/20 font-mono select-none">
                 2
               </div>
               <div className="space-y-1">
@@ -1113,7 +1121,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-amber-600 dark:border-amber-500 flex items-center justify-center text-xs font-bold text-amber-850 dark:text-amber-300 bg-amber-50 dark:bg-amber-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/20 font-mono select-none">
                 3
               </div>
               <div className="space-y-1">
@@ -1124,7 +1132,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-amber-600 dark:border-amber-500 flex items-center justify-center text-xs font-bold text-amber-850 dark:text-amber-300 bg-amber-50 dark:bg-amber-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/20 font-mono select-none">
                 4
               </div>
               <div className="space-y-1">
@@ -1135,7 +1143,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-amber-600 dark:border-amber-500 flex items-center justify-center text-xs font-bold text-amber-850 dark:text-amber-300 bg-amber-50 dark:bg-amber-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/20 font-mono select-none">
                 5
               </div>
               <div className="space-y-1">
@@ -1175,7 +1183,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="overflow-x-auto my-8 border-t border-b border-slate-200 dark:border-slate-800 w-full font-serif bg-slate-50/10 dark:bg-slate-900/5">
             <table className="w-full text-left border-collapse text-[13px]">
               <thead>
-                <tr className="border-b border-slate-200 dark:border-slate-855 font-sans text-[13px] font-bold uppercase tracking-wider bg-slate-150/70 dark:bg-[#161f33]/60">
+                <tr className="border-b border-slate-200 dark:border-slate-855 font-sans text-[13px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-[#161f33]/60">
                   <th className="py-4 px-4 font-extrabold text-slate-950 dark:text-white uppercase tracking-wider text-[12px] w-1/12 text-center">Ref</th>
                   <th className="py-4 px-4 font-extrabold text-slate-950 dark:text-white uppercase tracking-wider text-[12px] w-3/12">Statutory / Professional Source</th>
                   <th className="py-4 px-4 font-extrabold text-slate-950 dark:text-white uppercase tracking-wider text-[12px] w-8/12">Detailed Notes &amp; Scope Limits</th>
@@ -1183,28 +1191,28 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </thead>
               <tbody className="divide-y divide-slate-200 dark:divide-slate-850 text-slate-950 dark:text-slate-50 font-serif">
                 <tr className="hover:bg-slate-50/60 dark:hover:bg-[#131a2c]/30 transition-colors">
-                  <td className="py-4 px-4 font-mono font-bold text-slate-605 dark:text-gray-400 text-center">[1]</td>
+                  <td className="py-4 px-4 font-mono font-bold text-slate-800 dark:text-gray-400 text-center">[1]</td>
                   <td className="py-4 px-4 font-semibold text-slate-950 dark:text-white font-sans text-xs uppercase tracking-wider">Preface to Accounting Standards</td>
                   <td className="py-4 px-4 leading-relaxed">
                     <strong>Materiality Scope:</strong> Accounting Standards apply only to items which are material. Immaterial items do not require explicit compliance or policy disclosure. The determination of materiality is a matter of professional judgment based on the size and nature of the item. <PdfRef page={2} />
                   </td>
                 </tr>
                 <tr className="hover:bg-slate-50/60 dark:hover:bg-[#131a2c]/30 transition-colors">
-                  <td className="py-4 px-4 font-mono font-bold text-slate-605 dark:text-gray-400 text-center">[2]</td>
+                  <td className="py-4 px-4 font-mono font-bold text-slate-800 dark:text-gray-400 text-center">[2]</td>
                   <td className="py-4 px-4 font-semibold text-slate-950 dark:text-white font-sans text-xs uppercase tracking-wider">Companies Act, 2013 Statutory Compliance</td>
                   <td className="py-4 px-4 leading-relaxed">
                     Section 129(1) of the Act mandates that financial statements must comply with accounting standards. Section 134(5) requires directors to certify that policies are consistent, reasonable, and prudent. Section 143(3)(e) requires auditors to report on compliance. Non-compliance must be reported in the Auditor's Report, including the financial impact of deviations. <PdfRef page={2} />
                   </td>
                 </tr>
                 <tr className="hover:bg-slate-50/60 dark:hover:bg-[#131a2c]/30 transition-colors">
-                  <td className="py-4 px-4 font-mono font-bold text-slate-605 dark:text-gray-400 text-center">[3]</td>
+                  <td className="py-4 px-4 font-mono font-bold text-slate-800 dark:text-gray-400 text-center">[3]</td>
                   <td className="py-4 px-4 font-semibold text-slate-950 dark:text-white font-sans text-xs uppercase tracking-wider">AS 11 &amp; Schedule III Requirement</td>
                   <td className="py-4 px-4 leading-relaxed">
                     <strong>Foreign Currency Translation Policies:</strong> Under AS 11 and Schedule III requirements, companies must disclose translation policies in respect of foreign currency transactions and branches, detailing how exchange gains or losses are recognized. <PdfRef page={2} />
                   </td>
                 </tr>
                 <tr className="hover:bg-slate-50/60 dark:hover:bg-[#131a2c]/30 transition-colors">
-                  <td className="py-4 px-4 font-mono font-bold text-slate-605 dark:text-gray-400 text-center">[4]</td>
+                  <td className="py-4 px-4 font-mono font-bold text-slate-800 dark:text-gray-400 text-center">[4]</td>
                   <td className="py-4 px-4 font-semibold text-slate-950 dark:text-white font-sans text-xs uppercase tracking-wider">ICAI &amp; NFRA Regulatory Drive</td>
                   <td className="py-4 px-4 leading-relaxed">
                     <strong>Standards and Regulatory Drive to Reduce Diversity:</strong> Regulators and standard-setting bodies (such as the ICAI and NFRA) strive to reduce acceptable alternative accounting treatments to improve comparability. However, some diversity remains due to differences in business models and operating conditions. <PdfRef page={5} />
