@@ -548,7 +548,10 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                       stickyOffset = tocRect.bottom - containerRect.top;
                     }
                     const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2;
+                    console.log('[React TOC Click]', sec.id, 'targetScrollTop:', targetScrollTop, 'containerScrollTop:', container.scrollTop, 'targetRectTop:', targetRect.top, 'containerRectTop:', containerRect.top, 'stickyOffset:', stickyOffset);
                     container.scrollTo({ top: targetScrollTop, behavior: 'smooth' });
+                  } else {
+                    console.log('[React TOC Click] Elements missing: container=', !!container, 'target=', !!target);
                   }
                 }}
                 className={`transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap ${
