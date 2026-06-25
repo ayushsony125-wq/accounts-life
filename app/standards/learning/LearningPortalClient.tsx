@@ -43,6 +43,7 @@ import { Standard } from '@/lib/learning-loader'
 import { getStandardDetailAction } from './actions'
 import { AS1ExamplesCustomContent } from './AS1ExamplesCustomContent'
 import { AS2ExamplesCustomContent } from './AS2ExamplesCustomContent'
+import { AS3ExamplesCustomContent } from './AS3ExamplesCustomContent'
 import { AS9ExamplesCustomContent } from './AS9ExamplesCustomContent'
 import { AS10ExamplesCustomContent } from './AS10ExamplesCustomContent'
 
@@ -1864,6 +1865,433 @@ function AS2StandardTabContent({ navigateToPdfPage }: AS2StandardTabContentProps
   )
 }
 
+const as3Sections = [
+  { id: 'as3-overview',        title: '1. Overview & Purpose' },
+  { id: 'as3-scope',           title: '2. Scope & Applicability (Para 1)' },
+  { id: 'as3-definitions',     title: '3. Definitions (Para 5)' },
+  { id: 'as3-classification',  title: '4. Classification of Activities (Para 8–17)' },
+  { id: 'as3-operating',       title: '5. Operating Activities (Para 18–20)' },
+  { id: 'as3-investing',       title: '6. Investing Activities (Para 16)' },
+  { id: 'as3-financing',       title: '7. Financing Activities (Para 17)' },
+  { id: 'as3-foreign-currency',title: '8. Foreign Currency Cash Flows (Para 25–27)' },
+  { id: 'as3-taxes',           title: '9. Taxes & Extraordinary Items (Para 22–24)' },
+  { id: 'as3-non-cash',        title: '10. Non-Cash Transactions (Para 40)' },
+  { id: 'as3-disclosure',      title: '11. Disclosures (Para 42–46)' },
+]
+
+interface AS3StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+}
+
+function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as3-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    cashEquiv: true,
+    operating: true,
+    investing: false,
+    financing: false,
+    special: true
+  })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as3-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        offset = tocRect.bottom - containerRect.top
+      }
+      container.scrollTo({
+        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
+        behavior: 'auto'
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as3Sections[0]?.id === activeSection) {
+      el.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({
+      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
+      behavior: 'smooth'
+    })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) {
+        setTimeout(init, 50)
+        return
+      }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) setActiveSection(e.target.id)
+        }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as3Sections.forEach(s => {
+        const el = document.getElementById(s.id)
+        if (el) obs?.observe(el)
+      })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-red-600 dark:text-red-400',      border: 'border-red-400',     badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800' },
+    '9':  { num: 'text-fuchsia-600 dark:text-fuchsia-400',border:'border-fuchsia-400',badge: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200 dark:bg-fuchsia-950/40 dark:text-fuchsia-400 dark:border-fuchsia-800' },
+    '10': { num: 'text-sky-600 dark:text-sky-400',      border: 'border-sky-400',     badge: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-400 dark:border-sky-800' },
+    '11': { num: 'text-orange-600 dark:text-orange-400',border: 'border-orange-400',  badge: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 3 PDF — ${para}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      {para} (p. {page})
+    </button>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans space-y-4">
+      {/* Sticky Section Sub-Navbar */}
+      <div id="as3-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
+          <BookOpen size={9.5} />
+          AS 3 Sections:
+        </span>
+        {as3Sections.map((sec) => (
+          <button
+            key={sec.id}
+            data-sec-id={sec.id}
+            onClick={() => handleSectionClick(sec.id)}
+            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
+              activeSection === sec.id
+                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
+            }`}
+          >
+            {sec.title.split('. ')[1] || sec.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+        
+        {/* 1. Overview */}
+        <SecHeader id="as3-overview" num="1" title="Overview &amp; Purpose" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Overview" /> A Cash Flow Statement provides information about the historical changes in <strong>cash and cash equivalents</strong> of an enterprise during an accounting period.
+        </p>
+        <p className="leading-relaxed">
+          The purpose of AS 3 is to enable users to:
+        </p>
+        <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300 mb-4">
+          <li>Evaluate changes in the net assets of an enterprise and its financial structure (including liquidity and solvency).</li>
+          <li>Assess the enterprise's ability to generate cash and cash equivalents, and the timing and certainty of generating them.</li>
+          <li>Enhance comparability between the operating performance of different enterprises, as it eliminates the effects of using different accounting treatments for identical transactions.</li>
+        </ul>
+
+        {/* 2. Scope & Applicability */}
+        <SecHeader id="as3-scope" num="2" title="Scope &amp; Applicability" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Para 1" /> This standard applies to the presentation of Cash Flow Statements as an integral part of the financial statements of an enterprise for each period for which financial statements are presented.
+        </p>
+        <div className="p-4 rounded-xl border border-teal-200 dark:border-teal-900/30 bg-teal-50/20 dark:bg-[#0f1c22]/20 mb-6 text-[13.5px]">
+          <h4 className="font-bold text-teal-800 dark:text-teal-400 text-xs mb-1.5 uppercase tracking-wide">Exemptions / SMC relaxations:</h4>
+          <p className="leading-relaxed text-slate-700 dark:text-slate-350">
+            Under the Companies Act, 2013 (Section 2(40)), a Cash Flow Statement is a mandatory component of financial statements. However, exemptions are provided for:
+          </p>
+          <ul className="list-disc pl-5 mt-1 text-slate-650 dark:text-gray-400 space-y-0.5">
+            <li><strong>One Person Company (OPC)</strong></li>
+            <li><strong>Small Company</strong> (defined based on capital &amp; turnover limits)</li>
+            <li><strong>Dormant Company</strong></li>
+          </ul>
+          <p className="mt-2">Non-corporate entities classified as Level II and Level III by the ICAI are also exempt from preparing a cash flow statement.</p>
+        </div>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as3-definitions" num="3" title="Definitions (Para 5)" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 3 Definition &amp; Scope</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Cash</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Comprises cash on hand and demand deposits with banks.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Cash Equivalents</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Short-term, highly liquid investments that are readily convertible to known amounts of cash and which are subject to an insignificant risk of changes in value.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Cash Flows</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Inflows and outflows of cash and cash equivalents.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('cashEquiv')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Key Criteria for Cash Equivalents</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.cashEquiv ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.cashEquiv && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <p>For an investment to qualify as a cash equivalent under AS 3: <ParaRef page={2} para="Para 5" /></p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>It must be held for the purpose of meeting short-term cash commitments rather than for investment or other purposes.</li>
+                <li>It must have a short maturity of, say, <strong>three months or less</strong> from the date of acquisition.</li>
+                <li>Examples: Treasury bills, Government securities with 3 months or less maturity, Commercial paper, Mutual funds (liquid/cash funds with immediate redemption).</li>
+                <li>Exclusion: Equity shares are generally excluded from cash equivalents unless they are, in substance, cash equivalents (e.g. preference shares acquired shortly before their redemption date).</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* 4. Presentation & Classification */}
+        <SecHeader id="as3-classification" num="4" title="Classification of Cash Flows (Para 8–17)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={3} para="Para 8" /> The cash flow statement should report cash flows during the period classified by:
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 text-[13.5px]">
+          <div className="p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-950/10">
+            <h4 className="font-bold text-blue-700 dark:text-blue-400 text-sm mb-1 uppercase tracking-wide">Operating Activities</h4>
+            <p className="text-[12.5px] text-slate-600 dark:text-gray-400">Principal revenue-producing activities of the enterprise and other activities that are not investing or financing activities.</p>
+          </div>
+          <div className="p-4 rounded-xl border border-teal-200 dark:border-teal-900/30 bg-teal-50/20 dark:bg-teal-950/10">
+            <h4 className="font-bold text-teal-700 dark:text-teal-400 text-sm mb-1 uppercase tracking-wide">Investing Activities</h4>
+            <p className="text-[12.5px] text-slate-600 dark:text-gray-400">Acquisition and disposal of long-term assets and other investments not included in cash equivalents.</p>
+          </div>
+          <div className="p-4 rounded-xl border border-violet-200 dark:border-violet-900/30 bg-violet-50/20 dark:bg-violet-950/10">
+            <h4 className="font-bold text-violet-700 dark:text-violet-400 text-sm mb-1 uppercase tracking-wide">Financing Activities</h4>
+            <p className="text-[12.5px] text-slate-600 dark:text-gray-400">Activities that result in changes in the size and composition of the owner's capital and borrowings of the enterprise.</p>
+          </div>
+        </div>
+
+        {/* 5. Operating Activities */}
+        <SecHeader id="as3-operating" num="5" title="Operating Activities &amp; Presentation Methods" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={3} para="Para 13" /> Operating cash flows are primarily derived from the principal revenue-producing activities. Examples of operating inflows and outflows include:
+        </p>
+        <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300 mb-4">
+          <li>Cash receipts from sale of goods and rendering of services.</li>
+          <li>Cash receipts from royalties, fees, commissions and other revenue.</li>
+          <li>Cash payments to suppliers for goods and services.</li>
+          <li>Cash payments to and on behalf of employees (salaries, wages, bonus).</li>
+          <li>Cash payments or refunds of income taxes (unless they can be specifically identified with financing and investing activities).</li>
+        </ul>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('operating')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Direct vs. Indirect Method (Para 18)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.operating ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.operating && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
+              <p>AS 3 permits enterprises to report cash flows from operating activities using either of the following methods:</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-3 border rounded-lg bg-slate-50/50 dark:bg-slate-900/30">
+                  <p className="font-bold text-blue-600 dark:text-blue-400">Direct Method</p>
+                  <p className="text-[12px] mt-1">Major classes of gross cash receipts and gross cash payments are disclosed. Cash collections from customers and payments to suppliers/employees are computed directly from receivables/payables and credit sales/purchases.</p>
+                </div>
+                <div className="p-3 border rounded-lg bg-slate-50/50 dark:bg-slate-900/30">
+                  <p className="font-bold text-teal-600 dark:text-teal-400">Indirect Method</p>
+                  <p className="text-[12px] mt-1">Net Profit or Loss before tax is adjusted for the effects of non-cash transactions (e.g. depreciation, write-offs), deferrals or accruals of past/future cash operating flows (e.g. change in inventory, receivables, payables), and items of income/expense associated with investing or financing activities (e.g. interest paid, gain on asset sale).</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 6. Investing Activities */}
+        <SecHeader id="as3-investing" num="6" title="Investing Activities" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 16" /> The separate disclosure of cash flows arising from investing activities is important because the cash flows represent the extent to which expenditures have been made for resources intended to generate future income and cash flows.
+        </p>
+        <p className="leading-relaxed mb-4">
+          Examples of investing cash flows:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[13.5px]">
+          <div className="p-4 rounded-xl border border-teal-100 dark:border-teal-950/40 bg-teal-50/10 dark:bg-teal-950/5">
+            <h4 className="font-bold text-teal-700 dark:text-teal-400 text-xs uppercase tracking-wider mb-1">Investing Inflows (+)</h4>
+            <ul className="list-disc pl-5 mt-1 space-y-1 text-[12.5px] text-slate-650 dark:text-gray-400">
+              <li>Cash receipts from sales of Property, Plant and Equipment and Intangible assets.</li>
+              <li>Cash receipts from disposal of shares, warrants, or debt instruments of other enterprises.</li>
+              <li>Cash receipts from recovery of loans and advances made to third parties.</li>
+              <li>Interest received and Dividends received (for non-financial enterprises).</li>
+            </ul>
+          </div>
+          <div className="p-4 rounded-xl border border-red-100 dark:border-red-950/40 bg-red-50/10 dark:bg-red-950/5">
+            <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1">Investing Outflows (−)</h4>
+            <ul className="list-disc pl-5 mt-1 space-y-1 text-[12.5px] text-slate-650 dark:text-gray-400">
+              <li>Cash payments to acquire Property, Plant and Equipment and Intangibles (including capitalized development costs).</li>
+              <li>Cash payments to acquire shares or debt instruments of other enterprises.</li>
+              <li>Loans and advances made to third parties (other than by financial enterprises).</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* 7. Financing Activities */}
+        <SecHeader id="as3-financing" num="7" title="Financing Activities" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 17" /> Financing cash flows are useful in predicting claims on future cash flows by providers of capital (both equity and debt) to the enterprise.
+        </p>
+        <p className="leading-relaxed mb-4">
+          Examples of financing cash flows:
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-[13.5px]">
+          <div className="p-4 rounded-xl border border-violet-100 dark:border-violet-950/40 bg-violet-50/10 dark:bg-violet-950/5">
+            <h4 className="font-bold text-violet-700 dark:text-violet-400 text-xs uppercase tracking-wider mb-1">Financing Inflows (+)</h4>
+            <ul className="list-disc pl-5 mt-1 space-y-1 text-[12.5px] text-slate-650 dark:text-gray-400">
+              <li>Cash proceeds from issuing shares or other equity instruments.</li>
+              <li>Cash proceeds from issuing debentures, loans, notes, bonds, and other short or long-term borrowings.</li>
+            </ul>
+          </div>
+          <div className="p-4 rounded-xl border border-red-100 dark:border-red-950/40 bg-red-50/10 dark:bg-red-950/5">
+            <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1">Financing Outflows (−)</h4>
+            <ul className="list-disc pl-5 mt-1 space-y-1 text-[12.5px] text-slate-650 dark:text-gray-400">
+              <li>Cash repayments of amounts borrowed.</li>
+              <li>Dividends paid to shareholders (including Dividend Distribution Tax, if applicable).</li>
+              <li>Interest paid on borrowings (for non-financial enterprises).</li>
+            </ul>
+          </div>
+        </div>
+
+        {/* 8. Foreign Currency Cash Flows */}
+        <SecHeader id="as3-foreign-currency" num="8" title="Foreign Currency Cash Flows &amp; Exchange Rates" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={5} para="Para 25–27" /> Cash flows arising from transactions in foreign currencies must be recorded in the reporting currency by applying the exchange rate at the <strong>date of the cash flow</strong>.
+        </p>
+        <NoteBox type="warning" title="Effect of Exchange Rate Changes on Cash Held">
+          <p>Unrealised exchange gains and losses are non-cash movements. Therefore, they are NOT cash flows. However, the effect of exchange rate changes on cash and cash equivalents held in foreign currencies is reported separately in the cash flow statement (usually at the bottom) to reconcile the cash at the beginning and the end of the period. <ParaRef page={5} para="Para 27" /></p>
+        </NoteBox>
+
+        {/* 9. Taxes & Extraordinary Items */}
+        <SecHeader id="as3-taxes" num="9" title="Taxes &amp; Extraordinary Items" />
+        <div className="space-y-4">
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
+            <h4 className="font-bold text-slate-950 dark:text-white text-sm mb-1">Extraordinary Items (Para 22)</h4>
+            <p className="text-[13.5px] leading-relaxed">
+              The cash flows associated with extraordinary items (e.g. insurance claim proceeds for warehouse fire, disaster relief grants) should be classified as arising from operating, investing, or financing activities as appropriate, and must be <strong>disclosed separately</strong> to enable users to understand their nature and effect.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
+            <h4 className="font-bold text-slate-950 dark:text-white text-sm mb-1">Taxes on Income (Para 24)</h4>
+            <p className="text-[13.5px] leading-relaxed">
+              Cash flows arising from taxes on income should be separately disclosed and classified as cash flows from <strong>operating activities</strong>. However, if they can be specifically identified with financing or investing activities, they should be classified accordingly (e.g. tax paid on capital gains from selling land classified under investing).
+            </p>
+          </div>
+        </div>
+
+        {/* 10. Non-Cash Transactions */}
+        <SecHeader id="as3-non-cash" num="10" title="Non-Cash Transactions (Para 40)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 40" /> Investing and financing transactions that do not require the use of cash or cash equivalents should be <strong>excluded</strong> from a cash flow statement.
+        </p>
+        <p className="leading-relaxed mb-4">
+          Such transactions should be disclosed elsewhere in the financial statements in a way that provides all relevant information about these investing and financing activities. Examples of non-cash transactions:
+        </p>
+        <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300 mb-4">
+          <li>Acquisition of assets by assuming directly related liabilities or by means of a finance lease.</li>
+          <li>Acquisition of an enterprise by means of an equity issue (issuing shares for business purchase).</li>
+          <li>Conversion of debt/debentures to equity shares.</li>
+        </ul>
+        <NoteBox type="exam" title="Exam Trap: Share Issue for Assets">
+          If a company acquires machinery worth ₹10,00,000 by paying ₹2,00,000 in cash and issuing equity shares for ₹8,00,000, only the <strong>₹2,00,000 cash payment</strong> is reported as an outflow under investing activities in the cash flow statement. The ₹8,00,000 share issue is a non-cash transaction and is omitted from the statement.
+        </NoteBox>
+
+        {/* 11. Disclosure */}
+        <SecHeader id="as3-disclosure" num="11" title="Disclosure Requirements" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 42–46" /> An enterprise should disclose:
+        </p>
+        <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300">
+          <li>The components of cash and cash equivalents and should present a <strong>reconciliation</strong> of the amounts in its cash flow statement with the equivalent items reported in the balance sheet.</li>
+          <li>The amount of significant cash and cash equivalent balances held by the enterprise that are <strong>not available for use</strong> by it (e.g. cash balances held in foreign countries subject to exchange controls, bank accounts frozen by court orders, bank deposits marked as margin money).</li>
+        </ul>
+
+      </div>
+    </div>
+  )
+}
 
 const as9Sections = [
   { id: 'as9-overview',        title: '1. Overview & Purpose' },
@@ -3390,7 +3818,7 @@ export default function LearningPortalClient({
         </div>
 
         {/* ─── Tab Content Views ──────────────────────────────────────────────── */}
-        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || (activeTab === 'standard' && currentStandard.id === 'as-1') || (activeTab === 'examples' && currentStandard.id === 'as-1') ? 'p-0' : 'p-4 md:p-6'}`}>
+        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-9', 'as-10'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
 
           {isLoadingDetails ? (
             <div className="w-full space-y-8 animate-pulse p-4 flex-1 flex flex-col justify-start">
@@ -3412,7 +3840,7 @@ export default function LearningPortalClient({
               {/* 1. STANDARD VIEW */}
               {activeTab === 'standard' && (
                 <div className="w-full space-y-8 animate-fade-in font-sans">
-                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && currentStandard.id !== 'as-1' ? (
+                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-9', 'as-10'].includes(currentStandard.id) ? (
                     <div className={`bg-white dark:bg-[#111726] border dark:border-gray-800 rounded-2xl shadow-xs ${
                       framework === 'AS' ? 'border-[#C5C3BC] p-8 sm:p-12 space-y-12' : 'border-[#E2E1DD] p-6 sm:p-10 space-y-10'
                     }`}>
@@ -3618,6 +4046,10 @@ export default function LearningPortalClient({
                     <AS2StandardTabContent
                       navigateToPdfPage={navigateToPdfPage}
                       renderTextWithReferences={renderTextWithReferences}
+                    />
+                  ) : currentStandard.id === 'as-3' ? (
+                    <AS3StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
                     />
                   ) : currentStandard.id === 'as-9' ? (
                     <AS9StandardTabContent
@@ -3865,6 +4297,11 @@ export default function LearningPortalClient({
                 />
               ) : currentStandard.id === 'as-2' ? (
                 <AS2ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-3' ? (
+                <AS3ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />
