@@ -858,10 +858,68 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 font-mono uppercase tracking-widest">Valuation Caution</span>
             </h3>
             <p>
-              In view of the uncertainty inherent in many business transactions, assets and income should not be overstated, and liabilities and losses should not be understated. Profits are recognized only when realized, while provisions are made for all known liabilities and losses, even if the amount is an estimate. <PdfRef page={6} />
+              In view of the uncertainty inherent in many business transactions, assets and income should not be overstated, and liabilities and losses should not be understated. Profits are recognized only when realized, while provisions are made for all known liabilities and losses, even if the amount is an estimate. <PdfRef page={6} /> The exercise of prudence in the selection of accounting policies ensures that:
             </p>
+            <ul className="list-disc pl-6 space-y-1 text-[15.5px]">
+              <li>Profits are not overstated</li>
+              <li>Losses are not understated</li>
+              <li>Assets are not overstated</li>
+              <li>Liabilities are not understated</li>
+            </ul>
+
+            {/* Official ICAI Example 1 — Prudence: Inventory at NRV */}
+            <div className="p-5 border border-amber-200 dark:border-amber-900/40 bg-amber-50/20 dark:bg-amber-950/5 rounded-xl space-y-3 my-5">
+              <h4 className="font-sans font-bold text-[11px] uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-1.5">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                <span>ICAI Example 1 (Official) — Prudence in Inventory Valuation <PdfRef page={5} /></span>
+              </h4>
+              <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+                The most common example of the exercise of prudence in selection of accounting policy is the policy of valuing inventory at the <strong>lower of cost and net realisable value</strong>. Suppose a trader purchased 500 units at ₹10 per unit and sold 400 units at ₹15 per unit. The 100 unsold units remain.
+              </p>
+              <div className="overflow-x-auto w-full rounded-lg border border-amber-200 dark:border-amber-900/40">
+                <table className="w-full text-left border-collapse text-[13px]">
+                  <thead>
+                    <tr className="font-sans text-[11px] font-bold uppercase tracking-wider text-white bg-amber-700 dark:bg-amber-800">
+                      <th className="py-2.5 px-4">Scenario</th>
+                      <th className="py-2.5 px-4">NRV per unit</th>
+                      <th className="py-2.5 px-4">Inventory Valued At</th>
+                      <th className="py-2.5 px-4">Profit for Period</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-amber-100 dark:divide-amber-900/30 text-slate-900 dark:text-slate-100 font-serif">
+                    <tr className="bg-white dark:bg-[#111726]">
+                      <td className="py-3 px-4 font-semibold text-xs">NRV &gt; Cost</td>
+                      <td className="py-3 px-4">₹15 per unit</td>
+                      <td className="py-3 px-4">₹10 per unit (Cost) — Profit on unsold units NOT recognized yet</td>
+                      <td className="py-3 px-4">₹2,000 (only on goods sold)</td>
+                    </tr>
+                    <tr className="bg-amber-50/30 dark:bg-amber-950/10">
+                      <td className="py-3 px-4 font-semibold text-xs">NRV &lt; Cost</td>
+                      <td className="py-3 px-4">₹8 per unit</td>
+                      <td className="py-3 px-4">₹8 per unit (NRV) — Anticipated loss of ₹200 recognized immediately</td>
+                      <td className="py-3 px-4">₹1,800 (loss on unsold units recognized)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Official ICAI Example 2 — No Hidden Reserves / Damage Suit */}
+            <div className="p-5 border border-rose-200 dark:border-rose-900/40 bg-rose-50/10 dark:bg-rose-950/5 rounded-xl space-y-3 my-5">
+              <h4 className="font-sans font-bold text-[11px] uppercase tracking-wider text-rose-800 dark:text-rose-400 flex items-center gap-1.5">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                <span>ICAI Example 2 (Official) — Absolute Prohibition of Hidden Reserves <PdfRef page={6} /></span>
+              </h4>
+              <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+                Exercise of prudence does not permit the creation of hidden reserves by understating profits and assets or by overstating liabilities and losses. The standard provides the following illustration regarding the recognition of provisions for a damage suit:
+              </p>
+              <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-100">
+                <strong>Rule:</strong> No provision for damages should be recognised by a charge against profit in respect of a pending damage suit, <em>unless the probability of losing the suit is more than the probability of not losing it.</em> Recognizing a provision merely out of excessive caution (when the probability of loss is less than 50%) would amount to the creation of a hidden reserve, which is expressly prohibited by AS 1. <PdfRef page={6} />
+              </p>
+            </div>
+
             <p>
-              However, <span className="bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/40 px-1.5 py-0.5 rounded font-semibold">Prudence</span> does not permit the creation of secret or hidden reserves, nor does it allow the arbitrary write-down of assets. The selection of policies must balance caution with neutrality to avoid bias in financial reporting.
+              <span className="bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/40 px-1.5 py-0.5 rounded font-semibold">Prudence</span> does not permit the creation of secret or hidden reserves, nor does it allow the arbitrary write-down of assets. The selection of policies must balance caution with neutrality to avoid bias in financial reporting.
             </p>
           </div>
 
@@ -915,6 +973,16 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                       <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">1% of revenue or ₹1,00,000</td>
                       <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Whichever is higher must be disclosed separately as a line item in notes.</td>
                       <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">In a company with ₹10 crore revenue, items above ₹1,000,000 (since 1% of 10cr is 10L, ₹10L is higher than 1L) require details.</td>
+                    </tr>
+                    <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-teal-50/20 dark:bg-[#0f1c22]/30">
+                      <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">5% Shareholding Threshold</td>
+                      <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Shares held by any shareholder holding more than 5% must be disclosed in Notes to Accounts, specifying the number of shares held. (Refer Schedule III, Balance Sheet Instructions).</td>
+                      <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">If a promoter holds 8.5% of total shares, the exact name, class of shares, and number of shares must be disclosed separately, regardless of whether the holding is above or below board-level approval thresholds.</td>
+                    </tr>
+                    <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-white dark:bg-[#111726]">
+                      <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Qualitative Materiality</td>
+                      <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Materiality is NOT always a matter of relative size. A small amount may be material by nature.</td>
+                      <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">A small amount lost by fraudulent practices of employees can indicate a serious flaw in the enterprise's internal control system, requiring immediate attention regardless of the quantum. <PdfRef page={6} /></td>
                     </tr>
                     <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-teal-50/20 dark:bg-[#0f1c22]/30">
                       <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Non-Corporate Entities</td>
@@ -999,10 +1067,18 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               6B. Consistency Assumption
             </h3>
             <p>
-              It is assumed that accounting policies are consistent from one period to another. <PdfRef page={6} />
+              The principle of consistency refers to the practice of using the same accounting policies for similar transactions in all accounting periods. <PdfRef page={3} /> It is assumed that accounting policies are consistent from one period to another.
             </p>
             <p>
-              <span className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-800 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/40 px-1.5 py-0.5 rounded font-semibold">Consistency</span> facilitates inter-period comparison of financial performance. While changes are permitted in specific circumstances, consistency remains the rule. A change in policy must be disclosed along with its financial impact, showing how it deviates from the consistency assumption. <PdfRef page={6} />
+              <span className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-800 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/40 px-1.5 py-0.5 rounded font-semibold">Consistency</span> improves the comparability of financial statements through time. An accounting policy can be changed only in three specific circumstances: <PdfRef page={3} />
+            </p>
+            <ul className="list-disc pl-6 space-y-1.5 text-[15.5px]">
+              <li>If the change is <strong>required by a statute</strong> (for example, a new Companies Act amendment mandating a different treatment).</li>
+              <li>If the change is <strong>required by an accounting standard</strong> (for example, a new revised accounting standard supersedes the old one).</li>
+              <li>If the change is made <strong>for a more appropriate presentation</strong> of the financial statements (for example, switching to a method that better reflects the economic reality of the enterprise's operations).</li>
+            </ul>
+            <p>
+              A change in policy must be disclosed along with its financial impact, showing how it deviates from the consistency assumption. The rationale for preventing arbitrary policy changes is to prevent the manipulation of reported profits through selective application of beneficial accounting methods.
             </p>
           </div>
 
@@ -1011,10 +1087,13 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               6C. Accrual Assumption
             </h3>
             <p>
-              Revenues and costs are accrued, that is, recognized as they are earned or incurred (and recorded in the financial statements of the periods to which they relate) and not as cash or its equivalent is received or paid. <PdfRef page={6} />
+              Under this basis of accounting, transactions are recognised as soon as they occur, whether or not cash or cash equivalent is actually received or paid. Accrual basis ensures better matching between revenue and cost, and the profit or loss obtained on this basis reflects the activities of the enterprise during an accounting period, rather than merely the cash flows generated by it. <PdfRef page={3} />
             </p>
             <p>
-              <span className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-800 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/40 px-1.5 py-0.5 rounded font-semibold">Accrual</span> accounting is a mandatory statutory requirement under Section 128(1) of the Companies Act, 2013, which requires companies to maintain books of account on an accrual basis. Cash-basis accounting is not acceptable for corporate entities. <PdfRef page={6} />
+              While accrual basis is a more logical approach to profit determination than the cash basis of accounting, it exposes an enterprise to the risk of recognising income before actual receipt. The accrual basis can therefore overstate the divisible profits, and dividend decisions based on such overstated profit lead to <strong>erosion of capital</strong>. For this reason, accounting standards require that no revenue should be recognised unless the amount of consideration and actual realisation of the consideration is reasonably certain. <PdfRef page={3} />
+            </p>
+            <p>
+              Despite this possibility, accrual basis of accounting is generally followed because of its logical superiority over cash basis of accounting. <span className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-800 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/40 px-1.5 py-0.5 rounded font-semibold">Section 128(1) of the Companies Act, 2013</span> makes it mandatory for companies to maintain accounts on accrual basis only. Cash-basis accounting is not acceptable for corporate entities. If any income or expense is recognised on cash basis, the fact must be explicitly stated. <PdfRef page={4} />
             </p>
           </div>
         </section>
