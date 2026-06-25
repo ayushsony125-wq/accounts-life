@@ -56,6 +56,7 @@ import { AS14ExamplesCustomContent } from './AS14ExamplesCustomContent'
 import { AS15ExamplesCustomContent } from './AS15ExamplesCustomContent'
 import { AS16ExamplesCustomContent } from './AS16ExamplesCustomContent'
 import { AS17ExamplesCustomContent } from './AS17ExamplesCustomContent'
+import { AS18ExamplesCustomContent } from './AS18ExamplesCustomContent'
 
 const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   // AS
@@ -6453,6 +6454,328 @@ function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabContentPro
   )
 }
 
+
+const as18Sections = [
+  { id: 'as18-overview',          title: '1. Overview & Purpose' },
+  { id: 'as18-scope',             title: '2. Scope & Applicability (Para 1–9)' },
+  { id: 'as18-definitions',       title: '3. Definitions (Para 10)' },
+  { id: 'as18-relationships',     title: '4. Related Party Relationships (Para 10)' },
+  { id: 'as18-exceptions',        title: '5. Non-Related Party Exceptions (Para 4)' },
+  { id: 'as18-transaction',       title: '6. Related Party Transactions (Para 11–13)' },
+  { id: 'as18-control-disclosure',title: '7. Control Relationship Disclosures (Para 20)' },
+  { id: 'as18-transaction-disclosure',title: '8. Transaction Disclosures (Para 23–26)' },
+]
+
+interface AS18StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+}
+
+function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as18-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    relationshipsList: true,
+    exceptionsList: true,
+    controlDisclosures: true,
+    transactionDisclosures: true,
+  })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as18-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        offset = tocRect.bottom - containerRect.top
+      }
+      container.scrollTo({
+        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
+        behavior: 'auto'
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as18Sections[0]?.id === activeSection) {
+      el.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({
+      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
+      behavior: 'smooth'
+    })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) {
+        setTimeout(init, 50)
+        return
+      }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) setActiveSection(e.target.id)
+        }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as18Sections.forEach(s => {
+        const el = document.getElementById(s.id)
+        if (el) obs?.observe(el)
+      })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-455 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 18 PDF — ${para}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      {para} (p. {page})
+    </button>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans space-y-4">
+      {/* Sticky Section Sub-Navbar */}
+      <div id="as18-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
+          <BookOpen size={9.5} />
+          AS 18 Sections:
+        </span>
+        {as18Sections.map((sec) => (
+          <button
+            key={sec.id}
+            data-sec-id={sec.id}
+            onClick={() => handleSectionClick(sec.id)}
+            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
+              activeSection === sec.id
+                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+            }`}
+          >
+            {sec.title.split('. ')[1] || sec.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+        
+        {/* 1. Overview & Purpose */}
+        <SecHeader id="as18-overview" num="1" title="Overview &amp; Purpose" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Overview" /> Accounting Standard 18 governs the disclosure of **related party relationships and transactions**.
+        </p>
+        <p className="leading-relaxed">
+          The purpose of related party disclosures is to ensure that the financial statements contain the disclosures necessary to draw attention to the possibility that the enterprise's financial position and profit or loss may have been affected by the existence of related parties and by transactions and outstanding balances with such parties.
+        </p>
+
+        {/* 2. Scope & Applicability */}
+        <SecHeader id="as18-scope" num="2" title="Scope &amp; Applicability (Para 1–9)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 1" /> This standard should be applied in reporting related party relationships and transactions between a **reporting enterprise** and its related parties.
+        </p>
+        <p className="leading-relaxed">
+          It applies to both consolidated financial statements and separate financial statements. It is mandatory for all Level I and listed enterprises, and Level II/III enterprises have some disclosure relaxations.
+        </p>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as18-definitions" num="3" title="Definitions (Para 10)" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 18 Definition</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Related Party</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Parties are considered to be related if at any time during the reporting period one party has the ability to control the other party or exercise significant influence over the other party in making financial and/or operating decisions.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Control</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Ownership, directly or indirectly, of more than one-half of the voting power of an enterprise, or control of the composition of the board of directors.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Significant Influence</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Participation in the financial and/or operating policy decisions of an enterprise, but not control of those policies. Usually presumed if voting power is 20% or more.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Relative</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Spouse, father, mother, brother, sister, son, or daughter of an individual.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* 4. Related Party Relationships */}
+        <SecHeader id="as18-relationships" num="4" title="The 5 Related Party Categories (Para 10)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={5} para="Para 10" /> AS 18 strictly covers only the following 5 categories of related party relationships:
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('relationshipsList')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">The 5 Related Party Categories (Para 10(a)–(e))</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.relationshipsList ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.relationshipsList && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
+              <ol className="list-decimal pl-5 space-y-2">
+                <li><strong>Parent &amp; Subsidiaries:</strong> Holding companies, subsidiaries, and fellow subsidiaries (under common control).</li>
+                <li><strong>Associates &amp; Joint Ventures:</strong> Investment where investor has significant influence (20%+ voting interest) or joint control.</li>
+                <li><strong>Controlling/Influential Individuals:</strong> Individuals owning an interest in voting power that gives them control or significant influence, and their **relatives**.</li>
+                <li><strong>Key Management Personnel (KMP):</strong> Directors and executive officers who manage the enterprise (e.g. CEO/MD), and their **relatives**.</li>
+                <li><strong>KMP-Owned Enterprises:</strong> Enterprises over which any individual described in (3) or (4) is able to exercise significant influence.</li>
+              </ol>
+            </div>
+          )}
+        </div>
+
+        {/* 5. Exceptions */}
+        <SecHeader id="as18-exceptions" num="5" title="Non-Related Party Exceptions (Para 4)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 4" /> The standard lists certain relationships which are **not** related parties simply by definition:
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('exceptionsList')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Excluded Relationships</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.exceptionsList ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.exceptionsList && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Two providers of finance, trade unions, public utilities, government departments simply by virtue of their normal dealings.</li>
+                <li>A single customer, supplier, franchisor, distributor, or general agent with whom an enterprise transacts a significant volume of business.</li>
+                <li>Two companies simply because they have a **director in common** (unless the director is a KMP who controls both companies).</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* 6. Related Party Transactions */}
+        <SecHeader id="as18-transaction" num="6" title="Related Party Transactions (Para 11–13)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 11" /> A **related party transaction** is a transfer of resources or obligations between related parties, regardless of whether a price is charged.
+        </p>
+        <p className="leading-relaxed">
+          Examples include purchases/sales of goods, rendering of services, leasing arrangements, agency agreements, transfer of research and development, license agreements, finance/loans, guarantees, and management contracts.
+        </p>
+
+        {/* 7. Control Relationship Disclosures */}
+        <SecHeader id="as18-control-disclosure" num="7" title="Control Relationship Disclosures (Para 20)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={7} para="Para 20" /> Related party relationships where **control** exists should be disclosed in the financial statements **irrespective of whether there have been transactions** between the related parties.
+        </p>
+        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
+          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures for Control:</h4>
+          <p>The **name** of the related party and the **nature** of the related party relationship must be disclosed even if transactions are nil.</p>
+        </div>
+
+        {/* 8. Transaction Disclosures */}
+        <SecHeader id="as18-transaction-disclosure" num="8" title="Transaction Disclosure Requirements (Para 23–26)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={8} para="Para 23" /> If there have been transactions between related parties, the reporting enterprise should disclose:
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('transactionDisclosures')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Disclosures for Related Party Transactions</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.transactionDisclosures ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.transactionDisclosures && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-1">
+                <li>The name of the transacting related party.</li>
+                <li>A description of the relationship.</li>
+                <li>A description of the nature of transactions.</li>
+                <li>The **volume of the transactions** (either as an amount or as an appropriate proportion).</li>
+                <li>Any other elements of the transactions necessary for an understanding (e.g. pricing policies).</li>
+                <li>The **outstanding balances** at the balance sheet date, and provisions for doubtful debts.</li>
+                <li>Amounts written off or written back during the period in respect of debts due from related parties.</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
 interface LearningPortalClientProps {
   initialStandards: Standard[]
   initialSelectedStandardDetails: Standard
@@ -7150,7 +7473,7 @@ export default function LearningPortalClient({
         </div>
 
         {/* ─── Tab Content Views ──────────────────────────────────────────────── */}
-        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
+        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17', 'as-18'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
 
           {isLoadingDetails ? (
             <div className="w-full space-y-8 animate-pulse p-4 flex-1 flex flex-col justify-start">
@@ -7172,7 +7495,7 @@ export default function LearningPortalClient({
               {/* 1. STANDARD VIEW */}
               {activeTab === 'standard' && (
                 <div className="w-full space-y-8 animate-fade-in font-sans">
-                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17'].includes(currentStandard.id) ? (
+                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17', 'as-18'].includes(currentStandard.id) ? (
                     <div className={`bg-white dark:bg-[#111726] border dark:border-gray-800 rounded-2xl shadow-xs ${
                       framework === 'AS' ? 'border-[#C5C3BC] p-8 sm:p-12 space-y-12' : 'border-[#E2E1DD] p-6 sm:p-10 space-y-10'
                     }`}>
@@ -7431,6 +7754,10 @@ export default function LearningPortalClient({
                     />
                   ) : currentStandard.id === 'as-17' ? (
                     <AS17StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-18' ? (
+                    <AS18StandardTabContent
                       navigateToPdfPage={navigateToPdfPage}
                     />
                   ) : (
@@ -7734,6 +8061,11 @@ export default function LearningPortalClient({
                 />
               ) : currentStandard.id === 'as-17' ? (
                 <AS17ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-18' ? (
+                <AS18ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />
