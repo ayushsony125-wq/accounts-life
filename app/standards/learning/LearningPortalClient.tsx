@@ -45,6 +45,7 @@ import { AS1ExamplesCustomContent } from './AS1ExamplesCustomContent'
 import { AS2ExamplesCustomContent } from './AS2ExamplesCustomContent'
 import { AS3ExamplesCustomContent } from './AS3ExamplesCustomContent'
 import { AS4ExamplesCustomContent } from './AS4ExamplesCustomContent'
+import { AS5ExamplesCustomContent } from './AS5ExamplesCustomContent'
 import { AS9ExamplesCustomContent } from './AS9ExamplesCustomContent'
 import { AS10ExamplesCustomContent } from './AS10ExamplesCustomContent'
 
@@ -2627,6 +2628,324 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
   )
 }
 
+const as5Sections = [
+  { id: 'as5-overview',        title: '1. Overview & Purpose' },
+  { id: 'as5-scope',           title: '2. Scope & Applicability (Para 1–2)' },
+  { id: 'as5-definitions',     title: '3. Definitions (Para 3)' },
+  { id: 'as5-exceptional',     title: '4. Ordinary & Exceptional Items (Para 12)' },
+  { id: 'as5-extraordinary',   title: '5. Extraordinary Items (Para 8–11)' },
+  { id: 'as5-prior-period',    title: '6. Prior Period Items (Para 15–19)' },
+  { id: 'as5-estimates',       title: '7. Changes in Estimates (Para 20–27)' },
+  { id: 'as5-policies',        title: '8. Changes in Policies (Para 28–33)' },
+]
+
+interface AS5StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+}
+
+function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as5-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    exceptional: true,
+    extraordinary: true,
+    priorPeriod: true,
+  })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as5-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        offset = tocRect.bottom - containerRect.top
+      }
+      container.scrollTo({
+        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
+        behavior: 'auto'
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as5Sections[0]?.id === activeSection) {
+      el.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({
+      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
+      behavior: 'smooth'
+    })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) {
+        setTimeout(init, 50)
+        return
+      }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) setActiveSection(e.target.id)
+        }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as5Sections.forEach(s => {
+        const el = document.getElementById(s.id)
+        if (el) obs?.observe(el)
+      })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-red-600 dark:text-red-400',      border: 'border-red-400',     badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 5 PDF — ${para}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      {para} (p. {page})
+    </button>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans space-y-4">
+      {/* Sticky Section Sub-Navbar */}
+      <div id="as5-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
+          <BookOpen size={9.5} />
+          AS 5 Sections:
+        </span>
+        {as5Sections.map((sec) => (
+          <button
+            key={sec.id}
+            data-sec-id={sec.id}
+            onClick={() => handleSectionClick(sec.id)}
+            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
+              activeSection === sec.id
+                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
+            }`}
+          >
+            {sec.title.split('. ')[1] || sec.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+        
+        {/* 1. Overview */}
+        <SecHeader id="as5-overview" num="1" title="Overview &amp; Purpose" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Overview" /> Accounting Standard 5 prescribes the classification and disclosure of specific items in the **Statement of Profit and Loss**.
+        </p>
+        <p className="leading-relaxed">
+          Proper presentation of these items allows stakeholders to evaluate the core ongoing performance of the enterprise, differentiate recurring earnings from temporary shocks, identify adjustments of prior period errors, and understand changes in accounting policies.
+        </p>
+
+        {/* 2. Scope & Applicability */}
+        <SecHeader id="as5-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 1" /> This standard should be applied by an enterprise in presenting profit or loss from ordinary activities, extraordinary items, prior period items, changes in accounting estimates, and changes in accounting policies.
+        </p>
+        <NoteBox type="warning" title="Tax Exclusions">
+          AS 5 does **not** deal with the tax implications arising from these items. Tax effects (such as deferred tax assets/liabilities and income tax provisions) are governed under **AS 22 (Accounting for Taxes on Income)**.
+        </NoteBox>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as5-definitions" num="3" title="Definitions (Para 3)" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 5 Definition</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Ordinary Activities</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Any activities which are undertaken by an enterprise as part of its business and such related activities in which the enterprise engages in furtherance of, incidental to, or arising from, these activities.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Extraordinary Items</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Income or expenses that arise from events or transactions that are clearly distinct from the ordinary activities of the enterprise and, therefore, are not expected to recur frequently or regularly.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Prior Period Items</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Income or expenses which arise in the current period as a result of errors or omissions in the preparation of the financial statements of one or more prior periods.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* 4. Ordinary & Exceptional Items */}
+        <SecHeader id="as5-exceptional" num="4" title="Ordinary &amp; Exceptional Items (Para 12)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={5} para="Para 12" /> When items of income or expense within ordinary activities are of such **size, nature or incidence** that their disclosure is relevant to explain the performance, their nature and amount should be **disclosed separately**.
+        </p>
+        <p className="leading-relaxed mb-4">
+          These are commonly called **Exceptional Items**. They do not constitute extraordinary items because they arise from ordinary activities.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('exceptional')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Examples requiring separate disclosure (Para 12–14)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.exceptional ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.exceptional && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-1">
+                <li><strong>Inventory Write-Downs:</strong> Writing down inventories to Net Realizable Value, or the reversal of such write-downs.</li>
+                <li><strong>Restructuring / VRS:</strong> Restructuring the activities of an enterprise and the reversal of provisions for restructuring costs, and Voluntary Retirement Scheme (VRS) compensations.</li>
+                <li><strong>Disposal of Fixed Assets:</strong> Profit or loss on the disposal of items of Property, Plant and Equipment.</li>
+                <li><strong>Disposal of Investments:</strong> Profits or losses arising from disposals of long-term or current investments.</li>
+                <li><strong>Litigation Settlements:</strong> Settlements of litigation demands that arise from ordinary business activities.</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* 5. Extraordinary Items */}
+        <SecHeader id="as5-extraordinary" num="5" title="Extraordinary Items (Para 8–11)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 8" /> **Extraordinary Items** must be disclosed **separately** in the Statement of Profit and Loss so that their impact on the net profit/loss is clearly perceived.
+        </p>
+        <p className="leading-relaxed mb-4">
+          The main distinction is that they are **not part of ordinary operations** and are completely outside management control.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('extraordinary')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Examples of Extraordinary Items</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.extraordinary ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.extraordinary && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-1">
+                <li><strong>Natural Calamities:</strong> Assets destroyed by a major earthquake, volcanic eruption, or unprecedented flood.</li>
+                <li><strong>Confiscation / Expropriation:</strong> Attachment or nationalization of an enterprise's property by a government.</li>
+                <li><strong>Refund of Taxes:</strong> Refund of taxes received which are distinct from ordinary tax payments.</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* 6. Prior Period Items */}
+        <SecHeader id="as5-prior-period" num="6" title="Prior Period Items (Para 15–19)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={5} para="Para 15" /> **Prior Period Items** arise in the current period due to **errors or omissions** in the preparation of the financial statements of one or more prior periods.
+        </p>
+        <NoteBox type="warning" title="Presentation & Disclosure">
+          <p>The nature and amount of prior period items should be **separately disclosed** in the Statement of Profit and Loss in the current year. They are shown after Net Profit/Loss from Ordinary Activities but before Tax.</p>
+          <p className="mt-1">Prior period items must **not** be confused with changes in estimates. Changes in estimates represent adjustments based on new developments, whereas prior period items represent correction of past year's computational errors, oversight, or misinterpretation of facts.</p>
+        </NoteBox>
+
+        {/* 7. Changes in Accounting Estimates */}
+        <SecHeader id="as5-estimates" num="7" title="Changes in Accounting Estimates (Para 20–27)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 20" /> As a result of uncertainties in business, many financial statement items cannot be measured precisely but can only be estimated (e.g. provision for bad debts, inventory obsolescence, useful lives of assets).
+        </p>
+        <p className="leading-relaxed mb-4">
+          <strong>Accounting Treatment:</strong> Under **Paragraph 21**, the effect of a change in an accounting estimate should be included in P&amp;L **prospectively** in:
+        </p>
+        <ul className="list-disc pl-6 space-y-1 text-slate-700 dark:text-gray-300 mb-4">
+          <li>The period of the change, if the change affects that period only.</li>
+          <li>The period of the change and future periods, if the change affects both.</li>
+        </ul>
+        <NoteBox type="exam" title="Prospective Change Principle">
+          No retrospective adjustment is made for changes in estimates. For example, when changing the useful life of an asset, compute depreciation based on the revised WDV divided by the remaining useful life.
+        </NoteBox>
+
+        {/* 8. Changes in Accounting Policies */}
+        <SecHeader id="as5-policies" num="8" title="Changes in Accounting Policies (Para 28–33)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 29" /> A change in an accounting policy should be made only if it is required by **statute** or for compliance with an **accounting standard**, or if it is considered that the change will result in a **more appropriate presentation** of financial statements.
+        </p>
+        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
+          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures for Policy Changes:</h4>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>The **nature** of the change.</li>
+            <li>The **financial effect** of the change, quantified where material.</li>
+            <li>If the impact is not quantifiable, the fact must be disclosed.</li>
+            <li>If the change has no material effect in the current period but is expected to have a material effect in future periods, the fact of such change should be disclosed.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
 const as9Sections = [
   { id: 'as9-overview',        title: '1. Overview & Purpose' },
   { id: 'as9-scope',           title: '2. Scope & Exclusions (Para 1–2)' },
@@ -4152,7 +4471,7 @@ export default function LearningPortalClient({
         </div>
 
         {/* ─── Tab Content Views ──────────────────────────────────────────────── */}
-        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-4', 'as-9', 'as-10'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
+        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-9', 'as-10'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
 
           {isLoadingDetails ? (
             <div className="w-full space-y-8 animate-pulse p-4 flex-1 flex flex-col justify-start">
@@ -4174,7 +4493,7 @@ export default function LearningPortalClient({
               {/* 1. STANDARD VIEW */}
               {activeTab === 'standard' && (
                 <div className="w-full space-y-8 animate-fade-in font-sans">
-                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-4', 'as-9', 'as-10'].includes(currentStandard.id) ? (
+                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-9', 'as-10'].includes(currentStandard.id) ? (
                     <div className={`bg-white dark:bg-[#111726] border dark:border-gray-800 rounded-2xl shadow-xs ${
                       framework === 'AS' ? 'border-[#C5C3BC] p-8 sm:p-12 space-y-12' : 'border-[#E2E1DD] p-6 sm:p-10 space-y-10'
                     }`}>
@@ -4387,6 +4706,10 @@ export default function LearningPortalClient({
                     />
                   ) : currentStandard.id === 'as-4' ? (
                     <AS4StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-5' ? (
+                    <AS5StandardTabContent
                       navigateToPdfPage={navigateToPdfPage}
                     />
                   ) : currentStandard.id === 'as-9' ? (
@@ -4645,6 +4968,11 @@ export default function LearningPortalClient({
                 />
               ) : currentStandard.id === 'as-4' ? (
                 <AS4ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-5' ? (
+                <AS5ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />
