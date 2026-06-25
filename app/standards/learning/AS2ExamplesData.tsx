@@ -549,7 +549,7 @@ export const examCorner = {
     },
     {
       trick: 'Borrowing Costs Excluded from AS 2 Inventory',
-      explanation: 'Unlike Ind AS 2 (which allows borrowing costs for qualifying inventory), AS 2 excludes borrowing costs from inventory cost. This is a key AS vs Ind AS difference tested in exams.',
+      explanation: 'Under AS 2, borrowing costs are always excluded from the cost of inventory and must be charged to the Statement of Profit and Loss as a period cost.',
     },
   ],
   importantParas: [

@@ -569,27 +569,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
               </div>
             </div>
 
-            {/* AS 2 vs Ind AS 2 Quick Compare */}
-            <div className="bg-[#FBF5FF] dark:bg-[#20152C] p-6 rounded-xl border border-[#F1D5F5] dark:border-purple-900/40 space-y-4">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-purple-700 dark:text-purple-400 flex items-center gap-2">
-                <Scale size={14} />
-                <span>AS 2 vs Ind AS 2 — Key Differences</span>
-              </h4>
-              <div className="space-y-3 text-[12.5px]">
-                <div className="p-3 bg-white dark:bg-slate-900 rounded-lg border border-purple-100 dark:border-purple-900/30">
-                  <p className="font-bold text-purple-700 dark:text-purple-400 mb-1">Borrowing Costs</p>
-                  <p className="text-slate-700 dark:text-slate-300">AS 2: EXCLUDED always. Ind AS 2: INCLUDED for qualifying assets (per Ind AS 23).</p>
-                </div>
-                <div className="p-3 bg-white dark:bg-slate-900 rounded-lg border border-purple-100 dark:border-purple-900/30">
-                  <p className="font-bold text-purple-700 dark:text-purple-400 mb-1">LIFO</p>
-                  <p className="text-slate-700 dark:text-slate-300">Both AS 2 and Ind AS 2 prohibit LIFO. Only FIFO and Weighted Average are permitted.</p>
-                </div>
-                <div className="p-3 bg-white dark:bg-slate-900 rounded-lg border border-purple-100 dark:border-purple-900/30">
-                  <p className="font-bold text-purple-700 dark:text-purple-400 mb-1">Measurement</p>
-                  <p className="text-slate-700 dark:text-slate-300">Both: Lower of Cost and NRV. Write-down reversal is permitted under both.</p>
-                </div>
-              </div>
-            </div>
+
           </div>
 
           {/* Mnemonic Box */}
