@@ -52,6 +52,10 @@ import { AS7ExamplesCustomContent } from './AS7ExamplesCustomContent'
 import { AS11ExamplesCustomContent } from './AS11ExamplesCustomContent'
 import { AS12ExamplesCustomContent } from './AS12ExamplesCustomContent'
 import { AS13ExamplesCustomContent } from './AS13ExamplesCustomContent'
+import { AS14ExamplesCustomContent } from './AS14ExamplesCustomContent'
+import { AS15ExamplesCustomContent } from './AS15ExamplesCustomContent'
+import { AS16ExamplesCustomContent } from './AS16ExamplesCustomContent'
+import { AS17ExamplesCustomContent } from './AS17ExamplesCustomContent'
 
 const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   // AS
@@ -5134,6 +5138,1321 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
   )
 }
 
+
+const as14Sections = [
+  { id: 'as14-overview',          title: '1. Overview & Purpose' },
+  { id: 'as14-scope',             title: '2. Scope & Applicability (Para 1–2)' },
+  { id: 'as14-definitions',       title: '3. Definitions (Para 3)' },
+  { id: 'as14-types',             title: '4. Types of Amalgamation (Para 3(e) & Para 29)' },
+  { id: 'as14-methods',           title: '5. Methods of Accounting (Para 30–33)' },
+  { id: 'as14-consideration',     title: '6. Purchase Consideration (Para 3(g) & Para 34)' },
+  { id: 'as14-reserves-goodwill', title: '7. Reserves & Goodwill (Para 35–39)' },
+  { id: 'as14-disclosure',        title: '8. Disclosures (Para 43–46)' },
+]
+
+interface AS14StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+}
+
+function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as14-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    mergerConditions: true,
+    poolingRules: true,
+    purchaseRules: true,
+    statutoryReserves: true,
+  })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as14-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        offset = tocRect.bottom - containerRect.top
+      }
+      container.scrollTo({
+        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
+        behavior: 'auto'
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as14Sections[0]?.id === activeSection) {
+      el.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({
+      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
+      behavior: 'smooth'
+    })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) {
+        setTimeout(init, 50)
+        return
+      }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) setActiveSection(e.target.id)
+        }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as14Sections.forEach(s => {
+        const el = document.getElementById(s.id)
+        if (el) obs?.observe(el)
+      })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-450 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 14 PDF — ${para}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      {para} (p. {page})
+    </button>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans space-y-4">
+      {/* Sticky Section Sub-Navbar */}
+      <div id="as14-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
+          <BookOpen size={9.5} />
+          AS 14 Sections:
+        </span>
+        {as14Sections.map((sec) => (
+          <button
+            key={sec.id}
+            data-sec-id={sec.id}
+            onClick={() => handleSectionClick(sec.id)}
+            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
+              activeSection === sec.id
+                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+            }`}
+          >
+            {sec.title.split('. ')[1] || sec.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+        
+        {/* 1. Overview & Purpose */}
+        <SecHeader id="as14-overview" num="1" title="Overview &amp; Purpose" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Overview" /> Accounting Standard 14 specifies the accounting treatment of **amalgamations** and the treatment of any goodwill or reserves arising therefrom.
+        </p>
+        <p className="leading-relaxed">
+          Amalgamations are critical corporate restructuring events where the assets, liabilities, and business operations of one or more companies (transferor companies) are integrated into another company (transferee company). The core accounting issues relate to classification of the transaction, calculation of purchase consideration, and consolidation of reserves and assets.
+        </p>
+
+        {/* 2. Scope & Applicability */}
+        <SecHeader id="as14-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 1" /> This standard applies in accounting for amalgamations and schemes of compromise or arrangement in the books of the **transferee company**.
+        </p>
+        <p className="leading-relaxed">
+          It applies to mergers, acquisitions, and reconstructions under the Companies Act, 2013. It does not apply to acquisitions of individual assets or business acquisitions that do not constitute an amalgamation under the law.
+        </p>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as14-definitions" num="3" title="Definitions (Para 3)" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 14 Definition</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Amalgamation</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">An amalgamation pursuant to the provisions of the Companies Act, 2013 or any other statute.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Transferor Company</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">The company which is amalgamated into another company (the target or selling entity).</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Transferee Company</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">The company into which the transferor company is amalgamated (the acquiring or surviving entity).</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Reserves</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">The portion of earnings, capital, or other surpluses not designated for any specific liability or dividend distribution.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* 4. Types of Amalgamation */}
+        <SecHeader id="as14-types" num="4" title="Types of Amalgamation (Para 3(e) &amp; Para 29)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={5} para="Para 3(e)" /> AS 14 classifies amalgamations into two distinct categories:
+        </p>
+        <ul className="list-disc pl-6 space-y-2 mb-4">
+          <li><strong>Amalgamation in the Nature of Merger:</strong> A transaction where there is a genuine pooling of assets, liabilities, and shareholder interests.</li>
+          <li><strong>Amalgamation in the Nature of Purchase:</strong> A transaction where one enterprise acquires another and does not carry over reserves or interests.</li>
+        </ul>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('mergerConditions')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">The 5 Mandatory Conditions for Merger (Para 3(e))</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.mergerConditions ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.mergerConditions && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3.5 leading-relaxed">
+              <p>For an amalgamation to be classified as in the nature of **Merger**, all five conditions must be satisfied without exception:</p>
+              <ol className="list-decimal pl-5 space-y-2">
+                <li><strong>All Assets and Liabilities:</strong> All assets and liabilities of the transferor company become, after amalgamation, the assets and liabilities of the transferee company.</li>
+                <li><strong>90% Equity Shareholder Continuity:</strong> Shareholders holding not less than **90% of the face value** of the equity shares of the transferor company (other than shares already held by transferee) agree to become equity shareholders of the transferee.</li>
+                <li><strong>Solely Share Consideration:</strong> The consideration is discharged by the transferee company to the equity shareholders of the transferor company **solely by the issue of equity shares** in the transferee company, except that cash may be paid in respect of any fractional shares.</li>
+                <li><strong>Business Continuity:</strong> The business of the transferor company is intended to be carried on, after the amalgamation, by the transferee company.</li>
+                <li><strong>Book Value Continuity:</strong> No adjustment is intended to be made to the book values of the assets and liabilities of the transferor company when they are incorporated, except to ensure uniformity of accounting policies.</li>
+              </ol>
+              <NoteBox type="warning" title="Exception Rule">
+                If even a single condition is violated, the transaction is classified as an **Amalgamation in the Nature of Purchase**.
+              </NoteBox>
+            </div>
+          )}
+        </div>
+
+        {/* 5. Methods of Accounting */}
+        <SecHeader id="as14-methods" num="5" title="Methods of Accounting (Para 30–33)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 30" /> The standard prescribes two different accounting methods depending on the type of amalgamation:
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('poolingRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">1. Pooling of Interests Method (For Merger)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.poolingRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.poolingRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Assets, liabilities, and reserves of the transferor company are recorded at their existing carrying amounts (Book Values).</li>
+                <li>The identity of the **reserves** is preserved (General, Capital, Statutory reserves, etc. are carried over).</li>
+                <li>Any difference between the purchase consideration and the amount of share capital of the transferor is adjusted in the **General Reserve** of the transferee.</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('purchaseRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">2. Purchase Method (For Purchase)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.purchaseRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.purchaseRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Assets and liabilities are recorded either at their book values or at their **fair values** at the date of acquisition.</li>
+                <li>Reserves (other than statutory reserves) are **not** carried over in the transferee's books.</li>
+                <li>The difference between Net Assets acquired and Purchase Consideration is recognized as **Goodwill** (if negative difference, debited) or **Capital Reserve** (if positive difference, credited).</li>
+                <li>Goodwill is amortized systematically over its useful life, not exceeding **5 years** (Para 18).</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* 6. Purchase Consideration */}
+        <SecHeader id="as14-consideration" num="6" title="Purchase Consideration (Para 3(g) &amp; Para 34)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={5} para="Para 3(g)" /> Purchase consideration is the price paid by the transferee company to the owners of the transferor company.
+        </p>
+        <NoteBox type="exam" title="Exam Trap Alert">
+          Purchase Consideration comprises **only** payments made to **Equity and Preference Shareholders**. It must strictly exclude payments made to debenture holders, lenders, and trade creditors.
+        </NoteBox>
+        <p className="leading-relaxed">
+          Discharge of debenture holders is treated as settlement of a liability taken over and does not increase or decrease the purchase consideration.
+        </p>
+
+        {/* 7. Treatment of Reserves & Goodwill */}
+        <SecHeader id="as14-reserves-goodwill" num="7" title="Reserves &amp; Goodwill (Para 35–39)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={7} para="Para 39" /> Statutory reserves require unique treatment under the Purchase Method to ensure compliance with tax and other regulations.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('statutoryReserves')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Treatment of Statutory Reserves under Purchase Method</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.statutoryReserves ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.statutoryReserves && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
+              <p>Since the reserves of the transferor are ignored in a purchase, statutory reserves (e.g., Investment Allowance Reserve, Export Profits Reserve) must be preserved in the transferee's balance sheet by posting the following entry:</p>
+              <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg font-mono">
+                Amalgamation Adjustment Reserve A/c ..... Dr.<br />
+                &nbsp;&nbsp;To Statutory Reserve A/c
+              </div>
+              <p>Amalgamation Adjustment Reserve is presented as a **negative balance** or debit under Reserves &amp; Surplus.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 8. Disclosures */}
+        <SecHeader id="as14-disclosure" num="8" title="Disclosure Requirements (Para 43–46)" />
+        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
+          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures for all Amalgamations:</h4>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Names and general nature of business of the amalgamating companies.</li>
+            <li>Effective date of amalgamation for accounting purposes.</li>
+            <li>Method of accounting used (Pooling of Interests vs Purchase).</li>
+            <li>Particulars of the scheme sanctioned under the Act.</li>
+            <li>In case of Pooling of Interests: Description and amount of shares issued.</li>
+            <li>In case of Purchase Method: Details of consideration paid, and treatment of Goodwill/Capital Reserve (including amortization details).</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+
+const as15Sections = [
+  { id: 'as15-overview',          title: '1. Overview & Purpose' },
+  { id: 'as15-scope',             title: '2. Scope & Applicability (Para 1–5)' },
+  { id: 'as15-definitions',       title: '3. Definitions (Para 7)' },
+  { id: 'as15-short-term',        title: '4. Short-Term Employee Benefits (Para 8–23)' },
+  { id: 'as15-post-employment',   title: '5. Post-Employment Benefits (Para 24–43)' },
+  { id: 'as15-defined-benefit',   title: '6. Defined Benefit Obligation (Para 49–115)' },
+  { id: 'as15-long-term',         title: '7. Other Long-Term Benefits (Para 126–131)' },
+  { id: 'as15-termination',       title: '8. Termination & Disclosures (Para 133–142)' },
+]
+
+interface AS15StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+}
+
+function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as15-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    shortTermRules: true,
+    definedContribution: true,
+    definedBenefitRules: true,
+    actuarialAssumptions: true,
+  })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as15-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        offset = tocRect.bottom - containerRect.top
+      }
+      container.scrollTo({
+        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
+        behavior: 'auto'
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as15Sections[0]?.id === activeSection) {
+      el.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({
+      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
+      behavior: 'smooth'
+    })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) {
+        setTimeout(init, 50)
+        return
+      }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) setActiveSection(e.target.id)
+        }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as15Sections.forEach(s => {
+        const el = document.getElementById(s.id)
+        if (el) obs?.observe(el)
+      })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-450 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 15 PDF — ${para}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      {para} (p. {page})
+    </button>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans space-y-4">
+      {/* Sticky Section Sub-Navbar */}
+      <div id="as15-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
+          <BookOpen size={9.5} />
+          AS 15 Sections:
+        </span>
+        {as15Sections.map((sec) => (
+          <button
+            key={sec.id}
+            data-sec-id={sec.id}
+            onClick={() => handleSectionClick(sec.id)}
+            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
+              activeSection === sec.id
+                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+            }`}
+          >
+            {sec.title.split('. ')[1] || sec.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+        
+        {/* 1. Overview & Purpose */}
+        <SecHeader id="as15-overview" num="1" title="Overview &amp; Purpose" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Overview" /> Accounting Standard 15 governs the accounting and disclosure of **employee benefits**.
+        </p>
+        <p className="leading-relaxed">
+          The objective of the standard is to prescribe the accounting treatment and disclosure requirements for all types of employee benefits. The standard requires an enterprise to recognize a liability when an employee has provided service in exchange for benefits to be paid in the future, and an expense when the enterprise consumes the economic benefit arising from service provided by an employee.
+        </p>
+
+        {/* 2. Scope & Applicability */}
+        <SecHeader id="as15-scope" num="2" title="Scope &amp; Applicability (Para 1–5)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 1" /> This standard should be applied by an employer in accounting for **all employee benefits**, except share-based payments (which are covered by Guidance Notes).
+        </p>
+        <p className="leading-relaxed">
+          Employee benefits covered include those provided under formal plans, statutory agreements, or informal practices that give rise to constructive obligations. It covers short-term benefits, post-employment benefits, other long-term benefits, and termination benefits.
+        </p>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as15-definitions" num="3" title="Definitions (Para 7)" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 15 Definition</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Employee Benefits</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">All forms of consideration given by an enterprise in exchange for service rendered by employees.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Short-Term Benefits</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Employee benefits (other than termination benefits) which fall due wholly within twelve months after the end of the period in which the employees render the related service.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Post-Employment Benefits</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Employee benefits (other than termination benefits) which are payable after the completion of employment.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Defined Benefit Plans</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Post-employment benefit plans under which an enterprise's obligation is to provide the agreed benefits to current and former employees, and the actuarial and investment risk fall on the enterprise.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* 4. Short-Term Employee Benefits */}
+        <SecHeader id="as15-short-term" num="4" title="Short-Term Employee Benefits (Para 8–23)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 10" /> When an employee has rendered service to an enterprise during an accounting period, the enterprise should recognize the **undiscounted amount** of short-term employee benefits expected to be paid in exchange for that service.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('shortTermRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Rules for Short-Term Benefits (Compensated Absences)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.shortTermRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.shortTermRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
+              <p><strong>Accumulating Absences (Para 11-14):</strong> Absences that are carried forward and can be used in future periods if the current period's entitlement is not used in full. These can be either vesting (employees are entitled to cash settlement on leaving) or non-vesting. The enterprise must recognize an accrued liability based on expected usage.</p>
+              <p><strong>Non-Accumulating Absences (Para 16):</strong> Absences that do not carry forward. They lapse if the current period's entitlement is not used in full and do not entitle employees to cash payments on leaving. The cost is recognized only when the absence occurs.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 5. Post-Employment Benefits */}
+        <SecHeader id="as15-post-employment" num="5" title="Post-Employment Benefits: DC vs DB Plans" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={8} para="Para 24" /> Post-employment benefit plans are classified as either **Defined Contribution plans** or **Defined Benefit plans**, depending on the economic substance of the plan.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('definedContribution')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Defined Contribution Plans (Para 44–48)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.definedContribution ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.definedContribution && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <p>Under a defined contribution plan, the enterprise's obligation is limited to the amount it agrees to contribute to the fund. Actuarial risk and investment risk fall on the employee.</p>
+              <p><strong>Accounting Treatment:</strong> Simple accrual basis. The contribution payable for the period is recognized as an expense. No actuarial valuation is required.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 6. Defined Benefit Obligation */}
+        <SecHeader id="as15-defined-benefit" num="6" title="Defined Benefit Obligation (Para 49–115)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={11} para="Para 49" /> Accounting for defined benefit plans is complex because actuarial assumptions are required to measure the obligation and the expense.
+        </p>
+        <NoteBox type="warning" title="Actuarial Gains &amp; Losses Rule">
+          Under AS 15, **actuarial gains and losses should be recognized immediately** in the Statement of Profit and Loss in the period in which they occur. No deferrals are allowed.
+        </NoteBox>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('definedBenefitRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">PUC Actuarial Valuation Steps (Para 64–66)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.definedBenefitRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.definedBenefitRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <p>To measure the DBO and CSC, the enterprise must follow these steps using the cost method:</p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Apply actuarial assumptions to estimate the future benefit that employees have earned for their service.</li>
+                <li>Discount that benefit using the Projected Unit Credit (PUC) method to determine the present value of the obligation.</li>
+                <li>Determine the fair value of any plan assets and subtract it from the obligation to report the net asset or liability.</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* 7. Other Long-Term Benefits */}
+        <SecHeader id="as15-long-term" num="7" title="Other Long-Term Employee Benefits (Para 126–131)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={28} para="Para 126" /> Other long-term benefits include items like long-service leave, sabbatical leave, or jubilee benefits.
+        </p>
+        <p className="leading-relaxed">
+          The accounting treatment is simplified compared to defined benefit plans: actuarial gains and losses, as well as past service cost, are recognized immediately in the Statement of Profit &amp; Loss, and no complex disclosures are required.
+        </p>
+
+        {/* 8. Termination & Disclosures */}
+        <SecHeader id="as15-termination" num="8" title="Termination Benefits &amp; Disclosures" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={30} para="Para 134" /> Termination benefits are recognized as a liability and an expense only when the enterprise has a detailed formal plan for termination and is demonstrably committed to it.
+        </p>
+        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
+          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures for Defined Benefit Plans (Para 119):</h4>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>The **accounting policy** adopted for recognizing actuarial gains and losses.</li>
+            <li>A general description of the **type of plan** (gratuity, pension, etc.).</li>
+            <li>A **reconciliation of opening and closing balances** of the present value of the defined benefit obligation.</li>
+            <li>A **reconciliation of opening and closing balances** of the fair value of plan assets.</li>
+            <li>The principal **actuarial assumptions** used (discount rates, expected rates of return on plan assets, salary growth rate, employee turnover).</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+
+const as16Sections = [
+  { id: 'as16-overview',          title: '1. Overview & Purpose' },
+  { id: 'as16-scope',             title: '2. Scope & Applicability (Para 1–2)' },
+  { id: 'as16-definitions',       title: '3. Definitions (Para 3)' },
+  { id: 'as16-specific',          title: '4. Specific Borrowings (Para 10)' },
+  { id: 'as16-general',           title: '5. General Borrowings (Para 12)' },
+  { id: 'as16-commencement',      title: '6. Commencement & Suspension (Para 14–18)' },
+  { id: 'as16-cessation',         title: '7. Cessation of Capitalization (Para 19–22)' },
+  { id: 'as16-disclosure',        title: '8. Disclosures (Para 23)' },
+]
+
+interface AS16StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+}
+
+function AS16StandardTabContent({ navigateToPdfPage }: AS16StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as16-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    borrowingCostsList: true,
+    commencementRules: true,
+    cessationRules: true,
+    exchangeDifference: true,
+  })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as16-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        offset = tocRect.bottom - containerRect.top
+      }
+      container.scrollTo({
+        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
+        behavior: 'auto'
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as16Sections[0]?.id === activeSection) {
+      el.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({
+      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
+      behavior: 'smooth'
+    })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) {
+        setTimeout(init, 50)
+        return
+      }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) setActiveSection(e.target.id)
+        }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as16Sections.forEach(s => {
+        const el = document.getElementById(s.id)
+        if (el) obs?.observe(el)
+      })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-450 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 16 PDF — ${para}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      {para} (p. {page})
+    </button>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans space-y-4">
+      {/* Sticky Section Sub-Navbar */}
+      <div id="as16-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
+          <BookOpen size={9.5} />
+          AS 16 Sections:
+        </span>
+        {as16Sections.map((sec) => (
+          <button
+            key={sec.id}
+            data-sec-id={sec.id}
+            onClick={() => handleSectionClick(sec.id)}
+            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
+              activeSection === sec.id
+                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+            }`}
+          >
+            {sec.title.split('. ')[1] || sec.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+        
+        {/* 1. Overview & Purpose */}
+        <SecHeader id="as16-overview" num="1" title="Overview &amp; Purpose" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Overview" /> Accounting Standard 16 governs the accounting treatment of **borrowing costs**.
+        </p>
+        <p className="leading-relaxed">
+          The core principle of the standard is that borrowing costs that are directly attributable to the acquisition, construction, or production of a qualifying asset should be capitalized as part of the cost of that asset. Other borrowing costs are recognized as an expense in the period in which they are incurred.
+        </p>
+
+        {/* 2. Scope & Applicability */}
+        <SecHeader id="as16-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 1" /> This standard should be applied in accounting for borrowing costs by **all enterprises**.
+        </p>
+        <p className="leading-relaxed">
+          It applies to actual borrowing costs incurred on loans, debentures, bank overdrafts, and other short-term and long-term borrowings. It does not deal with the actual or imputed cost of equity, including preferred capital not classified as a liability.
+        </p>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as16-definitions" num="3" title="Definitions (Para 3)" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 16 Definition</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Borrowing Costs</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Interest and other costs incurred by an enterprise in connection with the borrowing of funds.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Qualifying Asset</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">An asset that necessarily takes a substantial period of time to get ready for its intended use or sale.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('borrowingCostsList')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Components of Borrowing Costs (Para 4)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.borrowingCostsList ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.borrowingCostsList && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <p>Borrowing costs include:</p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Interest and commitment charges on bank borrowings and other short-term and long-term loans.</li>
+                <li>Amortization of discounts or premiums relating to borrowings (e.g. on debentures).</li>
+                <li>Amortization of ancillary costs incurred in connection with the arrangement of borrowings.</li>
+                <li>Finance charges in respect of assets acquired under finance leases.</li>
+                <li>Exchange differences arising from foreign currency borrowings to the extent that they are regarded as an adjustment to interest costs.</li>
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* 4. Specific Borrowings */}
+        <SecHeader id="as16-specific" num="4" title="Specific Borrowings (Para 10)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 10" /> To the extent that funds are borrowed specifically for the purpose of obtaining a qualifying asset, the amount of borrowing costs eligible for capitalization on that asset should be determined as the **actual borrowing costs incurred** on that borrowing during the period, **less any investment income** on the temporary investment of those borrowings.
+        </p>
+        <p className="leading-relaxed">
+          The investment of surplus funds temporarily in short-term bank deposits offsets the gross interest cost eligible for capitalization.
+        </p>
+
+        {/* 5. General Borrowings */}
+        <SecHeader id="as16-general" num="5" title="General Borrowings (Para 12)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={7} para="Para 12" /> To the extent that funds are borrowed generally and used for the purpose of obtaining a qualifying asset, the amount of borrowing costs eligible for capitalization should be determined by applying a **capitalization rate** to the expenditures on that asset.
+        </p>
+        <p className="leading-relaxed">
+          The capitalization rate should be the **weighted average of the borrowing costs** outstanding during the period, other than borrowings made specifically for the purpose of obtaining a qualifying asset.
+        </p>
+
+        {/* 6. Commencement & Suspension */}
+        <SecHeader id="as16-commencement" num="6" title="Commencement &amp; Suspension of Capitalization" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={8} para="Para 14" /> Capitalization of borrowing costs should commence when **all** the following three conditions are met:
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('commencementRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Commencement and Suspension Criteria (Para 14–18)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.commencementRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.commencementRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
+              <p><strong>Commencement Conditions (Para 14):</strong></p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>Expenditures for the acquisition, construction or production of a qualifying asset are being incurred.</li>
+                <li>Borrowing costs are being incurred.</li>
+                <li>Activities that are necessary to prepare the asset for its intended use or sale are in progress.</li>
+              </ul>
+              <p><strong>Suspension (Para 17):</strong> Capitalization of borrowing costs should be suspended during extended periods in which active development is interrupted. However, capitalization is not normally suspended during a period when substantial technical and administrative work is being carried out or when a temporary delay is a necessary part of the process.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 7. Cessation of Capitalization */}
+        <SecHeader id="as16-cessation" num="7" title="Cessation of Capitalization (Para 19–22)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={9} para="Para 19" /> Capitalization of borrowing costs should **cease** when substantially all the activities necessary to prepare the qualifying asset for its intended use or sale are complete.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('cessationRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Cessation rules (Parts &amp; Physical completion)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.cessationRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.cessationRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
+              <p><strong>Physical Completion:</strong> An asset is normally ready for its intended use or sale when its physical construction is complete, even though routine administrative work may still continue.</p>
+              <p><strong>Parts Completion (Para 22):</strong> When the construction of a qualifying asset is completed in parts and each part is capable of being used while construction continues on other parts, capitalization of borrowing costs should cease on that part when substantially all activities necessary to prepare it are complete.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 8. Disclosures */}
+        <SecHeader id="as16-disclosure" num="8" title="Disclosure Requirements (Para 23)" />
+        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
+          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures under AS 16:</h4>
+          <ul className="list-disc pl-5 space-y-1">
+            <li>The **accounting policy** adopted for borrowing costs.</li>
+            <li>The **amount of borrowing costs capitalized** during the period.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
+
+const as17Sections = [
+  { id: 'as17-overview',          title: '1. Overview & Purpose' },
+  { id: 'as17-scope',             title: '2. Scope & Applicability (Para 1–4)' },
+  { id: 'as17-definitions',       title: '3. Definitions (Para 5)' },
+  { id: 'as17-business-geo',      title: '4. Business & Geographical (Para 5)' },
+  { id: 'as17-reportable',        title: '5. Reportable Segments (Para 27–34)' },
+  { id: 'as17-policies',          title: '6. Segment Accounting Policies (Para 35–42)' },
+  { id: 'as17-primary',           title: '7. Primary Reporting Disclosures' },
+  { id: 'as17-secondary',         title: '8. Secondary Reporting Disclosures' },
+]
+
+interface AS17StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+}
+
+function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as17-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    segmentTypes: true,
+    tenPercentTests: true,
+    seventyFivePercentRule: true,
+    primaryDisclosures: true,
+  })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as17-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        offset = tocRect.bottom - containerRect.top
+      }
+      container.scrollTo({
+        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
+        behavior: 'auto'
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as17Sections[0]?.id === activeSection) {
+      el.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({
+      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
+      behavior: 'smooth'
+    })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) {
+        setTimeout(init, 50)
+        return
+      }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) setActiveSection(e.target.id)
+        }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as17Sections.forEach(s => {
+        const el = document.getElementById(s.id)
+        if (el) obs?.observe(el)
+      })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-455 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 17 PDF — ${para}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      {para} (p. {page})
+    </button>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans space-y-4">
+      {/* Sticky Section Sub-Navbar */}
+      <div id="as17-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
+          <BookOpen size={9.5} />
+          AS 17 Sections:
+        </span>
+        {as17Sections.map((sec) => (
+          <button
+            key={sec.id}
+            data-sec-id={sec.id}
+            onClick={() => handleSectionClick(sec.id)}
+            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
+              activeSection === sec.id
+                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+            }`}
+          >
+            {sec.title.split('. ')[1] || sec.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+        
+        {/* 1. Overview & Purpose */}
+        <SecHeader id="as17-overview" num="1" title="Overview &amp; Purpose" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Overview" /> Accounting Standard 17 establishes principles for reporting financial information by **segments**.
+        </p>
+        <p className="leading-relaxed">
+          Segment Reporting provides details about the different types of products and services an enterprise produces and the different geographical areas in which it operates. This helps users of financial statements to better understand the enterprise's performance, evaluate its risks and returns, and make more informed judgments about the enterprise as a whole.
+        </p>
+
+        {/* 2. Scope & Applicability */}
+        <SecHeader id="as17-scope" num="2" title="Scope &amp; Applicability (Para 1–4)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 1" /> This standard is mandatory for enterprises whose equity or debt securities are **listed** or in the process of listing, and all other **Level I enterprises**.
+        </p>
+        <p className="leading-relaxed">
+          If a single financial report contains both consolidated financial statements and separate financial statements of the parent, segment information needs to be presented only on the basis of the consolidated financial statements (Para 4).
+        </p>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as17-definitions" num="3" title="Definitions (Para 5)" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 17 Definition</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Segment Revenue</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Revenue reported in the enterprise's statement of profit and loss that is directly attributable to a segment, including inter-segment sales.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Segment Expense</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Expense resulting from the operating activities of a segment that is directly attributable to the segment, excluding interest expense and taxes.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Segment Assets</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Operating assets employed by a segment in its operating activities, excluding income tax assets.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* 4. Business & Geographical Segments */}
+        <SecHeader id="as17-business-geo" num="4" title="Business &amp; Geographical Segment Classification" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={5} para="Para 5" /> The standard divides segments into **Business Segments** and **Geographical Segments**.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('segmentTypes')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Business vs Geographical Segments</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.segmentTypes ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.segmentTypes && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
+              <p><strong>Business Segment:</strong> A distinguishable component of an enterprise engaged in providing an individual product or service or a group of related products or services, and that is subject to risks and returns that are different from those of other business segments. Factors to consider:</p>
+              <ul className="list-disc pl-5 space-y-1">
+                <li>The nature of the products or services.</li>
+                <li>The nature of the production processes.</li>
+                <li>The type or class of customers.</li>
+                <li>The methods used to distribute products.</li>
+              </ul>
+              <p><strong>Geographical Segment:</strong> A distinguishable component of an enterprise engaged in providing products or services within a particular economic environment and that is subject to risks and returns that are different from those of components operating in other economic environments.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 5. Reportable Segments */}
+        <SecHeader id="as17-reportable" num="5" title="Reportable Segments &amp; the 10% Thresholds" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={8} para="Para 27" /> A business segment or geographical segment should be identified as a **reportable segment** if it meets any of the three quantitative thresholds:
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('tenPercentTests')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">The 10% Quantitative Tests (Para 27)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.tenPercentTests ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.tenPercentTests && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
+              <ol className="list-decimal pl-5 space-y-2">
+                <li><strong>Revenue Test:</strong> Its segment revenue (internal + external) is **10% or more** of the combined revenue of all segments.</li>
+                <li><strong>Result Test:</strong> Its segment result (profit or loss) is **10% or more** of the greater (in absolute amount) of:
+                  <ul className="list-disc pl-5 mt-1">
+                    <li>The combined segment result of all segments in profit.</li>
+                    <li>The combined segment result of all segments in loss.</li>
+                  </ul>
+                </li>
+                <li><strong>Assets Test:</strong> Its segment assets are **10% or more** of the combined assets of all segments.</li>
+              </ol>
+            </div>
+          )}
+        </div>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('seventyFivePercentRule')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">The 75% External Revenue Rule (Para 33)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.seventyFivePercentRule ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.seventyFivePercentRule && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <p>If the total **external revenue** of reportable segments is **less than 75%** of the total enterprise revenue, additional segments must be identified as reportable segments (even if they fail the 10% tests) until at least 75% of the total enterprise revenue is included in reportable segments.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 6. Segment Accounting Policies */}
+        <SecHeader id="as17-policies" num="6" title="Segment Accounting Policies (Para 35–42)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={10} para="Para 35" /> Segment information should be prepared in conformity with the accounting policies adopted for preparing and presenting the financial statements of the **enterprise**.
+        </p>
+        <p className="leading-relaxed">
+          It is assumed that the accounting policies that the directors and management have chosen for use in preparing the consolidated or enterprise-wide financial statements are those that they believe are most appropriate.
+        </p>
+
+        {/* 7. Primary Reporting Disclosures */}
+        <SecHeader id="as17-primary" num="7" title="Primary Reporting Disclosures" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={11} para="Para 38" /> An enterprise must disclose the following for each reportable segment under its **primary reporting format**:
+        </p>
+        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Segment Revenue (distinguishing external vs inter-segment revenue).</li>
+            <li>Segment Result (profit or loss).</li>
+            <li>Total carrying amount of Segment Assets.</li>
+            <li>Total carrying amount of Segment Liabilities.</li>
+            <li>Cost incurred during the period to acquire segment assets (tangible &amp; intangible).</li>
+            <li>Depreciation and amortization expense.</li>
+            <li>Non-cash expenses other than depreciation.</li>
+            <li>Reconciliation of segment revenue, result, assets, and liabilities with enterprise-wide totals.</li>
+          </ul>
+        </div>
+
+        {/* 8. Secondary Reporting Disclosures */}
+        <SecHeader id="as17-secondary" num="8" title="Secondary Reporting Disclosures (Para 47–48)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={12} para="Para 47" /> If the primary format is Business Segments, the secondary format disclosures are required for Geographical Segments:
+        </p>
+        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
+          <ul className="list-disc pl-5 space-y-1">
+            <li>Segment revenue from external customers by geographical location of customers (if 10% or more).</li>
+            <li>Total carrying amount of segment assets by geographical location of assets (if 10% or more).</li>
+            <li>Cost incurred to acquire segment assets by geographical location of assets (if 10% or more).</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
 interface LearningPortalClientProps {
   initialStandards: Standard[]
   initialSelectedStandardDetails: Standard
@@ -5831,7 +7150,7 @@ export default function LearningPortalClient({
         </div>
 
         {/* ─── Tab Content Views ──────────────────────────────────────────────── */}
-        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
+        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
 
           {isLoadingDetails ? (
             <div className="w-full space-y-8 animate-pulse p-4 flex-1 flex flex-col justify-start">
@@ -5853,7 +7172,7 @@ export default function LearningPortalClient({
               {/* 1. STANDARD VIEW */}
               {activeTab === 'standard' && (
                 <div className="w-full space-y-8 animate-fade-in font-sans">
-                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13'].includes(currentStandard.id) ? (
+                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17'].includes(currentStandard.id) ? (
                     <div className={`bg-white dark:bg-[#111726] border dark:border-gray-800 rounded-2xl shadow-xs ${
                       framework === 'AS' ? 'border-[#C5C3BC] p-8 sm:p-12 space-y-12' : 'border-[#E2E1DD] p-6 sm:p-10 space-y-10'
                     }`}>
@@ -6096,6 +7415,22 @@ export default function LearningPortalClient({
                     />
                   ) : currentStandard.id === 'as-13' ? (
                     <AS13StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-14' ? (
+                    <AS14StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-15' ? (
+                    <AS15StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-16' ? (
+                    <AS16StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-17' ? (
+                    <AS17StandardTabContent
                       navigateToPdfPage={navigateToPdfPage}
                     />
                   ) : (
@@ -6379,6 +7714,26 @@ export default function LearningPortalClient({
                 />
               ) : currentStandard.id === 'as-13' ? (
                 <AS13ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-14' ? (
+                <AS14ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-15' ? (
+                <AS15ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-16' ? (
+                <AS16ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-17' ? (
+                <AS17ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />
