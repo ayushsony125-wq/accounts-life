@@ -57,6 +57,7 @@ import { AS15ExamplesCustomContent } from './AS15ExamplesCustomContent'
 import { AS16ExamplesCustomContent } from './AS16ExamplesCustomContent'
 import { AS17ExamplesCustomContent } from './AS17ExamplesCustomContent'
 import { AS18ExamplesCustomContent } from './AS18ExamplesCustomContent'
+import { AS19ExamplesCustomContent } from './AS19ExamplesCustomContent'
 
 const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   // AS
@@ -6776,6 +6777,326 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
   )
 }
 
+
+const as19Sections = [
+  { id: 'as19-overview',          title: '1. Overview & Purpose' },
+  { id: 'as19-scope',             title: '2. Scope & Exclusions (Para 1)' },
+  { id: 'as19-definitions',       title: '3. Definitions (Para 3)' },
+  { id: 'as19-classification',    title: '4. Lease Classification (Para 5–9)' },
+  { id: 'as19-lessee-finance',    title: '5. Lessee Finance Leases (Para 11–20)' },
+  { id: 'as19-lessee-operating',  title: '6. Lessee Operating Leases (Para 23–25)' },
+  { id: 'as19-lessor-accounting', title: '7. Lessor Accounting (Para 26–46)' },
+  { id: 'as19-sale-leaseback',    title: '8. Sale & Leaseback (Para 47–52)' },
+]
+
+interface AS19StandardTabContentProps {
+  navigateToPdfPage: (page: number) => void;
+}
+
+function AS19StandardTabContent({ navigateToPdfPage }: AS19StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as19-overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    indicatorsList: true,
+    lesseeFinanceRules: true,
+    lessorFinanceRules: true,
+    saleLeasebackRules: true,
+  })
+  const tocScrollRef = useRef<HTMLDivElement>(null)
+
+  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+
+  const handleSectionClick = (id: string) => {
+    setActiveSection(id)
+    const container = document.getElementById('as1-scroll-container')
+    const target = document.getElementById(id)
+    const stickyToc = document.getElementById('as19-standard-sticky-toc')
+    if (container && target) {
+      const containerRect = container.getBoundingClientRect()
+      const targetRect = target.getBoundingClientRect()
+      let offset = 58
+      if (stickyToc) {
+        const tocRect = stickyToc.getBoundingClientRect()
+        offset = tocRect.bottom - containerRect.top
+      }
+      container.scrollTo({
+        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
+        behavior: 'auto'
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return
+    const el = tocScrollRef.current
+    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    if (!btn) return
+    if (as19Sections[0]?.id === activeSection) {
+      el.scrollTo({ left: 0, behavior: 'smooth' })
+      return
+    }
+    const elRect = el.getBoundingClientRect()
+    const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({
+      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
+      behavior: 'smooth'
+    })
+  }, [activeSection])
+
+  useEffect(() => {
+    let obs: IntersectionObserver | undefined
+    const init = () => {
+      const sc = document.getElementById('as1-scroll-container')
+      if (!sc) {
+        setTimeout(init, 50)
+        return
+      }
+      obs = new IntersectionObserver(
+        entries => entries.forEach(e => {
+          if (e.isIntersecting) setActiveSection(e.target.id)
+        }),
+        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
+      )
+      as19Sections.forEach(s => {
+        const el = document.getElementById(s.id)
+        if (el) obs?.observe(el)
+      })
+    }
+    init()
+    return () => obs?.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const el = tocScrollRef.current
+    if (!el) return
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return
+      e.preventDefault()
+      el.scrollLeft += e.deltaY
+    }
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [])
+
+  const secColors: Record<string, { num: string; border: string; badge: string }> = {
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-455 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+  }
+
+  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const c = secColors[num] || secColors['1']
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="flex items-center gap-3">
+          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
+          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
+        </div>
+        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+      </div>
+    )
+  }
+
+  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+    }
+    return (
+      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+      </div>
+    )
+  }
+
+  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={`Open ICAI AS 19 PDF — ${para}`}
+    >
+      <FileText size={9} className="shrink-0" />
+      {para} (p. {page})
+    </button>
+  )
+
+  return (
+    <div className="w-full animate-fade-in font-sans space-y-4">
+      {/* Sticky Section Sub-Navbar */}
+      <div id="as19-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
+          <BookOpen size={9.5} />
+          AS 19 Sections:
+        </span>
+        {as19Sections.map((sec) => (
+          <button
+            key={sec.id}
+            data-sec-id={sec.id}
+            onClick={() => handleSectionClick(sec.id)}
+            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
+              activeSection === sec.id
+                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+            }`}
+          >
+            {sec.title.split('. ')[1] || sec.title}
+          </button>
+        ))}
+      </div>
+
+      {/* Main Content Card */}
+      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+        
+        {/* 1. Overview & Purpose */}
+        <SecHeader id="as19-overview" num="1" title="Overview &amp; Purpose" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={1} para="Overview" /> Accounting Standard 19 sets out the accounting policies and disclosures applicable to **leases**.
+        </p>
+        <p className="leading-relaxed">
+          Leasing is a popular mechanism to acquire the use of land, buildings, machinery, and equipment. The standard requires leases to be classified into Finance Leases (resembling an asset purchase financed by a loan) and Operating Leases (resembling a simple rental contract), prescribing distinct treatments for lessees and lessors.
+        </p>
+
+        {/* 2. Scope & Exclusions */}
+        <SecHeader id="as19-scope" num="2" title="Scope &amp; Exclusions (Para 1)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={4} para="Para 1" /> This standard should be applied in accounting for all leases, **except**:
+        </p>
+        <ul className="list-disc pl-6 space-y-1 mb-4">
+          <li>Lease agreements to explore for or use natural resources (oil, gas, timber, metal).</li>
+          <li>Licensing agreements for motion pictures, patents, copyrights, and video recordings.</li>
+          <li>Lease agreements to use **land** (which are treated under general principles or distinct standards).</li>
+        </ul>
+
+        {/* 3. Definitions */}
+        <SecHeader id="as19-definitions" num="3" title="Definitions (Para 3)" />
+        <div className="overflow-x-auto mb-6">
+          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
+            <thead>
+              <tr className="bg-slate-100 dark:bg-slate-800">
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
+                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 19 Definition</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Lease</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">An agreement whereby the lessor conveys to the lessee in return for a payment or series of payments the right to use an asset for an agreed period of time.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Finance Lease</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">A lease that transfers substantially all the risks and rewards incidental to ownership of an asset. Title may or may not eventually be transferred.</td>
+              </tr>
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
+                <td className="p-3 font-semibold text-slate-900 dark:text-white">Minimum Lease Payments</td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">Payments over the lease term that the lessee is, or can be, required to make, excluding contingent rent, costs for services, and taxes, plus any residual value guaranteed by or on behalf of the lessee.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* 4. Lease Classification */}
+        <SecHeader id="as19-classification" num="4" title="Lease Classification Criteria (Para 5–9)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={5} para="Para 6" /> Whether a lease is a finance lease or an operating lease depends on the **substance of the transaction** rather than the form of the contract.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('indicatorsList')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">The 5 Finance Lease Indicators (Para 8)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.indicatorsList ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.indicatorsList && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
+              <p>Under AS 19, a lease is classified as a **Finance Lease** if it meets one or more of the following conditions:</p>
+              <ol className="list-decimal pl-5 space-y-2">
+                <li><strong>Transfer of Ownership:</strong> The lease transfers ownership of the asset to the lessee by the end of the lease term.</li>
+                <li><strong>Bargain Purchase Option:</strong> The lessee has the option to purchase the asset at a price which is expected to be sufficiently lower than the fair value.</li>
+                <li><strong>Major Life Test:</strong> The lease term is for the **major part of the economic life** of the asset (commonly 75% or more) even if title is not transferred.</li>
+                <li><strong>Substantial Value Test:</strong> At the inception of the lease, the present value of the minimum lease payments amounts to at least **substantially all of the fair value** of the leased asset (commonly 90% or more).</li>
+                <li><strong>Specialized Assets:</strong> The leased assets are of such a specialized nature that only the lessee can use them without major modifications.</li>
+              </ol>
+            </div>
+          )}
+        </div>
+
+        {/* 5. Lessee Finance Leases */}
+        <SecHeader id="as19-lessee-finance" num="5" title="Accounting in Lessee Books: Finance Leases (Para 11–20)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={6} para="Para 11" /> At the inception of a finance lease, the lessee should recognize the lease as an asset and a liability at an amount equal to the **fair value** of the leased asset or, if lower, the **present value of the minimum lease payments**.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('lesseeFinanceRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Lessee Accounting Rules</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.lesseeFinanceRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.lesseeFinanceRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
+              <p><strong>Discount Factor:</strong> The discount rate to be used in calculating the present value of the minimum lease payments is the **interest rate implicit in the lease** (if determinable); otherwise, the lessee's incremental borrowing rate is used.</p>
+              <p><strong>Depreciation (Para 16):</strong> A finance lease gives rise to depreciation expense for the asset as well as finance expense for each accounting period. The depreciation policy should be consistent with that for owned assets (depreciate over useful life if ownership transfers; otherwise, over the shorter of lease term and useful life).</p>
+            </div>
+          )}
+        </div>
+
+        {/* 6. Lessee Operating Leases */}
+        <SecHeader id="as19-lessee-operating" num="6" title="Accounting in Lessee Books: Operating Leases (Para 23–25)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={7} para="Para 23" /> Lease payments under an operating lease should be recognized as an expense in the statement of profit and loss on a **straight-line basis** over the lease term.
+        </p>
+        <NoteBox type="warning" title="Inflation Escalation Exception">
+          If the lease rentals are structured to increase in line with expected general inflation to compensate the lessor for expected inflationary cost increases, straight-lining is **not** required.
+        </NoteBox>
+
+        {/* 7. Lessor Accounting */}
+        <SecHeader id="as19-lessor-accounting" num="7" title="Accounting in Lessor Books (Para 26–46)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={8} para="Para 26" /> The lessor should recognize assets held under a finance lease in their balance sheet and present them as a **receivable** at an amount equal to the net investment in the lease.
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('lessorFinanceRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Lessor Accounting Rules (Finance Lease)</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.lessorFinanceRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.lessorFinanceRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
+              <p><strong>Receivable Recognition:</strong> The lease receivable represents the Net Investment in the lease, which is equal to the present value of Gross Investment (MLP + URV) discounted at the implicit interest rate.</p>
+              <p><strong>Finance Income (Para 30):</strong> The recognition of finance income should be based on a pattern reflecting a constant periodic rate of return on the lessor's net investment outstanding in respect of the finance lease.</p>
+            </div>
+          )}
+        </div>
+
+        {/* 8. Sale & Leaseback */}
+        <SecHeader id="as19-sale-leaseback" num="8" title="Sale &amp; Leaseback Transactions (Para 47–52)" />
+        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+          <ParaRef page={11} para="Para 47" /> A sale and leaseback transaction involves the sale of an asset and the immediate leasing back of the same asset. The accounting treatment depends on the type of leaseback:
+        </p>
+
+        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('saleLeasebackRules')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Rules for Sale &amp; Leaseback</span>
+            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.saleLeasebackRules ? 'rotate-180' : ''}`} />
+          </div>
+          {openAccordions.saleLeasebackRules && (
+            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
+              <p><strong>1. Resulting in a Finance Lease (Para 48):</strong> Any excess of sale proceeds over the carrying amount should **not** be immediately recognized as income in the financial statements of a seller-lessee. Instead, it should be **deferred and amortized** over the lease term in proportion to the depreciation of the leased asset.</p>
+              <p><strong>2. Resulting in an Operating Lease (Para 50):</strong> If the transaction is established at fair value, any profit or loss should be recognized **immediately**. If sale price is below fair value, profit/loss is recognized immediately except that a loss compensated by future lease payments is deferred and amortized.</p>
+            </div>
+          )}
+        </div>
+
+      </div>
+    </div>
+  )
+}
+
 interface LearningPortalClientProps {
   initialStandards: Standard[]
   initialSelectedStandardDetails: Standard
@@ -7473,7 +7794,7 @@ export default function LearningPortalClient({
         </div>
 
         {/* ─── Tab Content Views ──────────────────────────────────────────────── */}
-        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17', 'as-18'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
+        <div className={`flex-1 w-full max-w-none flex flex-col ${activeTab === 'pdf' || activeTab === 'lecture' || ((activeTab === 'standard' || activeTab === 'examples') && ['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17', 'as-18', 'as-19'].includes(currentStandard.id)) ? 'p-0' : 'p-4 md:p-6'}`}>
 
           {isLoadingDetails ? (
             <div className="w-full space-y-8 animate-pulse p-4 flex-1 flex flex-col justify-start">
@@ -7495,7 +7816,7 @@ export default function LearningPortalClient({
               {/* 1. STANDARD VIEW */}
               {activeTab === 'standard' && (
                 <div className="w-full space-y-8 animate-fade-in font-sans">
-                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17', 'as-18'].includes(currentStandard.id) ? (
+                  {currentStandard.blocks && Array.isArray(currentStandard.blocks) && currentStandard.blocks.length > 0 && !['as-1', 'as-2', 'as-3', 'as-4', 'as-5', 'as-7', 'as-9', 'as-10', 'as-11', 'as-12', 'as-13', 'as-14', 'as-15', 'as-16', 'as-17', 'as-18', 'as-19'].includes(currentStandard.id) ? (
                     <div className={`bg-white dark:bg-[#111726] border dark:border-gray-800 rounded-2xl shadow-xs ${
                       framework === 'AS' ? 'border-[#C5C3BC] p-8 sm:p-12 space-y-12' : 'border-[#E2E1DD] p-6 sm:p-10 space-y-10'
                     }`}>
@@ -7758,6 +8079,10 @@ export default function LearningPortalClient({
                     />
                   ) : currentStandard.id === 'as-18' ? (
                     <AS18StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-19' ? (
+                    <AS19StandardTabContent
                       navigateToPdfPage={navigateToPdfPage}
                     />
                   ) : (
@@ -8066,6 +8391,11 @@ export default function LearningPortalClient({
                 />
               ) : currentStandard.id === 'as-18' ? (
                 <AS18ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-19' ? (
+                <AS19ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />
