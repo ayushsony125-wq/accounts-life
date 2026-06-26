@@ -471,6 +471,7 @@ export const businessExamples: CaseStudy[] = [
   {
     id: "2-1",
     title: "Example 2.1: Manufacturing — Fixed Overhead Allocation under Idle Capacity",
+    pdfPage: 5,
     category: "Practical Business Example",
     panels: [
       {
@@ -520,6 +521,7 @@ export const businessExamples: CaseStudy[] = [
   {
     id: "2-2",
     title: "Example 2.2: Technology/SaaS — Software Development Cost Capitalization",
+    pdfPage: 6,
     category: "Practical Business Example",
     panels: [
       {
@@ -570,6 +572,7 @@ export const businessExamples: CaseStudy[] = [
   {
     id: "2-3",
     title: "Example 2.3: E-Commerce — Gross vs. Net Revenue Recognition Policy",
+    pdfPage: 4,
     category: "Practical Business Example",
     panels: [
       {
@@ -622,6 +625,7 @@ export const auditCases: CaseStudy[] = [
   {
     id: "3-1",
     title: "Case 3.1: Electra Appliance Ltd — Unjustified Warranty Provision Rate Reduction",
+    pdfPage: 5,
     category: "Audit Case Study",
     panels: [
       {
@@ -673,6 +677,7 @@ export const auditCases: CaseStudy[] = [
   {
     id: "3-2",
     title: "Case 3.2: MegaCement Ltd — Capitalization of Trial Run Production Costs",
+    pdfPage: 4,
     category: "Audit Case Study",
     panels: [
       {
@@ -722,6 +727,7 @@ export const auditCases: CaseStudy[] = [
   {
     id: "3-3",
     title: "Case 3.3: PioneerMining Ltd — CFO Override of Inventory Obsolescence Policy",
+    pdfPage: 5,
     category: "Audit Case Study",
     panels: [
       {
@@ -774,6 +780,7 @@ export const regulatoryObservations: CaseStudy[] = [
   {
     id: "4-1",
     title: "Observation 4.1: NFRA Order — Boilerplate and Generic Disclosure of Accounting Policies",
+    pdfPage: 7,
     category: "Regulatory Observations",
     panels: [
       {
@@ -819,6 +826,7 @@ export const regulatoryObservations: CaseStudy[] = [
   {
     id: "4-2",
     title: "Observation 4.2: SEBI Directive — Revenue Recognition Disclosures without Specific Milestones",
+    pdfPage: 4,
     category: "Regulatory Observations",
     panels: [
       {
@@ -867,6 +875,7 @@ export const regulatoryObservations: CaseStudy[] = [
   {
     id: "4-3",
     title: "Observation 4.3: MCA Action — Prior Period Errors Disguised as Changes in Estimates",
+    pdfPage: 3,
     category: "Regulatory Observations",
     panels: [
       {
@@ -919,6 +928,7 @@ export const judicialCases: CaseStudy[] = [
   {
     id: "5-1",
     title: "Case 5.1: CIT vs. Woodward Governor India Pvt. Ltd. (SC [2009] 312 ITR 254)",
+    pdfPage: 3,
     category: "Landmark Judicial Case",
     panels: [
       {
@@ -968,6 +978,7 @@ export const judicialCases: CaseStudy[] = [
   {
     id: "5-2",
     title: "Case 5.2: CIT vs. British Paints India Ltd. (SC [1991] 188 ITR 44)",
+    pdfPage: 4,
     category: "Landmark Judicial Case",
     panels: [
       {
@@ -1017,6 +1028,7 @@ export const judicialCases: CaseStudy[] = [
   {
     id: "5-3",
     title: "Case 5.3: Challapalli Sugars Ltd. vs. CIT (SC [1975] 98 ITR 167)",
+    pdfPage: 4,
     category: "Landmark Judicial Case",
     panels: [
       {

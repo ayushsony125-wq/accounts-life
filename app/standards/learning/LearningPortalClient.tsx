@@ -368,7 +368,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               {num}
             </span>
             <span className="text-[15.5px] tracking-tight font-sans font-extrabold text-slate-950 dark:text-white">{title}</span>
-            <PdfRef page={5} />
+            <PdfRef page={4} />
           </span>
           <ChevronDown 
             size={15} 
@@ -874,7 +874,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
             <p>
-              The primary consideration in selecting accounting policies is that the financial statements should portray a <strong>true and fair view</strong> of the financial position and performance of the enterprise. In selecting a policy, alternative policies should be evaluated in this light. The standard specifies three secondary considerations to achieve this primary objective: <PdfRef page={6} />
+              The primary consideration in selecting accounting policies is that the financial statements should portray a <strong>true and fair view</strong> of the financial position and performance of the enterprise. In selecting a policy, alternative policies should be evaluated in this light. The standard specifies three secondary considerations to achieve this primary objective: <PdfRef page={5} />
             </p>
           </div>
 
@@ -1011,7 +1011,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
             <p>
-              Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is required only if they are not followed. <PdfRef page={6} />
+              Certain fundamental accounting assumptions underlie the preparation and presentation of financial statements. They are usually not specifically stated because their acceptance and use are assumed. Disclosure is required only if they are not followed. <PdfRef page={3} />
             </p>
           </div>
 
@@ -1019,7 +1019,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="my-8 space-y-2 w-full">
             <div className="text-[13px] font-bold text-emerald-800 dark:text-emerald-400 font-sans uppercase tracking-wider flex items-center gap-2">
               <span className="inline-block w-1 h-4 bg-emerald-600 dark:bg-emerald-400 rounded-full"></span>
-              Fundamental Assumptions ΓÇö Comparison Matrix <PdfRef page={6} />
+              Fundamental Assumptions ΓÇö Comparison Matrix <PdfRef page={3} />
             </div>
             <div className="overflow-x-auto w-full rounded-xl border border-emerald-200 dark:border-emerald-900/40">
               <table className="w-full text-left border-collapse text-[13.5px]">
@@ -1078,9 +1078,9 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               An accounting policy can be changed only in three specific circumstances:
             </p>
             <ul className="list-disc pl-6 space-y-1.5 text-[15.5px]">
-              <li>If the change is <strong>required by a statute</strong> (for example, an amendment in corporate law).</li>
-              <li>If the change is <strong>required by an accounting standard</strong> (for example, a revised or new standard takes effect).</li>
-              <li>If the change results in a <strong>more appropriate presentation</strong> of the financial statements (for example, switching overhead allocation from labor hours to machine hours to reflect automated operations).</li>
+              <li>If the change is <strong>required by a statute</strong> (for example, an amendment in corporate law). <PdfRef page={3} /></li>
+              <li>If the change is <strong>required by an accounting standard</strong> (for example, a revised or new standard takes effect). <PdfRef page={3} /></li>
+              <li>If the change results in a <strong>more appropriate presentation</strong> of the financial statements (for example, switching overhead allocation from labor hours to machine hours to reflect automated operations). <PdfRef page={3} /></li>
             </ul>
             <p>
               Arbitrary changes in accounting policies are prohibited to prevent the manipulation of reported profits. When a policy is changed, full disclosure of the change and its quantified financial effect is required. <PdfRef page={3} />
@@ -1119,7 +1119,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
             <p>
-              To ensure a proper understanding of the financial statements, all significant accounting policies adopted in the preparation and presentation of financial statements should be disclosed: <PdfRef page={6} />
+              To ensure a proper understanding of the financial statements, all significant accounting policies adopted in the preparation and presentation of financial statements should be disclosed: <PdfRef page={7} />
             </p>
           </div>
 
@@ -1127,7 +1127,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="my-6 rounded-xl border border-emerald-200 dark:border-emerald-900/40 overflow-hidden font-serif">
             <div className="bg-emerald-700 dark:bg-emerald-800 px-5 py-3 flex items-center gap-2">
               <Check size={14} className="text-white stroke-[3]" />
-              <span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Manner of Disclosure Checklist <PdfRef page={6} /></span>
+              <span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Manner of Disclosure Checklist <PdfRef page={7} /></span>
             </div>
             <div className="divide-y divide-emerald-100 dark:divide-emerald-900/30">
               <div className="flex gap-4 items-start bg-white dark:bg-[#111726] px-5 py-4">
@@ -1137,7 +1137,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <div className="space-y-1">
                   <h4 className="font-sans font-bold text-[14.5px] text-slate-950 dark:text-white">Orderly Manner</h4>
                   <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
-                    Disclose significant accounting policies actually adopted by the enterprise in an orderly and systematic manner. <PdfRef page={6} />
+                    Disclose significant accounting policies actually adopted by the enterprise in an orderly and systematic manner. <PdfRef page={7} />
                   </p>
                 </div>
               </div>
@@ -1148,7 +1148,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <div className="space-y-1">
                   <h4 className="font-sans font-bold text-[14.5px] text-slate-950 dark:text-white">Part of Financial Statements</h4>
                   <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
-                    The disclosure of significant accounting policies must form an integral part of the financial statements. <PdfRef page={6} />
+                    The disclosure of significant accounting policies must form an integral part of the financial statements. <PdfRef page={7} />
                   </p>
                 </div>
               </div>
@@ -1159,7 +1159,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <div className="space-y-1">
                   <h4 className="font-sans font-bold text-[14.5px] text-slate-950 dark:text-white">Single Place Disclosure</h4>
                   <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
-                    Policies should normally be disclosed in one place (typically under Note 1 to the accounts), rather than scattered over several statements, schedules, or notes. <PdfRef page={6} />
+                    Policies should normally be disclosed in one place (typically under Note 1 to the accounts), rather than scattered over several statements, schedules, or notes. <PdfRef page={7} />
                   </p>
                 </div>
               </div>
@@ -1252,10 +1252,10 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               </div>
               <div className="bg-white dark:bg-[#111726] px-6 py-5">
                 <blockquote className="text-[16px] italic font-semibold text-slate-900 dark:text-white leading-relaxed mb-4 border-l-2 border-rose-400 pl-4">
-                  "Disclosure of accounting policies or changes therein cannot remedy a wrong or inappropriate accounting treatment." <PdfRef page={6} />
+                  "Disclosure of accounting policies or changes therein cannot remedy a wrong or inappropriate accounting treatment." <PdfRef page={7} />
                 </blockquote>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 leading-relaxed">
-                  Disclosure of a wrong treatment is not a substitute for correct accounting. If an incorrect policy has been followed (for example, expensing a capital asset or recognizing revenue prematurely), the auditor remains obligated to qualify the audit report for such non-compliance under Section 143(3) of the Companies Act, 2013, regardless of how clearly the wrong policy is described in the notes. <PdfRef page={6} />
+                  Disclosure of a wrong treatment is not a substitute for correct accounting. If an incorrect policy has been followed (for example, expensing a capital asset or recognizing revenue prematurely), the auditor remains obligated to qualify the audit report for such non-compliance under Section 143(3) of the Companies Act, 2013, regardless of how clearly the wrong policy is described in the notes. <PdfRef page={7} />
                 </p>
               </div>
             </div>
