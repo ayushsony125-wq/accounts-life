@@ -49,7 +49,7 @@ export const icaiIllustrations: CaseStudy[] = [
     id: "icai-1",
     title: "ICAI Illustration 1 — Prashant Ltd.: Change in Inventory Valuation Method (FIFO to Weighted Average)",
     category: "Official ICAI Illustration",
-    pdfPage: 12,
+    pdfPage: 9,
     panels: [
       {
         title: "Background & Facts",
@@ -99,7 +99,7 @@ export const icaiIllustrations: CaseStudy[] = [
     id: "icai-2",
     title: "ICAI Illustration 2 — Jagannath Ltd.: Inventory Revaluation at Works Cost to Inflate Projected Surplus",
     category: "Official ICAI Illustration",
-    pdfPage: 13,
+    pdfPage: 9,
     panels: [
       {
         title: "Background & Board Decision",
@@ -198,7 +198,7 @@ export const icaiIllustrations: CaseStudy[] = [
     id: "icai-4",
     title: "ICAI Q8 — ABC Ltd.: Non-Moving Inventory Provision — Change in Estimate vs. Policy Change",
     category: "Official ICAI Illustration",
-    pdfPage: 15,
+    pdfPage: 14,
     panels: [
       {
         title: "Background & Proposed Change",
@@ -263,7 +263,7 @@ export const icaiIllustrations: CaseStudy[] = [
         content: (
           <div>
             <p><strong>The Issue:</strong> Management wants to change both treatments and classify them as accounting policy adjustments under Note 1. This would allow them to perform a retrospective restatement of opening reserves, thereby bypassing a current-year P&L charge of ₹15 Lakhs for the warranty provision.</p>
-            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, accounting policies are specific principles and methods of applying them <PdfRefInline page={9} />. Revising a warranty rate based on claim failure logs is a change in accounting estimate under <span className="font-semibold text-slate-900 dark:text-white">AS 5</span>, not a policy. Conversely, changing the overhead absorption method to reflect automation is a change in accounting policy under <span className="font-semibold text-slate-900 dark:text-white">AS 2</span>.</p>
+            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, accounting policies are specific principles and methods of applying them <PdfRefInline page={4} />. Revising a warranty rate based on claim failure logs is a change in accounting estimate under <span className="font-semibold text-slate-900 dark:text-white">AS 5</span>, not a policy. Conversely, changing the overhead absorption method to reflect automation is a change in accounting policy under <span className="font-semibold text-slate-900 dark:text-white">AS 2</span>.</p>
           </div>
         )
       },
@@ -271,7 +271,7 @@ export const icaiIllustrations: CaseStudy[] = [
         title: "AS 1 Analysis & Technical Evaluation",
         content: (
           <div>
-            <p>Applying the principle of <strong>Prudence</strong>, liabilities must not be understated <PdfRefInline page={9} />. Deferring the warranty charge to reserves overstates current year profit by ₹15 Lakhs (1.25% of PBT). Classification must follow the true economic substance of the transactions:</p>
+            <p>Applying the principle of <strong>Prudence</strong>, liabilities must not be understated <PdfRefInline page={5} />. Deferring the warranty charge to reserves overstates current year profit by ₹15 Lakhs (1.25% of PBT). Classification must follow the true economic substance of the transactions:</p>
             <ul className="list-disc pl-5 mt-2 space-y-1">
               <li><strong>Overhead Allocation Method:</strong> Restructuring overhead allocation based on machine-hours rather than labor-hours is a change in the application of principles (Policy Change).</li>
               <li><strong>Warranty Provision:</strong> Adjusting the provision rate based on engineering logs is a refinement of estimation parameters (Estimate Change).</li>
@@ -327,7 +327,7 @@ export const icaiIllustrations: CaseStudy[] = [
         title: "Materiality & AS 10 Capitalization Overlaps",
         content: (
           <div>
-            <p><strong>Accounting Principle:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, financial statements should disclose all material items that could influence the economic decisions of users <PdfRefInline page={9} />. Capitalization rules of <span className="font-semibold text-slate-900 dark:text-white">AS 10</span> state that items of PPE should be capitalized. However, AS 1 allows the expensing of immaterial assets to reduce administrative tracking costs, provided it is done consistently.</p>
+            <p><strong>Accounting Principle:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, financial statements should disclose all material items that could influence the economic decisions of users <PdfRefInline page={6} />. Capitalization rules of <span className="font-semibold text-slate-900 dark:text-white">AS 10</span> state that items of PPE should be capitalized. However, AS 1 allows the expensing of immaterial assets to reduce administrative tracking costs, provided it is done consistently.</p>
             <p><strong>Materiality Level:</strong> The transaction of ₹3.5 Lakhs represents only 0.0004% of total assets, making it highly immaterial to stakeholders. Immediate expensing is technically justified, provided the policy is disclosed and followed consistently across all warehouses.</p>
           </div>
         )
@@ -416,7 +416,7 @@ export const icaiIllustrations: CaseStudy[] = [
     id: "1-4",
     title: "Illustration 3.4: Fundamental Assumptions — Going Concern Defeated (Operating License Revoked)",
     category: "ICAI Study Material",
-    pdfPage: 13,
+    pdfPage: 8,
     panels: [
       {
         title: "Business Operations & Regulatory Action",
@@ -431,7 +431,7 @@ export const icaiIllustrations: CaseStudy[] = [
         title: "Going Concern Assessment & Impairment Triggers",
         content: (
           <div>
-            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, Going Concern is a fundamental accounting assumption <PdfRefInline page={13} />. If it is violated, the financial statements must be prepared on a Net Realizable Value (NRV) basis. The permanent revocation of the operating license defeats the going concern assumption, as the entity has no realistic alternative but to liquidate.</p>
+            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, Going Concern is a fundamental accounting assumption <PdfRefInline page={3} />. If it is violated, the financial statements must be prepared on a Net Realizable Value (NRV) basis. The permanent revocation of the operating license defeats the going concern assumption, as the entity has no realistic alternative but to liquidate.</p>
             <p><strong>Accounting Implications:</strong> Preparing accounts on a historical cost basis understates impairments. Assets must be written down to their net realizable value (NRV) and long-term liabilities classified as current liabilities.</p>
           </div>
         )
@@ -487,7 +487,7 @@ export const businessExamples: CaseStudy[] = [
         content: (
           <div>
             <p><strong>The Violation:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 2</span>, fixed production overheads must be allocated to inventory cost based on the <em>normal capacity</em> of the production facilities. During underutilization, the allocation per unit must not increase. The excess overhead of ₹48 Lakhs (corresponding to the 40% idle capacity) must be written off to the P&L.</p>
-            <p><strong>Prudence Application:</strong> Capitalizing idle capacity costs understates operational losses and overstates closing inventory by ₹48 Lakhs (4% of PBT). Applying the prudence concept of AS 1, anticipated losses must be charged to the P&L immediately <PdfRefInline page={9} />.</p>
+            <p><strong>Prudence Application:</strong> Capitalizing idle capacity costs understates operational losses and overstates closing inventory by ₹48 Lakhs (4% of PBT). Applying the prudence concept of AS 1, anticipated losses must be charged to the P&L immediately <PdfRefInline page={5} />.</p>
           </div>
         )
       },
@@ -535,7 +535,7 @@ export const businessExamples: CaseStudy[] = [
         title: "Technical Evaluation (AS 26 Intangibles Criteria)",
         content: (
           <div>
-            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 26</span>, expenditure on research must be expensed as incurred. Capitalization of development costs is only permitted if the entity can demonstrate technical feasibility, intention to complete, and ability to generate future economic benefits. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, policies must be selected based on substance over form <PdfRefInline page={9} />.</p>
+            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 26</span>, expenditure on research must be expensed as incurred. Capitalization of development costs is only permitted if the entity can demonstrate technical feasibility, intention to complete, and ability to generate future economic benefits. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, policies must be selected based on substance over form <PdfRefInline page={6} />.</p>
             <p><strong>The Issue:</strong> Capitalizing research costs overstates intangible assets and profits by ₹2.0 Crores. The company must separate the costs and write off the research component immediately.</p>
           </div>
         )
@@ -637,7 +637,7 @@ export const auditCases: CaseStudy[] = [
         title: "AS 29 Provision Criteria & AS 1 Accrual/Prudence Assumptions",
         content: (
           <div>
-            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 29</span>, provisions must be recognized when there is a present obligation as a result of a past event, and a reliable estimate can be made. Revisions of estimates must be backed by empirical evidence. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, the accrual and prudence concepts require provisions to reflect the actual anticipated claims <PdfRefInline page={9} />.</p>
+            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 29</span>, provisions must be recognized when there is a present obligation as a result of a past event, and a reliable estimate can be made. Revisions of estimates must be backed by empirical evidence. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, the accrual and prudence concepts require provisions to reflect the actual anticipated claims <PdfRefInline page={5} />.</p>
             <p><strong>The Issue:</strong> Reducing the provision without technical logs violates prudence. It understates liabilities by ₹9.0 Crores and overstates reported PBT by 37.5%, which is highly material. The provision must be maintained at 3.0%.</p>
           </div>
         )
@@ -737,7 +737,7 @@ export const auditCases: CaseStudy[] = [
         title: "AS 2 Valuation Rules & AS 1 Prudence Principle",
         content: (
           <div>
-            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 2</span>, inventories must be valued at the lower of cost and net realizable value (NRV). Spares related to obsolete equipment have negligible NRV and must be written down. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, the prudence principle requires write-downs for obsolete items to avoid overstating assets <PdfRefInline page={9} />.</p>
+            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 2</span>, inventories must be valued at the lower of cost and net realizable value (NRV). Spares related to obsolete equipment have negligible NRV and must be written down. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, the prudence principle requires write-downs for obsolete items to avoid overstating assets <PdfRefInline page={5} />.</p>
             <p><strong>The Issue:</strong> Overriding the policy understates inventory write-offs by ₹3.90 Crores and overstates reported EBITDA by 19.5%. The spares must be written down to scrap value immediately.</p>
           </div>
         )
@@ -789,7 +789,7 @@ export const regulatoryObservations: CaseStudy[] = [
         title: "Specificity Standards under AS 1",
         content: (
           <div>
-            <p><strong>Regulatory Directives:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, disclosures of accounting policies must be entity-specific and represent the actual methods adopted by the enterprise <PdfRefInline page={9} />. Generic policies that do not correspond to the company's actual transactions violate the disclosure requirements of AS 1.</p>
+            <p><strong>Regulatory Directives:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, disclosures of accounting policies must be entity-specific and represent the actual methods adopted by the enterprise <PdfRefInline page={7} />. Generic policies that do not correspond to the company's actual transactions violate the disclosure requirements of AS 1.</p>
             <p><strong>NFRA Action:</strong> NFRA directed companies to remove irrelevant accounting policies and disclose the exact valuation formulas and revenue milestone rules used in practice, preventing boilerplate note presentation.</p>
           </div>
         )
@@ -834,7 +834,7 @@ export const regulatoryObservations: CaseStudy[] = [
         title: "SEBI Guidelines & AS 9 Contract Milestone Accounting",
         content: (
           <div>
-            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 9</span>, revenue must be recognized when performance is complete and collection is assured. If performance consists of multiple milestones, the disclosure must specify the criteria for each stage. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, disclosures must explain the exact methods of application adopted by the enterprise <PdfRefInline page={9} />.</p>
+            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 9</span>, revenue must be recognized when performance is complete and collection is assured. If performance consists of multiple milestones, the disclosure must specify the criteria for each stage. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, disclosures must explain the exact methods of application adopted by the enterprise <PdfRefInline page={7} />.</p>
             <p><strong>SEBI Directive:</strong> SEBI directed companies to provide segment contract disclosures detailing the specific milestones for software licensing, maintenance, and consulting revenue.</p>
           </div>
         )
@@ -882,7 +882,7 @@ export const regulatoryObservations: CaseStudy[] = [
         title: "MCA Action & AS 5 / AS 1 Regulatory Standards",
         content: (
           <div>
-            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 5</span>, prior period errors resulting from mathematical mistakes or oversights must be corrected and disclosed as 'Prior Period Items' in the P&L statement, rather than prospective adjustments. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, the consistency and accrual assumptions require prior period errors to be corrected to present a true and fair view <PdfRefInline page={13} />.</p>
+            <p><strong>Standard Guidance:</strong> Under <span className="font-semibold text-slate-900 dark:text-white">AS 5</span>, prior period errors resulting from mathematical mistakes or oversights must be corrected and disclosed as 'Prior Period Items' in the P&L statement, rather than prospective adjustments. Under <span className="font-semibold text-slate-900 dark:text-white">AS 1</span>, the consistency and accrual assumptions require prior period errors to be corrected to present a true and fair view <PdfRefInline page={3} />.</p>
             <p><strong>MCA Action:</strong> MCA ordered the company to restate its P&L statement to show the prior period depreciation error and penalized the directors for non-disclosure.</p>
           </div>
         )
@@ -934,7 +934,7 @@ export const judicialCases: CaseStudy[] = [
         title: "Supreme Court Ruling & AS 11 / AS 1 Accrual Alignment",
         content: (
           <div>
-            <p><strong>Supreme Court Decision:</strong> The Supreme Court ruled in favor of the assessee. The court held that under the Accrual system of accounting (which is a fundamental assumption under AS 1 <PdfRefInline page={13} />), liabilities must be valued at the closing exchange rate at year-end in compliance with <span className="font-semibold text-slate-900 dark:text-white">AS 11</span>.</p>
+            <p><strong>Supreme Court Decision:</strong> The Supreme Court ruled in favor of the assessee. The court held that under the Accrual system of accounting (which is a fundamental assumption under AS 1 <PdfRefInline page={3} />), liabilities must be valued at the closing exchange rate at year-end in compliance with <span className="font-semibold text-slate-900 dark:text-white">AS 11</span>.</p>
             <p><strong>Accrual Alignment:</strong> The court confirmed that the translation loss is not notional, but is a real liability increase that must be recognized in the P&L to present a true and fair view of profits.</p>
           </div>
         )
@@ -984,7 +984,7 @@ export const judicialCases: CaseStudy[] = [
         content: (
           <div>
             <p><strong>Supreme Court Decision:</strong> The Supreme Court ruled in favor of the Tax Department. The court held that inventory must be valued at the lower of cost and net realizable value, and 'cost' must include direct costs and allocated overheads in compliance with <span className="font-semibold text-slate-900 dark:text-white">AS 2</span>.</p>
-            <p><strong>Consistency vs. True and Fair View:</strong> The court ruled that consistency is a fundamental assumption under AS 1 <PdfRefInline page={13} />, but it cannot justify the continued use of an incorrect accounting method that fails to present a true and fair view of profits. Overheads capitalization is mandatory.</p>
+            <p><strong>Consistency vs. True and Fair View:</strong> The court ruled that consistency is a fundamental assumption under AS 1 <PdfRefInline page={3} />, but it cannot justify the continued use of an incorrect accounting method that fails to present a true and fair view of profits. Overheads capitalization is mandatory.</p>
           </div>
         )
       },
@@ -1033,7 +1033,7 @@ export const judicialCases: CaseStudy[] = [
         content: (
           <div>
             <p><strong>Supreme Court Decision:</strong> The Supreme Court ruled in favor of the assessee. The court held that the cost of an asset includes all expenditure necessary to bring the asset to its working condition for its intended use. Pre-production borrowing interest is a necessary cost of acquisition and must be capitalized.</p>
-            <p><strong>AS 16 Alignment:</strong> This landmark ruling formed the basis for <span className="font-semibold text-slate-900 dark:text-white">AS 16</span> and <span className="font-semibold text-slate-900 dark:text-white">AS 10</span>, which mandate the capitalization of borrowing costs on qualifying assets during their active construction period, verifying substance over form under AS 1 <PdfRefInline page={9} />.</p>
+            <p><strong>AS 16 Alignment:</strong> This landmark ruling formed the basis for <span className="font-semibold text-slate-900 dark:text-white">AS 16</span> and <span className="font-semibold text-slate-900 dark:text-white">AS 10</span>, which mandate the capitalization of borrowing costs on qualifying assets during their active construction period, verifying substance over form under AS 1 <PdfRefInline page={6} />.</p>
           </div>
         )
       },
