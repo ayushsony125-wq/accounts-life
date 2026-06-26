@@ -114,7 +114,7 @@ function CaseStudyCard({
   const [activePanelIdx, setActivePanelIdx] = useState(0)
 
   return (
-    <div className={`w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-5 sm:p-7 shadow-xs border-l-4 ${c.leftBorder} flex flex-col gap-5`}>
+    <div id={`item-${id}`} className={`w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-5 sm:p-7 shadow-xs border-l-4 ${c.leftBorder} flex flex-col gap-5`}>
       {/* Header Info */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-gray-800">
         <div className="flex items-center gap-2.5">

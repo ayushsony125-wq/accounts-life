@@ -122,7 +122,7 @@ function CaseStudyCard({
   }
 
   return (
-    <div id={id} className={`bg-white dark:bg-[#111726] border-l-4 ${styles.leftBorder} border-y border-r border-slate-200/80 dark:border-gray-800/60 rounded-r-2xl shadow-xs overflow-hidden scroll-mt-28 mb-8`}>
+    <div id={`item-${id}`} className={`bg-white dark:bg-[#111726] border-l-4 ${styles.leftBorder} border-y border-r border-slate-200/80 dark:border-gray-800/60 rounded-r-2xl shadow-xs overflow-hidden scroll-mt-28 mb-8`}>
       <div className="p-5 sm:p-6 space-y-4">
         {/* Header */}
         <div className="flex flex-wrap items-center justify-between gap-3">
