@@ -19,26 +19,13 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 25 PDF — Page ${page}`}
   >
-    <svg
-      xmlns="http://www.w3.org/2050/svg"
-      width="10"
-      height="10"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-file-text"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-file-text">
       <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
       <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-      <path d="M10 9H8" />
-      <path d="M16 13H8" />
-      <path d="M16 17H8" />
+      <path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" />
     </svg>
   </button>
 )
@@ -46,61 +33,58 @@ export const PdfRefInline = ({ page }: { page: number }) => (
 export const icaiIllustrations: CaseStudy[] = [
   {
     id: 'illus-25-1',
-    title: 'ICAI Illustration 1 — Estimation of Interim Income Tax Expense (Weighted Average Annual Tax Rate)',
+    title: 'ICAI Illustration 1 — Minimum Components of an Interim Financial Report (Para 8)',
     category: 'Official ICAI Illustration',
-    pdfPage: 12,
+    pdfPage: 8,
     panels: [
       {
         title: 'Background & Facts',
         content: (
           <div>
-            <p><strong>Entity:</strong> Delta Ltd. prepares quarterly interim financial reports:</p>
-            <ul className="list-disc pl-5 mt-2 space-y-1">
-              <li>Expected accounting profit for Q1 = <strong>₹2,00,000</strong>.</li>
-              <li>Expected accounting profits for Q2, Q3, and Q4 = <strong>₹3,00,000 each</strong> (Total annual expected profit = <strong>₹11,00,000</strong>).</li>
-              <li>The company has a carry-forward tax loss that reduces taxable income by <strong>₹1,00,000</strong>.</li>
-              <li>Corporate Tax rate = <strong>30%</strong>.</li>
-            </ul>
-            <p className="mt-2"><strong>Issue:</strong> Compute the tax expense to be recognized in the Q1 interim report as per AS 25. <PdfRefInline page={12} /></p>
+            <p><strong>Entity:</strong> Zenith Ltd. (listed company) for Q2 FY 2023-24 (July–September 2023).</p>
+            <p>Management wants to know: What must be presented in the Q2 interim financial report?</p>
           </div>
         )
       },
       {
-        title: 'Mathematical Computations',
+        title: 'Minimum Components (Para 8)',
         content: (
-          <div className="space-y-3 font-mono text-xs p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
-            <p><strong>Step 1: Estimate total annual taxable income and tax liability</strong></p>
-            <p>• Estimated Annual Accounting Profit = ₹11,00,000</p>
-            <p>• Less: Carry-forward loss deduction = (₹1,00,000)</p>
-            <p>• Estimated Annual Taxable Income = <strong>₹10,00,050</strong></p>
-            <p>• Estimated Annual Tax Liability = ₹10,00,000 × 30% = <strong>₹3,00,000</strong></p>
-            
-            <p className="mt-2"><strong>Step 2: Calculate the Weighted Average Annual Tax Rate</strong></p>
-            <p>Rate = Estimated Annual Tax / Estimated Annual Profit</p>
-            <p>Rate = ₹3,00,000 / ₹11,00,000 = <strong>27.27%</strong></p>
-            
-            <p className="mt-2"><strong>Step 3: Compute Q1 Tax Expense</strong></p>
-            <p>Q1 Tax Expense = Q1 Accounting Profit × Weighted Average Rate</p>
-            <p>Q1 Tax Expense = ₹2,00,000 × 27.27% = <strong>₹54,540</strong></p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>Para 8 specifies the MINIMUM components of an interim financial report:</p>
+            <ol className="list-decimal pl-5 space-y-1">
+              <li><strong>Condensed balance sheet</strong></li>
+              <li><strong>Condensed statement of profit and loss</strong></li>
+              <li><strong>Condensed cash flow statement</strong></li>
+              <li><strong>Condensed statement of changes in equity</strong> (if the entity presents one in annual statements)</li>
+              <li><strong>Selected explanatory notes</strong></li>
+            </ol>
+            <p className="mt-2">The word "condensed" allows for fewer line items than annual statements, but all material items must still be captured.</p>
           </div>
         )
       },
       {
-        title: 'AS 25 Principles',
+        title: 'Comparative Periods Required',
         content: (
-          <div className="space-y-2">
-            <p>Under AS 25, income tax expense is recognized in each interim period based on the **best estimate of the weighted average annual income tax rate** expected for the full financial year. <PdfRefInline page={12} /></p>
-            <p>Tax rate changes or deductions (like carry-forward losses) are spread over the entire year through this weighted rate, rather than being recognized entirely in a single quarter.</p>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse border border-slate-200 dark:border-slate-800">
+              <thead><tr className="bg-slate-100 dark:bg-slate-900"><th className="border p-2">Statement</th><th className="border p-2">Current Period</th><th className="border p-2">Comparative</th></tr></thead>
+              <tbody>
+                <tr><td className="border p-2">Balance Sheet</td><td className="border p-2">End of Q2 (Sep 2023)</td><td className="border p-2">End of last FY (Mar 2023)</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">P&amp;L</td><td className="border p-2">Q2 (Jul–Sep 2023) + H1 YTD</td><td className="border p-2">Q2 prior year + H1 prior year YTD</td></tr>
+                <tr><td className="border p-2">Cash Flow</td><td className="border p-2">H1 YTD (Apr–Sep 2023)</td><td className="border p-2">H1 prior year YTD</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">Statement of Changes in Equity</td><td className="border p-2">H1 YTD</td><td className="border p-2">H1 prior year YTD</td></tr>
+              </tbody>
+            </table>
           </div>
         )
       }
     ],
-    examFocus: 'Do not compute tax for Q1 by simply applying the tax rate directly to Q1 profits. You must always estimate the annual profits first, calculate the annual tax liability, derive the weighted average tax rate, and apply that rate to the quarter\'s profits.',
+    examFocus: 'Balance sheet comparatives = last annual balance sheet. P&L comparatives = BOTH the same quarter last year AND the YTD period. Auditors check both are presented.',
     examFocusType: 'focus'
   },
   {
     id: 'illus-25-2',
-    title: 'ICAI Illustration 2 — Treatment of Seasonal and Cyclical Revenues (Para 29)',
+    title: 'ICAI Illustration 2 — Seasonal Revenue: Should It Be Deferred or Accrued at Interim Date?',
     category: 'Official ICAI Illustration',
     pdfPage: 14,
     panels: [
@@ -108,23 +92,32 @@ export const icaiIllustrations: CaseStudy[] = [
         title: 'Background & Facts',
         content: (
           <div>
-            <p><strong>Entity context:</strong> SugarCane Agro Ltd. operates in a highly seasonal industry. It earns 90% of its annual revenues during the third quarter (October to December) of every year.</p>
-            <p><strong>Accounting Policy:</strong> In preparing its quarterly reports, the company wants to defer the operating expenses incurred in Q1 and Q2 to Q3, and also wants to anticipate and project 25% of Q3 revenues in Q1 and Q2, to show a smoother profit trend.</p>
-            <p><strong>Issue:</strong> Evaluate this accounting policy under AS 25. <PdfRefInline page={14} /></p>
+            <p><strong>Scenario 1 — Seasonal Revenue:</strong> An ice-cream manufacturer earns 80% of its annual revenue in Q1 (summer). In Q1 interim report, it proposes to defer some revenue to later quarters for better profit "smoothing."</p>
+            <p className="mt-2"><strong>Scenario 2 — Annual Bonus:</strong> A company pays an annual performance bonus to employees in Q4. In Q1, Q2, and Q3 interim reports, management doesn't accrue any bonus as it's "not yet committed."</p>
           </div>
         )
       },
       {
-        title: 'AS 25 Analysis & Verdict',
+        title: 'AS 25 Rule: Same Policies as Annual (Para 28)',
         content: (
-          <div className="space-y-2 text-xs">
-            <p><strong>Standard Rule (Para 29):</strong> Revenues that are received seasonally, cyclically, or occasionally within a financial year should **not be anticipated or deferred** at an interim date if anticipation or deferral would not be appropriate at the end of the financial year. </p>
-            <p><strong>Verdict:</strong> The policy is completely prohibited. Revenues must be recognized only when they are earned (in Q3). Operating expenses incurred in Q1 and Q2 cannot be deferred unless they meet the criteria for deferral at the year-end (e.g. prepaid expenses). The company must report loss in Q1/Q2 and high profit in Q3.</p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Para 28 — Core Principle:</strong> An enterprise shall apply the same accounting recognition and measurement policies in its interim financial statements as are applied in its annual financial statements, except for changes made after the date of the most recent annual financial statements.</p>
+            <p className="mt-2"><strong>Scenario 1 — Revenue Deferral NOT allowed:</strong> Revenue is earned in Q1 — it must be recognized in Q1. Seasonal businesses cannot defer earned revenue to smooth quarterly profits.</p>
+            <p><strong>Scenario 2 — Annual Bonus Accrual IS required:</strong> The annual bonus is anticipated based on performance. A pro-rated accrual must be made each quarter. The fact that it is formally determined in Q4 does not mean it should be ignored for Q1–Q3.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Contrast: Costs Incurred Unevenly',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Annual maintenance cost:</strong> A factory does major maintenance in Q3 at ₹12,00,000 cost. Can the company spread it equally (₹3L/quarter) in interim reports?</p>
+            <p><strong>Para 29 Answer:</strong> Costs incurred unevenly during the year shall be deferred or accrued at interim date ONLY if it is appropriate to defer or accrue that type of cost at year-end. If the cost would be expensed at year-end (not deferred as prepaid), it must be expensed in Q3 when incurred, not spread over 4 quarters.</p>
           </div>
         )
       }
     ],
-    examFocus: 'Revenues received seasonally must not be anticipated or deferred. Similarly, costs that are incurred unevenly during a financial year (e.g., annual advertising costs incurred in Q1) should be recognized in the quarter they are incurred, unless they would be deferred at the year-end.',
+    examFocus: 'Seasonal revenue cannot be deferred to smooth profits. Annual bonuses must be accrued proportionally each quarter. Costs incurred unevenly: defer only if deferral would be appropriate at year-end.',
     examFocusType: 'trap'
   }
 ]
@@ -132,59 +125,107 @@ export const icaiIllustrations: CaseStudy[] = [
 export const businessCases: CaseStudy[] = [
   {
     id: 'case-25-1',
-    title: 'Business Case — Revaluation of Fixed Assets in an Interim Period',
-    category: 'Business Application Case',
+    title: 'Business Case — Income Tax in Interim Reports: Estimated Annual Effective Tax Rate',
+    category: 'Practical Business Case',
     panels: [
       {
         title: 'Background & Facts',
         content: (
           <div>
-            <p><strong>Context:</strong> LandCorp India Ltd. revalues its head office land on 30th June 20X1 (during Q1 of the financial year). The revaluation results in an upward increase of <strong>₹50,00,000</strong>.</p>
-            <p><strong>Issue:</strong> Can the company reflect this revaluation surplus in the Q1 condensed balance sheet, or must it wait until the annual financial statements?</p>
+            <p><strong>Entity:</strong> Zenith Electronics Ltd. Q1 FY 2023-24 (April–June 2023):</p>
+            <ul className="list-disc pl-5 mt-2 space-y-1">
+              <li>Q1 Pre-tax profit: ₹5,00,00,000</li>
+              <li>Estimated annual pre-tax profit: ₹18,00,00,000 (including estimated MAT adjustment, exemptions, etc.)</li>
+              <li>Estimated annual tax on ₹18 crores: ₹5,40,00,000 (effective rate = 30%)</li>
+            </ul>
           </div>
         )
       },
       {
-        title: 'AS 25 Analysis & Solution',
+        title: 'AS 25 Income Tax Rule (Para 29)',
         content: (
-          <div className="space-y-2 text-xs">
-            <p><strong>Standard Rule:</strong> An enterprise should apply the same accounting policies in its interim financial statements as are applied in its annual financial statements. <PdfRefInline page={10} /></p>
-            <p><strong>Solution:</strong> Yes. Revaluation is an accounting policy. If the company revalues its assets, the revaluation surplus must be recognized immediately in the Q1 interim financial statements (adjusting Land value and Revaluation Reserve in the equity section of Q1).</p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>Para 29: Income tax expense is recognized in each interim period based on the best estimate of the <strong>weighted average annual income tax rate</strong> expected for the full financial year.</p>
+            <p>This is applied to the interim period's pre-tax income.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Computation',
+        content: (
+          <div className="text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg space-y-1">
+            <p><strong>Q1 Tax Provision:</strong></p>
+            <p>Estimated annual effective tax rate:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30%</p>
+            <p>Q1 Pre-tax profit:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹5,00,00,000</p>
+            <p className="font-bold">Q1 Tax expense = 30% × ₹5 Cr:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹1,50,00,000</p>
+            <p className="font-sans mt-2 font-bold">NOT the actual Q1 marginal tax rate alone.</p>
+            <p className="font-sans">If the estimate changes in Q2, the rate is revised and the cumulative effect is adjusted in Q2.</p>
           </div>
         )
       }
     ],
-    examFocus: 'Accounting policies must be applied consistently. If an event (like revaluation or a change in accounting policy) occurs during a quarter, its impact is recognized in that quarter\'s report and disclosed in the selected explanatory notes.',
-    examFocusType: 'concept'
+    examFocus: 'Interim income tax = estimated ANNUAL effective tax rate × interim pre-tax income. Never compute interim tax using only the marginal rate for the isolated quarter.',
+    examFocusType: 'trick'
+  },
+  {
+    id: 'case-25-2',
+    title: 'Business Case — Change in Accounting Policy During the Year (Interim Restatement)',
+    category: 'Practical Business Case',
+    panels: [
+      {
+        title: 'Background & Facts',
+        content: (
+          <div>
+            <p><strong>Scenario:</strong> Zenith Ltd. presented Q1 FY 2023-24 results using FIFO for inventory. In Q2 FY 2023-24, the company changed inventory policy to Weighted Average Cost (WAC) due to a better match with actual cost flows, and the change is retrospective.</p>
+          </div>
+        )
+      },
+      {
+        title: 'AS 25 Para 41 — Policy Change in Interim Period',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>Para 41: A change in accounting policy, other than one for which transition is specified by an Accounting Standard or an Interpretation, shall be reflected by restating the financial statements of prior interim periods of the current financial year and the comparable interim periods of prior financial years.</p>
+            <p className="mt-2"><strong>Action Required:</strong></p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Restate Q1 FY 2023-24 results using WAC (not FIFO)</li>
+              <li>Restate Q1 FY 2022-23 comparatives using WAC</li>
+              <li>Disclose the nature, reason, and quantitative impact of the change</li>
+            </ul>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Accounting policy changes during the year require restatement of all prior interim periods of the CURRENT year AND comparable prior year interim periods.',
+    examFocusType: 'adjustment'
   }
 ]
 
 export const auditCases: CaseStudy[] = [
   {
     id: 'audit-25-1',
-    title: 'Audit Case — Inadequate Disclosures of Significant events in Quarterly Reports',
+    title: 'Audit Case Study — Non-Disclosure of Contingent Liability in Interim Report',
     category: 'Audit Case Study',
     panels: [
       {
         title: 'Background & Facts',
         content: (
           <div>
-            <p><strong>Context:</strong> During Q2, a fire occurred at the main warehouse of RetailGiant Ltd., destroying inventory worth <strong>₹2,00,00,000</strong>. The company filed an insurance claim. In the Q2 quarterly report, management did not mention this event, stating that since it happened mid-year and is an extraordinary item, it will be disclosed in the annual report.</p>
-            <p><strong>Issue:</strong> Is the omission of this disclosure in the quarterly report acceptable under AS 25?</p>
+            <p><strong>Scenario:</strong> During the review of Q2 FY 2023-24 interim report, the auditor discovers a major tax demand of ₹25 crores received in July 2023 (Q2). Management did not disclose this in the interim report, arguing "it will be mentioned in the annual report."</p>
           </div>
         )
       },
       {
-        title: 'Audit Analysis & Verdict',
+        title: 'AS 25 Materiality for Interim (Para 24)',
         content: (
-          <div className="space-y-2 text-xs">
-            <p><strong>Standard Reference:</strong> AS 25 (Paragraph 16) requires selected explanatory notes to disclose significant events, including the write-down of inventories and the recognition of a loss from fire or other natural disasters. <PdfRefInline page={8} /></p>
-            <p><strong>Verdict:</strong> Non-compliance. The warehouse fire and inventory loss are highly material events. Omission of this information makes the condensed quarterly report misleading. The auditor must qualify the review report if management refuses to disclose it.</p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>Para 24: Materiality for interim reporting purposes is assessed relative to the INTERIM period data, not the annual data. A ₹25 crore tax demand that may not be material relative to annual revenues could be very material relative to Q2 results.</p>
+            <p className="mt-2">Additionally, Para 16 requires that interim reports include explanatory notes disclosing: contingent liabilities and contingent assets since the last annual balance sheet date.</p>
+            <p><strong>Auditor Conclusion:</strong> The ₹25 crore tax demand must be disclosed in the Q2 interim report notes as a contingent liability. "We will include it in the annual report" is not acceptable.</p>
           </div>
         )
       }
     ],
-    examFocus: 'Explanatory notes in interim reports are meant to explain significant changes in financial position and performance since the last annual report. Write-downs, losses, litigations, and restructuring provisions must be disclosed.',
+    examFocus: 'Materiality for interim reports is assessed against the INTERIM period data, not the full-year numbers. Major events since last annual statements must be disclosed.',
     examFocusType: 'focus'
   }
 ]
@@ -192,101 +233,147 @@ export const auditCases: CaseStudy[] = [
 export const regulatoryObservations: CaseStudy[] = [
   {
     id: 'reg-25-1',
-    title: 'Regulatory Observation — SEBI Listing Requirements vs AS 25 Condensed Formats',
-    category: 'Regulatory Observation',
+    title: 'SEBI Observation — Quarterly Results: Non-provision of Full-Year Comparatives',
+    category: 'Regulatory Observations',
     panels: [
       {
-        title: 'Regulatory Context',
+        title: 'SEBI Finding',
         content: (
           <div>
-            <p>Under SEBI (Listing Obligations and Disclosure Requirements) Regulations, listed companies in India must publish quarterly financial results within 45 days of the end of each quarter.</p>
-            <p><strong>SEBI Formats:</strong> SEBI prescribes a specific format for these quarterly results which is much briefer than the "condensed financial statements" required under AS 25 (e.g. it does not require a full condensed cash flow statement every quarter).</p>
-            <p><strong>AS 25 Overlap:</strong> However, the **recognition and measurement principles** of AS 25 (such as interim tax estimations and seasonal revenue rules) must still be followed in preparing the SEBI results. <PdfRefInline page={2} /></p>
+            <p><strong>SEBI Review:</strong> Several listed companies presenting Q1 results only showed the current Q1 vs. prior Q1, without presenting the full-year FY 2022-23 as a third column for balance sheet comparison.</p>
+          </div>
+        )
+      },
+      {
+        title: 'AS 25 Requirement',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>For interim financial reports, the MINIMUM comparative periods are:</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Balance sheet: End of last full fiscal year (31 Mar 2023)</li>
+              <li>P&amp;L: Same quarter last year + Year-to-date comparison</li>
+            </ul>
+            <p className="mt-2">SEBI's LODR Regulations also specify the exact format for quarterly results, which align with (and sometimes exceed) AS 25 minimum requirements.</p>
           </div>
         )
       }
     ],
-    examFocus: 'Statutes and regulators can prescribe formats that differ from AS 25. In such cases, the recognition and measurement principles of AS 25 still apply to the data presented.',
-    examFocusType: 'concept'
+    examFocus: 'Interim balance sheet must ALWAYS show the last annual year-end as comparative — not the prior quarter-end.',
+    examFocusType: 'adjustment'
   }
 ]
 
 export const judicialCases: CaseStudy[] = [
   {
-    id: 'court-25-1',
-    title: 'Judicial Case — Consistency of Depreciation Methods in Interim Periods',
-    category: 'Landmark Precedent',
+    id: 'judicial-25-1',
+    title: 'Case Principle — Extraordinary Item in Interim Report: Same Annual Standard',
+    category: 'Landmark Judicial Cases',
     panels: [
       {
-        title: 'Background & Facts',
+        title: 'Principle',
         content: (
           <div>
-            <p><strong>Entity:</strong> Delta Power Ltd. changed its depreciation method from WDV to SLM in its quarterly report for Q3, applying it retrospectively. It calculated the entire year-to-date adjustment in Q3, resulting in a large write-back of depreciation in Q3 profit.</p>
-            <p><strong>Dispute:</strong> Shareholders sued, claiming the company manipulated the Q3 results to show a turnaround.</p>
+            <p><strong>Para 28 establishes:</strong> The classification of an item as extraordinary for interim reporting purposes follows exactly the same criteria as for annual financial statements under AS 5.</p>
+            <p className="mt-2">Extraordinary items are those arising from events or transactions that are clearly distinct from ordinary activities and are therefore not expected to recur frequently or regularly.</p>
           </div>
         )
       },
       {
-        title: 'Legal Verdict',
+        title: 'Common Exam Scenario',
         content: (
-          <div className="space-y-2 text-xs">
-            <p><strong>Standard Rule (Para 36-38):</strong> A change in accounting policy made in an interim period should be reflected by restating the financial statements of prior interim periods of the current financial year. <PdfRefInline page={17} /></p>
-            <p><strong>Verdict:</strong> The company\'s method of putting the entire cumulative adjustment in Q3 was illegal. The company was required to restate the Q1 and Q2 reports presented to reflect the new depreciation method retrospectively for those quarters.</p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Q: A cyclone destroyed the factory in Q2. Can the company spread the extraordinary loss across Q1 to Q4 in interim reports?</strong></p>
+            <p><strong>A: No.</strong> The loss must be recognized in Q2 when it occurred. AS 25 does not allow re-allocation of extraordinary items across other quarters. Same-period recognition applies exactly as in annual accounts.</p>
           </div>
         )
       }
     ],
-    examFocus: 'If an accounting policy is changed during an interim period, you must restate all prior quarters of the same financial year to ensure comparability. You cannot dump the cumulative change in the current quarter.',
-    examFocusType: 'adjustment'
+    examFocus: 'Extraordinary items in interim reports: same definition as annual + recognized in the period they occur — cannot be spread across other interim periods.',
+    examFocusType: 'concept'
   }
 ]
 
 export const examCorner: CaseStudy[] = [
   {
     id: 'exam-25-1',
-    title: 'Exam Corner — Comparative Periods Requirement Checklist',
-    category: 'Exam Corner',
+    title: 'Exam Corner — AS 25 Seasonal vs Non-Seasonal Revenue and the Annual Effective Tax Rate Method',
+    category: 'Exam-Oriented Corner',
     panels: [
       {
-        title: 'Comparative Periods Matrix',
+        title: 'The Discrete vs Integral Period Debate',
         content: (
-          <div className="overflow-x-auto text-xs font-mono">
-            <table className="w-full border-collapse border border-slate-200 dark:border-slate-800">
-              <thead>
-                <tr className="bg-slate-100 dark:bg-slate-800">
-                  <th className="p-2 border border-slate-200">Interim Statement</th>
-                  <th className="p-2 border border-slate-200">Current Period</th>
-                  <th className="p-2 border border-slate-200">Comparative Period</th>
-                </tr>
-              </thead>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Integral Period View:</strong> Each interim period is an integral part of the annual period. Costs and revenues should be allocated based on annual estimates.</p>
+            <p><strong>Discrete Period View:</strong> Each interim period stands on its own — only actual transactions in that period are reported.</p>
+            <p className="mt-2"><strong>AS 25 Approach:</strong> Primarily discrete period approach, BUT with specific exceptions:</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Income tax → Use estimated annual effective rate (integral)</li>
+              <li>Bonus → Accrue ratably if annual bonus obligation exists (integral)</li>
+              <li>Seasonal revenue → Recognize when earned (discrete)</li>
+              <li>Annual maintenance cost → Expense when incurred (discrete)</li>
+            </ul>
+          </div>
+        )
+      },
+      {
+        title: 'Key Rules Summary Table',
+        content: (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse border border-slate-200 dark:border-slate-800">
+              <thead><tr className="bg-slate-100 dark:bg-slate-900"><th className="border p-2">Item</th><th className="border p-2">Treatment</th></tr></thead>
               <tbody>
-                <tr>
-                  <td className="p-2 border border-slate-200">Balance Sheet</td>
-                  <td className="p-2 border border-slate-200">End of current quarter</td>
-                  <td className="p-2 border border-slate-200">End of preceding financial year</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border border-slate-200">P&amp;L (Quarter)</td>
-                  <td className="p-2 border border-slate-200">Current quarter</td>
-                  <td className="p-2 border border-slate-200">Comparable quarter of last year</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border border-slate-200">P&amp;L (YTD)</td>
-                  <td className="p-2 border border-slate-200">Year-to-date current period</td>
-                  <td className="p-2 border border-slate-200">Comparable YTD of last year</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border border-slate-200">Cash Flow (YTD)</td>
-                  <td className="p-2 border border-slate-200">Year-to-date current period</td>
-                  <td className="p-2 border border-slate-200">Comparable YTD of last year</td>
-                </tr>
+                <tr><td className="border p-2">Seasonal revenue</td><td className="border p-2">Recognize when earned — do NOT defer</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">Annual bonus</td><td className="border p-2">Accrue proportionally each quarter</td></tr>
+                <tr><td className="border p-2">Income tax</td><td className="border p-2">Estimated annual effective rate × quarterly profit</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">Extraordinary item</td><td className="border p-2">Recognize in period occurred — no spreading</td></tr>
+                <tr><td className="border p-2">Major repair cost</td><td className="border p-2">Expense in period incurred (if expensed at year-end)</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">Advertising</td><td className="border p-2">Expense when incurred — do NOT defer to other quarters</td></tr>
               </tbody>
             </table>
           </div>
         )
       }
     ],
-    examFocus: 'Be careful! The comparative balance sheet is the end of the PRECEDING financial year, NOT the end of the comparable quarter of last year. This is a very common exam mistake.',
-    examFocusType: 'trap'
+    examFocus: 'AS 25 uses a PRIMARILY discrete approach. The income tax exception (annual effective rate) and bonus accrual are the most tested "integral" exceptions.',
+    examFocusType: 'trick'
+  },
+  {
+    id: 'exam-25-2',
+    title: 'Exam Corner — Change in Accounting Policy / Estimate During Interim Period',
+    category: 'Exam-Oriented Corner',
+    panels: [
+      {
+        title: 'Year-to-Date Reporting Content',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Minimum Components of an Interim Financial Report (Para 8):</strong></p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Condensed Balance Sheet (as at end of interim period)</li>
+              <li>Condensed P&L (for the current interim period AND year-to-date)</li>
+              <li>Condensed Cash Flow Statement (year-to-date)</li>
+              <li>Selected explanatory notes</li>
+            </ul>
+            <p className="mt-2"><strong>Comparative Periods Required:</strong></p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Balance Sheet: Previous year-end</li>
+              <li>P&L: Same interim period of prior year + Year-to-date of prior year</li>
+              <li>Cash Flow: Year-to-date of prior year</li>
+            </ul>
+          </div>
+        )
+      },
+      {
+        title: 'Change in Policy/Estimate During Interim',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Change in Accounting Policy (Para 30):</strong> If an entity changes its accounting policy in Q2 (e.g., switches from FIFO to Weighted Average for inventory), it must restate all previously reported interim periods of the current year. This ensures consistency of information for the annual period.</p>
+            <p><strong>Change in Accounting Estimate (Para 29):</strong> Changes in accounting estimates are handled prospectively — recognized in the interim period of change and remaining interim periods of that year. No restatement of prior interim periods.</p>
+            <p><strong>Classic Exam Example:</strong> A depreciation change (estimate) in Q3 — apply revised rate for Q3 and Q4 only. A change from cash to accrual basis (policy) in Q3 — restate Q1, Q2, and Q3.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Change in POLICY → restate all prior interim periods of the year. Change in ESTIMATE → prospective only from Q of change. This distinction is a classic exam differentiation question.',
+    examFocusType: 'concept'
   }
 ]

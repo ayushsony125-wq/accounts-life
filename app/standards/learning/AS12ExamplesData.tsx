@@ -321,6 +321,43 @@ export const regulatoryObservations: CaseStudy[] = [
     ],
     examFocus: "This is a frequent MCQ and short-note question. Remember: Free land from government = Record at nominal value (₹1). Concessional rate land = Record at actual price paid.",
     examFocusType: 'focus'
+  },
+  {
+    id: 'reg-12-2',
+    title: 'Regulatory Observation 2 — Presentation of Revenue Grants: Netting-off vs. Gross Presentation',
+    category: 'Regulatory Observations',
+    panels: [
+      {
+        title: 'Background & Facts',
+        content: (
+          <div>
+            <p><strong>Scenario:</strong> Zenith Garments Ltd. receives a wage subsidy of **₹12,00,000** from the Ministry of Textiles to encourage employment. Total employee benefit expenses for the year were ₹1,50,00,000.</p>
+            <p className="mt-2">The management wants to understand the presentation choices under AS 12 and the impact on financial ratios (e.g., operating margin).</p>
+          </div>
+        )
+      },
+      {
+        title: 'AS 12 Presentation Options (Para 20)',
+        content: (
+          <div className="space-y-3">
+            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg text-xs font-mono">
+              <span className="font-bold text-blue-600 block mb-1">Option A: Gross Presentation</span>
+              <p>grants related to revenue are presented as **"Other Income"** in the Statement of Profit &amp; Loss.</p>
+              <p>Employee Benefit Expense = ₹1,50,00,000</p>
+              <p>Other Income (Grant) = <strong>₹12,00,000</strong></p>
+            </div>
+            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg text-xs font-mono">
+              <span className="font-bold text-amber-600 block mb-1">Option B: Net Presentation (Deduction Method)</span>
+              <p>grants are deducted from the related expense in the Statement of Profit &amp; Loss.</p>
+              <p>Employee Benefit Expense (Net) = ₹1,50,00,000 − ₹12,00,000 = <strong>₹1,38,00,000</strong></p>
+              <p>Other Income = Nil</p>
+            </div>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Both presentations are fully permitted under AS 12. Option B (Net Presentation) artificially improves operating expense ratios, which auditors must verify and disclose.',
+    examFocusType: 'adjustment'
   }
 ];
 
@@ -354,6 +391,32 @@ export const judicialCases: CaseStudy[] = [
     ],
     examFocus: "The Purpose Test is also the core accounting boundary under AS 12. If a grant supports the capital structure (Capital Reserve), it matches the tax definition of capital receipt.",
     examFocusType: 'focus'
+  },
+  {
+    id: 'jud-12-2',
+    title: 'Judicial Case 2 — CIT vs. Sahney Steel & Press Works Ltd. (Operational Subsidies vs Capital Incentives)',
+    category: 'Supreme Court Precedent',
+    panels: [
+      {
+        title: 'Legal Dispute',
+        content: (
+          <div>
+            <p><strong>The Context:</strong> The state government provided refunds of sales tax, power concessions, and water rate exemptions to Sahney Steel after they commenced production. The company claimed these subsidies were capital receipts because they were granted to incentivize industrial growth.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Supreme Court Ruling & Distinction',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>The Supreme Court ruled that subsidies given to an enterprise **after commencement of production** to assist in operating expenses (like power, sales tax, water rates) are **revenue receipts** and taxable.</p>
+            <p className="mt-2">**Distinction from Ponni Sugars:** In Ponni Sugars, the subsidy was given to help set up the capital assets (sugar mill) before or at inception. In Sahney Steel, the subsidy was operational assistance to keep the business running. Under AS 12, operational subsidies must be credited to P&amp;L (not Capital Reserve).</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Subsidies linked to post-production operating parameters (like power, water, tax refunds) are revenue grants and must be recognized in P&L.',
+    examFocusType: 'concept'
   }
 ];
 
@@ -398,5 +461,32 @@ export const examCorner: CaseStudy[] = [
     ],
     examFocus: "Double check whether the question asks for SLM or WDV depreciation. The refund addition logic is identical, but WDV calculations require applying rates to the adjusted book value.",
     examFocusType: 'trick'
+  },
+  {
+    id: 'exam-12-2',
+    title: 'Exam Corner 2 — Grant for Non-Depreciable Asset with Construction Obligations',
+    category: 'Exam Corner',
+    panels: [
+      {
+        title: 'The Conceptual Question',
+        content: (
+          <div>
+            <p><strong>Question:</strong> Zenith Group is granted a parcel of land by the government on the condition that they construct a staff housing colony on it. The land fair value is ₹40,00,000 (granted at a nominal price of ₹10,000). The colony construction cost is ₹2,00,00,000 with a useful life of 20 years. How should this grant be recognized?</p>
+          </div>
+        )
+      },
+      {
+        title: 'Accounting Solution (Para 14)',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>1. **Grant Valuation:** Since the land is granted at a concessional rate of ₹10,000, it is recorded in the books at ₹10,000 (Actual Cost Method, Para 15).</p>
+            <p>2. **Amortization Rule (Para 14):** Government grants related to non-depreciable assets that require fulfillment of certain obligations are recognized as income **over the periods which bear the cost of meeting the obligations**.</p>
+            <p className="mt-2">Thus, if the company did capitalize the land at fair value, the grant would be deferred and amortized to P&amp;L over the **20-year useful life** of the staff colony constructed on it, in proportion to the depreciation of the colony.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'For non-depreciable assets with obligations, the grant is amortized over the life of the constructed asset, not recognized as immediate income.',
+    examFocusType: 'concept'
   }
 ];

@@ -222,6 +222,55 @@ export const businessCases: CaseStudy[] = [
     ],
     examFocus: 'Para 4(e) is a high-frequency exam concept. Always perform the 4-step local interest comparison check.',
     examFocusType: 'adjustment'
+  },
+  {
+    id: 'case-16-2',
+    title: 'Business Case — General Borrowings: Weighted Average Capitalization Rate (WACR) Computation',
+    category: 'Practical Business Case',
+    panels: [
+      {
+        title: 'Background & Facts',
+        content: (
+          <div>
+            <p><strong>Entity:</strong> Zenith Power Ltd. is constructing a power plant (Qualifying Asset). During FY 2023-24:</p>
+            <ul className="list-disc pl-5 mt-2 space-y-1">
+              <li>Loan A: ₹5,00,00,000 at 9% p.a. (this is a general corporate loan, NOT specifically for the plant)</li>
+              <li>Loan B: ₹3,00,00,000 at 12% p.a. (also general corporate loan)</li>
+              <li>Expenditure on plant during the year: ₹4,20,00,000</li>
+            </ul>
+            <p className="mt-2">Loan A was used for working capital; Loan B was used partly for another project. Neither is specifically for the power plant.</p>
+          </div>
+        )
+      },
+      {
+        title: 'WACR Computation (Para 11)',
+        content: (
+          <div className="text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg space-y-1">
+            <p className="font-sans font-bold">Step 1: Weighted Average Capitalization Rate (WACR)</p>
+            <p>Total Interest = (₹5Cr × 9%) + (₹3Cr × 12%)</p>
+            <p>             = ₹45,00,000 + ₹36,00,000 = ₹81,00,000</p>
+            <p>Total General Borrowings = ₹5Cr + ₹3Cr = ₹8Cr</p>
+            <p className="font-bold">WACR = ₹81,00,000 / ₹8,00,00,000 = 10.125%</p>
+            <p className="font-sans font-bold mt-2">Step 2: Borrowing Cost to Capitalize</p>
+            <p>Expenditure on asset × WACR</p>
+            <p>= ₹4,20,00,000 × 10.125% = <span className="font-bold">₹42,52,500</span></p>
+            <p className="font-sans mt-2">Subject to the cap: cannot exceed actual total borrowing costs of ₹81 lakhs.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Specific vs General Borrowing Rule',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Specific Borrowings (Para 10):</strong> Actual interest MINUS income earned on temporary investment of surplus funds = amount to capitalize. Straightforward.</p>
+            <p><strong>General Borrowings (Para 11):</strong> Use WACR applied to weighted average expenditure. The capitalized amount cannot exceed actual borrowing costs incurred during the period.</p>
+            <p className="mt-2"><strong>Mixed Case:</strong> If part of a project is financed by specific borrowing and part by general borrowing, calculate both separately and add.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'For general borrowings: WACR = Total interest on general borrowings ÷ Total general borrowings. Apply to weighted average expenditure. Cap at actual interest. This is the most numerical AS 16 exam topic.',
+    examFocusType: 'trick'
   }
 ]
 
@@ -355,5 +404,38 @@ export const examCorner: CaseStudy[] = [
     ],
     examFocus: 'Do not capitalize interest incurred before physical construction begins, even if the loan is already active.',
     examFocusType: 'trap'
+  },
+  {
+    id: 'exam-16-2',
+    title: 'Exam Corner — Cessation, Suspension, and Commencement: The Three Milestones Compared',
+    category: 'Exam-Oriented Corner',
+    panels: [
+      {
+        title: 'Three Milestones Compared',
+        content: (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse border border-slate-200 dark:border-slate-800">
+              <thead><tr className="bg-slate-100 dark:bg-slate-900"><th className="border p-2">Milestone</th><th className="border p-2">Trigger</th><th className="border p-2">Effect</th></tr></thead>
+              <tbody>
+                <tr><td className="border p-2 font-bold">Commencement</td><td className="border p-2">All 3 conditions met (expenditure + borrowing cost + active development)</td><td className="border p-2">BEGIN capitalizing borrowing costs</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2 font-bold">Suspension</td><td className="border p-2">Extended interruption NOT part of normal process (strikes, NGT ban, litigation stay)</td><td className="border p-2">STOP capitalizing during interruption; expense the interest</td></tr>
+                <tr><td className="border p-2 font-bold">Cessation</td><td className="border p-2">Substantially all activities to prepare the asset are complete</td><td className="border p-2">PERMANENTLY STOP capitalizing; all future interest = revenue expense</td></tr>
+              </tbody>
+            </table>
+          </div>
+        )
+      },
+      {
+        title: 'Cessation Nuances',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Key Rule:</strong> If completion of an asset in parts is possible, and each part can be used independently while construction continues on other parts, capitalization ceases for each completed part separately.</p>
+            <p>Example: A campus with 4 buildings — Building A is complete and occupied in Q2. Capitalization ceases for Building A in Q2 even if Buildings B, C, D are still under construction.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Cessation for an asset with multiple independent parts is part-by-part. Common exam question: Does capitalization continue after Building A is occupied but Buildings B-D are still being built? Answer: Not for Building A.',
+    examFocusType: 'concept'
   }
 ]

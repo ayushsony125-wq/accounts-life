@@ -225,6 +225,54 @@ export const businessCases: CaseStudy[] = [
     ],
     examFocus: 'Do not charge transitional liability to the current year P&L; adjust it against opening Reserves and Surplus.',
     examFocusType: 'adjustment'
+  },
+  {
+    id: 'case-15-2',
+    title: 'Business Case — Defined Contribution vs Defined Benefit: EPF, NPS, and Gratuity Classification',
+    category: 'Practical Business Case',
+    panels: [
+      {
+        title: 'Background & Facts',
+        content: (
+          <div>
+            <p><strong>Entity:</strong> Zenith IT Solutions Ltd. provides the following employee benefits:</p>
+            <ul className="list-disc pl-5 mt-2 space-y-1">
+              <li>Provident Fund (EPF): Company contributes 12% of basic salary to EPFO</li>
+              <li>National Pension System (NPS): Company contributes 10% of basic salary to employee NPS accounts</li>
+              <li>Gratuity: Company pays gratuity at 15 days salary per year of service on separation</li>
+              <li>Performance Bonus: Annual bonus equal to 1 month salary, paid in Q1 of next year</li>
+            </ul>
+          </div>
+        )
+      },
+      {
+        title: 'Classification Under AS 15',
+        content: (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse border border-slate-200 dark:border-slate-800">
+              <thead><tr className="bg-slate-100 dark:bg-slate-900"><th className="border p-2">Benefit</th><th className="border p-2">Type</th><th className="border p-2">Accounting Treatment</th></tr></thead>
+              <tbody>
+                <tr><td className="border p-2">EPF</td><td className="border p-2 text-emerald-700 dark:text-emerald-400">Defined Contribution</td><td className="border p-2">Expense = contribution paid. No actuarial valuation needed.</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">NPS</td><td className="border p-2 text-emerald-700 dark:text-emerald-400">Defined Contribution</td><td className="border p-2">Expense = contribution paid. Risk lies with employee.</td></tr>
+                <tr><td className="border p-2">Gratuity</td><td className="border p-2 text-amber-700 dark:text-amber-400">Defined Benefit</td><td className="border p-2">Actuarial valuation (PUC method). DBO less Plan Assets = Net liability.</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">Annual Bonus</td><td className="border p-2 text-blue-700 dark:text-blue-400">Short-term Benefit</td><td className="border p-2">Accrue full amount by year-end (earned in FY 2023-24, paid in 2024-25).</td></tr>
+              </tbody>
+            </table>
+          </div>
+        )
+      },
+      {
+        title: 'Key Distinction: DC vs DB',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Defined Contribution:</strong> Company's obligation is limited to the fixed amount contributed. Once paid, no further obligation. Actuarial risk lies with the employee.</p>
+            <p><strong>Defined Benefit:</strong> Company guarantees a defined benefit quantum. Actuarial risk (longer lives, higher salaries, lower asset returns) remains with the company. Requires actuarial valuation at each balance sheet date.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'EPF and NPS are Defined Contribution — expense equals contribution. Gratuity is Defined Benefit — actuarial valuation mandatory. Annual bonus is a short-term benefit — accrue at year-end.',
+    examFocusType: 'concept'
   }
 ]
 
@@ -327,6 +375,39 @@ export const judicialCases: CaseStudy[] = [
     ],
     examFocus: 'Compensated absences (leave encashment) must be accounted for on an accrual/actuarial basis, not cash basis.',
     examFocusType: 'focus'
+  },
+  {
+    id: 'judicial-15-2',
+    title: 'Case Principle — Post-Retirement Medical Benefits: When Does AS 15 Apply?',
+    category: 'Landmark Judicial Cases',
+    panels: [
+      {
+        title: 'Principle',
+        content: (
+          <div>
+            <p>Several large companies provide post-retirement medical benefits to employees and their spouses — covering hospitalization, medicines, and OPD expenses for life.</p>
+            <p className="mt-2">Management question: Should this be accounted for as an expense when claims are paid (cash basis) OR as a defined benefit obligation under AS 15?</p>
+          </div>
+        )
+      },
+      {
+        title: 'AS 15 Determination',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>Post-retirement medical benefits ARE defined benefit plans under AS 15 Para 4(b). The company bears the actuarial risk (uncertain future claims based on health and longevity). Accounting on cash basis understates the obligation.</p>
+            <p><strong>Required treatment:</strong></p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Actuarial valuation using projected healthcare cost trends</li>
+              <li>Discount rate based on government bond yields</li>
+              <li>DBO recognized in the balance sheet</li>
+              <li>Current service cost and interest cost charged to P&L</li>
+            </ul>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Post-retirement medical benefits are DEFINED BENEFIT plans — NOT merely a contingent liability. Actuarial valuation is mandatory.',
+    examFocusType: 'concept'
   }
 ]
 
@@ -357,5 +438,45 @@ export const examCorner: CaseStudy[] = [
     ],
     examFocus: 'Only accumulating leaves (whether vesting or non-vesting) require actuarial provision under AS 15.',
     examFocusType: 'trap'
+  },
+  {
+    id: 'exam-15-2',
+    title: 'Exam Corner — AS 15 P&L Charge Components: Four-Part Formula',
+    category: 'Exam-Oriented Corner',
+    panels: [
+      {
+        title: 'The Four Components of Gratuity Expense',
+        content: (
+          <div className="text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg space-y-1">
+            <p className="font-sans font-bold">Total Defined Benefit Cost in P&L =</p>
+            <p>1. Current Service Cost (CSC)</p>
+            <p>   [New unit of benefit earned this year, discounted to PV]</p>
+            <p>2. Interest Cost</p>
+            <p>   [DBO at start × Discount rate]</p>
+            <p>3. Less: Expected Return on Plan Assets</p>
+            <p>   [Plan assets at start × Expected return rate]</p>
+            <p>4. Actuarial Gains/Losses (Net)</p>
+            <p>   [Actual DBO − Expected DBO] + [Expected PA − Actual PA]</p>
+            <hr className="my-1 border-slate-300 dark:border-slate-700" />
+            <p className="font-bold">= Net Gratuity Expense for the Year</p>
+          </div>
+        )
+      },
+      {
+        title: 'Balance Sheet Presentation',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Net DBO = PV of Defined Benefit Obligation − Fair Value of Plan Assets</li>
+              <li>If DBO &gt; Plan Assets → <strong>Net Liability</strong> (Provision for Gratuity under Non-Current Liabilities)</li>
+              <li>If Plan Assets &gt; DBO → <strong>Prepaid Asset</strong> (subject to ceiling test — cannot exceed PV of future economic benefits)</li>
+              <li>Current portion of net liability → presented under Current Liabilities</li>
+            </ul>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Actuarial gains/losses under AS 15 India are recognized IMMEDIATELY in P&L — NO corridor method, NO OCI treatment (unlike IFRS IAS 19). This is a major India GAAP vs IFRS difference.',
+    examFocusType: 'trick'
   }
 ]

@@ -88,7 +88,7 @@ export const icaiIllustrations: CaseStudy[] = [
             <p>According to AS 5 (Para 3.5 and 15), prior period items are income or expenses which arise in the current period as a result of errors or omissions in the preparation of the financial statements of one or more prior periods.</p>
             <p className="mt-2"><strong>Indian GAAP (AS 5) Treatment:</strong></p>
             <ul className="list-disc pl-5 mt-1 space-y-1 text-slate-700 dark:text-gray-300">
-              <li>Unlike Ind AS (which requires retrospective restatement of comparative figures), AS 5 requires that prior period items be **disclosed separately in the current year's Statement of Profit &amp; Loss** in a manner that their impact on current profit/loss can be clearly perceived.</li>
+              <li>AS 5 requires that prior period items be **disclosed separately in the current year's Statement of Profit &amp; Loss** in a manner that their impact on current profit/loss can be clearly perceived.</li>
               <li>Therefore, the sales return of ₹18,00,000 and cost adjustments of ₹12,00,000 must be presented in the current P&amp;L of FY 2023-24, demarcated as "Prior Period Expenses/Income".</li>
             </ul>
           </div>

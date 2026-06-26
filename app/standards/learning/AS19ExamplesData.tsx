@@ -303,6 +303,33 @@ export const regulatoryObservations: CaseStudy[] = [
     ],
     examFocus: 'Deferred income on sale-and-leaseback under finance lease is amortized in proportion to depreciation, not straight-line.',
     examFocusType: 'adjustment'
+  },
+  {
+    id: 'reg-19-2',
+    title: 'Regulatory Observation 2 — ICAI Guidance Note vs AS 19: Lease Equalization Reserve (LER)',
+    category: 'Regulatory Observations',
+    panels: [
+      {
+        title: 'The Conflict',
+        content: (
+          <div>
+            <p><strong>Context:</strong> Before AS 19 became mandatory, many non-banking financial companies (NBFCs) and leasing firms used the **ICAI Guidance Note on Accounting for Leases**, which recommended creating a "Lease Equalization Charge/Reserve" in the P&amp;L to match lease income with the capital recovery component.</p>
+            <p className="mt-2"><strong>Issue:</strong> Some entities continued to present LER in their CFS even after AS 19 was introduced, leading to regulatory objections by MCA and NFRA.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Regulatory Ruling & Transition',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>1. **Supercession:** AS 19 is a comprehensive standard that completely governs the recognition of lease income/expense. Once AS 19 is applied, the creation of a separate Lease Equalization Reserve out of net profits or as an adjustment to revenue is **prohibited**.</p>
+            <p>2. **NFRA Enforcement:** NFRA has penalized multiple entities for artificially smoothing their profits using LER, noting that AS 19 requires finance lease income to reflect a constant periodic rate of return on the lessor's net investment, with no room for additional equalization adjustments.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Lease Equalization Reserve is obsolete under AS 19. All income must flow strictly through the implicit rate of return or straight-line method.',
+    examFocusType: 'trap'
   }
 ]
 
@@ -332,6 +359,33 @@ export const judicialCases: CaseStudy[] = [
     ],
     examFocus: 'AS 19 capitalization by lessee does not deny the lessor the right to claim tax depreciation under Indian tax laws.',
     examFocusType: 'concept'
+  },
+  {
+    id: 'judicial-19-2',
+    title: 'Landmark Judicial Case 2 — Association of Leasing Companies vs. Union of India (Sales Tax vs Service Tax on Lease Rentals)',
+    category: 'Landmark Judicial Cases',
+    panels: [
+      {
+        title: 'Legal Dispute',
+        content: (
+          <div>
+            <p><strong>The Issue:</strong> Whether lease transactions constitute a "deemed sale" under Article 366(29A)(d) of the Constitution of India (subject to local Sales Tax/VAT) or a service (subject to Service Tax/GST).</p>
+            <p className="mt-2">Tax authorities argued that since finance leases transfer substantially all risks and rewards, they should be taxed as sales, while operating leases should be taxed as services.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Supreme Court Ruling',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>The Supreme Court ruled that the transfer of the "right to use" goods is the defining criterion for deemed sales. Under a finance lease, there is a clear transfer of the right to use, making it liable to sales tax/VAT.</p>
+            <p className="mt-2">Under the current GST regime, all leases (finance and operating) are classified as **supply of services** (except where ownership transfers at the end of the term, which is classified as supply of goods), establishing a uniform tax base regardless of the AS 19 accounting classification.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'For tax purposes, the accounting distinction between finance and operating leases under AS 19 is secondary to the statutory definition of supply under GST laws.',
+    examFocusType: 'concept'
   }
 ]
 
@@ -354,5 +408,63 @@ export const examCorner: CaseStudy[] = [
     ],
     examFocus: 'Unearned Finance Income represents the future interest revenue to be recognized by the lessor.',
     examFocusType: 'trap'
+  },
+  {
+    id: 'exam-19-2',
+    title: 'Exam Corner 2 — Sale & Leaseback under Operating Lease (Price Scenario Matrix)',
+    category: 'Exam-Oriented Corner',
+    panels: [
+      {
+        title: 'The Scenario Matrix',
+        content: (
+          <div className="overflow-x-auto">
+            <table className="w-full text-[10px] font-mono border-collapse border border-slate-200 dark:border-slate-800">
+              <thead>
+                <tr className="bg-slate-100 dark:bg-slate-900">
+                  <th className="border p-2">Sale Price Relative to Fair Value (FV)</th>
+                  <th className="border p-2">Selling Price Relative to Book Value (BV)</th>
+                  <th className="border p-2">AS 19 Treatment & P&amp;L Recognition</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="border p-2 font-sans font-semibold">1. Equal to Fair Value</td>
+                  <td className="border p-2">Any price (SP &gt; BV or SP &lt; BV)</td>
+                  <td className="border p-2">Recognize profit or loss **immediately** in P&amp;L.</td>
+                </tr>
+                <tr className="bg-blue-50/10">
+                  <td className="border p-2 font-sans font-semibold" rowSpan={2}>2. Below Fair Value</td>
+                  <td className="border p-2">Loss is NOT compensated by future low rents</td>
+                  <td className="border p-2">Recognize loss **immediately** in P&amp;L.</td>
+                </tr>
+                <tr className="bg-blue-50/10">
+                  <td className="border p-2">Loss IS compensated by future low rents</td>
+                  <td className="border p-2">**Defer** the loss and amortize it in proportion to lease payments over lease term.</td>
+                </tr>
+                <tr>
+                  <td className="border p-2 font-sans font-semibold">3. Above Fair Value</td>
+                  <td className="border p-2">Sale Price &gt; Fair Value</td>
+                  <td className="border p-2">**Defer** the excess of Sale Price over Fair Value, and amortize it over expected period of asset use.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )
+      },
+      {
+        title: 'Illustrative Example Calculation',
+        content: (
+          <div className="space-y-2 text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
+            <p><strong>Facts:</strong> Carrying Value = ₹80,000; Fair Value = ₹1,00,000; Sale Price = ₹1,20,000.</p>
+            <p><strong>Analysis:</strong> Sale price is above Fair Value. The excess of SP over FV (₹1,20,000 − ₹1,00,000 = ₹20,000) must be deferred.</p>
+            <p><strong>P&amp;L Recognition:</strong></p>
+            <p>Immediate Profit = FV − Carrying Value = ₹1,00,000 − ₹80,000 = <strong>₹20,000</strong></p>
+            <p>Deferred Gain (Liability) = SP − FV = ₹1,20,000 − ₹1,00,000 = <strong>₹20,000</strong> (amortized over lease term)</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Remember: In an operating leaseback, if SP > FV, you CANNOT recognize the entire profit immediately. You must split it: FV - BV is immediate profit, and SP - FV is deferred profit.',
+    examFocusType: 'trick'
   }
 ]

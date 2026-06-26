@@ -323,8 +323,41 @@ export const regulatoryObservations: CaseStudy[] = [
     ],
     examFocus: 'Amalgamation Adjustment Reserve must be shown as a negative item under Reserves & Surplus in the Balance Sheet.',
     examFocusType: 'adjustment'
+  },
+  {
+    id: 'reg-14-2',
+    title: 'Regulatory Observation 2 — Amalgamation/Liquidation Expenses paid by Transferee',
+    category: 'Regulatory Observations',
+    panels: [
+      {
+        title: 'Accounting Dispute',
+        content: (
+          <div>
+            <p><strong>Scenario:</strong> Zenith Plastics Ltd. merges into Zenith Polymers Ltd. Under the NCLT-approved scheme, Zenith Polymers Ltd. (transferee) pays ₹5,00,000 towards the liquidation expenses of Zenith Plastics Ltd.</p>
+            <p className="mt-2">The company wants to know how to account for these expenses under both methods of AS 14.</p>
+          </div>
+        )
+      },
+      {
+        title: 'AS 14 Accounting Rules',
+        content: (
+          <div className="space-y-3">
+            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg text-xs">
+              <span className="font-bold text-blue-600 block mb-1">Purchase Method</span>
+              <p>The liquidation expenses paid are treated as direct costs of acquisition. They are debited to **Goodwill** or credited to **Capital Reserve** (i.e. added to purchase consideration cost in determining Goodwill/Capital Reserve).</p>
+            </div>
+            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg text-xs">
+              <span className="font-bold text-amber-600 block mb-1">Pooling of Interests Method (Merger)</span>
+              <p>Since the merger involves pooling existing reserves, liquidation expenses cannot be capitalized. They are debited directly to the **General Reserve / Statement of Profit &amp; Loss** of the transferee company.</p>
+            </div>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Liquidation expenses in a Purchase Method increase Goodwill. In a Pooling of Interests Method, they are debited to General Reserve or P&L.',
+    examFocusType: 'adjustment'
   }
-]
+];
 
 export const judicialCases: CaseStudy[] = [
   {
@@ -354,8 +387,35 @@ export const judicialCases: CaseStudy[] = [
     ],
     examFocus: 'Payments to debenture holders are a liability settlement and must NEVER be added to the Business Purchase price.',
     examFocusType: 'trap'
+  },
+  {
+    id: 'judicial-14-2',
+    title: 'Landmark Judicial Case 2 — CIT vs. Gautam Sarabhai Trust (Settlement of Fractional Shares in cash)',
+    category: 'Supreme Court Precedent',
+    panels: [
+      {
+        title: 'The Issue & Dispute',
+        content: (
+          <div>
+            <p><strong>The Question:</strong> To qualify as an "amalgamation in the nature of merger", AS 14 requires that at least 90% of shareholders must agree to become shareholders of the transferee company, and their equity shares must be discharged **solely by the issue of equity shares**.</p>
+            <p className="mt-2">If cash is paid to some shareholders to settle **fractional shares** (e.g. swap ratio is 3 shares for every 5 held, and a shareholder holds 7 shares), does this break the "solely by shares" condition?</p>
+          </div>
+        )
+      },
+      {
+        title: 'Supreme Court Ruling',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>The Supreme Court held that cash paid for **fractional shares** is an administrative necessity to avoid creating tiny fractions of shares. It does not violate the core requirement of a share-exchange merger.</p>
+            <p>This is codified in **AS 14 Para 29(iv)**: The equity shareholders of the transferor company receive equity shares in the transferee company, *except that cash may be paid in respect of any fractional shares*.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Cash paid to settle fractional shares is a permissible exception under both AS 14 and Income Tax Act rules for mergers.',
+    examFocusType: 'concept'
   }
-]
+];
 
 export const examCorner: CaseStudy[] = [
   {
@@ -400,5 +460,39 @@ export const examCorner: CaseStudy[] = [
     ],
     examFocus: 'Eliminate unrealized profit on stock in purchase method by debiting Goodwill or Capital Reserve, not P&L.',
     examFocusType: 'adjustment'
+  },
+  {
+    id: 'exam-14-2',
+    title: 'Exam Corner 2 — Purchase Consideration: Net Asset Method vs. Net Payment Method',
+    category: 'Exam-Oriented Corner',
+    panels: [
+      {
+        title: 'Comparing the Methods',
+        content: (
+          <div className="space-y-3 text-xs leading-relaxed">
+            <div className="p-3 bg-slate-50 dark:bg-slate-950 border rounded-lg">
+              <span className="font-bold text-blue-600 block">1. Net Payment Method (Primary Method)</span>
+              <p>Purchase consideration is the sum of **all payments made to the shareholders** (equity and preference) of the transferor company. It includes cash, equity shares, preference shares, debentures, or other assets issued to shareholders. **Ignore** liabilities taken over and payments to debenture holders/creditors.</p>
+            </div>
+            <div className="p-3 bg-slate-50 dark:bg-slate-950 border rounded-lg">
+              <span className="font-bold text-amber-600 block">2. Net Asset Method (Alternative Method)</span>
+              <p>Use ONLY when the details of payments to shareholders are not fully given. Purchase consideration is computed as:</p>
+              <p className="font-mono mt-1 text-center font-bold">Total agreed value of Assets taken over − Total agreed value of Liabilities taken over</p>
+            </div>
+          </div>
+        )
+      },
+      {
+        title: 'Common Exam Mistake',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>If the question says: <em>"Transferee company will issue 2 shares of ₹10 for every 3 shares in Transferor company, and also discharge Transferor's 12% Debentures at a premium of 10% by issuing 14% Debentures."</em></p>
+            <p className="mt-2 text-red-600 font-semibold font-mono">Do NOT include the debenture discharge amount in the Purchase Consideration calculation! It is a liability takeover and discharge, not a payment to shareholders.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Always apply Net Payment method if share swap details are provided. Ignore debenture settlements in purchase consideration.',
+    examFocusType: 'trap'
   }
-]
+];

@@ -236,7 +236,7 @@ export const businessCases: CaseStudy[] = [
         )
       }
     ],
-    examFocus: "This is a critical syllabus change that was introduced to align AS 4 with Ind AS 10. Many older textbook solutions show proposed dividend as a liability. In exams, you must treat it as a non-adjusting event, omit it from liabilities, and show it as a note disclosure.",
+    examFocus: "This is a critical syllabus change. Many older textbook solutions show proposed dividend as a liability. In exams, you must treat it as a non-adjusting event, omit it from liabilities, and show it as a note disclosure.",
     examFocusType: 'trap'
   }
 ];

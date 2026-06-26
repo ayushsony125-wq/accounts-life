@@ -19,26 +19,13 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 22 PDF — Page ${page}`}
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="10"
-      height="10"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-file-text"
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-file-text">
       <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
       <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-      <path d="M10 9H8" />
-      <path d="M16 13H8" />
-      <path d="M16 17H8" />
+      <path d="M10 9H8" /><path d="M16 13H8" /><path d="M16 17H8" />
     </svg>
   </button>
 )
@@ -46,140 +33,125 @@ export const PdfRefInline = ({ page }: { page: number }) => (
 export const icaiIllustrations: CaseStudy[] = [
   {
     id: 'illus-22-1',
-    title: 'ICAI Illustration 1 — Timing Difference on Depreciation (Creation of Deferred Tax Liability)',
+    title: 'ICAI Illustration 1 — Timing Differences: Depreciation (WDV vs SLM) and Deferred Tax Computation',
     category: 'Official ICAI Illustration',
-    pdfPage: 5,
+    pdfPage: 10,
     panels: [
       {
         title: 'Background & Facts',
         content: (
           <div>
-            <p><strong>Entity:</strong> Delta Ltd. purchases a machine for <strong>₹10,00,000</strong> on 1st April 20X1:</p>
+            <p><strong>Entity:</strong> Zenith Manufacturing Ltd. (FY 2023-24)</p>
+            <p><strong>Asset:</strong> Machinery costing ₹10,00,000 purchased on 01.04.2023 (4-year life)</p>
             <ul className="list-disc pl-5 mt-2 space-y-1">
-              <li>Depreciation rate as per Companies Act (SLM) = <strong>10%</strong>.</li>
-              <li>Depreciation rate as per Income Tax Act (WDV) = <strong>20%</strong>.</li>
-              <li>Profit before depreciation and tax = <strong>₹5,00,000</strong>.</li>
-              <li>Enacted Tax Rate = <strong>30%</strong>.</li>
+              <li>Accounting depreciation (SLM): ₹10,00,000 ÷ 4 = <strong>₹2,50,000 per year</strong></li>
+              <li>Tax depreciation (WDV @ 25%): Year 1 = ₹10,00,000 × 25% = <strong>₹2,50,000</strong></li>
+              <li>In Year 2: Tax WDV = ₹7,50,000 × 25% = ₹1,87,500. Accounting = ₹2,50,000.</li>
             </ul>
-            <p className="mt-2"><strong>Issue:</strong> Calculate the Current Tax, Deferred Tax Liability (DTL), and Tax Expense for the year 20X1-X2. <PdfRefInline page={5} /></p>
+            <p className="mt-2">Tax rate = 30%. Accounting profit before depreciation = ₹8,00,000 per year.</p>
           </div>
         )
       },
       {
-        title: 'Mathematical Computations',
+        title: 'Year 1 Deferred Tax Computation',
         content: (
-          <div className="space-y-3 font-mono text-xs p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
-            <p><strong>Step 1: Calculate Depreciation for both purposes</strong></p>
-            <p>• Accounting Depreciation = ₹10,00,000 × 10% = <strong>₹1,00,000</strong></p>
-            <p>• Tax Depreciation = ₹10,00,000 × 20% = <strong>₹2,00,000</strong></p>
-            
-            <p className="mt-2"><strong>Step 2: Calculate Accounting Income and Taxable Income</strong></p>
-            <p>• Accounting Income = ₹5,00,000 - ₹1,00,000 (Dep) = <strong>₹4,00,000</strong></p>
-            <p>• Taxable Income = ₹5,00,000 - ₹2,00,000 (Dep) = <strong>₹3,00,000</strong></p>
-            
-            <p className="mt-2"><strong>Step 3: Calculate Current Tax</strong></p>
-            <p>Current Tax = Taxable Income × 30% = ₹3,00,000 × 30% = <strong>₹90,000</strong></p>
-            
-            <p className="mt-2"><strong>Step 4: Compute Timing Difference and Deferred Tax</strong></p>
-            <p>• Timing Difference = Tax Depreciation - Accounting Depreciation = ₹2,00,000 - ₹1,00,000 = <strong>₹1,00,000</strong> (Tax depreciation is higher, so it is a taxable timing difference)</p>
-            <p>• DTL Created = ₹1,00,000 × 30% = <strong>₹30,000</strong></p>
-            
-            <p className="mt-2"><strong>Step 5: Determine Tax Expense</strong></p>
-            <p>Tax Expense = Current Tax + DTL = ₹90,000 + ₹30,000 = <strong>₹1,20,000</strong></p>
-            <p><i>Verification: Accounting Income ₹4,00,000 × 30% = ₹1,20,000 (Perfect matching of tax expense against accounting profit!)</i></p>
+          <div className="space-y-2 text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
+            <p><strong>Year 1:</strong></p>
+            <p>Accounting Profit before tax: ₹8,00,000 − ₹2,50,000 = ₹5,50,000</p>
+            <p>Taxable Profit: ₹8,00,000 − ₹2,50,000 = ₹5,50,000 (same — no timing diff in Yr 1)</p>
+            <p>DTA/DTL = Nil in Year 1 (depreciation is exactly equal)</p>
+            <hr className="my-1 border-slate-200 dark:border-slate-800" />
+            <p><strong>Year 2:</strong></p>
+            <p>Accounting depreciation = ₹2,50,000</p>
+            <p>Tax depreciation (WDV) = ₹7,50,000 × 25% = ₹1,87,500</p>
+            <p>Timing difference = ₹2,50,000 − ₹1,87,500 = <strong>₹62,500</strong> (Book &gt; Tax)</p>
+            <p>Taxable income &gt; Book income → DTL arises</p>
+            <p>DTL = ₹62,500 × 30% = <strong>₹18,750</strong></p>
           </div>
         )
       },
       {
-        title: 'Accounting Entry',
+        title: 'Journal Entries (Year 2)',
         content: (
-          <div className="space-y-2">
-            <p><strong>Journal Entries on 31st March 20X2:</strong></p>
-            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg font-mono text-xs space-y-2">
-              <div>
-                <p>Profit &amp; Loss A/c .................... Dr. ₹90,000</p>
-                <p>&nbsp;&nbsp;To Provision for Current Tax .............. Cr. ₹90,000</p>
-                <p><i>(Being current tax liability provided)</i></p>
-              </div>
-              <div>
-                <p>Profit &amp; Loss A/c .................... Dr. ₹30,000</p>
-                <p>&nbsp;&nbsp;To Deferred Tax Liability ................. Cr. ₹30,000</p>
-                <p><i>(Being DTL recognized on depreciation timing difference)</i></p>
-              </div>
-            </div>
+          <div className="space-y-2 text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
+            <p className="font-sans font-bold">Deferred Tax Entry (Year 2):</p>
+            <p>Dr. Tax Expense (P&amp;L) &nbsp;&nbsp;&nbsp;&nbsp;₹18,750</p>
+            <p>&nbsp;&nbsp;Cr. Deferred Tax Liability (B/S) &nbsp;&nbsp;&nbsp;₹18,750</p>
+            <p className="font-sans mt-2">(Being deferred tax liability recognized on timing difference)</p>
+            <hr className="my-1 border-slate-200 dark:border-slate-800" />
+            <p className="font-sans font-bold">Tax P&amp;L Breakdown (Year 2):</p>
+            <p>Current Tax = ₹5,50,000 + ₹62,500 = ₹6,12,500 × 30% = ₹1,83,750</p>
+            <p>Deferred Tax (DTL created) = ₹18,750</p>
+            <p>Total Tax Expense = ₹2,02,500</p>
+          </div>
+        )
+      },
+      {
+        title: 'Reversal in Later Years',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>In Years 3 and 4, as the asset ages under WDV method, tax depreciation decreases further while accounting SLM remains flat. DTL continues to build.</p>
+            <p>When the asset is fully depreciated for accounting but tax WDV still exists, the timing difference reverses and the DTL unwinds (reduces to zero).</p>
+            <p><strong>Net effect:</strong> Total tax expense over the 4-year life equals the same as if no deferral occurred — AS 22 ensures the correct matching of tax to the period income is earned.</p>
           </div>
         )
       }
     ],
-    examFocus: 'Depreciation differences are timing differences. When tax depreciation exceeds accounting depreciation in the early years, it creates a Deferred Tax Liability (DTL). In later years, when accounting depreciation exceeds tax depreciation, this DTL will reverse.',
-    examFocusType: 'focus'
+    examFocus: 'WDV tax depreciation > SLM accounting depreciation in early years → Taxable income < Book income → DTA arises. The pattern reverses in later years.',
+    examFocusType: 'trap'
   },
   {
     id: 'illus-22-2',
-    title: 'ICAI Illustration 2 — Timing Difference on Provisions (Creation of Deferred Tax Asset under Section 43B)',
+    title: 'ICAI Illustration 2 — Permanent Differences vs Timing Differences (Clubbing Expenses & Donation Treatment)',
     category: 'Official ICAI Illustration',
-    pdfPage: 7,
+    pdfPage: 14,
     panels: [
       {
         title: 'Background & Facts',
         content: (
           <div>
-            <p><strong>Financial Data:</strong></p>
+            <p><strong>Scenario (FY 2023-24):</strong></p>
             <ul className="list-disc pl-5 mt-2 space-y-1">
-              <li>Accounting Profit before tax = <strong>₹10,00,000</strong>.</li>
-              <li>Provision for Gratuity made in the accounts = <strong>₹1,50,000</strong>.</li>
-              <li>Actual Gratuity paid during the year = <strong>₹50,000</strong>.</li>
-              <li>Tax Rules (Section 43B / 40A(7)): Gratuity provisions are disallowed for tax purposes in the year of creation, and allowed as a deduction only in the year of actual payment.</li>
-              <li>Enacted Tax Rate = <strong>30%</strong>.</li>
+              <li>Accounting profit: ₹10,00,000</li>
+              <li>Expenditure on club membership for MD: ₹50,000 (disallowed permanently under Income Tax)</li>
+              <li>Donation to PM Relief Fund: ₹1,00,000 (100% deductible under Sec 80G — benefit in tax only, not accounting)</li>
+              <li>Timing difference from depreciation: ₹80,000 (tax depreciation &gt; accounting depreciation)</li>
             </ul>
-            <p className="mt-2"><strong>Issue:</strong> Compute Current Tax, Deferred Tax Asset (DTA), and Tax Expense. <PdfRefInline page={7} /></p>
           </div>
         )
       },
       {
-        title: 'Mathematical Computations',
+        title: 'Classification: Permanent vs Timing',
         content: (
-          <div className="space-y-3 font-mono text-xs p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
-            <p><strong>Step 1: Calculate Taxable Income</strong></p>
-            <p>• Accounting Profit = ₹10,00,000</p>
-            <p>• Add back disallowed Provision: +₹1,50,000</p>
-            <p>• Deduct actual payment: -₹50,000</p>
-            <p>• Taxable Income = ₹10,00,000 + ₹1,00,000 = <strong>₹11,00,000</strong></p>
-            
-            <p className="mt-2"><strong>Step 2: Calculate Current Tax</strong></p>
-            <p>Current Tax = ₹11,00,000 × 30% = <strong>₹3,30,000</strong></p>
-            
-            <p className="mt-2"><strong>Step 3: Compute Timing Difference and Deferred Tax Asset</strong></p>
-            <p>• Unallowed provision = ₹1,00,000 (which will reverse in future years when paid).</p>
-            <p>• DTA Created = ₹1,00,000 × 30% = <strong>₹30,000</strong> (Prudence check: there is reasonable certainty of future profits to realize this asset).</p>
-            
-            <p className="mt-2"><strong>Step 4: Determine Tax Expense</strong></p>
-            <p>Tax Expense = Current Tax - DTA = ₹3,30,000 - ₹30,000 = <strong>₹3,00,000</strong></p>
-            <p><i>Verification: Accounting Profit ₹10,00,000 × 30% = ₹3,00,000 (Consistent matching!)</i></p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Permanent Differences — NO Deferred Tax:</strong></p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Club membership (₹50,000): Permanently disallowed in tax; will never reverse → Permanent difference. No DTA/DTL.</li>
+              <li>PM Relief Fund (₹1,00,000): Under accounting, it is an expense; under tax, it is deductible with 100% deduction under Sec 80G. The tax benefit is permanent (no future reversal). No DTA/DTL for this.</li>
+            </ul>
+            <p className="mt-2"><strong>Timing Differences — DTA Recognized:</strong></p>
+            <p>Depreciation difference (₹80,000): Tax depreciation &gt; accounting → Current taxable income lower than book → <strong>DTA arises</strong> (will reverse when tax depreciation drops below accounting in future years).</p>
+            <p>DTA = ₹80,000 × 30% = <strong>₹24,000</strong></p>
           </div>
         )
       },
       {
-        title: 'Accounting Entry',
+        title: 'Tax Computation Summary',
         content: (
-          <div className="space-y-2">
-            <p><strong>Journal Entries on 31st March 20X2:</strong></p>
-            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg font-mono text-xs space-y-2">
-              <div>
-                <p>Profit &amp; Loss A/c .................... Dr. ₹3,30,000</p>
-                <p>&nbsp;&nbsp;To Provision for Current Tax .............. Cr. ₹3,30,000</p>
-              </div>
-              <div>
-                <p>Deferred Tax Asset ....................... Dr. ₹30,000</p>
-                <p>&nbsp;&nbsp;To Profit &amp; Loss A/c ..................... Cr. ₹30,000</p>
-                <p><i>(Being DTA recognized on provision timing difference)</i></p>
-              </div>
-            </div>
+          <div className="text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg space-y-1">
+            <p><strong>Accounting Profit:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹10,00,000</strong></p>
+            <p>Add: Club Membership (Permanent add-back):&nbsp;₹50,000</p>
+            <p>Less: PM Relief Fund (Extra deduction):&nbsp;(₹1,00,000)</p>
+            <p>Less: Timing Diff (Tax dep &gt; Acc dep):&nbsp;&nbsp;(₹80,000)</p>
+            <p className="font-bold">Taxable Income:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹8,70,000</p>
+            <p>Current Tax (30%):&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹2,61,000</p>
+            <p>Deferred Tax (DTA on ₹80K × 30%):&nbsp;(₹24,000)</p>
+            <p className="font-bold">Total Tax Expense per P&amp;L:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹2,37,000</p>
           </div>
         )
       }
     ],
-    examFocus: 'Provisions disallowed under tax laws (such as provision for doubtful debts, bonus provisions, or gratuity provisions) create timing differences because the expense is recognized in accounting now, but allowed in tax later. This creates a Deferred Tax Asset (DTA) subject to the prudence concept.',
+    examFocus: 'Permanent differences NEVER give rise to DTA or DTL. Only timing differences create deferred tax. Do not confuse the two.',
     examFocusType: 'trap'
   }
 ]
@@ -187,75 +159,154 @@ export const icaiIllustrations: CaseStudy[] = [
 export const businessCases: CaseStudy[] = [
   {
     id: 'case-22-1',
-    title: 'Business Case — Virtual Certainty & Unabsorbed Losses (Convincing Evidence Standard)',
-    category: 'Business Application Case',
+    title: 'Business Case — Unabsorbed Depreciation & Business Losses (DTA Recognition Criteria)',
+    category: 'Practical Business Case',
     panels: [
       {
         title: 'Background & Facts',
         content: (
           <div>
-            <p><strong>Entity:</strong> RedLoss Textiles Ltd. has incurred heavy business losses over the past three years. At the year-end 31st March 20X2, it has:</p>
+            <p><strong>Entity:</strong> Sunrise Hotels Ltd. (FY 2023-24 — COVID recovery phase)</p>
+            <p>The company has:</p>
             <ul className="list-disc pl-5 mt-2 space-y-1">
-              <li>Accumulated Tax Losses = <strong>₹50,00,000</strong>.</li>
-              <li>Unabsorbed Depreciation = <strong>₹20,00,000</strong>.</li>
-              <li>Potential DTA on these items at 30% = <strong>₹21,00,000</strong>.</li>
+              <li>Accumulated business losses of ₹15,00,00,000 (carried forward under Income Tax Act)</li>
+              <li>Unabsorbed depreciation of ₹8,00,00,000</li>
+              <li>Future profitability is uncertain — the company has made losses for 3 consecutive years</li>
+              <li>Tax rate = 25%</li>
             </ul>
-            <p className="mt-2"><strong>Business Condition:</strong> The company has recently signed a 5-year supply contract with a major retail chain starting from next year, which guarantees a minimum net profit of ₹25,00,000 per year.</p>
-            <p className="mt-2"><strong>Issue:</strong> Can the company recognize the Deferred Tax Asset of ₹21,00,000 in its balance sheet?</p>
           </div>
         )
       },
       {
-        title: 'AS 22 Analysis & Verdict',
+        title: 'AS 22 Prudence Rule — Para 15 (Deferred Tax on Losses)',
         content: (
-          <div className="space-y-2 text-xs">
-            <p><strong>Standard Rule (Para 17-18):</strong> Where an enterprise has unabsorbed depreciation or carry forward of losses, deferred tax assets should be recognised only to the extent that there is **virtual certainty supported by convincing evidence** that sufficient future taxable income will be available against which such deferred tax assets can be realised. <PdfRefInline page={7} /></p>
-            <p><strong>Analysis of Evidence:</strong> A legally binding, profitable supply contract represents "convincing evidence" of future taxable profits. It provides a realistic, objective basis for the virtual certainty of profit realization.</p>
-            <p><strong>Verdict:</strong> RedLoss Textiles Ltd. can recognize the DTA in the balance sheet, but must disclose the details of the supply contract and the basis of virtual certainty in the notes to accounts.</p>
+          <div className="space-y-3 text-xs leading-relaxed">
+            <p><strong>General Rule (Para 13):</strong> DTA is recognized for timing differences and for unused tax losses and credits, but ONLY to the extent it is <strong>reasonably certain</strong> that sufficient future taxable income will be available.</p>
+            <p><strong>Stricter Rule for Losses (Para 15):</strong> In the case of unabsorbed depreciation and carry-forward business losses, DTA is recognized ONLY to the extent there is <strong>virtual certainty</strong> of future taxable income against which such DTA can be realized.</p>
+            <p><strong>Conclusion for Sunrise Hotels:</strong> With 3 consecutive loss years and uncertain recovery, "virtual certainty" cannot be established. DTA on ₹23Cr losses/unabsorbed depreciation = NOT RECOGNIZED.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Recognition Test Comparison',
+        content: (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse border border-slate-200 dark:border-slate-800">
+              <thead>
+                <tr className="bg-slate-100 dark:bg-slate-900">
+                  <th className="border p-2">Type of Deferred Tax</th>
+                  <th className="border p-2">Recognition Threshold</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td className="border p-2">DTL (timing diff)</td><td className="border p-2">Always recognize (para 13)</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">DTA (timing diff)</td><td className="border p-2">Reasonably certain of future taxable income</td></tr>
+                <tr><td className="border p-2">DTA on business loss/unabsorbed dep</td><td className="border p-2 font-bold text-rose-700 dark:text-rose-400">VIRTUAL CERTAINTY of future taxable income</td></tr>
+              </tbody>
+            </table>
+          </div>
+        )
+      },
+      {
+        title: 'Disclosure Requirement',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>Even when DTA is not recognized, the company must disclose (Para 23):</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>The amount of unrecognized DTA and the reason for non-recognition</li>
+              <li>Unabsorbed depreciation or carry-forward losses that exist</li>
+            </ul>
+            <p className="mt-2">If the company subsequently achieves virtual certainty (e.g., secures long-term contracts), it can recognize the DTA in the future.</p>
           </div>
         )
       }
     ],
-    examFocus: 'Virtual certainty is a much higher threshold than "reasonable certainty". In exams, if a company has carry-forward tax losses, you must NOT recognize a Deferred Tax Asset unless the question explicitly mentions convincing evidence (like a signed contract or a confirmed backlog of orders). If no such evidence exists, DTA should be valued at nil.',
-    examFocusType: 'concept'
+    examFocus: '"Reasonably certain" for normal DTA. "Virtual certainty" for DTA on unabsorbed depreciation and business losses — always check which applies.',
+    examFocusType: 'trap'
+  },
+  {
+    id: 'case-22-2',
+    title: 'Business Case — DTL Arising from Investment Revaluation at Amalgamation',
+    category: 'Practical Business Case',
+    panels: [
+      {
+        title: 'Background & Facts',
+        content: (
+          <div>
+            <p><strong>Scenario:</strong> Omega Ltd. acquires Beta Ltd. under a merger. Beta's factory building is taken over at book value of ₹5 crores but has a fair value of ₹8 crores.</p>
+            <p className="mt-2">For accounting purposes, Omega records the building at ₹8 crores (fair value). For tax purposes, the step-up in basis is NOT permitted — tax continues at ₹5 crores book value.</p>
+            <p>Tax rate = 25%.</p>
+          </div>
+        )
+      },
+      {
+        title: 'AS 22 Treatment',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>The upward revaluation of ₹3 crores (₹8Cr − ₹5Cr) creates a timing difference:</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Accounting: Higher depreciation on ₹8Cr asset in future</li>
+              <li>Tax: Lower depreciation on ₹5Cr cost</li>
+            </ul>
+            <p className="mt-2">This means accounting profit will be lower than taxable profit in future years (reverse of usual) → <strong>DTL must be recognized</strong> on revaluation surplus.</p>
+            <p>DTL = ₹3,00,00,000 × 25% = <strong>₹75,00,000</strong></p>
+          </div>
+        )
+      },
+      {
+        title: 'Journal Entry',
+        content: (
+          <div className="text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg space-y-1">
+            <p className="font-sans font-bold">On recording revaluation:</p>
+            <p>Dr. Fixed Asset (Building)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹3,00,00,000</p>
+            <p>&nbsp;&nbsp;Cr. Revaluation Reserve&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹2,25,00,000</p>
+            <p>&nbsp;&nbsp;Cr. Deferred Tax Liability&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹75,00,000</p>
+            <p className="font-sans mt-2">(DTL is recognized net of the revaluation surplus, credited directly to reserves — not through P&amp;L)</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'DTL arising from revaluation of assets is recognized directly against revaluation reserve — not through the P&L statement.',
+    examFocusType: 'adjustment'
   }
 ]
 
 export const auditCases: CaseStudy[] = [
   {
     id: 'audit-22-1',
-    title: 'Audit Case — Offsetting Deferred Tax Assets and Liabilities (Same Tax Jurisdiction)',
+    title: 'Audit Case Study — Non-recognition of DTL on Accelerated Tax Depreciation (Underpayment of Taxes)',
     category: 'Audit Case Study',
     panels: [
       {
         title: 'Background & Facts',
         content: (
           <div>
-            <p><strong>Entity:</strong> MultiState Retail Ltd. has two divisions:</p>
-            <ul className="list-disc pl-5 mt-2 space-y-1 text-xs">
-              <li>Division A (subject to normal corporate tax): Has a <strong>Deferred Tax Liability (DTL) of ₹5,00,000</strong>.</li>
-              <li>Division B (operating in a Special Economic Zone - SEZ, tax-free): Has a <strong>Deferred Tax Asset (DTA) of ₹3,00,000</strong>.</li>
-            </ul>
-            <p className="mt-2"><strong>Management position:</strong> The company offsets the DTA and DTL and presents a net Deferred Tax Liability of ₹2,00,000 in the Balance Sheet.</p>
-            <p className="mt-2"><strong>Auditor position:</strong> The statutory auditor objects, arguing that DTA and DTL cannot be offset since they relate to different tax treatments and divisions.</p>
+            <p><strong>Scenario:</strong> During audit of Zenith Steel Ltd., the auditor notes that the company's tax depreciation (WDV) significantly exceeds accounting depreciation (SLM) by ₹4,00,00,000 in FY 2023-24. Management has not recognized any DTL, arguing that "tax payments will even out over time."</p>
           </div>
         )
       },
       {
-        title: 'Audit Analysis & Verdict',
+        title: 'Auditor Analysis — Para 13 (DTL is Always Recognized)',
         content: (
-          <div className="space-y-2 text-xs">
-            <p><strong>Standard Rule (Para 29):</strong> An enterprise should offset DTA and DTL if and only if:</p>
-            <ol className="list-decimal pl-5 space-y-1">
-              <li>The enterprise has a legally enforceable right to set off assets against liabilities representing current tax; AND</li>
-              <li>The DTAs and DTLs relate to taxes on income levied by the **same governing tax laws** (e.g. Income Tax Act 1961). <PdfRefInline page={12} /></li>
-            </ol>
-            <p><strong>Verdict:</strong> The offset is permitted. Both divisions are part of the same legal entity and subject to tax under the same Income Tax Act 1961 (even if one has an SEZ exemption). The company has a legally enforceable right to set off current tax assets/liabilities. The net presentation is correct.</p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>Under AS 22 Para 13, <strong>deferred tax liabilities are always recognized</strong> for all timing differences. Unlike DTA (which requires reasonable/virtual certainty), there is NO threshold test for DTL — it must always be recognized.</p>
+            <p>DTL = ₹4,00,00,000 × 30% = <strong>₹1,20,00,000</strong> must be recognized.</p>
+            <p><strong>Auditor Action:</strong> Issue a qualification in audit report if management refuses to recognize. Raise with Audit Committee.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Corrective Journal Entry Required',
+        content: (
+          <div className="text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg space-y-1">
+            <p>Dr. Tax Expense (P&amp;L)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;₹1,20,00,000</p>
+            <p>&nbsp;&nbsp;Cr. Deferred Tax Liability (B/S)&nbsp;₹1,20,00,000</p>
+            <p className="font-sans mt-2">(Being DTL recognized on accelerated tax depreciation timing difference — mandatory under AS 22)</p>
           </div>
         )
       }
     ],
-    examFocus: 'To offset DTA and DTL, they must relate to the same legal entity and the same tax jurisdiction. If they relate to different group companies in a consolidated balance sheet, they cannot be offset unless those companies have a legal right of set-off under tax law.',
+    examFocus: 'DTL is ALWAYS recognized — no threshold of certainty applies unlike DTA. Management cannot argue "it will even out" to avoid DTL recognition.',
     examFocusType: 'focus'
   }
 ]
@@ -263,109 +314,144 @@ export const auditCases: CaseStudy[] = [
 export const regulatoryObservations: CaseStudy[] = [
   {
     id: 'reg-22-1',
-    title: 'Regulatory Observation — Non-Discounting of Deferred Taxes',
-    category: 'Regulatory Observation',
+    title: 'NFRA Observation — Netting of DTA and DTL Without Meeting AS 22 Offset Criteria',
+    category: 'Regulatory Observations',
     panels: [
       {
-        title: 'Regulatory Rule',
+        title: 'Regulatory Issue',
         content: (
           <div>
-            <p>Under AS 22, Deferred Tax Assets and Liabilities are **not discounted** to their present value. <PdfRefInline page={9} /></p>
-            <p>They must be measured at the tax rates that have been enacted or substantively enacted by the balance sheet date. Even if a timing difference is expected to reverse 10 years later, it must be reported at its nominal value without any discounting.</p>
+            <p><strong>NFRA Finding:</strong> Several companies net off DTA and DTL on the face of the balance sheet without meeting the legally enforceable right to offset test under AS 22.</p>
+            <p className="mt-2"><strong>Incorrect Practice:</strong> Company A has DTA of ₹80L (on business losses) and DTL of ₹120L (on timing differences). They show net DTL of ₹40L on the balance sheet without disclosing both components.</p>
           </div>
         )
       },
       {
-        title: 'Rationale',
+        title: 'AS 22 Offset Criteria (Para 20)',
         content: (
-          <p className="text-xs">Discounting deferred taxes requires highly complex scheduling of the timing of the reversal of each individual timing difference, which is often subjective and unreliable. To maintain objectivity and simplicity, standard-setters under AS 22 completely prohibit the discounting of DTA and DTL.</p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>DTA and DTL may be offset in the balance sheet ONLY if:</p>
+            <ol className="list-decimal pl-5 space-y-1">
+              <li>The enterprise has a legally enforceable right to set off current tax assets against current tax liabilities; AND</li>
+              <li>The deferred tax assets and liabilities relate to taxes levied by the same governing taxation laws; AND</li>
+              <li>The enterprise intends to settle on a net basis</li>
+            </ol>
+            <p className="mt-2">NFRA's position: DTA on business losses vs. DTL on depreciation differences — these may relate to different types and years and should not be netted unless all conditions are met.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Correct Presentation',
+        content: (
+          <div className="text-xs font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
+            <p className="font-sans font-bold">Balance Sheet (Correct):</p>
+            <p>Non-current Assets:</p>
+            <p>&nbsp;&nbsp;Deferred Tax Asset (timing differences):&nbsp;₹80,00,000</p>
+            <p>Non-current Liabilities:</p>
+            <p>&nbsp;&nbsp;Deferred Tax Liability (depreciation):&nbsp;&nbsp;₹1,20,00,000</p>
+            <p className="font-sans mt-2 font-bold">NOT acceptable:</p>
+            <p className="font-sans">Net DTL ₹40L on face without meeting offset criteria</p>
+          </div>
         )
       }
     ],
-    examFocus: 'If a question provides discount factors or PV factors for deferred taxes, completely ignore them! DTA and DTL are always recognized at nominal enacted rates.',
-    examFocusType: 'trap'
+    examFocus: 'DTA and DTL cannot be simply netted against each other unless the strict legal right of offset and same-jurisdiction conditions under Para 20 are both met.',
+    examFocusType: 'adjustment'
   }
 ]
 
 export const judicialCases: CaseStudy[] = [
   {
-    id: 'court-22-1',
-    title: 'Judicial Case — Enacted vs Substantively Enacted Tax Rates',
-    category: 'Landmark Precedent',
+    id: 'judicial-22-1',
+    title: 'Judicial Case — Supreme Court on Deferred Tax & MAT Credit Interaction',
+    category: 'Landmark Judicial Cases',
     panels: [
       {
-        title: 'Background & Facts',
+        title: 'Facts & Background',
         content: (
           <div>
-            <p><strong>Context:</strong> As of 31st March 20X2, the corporate tax rate was 30%. However, the Finance Bill proposed in the Parliament in February 20X2 proposed to reduce the corporate tax rate to 25% for the next year.</p>
-            <p><strong>Corporate Action:</strong> Zenith Ltd. measured its deferred taxes as of 31st March 20X2 using the 25% rate, arguing that it is "substantively enacted" because the ruling party holds a majority and the bill is guaranteed to pass.</p>
+            <p><strong>Issue:</strong> Companies paying MAT (Minimum Alternate Tax) under Sec 115JB have a MAT credit entitlement (carryforward). This MAT credit is distinct from the DTA concept under AS 22.</p>
+            <p className="mt-2">Companies were including MAT credit entitlement in DTA balances, which inflated deferred tax assets reported under AS 22.</p>
           </div>
         )
       },
       {
-        title: 'Legal Verdict',
+        title: 'ICAI / Court Guidance',
         content: (
-          <div className="space-y-2 text-xs">
-            <p><strong>Standard Rule (Para 21):</strong> Deferred tax assets and liabilities should be measured using the tax rates and tax laws that have been enacted or substantively enacted by the balance sheet date. <PdfRefInline page={9} /></p>
-            <p><strong>Verdict:</strong> In India, the Finance Bill becomes "substantively enacted" only when it is passed by both houses of Parliament and receives the assent of the President (which usually happens in May). Therefore, as of 31st March, the rate is NOT substantively enacted. The company was legally required to use the existing 30% rate.</p>
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>ICAI Position:</strong> MAT credit is a future benefit (prepaid tax) and is NOT a timing difference in the AS 22 sense. It should be shown separately from DTA, not clubbed with it.</p>
+            <p><strong>Correct Treatment:</strong></p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Recognize MAT credit as a current asset (or separate non-current asset) to the extent it is "reasonably certain" to be utilized within the carryforward period</li>
+              <li>Disclose separately from DTA arising from timing differences</li>
+              <li>Do NOT include in the "Deferred Tax Assets" line in the balance sheet</li>
+            </ul>
           </div>
         )
       }
     ],
-    examFocus: 'In the Indian context, tax rates proposed in the Union Budget/Finance Bill are NOT substantively enacted as of 31st March. Always use the tax rate enacted for the current year unless the Finance Act has already received presidential assent before 31st March.',
-    examFocusType: 'adjustment'
+    examFocus: 'MAT credit entitlement is NOT an AS 22 DTA. It is a separate asset (advance tax / prepaid tax) and must be disclosed separately from deferred tax.',
+    examFocusType: 'concept'
   }
 ]
 
 export const examCorner: CaseStudy[] = [
   {
     id: 'exam-22-1',
-    title: 'Exam Corner — Step-by-Step Deferred Tax Asset / Liability Computation Matrix',
-    category: 'Exam Corner',
+    title: 'Exam Corner — DTA vs DTL Recognition Rules & Key Mnemonics',
+    category: 'Exam-Oriented Corner',
     panels: [
       {
-        title: 'Standard Tax Reconciliation Table',
+        title: 'When DTA/DTL Arises: Quick Framework',
         content: (
-          <div className="overflow-x-auto text-xs font-mono">
-            <table className="w-full border-collapse border border-slate-200 dark:border-slate-800">
-              <thead>
-                <tr className="bg-slate-100 dark:bg-slate-800">
-                  <th className="p-2 border border-slate-200 dark:border-slate-700">Item</th>
-                  <th className="p-2 border border-slate-200 dark:border-slate-700">Accounting</th>
-                  <th className="p-2 border border-slate-200 dark:border-slate-700">Tax Base</th>
-                  <th className="p-2 border border-slate-200 dark:border-slate-700">Difference</th>
-                  <th className="p-2 border border-slate-200 dark:border-slate-700">Type</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="p-2 border border-slate-200">Machinery (Dep)</td>
-                  <td className="p-2 border border-slate-200">₹8,00,000</td>
-                  <td className="p-2 border border-slate-200">₹7,00,000</td>
-                  <td className="p-2 border border-slate-200">₹1,00,000</td>
-                  <td className="p-2 border border-slate-200 text-red-600">DTL (Taxable)</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border border-slate-200">Gratuity Provision</td>
-                  <td className="p-2 border border-slate-200">₹1,50,000</td>
-                  <td className="p-2 border border-slate-200">Nil (Disallowed)</td>
-                  <td className="p-2 border border-slate-200">₹1,50,000</td>
-                  <td className="p-2 border border-slate-200 text-green-600">DTA (Deductible)</td>
-                </tr>
-                <tr>
-                  <td className="p-2 border border-slate-200">Fine (Disallowed)</td>
-                  <td className="p-2 border border-slate-200">₹50,000</td>
-                  <td className="p-2 border border-slate-200">Nil (Permanent)</td>
-                  <td className="p-2 border border-slate-200">₹50,000</td>
-                  <td className="p-2 border border-slate-200">No Deferred Tax</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="space-y-2 text-xs leading-relaxed font-mono p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
+            <p className="font-sans font-bold">If Accounting Expense &gt; Tax Expense → Taxable Income &gt; Book Income:</p>
+            <p>→ Company pays MORE tax now, LESS tax later</p>
+            <p>→ <strong>DTA (Asset — future tax saving)</strong></p>
+            <hr className="my-1 border-slate-300 dark:border-slate-700" />
+            <p className="font-sans font-bold">If Tax Expense &gt; Accounting Expense → Taxable Income &lt; Book Income:</p>
+            <p>→ Company pays LESS tax now, MORE tax later</p>
+            <p>→ <strong>DTL (Liability — future tax obligation)</strong></p>
+          </div>
+        )
+      },
+      {
+        title: 'Common Real-World Examples',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>DTA situations:</strong></p>
+            <ul className="list-disc pl-5 space-y-0.5">
+              <li>Provision for doubtful debts (expenses in books, not yet deductible in tax)</li>
+              <li>Bonus accrued but not paid (deductible when paid)</li>
+              <li>Warranty provision (books expense it now; tax allows when paid)</li>
+              <li>Carry-forward losses (if virtual certainty exists)</li>
+            </ul>
+            <p className="mt-2"><strong>DTL situations:</strong></p>
+            <ul className="list-disc pl-5 space-y-0.5">
+              <li>Tax WDV depreciation &gt; SLM accounting depreciation (early years)</li>
+              <li>Revenue recognized in books earlier than in tax</li>
+              <li>Asset revaluation upwards without corresponding tax step-up</li>
+            </ul>
+          </div>
+        )
+      },
+      {
+        title: 'Key Exam Trap Points',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <ul className="list-disc pl-5 space-y-2">
+              <li><strong>DTL is ALWAYS recognized</strong> — no certainty threshold.</li>
+              <li>DTA requires <strong>reasonable certainty</strong> for timing differences.</li>
+              <li>DTA on unabsorbed depreciation/business losses requires <strong>virtual certainty</strong>.</li>
+              <li><strong>Permanent differences</strong> (e.g., club membership) → NO deferred tax ever.</li>
+              <li>DTL from revaluation → credited to <strong>revaluation reserve</strong>, not P&amp;L.</li>
+              <li>MAT credit → separate asset, NOT part of AS 22 DTA.</li>
+            </ul>
           </div>
         )
       }
     ],
-    examFocus: 'Do not calculate deferred tax on permanent differences. Fines, corporate donations, and disallowed expenses under section 37 are permanent differences and have no impact on DTA/DTL.',
-    examFocusType: 'adjustment'
+    examFocus: 'DTL = always recognize. DTA = "reasonably certain". DTA on losses = "virtually certain". These three thresholds are the MOST TESTED concept in AS 22.',
+    examFocusType: 'trick'
   }
 ]

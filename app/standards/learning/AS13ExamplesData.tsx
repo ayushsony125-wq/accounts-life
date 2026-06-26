@@ -358,5 +358,52 @@ export const examCorner: CaseStudy[] = [
     ],
     examFocus: "Bonus shares increase the number of shares without increasing cost, which reduces the weighted average cost per share. Do not assign face value as the cost of bonus shares!",
     examFocusType: 'trick'
+  },
+  {
+    id: 'exam-13-2',
+    title: 'Exam Corner 2 — Rights Issue, Dividend Stripping & Current vs Long-Term Classification',
+    category: 'Exam Corner',
+    panels: [
+      {
+        title: 'Rights Issue: Cost Adjustment',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>When a company receives rights from an investee company, the investor (holder of shares) can:</p>
+            <ol className="list-decimal pl-5 space-y-1">
+              <li><strong>Subscribe to the rights:</strong> Additional cost added to investment; total shares increase. Weighted average cost recalculated.</li>
+              <li><strong>Renounce the rights (sell them):</strong> Proceeds from renouncing rights are deducted from the carrying cost of the original investment. No P&L recognition.</li>
+              <li><strong>Let them lapse:</strong> No accounting entry required.</li>
+            </ol>
+          </div>
+        )
+      },
+      {
+        title: 'Current vs Long-Term Classification Rule',
+        content: (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse border border-slate-200 dark:border-slate-800">
+              <thead><tr className="bg-slate-100 dark:bg-slate-900"><th className="border p-2">Feature</th><th className="border p-2">Current Investment</th><th className="border p-2">Long-Term Investment</th></tr></thead>
+              <tbody>
+                <tr><td className="border p-2">Holding Intent</td><td className="border p-2">Readily realizable + not held &gt;1 year</td><td className="border p-2">Held for more than 1 year OR strategic holding</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">Valuation</td><td className="border p-2">Lower of Cost or Fair Value (portfolio-wise)</td><td className="border p-2">Cost − Provision for permanent diminution only</td></tr>
+                <tr><td className="border p-2">Diminution Treatment</td><td className="border p-2">Charge to P&L immediately (temporary falls charged)</td><td className="border p-2">Only permanent decline charged to P&L</td></tr>
+                <tr className="bg-blue-50/10"><td className="border p-2">Recovery</td><td className="border p-2">Can reverse previously charged diminution</td><td className="border p-2">Can reverse previously charged permanent diminution</td></tr>
+              </tbody>
+            </table>
+          </div>
+        )
+      },
+      {
+        title: 'Dividend Stripping Warning',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p><strong>Dividend Stripping:</strong> An investor buys shares just before the record date to receive a dividend, then sells after at a lower ex-dividend price. The dividend creates income while the loss on sale is claimed as a deduction.</p>
+            <p>Under AS 13, if an investment is acquired specifically to earn a dividend, and the cost includes the impending dividend, the dividend received represents a return OF capital (not a return ON capital). In such cases, the dividend must be credited to the cost of investment and NOT recognized as income.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Dividend stripping: If dividend income was included in the purchase price, the dividend is a return OF capital — deduct it from investment cost. This is a top exam conceptual pitfall under AS 13.',
+    examFocusType: 'trap'
   }
 ];

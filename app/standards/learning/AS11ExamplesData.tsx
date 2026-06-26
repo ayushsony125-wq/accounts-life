@@ -339,6 +339,32 @@ export const regulatoryObservations: CaseStudy[] = [
     ],
     examFocus: "Always check if there is an AS 16 interest adjustment calculation in the question. Any amount of exchange loss that exceeds the difference between foreign interest and local interest must be charged to P&L under AS 11.",
     examFocusType: 'focus'
+  },
+  {
+    id: 'reg-11-2',
+    title: 'Regulatory Observation 2 — SEBI & NFRA Review: Misclassification of Foreign Operations',
+    category: 'Regulatory Observations',
+    panels: [
+      {
+        title: 'Classification Boundary',
+        content: (
+          <div>
+            <p><strong>The Issue:</strong> Companies often classify foreign branches or subsidiaries as **Non-Integral Foreign Operations** (NIFO) because translation differences for NIFOs are accumulated in the **Foreign Currency Translation Reserve (FCTR)** within Equity, thereby protecting the current P&amp;L from forex volatility.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Integral vs Non-Integral Criteria',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>Under AS 11, a foreign operation is **Integral** if it carries on business as if it were an extension of the parent company's operations (e.g. selling goods imported from the parent and remitting proceeds back). It is **Non-Integral** if it operates with a significant degree of autonomy (e.g. raising local finance, local purchase, local sales).</p>
+            <p className="mt-2 text-amber-600 font-semibold font-mono">SEBI warned that treating an dependent marketing branch that relies entirely on parent inventory and financing as NIFO to avoid booking losses in the P&amp;L violates AS 11. Such branches must be treated as Integral, and all translation gains/losses must route to P&amp;L.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'The key test for Integral classification is whether the foreign operation relies directly on parent cash flows and operations for its daily functioning.',
+    examFocusType: 'concept'
   }
 ];
 
@@ -372,6 +398,33 @@ export const judicialCases: CaseStudy[] = [
     ],
     examFocus: "This case is highly relevant for both advanced accounting and direct tax exams. Unrealized exchange differences on revenue accounts are fully deductible, while those on capital accounts affect asset costs.",
     examFocusType: 'focus'
+  },
+  {
+    id: 'jud-11-2',
+    title: 'Judicial Case 2 — CIT vs. Tata Iron & Steel Co. Ltd. (Cost of Capital Asset acquired in Foreign Currency)',
+    category: 'Supreme Court Precedent',
+    panels: [
+      {
+        title: 'The Capital Asset Issue',
+        content: (
+          <div>
+            <p><strong>Scenario:</strong> The company imported plant and machinery using foreign currency loans. Due to fluctuations in foreign exchange rates before the loans were fully repaid, the rupee cost of repayment changed.</p>
+            <p className="mt-2">The company adjusted the cost of the asset and claimed additional depreciation under Section 43A of the Income Tax Act, which was disputed by the department.</p>
+          </div>
+        )
+      },
+      {
+        title: 'Supreme Court Verdict & Section 43A',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>The Supreme Court held that the actual cost of a capital asset is the amount of rupees actually paid/payable to acquire it. Section 43A mandates adjusting the cost of the asset in the year when there is a change in the liability in foreign currency.</p>
+            <p className="mt-2">Under AS 11, if Paragraph 46/46A is selected, companies capitalize these capital monetary items' exchange differences to the cost of the asset (or depreciable asset block). Otherwise, they go to the P&amp;L (or FCMITDA for non-depreciable assets).</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'Section 43A of the Income Tax Act only allows adjustment of capital assets on ACTUAL PAYMENT basis, whereas AS 11 requires year-end accrual adjustment.',
+    examFocusType: 'trap'
   }
 ];
 
@@ -410,7 +463,7 @@ export const examCorner: CaseStudy[] = [
               <p>&nbsp;&nbsp;&nbsp;Exchange Gain = ₹41,00,000 − ₹40,00,000 = <strong>₹1,00,000 Gain</strong> (Liability decreased)</p>
               <p>3. US Share Investment (Non-monetary asset):</p>
               <p>&nbsp;&nbsp;&nbsp;No revaluation is done. It remains at cost = <strong>$5,000 × ₹75 = ₹3,75,000</strong></p>
-              <p>4. Net Gain recognized in P&amp;L = ₹40,00,000 + ₹1,00,000 = <strong>₹1,40,000 Credit to P&amp;L</strong></p>
+              <p>4. Net Gain recognized in P&amp;L = ₹40,000 + ₹1,00,000 = <strong>₹1,40,000 Credit to P&amp;L</strong></p>
             </div>
           </div>
         )
@@ -418,5 +471,59 @@ export const examCorner: CaseStudy[] = [
     ],
     examFocus: "Be careful: Do not revalue the equity shares at the closing rate. Non-monetary assets carried at cost must never be revalued under AS 11.",
     examFocusType: 'trick'
+  },
+  {
+    id: 'exam-11-2',
+    title: 'Exam Corner 2 — Foreign Branch Trial Balance Translation Rules (NIFO)',
+    category: 'Exam Corner',
+    panels: [
+      {
+        title: 'Translation Rate Guide',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>For a **Non-Integral Foreign Operation (NIFO)** branch, translate as follows:</p>
+            <table className="min-w-full border text-left">
+              <thead>
+                <tr className="bg-slate-100 dark:bg-slate-800">
+                  <th className="p-1 border">Item Category</th>
+                  <th className="p-1 border">Rate to Use</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="p-1 border font-semibold">All Assets (Fixed &amp; Current)</td>
+                  <td className="p-1 border font-mono">Closing Rate</td>
+                </tr>
+                <tr>
+                  <td className="p-1 border font-semibold">All Liabilities (Short &amp; Long term)</td>
+                  <td className="p-1 border font-mono">Closing Rate</td>
+                </tr>
+                <tr>
+                  <td className="p-1 border font-semibold">Income and Expenses</td>
+                  <td className="p-1 border font-mono">Average Rate (during the year)</td>
+                </tr>
+                <tr>
+                  <td className="p-1 border font-semibold">Head Office Account</td>
+                  <td className="p-1 border">Actual HO Book Balance</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        )
+      },
+      {
+        title: 'Trial Balance Balance Adjustment',
+        content: (
+          <div className="space-y-2 text-xs leading-relaxed">
+            <p>After translating all debit and credit balances, the trial balance will not balance.</p>
+            <p>1. If total debits exceed credits: Credit the difference to **Foreign Currency Translation Reserve (FCTR)**.</p>
+            <p>2. If total credits exceed debits: Debit the difference to **Foreign Currency Translation Reserve (FCTR)**.</p>
+            <p className="mt-1 font-semibold text-blue-600">The FCTR is presented under Reserves &amp; Surplus in the Balance Sheet. It does not hit the Profit &amp; Loss account.</p>
+          </div>
+        )
+      }
+    ],
+    examFocus: 'For Integral branch, non-monetary assets (PPE) are translated at historical rate, whereas NIFO translates them at closing rate. This is the main exam distinction.',
+    examFocusType: 'concept'
   }
 ];
