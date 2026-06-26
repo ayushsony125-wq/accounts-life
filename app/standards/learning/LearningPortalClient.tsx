@@ -59,6 +59,27 @@ import { AS17ExamplesCustomContent } from './AS17ExamplesCustomContent'
 import { AS18ExamplesCustomContent } from './AS18ExamplesCustomContent'
 import { AS19ExamplesCustomContent } from './AS19ExamplesCustomContent'
 
+import { AS20ExamplesCustomContent } from './AS20ExamplesCustomContent'
+import { AS20StandardTabContent } from './AS20StandardTabContent'
+import { AS21ExamplesCustomContent } from './AS21ExamplesCustomContent'
+import { AS21StandardTabContent } from './AS21StandardTabContent'
+import { AS22ExamplesCustomContent } from './AS22ExamplesCustomContent'
+import { AS22StandardTabContent } from './AS22StandardTabContent'
+import { AS23ExamplesCustomContent } from './AS23ExamplesCustomContent'
+import { AS23StandardTabContent } from './AS23StandardTabContent'
+import { AS24ExamplesCustomContent } from './AS24ExamplesCustomContent'
+import { AS24StandardTabContent } from './AS24StandardTabContent'
+import { AS25ExamplesCustomContent } from './AS25ExamplesCustomContent'
+import { AS25StandardTabContent } from './AS25StandardTabContent'
+import { AS26ExamplesCustomContent } from './AS26ExamplesCustomContent'
+import { AS26StandardTabContent } from './AS26StandardTabContent'
+import { AS27ExamplesCustomContent } from './AS27ExamplesCustomContent'
+import { AS27StandardTabContent } from './AS27StandardTabContent'
+import { AS28ExamplesCustomContent } from './AS28ExamplesCustomContent'
+import { AS28StandardTabContent } from './AS28StandardTabContent'
+import { AS29ExamplesCustomContent } from './AS29ExamplesCustomContent'
+import { AS29StandardTabContent } from './AS29StandardTabContent'
+
 const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   // AS
   'intro-as': 'Introduction to AS',
@@ -8085,6 +8106,46 @@ export default function LearningPortalClient({
                     <AS19StandardTabContent
                       navigateToPdfPage={navigateToPdfPage}
                     />
+                  ) : currentStandard.id === 'as-20' ? (
+                    <AS20StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-21' ? (
+                    <AS21StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-22' ? (
+                    <AS22StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-23' ? (
+                    <AS23StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-24' ? (
+                    <AS24StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-25' ? (
+                    <AS25StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-26' ? (
+                    <AS26StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-27' ? (
+                    <AS27StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-28' ? (
+                    <AS28StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
+                  ) : currentStandard.id === 'as-29' ? (
+                    <AS29StandardTabContent
+                      navigateToPdfPage={navigateToPdfPage}
+                    />
                   ) : (
                     <div className="bg-white dark:bg-[#111726] border border-[#E2E1DD] dark:border-gray-800 rounded-2xl p-6 sm:p-10 space-y-10 shadow-xs">
                   
@@ -8396,6 +8457,56 @@ export default function LearningPortalClient({
                 />
               ) : currentStandard.id === 'as-19' ? (
                 <AS19ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-20' ? (
+                <AS20ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-21' ? (
+                <AS21ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-22' ? (
+                <AS22ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-23' ? (
+                <AS23ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-24' ? (
+                <AS24ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-25' ? (
+                <AS25ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-26' ? (
+                <AS26ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-27' ? (
+                <AS27ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-28' ? (
+                <AS28ExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                  renderTextWithReferences={renderTextWithReferences}
+                />
+              ) : currentStandard.id === 'as-29' ? (
+                <AS29ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
                 />
