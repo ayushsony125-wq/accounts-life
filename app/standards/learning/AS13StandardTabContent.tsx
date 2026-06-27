@@ -110,12 +110,13 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
   );
 
   const SH = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    const cleanTitle = title.replace(/^\s*\d+(?:\.\d+)*\s*/, '');
     return (
       <div id={id} className="scroll-mt-36 mb-6 mt-12 first:mt-2 w-full">
         <div className="flex items-baseline gap-2 mb-2">
           <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
             <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{num}.</span>
-            <span>{title}</span>
+            <span>{cleanTitle}</span>
           </h2>
         </div>
         <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
