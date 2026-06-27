@@ -199,7 +199,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
   const handleChapterClick = (id: string) => {
     setActiveSection(id)
     const container = document.getElementById('as1-scroll-container')
-    const target = document.getElementById(`sec2-${id}`)
+    const target = document.getElementById('sec-' + id)
     const stickyToc = document.getElementById('as2-examples-sticky-toc')
     if (container && target) {
       const containerRect = container.getBoundingClientRect()
@@ -242,7 +242,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              const secId = entry.target.id.replace('sec2-', '');
+              const secId = entry.target.id.replace('sec-', '');
               setActiveSection(secId);
             }
           });
@@ -250,7 +250,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
         { root: scrollContainer, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
       );
       exampleChapters.forEach((sec) => {
-        const el = document.getElementById(`sec2-${sec.id}`);
+        const el = document.getElementById('sec-' + sec.id);
         if (el) observer?.observe(el);
       });
     };
@@ -416,7 +416,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
       <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-16 relative my-4">
 
         {/* ── SECTION 1: ICAI Illustrations ── */}
-        <section id="sec2-icai-illustrations" className="scroll-mt-36 space-y-8 w-full">
+        <section id="sec-icai-illustrations" className="scroll-mt-36 space-y-8 w-full">
           {renderSectionHeader('1', 'ICAI Illustrations',
             'Official ICAI AS 2 illustrations (Illustration 2.1–2.6) covering cost of purchase, cost of conversion, FIFO, weighted average, NRV write-down, and service provider costing.')}
           <div className="space-y-12">
@@ -438,7 +438,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
         </section>
 
         {/* ── SECTION 2: Business Case Studies ── */}
-        <section id="sec2-business-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+        <section id="sec-business-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader('2', 'Business Case Studies',
             'Realistic commercial scenarios applying AS 2 across retail, manufacturing, import, and goods-in-transit situations.')}
           <div className="space-y-12">
@@ -457,7 +457,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
         </section>
 
         {/* ── SECTION 3: Audit Case Studies ── */}
-        <section id="sec2-audit-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+        <section id="sec-audit-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader('3', 'Audit Case Studies',
             'Statutory audit scenarios covering inventory NRV overstatement, mid-year policy changes, and auditor responsibilities under SA 501.')}
           <div className="space-y-12">
@@ -478,7 +478,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
         </section>
 
         {/* ── SECTION 4: Regulatory Observations ── */}
-        <section id="sec2-regulatory-obs" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+        <section id="sec-regulatory-obs" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader('4', 'Regulatory Observations',
             'NFRA and SEBI enforcement actions related to inventory misstatement and valuation non-compliance.')}
           <div className="space-y-12">
@@ -497,7 +497,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
         </section>
 
         {/* ── SECTION 5: Judicial Cases ── */}
-        <section id="sec2-legal-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+        <section id="sec-legal-cases" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader('5', 'Landmark Judicial Cases',
             'Supreme Court and High Court judgments on inventory valuation methods, consistency, and abnormal wastage treatment.')}
           <div className="space-y-12">
@@ -516,7 +516,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
         </section>
 
         {/* ── SECTION 6: Exam-Oriented Corner ── */}
-        <section id="sec2-exam-oriented" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+        <section id="sec-exam-oriented" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader('6', 'Exam-Oriented Corner',
             'High-yield concepts, exam traps, paragraph references, and mnemonic tricks for ICAI CA Inter / Final exam preparation.')}
 
@@ -610,7 +610,7 @@ export function AS2ExamplesCustomContent({ navigateToPdfPage, renderTextWithRefe
         </section>
 
         {/* ── SECTION 7: Audit Notes & Reporting ── */}
-        <section id="sec2-audit-notes" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
+        <section id="sec-audit-notes" className="scroll-mt-36 space-y-8 w-full border-t border-slate-200 dark:border-slate-800 pt-8">
           {renderSectionHeader('7', 'Audit Notes & Reporting',
             'Audit checklist for inventory, red flags, SA 501 procedures, and draft qualification language for AS 2 non-compliance.')}
 

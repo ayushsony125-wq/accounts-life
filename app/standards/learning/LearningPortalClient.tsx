@@ -1322,21 +1322,38 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
     </div>
   );
 }
+const as2Chapters = [
+  { id: 'overview',        title: 'Introduction' },
+  { id: 'scope',           title: 'Scope' },
+  { id: 'definition',      title: 'Definitions' },
+  { id: 'measurement',     title: 'Measurement' },
+  { id: 'cost-purchase',   title: 'Cost of Purchase' },
+  { id: 'cost-conversion', title: 'Cost of Conversion' },
+  { id: 'joint-products',  title: 'Joint & By-Products' },
+  { id: 'other-costs',     title: 'Other Costs' },
+  { id: 'excluded',        title: 'Excluded Costs' },
+  { id: 'techniques',      title: 'Cost Techniques' },
+  { id: 'formulas',        title: 'Cost Formulas' },
+  { id: 'nrv',             title: 'NRV & RM Exception' },
+  { id: 'recognition',     title: 'Expense Recognition' },
+  { id: 'disclosure',      title: 'Disclosure' }
+]
+
 const as2Sections = [
-  { id: 'as2-overview',        title: '1. Introduction & Purpose' },
-  { id: 'as2-scope',           title: '2. Scope & Exclusions (Para 1)' },
-  { id: 'as2-definitions',     title: '3. Definitions (Para 2)' },
-  { id: 'as2-measurement',     title: '4. Measurement Principle (Para 3)' },
-  { id: 'as2-cost-purchase',   title: '5. Cost of Purchase (Para 5)' },
-  { id: 'as2-cost-conversion', title: '6. Cost of Conversion (Para 6)' },
-  { id: 'as2-joint-products',  title: '7. Joint & By-Products (Para 7)' },
-  { id: 'as2-other-costs',     title: '8. Other Costs (Para 8)' },
-  { id: 'as2-excluded',        title: '9. Excluded Costs (Para 9)' },
-  { id: 'as2-techniques',      title: '10. Cost Measurement Techniques (Para 10)' },
-  { id: 'as2-formulas',        title: '11. Cost Formulas (Para 13–16)' },
-  { id: 'as2-nrv',             title: '12. NRV & RM Exception (Para 17–20)' },
-  { id: 'as2-recognition',     title: '13. Recognition as Expense (Para 21)' },
-  { id: 'as2-disclosure',      title: '14. Disclosure Requirements (Para 22)' },
+  { id: 'overview',        title: '1. Introduction' },
+  { id: 'scope',           title: '2. Scope & Exclusions' },
+  { id: 'definition',      title: '3. Definitions' },
+  { id: 'measurement',     title: '4. Measurement Principle' },
+  { id: 'cost-purchase',   title: '5. Cost of Purchase' },
+  { id: 'cost-conversion', title: '6. Cost of Conversion' },
+  { id: 'joint-products',  title: '7. Joint & By-Products' },
+  { id: 'other-costs',     title: '8. Other Costs' },
+  { id: 'excluded',        title: '9. Excluded Costs' },
+  { id: 'techniques',      title: '10. Cost Techniques' },
+  { id: 'formulas',        title: '11. Cost Formulas' },
+  { id: 'nrv',             title: '12. NRV & RM Exception' },
+  { id: 'recognition',     title: '13. Expense Recognition' },
+  { id: 'disclosure',      title: '14. Disclosure Requirements' }
 ]
 
 interface AS2StandardTabContentProps {
@@ -1345,626 +1362,709 @@ interface AS2StandardTabContentProps {
 }
 
 function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: AS2StandardTabContentProps) {
-  const [activeSection, setActiveSection] = useState('as2-overview')
+  const [activeSection, setActiveSection] = useState('overview')
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
-    fifo: true,
-    wa: true,
-    specid: false,
-    joint: true,
-    rmWriteDown: true,
-    techniques: true
+    'fifo': true,
+    'wa': true,
+    'joint': true,
+    'rmWriteDown': true
   })
+
+  const toggleAccordion = (id: string) => {
+    setOpenAccordions(prev => ({ ...prev, [id]: !prev[id] }))
+  }
+
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
-  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
-
-  const handleSectionClick = (id: string) => {
-    setActiveSection(id)
-    const container = document.getElementById('as1-scroll-container')
-    const target = document.getElementById(id)
-    const stickyToc = document.getElementById('as2-standard-sticky-toc')
-    if (container && target) {
-      const containerRect = container.getBoundingClientRect()
-      const targetRect = target.getBoundingClientRect()
-      let offset = 58
-      if (stickyToc) {
-        const tocRect = stickyToc.getBoundingClientRect()
-        offset = tocRect.bottom - containerRect.top
-      }
-      container.scrollTo({
-        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
-        behavior: 'auto'
-      })
-    }
-  }
-
   useEffect(() => {
-    if (!activeSection || !tocScrollRef.current) return
-    const el = tocScrollRef.current
-    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
-    if (!btn) return
-    if (as2Sections[0]?.id === activeSection) {
-      el.scrollTo({ left: 0, behavior: 'smooth' })
-      return
-    }
-    const elRect = el.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({
-      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
-      behavior: 'smooth'
-    })
-  }, [activeSection])
-
-  useEffect(() => {
-    let obs: IntersectionObserver | undefined
-    const init = () => {
-      const sc = document.getElementById('as1-scroll-container')
-      if (!sc) {
-        setTimeout(init, 55);
-        return
+    let observer: IntersectionObserver | undefined;
+    const initObserver = () => {
+      const scrollContainer = document.getElementById('as1-scroll-container');
+      if (!scrollContainer) {
+        setTimeout(initObserver, 50);
+        return;
       }
-      obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) setActiveSection(e.target.id)
-        }),
-        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
-      )
-      as2Sections.forEach(s => {
-        const el = document.getElementById(s.id)
-        if (el) obs?.observe(el)
-      })
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const secId = entry.target.id.replace('as2-', '');
+              setActiveSection(secId);
+            }
+          });
+        },
+        {
+          root: scrollContainer,
+          rootMargin: '-90px 0px -60% 0px',
+          threshold: 0
+        }
+      );
+
+      as2Chapters.forEach((sec) => {
+        const el = document.getElementById("as2-" + sec.id);
+        if (el) {
+          observer?.observe(el);
+        }
+      });
+    };
+
+    initObserver();
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
     }
-    init()
-    return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
+    const el = tocScrollRef.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      el.scrollLeft += e.deltaY;
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return;
+    const activeBtn = tocScrollRef.current.querySelector('[data-toc-id="' + activeSection + '"]');
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
-  }, [])
+  }, [activeSection]);
 
-  const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-red-600 dark:text-red-400',      border: 'border-red-400',     badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800' },
-    '9':  { num: 'text-fuchsia-600 dark:text-fuchsia-400',border:'border-fuchsia-400',badge: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200 dark:bg-fuchsia-950/40 dark:text-fuchsia-400 dark:border-fuchsia-800' },
-    '10': { num: 'text-sky-600 dark:text-sky-400',      border: 'border-sky-400',     badge: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-400 dark:border-sky-800' },
-    '11': { num: 'text-orange-600 dark:text-orange-400',border: 'border-orange-400',  badge: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-800' },
-    '12': { num: 'text-lime-600 dark:text-lime-400',    border: 'border-lime-400',    badge: 'bg-lime-50 text-lime-700 border-lime-200 dark:bg-lime-950/40 dark:text-lime-400 dark:border-lime-805' },
-    '13': { num: 'text-rose-600 dark:text-rose-405',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-805' },
-    '14': { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-  }
-
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
-      </div>
-    )
-  }
-
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
-    }
-    return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
-        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
-      </div>
-    )
-  }
-
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
+  const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10.5px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 2 PDF — ${para}`}
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      title={"Open ICAI AS 2 PDF — Page " + page}
     >
-      <FileText size={9.5} className="shrink-0" />
-      {para} (p. {page})
+      <FileText size={10} className="shrink-0" />
     </button>
   )
 
+  const ChapterHeader = ({ num, title, description }: { num: string; title: string; description: string }) => {
+    const numMap: Record<string, string> = {
+      'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5', 'VI': '6', 'VII': '7', 'VIII': '8', 'IX': '9',
+      'X': '10', 'XI': '11', 'XII': '12', 'XIII': '13', 'XIV': '14', 'XV': '15'
+    };
+    const arabicNum = numMap[num] || num;
+    return (
+      <div className="w-full mb-6 mt-12 first:mt-2">
+        <div className="flex items-baseline gap-2 mb-2">
+          <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+            <span className="text-indigo-655 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span>{title}</span>
+          </h2>
+        </div>
+        <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
+        {description && (
+          <p className="text-[13.5px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+            {description}
+          </p>
+        )}
+      </div>
+    );
+  };
+
   return (
-    <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as2-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 2 Sections:
-        </span>
-        {as2Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-605 dark:text-gray-300'
-            }`}
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+      {/* Sticky Contents Bar */}
+      <div id="as2-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
+          <div
+            ref={tocScrollRef}
+            style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }}
+            className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5"
           >
-            {sec.title.split('. ')[1] || sec.title}
-          </button>
-        ))}
+            {as2Chapters.map((sec) => (
+              <button
+                key={sec.id}
+                data-toc-id={sec.id}
+                onClick={() => {
+                  const container = document.getElementById('as1-scroll-container');
+                  const target = document.getElementById("as2-" + sec.id);
+                  const stickyToc = document.getElementById('as2-sticky-toc');
+                  setActiveSection(sec.id);
+                  if (container && target) {
+                    const containerRect = container.getBoundingClientRect();
+                    const targetRect = target.getBoundingClientRect();
+                    let stickyOffset = 98;
+                    if (stickyToc) {
+                      const tocRect = stickyToc.getBoundingClientRect();
+                      stickyOffset = tocRect.bottom - containerRect.top;
+                    }
+                    const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2;
+                    container.scrollTo({ top: targetScrollTop, behavior: 'auto' });
+                  }
+                }}
+                className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
+                  activeSection === sec.id
+                    ? 'text-white bg-indigo-655 dark:bg-indigo-500 shadow-sm font-bold'
+                    : 'text-slate-705 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                )}
+              >
+                {sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-705 dark:text-gray-300 leading-relaxed">
+      {/* Main Publication Sheet Canvas */}
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
         
-        {/* 1. Introduction */}
-        <SecHeader id="as2-overview" num="1" title="Introduction &amp; Purpose" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={2} para="Para 1.1" /> Valuation of inventories is of critical significance in accounting because the valuation method directly affects both the <strong>Balance Sheet</strong> (value of assets) and the <strong>Profit &amp; Loss Statement</strong> (cost of goods sold and net profit).
-        </p>
-        <p className="leading-relaxed">
-          The primary objective of Accounting Standard 2 is to prescribe the treatment for inventories under the historical cost system. It provides detailed guidance for:
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
-          <div className="p-4 rounded-xl border border-slate-100 dark:border-gray-800 bg-slate-50/50 dark:bg-slate-900/30">
-            <h4 className="font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider mb-1.5 text-blue-650 font-sans">Determining Inventory Cost</h4>
-            <p className="text-[13px] text-slate-650 dark:text-gray-400 font-sans">Rules for compiling cost of purchase, cost of conversion, and other costs incurred in bringing the inventories to their present location and condition.</p>
+        {/* Chapter 1: Introduction & Purpose */}
+        <section id="as2-overview" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="I" 
+            title="Introduction & Purpose" 
+            description="Prescribing the accounting treatment for inventories under the historical cost system, specifying the cost determination and subsequent write-down parameters."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The valuation of inventories is of critical significance in accounting because it directly affects both the <strong>Balance Sheet</strong> (value of assets) and the <strong>Statement of Profit &amp; Loss</strong> (cost of goods sold and net profit matching). Under AS 2, the accounting treatment for inventories is defined from the moment costs are incurred until the related revenues are recognized. <PdfRef page={2} />
+            </p>
+            <p>
+              The standard establishes the principles for determining the value of closing inventory that is carried over to the next accounting period, and opening inventory brought forward. In short, the main purpose is to write down inventories when their cost is no longer recoverable (due to obsolescence, price declines, or damage) to ensure that the assets are not stated in excess of their realisable values. <PdfRef page={2} />
+            </p>
           </div>
-          <div className="p-4 rounded-xl border border-slate-100 dark:border-gray-800 bg-slate-50/50 dark:bg-slate-900/30">
-            <h4 className="font-bold text-slate-900 dark:text-white text-xs uppercase tracking-wider mb-1.5 text-teal-655 font-sans">Writing down to NRV</h4>
-            <p className="text-[13px] text-slate-650 dark:text-gray-400 font-sans">Determining when the cost of inventory is not recoverable (due to obsolescence, damage, or falling prices) and must be written down to its Net Realisable Value.</p>
+        </section>
+
+        {/* Chapter 2: Scope & Applicability */}
+        <section id="as2-scope" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="II" 
+            title="Scope &amp; Exclusions" 
+            description="Delineating which asset classes fall under the valuation mandate of AS 2 and detailing statutory exemptions and exclusions."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              This standard applies in valuing inventories for financial statements of all enterprises except in the following specific cases: <PdfRef page={2} />
+            </p>
           </div>
-        </div>
 
-        {/* 2. Scope */}
-        <SecHeader id="as2-scope" num="2" title="Scope &amp; Exclusions" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={2} para="Para 1.2" /> This standard applies in valuing inventories for financial statements <strong>except</strong> in the following specific cases:
-        </p>
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 font-sans">
-            <thead>
-              <tr className="bg-slate-100 dark:bg-slate-800">
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Exclusion Category</th>
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Applicable Standard / Treatment</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-705 dark:text-slate-300">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Work-in-progress arising under construction contracts (including directly related service contracts)</td>
-                <td className="p-3">Excluded — Valued under <strong className="text-indigo-650 dark:text-indigo-400">AS 7 (Accounting for Construction Contracts)</strong>. However, unconsumed materials lying at construction site (e.g. cement) are covered under AS 2. <ParaRef page={2} para="Para 1.2(a)" /></td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Work-in-progress arising in the ordinary course of business of service providers</td>
-                <td className="p-3">Included — Valued under AS 2 (measured in accordance with Para 9). Service stores are included but unconsumed voyage-in-progress WIP for shipping is excluded. <ParaRef page={3} para="Para 1.2(b)" /></td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Shares, debentures and other financial instruments held as stock-in-trade</td>
-                <td className="p-3">Excluded — Valued under <strong className="text-indigo-650 dark:text-indigo-400">AS 13 (Accounting for Investments)</strong>. <ParaRef page={3} para="Para 1.2(c)" /></td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Producers' inventories of livestock, agricultural/forest products, mineral oils, ores, and gases</td>
-                <td className="p-3">Excluded — Measured at Net Realisable Value (NRV) in accordance with established industry practices (e.g. government guarantee, forward contract, homogeneous markets). <ParaRef page={3} para="Para 1.2(d)" /></td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-955/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Land held for sale by real estate developers</td>
-                <td className="p-3 font-semibold text-blue-600 dark:text-blue-400">INCLUDED — Treated as inventory under AS 2 and valued at lower of cost and NRV. <ParaRef page={2} para="Para 1.2" /></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* 3. Definitions */}
-        <SecHeader id="as2-definitions" num="3" title="Definitions" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={2} para="Para 1.2" /> <strong>Inventories</strong> are assets:
-        </p>
-        <div className="space-y-3 mb-6 pl-4 border-l-2 border-slate-200 dark:border-gray-800 font-sans">
-          <p className="leading-relaxed">
-            <strong className="text-slate-950 dark:text-white">① Held for sale</strong> in the ordinary course of business (Finished Goods / Trading Stock).
-          </p>
-          <p className="leading-relaxed">
-            <strong className="text-slate-950 dark:text-white">② In the process of production</strong> for such sale (Work-in-Progress).
-          </p>
-          <p className="leading-relaxed">
-            <strong className="text-slate-950 dark:text-white">③ In the form of materials or supplies</strong> to be consumed in the production process or in the rendering of services (Raw Materials, Consumables, Stores &amp; Spares, and Loose Tools).
-          </p>
-        </div>
-
-        <NoteBox type="warning" title="Machinery Spares, Servicing &amp; Standby Equipment Exclusion">
-          <p className="font-semibold text-slate-900 dark:text-white mb-1"><ParaRef page={2} para="Para 1.2" /></p>
-          <p>Inventories do NOT include spare parts, servicing equipment, and standby equipment that meet the definition of Property, Plant, and Equipment (PPE) under <strong>AS 10 (Revised)</strong>. Such items must be capitalised as PPE and depreciated. General stores, spares, and loose tools awaiting use in production are classified as inventory.</p>
-        </NoteBox>
-
-        <NoteBox type="info" title="Net Realisable Value (NRV) vs. Fair Value">
-          <p><strong>Net Realisable Value</strong> is the estimated selling price in the ordinary course of business less the estimated costs of completion and the estimated costs necessary to make the sale. It is an <strong>entity-specific value</strong> based on actual sales contracts and internal completion costs. <ParaRef page={4} para="Para 1.3" /></p>
-          <p className="mt-2"><strong>Fair Value</strong> is a market-based measurement defined as the price that would be received to sell an asset or paid to transfer a liability in an orderly transaction between market participants at the measurement date. It is <strong>not</strong> entity-specific and does not deduct transaction costs.</p>
-        </NoteBox>
-
-        {/* 4. Measurement */}
-        <SecHeader id="as2-measurement" num="4" title="Measurement Principle" />
-        <div className="p-4 bg-blue-50/50 dark:bg-blue-955/20 border border-blue-200 dark:border-blue-805 rounded-xl mb-6">
-          <p className="text-[16px] leading-relaxed text-blue-900 dark:text-blue-200 font-semibold font-serif text-center">
-            <ParaRef page={4} para="Para 1.3" /> &ldquo;Inventories should be valued at the LOWER of COST and NET REALISABLE VALUE.&rdquo;
-          </p>
-        </div>
-        <p>
-          This is an application of the fundamental accounting consideration of <strong>Prudence</strong>. Understating inventories or overstating them by carrying them at values higher than what they can realise violates the true and fair view requirement.
-        </p>
-
-        {/* 5. Cost of Purchase */}
-        <SecHeader id="as2-cost-purchase" num="5" title="Cost of Purchase" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={6} para="Para 1.5" /> The cost of purchase of inventories comprises:
-        </p>
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-805 font-sans">
-            <thead>
-              <tr className="bg-slate-100 dark:bg-slate-800">
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Inclusions (Added to Cost)</th>
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Exclusions (Deducted from Cost / Ignored)</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-700 dark:text-slate-350">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3">Purchase Price (invoice price)</td>
-                <td className="p-3 text-red-655 dark:text-red-400">Trade Discounts, Rebates, and Duty Drawbacks (deducted from cost)</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3">Import Duties (e.g. Basic Customs Duty)</td>
-                <td className="p-3 text-red-655 dark:text-red-400">Refundable Taxes (e.g. GST where Input Tax Credit is claimed)</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3">Non-Refundable purchase taxes and surcharges</td>
-                <td className="p-3 text-red-655 dark:text-red-400">Cash Discounts (treated as finance income in P&amp;L — NOT deducted from inventory)</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3">Inward Freight and Transit Insurance</td>
-                <td className="p-3 text-red-655 dark:text-red-400">Outward Freight (treated as selling and distribution cost in P&amp;L)</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3">Handling and other direct acquisition costs</td>
-                <td className="p-3 text-red-655 dark:text-red-400">Demurrage charges (expensed as abnormal waste in P&amp;L)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* 6. Cost of Conversion */}
-        <SecHeader id="as2-cost-conversion" num="6" title="Cost of Conversion &amp; Overheads" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={6} para="Para 1.6" /> The costs of conversion of inventories include costs directly related to the units of production (e.g., direct labour, direct expenses) and a systematic allocation of fixed and variable production overheads.
-        </p>
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 font-sans">
-            <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-2">Variable Production Overheads</h4>
-            <p className="text-[13.5px]">Allocated to each unit of production based on the <strong>actual use</strong> of the production facilities. Examples include indirect materials, utilities, and indirect labor.</p>
-          </div>
-          
-          <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 font-sans">
-            <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-2">Fixed Production Overheads (Normal Capacity Rule)</h4>
-            <p className="mb-2 text-[13.5px]">Fixed production overheads are those indirect costs of production that remain relatively constant regardless of volume (e.g., factory rent, depreciation, administrative factory salaries). They are allocated based on the <strong>normal capacity</strong> of the production facilities.</p>
-            <div className="p-3 bg-white dark:bg-slate-900 border rounded-lg font-mono text-xs my-2 text-center text-slate-800 dark:text-slate-200">
-              Fixed Overhead Allocation Rate = Total Expected Fixed Overheads ÷ Normal Capacity of Production
+          {/* Table: Scope Exclusions */}
+          <div className="my-8 space-y-2 w-full">
+            <div className="text-[13px] font-bold text-teal-800 dark:text-teal-400 font-sans uppercase tracking-wider flex items-center gap-2">
+              <span className="inline-block w-1 h-4 bg-teal-600 dark:bg-teal-400 rounded-full"></span>
+              Table 1 — Statutory Exclusions from AS 2 Scope <PdfRef page={2} />
             </div>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">Note: Normal capacity is the production expected to be achieved on average over a number of periods or seasons under normal circumstances, taking into account the loss of capacity resulting from planned maintenance.</p>
-          </div>
-        </div>
-
-        <NoteBox type="exam" title="Exam Rule: High vs. Low Production Capacity">
-          <p>The allocation of fixed overheads depends on the relationship between <strong>Actual Production</strong> and <strong>Normal Capacity</strong>:</p>
-          <ul className="list-disc pl-5 mt-2 space-y-1.5 text-[13.5px]">
-            <li><strong>Actual Production &lt; Normal Capacity (Low Production):</strong> Fixed overheads are allocated using the Normal Capacity. The under-absorbed fixed overhead (unallocated amount) must be recognised as an <strong>expense in the P&amp;L statement</strong> as a period cost. It is NEVER capitalized into inventory. This prevents inventory from being carried at inflated values.</li>
-            <li><strong>Actual Production &ge; Normal Capacity (High Production):</strong> The amount of fixed overhead allocated to each unit is decreased so that inventories are not valued above cost. That is, overheads are absorbed based on <strong>Actual Production</strong>. This ensures no &ldquo;double-capitalization&rdquo; or inflated asset valuations.</li>
-          </ul>
-        </NoteBox>
-
-        {/* Overhead Capacity Cases Box */}
-        <div className="bg-slate-50 dark:bg-slate-900/50 p-5 rounded-xl border border-slate-250 dark:border-slate-805 font-sans my-4 text-xs">
-          <h4 className="font-extrabold text-[11px] uppercase tracking-wider text-indigo-655 dark:text-indigo-400 mb-3">Case Study: Fixed Overhead Allocation Rates (ICAI Example 2)</h4>
-          <p className="mb-3 text-[11.5px] text-slate-650 dark:text-gray-400"><ParaRef page={6} para="Example 2" /> Fixed overhead rate based on Normal Capacity (1,00,000 units) is **₹18/unit** (total expected ₹18 Lakhs).</p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg">
-              <p className="font-bold text-slate-950 dark:text-white border-b pb-1.5 mb-1.5 text-center">Case 1: Actual = 1,05,000 units</p>
-              <p className="leading-relaxed">Fixed overhead rate: **₹18/unit**.<br/>Overhead absorbed: **₹18,00,000**.<br/>Charged to P&amp;L: **Nil**.<br/>Fixed overhead per unit is correct as production equals normal capacity.</p>
-            </div>
-            <div className="p-4 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg">
-              <p className="font-bold text-slate-955 dark:text-white border-b pb-1.5 mb-1.5 text-center">Case 2: Actual = 90,000 units</p>
-              <p className="leading-relaxed">Fixed overhead rate: **₹18/unit**.<br/>Overhead absorbed: **₹16,20,000**.<br/>Charged to P&amp;L: **₹1,80,000**.<br/>Under-recovery of fixed overheads (₹1.8L) must be expensed and NOT capitalised.</p>
-            </div>
-            <div className="p-4 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-lg">
-              <p className="font-bold text-slate-955 dark:text-white border-b pb-1.5 mb-1.5 text-center">Case 3: Actual = 1,20,000 units</p>
-              <p className="leading-relaxed">Fixed overhead rate: **₹15/unit**.<br/>Overhead absorbed: **₹18,00,000**.<br/>Charged to P&amp;L: **Nil**.<br/>Overhead rate decreases to actual cost per unit to prevent overvaluing inventories.</p>
+            <div className="overflow-x-auto w-full rounded-xl border border-teal-200 dark:border-teal-900/40">
+              <table className="w-full text-left border-collapse text-[13.5px]">
+                <thead>
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-teal-700 dark:bg-teal-800">
+                    <th className="py-3 px-5 w-1/2">Exclusion Category</th>
+                    <th className="py-3 px-5 w-1/2">Applicable Treatment / Standard Reference</th>
+                  </tr>
+                </thead>
+                <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-teal-100 dark:divide-teal-900/30">
+                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                    <td className="py-4 px-5 leading-relaxed align-top font-semibold">
+                      Work-in-progress arising under construction contracts (including directly related service contracts)
+                    </td>
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
+                      Excluded — Valued in accordance with <strong>AS 7 (Accounting for Construction Contracts)</strong>. However, unconsumed materials lying at construction site (e.g. cement, sand) are covered under AS 2. <PdfRef page={2} />
+                    </td>
+                  </tr>
+                  <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10 hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                    <td className="py-4 px-5 leading-relaxed align-top font-semibold">
+                      Work-in-progress arising in the ordinary course of business of service providers
+                    </td>
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
+                      Included (Partially) — Measured at production cost. Note that unconsumed stores (e.g. shipping fuel not consumed) are covered, but voyage-in-progress service costs are excluded. <PdfRef page={3} />
+                    </td>
+                  </tr>
+                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                    <td className="py-4 px-5 leading-relaxed align-top font-semibold">
+                      Shares, debentures and other financial instruments held as stock-in-trade
+                    </td>
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
+                      Excluded — Valued in accordance with <strong>AS 13 (Accounting for Investments)</strong>. Under current Indian GAAP, these are valued at lower of cost and fair value. <PdfRef page={3} />
+                    </td>
+                  </tr>
+                  <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10 hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                    <td className="py-4 px-5 leading-relaxed align-top font-semibold">
+                      Producers' inventories of livestock, agricultural/forest products, mineral oils, ores, and gases
+                    </td>
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
+                      Excluded — Measured at Net Realisable Value (NRV) in accordance with well established practices in those industries (e.g. forward contract or government guarantee). <PdfRef page={3} />
+                    </td>
+                  </tr>
+                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                    <td className="py-4 px-5 leading-relaxed align-top font-semibold text-indigo-700 dark:text-indigo-400">
+                      Land and properties held for resale by real estate developers
+                    </td>
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300 font-semibold">
+                      INCLUDED — Real estate inventory is treated as inventory under AS 2 and must be valued at lower of cost and Net Realisable Value. <PdfRef page={2} />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* 7. Joint & By-Products */}
-        <SecHeader id="as2-joint-products" num="7" title="Allocation of Joint &amp; By-Products" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={7} para="Para 1.7" /> A production process may result in more than one product being produced simultaneously. This occurs when joint products or a main product and a by-product are produced.
-        </p>
-        <p className="leading-relaxed mb-4">
-          When the costs of conversion of each product are not separately identifiable, they are allocated between the products on a rational and consistent basis. The standard prescribes the following methods:
-        </p>
-        
-        <div className="space-y-4 font-sans">
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19]">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('joint')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Methods for Allocating Joint Costs</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.joint ? 'rotate-180' : ''}`} />
+        {/* Chapter 3: Definitions */}
+        <section id="as2-definition" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="III" 
+            title="Definition of Inventories" 
+            description="Formal definition of inventories under statutory definitions, categorizing raw materials, work-in-progress, finished goods, and spares."
+          />
+
+          {/* Official Definition Card */}
+          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-400 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6">
+            <div className="text-[10.5px] font-sans font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-3 flex items-center gap-2">
+              <BookOpen size={13} className="text-blue-600 dark:text-blue-400" />
+              <span>Official Definition — AS 2, Para 1.2</span>
+            </div>
+            <p className="text-[16px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">
+              "Inventories are assets: (a) held for sale in the ordinary course of business; (b) in the process of production for such sale; or (c) in the form of materials or supplies to be consumed in the production process or in the rendering of services." <PdfRef page={2} />
+            </p>
+          </div>
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Under this definition, inventories encompass merchandise (goods) purchased by a retailer and held for resale (e.g. trading stock), finished goods produced, work-in-progress being produced, and materials, maintenance supplies, consumables, and loose tools awaiting use in the production process. <PdfRef page={2} />
+            </p>
+          </div>
+
+          {/* Info Card: Spare Parts Exception */}
+          <div className="p-5 border border-blue-150 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-955/5 rounded-xl space-y-2.5">
+            <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-blue-800 dark:text-blue-400 flex items-center gap-2">
+              <Info size={14} />
+              <span>PPE Spares vs. Inventory Spares Exception</span>
+            </h4>
+            <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-55 font-medium">
+              Inventories do NOT include spare parts, servicing equipment, and standby equipment that meet the definition of Property, Plant, and Equipment (PPE) under <strong>AS 10 (Revised)</strong>. Such items must be capitalised as PPE and depreciated over their useful life. Only general stores, spares, and loose tools awaiting use in production are classified as inventory under AS 2. <PdfRef page={2} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 4: Measurement Principle */}
+        <section id="as2-measurement" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="IV" 
+            title="Measurement Principle" 
+            description="The foundational rule of valuation: comparing historical costs against net realisable recovery values under the prudence rule."
+          />
+
+          <div className="p-6 border-l-4 border-indigo-600 dark:border-indigo-400 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/30 dark:bg-indigo-955/10 rounded-xl my-6">
+            <p className="text-[16px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] text-center">
+              "Inventories should be valued at the lower of Cost and Net Realisable Value." <PdfRef page={4} />
+            </p>
+          </div>
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              This is a direct application of the fundamental accounting consideration of <strong>Prudence</strong>. Anticipating profits before they are realised is prohibited, whereas all foreseeable losses must be recognized immediately. If the Net Realisable Value (NRV) of an item is less than its cost, the difference is written down and charged to the Profit &amp; Loss statement in the current year. <PdfRef page={4} />
+            </p>
+            <p>
+              <strong>Net Realisable Value</strong> is the estimated selling price in the ordinary course of business less the estimated costs of completion and the estimated costs necessary to make the sale. This is an <em>entity-specific value</em>, unlike <strong>Fair Value</strong>, which is market-based and does not deduct transaction costs. <PdfRef page={4} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 5: Cost of Purchase */}
+        <section id="as2-cost-purchase" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="V" 
+            title="Cost of Purchase" 
+            description="Analyzing components of purchase costs, detailing non-refundable duties, freight, insurance, and the treatment of discounts."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The cost of purchase of inventories comprises the purchase price, import duties, other non-refundable taxes, transport, handling, and other costs directly attributable to the acquisition of finished goods, materials, and services. <PdfRef page={6} />
+            </p>
+          </div>
+
+          {/* Table: Cost of Purchase Inclusions and Exclusions */}
+          <div className="my-8 space-y-2 w-full">
+            <div className="text-[13px] font-bold text-indigo-800 dark:text-indigo-400 font-sans uppercase tracking-wider flex items-center gap-2">
+              <span className="inline-block w-1 h-4 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
+              Table 2 — Cost of Purchase Components <PdfRef page={6} />
+            </div>
+            <div className="overflow-x-auto w-full rounded-xl border border-indigo-200 dark:border-indigo-900/40">
+              <table className="w-full text-left border-collapse text-[13.5px]">
+                <thead>
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-700 dark:bg-indigo-800">
+                    <th className="py-3 px-5 w-1/2">Inward Inclusions (Added to Cost)</th>
+                    <th className="py-3 px-5 w-1/2">Deductions &amp; Exclusions (Deducted / Expensed)</th>
+                  </tr>
+                </thead>
+                <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-indigo-100 dark:divide-indigo-900/30">
+                  <tr className="bg-white dark:bg-[#111726]">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Purchase Price (invoice price from supplier)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Trade Discounts, rebates, and duty drawbacks (must be deducted from cost)</td>
+                  </tr>
+                  <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Import Duties and non-refundable purchase taxes</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Refundable taxes (e.g. GST where Input Tax Credit is claimed)</td>
+                  </tr>
+                  <tr className="bg-white dark:bg-[#111726]">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Inward Freight, insurance during transit, and handling costs</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Outward freight to customers (treated as selling and distribution cost in P&amp;L)</td>
+                  </tr>
+                  <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Direct acquisition costs (clearing charges, octroi)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Cash Discounts for early payment (treated as interest/finance income in P&amp;L — NOT deducted from cost)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* Chapter 6: Cost of Conversion */}
+        <section id="as2-cost-conversion" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VI" 
+            title="Cost of Conversion &amp; Overheads" 
+            description="Allocation rules for direct labor and systematic absorption of fixed and variable production overheads."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The costs of conversion of inventories include costs directly related to the units of production (such as direct labour and direct expenses) and a systematic allocation of fixed and variable production overheads. <PdfRef page={6} />
+            </p>
+            <p>
+              <strong>Variable production overheads</strong> are allocated based on the <em>actual use</em> of the production facilities (e.g., indirect materials and indirect labor). <strong>Fixed production overheads</strong> are allocated based on the <em>normal capacity</em> of the production facilities. <PdfRef page={6} />
+            </p>
+          </div>
+
+          {/* Indigo Box: The Normal Capacity Rule */}
+          <div className="p-6 my-6 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/25 dark:bg-indigo-955/5 rounded-xl font-serif shadow-3xs">
+            <span className="text-[11.5px] font-bold text-indigo-850 dark:text-indigo-400 uppercase tracking-wider block mb-2 font-sans">
+              Core Accounting Rule — Fixed Overheads Allocation (Normal Capacity)
+            </span>
+            <p className="text-[15px] text-slate-950 dark:text-slate-50 leading-relaxed mb-3 font-semibold">
+              Fixed production overhead rate is determined as: Total Expected Fixed Overheads ÷ Normal Capacity.
+            </p>
+            <ul className="list-disc pl-5 text-[14px] text-slate-805 dark:text-slate-300 space-y-2">
+              <li><strong>Low Production (Actual &lt; Normal):</strong> The rate of allocation is NOT increased. Overheads are absorbed into inventory using the Normal Capacity rate, and the unallocated under-absorbed fixed overhead is expensed immediately in P&amp;L. <PdfRef page={6} /></li>
+              <li><strong>High Production (Actual &ge; Normal):</strong> The amount of fixed overhead allocated to each unit is decreased so that inventories are not measured above actual cost. Overheads are absorbed based on Actual Production. <PdfRef page={6} /></li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Chapter 7: Joint & By-Products */}
+        <section id="as2-joint-products" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VII" 
+            title="Allocation of Joint &amp; By-Products" 
+            description="Procedures for joint cost allocation at split-off point and the accounting write-off of by-product NRV."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              When a production process results in more than one product being produced simultaneously (joint products or a main product and a by-product) and the costs of conversion are not separately identifiable, they are allocated on a rational and consistent basis. <PdfRef page={7} />
+            </p>
+            <p>
+              The allocation methods include the relative sales value method at the split-off point (when products become separately identifiable), sales value at completion less further processing costs, or physical output measurements. <PdfRef page={7} />
+            </p>
+          </div>
+
+          {/* Accordion: Joint Cost Methods */}
+          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+            <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('joint')}>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">Methods for Allocating Joint costs &amp; By-products</span>
+              <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.joint ? "rotate-180" : "")} />
             </div>
             {openAccordions.joint && (
-              <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 font-sans">
-                <p><strong>1. Relative Sales Value Method:</strong> Allocate joint costs based on the relative sales value of each product at the split-off point (when products become separately identifiable).</p>
-                <p><strong>2. Sales Value at Completion Method:</strong> If products require further processing after the split-off point, allocate costs based on the final sales value of each product less further processing costs.</p>
-                <p><strong>3. Net Realisable Value (NRV) Method:</strong> Allocate joint costs based on the NRV of the finished joint products.</p>
-                <p><strong>4. Physical Unit Method:</strong> Allocate costs based on physical output (e.g. tonnes, litres) — used only if products have equal economic value per unit.</p>
+              <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] space-y-3 font-sans leading-relaxed">
+                <p><strong>1. Relative Sales Value at Split-off:</strong> Joint costs are allocated based on the relative market value of each product at the split-off stage. <PdfRef page={7} /></p>
+                <p><strong>2. Sales Value at Completion:</strong> Useful when further processing is required. Costs are allocated based on final sales value less further processing costs. <PdfRef page={7} /></p>
+                <p><strong>3. By-Products Treatment:</strong> By-products are valued at Net Realisable Value (NRV). This NRV is deducted from the joint cost of the main product: <br />
+                <span className="font-mono text-xs block p-2 bg-slate-100 dark:bg-slate-900 rounded border mt-1 text-center font-bold">
+                  Net Cost of Main Product = Total Joint Cost − NRV of By-Product + Further Processing Cost of Main Product
+                </span>
+                </p>
               </div>
             )}
           </div>
+        </section>
 
-          <div className="p-4 rounded-xl border border-teal-200 dark:border-teal-900/30 bg-teal-50/20 dark:bg-[#0f1c22]/20 font-sans">
-            <h4 className="font-bold text-teal-800 dark:text-teal-400 text-sm mb-1.5 uppercase tracking-wide">By-Products Accounting Treatment</h4>
-            <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-350">
-              Most by-products by their nature are immaterial. Where this is the case, they are measured at <strong>Net Realisable Value (NRV)</strong> and this value is <strong>deducted from the cost of the main product</strong>. The net carrying amount of the main product is therefore:
+        {/* Chapter 8: Other Costs */}
+        <section id="as2-other-costs" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VIII" 
+            title="Other Costs (Inclusions &amp; Exclusions)" 
+            description="Analyzing borrowing cost exceptions for maturing inventory, customized design costs, and amortization of intangibles."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Other costs are included in the cost of inventories only to the extent that they are incurred in bringing the inventories to their present location and condition. <PdfRef page={8} />
             </p>
-            <div className="p-3 bg-white dark:bg-slate-900/60 border border-teal-200/50 dark:border-teal-900/40 rounded-lg font-mono text-[11.5px] text-center my-2 text-slate-800 dark:text-slate-200">
-              Net Cost of Main Product = Total Joint Cost − NRV of By-Product + Further Processing Cost of Main Product
+            <p>
+              For example, custom design costs and drawings for specific customer orders are capitalized. Amortisation of production-related intangible assets (e.g. production patent or publisher's copyright) is also capitalized. <PdfRef page={8} />
+            </p>
+            <p>
+              <strong>Borrowing Costs (Maturing Exception):</strong> Interest and borrowing costs (AS 16) are generally excluded. However, they are capitalized where the inventory necessarily takes a substantial period of time to get ready for its intended sale (e.g. aging of cheese, whiskey, or maturing wine). <PdfRef page={8} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 9: Excluded Costs */}
+        <section id="as2-excluded" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="IX" 
+            title="Excluded Costs (Expensed to P&amp;L)" 
+            description="Exclusion of abnormal wastage, non-production storage, selling, and general administration expenses."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Certain costs do not contribute to bringing inventories to their present location and condition and must be recognised as expenses in the period in which they are incurred: <PdfRef page={9} />
+            </p>
+          </div>
+
+          {/* Grid of Exclusions */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4 font-sans">
+            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
+              <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Abnormal Waste</h4>
+              <p className="text-[13px] text-slate-655 dark:text-gray-400">Abnormal amounts of wasted materials, labour, or other production costs (e.g. machine breakdowns, strikes, or material spills). <PdfRef page={9} /></p>
+            </div>
+            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
+              <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Storage Costs</h4>
+              <p className="text-[13px] text-slate-655 dark:text-gray-400">Storage costs, unless those costs are necessary in the production process prior to a further production stage (e.g., storing finished goods is expensed; maturing cheese storage is capitalized). <PdfRef page={9} /></p>
+            </div>
+            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
+              <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Administrative Overheads</h4>
+              <p className="text-[13px] text-slate-655 dark:text-gray-400">General office administrative overheads that do not contribute to bringing inventories to their present location and condition. <PdfRef page={9} /></p>
+            </div>
+            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
+              <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Selling &amp; Distribution</h4>
+              <p className="text-[13px] text-slate-655 dark:text-gray-400">Costs of marketing, advertising, showroom rent, delivery vehicle expenses, and outward freight. <PdfRef page={9} /></p>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* 8. Other Costs */}
-        <SecHeader id="as2-other-costs" num="8" title="Other Costs (Inclusions &amp; Exclusions)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={8} para="Para 1.8" /> Other costs are included in the cost of inventories <strong>only</strong> to the extent that they are incurred in bringing the inventories to their present location and condition.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 font-sans">
-          <div className="p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/10 space-y-2">
-            <h4 className="font-extrabold text-blue-800 dark:text-blue-400 text-xs uppercase tracking-wider">Permitted Inclusions</h4>
-            <ul className="list-disc pl-4 text-xs space-y-1.5 text-slate-700 dark:text-slate-300">
-              <li><strong>Design &amp; Customization Costs:</strong> Costs of design/drawings for a specific custom-made unit.</li>
-              <li><strong>Borrowing Costs (Maturing Exception):</strong> Interest and borrowing costs (AS 16) are usually excluded. However, they are included where the inventory necessarily takes a substantial period of time to get ready for intended sale (e.g. aging of wine/whiskey, or long-term forestry projects).</li>
-              <li><strong>Amortisation of Intangibles:</strong> Amortisation of production-related intangible assets (e.g., patent rights of production or copyright for a publisher) is capitalised into inventory cost.</li>
-            </ul>
+        {/* Chapter 10: Cost Measurement Techniques */}
+        <section id="as2-techniques" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="X" 
+            title="Cost Measurement Techniques" 
+            description="Approximating historical costs using Standard Costing or the Gross Margin Retail Method."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Techniques for the measurement of the cost of inventories, such as the standard cost method or the retail method, may be used for convenience if the results approximate cost. <PdfRef page={9} />
+            </p>
+            <p>
+              <strong>Standard Costs</strong> are set based on normal levels of materials, labour, efficiency, and capacity utilisation. They are regularly reviewed and revised in the light of current conditions. <PdfRef page={9} />
+            </p>
+            <p>
+              <strong>Retail Method (Gross Margin Reduction)</strong> is used in retail business where there is a large number of rapidly changing items with similar margins. The cost of inventory is calculated by reducing the sales value of the unsold stock by the appropriate percentage of gross margin. <PdfRef page={10} />
+            </p>
           </div>
-          <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/20 dark:bg-red-955/10 space-y-2">
-            <h4 className="font-extrabold text-red-800 dark:text-red-400 text-xs uppercase tracking-wider">Strict Exclusions</h4>
-            <ul className="list-disc pl-4 text-xs space-y-1.5 text-slate-700 dark:text-slate-350">
-              <li><strong>Exchange Differences:</strong> Foreign exchange differences arising on import of inventory (covered under AS 11) must be expensed and never added to inventory cost.</li>
-              <li><strong>Storage Costs:</strong> MATURING EXCEPTION: Maturing inventories (maturing cheese/wine) can capitalise storage costs because it is necessary before further production. Storing raw materials before use or storing finished goods in a commercial warehouse is strictly expensed.</li>
-              <li><strong>General Administration:</strong> Corporate office salaries, legal costs, general HR overheads are excluded.</li>
-            </ul>
+        </section>
+
+        {/* Chapter 11: Cost Formulas */}
+        <section id="as2-formulas" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="XI" 
+            title="Cost Formulas &amp; LIFO Prohibition" 
+            description="Valuing interchangeable lots with FIFO or Weighted Average formulas and the reasons for LIFO prohibition."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Items that are not ordinarily interchangeable and goods or services produced and segregated for specific projects should have their costs assigned by using <strong>Specific Identification of their individual costs</strong>. <PdfRef page={9} />
+            </p>
+            <p>
+              For interchangeable lots, costs are assigned using either the <strong>First-In, First-Out (FIFO)</strong> or <strong>Weighted Average Cost (WAC)</strong> formulas. <PdfRef page={9} />
+            </p>
           </div>
-        </div>
 
-        {/* 9. Excluded Costs */}
-        <SecHeader id="as2-excluded" num="9" title="Excluded Costs (Expensed to P&amp;L)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={9} para="Para 1.9" /> Certain costs are excluded from the cost of inventories and must be recognised as expenses in the period in which they are incurred. Examples of such excluded costs include:
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 font-sans">
-          {[
-            { t: 'Abnormal Waste', d: 'Abnormal amounts of wasted materials, labour, or other production costs (e.g., costs incurred due to machine breakdowns, strikes, or raw material spills).' },
-            { t: 'Storage Costs', d: 'Storage costs, unless those costs are necessary in the production process prior to a further production stage (e.g. aging of cheese or maturing of wine is capitalized; storing finished goods in warehouse is expensed).' },
-            { t: 'Administrative Overheads', d: 'Administrative overheads that do not contribute to bringing inventories to their present location and condition (e.g., head office corporate salaries, HR, and accounting dept costs).' },
-            { t: 'Selling & Distribution Costs', d: 'Selling and distribution costs (e.g., advertisement, sales commissions, showroom rent, and delivery outward freight).' },
-          ].map((item, i) => (
-            <div key={i} className="p-4 rounded-xl border border-red-100 dark:border-red-950/40 bg-red-50/10 dark:bg-red-955/5">
-              <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">{item.t}</h4>
-              <p className="text-[13px] text-slate-650 dark:text-gray-400 leading-relaxed">{item.d}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* 9. Service Providers */}
-        <SecHeader id="as2-service" num="9" title="Service Providers WIP" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={3} para="Para 1.2(b) &amp; Para 9" /> The inventory of a service provider is basically its Work-in-Progress (WIP) on unbilled services (e.g. unbilled audit hours in a Chartered Accountant firm, or unbilled coding hours on a custom software development contract in an IT firm).
-        </p>
-        <p className="leading-relaxed">
-          These inventories are measured at the <strong>costs of their production</strong>. These costs consist primarily of:
-        </p>
-        <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300 my-4 font-sans text-[13.5px]">
-          <li>Labour and other costs of personnel directly engaged in providing the service, including supervisory personnel (e.g., project managers, engagement partners).</li>
-          <li>Attributable overheads (e.g., software licenses used for the project, server space, infrastructure depreciation).</li>
-        </ul>
-        <NoteBox type="warning" title="General Admin &amp; Selling Costs Exclusion">
-          <p className="font-semibold text-slate-900 dark:text-white mb-1"><ParaRef page={3} para="Para 9" /></p>
-          <p>Labour and other costs relating to sales and general administration personnel are NOT included but are recognised as expenses in the period in which they are incurred. The cost of service provider inventory must also NOT include profit margins or non-attributable overheads.</p>
-        </NoteBox>
-
-        {/* 10. Cost Measurement Techniques */}
-        <SecHeader id="as2-techniques" num="10" title="Cost Measurement Techniques" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={9} para="Para 1.11" /> Techniques for the measurement of the cost of inventories, such as the standard cost method or the retail method, may be used for convenience if the results approximate cost.
-        </p>
-        <div className="space-y-4 font-sans">
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] p-5">
-            <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-2 font-sans">Standard Cost Method</h4>
-            <p className="mb-3 text-[13.5px] leading-relaxed">Standard costs are set based on normal levels of materials, labour, efficiency, and capacity utilisation. They are regularly reviewed and revised in the light of current conditions to ensure they fairly approximate actual historical cost.</p>
-            
-            <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-2 border-t border-slate-100 dark:border-slate-805 pt-3 font-sans">Retail Method (Gross Margin Reduction)</h4>
-            <p className="mb-3 text-[13.5px] leading-relaxed">Used in retail business where there is a large number of rapidly changing items with similar margins. The cost of inventory is calculated by reducing the sales value of the unsold stock by the appropriate percentage of gross margin.</p>
-            
-            {/* Retail Method Calculation Example Box */}
-            <div className="p-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-xl space-y-2">
-              <p className="font-extrabold text-xs uppercase tracking-wider text-teal-650 dark:text-teal-400 font-sans">Retail Method Calculation (ICAI Example 3)</p>
-              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-sans font-semibold">
-                Opening stock at cost: **₹15,000** | Purchases: **₹85,000** | Sales: **₹1,05,000**<br/>
-                Gross mark-up is **25% on cost** (translates to 20% on sales or markup factor 1.25).
-              </p>
-              <div className="bg-white dark:bg-slate-950 p-3 rounded-lg border border-slate-200 dark:border-slate-805 font-mono text-[11.5px] space-y-1 text-slate-800 dark:text-slate-200">
-                <p>1. Sale value of opening stock + purchase = (15,000 + 85,000) × 1.25 = **₹1,25,000**</p>
-                <p>2. Less: Actual sales during the period = **(₹1,05,000)**</p>
-                <p>3. Sale value of unsold stock = **₹20,000**</p>
-                <p>4. Less: Gross Mark-up (20k / 1.25 × 0.25) = **(₹4,000)**</p>
-                <p>5. **Cost of closing inventory = ₹16,000**</p>
+          {/* Accordion: FIFO & WA */}
+          <div className="space-y-4 font-sans">
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+              <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('fifo')}>
+                <span className="font-bold text-slate-905 dark:text-white text-sm">First-In, First-Out (FIFO) Formula</span>
+                <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.fifo ? "rotate-180" : "")} />
               </div>
+              {openAccordions.fifo && (
+                <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-700 dark:text-slate-300">
+                  Assumes items purchased first are sold/consumed first. In periods of rising prices (inflation):
+                  <ul className="list-disc pl-5 mt-2 space-y-1">
+                    <li>Closing inventory is valued at recent higher prices (higher asset values on balance sheet).</li>
+                    <li>Cost of sales uses older lower costs, leading to higher reported profits.</li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+              <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('wa')}>
+                <span className="font-bold text-slate-905 dark:text-white text-sm font-sans">Weighted Average Cost (WAC) Formula</span>
+                <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.wa ? "rotate-180" : "")} />
+              </div>
+              {openAccordions.wa && (
+                <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-700 dark:text-slate-300">
+                  Calculates cost as the weighted average of similar items at the beginning of the period and items purchased during the period. Smooths out price fluctuations, showing moderate inventory values and profits. <PdfRef page={9} />
+                </div>
+              )}
             </div>
           </div>
-        </div>
 
-        {/* 11. Cost Formulas */}
-        <SecHeader id="as2-formulas" num="11" title="Cost Formulas &amp; LIFO Prohibition" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={9} para="Para 1.10" /> The cost of inventories of items that are not ordinarily interchangeable and goods or services produced and segregated for specific projects should be assigned by using <strong>Specific Identification of their individual costs</strong>.
-        </p>
-        <p className="leading-relaxed mb-4">
-          For interchangeable items that are not uniquely identifiable, the cost should be assigned by using the <strong>First-In, First-Out (FIFO)</strong> or <strong>Weighted Average Cost (WAC)</strong> formulas.
-        </p>
+          {/* Warning Box: LIFO prohibition */}
+          <div className="p-5 border border-red-200 dark:border-red-900/40 bg-red-50/20 dark:bg-red-955/5 rounded-xl space-y-2.5">
+            <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-red-800 dark:text-red-400 flex items-center gap-2">
+              <AlertTriangle size={14} />
+              <span>LIFO Method is Strictly Prohibited</span>
+            </h4>
+            <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-305 font-medium font-serif">
+              The <strong>LIFO (Last-In, First-Out)</strong> method is strictly prohibited under AS 2. Carrying historical, outdated inventory values on the balance sheet fails to reflect a true and fair view of current asset valuations and distorts the net income during inflationary periods. <PdfRef page={9} />
+            </p>
+          </div>
+        </section>
 
-        <div className="space-y-4">
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19]">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('fifo')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">First-In, First-Out (FIFO) Formula</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.fifo ? 'rotate-180' : ''}`} />
+        {/* Chapter 12: NRV & Raw Material Exception */}
+        <section id="as2-nrv" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="XII" 
+            title="Net Realisable Value (NRV) &amp; Raw Material Exception" 
+            description="Comparing cost vs NRV on an item-by-item basis and applying the raw material write-down exception."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The comparison between cost and Net Realisable Value (NRV) must be made on an <strong>item-by-item basis</strong>. Grouping similar or related items is permitted only under restricted conditions (e.g. items of the same product line having similar end uses). Grouping entire classes (e.g. all finished goods) is prohibited. <PdfRef page={11} />
+            </p>
+          </div>
+
+          {/* Accordion: Raw Materials Exception */}
+          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+            <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('rmWriteDown')}>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">Critical Rule: Raw Materials Valuation &amp; Replacement Cost</span>
+              <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.rmWriteDown ? "rotate-180" : "")} />
             </div>
-            {openAccordions.fifo && (
-              <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13px] space-y-2 leading-relaxed font-sans">
-                <p>The FIFO formula assumes that the items of inventory which were purchased first are consumed or sold first, and consequently the items remaining in inventory at the end of the period are those most recently purchased or produced.</p>
-                <p className="text-blue-600 dark:text-blue-400 font-semibold text-xs uppercase tracking-wider">Effect in a rising price environment (inflation):</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Closing inventory is valued at recent higher prices (higher asset value on balance sheet).</li>
-                  <li>Cost of sales uses older lower costs, leading to higher reported profits.</li>
-                </ul>
+            {openAccordions.rmWriteDown && (
+              <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14.5px] space-y-3 font-sans leading-relaxed text-slate-705 dark:text-slate-305">
+                <p className="font-semibold text-slate-900 dark:text-white">
+                  Materials and other supplies held for use in the production of inventories are NOT written down below cost if the finished products in which they are to be incorporated are expected to be sold at or above cost. <PdfRef page={11} />
+                </p>
+                <p>
+                  <strong>Why?</strong> Since the finished product recovers its cost, the raw materials are expected to be fully recovered. Writing down raw materials in such cases would create an artificial loss in the current year.
+                </p>
+                <p className="text-red-655 dark:text-red-400 font-bold font-sans">The Exception (When to write down Raw Materials):</p>
+                <p>
+                  If the finished goods' selling price is estimated to be below cost, raw materials are written down to replacement cost. Under AS 2, the <strong>replacement cost</strong> of the materials is the best available measure of their net realisable value. <PdfRef page={11} />
+                </p>
               </div>
             )}
           </div>
+        </section>
 
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19]">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('wa')}>
-              <span className="font-bold text-slate-950 dark:text-white text-sm">Weighted Average Cost (WAC) Formula</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.wa ? 'rotate-180' : ''}`} />
-            </div>
-            {openAccordions.wa && (
-              <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13px] space-y-2 leading-relaxed font-sans">
-                <p>Under the Weighted Average Cost formula, the cost of each item is determined from the weighted average of the cost of similar items at the beginning of a period and the cost of similar items purchased or produced during the period. The average may be calculated on a periodic basis, or as each additional shipment is received (moving average).</p>
-                <p className="text-blue-600 dark:text-blue-400 font-semibold text-xs uppercase tracking-wider">Effect in a rising price environment (inflation):</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Smooths out price fluctuations.</li>
-                  <li>Closing inventory value and cost of sales are moderate, showing a balanced view of asset value and net profit.</li>
-                </ul>
-              </div>
-            )}
+        {/* Chapter 13: Expense Recognition */}
+        <section id="as2-recognition" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="XIII" 
+            title="Recognition as Expense" 
+            description="Accounting entries for inventory sales, write-downs, reversals, and wastage."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              When inventories are sold, their carrying amount is recognized as Cost of Goods Sold (expense) in the period when the related revenue is recognized. Write-downs of inventories to NRV are recognized as expenses in the period the write-down occurs. <PdfRef page={12} />
+            </p>
+            <p>
+              If the NRV subsequently increases in a future period, the write-down is reversed. The reversal amount is recognized as a reduction in inventory expense (credited to COGS) in the period of reversal, but it is capped at the original write-down amount (cannot exceed historical cost). <PdfRef page={12} />
+            </p>
           </div>
-        </div>
 
-        <NoteBox type="exam" title="LIFO Method Prohibition">
-          <p><strong>LIFO (Last-In, First-Out) method is strictly PROHIBITED</strong> under AS 2. LIFO assumes that the newest inventory is sold first, which often results in carrying very old, historically undervalued inventory on the balance sheet, creating tax distortion and hidden reserves. This violates the true and fair view of financial statements.</p>
-        </NoteBox>
-
-        {/* 12. NRV & Raw Material Exception */}
-        <SecHeader id="as2-nrv" num="12" title="Net Realisable Value (NRV) &amp; Raw Material Exception" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={10} para="Para 1.12" /> Estimates of net realisable value are based on the most reliable evidence available at the time the estimates are made as to the amount the inventories are expected to realise.
-        </p>
-        <p className="leading-relaxed mb-4">
-          These estimates take into consideration fluctuations of price or cost directly relating to events occurring after the balance sheet date, to the extent that such events confirm conditions existing at the balance sheet date.
-        </p>
-
-        <div className="p-4 bg-amber-50 dark:bg-amber-955/25 border border-amber-250 dark:border-amber-900/30 rounded-xl mb-6">
-          <p className="font-bold text-xs uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-1 font-sans">Item-by-Item Valuation Principle</p>
-          <p className="text-[13px] leading-relaxed text-slate-700 dark:text-slate-350 font-sans">
-            <ParaRef page={11} para="Para 1.13" /> The comparison between cost and net realisable value should be made on an <strong>item-by-item basis</strong>. Grouping similar or related items is permitted only in some circumstances (e.g. items of the same product line having similar purposes/end uses). Aggregating entire classes (e.g., all finished goods) is strictly prohibited.
-          </p>
-        </div>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('rmWriteDown')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Critical Concept: Raw Materials Write-down Exception</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.rmWriteDown ? 'rotate-180' : ''}`} />
+          {/* Journal Entries Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
+              <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">On Sale of Inventory</span>
+              <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+                {"Dr. Cost of Goods Sold\n  Cr. Inventory\n[Recognized in P&L matching revenue]"}
+              </pre>
+            </div>
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
+              <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">NRV Write-down</span>
+              <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+                {"Dr. Loss on NRV Write-down (P&L)\n  Cr. Inventory\n[Recognized immediately as period cost]"}
+              </pre>
+            </div>
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
+              <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">Reversal of Write-down</span>
+              <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+                {"Dr. Inventory\n  Cr. Cost of Goods Sold (Reduction)\n[Capped at the original write-down amount]"}
+              </pre>
+            </div>
+            <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
+              <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">Abnormal Wastage</span>
+              <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+                {"Dr. Abnormal Loss A/c (P&L)\n  Cr. WIP / Raw Materials\n[Charged directly to Profit & Loss]"}
+              </pre>
+            </div>
           </div>
-          {openAccordions.rmWriteDown && (
-            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed font-sans">
-              <p className="font-semibold text-slate-850 dark:text-white">
-                <ParaRef page={11} para="Para 1.14" /> Under AS 2, materials and other supplies held for use in the production of inventories are NOT written down below cost if the finished products in which they are to be incorporated are expected to be sold at or above cost.
-              </p>
-              <p>
-                <strong>Why?</strong> If the finished product will cover its cost, the raw materials will also generate recovery. Writing down raw materials in such cases would create an artificial loss in the current year and a corresponding artificial profit in the next.
-              </p>
-              <p className="text-rose-600 dark:text-rose-450 font-bold">The Exception (When to write down Raw Materials):</p>
-              <p>
-                When there has been a decline in the price of materials and it is estimated that the cost of the finished products will exceed net realisable value, the materials are written down to net realisable value. In such circumstances, the <strong>replacement cost of the materials</strong> is the best available measure of their net realisable value.
-              </p>
-              <div className="p-4 rounded-xl border border-amber-200 bg-amber-50/20 dark:border-amber-900/30 dark:bg-amber-955/10">
-                <p className="font-bold text-amber-800 dark:text-amber-400 text-xs mb-1.5">Decision Matrix for Raw Materials (RM) Valuation:</p>
-                <ul className="list-decimal pl-5 space-y-1 text-[12.5px] text-slate-700 dark:text-slate-350">
-                  <li>Check if Finished Goods (FG) Expected Selling Price &ge; Total Cost of FG. If YES &rarr; Value RM at **Cost**.</li>
-                  <li>If Expected Selling Price of FG &lt; Total Cost of FG &rarr; Value RM at **lower of Cost and Replacement Cost** (NRV proxy).</li>
-                </ul>
+        </section>
+
+        {/* Chapter 14: Disclosure Requirements */}
+        <section id="as2-disclosure" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="XIV" 
+            title="Disclosure Requirements" 
+            description="Mandatory reporting parameters including cost formulas and categorizations under Para 22."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              To maintain comparability and transparency, the financial statements shall disclose: <PdfRef page={12} />
+            </p>
+          </div>
+
+          {/* Checklist Boxes */}
+          <div className="space-y-3 font-sans">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☑</span>
+              <div>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Accounting Policies and Cost Formula</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose the accounting policies adopted in measuring inventories, including the cost formula used (FIFO or Weighted Average). <PdfRef page={12} /></p>
               </div>
             </div>
-          )}
-        </div>
-
-        {/* 13. Recognition */}
-        <SecHeader id="as2-recognition" num="13" title="Recognition as Expense" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
-          <ParaRef page={12} para="Para 1.15" /> When inventories are sold, the carrying amount is recognised as an expense in the period in which the related revenue is recognised. Write-downs are also recognised as expenses in the period they occur.
-        </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-          {[
-            { l: 'On Sale of Inventory', e: 'Dr Cost of Goods Sold\n  Cr Inventory', n: 'Matched against revenue in the same period' },
-            { l: 'NRV Write-down', e: 'Dr Loss on NRV Write-down (P&L)\n  Cr Inventory', n: 'Recognised immediately in the period of NRV decline' },
-            { l: 'Reversal of Write-down', e: 'Dr Inventory\n  Cr Cost of Goods Sold (Reduction)', n: 'Capped at the original write-down amount — cannot exceed historical cost' },
-            { l: 'Abnormal Wastage', e: 'Dr Abnormal Loss A/c (P&L)\n  Cr WIP / Raw Materials', n: 'Always a period cost — excluded from inventory cost' }
-          ].map((item, i) => (
-            <div key={i} className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-              <p className="font-bold text-[11.5px] text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 font-sans">{item.l}</p>
-              <pre className="font-mono text-[11.5px] text-slate-800 dark:text-slate-200 leading-relaxed bg-white dark:bg-slate-900 rounded-lg p-3 border border-slate-200 dark:border-slate-700 whitespace-pre-wrap">{item.e}</pre>
-              <p className="text-[11.5px] text-slate-400 dark:text-slate-500 italic mt-1.5 font-sans">{item.n}</p>
-            </div>
-          ))}
-        </div>
-
-        {/* 14. Disclosure */}
-        <SecHeader id="as2-disclosure" num="14" title="Disclosure Requirements" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-5 font-serif">
-          <ParaRef page={12} para="Para 1.15" /> Financial statements shall disclose:
-        </p>
-        <div className="space-y-3 mb-8">
-          {[
-            { r: true, t: 'The accounting policies adopted in measuring inventories, including the cost formula used (FIFO or Weighted Average).' },
-            { r: true, t: 'The total carrying amount of inventories classified by category appropriate to the enterprise (Raw Materials & components, WIP, Finished Goods, Stock-in-trade, Stores & spares, Loose tools, Others).' },
-            { r: false, t: 'Amount of any NRV write-down recognised as expense (if occurred)' },
-            { r: false, t: 'Amount of any write-down reversal recognised (if occurred)' },
-            { r: false, t: 'Circumstances that led to the reversal' },
-            { r: false, t: 'Carrying amount of inventories pledged as security for liabilities' }
-          ].map((item, i) => (
-            <div key={i} className={`flex items-start gap-3 p-3.5 rounded-xl border ${item.r ? 'border-blue-200 dark:border-blue-900/30 bg-blue-50/30' : 'border-amber-200 dark:border-amber-900/30 bg-amber-50/30'}`}>
-              <span className={`shrink-0 font-bold text-[14px] ${item.r ? 'text-blue-500' : 'text-amber-550'}`}>{item.r ? '☑' : '☐'}</span>
-              <div className="font-sans">
-                <p className="text-[14px] text-slate-800 dark:text-slate-200 leading-relaxed">{item.t}</p>
-                {!item.r && <span className="text-[10.5px] text-amber-600 dark:text-amber-400 font-bold uppercase tracking-wide">Conditional — if event occurred</span>}
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☑</span>
+              <div>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Classification break-up of Carrying Amounts</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose total carrying amount classified appropriate to the enterprise: (1) Raw Materials, (2) WIP, (3) Finished Goods, (4) Stock-in-trade (for retail resale), (5) Stores and spares, (6) Loose tools, (7) Others. <PdfRef page={12} /></p>
               </div>
             </div>
-          ))}
-        </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
+              <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
+              <div>
+                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">NRV Write-down and reversals (if any)</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose the write-down amount and the circumstances that led to the reversal. <PdfRef page={12} /></p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
+              <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
+              <div>
+                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Inventories pledged as security</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose the carrying amount of inventories pledged as security for liabilities. <PdfRef page={12} /></p>
+              </div>
+            </div>
+          </div>
+        </section>
 
       </div>
     </div>
   )
-}
-const as3Sections = [
+}const as3Sections = [
   { id: 'as3-overview',       title: '1. Introduction & Objective' },
   { id: 'as3-applicability',  title: '2. Applicability & Exemptions' },
   { id: 'as3-definitions',    title: '3. Cash & Cash Equivalents' },
