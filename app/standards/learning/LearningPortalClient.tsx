@@ -2064,19 +2064,36 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
     </div>
   )
-}const as3Sections = [
-  { id: 'as3-overview',       title: '1. Introduction & Objective' },
-  { id: 'as3-applicability',  title: '2. Applicability & Exemptions' },
-  { id: 'as3-definitions',    title: '3. Cash & Cash Equivalents' },
-  { id: 'as3-classification', title: '4. Activity Classification' },
-  { id: 'as3-operating',      title: '5. Operating Activities' },
-  { id: 'as3-methods',        title: '6. Direct vs Indirect Method' },
-  { id: 'as3-investing',      title: '7. Investing Activities' },
-  { id: 'as3-financing',      title: '8. Financing Activities' },
-  { id: 'as3-special',        title: '9. Interest, Dividends & FX' },
-  { id: 'as3-extraordinary',  title: '10. Tax & Extraordinary Items' },
-  { id: 'as3-non-cash',       title: '11. Non-Cash Transactions' },
-  { id: 'as3-disclosure',     title: '12. Disclosure Requirements' },
+}const as3Chapters = [
+  { id: 'overview',        title: 'Introduction' },
+  { id: 'applicability',   title: 'Applicability' },
+  { id: 'definitions',     title: 'Cash Equivalents' },
+  { id: 'classification',  title: 'Classification' },
+  { id: 'operating',       title: 'Operating Activities' },
+  { id: 'investing',       title: 'Investing Activities' },
+  { id: 'financing',       title: 'Financing Activities' },
+  { id: 'special',         title: 'Interest & Dividends' },
+  { id: 'extraordinary',   title: 'Tax & Extraordinary' },
+  { id: 'non-cash',        title: 'Non-Cash Rules' },
+  { id: 'netting',         title: 'Netting Rules' },
+  { id: 'acquisitions',    title: 'Business Purchase' },
+  { id: 'disclosure',      title: 'Disclosures' }
+]
+
+const as3Sections = [
+  { id: 'overview',        title: '1. Introduction' },
+  { id: 'applicability',   title: '2. Scope & Exemptions' },
+  { id: 'definitions',     title: '3. Cash & Cash Equivalents' },
+  { id: 'classification',  title: '4. Classification' },
+  { id: 'operating',       title: '5. Operating Activities' },
+  { id: 'investing',       title: '6. Investing Activities' },
+  { id: 'financing',       title: '7. Financing Activities' },
+  { id: 'special',         title: '8. Interest & Dividends' },
+  { id: 'extraordinary',   title: '9. Tax & Extraordinary' },
+  { id: 'non-cash',        title: '10. Non-Cash Rules' },
+  { id: 'netting',         title: '11. Netting Rules' },
+  { id: 'acquisitions',    title: '12. Business Purchase' },
+  { id: 'disclosure',      title: '13. Disclosures' }
 ]
 
 interface AS3StandardTabContentProps {
@@ -2084,408 +2101,647 @@ interface AS3StandardTabContentProps {
 }
 
 function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps) {
-  const [activeSection, setActiveSection] = useState('as3-overview')
+  const [activeSection, setActiveSection] = useState('overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    'operating-direct': true,
+    'operating-indirect': true,
+    'netting-exceptions': false
+  })
+
+  const toggleAccordion = (id: string) => {
+    setOpenAccordions(prev => ({ ...prev, [id]: !prev[id] }))
+  }
+
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
-  const handleSectionClick = (id: string) => {
-    setActiveSection(id)
-    const container = document.getElementById('as1-scroll-container')
-    const target = document.getElementById(id)
-    const stickyToc = document.getElementById('as3-standard-sticky-toc')
-    if (container && target) {
-      const containerRect = container.getBoundingClientRect()
-      const targetRect = target.getBoundingClientRect()
-      let offset = 58
-      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
-      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
-    }
-  }
-
   useEffect(() => {
-    if (!activeSection || !tocScrollRef.current) return
-    const el = tocScrollRef.current
-    const btn = el.querySelector('[data-sec-id="' + activeSection + '"]') as HTMLElement | null
-    if (!btn) return
-    if (as3Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
-    const elRect = el.getBoundingClientRect(); const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
-  }, [activeSection])
+    let observer: IntersectionObserver | undefined;
+    const initObserver = () => {
+      const scrollContainer = document.getElementById('as1-scroll-container');
+      if (!scrollContainer) {
+        setTimeout(initObserver, 50);
+        return;
+      }
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const secId = entry.target.id.replace('as3-', '');
+              setActiveSection(secId);
+            }
+          });
+        },
+        {
+          root: scrollContainer,
+          rootMargin: '-90px 0px -60% 0px',
+          threshold: 0
+        }
+      );
 
-  useEffect(() => {
-    let obs: IntersectionObserver | undefined
-    const init = () => {
-      const sc = document.getElementById('as1-scroll-container')
-      if (!sc) { setTimeout(init, 50); return }
-      obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }), { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 })
-      as3Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
+      as3Chapters.forEach((sec) => {
+        const el = document.getElementById("as3-" + sec.id);
+        if (el) {
+          observer?.observe(el);
+        }
+      });
+    };
+
+    initObserver();
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
     }
-    init(); return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current; if (!el) return
-    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
-    el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel)
-  }, [])
+    const el = tocScrollRef.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      el.scrollLeft += e.deltaY;
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
-  const P = ({ n }: { n: number }) => (
-    <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={'Open AS 3 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
-  )
-
-  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
-    <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-      <div className="flex items-center gap-3">
-        <span className="font-mono font-extrabold text-[13px] text-blue-600 dark:text-blue-400 select-none">{num}.</span>
-        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-      </div>
-      <div className="h-[2px] w-16 rounded-full bg-blue-500 mt-2 ml-8" />
-    </div>
-  )
-
-  const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
-    const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-950/20 border-blue-300 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-950/20 border-rose-300 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return;
+    const activeBtn = tocScrollRef.current.querySelector('[data-toc-id="' + activeSection + '"]');
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
+  }, [activeSection]);
+
+  const PdfRef = ({ page }: { page: number }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      title={"Open ICAI AS 3 PDF — Page " + page}
+    >
+      <FileText size={10} className="shrink-0" />
+    </button>
+  )
+
+  const ChapterHeader = ({ num, title, description }: { num: string; title: string; description: string }) => {
+    const numMap: Record<string, string> = {
+      'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5', 'VI': '6', 'VII': '7', 'VIII': '8', 'IX': '9',
+      'X': '10', 'XI': '11', 'XII': '12', 'XIII': '13', 'XIV': '14', 'XV': '15'
+    };
+    const arabicNum = numMap[num] || num;
     return (
-      <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
-        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] leading-relaxed">{children}</div>
+      <div className="w-full mb-6 mt-12 first:mt-2">
+        <div className="flex items-baseline gap-2 mb-2">
+          <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+            <span className="text-indigo-655 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span>{title}</span>
+          </h2>
+        </div>
+        <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
+        {description && (
+          <p className="text-[13.5px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+            {description}
+          </p>
+        )}
       </div>
-    )
-  }
+    );
+  };
 
   return (
-    <div className="w-full animate-fade-in font-sans space-y-4">
-      <div id="as3-standard-sticky-toc" ref={tocScrollRef} className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1"><BookOpen size={9.5} />AS 3:</span>
-        {as3Sections.map(sec => (
-          <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
-            className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-blue-600 border-blue-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
-            {sec.title.split('. ').slice(1).join('. ') || sec.title}
-          </button>
-        ))}
-      </div>
-
-      <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
-
-        {/* 1. Introduction */}
-        <SH id="as3-overview" num="I" title="Introduction & Objective of AS 3" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p><strong>Accounting Standard 3 — Cash Flow Statements</strong> prescribes the requirements for presentation and preparation of a statement that reports the historical changes in <strong>cash and cash equivalents</strong> of an enterprise during a period, classified by operating, investing and financing activities. <P n={1} /></p>
-          <p>The Profit &amp; Loss Account measures accrual-based profitability. The Balance Sheet shows financial position at a point in time. Neither reveals how the enterprise actually generated and used cash. Two enterprises can have identical profits but very different cash positions. The CFS bridges this gap.</p>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8 font-serif">
-          {[
-            { color: 'blue', title: 'Liquidity Assessment', body: 'Evaluates ability to generate cash and cash equivalents — timing and certainty of generation. A profitable but cash-starved enterprise cannot service debt or pay dividends.', p: 1 },
-            { color: 'teal', title: 'Policy Comparability', body: 'Cash flows eliminate the effects of different accounting policies (depreciation, inventory), making cross-enterprise comparisons more meaningful and reliable.', p: 1 },
-            { color: 'violet', title: 'Earnings Quality', body: 'Reveals how much of reported profit is backed by actual cash. High profit with low operating cash flow is a major red flag for analysts and auditors.', p: 1 },
-          ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
-              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
-              <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
-            </div>
-          ))}
-        </div>
-        <div className="p-6 border-l-4 border-blue-600 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl mb-8">
-          <div className="text-[10.5px] font-sans font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-2 flex items-center gap-2"><BookOpen size={13} />Objective — ICAI AS 3 <P n={1} /></div>
-          <p className="text-[16px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">"The objective of this Standard is to provide information about the historical changes in cash and cash equivalents of an enterprise during the given period from operating, investing and financing activities."</p>
-        </div>
-
-        {/* 2. Applicability */}
-        <SH id="as3-applicability" num="II" title="Applicability & Mandatory Exemptions" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>AS 3 is <strong>mandatory</strong> for all Level I (Non-SMC) enterprises. Under the Companies Act 2013, Section 2(40), a Cash Flow Statement is a compulsory component of financial statements. Exemptions are granted to: <P n={1} /></p>
-        </div>
-        <div className="mb-8 rounded-xl border border-teal-200 dark:border-teal-900/40 overflow-hidden font-serif">
-          <div className="bg-teal-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Enterprises Exempt from Preparing a CFS</span></div>
-          {[['One Person Company (OPC)','Section 2(40) read with Section 462'],['Small Company','Capital ≤ ₹2 crore & Turnover ≤ ₹20 crore'],['Dormant Company','Section 455 — no significant accounting transactions'],['Startup Private Company','MCA notification dated 13 June 2017'],['Level II & III non-corporate entities','ICAI guidelines — exempt from CFS']].map(([entity, basis], i) => (
-            <div key={i} className={'flex gap-4 items-center px-5 py-3.5 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-teal-50/20 dark:bg-teal-955/10')}>
-              <Check size={14} className="text-teal-500 shrink-0" />
-              <div><span className="font-sans font-bold text-[13px] text-slate-900 dark:text-white">{entity}</span><span className="text-[12.5px] text-slate-500 dark:text-slate-400 ml-2">— {basis}</span></div>
-            </div>
-          ))}
-        </div>
-        <NB type="warning" title="Once Exempt Does Not Mean Always Exempt">
-          If an enterprise had prepared a CFS in previous years and now qualifies for exemption, it must continue preparing the CFS for <strong>two more consecutive years</strong> before stopping. <P n={1} />
-        </NB>
-
-        {/* 3. Definitions */}
-        <SH id="as3-definitions" num="III" title="Cash, Cash Equivalents & Cash Flows — Definitions" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>For the purposes of AS 3, three terms are precisely defined. <P n={2} /></p>
-        </div>
-        <div className="mb-6 overflow-x-auto rounded-xl border border-blue-200 dark:border-blue-900/40 font-serif">
-          <table className="w-full text-left border-collapse text-[13.5px]">
-            <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-blue-700 dark:bg-blue-800"><th className="py-3 px-5 w-1/5">Term</th><th className="py-3 px-5 w-2/5">Definition (Para 3)</th><th className="py-3 px-5 w-2/5">Examples</th></tr></thead>
-            <tbody className="divide-y divide-blue-100 dark:divide-blue-900/30 text-slate-900 dark:text-slate-100">
-              <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase">Cash</td><td className="py-4 px-5">Cash on hand and demand deposits with banks repayable on demand without notice.</td><td className="py-4 px-5 text-slate-600 dark:text-slate-400">Petty cash, savings account, current account, call deposits</td></tr>
-              <tr className="bg-blue-50/15 dark:bg-blue-950/5"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase">Cash Equivalents</td><td className="py-4 px-5">Short-term, highly liquid investments: (a) readily convertible to known cash amounts, (b) subject to insignificant risk of value change, (c) maturity ≤ 3 months from acquisition. <P n={2} /></td><td className="py-4 px-5 text-slate-600 dark:text-slate-400">Treasury bills (≤3m), commercial paper, liquid mutual funds, FDs (≤3m)</td></tr>
-              <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase">Cash Flows</td><td className="py-4 px-5">Inflows and outflows of cash and cash equivalents. Exchange gains/losses on foreign currency holdings are NOT cash flows — they are reconciling items.</td><td className="py-4 px-5 text-slate-600 dark:text-slate-400">Cash sales receipt, payment to suppliers, loan repayment, dividend payment</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div className="mb-8 overflow-x-auto rounded-xl border border-blue-200 dark:border-blue-900/40 font-serif">
-          <div className="bg-blue-600 dark:bg-blue-700 px-5 py-2.5"><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Cash Equivalent Qualification Test — Common Items <P n={2} /></span></div>
-          <table className="w-full text-left border-collapse text-[13.5px]">
-            <thead><tr className="bg-blue-50 dark:bg-blue-950/20 font-sans text-[11px] font-bold uppercase tracking-wider text-blue-800 dark:text-blue-300"><th className="py-3 px-5">Investment</th><th className="py-3 px-5">Qualifies?</th><th className="py-3 px-5">Reason</th></tr></thead>
-            <tbody className="divide-y divide-blue-100 dark:divide-blue-900/20 font-serif text-slate-900 dark:text-slate-100">
-              {[['FD — 3-month maturity','✓ Yes','Short maturity, known conversion amount'],['FD — 6-month maturity','✗ No','Exceeds 3-month threshold → Investing'],['Treasury bill (90 days)','✓ Yes','Govt-backed, highly liquid'],['Liquid mutual fund (same-day redemption)','✓ Yes','Stable NAV, readily convertible'],['Listed equity shares','✗ No','Market price fluctuates → significant risk'],['Pref. shares redeemable within 3 months','✓ Yes','Fixed redemption amount, short term'],['Bank OD (integral cash management)','✓ Part of Cash & CE','Netted against cash balances'],['Bank OD (not integral)','✗ No','Financing Activity — borrowing']].map(([item, verdict, reason], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-blue-50/15 dark:bg-blue-950/5'}>
-                  <td className="py-3 px-5 font-medium">{item}</td>
-                  <td className={'py-3 px-5 font-bold ' + (verdict.startsWith('✓') ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400')}>{verdict}</td>
-                  <td className="py-3 px-5 text-slate-500 dark:text-slate-400 text-[12.5px]">{reason}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* 4. Activity Classification */}
-        <SH id="as3-classification" num="IV" title="Classification of Cash Flows — Activity Rules" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>All cash flows are classified into three categories. Classification depends on the enterprise's principal business — <strong>financial enterprises</strong> (banks, NBFCs) have different classifications to <strong>non-financial enterprises</strong>. <P n={3} /></p>
-        </div>
-        <div className="mb-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 font-serif">
-          <table className="w-full text-left border-collapse text-[13px]">
-            <thead><tr className="font-sans text-[11px] font-bold uppercase tracking-wider text-white bg-slate-700 dark:bg-slate-800"><th className="py-3 px-4 w-2/5">Transaction</th><th className="py-3 px-4">Non-Financial</th><th className="py-3 px-4">Financial Enterprise</th><th className="py-3 px-4">Reason</th></tr></thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-slate-900 dark:text-slate-100">
-              {[['Cash sales & receipts from customers','Operating','Operating','Principal revenue activity'],['Payments to suppliers & employees','Operating','Operating','Principal expense activity'],['Loans to subsidiaries + interest earned','Investing','Investing','Not principal business for either'],['Loans to suppliers + interest earned','Operating','Operating','Course of business operations'],['Loans to employees + interest earned','Operating','Operating','HR / operational activity'],['Loans to customers (ordinary) + interest','Investing','Operating','Core business for banks only'],['Interest paid on borrowings','Financing','Operating','Core cost for banks; capital cost for others'],['Interest received from investments','Investing','Operating','Core income for banks; peripheral for others'],['Dividends received from investments','Investing','Operating','Core income for banks; peripheral for others'],['Dividends paid to shareholders','Financing','Financing','Return of capital — all enterprises'],['Purchase of PPE / intangibles','Investing','Investing','Long-term capex — all enterprises'],['Issue of shares / debentures','Financing','Financing','Capital-raising — all enterprises'],['Repayment of loans / debentures','Financing','Financing','Capital repayment — all'],['Income tax paid (ordinary)','Operating','Operating','Default classification'],['Tax on capital gains (asset sale)','Investing','Investing','Specifically identified'],['Insurance claim — stock loss','Op. (Extraord.)','Op. (Extraord.)','Related to operating assets'],['Insurance claim — PPE loss','Inv. (Extraord.)','Inv. (Extraord.)','Related to investing assets']].map(([txn, nonFin, fin, reason], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-slate-50/30 dark:bg-slate-800/10'}>
-                  <td className="py-2.5 px-4 font-medium text-slate-800 dark:text-slate-200">{txn}</td>
-                  <td className="py-2.5 px-4 text-blue-700 dark:text-blue-400 font-semibold">{nonFin}</td>
-                  <td className="py-2.5 px-4 text-teal-700 dark:text-teal-400 font-semibold">{fin}</td>
-                  <td className="py-2.5 px-4 text-slate-500 dark:text-slate-400 text-[12px]">{reason}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* 5. Operating Activities */}
-        <SH id="as3-operating" num="V" title="Cash Flows from Operating Activities" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>Operating activities are the <strong>principal revenue-producing activities</strong> of the enterprise. <P n={3} /> Net cash from operating activities is the key indicator — it shows whether the enterprise can sustain itself without external financing. Examples:</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6 font-serif">
-          <div className="p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/30 bg-emerald-50/10">
-            <h4 className="font-bold text-emerald-700 dark:text-emerald-400 text-xs uppercase tracking-wider mb-2">Operating Inflows (+)</h4>
-            <ul className="list-disc pl-5 space-y-1.5 text-[13.5px] text-slate-700 dark:text-slate-300">
-              <li>Cash receipts from sale of goods <P n={3} /></li>
-              <li>Cash receipts from rendering of services</li>
-              <li>Cash receipts from royalties, fees, commissions</li>
-              <li>Cash receipts from trade receivables (debtors)</li>
-              <li>Refund of income taxes (operating portion)</li>
-              <li>Insurance claims for stock / profit loss (extraordinary)</li>
-            </ul>
-          </div>
-          <div className="p-4 rounded-xl border border-rose-200 dark:border-rose-900/30 bg-rose-50/10">
-            <h4 className="font-bold text-rose-700 dark:text-rose-400 text-xs uppercase tracking-wider mb-2">Operating Outflows (−)</h4>
-            <ul className="list-disc pl-5 space-y-1.5 text-[13.5px] text-slate-700 dark:text-slate-300">
-              <li>Cash payments to suppliers for goods <P n={3} /></li>
-              <li>Cash payments to suppliers for services</li>
-              <li>Cash payments to and on behalf of employees</li>
-              <li>Cash payments of income taxes (unless specifically identified)</li>
-              <li>Cash paid for operating expenses (rent, power, admin)</li>
-            </ul>
-          </div>
-        </div>
-        <NB type="warning" title="Profit on Sale of PPE — NOT an Operating Flow">
-          The full sale proceeds of PPE disposal are classified under <strong>investing activities</strong>. In the Indirect Method, profit/loss on PPE sale must be eliminated from Net Profit (profit deducted, loss added back) because the full cash proceeds already appear under investing activities. Leaving the profit in operating activities would double-count the cash. <P n={4} />
-        </NB>
-
-        {/* 6. Direct vs Indirect */}
-        <SH id="as3-methods" num="VI" title="Direct Method vs. Indirect Method" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>AS 3 permits either method for presenting operating cash flows. Both produce the same final net figure. <P n={4} /></p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 font-serif">
-          <div className="rounded-xl border border-indigo-200 dark:border-indigo-900/40 overflow-hidden">
-            <div className="bg-indigo-700 px-4 py-2.5"><h4 className="text-white font-sans font-bold text-[11.5px] uppercase tracking-wider">Direct Method (Para 18a) <P n={4} /></h4></div>
-            <div className="bg-white dark:bg-[#111726] p-4 font-mono text-[12.5px] leading-loose text-slate-800 dark:text-slate-200 space-y-1">
-              <div className="flex justify-between"><span>Cash received from customers</span><span className="text-emerald-600">+XX</span></div>
-              <div className="flex justify-between"><span>Payment to suppliers for purchases</span><span className="text-rose-600">−XX</span></div>
-              <div className="flex justify-between"><span>Payment to employees</span><span className="text-rose-600">−XX</span></div>
-              <div className="flex justify-between"><span>Payment for operating expenses</span><span className="text-rose-600">−XX</span></div>
-              <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-1 mt-1 font-bold"><span>Cash from operations</span><span>XXX</span></div>
-              <div className="flex justify-between"><span>Less: Income tax paid</span><span className="text-rose-600">−XX</span></div>
-              <div className="flex justify-between"><span>Extraordinary items (operating)</span><span>±XX</span></div>
-              <div className="flex justify-between border-t-2 border-indigo-400 pt-1 mt-1 font-bold text-indigo-800 dark:text-indigo-300"><span>Net Cash from Operating Activities</span><span>XXX</span></div>
-            </div>
-          </div>
-          <div className="rounded-xl border border-blue-200 dark:border-blue-900/40 overflow-hidden">
-            <div className="bg-blue-700 px-4 py-2.5"><h4 className="text-white font-sans font-bold text-[11.5px] uppercase tracking-wider">Indirect Method (Para 18b) <P n={4} /></h4></div>
-            <div className="bg-white dark:bg-[#111726] p-4 font-mono text-[12.5px] leading-loose text-slate-800 dark:text-slate-200 space-y-1">
-              <div className="flex justify-between"><span>Net Profit before tax & extraordinary items</span><span className="font-bold">XXX</span></div>
-              <div className="flex justify-between"><span>Add: Depreciation & amortisation</span><span className="text-emerald-600">+XX</span></div>
-              <div className="flex justify-between"><span>Add: Loss on sale of PPE</span><span className="text-emerald-600">+XX</span></div>
-              <div className="flex justify-between"><span>Less: Profit on sale of PPE</span><span className="text-rose-600">−XX</span></div>
-              <div className="flex justify-between"><span>Less: Investment income (interest/dividends)</span><span className="text-rose-600">−XX</span></div>
-              <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-1 mt-1 font-bold"><span>Op. profit before WC changes</span><span>XXX</span></div>
-              <div className="flex justify-between"><span>Less: Increase in receivables / inventory</span><span className="text-rose-600">−XX</span></div>
-              <div className="flex justify-between"><span>Add: Increase in payables / provisions</span><span className="text-emerald-600">+XX</span></div>
-              <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-1 font-bold"><span>Cash generated from operations</span><span>XXX</span></div>
-              <div className="flex justify-between"><span>Less: Tax paid</span><span className="text-rose-600">−XX</span></div>
-              <div className="flex justify-between border-t-2 border-blue-400 pt-1 mt-1 font-bold text-blue-800 dark:text-blue-300"><span>Net Cash from Operating Activities</span><span>XXX</span></div>
-            </div>
-          </div>
-        </div>
-        <NB type="success" title="Preferred: Direct Method Encouraged by AS 3">
-          AS 3 <strong>encourages</strong> the Direct Method because it discloses major classes of gross cash receipts and payments — useful for estimating future cash flows. The Indirect Method is permitted and more common in practice. Both produce the same final net figure. <P n={4} />
-        </NB>
-
-        {/* 7. Investing Activities */}
-        <SH id="as3-investing" num="VII" title="Cash Flows from Investing Activities" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>Investing activities represent expenditures made for resources intended to <strong>generate future income and cash flows</strong>. Separate disclosure reveals investment strategy and growth capacity. <P n={4} /></p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8 font-serif">
-          <div className="p-4 rounded-xl border border-teal-200 dark:border-teal-900/30 bg-teal-50/10">
-            <h4 className="font-bold text-teal-700 dark:text-teal-400 text-xs uppercase tracking-wider mb-2">Investing Inflows (+)</h4>
-            <ul className="list-disc pl-5 space-y-1.5 text-[13.5px] text-slate-700 dark:text-slate-300">
-              <li>Proceeds from disposal of PPE and intangibles <P n={4} /></li>
-              <li>Proceeds from disposal of shares / bonds of other enterprises</li>
-              <li>Recovery of loans to third parties</li>
-              <li>Interest received on loans to third parties</li>
-              <li>Dividends received on equity / preference investments</li>
-              <li>Pre-acquisition dividends received on shares purchased</li>
-              <li>Insurance claim for loss of PPE (extraordinary)</li>
-            </ul>
-          </div>
-          <div className="p-4 rounded-xl border border-rose-200 dark:border-rose-900/30 bg-rose-50/10">
-            <h4 className="font-bold text-rose-700 dark:text-rose-400 text-xs uppercase tracking-wider mb-2">Investing Outflows (−)</h4>
-            <ul className="list-disc pl-5 space-y-1.5 text-[13.5px] text-slate-700 dark:text-slate-300">
-              <li>Payments to acquire PPE and intangibles <P n={4} /></li>
-              <li>Capitalized development costs</li>
-              <li>Payments to acquire shares / bonds of other enterprises</li>
-              <li>Loans and advances to subsidiaries / third parties</li>
-              <li>Fixed deposits placed (maturity &gt; 3 months)</li>
-              <li>Brokerage paid on purchase of investments</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* 8. Financing Activities */}
-        <SH id="as3-financing" num="VIII" title="Cash Flows from Financing Activities" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>Financing activities result in changes in the <strong>size and composition of the owners' capital</strong> and <strong>borrowings</strong>. <P n={4} /> These predict future claims on cash flows by equity holders and lenders.</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8 font-serif">
-          <div className="p-4 rounded-xl border border-violet-200 dark:border-violet-900/30 bg-violet-50/10">
-            <h4 className="font-bold text-violet-700 dark:text-violet-400 text-xs uppercase tracking-wider mb-2">Financing Inflows (+)</h4>
-            <ul className="list-disc pl-5 space-y-1.5 text-[13.5px] text-slate-700 dark:text-slate-300">
-              <li>Proceeds from issue of equity / preference shares <P n={4} /></li>
-              <li>Proceeds from issue of debentures / bonds</li>
-              <li>Cash proceeds from long-term and short-term borrowings</li>
-              <li>Bank overdraft proceeds (non-integral portion)</li>
-            </ul>
-          </div>
-          <div className="p-4 rounded-xl border border-rose-200 dark:border-rose-900/30 bg-rose-50/10">
-            <h4 className="font-bold text-rose-700 dark:text-rose-400 text-xs uppercase tracking-wider mb-2">Financing Outflows (−)</h4>
-            <ul className="list-disc pl-5 space-y-1.5 text-[13.5px] text-slate-700 dark:text-slate-300">
-              <li>Repayment of loans, debentures <P n={4} /></li>
-              <li>Dividends paid on equity and preference shares</li>
-              <li>Redemption of preference shares / debentures for cash</li>
-              <li>Interest paid on borrowings (non-financial enterprises)</li>
-              <li>Underwriting / brokerage on share / debenture issue</li>
-            </ul>
-          </div>
-        </div>
-
-        {/* 9. Interest, Dividends & FX */}
-        <SH id="as3-special" num="IX" title="Interest, Dividends & Foreign Currency Flows" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>Interest paid, interest received, and dividends received must each be <strong>disclosed separately</strong>. Classification differs between financial and non-financial enterprises. <P n={5} /></p>
-        </div>
-        <div className="mb-6 overflow-x-auto rounded-xl border border-orange-200 dark:border-orange-900/40 font-serif">
-          <table className="w-full text-left border-collapse text-[13px]">
-            <thead><tr className="font-sans text-[11px] font-bold uppercase tracking-wider text-white bg-orange-700 dark:bg-orange-800"><th className="py-3 px-4">Cash Flow Item</th><th className="py-3 px-4">Financial Enterprise</th><th className="py-3 px-4">Non-Financial Enterprise</th></tr></thead>
-            <tbody className="divide-y divide-orange-100 dark:divide-orange-900/30 text-slate-900 dark:text-slate-100">
-              {[['Interest Paid','Operating','Financing'],['Interest Received','Operating','Investing'],['Dividends Received','Operating','Investing'],['Dividends Paid','Financing','Financing']].map(([item, fin, nonFin], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-orange-50/15 dark:bg-orange-950/5'}><td className="py-3 px-4 font-medium">{item}</td><td className="py-3 px-4">{fin}</td><td className="py-3 px-4">{nonFin}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <NB type="info" title="Foreign Currency Cash Flows (Para 25–27)">
-          Cash flows from foreign currency transactions must be recorded at the <strong>exchange rate at the date of the cash flow</strong>. <P n={5} /> Unrealised exchange gains/losses on foreign currency cash holdings are <strong>non-cash items</strong> — excluded from cash flows but separately disclosed in the reconciliation note to explain the difference between opening/closing CFS balances and the balance sheet figures.
-        </NB>
-
-        {/* 10. Tax & Extraordinary */}
-        <SH id="as3-extraordinary" num="X" title="Taxes on Income & Extraordinary Items" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8 font-serif">
-          <div className="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/10 space-y-2">
-            <h3 className="font-sans font-bold text-[15px] text-slate-900 dark:text-white">Taxes on Income <P n={5} /></h3>
-            <p className="text-[14.5px] leading-relaxed">Cash flows from taxes on income are disclosed <strong>separately</strong> under <strong>operating activities</strong> unless specifically identified with financing or investing activities.</p>
-            <ul className="list-disc pl-4 text-[13.5px] space-y-1 text-slate-700 dark:text-slate-300"><li>Tax on operating income → Operating</li><li>Tax on capital gains from PPE sale → Investing</li></ul>
-          </div>
-          <div className="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/10 space-y-2">
-            <h3 className="font-sans font-bold text-[15px] text-slate-900 dark:text-white">Extraordinary Items <P n={5} /></h3>
-            <p className="text-[14.5px] leading-relaxed">Cash flows from extraordinary items must be classified as operating/investing/financing (as appropriate) and <strong>disclosed separately</strong>.</p>
-            <ul className="list-disc pl-4 text-[13.5px] space-y-1 text-slate-700 dark:text-slate-300"><li>Insurance claim for stock loss → Extraordinary Operating Inflow</li><li>Insurance claim for factory fire → Extraordinary Investing Inflow</li></ul>
-          </div>
-        </div>
-
-        {/* 11. Non-Cash Transactions */}
-        <SH id="as3-non-cash" num="XI" title="Non-Cash Transactions" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>Investing and financing transactions that do <strong>not require cash</strong> are excluded from the CFS but must be disclosed in notes to accounts. <P n={6} /></p>
-        </div>
-        <div className="mb-6 overflow-x-auto rounded-xl border border-sky-200 dark:border-sky-900/40 font-serif">
-          <table className="w-full text-left border-collapse text-[13.5px]">
-            <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-sky-700 dark:bg-sky-800"><th className="py-3 px-5">Non-Cash Transaction</th><th className="py-3 px-5">CFS Treatment</th><th className="py-3 px-5">Disclose in Notes?</th></tr></thead>
-            <tbody className="divide-y divide-sky-100 dark:divide-sky-900/30 text-slate-900 dark:text-slate-100">
-              {[['Issue of bonus shares','Excluded entirely','Yes'],['Asset acquisition under finance lease','Excluded entirely','Yes'],['Purchase of business by issuing shares (100%)','Excluded entirely','Yes'],['Conversion of debentures to equity shares','Excluded entirely','Yes'],['Asset bought: part-cash + part-share issue','Only cash portion in investing outflow','Non-cash portion disclosed'],['Exchange of assets (asset swap)','Excluded entirely','Yes']].map(([txn, treatment, disclosure], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-sky-50/15 dark:bg-sky-950/5'}><td className="py-3 px-5 font-medium">{txn}</td><td className="py-3 px-5 text-slate-600 dark:text-slate-400">{treatment}</td><td className="py-3 px-5 text-slate-600 dark:text-slate-400">{disclosure}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <NB type="exam" title="Exam Trap — Part-Cash Part-Share Acquisition">
-          If a company acquires machinery worth ₹10,00,000 by paying ₹2,00,000 cash and issuing shares worth ₹8,00,000 — only the <strong>₹2,00,000 cash payment</strong> appears as an investing outflow in the CFS. The ₹8,00,000 share issue is a non-cash transaction and is excluded from the CFS but disclosed in notes. <P n={6} />
-        </NB>
-
-        {/* 12. Disclosure */}
-        <SH id="as3-disclosure" num="XII" title="Disclosure Requirements" />
-        <div className="mb-6 rounded-xl border border-indigo-200 dark:border-indigo-900/40 overflow-hidden font-serif">
-          <div className="bg-indigo-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Mandatory Disclosures — AS 3 Para 42–46 <P n={6} /></span></div>
-          <div className="divide-y divide-indigo-100 dark:divide-indigo-900/30">
-            {[{title:'Reconciliation of Cash & Cash Equivalents',detail:'A reconciliation of the components of cash and cash equivalents as per the CFS with equivalent items in the Balance Sheet. Opening and closing balances must be broken into cash in hand, bank balances, and investments qualifying as cash equivalents.'},{title:'Restricted Cash Balances',detail:'Significant cash and cash equivalent balances held by the enterprise but NOT available for use must be disclosed with management commentary. Examples: cash in foreign accounts subject to exchange controls, margin money, accounts frozen by court orders.'},{title:'Non-Cash Transactions',detail:'All material investing and financing transactions that do not require cash must be disclosed in notes to accounts — not in the CFS itself. The enterprise should describe the nature and values involved.'},{title:'Interest & Dividends — Separate Disclosure',detail:'Interest paid, interest received, and dividends received must each be disclosed separately (not netted). Dividends paid must also be separately disclosed.'}].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-950/5') + ' px-5 py-4'}>
-                <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[14px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
-              </div>
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+      {/* Sticky Contents Bar */}
+      <div id="as3-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
+          <div
+            ref={tocScrollRef}
+            style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }}
+            className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5"
+          >
+            {as3Chapters.map((sec) => (
+              <button
+                key={sec.id}
+                data-toc-id={sec.id}
+                onClick={() => {
+                  const container = document.getElementById('as1-scroll-container');
+                  const target = document.getElementById("as3-" + sec.id);
+                  const stickyToc = document.getElementById('as3-sticky-toc');
+                  setActiveSection(sec.id);
+                  if (container && target) {
+                    const containerRect = container.getBoundingClientRect();
+                    const targetRect = target.getBoundingClientRect();
+                    let stickyOffset = 98;
+                    if (stickyToc) {
+                      const tocRect = stickyToc.getBoundingClientRect();
+                      stickyOffset = tocRect.bottom - containerRect.top;
+                    }
+                    const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2;
+                    container.scrollTo({ top: targetScrollTop, behavior: 'auto' });
+                  }
+                }}
+                className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
+                  activeSection === sec.id
+                    ? 'text-white bg-indigo-655 dark:bg-indigo-500 shadow-sm font-bold'
+                    : 'text-slate-705 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                )}
+              >
+                {sec.title}
+              </button>
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Quick Reference Table */}
-        <div className="mt-10 mb-4 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 font-serif">
-          <div className="bg-slate-700 px-5 py-3"><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Quick Reference — AS 3 Activity Classification Summary</span></div>
-          <table className="w-full text-left border-collapse text-[13px]">
-            <thead><tr className="bg-slate-100 dark:bg-slate-900 font-sans text-[11px] uppercase tracking-wider font-bold text-slate-700 dark:text-slate-300"><th className="py-3 px-5 w-2/5">Item</th><th className="py-3 px-5 text-center">Operating</th><th className="py-3 px-5 text-center">Investing</th><th className="py-3 px-5 text-center">Financing</th></tr></thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-slate-900 dark:text-slate-100">
-              {[['Cash sales of goods','✓','',''],['Purchase of machinery for cash','','✓',''],['Proceeds from equity share issue','','','✓'],['Repayment of bank term loan','','','✓'],['Dividends paid','','','✓'],['Interest paid (non-financial)','','','✓'],['Interest received (non-financial)','','✓',''],['Dividend received (non-financial)','','✓',''],['Income tax paid (default)','✓','',''],['Tax on capital gain from land sale','','✓',''],['Insurance claim — stock loss','Extraordinary','',''],['Insurance claim — factory fire','','Extraordinary',''],['Bonus shares issued','Non-cash — Excluded','',''],['Asset under finance lease','Non-cash — Excluded','',''],['FD ≤ 3 months','Cash Equivalent','',''],['FD > 3 months','','✓','']].map(([item, op, inv, fin], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-slate-50/30 dark:bg-slate-800/10'}>
-                  <td className="py-2.5 px-5 text-slate-700 dark:text-slate-300">{item}</td>
-                  <td className="py-2.5 px-5 text-center font-bold text-emerald-600 dark:text-emerald-400">{op}</td>
-                  <td className="py-2.5 px-5 text-center font-bold text-blue-600 dark:text-blue-400">{inv}</td>
-                  <td className="py-2.5 px-5 text-center font-bold text-violet-600 dark:text-violet-400">{fin}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      {/* Main Publication Sheet Canvas */}
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
+        
+        {/* Chapter 1: Introduction & Objective */}
+        <section id="as3-overview" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="I" 
+            title="Introduction &amp; Objective" 
+            description="Historical analysis of cash flows and assessing the enterprise's ability to generate cash and cash equivalents."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              A <strong>Cash Flow Statement (CFS)</strong> provides additional information to the users of accounts by reflecting the various sources from where cash was generated (inflow of cash) and how these inflows were utilised (outflow of cash) by the enterprise during the year. <PdfRef page={2} />
+            </p>
+            <p>
+              This information is invaluable to assess the liquidity, insolvency, operational efficiency, and long-term financial viability of the enterprise. It allows comparison of the operational performance of different companies, adjusts for changing prices, and provides a clear audit of the relationship between profitability and net cash flow. <PdfRef page={2} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 2: Applicability & Exemptions */}
+        <section id="as3-applicability" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="II" 
+            title="Applicability &amp; Exemptions" 
+            description="Detailing statutory applicability limits for corporate and non-corporate Level I entities."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Under the directives of the ICAI and Section 2(40) of the Companies Act, 2013, the preparation of a Cash Flow Statement is mandatory for all companies <strong>except</strong>: <PdfRef page={1} />
+            </p>
+          </div>
+
+          {/* Checklist Boxes */}
+          <div className="space-y-3 font-sans">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☐</span>
+              <div>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">One Person Company (OPC)</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Exempted under Section 2(40) of the Companies Act, 2013. <PdfRef page={1} /></p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☐</span>
+              <div>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Small Company</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Exempted based on capital and turnover thresholds defined by corporate laws. <PdfRef page={1} /></p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☐</span>
+              <div>
+                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Dormant Company</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Companies registered as inactive/dormant under Section 455 of the Act. <PdfRef page={1} /></p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☐</span>
+              <div>
+                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Startup Private Company</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Exempted vide MCA Notification dated 13th June, 2017. <PdfRef page={1} /></p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              For Level I non-corporate entities, AS 3 is fully mandatory. If an enterprise was not covered during the previous year but qualifies in the current year, it is not required to disclose previous year comparatives. However, if it loses its Level I status, it must continue to prepare the statement for another two consecutive years to prevent accounting inconsistencies. <PdfRef page={1} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 3: Cash & Cash Equivalents */}
+        <section id="as3-definitions" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="III" 
+            title="Cash &amp; Cash Equivalents" 
+            description="Formal criteria for defining cash equivalents and identifying insignificant risk of changes in value."
+          />
+
+          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-400 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6 font-serif">
+            <p className="text-[16px] font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">
+              "Cash comprises cash in hand and demand deposits with banks. Cash equivalents are short-term, highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value." <PdfRef page={3} />
+            </p>
+          </div>
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              An investment normally qualifies as a cash equivalent only when it has a short maturity of, say, <strong>three months or less</strong> from the date of acquisition. For example, treasury bills, commercial paper, or sovereign mutual funds maturing within 3 months are cash equivalents. <PdfRef page={3} />
+            </p>
+            <p>
+              <strong>Shares Exclusion:</strong> Investments in equity shares are normally excluded from cash equivalents due to the high volatility and uncertainties associated with their realisable value. <PdfRef page={3} />
+            </p>
+          </div>
+
+          {/* Warning Box: Movements within Cash Equivalents */}
+          <div className="p-5 border border-red-200 dark:border-red-900/40 bg-red-50/20 dark:bg-red-955/5 rounded-xl space-y-2.5">
+            <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-red-800 dark:text-red-400 flex items-center gap-2">
+              <AlertTriangle size={14} />
+              <span>Internal Cash Movements are NOT Cash Flows</span>
+            </h4>
+            <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-305 font-medium font-serif">
+              Cash flows exclude movements between items of cash and cash equivalents. For example, depositing cash into bank demand deposits or purchasing short-term treasury bills are not cash flows because they merely represent a transfer between cash assets without changing the total. <PdfRef page={3} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 4: Classification of Cash Flows */}
+        <section id="as3-classification" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="IV" 
+            title="Activity Classification" 
+            description="Categorizing receipts and payments into Operating, Investing, and Financing activities."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The statement must present cash flows during the period classified into three distinct feature areas: <PdfRef page={4} />
+            </p>
+          </div>
+
+          {/* Grid of Classifications */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 font-sans">
+            <div className="p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/10">
+              <h4 className="font-bold text-blue-800 dark:text-blue-400 text-xs uppercase tracking-wider mb-1.5">1. Operating Activities</h4>
+              <p className="text-[13px] text-slate-655 dark:text-gray-400 leading-relaxed">The principal revenue-producing activities of the enterprise and other activities that are not investing or financing. (e.g. sale of goods, collection from trade receivables, wages, trade payables). <PdfRef page={4} /></p>
+            </div>
+            <div className="p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/30 bg-indigo-50/20 dark:bg-indigo-955/10">
+              <h4 className="font-bold text-indigo-850 dark:text-indigo-400 text-xs uppercase tracking-wider mb-1.5">2. Investing Activities</h4>
+              <p className="text-[13px] text-slate-655 dark:text-gray-400 leading-relaxed">The acquisition and disposal of long-term assets and other investments not included in cash equivalents. (e.g. buying land, selling old machinery, interest/dividends received). <PdfRef page={4} /></p>
+            </div>
+            <div className="p-4 rounded-xl border border-emerald-250 dark:border-emerald-900/30 bg-emerald-50/20 dark:bg-emerald-955/10">
+              <h4 className="font-bold text-emerald-800 dark:text-emerald-450 text-xs uppercase tracking-wider mb-1.5">3. Financing Activities</h4>
+              <p className="text-[13px] text-slate-655 dark:text-gray-400 leading-relaxed">Activities that result in changes in the size and composition of the owners' capital and borrowings. (e.g. issuing equity, redemptions, term loans repaid, dividends/interest paid). <PdfRef page={4} /></p>
+            </div>
+          </div>
+        </section>
+
+        {/* Chapter 5: Operating Activities */}
+        <section id="as3-operating" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="V" 
+            title="Operating Cash Flows" 
+            description="Comparing operating flows under the Direct and Indirect methods of presentation."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Net cash flows from operating activities must be reported using one of two methods: the Direct Method or the Indirect Method. The Direct Method is preferred because it provides detailed information on major classes of gross receipts and payments, which is useful in estimating future cash flows. <PdfRef page={7} />
+            </p>
+          </div>
+
+          {/* Accordion Direct vs Indirect */}
+          <div className="space-y-4 font-sans">
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+              <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('operating-direct')}>
+                <span className="font-bold text-slate-905 dark:text-white text-sm">Direct Method Format</span>
+                <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions['operating-direct'] ? "rotate-180" : "")} />
+              </div>
+              {openAccordions['operating-direct'] && (
+                <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-700 dark:text-slate-300">
+                  Takes gross cash receipts from sales, collections, and commission minus payments to suppliers (creditors), employees, operating overheads, and tax.
+                  <pre className="p-3 mt-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300 whitespace-pre-wrap">
+                    {"Cash receipts from customers        xxx\nLess: Cash paid to suppliers        (xxx)\nLess: Cash paid to employees        (xxx)\nLess: Cash paid for overheads       (xxx)\nLess: Income Tax paid               (xxx)\n=========================================\nNet Operating Cash Flow            xxx"}
+                  </pre>
+                </div>
+              )}
+            </div>
+
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+              <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('operating-indirect')}>
+                <span className="font-bold text-slate-905 dark:text-white text-sm">Indirect Method Format</span>
+                <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions['operating-indirect'] ? "rotate-180" : "")} />
+              </div>
+              {openAccordions['operating-indirect'] && (
+                <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-700 dark:text-slate-300">
+                  Starts from the closing Net Profit in P&amp;L and adjusts for non-cash expenses (depreciation, provisions), non-operating items (interest/dividends, gains/losses on asset sale), working capital adjustments (receivables, inventory, payables), and tax paid.
+                  <pre className="p-3 mt-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300 whitespace-pre-wrap">
+                    {"Closing W.D.V / Surplus balance     xxx\nAdd: Depreciation & Provisions      xxx\nAdd: Interest/Dividends Paid        xxx\nLess: Interest/Dividends Received   (xxx)\nAdd/Less: Working Capital changes   xxx\nLess: Income Tax paid               (xxx)\n=========================================\nNet Operating Cash Flow            xxx"}
+                  </pre>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Chapter 6: Investing Activities */}
+        <section id="as3-investing" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VI" 
+            title="Investing Activities" 
+            description="Acquisition and disposal of long-term assets and other non-cash equivalents."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Investing activities reflect the extent to which expenditures have been made for resources intended to generate future income and cash flows. Examples include: <PdfRef page={4} />
+            </p>
+          </div>
+
+          {/* Table: Investing Flows */}
+          <div className="my-8 space-y-2 w-full">
+            <div className="text-[13px] font-bold text-indigo-800 dark:text-indigo-400 font-sans uppercase tracking-wider flex items-center gap-2">
+              <span className="inline-block w-1 h-4 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
+              Table 1 — Inflow and Outflow of Investing Activities <PdfRef page={4} />
+            </div>
+            <div className="overflow-x-auto w-full rounded-xl border border-indigo-200 dark:border-indigo-900/40">
+              <table className="w-full text-left border-collapse text-[13.5px]">
+                <thead>
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-700 dark:bg-indigo-800">
+                    <th className="py-3 px-5 w-1/2">Investing Cash Inflows (Receipts)</th>
+                    <th className="py-3 px-5 w-1/2">Investing Cash Outflows (Payments)</th>
+                  </tr>
+                </thead>
+                <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-indigo-100 dark:divide-indigo-900/30">
+                  <tr className="bg-white dark:bg-[#111726]">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Proceeds from sale of Property, Plant, &amp; Equipment (PPE)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Payments for acquisition of PPE and intangible assets</td>
+                  </tr>
+                  <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Proceeds from sale of investments (shares, debentures of other entities)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Payments to purchase investments (other than short-term cash equivalents)</td>
+                  </tr>
+                  <tr className="bg-white dark:bg-[#111726]">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Loans/advances recovered from third parties</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Loans and advances given to third parties</td>
+                  </tr>
+                  <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Interest and Dividends received (for non-financial enterprises)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Deposits made with bank for a term of more than 3 months</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* Chapter 7: Financing Activities */}
+        <section id="as3-financing" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VII" 
+            title="Financing Activities" 
+            description="Analyzing transactions affecting owner's capital and borrowings size/composition."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Financing activities predict claims on future cash flows by providers of capital (both equity and debt) to the enterprise. Examples include: <PdfRef page={4} />
+            </p>
+          </div>
+
+          {/* Table: Financing Flows */}
+          <div className="my-8 space-y-2 w-full">
+            <div className="text-[13px] font-bold text-teal-800 dark:text-teal-400 font-sans uppercase tracking-wider flex items-center gap-2">
+              <span className="inline-block w-1 h-4 bg-teal-600 dark:bg-teal-400 rounded-full"></span>
+              Table 2 — Inflow and Outflow of Financing Activities <PdfRef page={4} />
+            </div>
+            <div className="overflow-x-auto w-full rounded-xl border border-teal-200 dark:border-teal-900/40">
+              <table className="w-full text-left border-collapse text-[13.5px]">
+                <thead>
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-teal-700 dark:bg-teal-800">
+                    <th className="py-3 px-5 w-1/2">Financing Cash Inflows (Receipts)</th>
+                    <th className="py-3 px-5 w-1/2">Financing Cash Outflows (Payments)</th>
+                  </tr>
+                </thead>
+                <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-teal-100 dark:divide-teal-900/30">
+                  <tr className="bg-white dark:bg-[#111726]">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Proceeds from issuing shares or other equity instruments</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Repayment of bank loans, debentures, or term loans</td>
+                  </tr>
+                  <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Proceeds from issuing debentures, bonds, loans, or short-term borrowings</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Redemption of preference shares or buy-back of equity shares</td>
+                  </tr>
+                  <tr className="bg-white dark:bg-[#111726]">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Drawdown of Bank Overdraft / Cash Credit facilities</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Dividends paid (including interim dividends and dividend distribution tax)</td>
+                  </tr>
+                  <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10">
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Loans/advances received from subsidiary companies</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top">Interest paid on borrowings (for non-financial enterprises)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        {/* Chapter 8: Interest, Dividends & Forex */}
+        <section id="as3-special" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VIII" 
+            title="Interest, Dividends &amp; Forex" 
+            description="Classifying cash flows from dividends/interest paid and received for financial vs non-financial entities."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Under AS 3, the classification of interest and dividend flows differs depending on whether the entity is a <strong>financial enterprise</strong> (whose principal business is lending, borrowing, and trading) or a <strong>non-financial enterprise</strong>: <PdfRef page={10} />
+            </p>
+          </div>
+
+          {/* Table: Special Items Classification */}
+          <div className="my-8 space-y-2 w-full">
+            <div className="text-[13px] font-bold text-indigo-850 dark:text-indigo-400 font-sans uppercase tracking-wider flex items-center gap-2">
+              <span className="inline-block w-1 h-4 bg-indigo-650 dark:bg-indigo-400 rounded-full"></span>
+              Table 3 — Interest and Dividends Classification <PdfRef page={10} />
+            </div>
+            <div className="overflow-x-auto w-full rounded-xl border border-indigo-200 dark:border-indigo-900/40">
+              <table className="w-full text-left border-collapse text-[13.5px]">
+                <thead>
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-705 dark:bg-indigo-800">
+                    <th className="py-3 px-5 w-1/3">Transaction Type</th>
+                    <th className="py-3 px-5 w-1/3">Non-Financial Enterprise</th>
+                    <th className="py-3 px-5 w-1/3">Financial Enterprise</th>
+                  </tr>
+                </thead>
+                <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-indigo-100 dark:divide-indigo-900/30">
+                  <tr className="bg-white dark:bg-[#111726]">
+                    <td className="py-3.5 px-5 leading-relaxed align-top font-semibold">Interest Paid</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Financing Cash Outflow</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-655 dark:text-blue-400">Operating Cash Outflow</td>
+                  </tr>
+                  <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
+                    <td className="py-3.5 px-5 leading-relaxed align-top font-semibold">Interest Received</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-emerald-700 dark:text-emerald-450">Investing Cash Inflow</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-655 dark:text-blue-400">Operating Cash Inflow</td>
+                  </tr>
+                  <tr className="bg-white dark:bg-[#111726]">
+                    <td className="py-3.5 px-5 leading-relaxed align-top font-semibold">Dividends Received</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-emerald-700 dark:text-emerald-450">Investing Cash Inflow</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-655 dark:text-blue-400">Operating Cash Inflow</td>
+                  </tr>
+                  <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
+                    <td className="py-3.5 px-5 leading-relaxed align-top font-semibold text-indigo-700 dark:text-indigo-400">Dividends Paid</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400 font-semibold" colSpan={2}>
+                      Financing Cash Outflow (for all enterprises)
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              <strong>Foreign Currency Cash Flows:</strong> Cash flows arising from transactions in a foreign currency must be recorded in Z Ltd.'s reporting currency using the exchange rate prevailing on the date of the cash flow. The translation differences (exchange gains or losses) in cash balances held in foreign currencies (e.g. foreign bank balances) are <em>not</em> cash flows. They must be presented as a separate reconciling item in the notes to CFS. <PdfRef page={11} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 9: Tax & Extraordinary Items */}
+        <section id="as3-extraordinary" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="IX" 
+            title="Taxes &amp; Extraordinary Items" 
+            description="Exposing insurance recoveries, losses of stock/machinery, and TDS on investing cash inflows."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Cash flows arising from taxes on income must be classified as cash flows from <strong>operating activities</strong> unless they can be specifically identified with financing and investing activities. E.g. TDS on interest received is an investing outflow, and tax paid on capital gains from selling fixed assets is classified as investing. <PdfRef page={6} />
+            </p>
+            <p>
+              <strong>Extraordinary Items:</strong> Extraordinary cash flows must be disclosed separately as arising from operating, investing, or financing activities to enable users to understand their nature and effect. E.g., insurance claim for loss of inventory is operating, whereas insurance recovery for loss of machinery by fire is an investing flow. <PdfRef page={7} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 10: Non-Cash Transactions */}
+        <section id="as3-non-cash" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="X" 
+            title="Non-Cash Transactions Exclusion" 
+            description="Excluding transactions that do not require the use of cash, such as bonus issues or debenture conversions."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Investing and financing transactions that do not require the use of cash or cash equivalents must be <strong>excluded</strong> from the Cash Flow Statement. Such transactions should be disclosed elsewhere in the financial statements (notes to accounts) in a way that provides all relevant information about these activities. <PdfRef page={10} />
+            </p>
+            <p>
+              Examples of non-cash transactions include:
+            </p>
+            <ul className="list-disc pl-6 space-y-1.5 text-slate-900 dark:text-gray-100 font-sans text-[14px]">
+              <li>Acquisition of assets by assuming directly related liabilities or by issuing equity shares.</li>
+              <li>Acquisition of an enterprise (business purchase) by means of issue of equity shares.</li>
+              <li>Conversion of debt/debentures to equity shares.</li>
+              <li>Issue of bonus shares (capitalization of reserves).</li>
+            </ul>
+          </div>
+        </section>
+
+        {/* Chapter 11: Netting Rules */}
+        <section id="as3-netting" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="XI" 
+            title="Gross vs. Net Cash Flows" 
+            description="The strict rule forbidding the netting of receipts and payments, with permitted exceptions."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              An enterprise must report separately major classes of <strong>gross cash receipts and gross cash payments</strong> arising from investing and financing activities. Netting of payments (e.g. offsetting machine purchases against furniture sales) is strictly prohibited. <PdfRef page={9} />
+            </p>
+          </div>
+
+          {/* Accordion: Netting Exceptions */}
+          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726] font-sans">
+            <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('netting-exceptions')}>
+              <span className="font-bold text-slate-900 dark:text-white text-sm">Permitted Exceptions to Gross Presentation</span>
+              <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions['netting-exceptions'] ? "rotate-180" : "")} />
+            </div>
+            {openAccordions['netting-exceptions'] && (
+              <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] space-y-3 font-sans leading-relaxed text-slate-700 dark:text-slate-305">
+                <p><strong>1. Cash receipts and payments on behalf of customers:</strong> When the cash flows reflect the activities of the customer rather than those of the enterprise (e.g. demand deposits accepted and repaid by bank). <PdfRef page={10} /></p>
+                <p><strong>2. Items with quick turnover, large amounts, and short maturities:</strong> (e.g., principal amounts relating to credit card customers, purchase and sale of short-term investments). <PdfRef page={10} /></p>
+                <p><strong>3. Financial Enterprises Exceptions:</strong> Permitted to net: (a) cash flows on acceptance and repayment of fixed deposits, (b) placement and withdrawal of deposits with other banks, and (c) advances/loans given to customers and repayments. <PdfRef page={10} /></p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* Chapter 12: Business Purchase */}
+        <section id="as3-acquisitions" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="XII" 
+            title="Business Purchase &amp; Subsidiaries" 
+            description="Accounting for cash consideration in acquisitions and adjusting current assets/liabilities taken over."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The aggregate cash flows arising from acquisitions and disposals of subsidiaries or other business units should be presented separately and classified as cash flow from <strong>investing activities</strong>. <PdfRef page={11} />
+            </p>
+            <p>
+              <strong>Important Adjustment:</strong> Business purchase is not an operating activity. Therefore, when computing operating cash flows under the Indirect Method, the differences between closing and opening current assets/liabilities must be adjusted to exclude the values of assets and liabilities taken over on acquisition. E.g. closing debtors must be reduced by the debtors taken over so the change represents operating activities only. <PdfRef page={11} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 13: Disclosure Requirements */}
+        <section id="as3-disclosure" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="XIII" 
+            title="Disclosure Requirements" 
+            description="Significant cash balances unavailable for use and undrawn borrowing facilities."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The financial statements shall disclose: <PdfRef page={12} />
+            </p>
+          </div>
+
+          {/* Checklist Boxes */}
+          <div className="space-y-3 font-sans">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☑</span>
+              <div>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Cash and Cash Equivalents Reconciliation</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose a reconciliation of the components of cash and cash equivalents with equivalent items reported in the balance sheet. <PdfRef page={3} /></p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☑</span>
+              <div>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Cash balances held but unavailable for use</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose significant cash and cash equivalent balances held by the enterprise but not available for use (e.g. due to exchange controls in foreign operations), with a commentary by management. <PdfRef page={12} /></p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
+              <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
+              <div>
+                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Undrawn Borrowing Facilities</p>
+                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Encouraged to disclose undrawn borrowing facilities that may be available for future operating activities or capital commitments, indicating any restrictions. <PdfRef page={12} /></p>
+              </div>
+            </div>
+          </div>
+        </section>
 
       </div>
     </div>
   )
 }
-
 const as4Sections = [
   { id: 'as4-overview',        title: '1. Introduction & Objective' },
   { id: 'as4-scope',           title: '2. Scope & Applicability' },
