@@ -2594,7 +2594,11 @@ export default function LearningPortalClient({
           {/* 2. EXAMPLES & CASE LAW VIEW */}
           {activeTab === 'examples' && (
             <div className="w-full space-y-8 animate-fade-in">
-              {currentStandard.id === 'as-1' ? (
+              {currentStandard.id === 'intro-as' ? (
+                <ASIntroExamplesCustomContent
+                  navigateToPdfPage={navigateToPdfPage}
+                />
+              ) : currentStandard.id === 'as-1' ? (
                 <AS1ExamplesCustomContent
                   navigateToPdfPage={navigateToPdfPage}
                   renderTextWithReferences={renderTextWithReferences}
