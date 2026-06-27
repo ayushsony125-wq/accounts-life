@@ -60,6 +60,7 @@ import { AS18ExamplesCustomContent } from './AS18ExamplesCustomContent'
 import { AS19ExamplesCustomContent } from './AS19ExamplesCustomContent'
 
 import { ASIntroStandardTabContent } from './ASIntroStandardTabContent'
+import { ASIntroExamplesCustomContent } from './ASIntroExamplesCustomContent'
 import { AS2StandardTabContent } from './AS2StandardTabContent'
 import { AS3StandardTabContent } from './AS3StandardTabContent'
 import { AS4StandardTabContent } from './AS4StandardTabContent'
