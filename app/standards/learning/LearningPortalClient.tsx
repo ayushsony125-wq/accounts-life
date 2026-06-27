@@ -289,7 +289,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
       title={`Open ICAI AS 1 PDF ΓÇö Page ${page}`}
     >
       <FileText size={10} className="shrink-0" />
@@ -1442,7 +1442,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
       title={"Open ICAI AS 2 PDF — Page " + page}
     >
       <FileText size={10} className="shrink-0" />
@@ -1459,7 +1459,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       <div className="w-full mb-6 mt-12 first:mt-2">
         <div className="flex items-baseline gap-2 mb-2">
           <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-            <span className="text-indigo-655 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
             <span>{title}</span>
           </h2>
         </div>
@@ -1506,8 +1506,8 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 }}
                 className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
                   activeSection === sec.id
-                    ? 'text-white bg-indigo-655 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-705 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-955 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 )}
               >
                 {sec.title}
@@ -1524,7 +1524,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
         <section id="as2-overview" className="scroll-mt-36 space-y-8 w-full">
           <ChapterHeader 
             num="I" 
-            title="Introduction & Purpose" 
+            title="Introduction &amp; Purpose" 
             description="Prescribing the accounting treatment for inventories under the historical cost system, specifying the cost determination and subsequent write-down parameters."
           />
 
@@ -1534,6 +1534,9 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             </p>
             <p>
               The standard establishes the principles for determining the value of closing inventory that is carried over to the next accounting period, and opening inventory brought forward. In short, the main purpose is to write down inventories when their cost is no longer recoverable (due to obsolescence, price declines, or damage) to ensure that the assets are not stated in excess of their realisable values. <PdfRef page={2} />
+            </p>
+            <p>
+              Part I of Schedule III to the Companies Act, 2013 also mandates that the valuation method adopted by the company must be disclosed explicitly for inventory held by companies. <PdfRef page={4} />
             </p>
           </div>
         </section>
@@ -1554,14 +1557,14 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           {/* Table: Scope Exclusions */}
           <div className="my-8 space-y-2 w-full">
-            <div className="text-[13px] font-bold text-teal-800 dark:text-teal-400 font-sans uppercase tracking-wider flex items-center gap-2">
-              <span className="inline-block w-1 h-4 bg-teal-600 dark:bg-teal-400 rounded-full"></span>
+            <div className="text-[13px] font-bold text-teal-800 dark:text-teal-405 font-sans uppercase tracking-wider flex items-center gap-2">
+              <span className="inline-block w-1 h-4 bg-teal-600 dark:bg-teal-450 rounded-full"></span>
               Table 1 — Statutory Exclusions from AS 2 Scope <PdfRef page={2} />
             </div>
             <div className="overflow-x-auto w-full rounded-xl border border-teal-200 dark:border-teal-900/40">
               <table className="w-full text-left border-collapse text-[13.5px]">
                 <thead>
-                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-teal-700 dark:bg-teal-800">
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-teal-700 dark:bg-teal-850">
                     <th className="py-3 px-5 w-1/2">Exclusion Category</th>
                     <th className="py-3 px-5 w-1/2">Applicable Treatment / Standard Reference</th>
                   </tr>
@@ -1569,18 +1572,18 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-teal-100 dark:divide-teal-900/30">
                   <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
                     <td className="py-4 px-5 leading-relaxed align-top font-semibold">
-                      Work-in-progress arising under construction contracts (including directly related service contracts)
+                      Work-in-process arising under construction contracts (including directly related service contracts)
                     </td>
-                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-350">
                       Excluded — Valued in accordance with <strong>AS 7 (Accounting for Construction Contracts)</strong>. However, unconsumed materials lying at construction site (e.g. cement, sand) are covered under AS 2. <PdfRef page={2} />
                     </td>
                   </tr>
                   <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10 hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
                     <td className="py-4 px-5 leading-relaxed align-top font-semibold">
-                      Work-in-progress arising in the ordinary course of business of service providers
+                      Work-in-process arising in the ordinary course of business of service providers
                     </td>
-                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
-                      Included (Partially) — Measured at production cost. Note that unconsumed stores (e.g. shipping fuel not consumed) are covered, but voyage-in-progress service costs are excluded. <PdfRef page={3} />
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-355">
+                      Excluded (Partially) — Measured at production cost. Note that unconsumed stores (e.g. shipping fuel not consumed) are covered, but voyage-in-progress service costs are excluded. <PdfRef page={3} />
                     </td>
                   </tr>
                   <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
@@ -1592,7 +1595,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                     </td>
                   </tr>
                   <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10 hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
-                    <td className="py-4 px-5 leading-relaxed align-top font-semibold">
+                    <td className="py-4 px-5 leading-relaxed align-top font-semibold text-teal-800 dark:text-teal-400">
                       Producers' inventories of livestock, agricultural/forest products, mineral oils, ores, and gases
                     </td>
                     <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
@@ -1603,7 +1606,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                     <td className="py-4 px-5 leading-relaxed align-top font-semibold text-indigo-700 dark:text-indigo-400">
                       Land and properties held for resale by real estate developers
                     </td>
-                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300 font-semibold">
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-705 dark:text-slate-300 font-semibold">
                       INCLUDED — Real estate inventory is treated as inventory under AS 2 and must be valued at lower of cost and Net Realisable Value. <PdfRef page={2} />
                     </td>
                   </tr>
@@ -1622,9 +1625,9 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           />
 
           {/* Official Definition Card */}
-          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-400 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6">
+          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6">
             <div className="text-[10.5px] font-sans font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-3 flex items-center gap-2">
-              <BookOpen size={13} className="text-blue-600 dark:text-blue-400" />
+              <BookOpen size={13} className="text-blue-600 dark:text-blue-450" />
               <span>Official Definition — AS 2, Para 1.2</span>
             </div>
             <p className="text-[16px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">
@@ -1636,6 +1639,9 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             <p>
               Under this definition, inventories encompass merchandise (goods) purchased by a retailer and held for resale (e.g. trading stock), finished goods produced, work-in-progress being produced, and materials, maintenance supplies, consumables, and loose tools awaiting use in the production process. <PdfRef page={2} />
             </p>
+            <p>
+              The types of inventories are related to the nature of business. The inventories of a <strong>trading concern</strong> consist primarily of products purchased for resale in their existing form, plus supplies like wrapping paper and stationery. The inventories of a <strong>manufacturing concern</strong> consist of: raw material (which will become part of the goods to be produced), parts and factory supplies, work-in-process (partially completed products), and finished products. <PdfRef page={3} />
+            </p>
           </div>
 
           {/* Info Card: Spare Parts Exception */}
@@ -1644,7 +1650,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <Info size={14} />
               <span>PPE Spares vs. Inventory Spares Exception</span>
             </h4>
-            <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-55 font-medium">
+            <p className="text-[15px] leading-relaxed text-slate-955 dark:text-slate-50 font-medium">
               Inventories do NOT include spare parts, servicing equipment, and standby equipment that meet the definition of Property, Plant, and Equipment (PPE) under <strong>AS 10 (Revised)</strong>. Such items must be capitalised as PPE and depreciated over their useful life. Only general stores, spares, and loose tools awaiting use in production are classified as inventory under AS 2. <PdfRef page={2} />
             </p>
           </div>
@@ -1658,7 +1664,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             description="The foundational rule of valuation: comparing historical costs against net realisable recovery values under the prudence rule."
           />
 
-          <div className="p-6 border-l-4 border-indigo-600 dark:border-indigo-400 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/30 dark:bg-indigo-955/10 rounded-xl my-6">
+          <div className="p-6 border-l-4 border-indigo-650 dark:border-indigo-400 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/30 dark:bg-indigo-955/10 rounded-xl my-6">
             <p className="text-[16px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] text-center">
               "Inventories should be valued at the lower of Cost and Net Realisable Value." <PdfRef page={4} />
             </p>
@@ -1670,6 +1676,9 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             </p>
             <p>
               <strong>Net Realisable Value</strong> is the estimated selling price in the ordinary course of business less the estimated costs of completion and the estimated costs necessary to make the sale. This is an <em>entity-specific value</em>, unlike <strong>Fair Value</strong>, which is market-based and does not deduct transaction costs. <PdfRef page={4} />
+            </p>
+            <p>
+              The valuation of inventory at the lower of cost and net realisable value is based on the view that no asset should be carried at a value which is in excess of the value realisable by its sale or use. <PdfRef page={5} />
             </p>
           </div>
         </section>
@@ -1691,13 +1700,13 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           {/* Table: Cost of Purchase Inclusions and Exclusions */}
           <div className="my-8 space-y-2 w-full">
             <div className="text-[13px] font-bold text-indigo-800 dark:text-indigo-400 font-sans uppercase tracking-wider flex items-center gap-2">
-              <span className="inline-block w-1 h-4 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
+              <span className="inline-block w-1 h-4 bg-indigo-650 dark:bg-indigo-450 rounded-full"></span>
               Table 2 — Cost of Purchase Components <PdfRef page={6} />
             </div>
             <div className="overflow-x-auto w-full rounded-xl border border-indigo-200 dark:border-indigo-900/40">
               <table className="w-full text-left border-collapse text-[13.5px]">
                 <thead>
-                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-700 dark:bg-indigo-800">
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-700 dark:bg-indigo-850">
                     <th className="py-3 px-5 w-1/2">Inward Inclusions (Added to Cost)</th>
                     <th className="py-3 px-5 w-1/2">Deductions &amp; Exclusions (Deducted / Expensed)</th>
                   </tr>
@@ -1705,19 +1714,19 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-indigo-100 dark:divide-indigo-900/30">
                   <tr className="bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 leading-relaxed align-top">Purchase Price (invoice price from supplier)</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Trade Discounts, rebates, and duty drawbacks (must be deducted from cost)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-600 dark:text-red-400">Trade Discounts, rebates, and duty drawbacks (must be deducted from cost)</td>
                   </tr>
                   <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
                     <td className="py-3.5 px-5 leading-relaxed align-top">Import Duties and non-refundable purchase taxes</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Refundable taxes (e.g. GST where Input Tax Credit is claimed)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-600 dark:text-red-400">Refundable taxes (e.g. GST where Input Tax Credit is claimed)</td>
                   </tr>
                   <tr className="bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 leading-relaxed align-top">Inward Freight, insurance during transit, and handling costs</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Outward freight to customers (treated as selling and distribution cost in P&amp;L)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-600 dark:text-red-400">Outward freight to customers (treated as selling and distribution cost in P&amp;L)</td>
                   </tr>
                   <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
                     <td className="py-3.5 px-5 leading-relaxed align-top">Direct acquisition costs (clearing charges, octroi)</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Cash Discounts for early payment (treated as interest/finance income in P&amp;L — NOT deducted from cost)</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-600 dark:text-red-400">Cash Discounts for early payment (treated as interest/finance income in P&amp;L — NOT deducted from cost)</td>
                   </tr>
                 </tbody>
               </table>
@@ -1735,10 +1744,16 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
             <p>
-              The costs of conversion of inventories include costs directly related to the units of production (such as direct labour and direct expenses) and a systematic allocation of fixed and variable production overheads. <PdfRef page={6} />
+              The costs of conversion of inventories include costs directly related to the units of production (such as direct labour and direct expenses) and a systematic allocation of fixed and variable production overheads that are incurred in converting materials into finished goods. <PdfRef page={6} />
             </p>
             <p>
-              <strong>Variable production overheads</strong> are allocated based on the <em>actual use</em> of the production facilities (e.g., indirect materials and indirect labor). <strong>Fixed production overheads</strong> are allocated based on the <em>normal capacity</em> of the production facilities. <PdfRef page={6} />
+              <strong>Variable production overheads</strong> are assigned to each unit of production on the basis of the <em>actual use</em> of the production facilities (e.g., indirect materials and indirect labor). <PdfRef page={6} />
+            </p>
+            <p>
+              <strong>Fixed production overheads</strong> are those indirect costs of production that remain relatively constant regardless of the volume of production (e.g., depreciation and maintenance of factory buildings and equipment, and factory administration costs). They should be absorbed systematically over <em>normal capacity</em>. <PdfRef page={6} />
+            </p>
+            <p>
+              Normal capacity is the production the enterprise expects to achieve on an average over a number of periods or seasons under normal circumstances, taking into account the loss of capacity resulting from planned maintenance. The actual level of production may be used if it approximates normal capacity. <PdfRef page={6} />
             </p>
           </div>
 
@@ -1750,9 +1765,9 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             <p className="text-[15px] text-slate-950 dark:text-slate-50 leading-relaxed mb-3 font-semibold">
               Fixed production overhead rate is determined as: Total Expected Fixed Overheads ÷ Normal Capacity.
             </p>
-            <ul className="list-disc pl-5 text-[14px] text-slate-805 dark:text-slate-300 space-y-2">
-              <li><strong>Low Production (Actual &lt; Normal):</strong> The rate of allocation is NOT increased. Overheads are absorbed into inventory using the Normal Capacity rate, and the unallocated under-absorbed fixed overhead is expensed immediately in P&amp;L. <PdfRef page={6} /></li>
-              <li><strong>High Production (Actual &ge; Normal):</strong> The amount of fixed overhead allocated to each unit is decreased so that inventories are not measured above actual cost. Overheads are absorbed based on Actual Production. <PdfRef page={6} /></li>
+            <ul className="list-disc pl-5 text-[14px] text-slate-800 dark:text-slate-300 space-y-2">
+              <li><strong>Low Production or Idle Plant (Actual &lt; Normal):</strong> The rate of allocation per unit is NOT increased. Overheads are absorbed into inventory using the Normal Capacity rate, and the unallocated under-absorbed fixed overhead is expensed immediately in P&amp;L as a period cost. <PdfRef page={6} /></li>
+              <li><strong>Abnormally High Production (Actual &ge; Normal):</strong> The amount of fixed overhead allocated to each unit is decreased so that inventories are not measured above actual cost. Fixed overheads are absorbed based on actual production units. <PdfRef page={6} /></li>
             </ul>
           </div>
         </section>
@@ -1767,7 +1782,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
             <p>
-              When a production process results in more than one product being produced simultaneously (joint products or a main product and a by-product) and the costs of conversion are not separately identifiable, they are allocated on a rational and consistent basis. <PdfRef page={7} />
+              When a production process results in more than one product being produced simultaneously (joint products or a main product and a by-product) and the costs of conversion of each product are not separately identifiable, they are allocated between the products on a rational and consistent basis. <PdfRef page={7} />
             </p>
             <p>
               The allocation methods include the relative sales value method at the split-off point (when products become separately identifiable), sales value at completion less further processing costs, or physical output measurements. <PdfRef page={7} />
@@ -1784,9 +1799,9 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] space-y-3 font-sans leading-relaxed">
                 <p><strong>1. Relative Sales Value at Split-off:</strong> Joint costs are allocated based on the relative market value of each product at the split-off stage. <PdfRef page={7} /></p>
                 <p><strong>2. Sales Value at Completion:</strong> Useful when further processing is required. Costs are allocated based on final sales value less further processing costs. <PdfRef page={7} /></p>
-                <p><strong>3. By-Products Treatment:</strong> By-products are valued at Net Realisable Value (NRV). This NRV is deducted from the joint cost of the main product: <br />
-                <span className="font-mono text-xs block p-2 bg-slate-100 dark:bg-slate-900 rounded border mt-1 text-center font-bold">
-                  Net Cost of Main Product = Total Joint Cost − NRV of By-Product + Further Processing Cost of Main Product
+                <p><strong>3. By-Products Treatment:</strong> Value of by-products, scraps, and wastes are usually not material. They are measured at Net Realisable Value (NRV). This NRV is deducted from the joint cost of the main product: <br />
+                <span className="font-mono text-xs block p-2 bg-slate-100 dark:bg-slate-900 rounded border mt-1 text-center font-bold text-slate-800 dark:text-slate-200">
+                  Net Cost of Main Product = Total Joint Cost − NRV of By-Product
                 </span>
                 </p>
               </div>
@@ -1807,10 +1822,13 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               Other costs are included in the cost of inventories only to the extent that they are incurred in bringing the inventories to their present location and condition. <PdfRef page={8} />
             </p>
             <p>
-              For example, custom design costs and drawings for specific customer orders are capitalized. Amortisation of production-related intangible assets (e.g. production patent or publisher's copyright) is also capitalized. <PdfRef page={8} />
+              For example, custom design costs and drawings for specific customer orders are capitalized. Amortisation of production-related intangible assets (e.g. production patent rights or publisher's copyrights) is also capitalized. <PdfRef page={8} />
             </p>
             <p>
               <strong>Borrowing Costs (Maturing Exception):</strong> Interest and borrowing costs (AS 16) are generally excluded. However, they are capitalized where the inventory necessarily takes a substantial period of time to get ready for its intended sale (e.g. aging of cheese, whiskey, or maturing wine). <PdfRef page={8} />
+            </p>
+            <p>
+              <strong>Exchange Differences:</strong> Exchange differences arising on foreign currency transactions are not taken in inventory costs. <PdfRef page={8} />
             </p>
           </div>
         </section>
@@ -1833,19 +1851,19 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4 font-sans">
             <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
               <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Abnormal Waste</h4>
-              <p className="text-[13px] text-slate-655 dark:text-gray-400">Abnormal amounts of wasted materials, labour, or other production costs (e.g. machine breakdowns, strikes, or material spills). <PdfRef page={9} /></p>
+              <p className="text-[13px] text-slate-600 dark:text-gray-400">Abnormal amounts of wasted materials, labour, or other production costs (e.g. machine breakdowns, strikes, or material spills). <PdfRef page={9} /></p>
             </div>
             <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
               <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Storage Costs</h4>
-              <p className="text-[13px] text-slate-655 dark:text-gray-400">Storage costs, unless those costs are necessary in the production process prior to a further production stage (e.g., storing finished goods is expensed; maturing cheese storage is capitalized). <PdfRef page={9} /></p>
+              <p className="text-[13px] text-slate-600 dark:text-gray-400">Storage costs, unless those costs are necessary in the production process prior to a further production stage (e.g., storing finished goods is expensed; maturing cheese storage is capitalized). <PdfRef page={9} /></p>
             </div>
             <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
               <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Administrative Overheads</h4>
-              <p className="text-[13px] text-slate-655 dark:text-gray-400">General office administrative overheads that do not contribute to bringing inventories to their present location and condition. <PdfRef page={9} /></p>
+              <p className="text-[13px] text-slate-600 dark:text-gray-400">General office administrative overheads that do not contribute to bringing inventories to their present location and condition. <PdfRef page={9} /></p>
             </div>
             <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
               <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Selling &amp; Distribution</h4>
-              <p className="text-[13px] text-slate-655 dark:text-gray-400">Costs of marketing, advertising, showroom rent, delivery vehicle expenses, and outward freight. <PdfRef page={9} /></p>
+              <p className="text-[13px] text-slate-600 dark:text-gray-400">Costs of marketing, advertising, showroom rent, delivery vehicle expenses, and outward freight. <PdfRef page={9} /></p>
             </div>
           </div>
         </section>
@@ -1884,7 +1902,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               Items that are not ordinarily interchangeable and goods or services produced and segregated for specific projects should have their costs assigned by using <strong>Specific Identification of their individual costs</strong>. <PdfRef page={9} />
             </p>
             <p>
-              For interchangeable lots, costs are assigned using either the <strong>First-In, First-Out (FIFO)</strong> or <strong>Weighted Average Cost (WAC)</strong> formulas. <PdfRef page={9} />
+              For interchangeable lots, costs are assigned using either the <strong>First-In, First-Out (FIFO)</strong> or <strong>Weighted Average Cost (WAC)</strong> formulas. The formula used should reflect the fairest possible approximation to the cost incurred. <PdfRef page={9} />
             </p>
           </div>
 
@@ -1943,6 +1961,9 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             <p>
               The comparison between cost and Net Realisable Value (NRV) must be made on an <strong>item-by-item basis</strong>. Grouping similar or related items is permitted only under restricted conditions (e.g. items of the same product line having similar end uses). Grouping entire classes (e.g. all finished goods) is prohibited. <PdfRef page={11} />
             </p>
+            <p>
+              Estimates of net realisable value are based on the most reliable evidence available at the time the estimates are made. These estimates take into consideration fluctuations of price or cost directly relating to events occurring after the balance sheet date to the extent that such events confirm the conditions existing at the balance sheet date. <PdfRef page={10} />
+            </p>
           </div>
 
           {/* Accordion: Raw Materials Exception */}
@@ -1952,15 +1973,15 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.rmWriteDown ? "rotate-180" : "")} />
             </div>
             {openAccordions.rmWriteDown && (
-              <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14.5px] space-y-3 font-sans leading-relaxed text-slate-705 dark:text-slate-305">
-                <p className="font-semibold text-slate-900 dark:text-white">
+              <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14.5px] space-y-3 font-sans leading-relaxed text-slate-700 dark:text-slate-305">
+                <p className="font-semibold text-slate-900 dark:text-white font-serif">
                   Materials and other supplies held for use in the production of inventories are NOT written down below cost if the finished products in which they are to be incorporated are expected to be sold at or above cost. <PdfRef page={11} />
                 </p>
-                <p>
+                <p className="font-serif">
                   <strong>Why?</strong> Since the finished product recovers its cost, the raw materials are expected to be fully recovered. Writing down raw materials in such cases would create an artificial loss in the current year.
                 </p>
-                <p className="text-red-655 dark:text-red-400 font-bold font-sans">The Exception (When to write down Raw Materials):</p>
-                <p>
+                <p className="text-red-600 dark:text-red-400 font-bold font-sans">The Exception (When to write down Raw Materials):</p>
+                <p className="font-serif">
                   If the finished goods' selling price is estimated to be below cost, raw materials are written down to replacement cost. Under AS 2, the <strong>replacement cost</strong> of the materials is the best available measure of their net realisable value. <PdfRef page={11} />
                 </p>
               </div>
@@ -1989,25 +2010,25 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
             <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
               <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">On Sale of Inventory</span>
-              <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+              <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
                 {"Dr. Cost of Goods Sold\n  Cr. Inventory\n[Recognized in P&L matching revenue]"}
               </pre>
             </div>
             <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
               <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">NRV Write-down</span>
-              <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+              <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
                 {"Dr. Loss on NRV Write-down (P&L)\n  Cr. Inventory\n[Recognized immediately as period cost]"}
               </pre>
             </div>
             <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
               <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">Reversal of Write-down</span>
-              <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+              <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
                 {"Dr. Inventory\n  Cr. Cost of Goods Sold (Reduction)\n[Capped at the original write-down amount]"}
               </pre>
             </div>
             <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
               <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">Abnormal Wastage</span>
-              <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+              <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
                 {"Dr. Abnormal Loss A/c (P&L)\n  Cr. WIP / Raw Materials\n[Charged directly to Profit & Loss]"}
               </pre>
             </div>
@@ -2047,7 +2068,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
               <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
               <div>
-                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">NRV Write-down and reversals (if any)</p>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">NRV Write-down and reversals (if any)</p>
                 <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose the write-down amount and the circumstances that led to the reversal. <PdfRef page={12} /></p>
               </div>
             </div>
@@ -2064,7 +2085,10 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
     </div>
   )
-}const as3Chapters = [
+}
+
+
+const as3Chapters = [
   { id: 'overview',        title: 'Introduction' },
   { id: 'applicability',   title: 'Applicability' },
   { id: 'definitions',     title: 'Cash Equivalents' },
@@ -2180,7 +2204,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
       title={"Open ICAI AS 3 PDF — Page " + page}
     >
       <FileText size={10} className="shrink-0" />
@@ -2197,7 +2221,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
       <div className="w-full mb-6 mt-12 first:mt-2">
         <div className="flex items-baseline gap-2 mb-2">
           <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-            <span className="text-indigo-655 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
             <span>{title}</span>
           </h2>
         </div>
@@ -2244,8 +2268,8 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
                 }}
                 className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
                   activeSection === sec.id
-                    ? 'text-white bg-indigo-655 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-705 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 )}
               >
                 {sec.title}
@@ -2309,14 +2333,14 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
             <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
               <span className="text-blue-500 font-bold">☐</span>
               <div>
-                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Dormant Company</p>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Dormant Company</p>
                 <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Companies registered as inactive/dormant under Section 455 of the Act. <PdfRef page={1} /></p>
               </div>
             </div>
             <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
               <span className="text-blue-500 font-bold">☐</span>
               <div>
-                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Startup Private Company</p>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Startup Private Company</p>
                 <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Exempted vide MCA Notification dated 13th June, 2017. <PdfRef page={1} /></p>
               </div>
             </div>
@@ -2382,15 +2406,15 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 font-sans">
             <div className="p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/10">
               <h4 className="font-bold text-blue-800 dark:text-blue-400 text-xs uppercase tracking-wider mb-1.5">1. Operating Activities</h4>
-              <p className="text-[13px] text-slate-655 dark:text-gray-400 leading-relaxed">The principal revenue-producing activities of the enterprise and other activities that are not investing or financing. (e.g. sale of goods, collection from trade receivables, wages, trade payables). <PdfRef page={4} /></p>
+              <p className="text-[13px] text-slate-600 dark:text-gray-400 leading-relaxed">The principal revenue-producing activities of the enterprise and other activities that are not investing or financing. (e.g. sale of goods, collection from trade receivables, wages, trade payables). <PdfRef page={4} /></p>
             </div>
             <div className="p-4 rounded-xl border border-indigo-200 dark:border-indigo-900/30 bg-indigo-50/20 dark:bg-indigo-955/10">
               <h4 className="font-bold text-indigo-850 dark:text-indigo-400 text-xs uppercase tracking-wider mb-1.5">2. Investing Activities</h4>
-              <p className="text-[13px] text-slate-655 dark:text-gray-400 leading-relaxed">The acquisition and disposal of long-term assets and other investments not included in cash equivalents. (e.g. buying land, selling old machinery, interest/dividends received). <PdfRef page={4} /></p>
+              <p className="text-[13px] text-slate-600 dark:text-gray-400 leading-relaxed">The acquisition and disposal of long-term assets and other investments not included in cash equivalents. (e.g. buying land, selling old machinery, interest/dividends received). <PdfRef page={4} /></p>
             </div>
             <div className="p-4 rounded-xl border border-emerald-250 dark:border-emerald-900/30 bg-emerald-50/20 dark:bg-emerald-955/10">
               <h4 className="font-bold text-emerald-800 dark:text-emerald-450 text-xs uppercase tracking-wider mb-1.5">3. Financing Activities</h4>
-              <p className="text-[13px] text-slate-655 dark:text-gray-400 leading-relaxed">Activities that result in changes in the size and composition of the owners' capital and borrowings. (e.g. issuing equity, redemptions, term loans repaid, dividends/interest paid). <PdfRef page={4} /></p>
+              <p className="text-[13px] text-slate-600 dark:text-gray-400 leading-relaxed">Activities that result in changes in the size and composition of the owners' capital and borrowings. (e.g. issuing equity, redemptions, term loans repaid, dividends/interest paid). <PdfRef page={4} /></p>
             </div>
           </div>
         </section>
@@ -2577,22 +2601,22 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
                 <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-indigo-100 dark:divide-indigo-900/30">
                   <tr className="bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 leading-relaxed align-top font-semibold">Interest Paid</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400">Financing Cash Outflow</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-655 dark:text-blue-400">Operating Cash Outflow</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-600 dark:text-red-400">Financing Cash Outflow</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-600 dark:text-blue-400">Operating Cash Outflow</td>
                   </tr>
                   <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
                     <td className="py-3.5 px-5 leading-relaxed align-top font-semibold">Interest Received</td>
                     <td className="py-3.5 px-5 leading-relaxed align-top text-emerald-700 dark:text-emerald-450">Investing Cash Inflow</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-655 dark:text-blue-400">Operating Cash Inflow</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-600 dark:text-blue-400">Operating Cash Inflow</td>
                   </tr>
                   <tr className="bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 leading-relaxed align-top font-semibold">Dividends Received</td>
                     <td className="py-3.5 px-5 leading-relaxed align-top text-emerald-700 dark:text-emerald-450">Investing Cash Inflow</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-655 dark:text-blue-400">Operating Cash Inflow</td>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-blue-600 dark:text-blue-400">Operating Cash Inflow</td>
                   </tr>
                   <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
                     <td className="py-3.5 px-5 leading-relaxed align-top font-semibold text-indigo-700 dark:text-indigo-400">Dividends Paid</td>
-                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-655 dark:text-red-400 font-semibold" colSpan={2}>
+                    <td className="py-3.5 px-5 leading-relaxed align-top text-red-600 dark:text-red-400 font-semibold" colSpan={2}>
                       Financing Cash Outflow (for all enterprises)
                     </td>
                   </tr>
@@ -2731,7 +2755,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
             <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
               <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
               <div>
-                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Undrawn Borrowing Facilities</p>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Undrawn Borrowing Facilities</p>
                 <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Encouraged to disclose undrawn borrowing facilities that may be available for future operating activities or capital commitments, indicating any restrictions. <PdfRef page={12} /></p>
               </div>
             </div>
@@ -3176,7 +3200,7 @@ function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 5 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -3519,7 +3543,7 @@ function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabContentProps
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 7 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -3867,7 +3891,7 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 9 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -4187,7 +4211,7 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 10 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -4535,7 +4559,7 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 11 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -4822,7 +4846,7 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 12 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -5066,7 +5090,7 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 13 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -5329,7 +5353,7 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 14 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -5616,7 +5640,7 @@ function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 15 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -5964,7 +5988,7 @@ function AS16StandardTabContent({ navigateToPdfPage }: AS16StandardTabContentPro
   const ParaRef = ({ page, para }: { page: number; para: string }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 16 PDF — ${para}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -6277,7 +6301,7 @@ function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabContentPro
   const ParaRef = ({ page, para }: { page: number; para: string }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 17 PDF — ${para}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -6608,7 +6632,7 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
   const ParaRef = ({ page, para }: { page: number; para: string }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 18 PDF — ${para}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -6930,7 +6954,7 @@ function AS19StandardTabContent({ navigateToPdfPage }: AS19StandardTabContentPro
   const ParaRef = ({ page, para }: { page: number; para: string }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 19 PDF — ${para}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -7277,7 +7301,7 @@ export default function LearningPortalClient({
             e.stopPropagation()
             navigateToPdfPage(pageNum)
           }}
-          className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-650 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+          className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
           title={`Click to jump to PDF Page ${pageNum}`}
         >
           <FileText size={10} className="shrink-0 text-red-500 dark:text-red-450" />

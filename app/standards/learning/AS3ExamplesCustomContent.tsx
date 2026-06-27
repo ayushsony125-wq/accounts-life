@@ -124,7 +124,7 @@ function CaseStudyCard({
           {pdfPage && navigateToPdfPage && (
             <button
               onClick={() => navigateToPdfPage(pdfPage)}
-              className="inline-flex items-center gap-1 text-[10px] font-bold text-red-655 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 bg-red-50 hover:bg-red-100/70 dark:bg-red-955/30 px-2.5 py-0.5 border border-red-200/40 dark:border-red-900/30 rounded cursor-pointer transition-all"
+              className="inline-flex items-center gap-1 text-[10px] font-bold text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 bg-red-50 hover:bg-red-100/70 dark:bg-red-955/30 px-2.5 py-0.5 border border-red-200/40 dark:border-red-900/30 rounded cursor-pointer transition-all"
             >
               <FileText size={10} />
               <span>PDF Reference (p. {pdfPage})</span>
@@ -147,7 +147,7 @@ function CaseStudyCard({
             className={`text-xs font-bold px-3.5 py-2 border-b-2 -mb-0.5 transition-all whitespace-nowrap cursor-pointer ${
               activePanelIdx === idx
                 ? 'border-blue-600 text-blue-600 dark:border-blue-500 dark:text-blue-500'
-                : 'border-transparent text-slate-500 hover:text-slate-805 dark:text-gray-400 dark:hover:text-white'
+                : 'border-transparent text-slate-500 hover:text-slate-800 dark:text-gray-400 dark:hover:text-white'
             }`}
           >
             {p.title}
@@ -266,7 +266,7 @@ export function AS3ExamplesCustomContent({
   const renderSectionHeader = (num: string, title: string, description: string) => (
     <div className="w-full mb-6 font-sans">
       <div className="flex items-center gap-3">
-        <span className="font-mono font-extrabold text-[13px] text-blue-655 dark:text-blue-400 select-none">{num}.</span>
+        <span className="font-mono font-extrabold text-[13px] text-blue-600 dark:text-blue-400 select-none">{num}.</span>
         <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-905 dark:text-white tracking-tight">{title}</h2>
       </div>
       <p className="text-[13.5px] text-slate-500 dark:text-slate-400 mt-1 font-sans leading-relaxed">
@@ -309,8 +309,8 @@ export function AS3ExamplesCustomContent({
                 }}
                 className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
                   activeSection === sec.id
-                    ? 'text-white bg-indigo-655 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-705 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 )}
               >
                 {sec.label}

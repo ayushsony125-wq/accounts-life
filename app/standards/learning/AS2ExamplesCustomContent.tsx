@@ -149,7 +149,7 @@ function CaseStudyCard({
                 <span className={`flex items-center justify-center w-[22px] h-[22px] rounded-full text-[10.5px] font-bold font-mono shrink-0 ${activeTheme.number}`}>
                   {idx + 1}
                 </span>
-                <span className={`text-[10.5px] font-extrabold uppercase tracking-widest select-none ${isMono ? 'text-slate-655 dark:text-slate-400' : activeTheme.panelTitle}`}>
+                <span className={`text-[10.5px] font-extrabold uppercase tracking-widest select-none ${isMono ? 'text-slate-600 dark:text-slate-400' : activeTheme.panelTitle}`}>
                   {panel.title}
                 </span>
               </div>
