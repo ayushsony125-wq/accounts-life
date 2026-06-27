@@ -1,169 +1,153 @@
 'use client'
 
 import React, { useState, useEffect, useRef } from 'react'
-import { BookOpen, FileText, ChevronDown, ChevronRight, Info, AlertTriangle, Check } from 'lucide-react'
+import { FileText, ChevronDown } from 'lucide-react'
+
+export const as27Sections = [
+  { id: 'as-27-intro-sec', title: '1. Introduction & Objectives' },
+  { id: 'as-27-introduction', title: '3.1 INTRODUCTION' },
+  { id: 'as-27-scope', title: '3.2 SCOPE' },
+  { id: 'as-27-definitions', title: '3.3 DEFINITIONS' },
+  { id: 'as-27-contractual-arrangement', title: '3.4 CONTRACTUAL ARRANGEMENT' },
+  { id: 'as-27-forms-of-joint-ventures', title: '3.5 FORMS OF JOINT VENTURES' },
+  { id: 'as-27-jointly-controlled-operations-jco-', title: '3.6 JOINTLY CONTROLLED OPERATIONS (JCO)' },
+  { id: 'as-27-jointly-controlled-assets-jca-', title: '3.7 JOINTLY CONTROLLED ASSETS (JCA)' },
+  { id: 'as-27-jointly-controlled-entities-jce-', title: '3.8 JOINTLY CONTROLLED ENTITIES (JCE)' },
+  { id: 'as-27-consolidated-financial-statements', title: '3.9 CONSOLIDATED FINANCIAL STATEMENTS' },
+  { id: 'as-27-transactions-between-a-venturer', title: '3.10 TRANSACTIONS BETWEEN A VENTURER' },
+  { id: 'as-27-reporting-interests-in-joint', title: '3.11 REPORTING INTERESTS IN JOINT' },
+  { id: 'as-27-operators-of-joint-ventures', title: '3.12 OPERATORS OF JOINT VENTURES' },
+  { id: 'as-27-disclosure', title: '3.13 DISCLOSURE' }
+];
 
 interface AS27StandardTabContentProps {
   navigateToPdfPage: (page: number) => void;
-  renderTextWithReferences?: (text: string) => React.ReactNode;
+  renderTextWithReferences?: (text: string) => string | React.ReactNode;
 }
 
-const as27Sections = [
-  { id: 'as27-overview',          title: '1. Overview & Purpose' },
-  { id: 'as27-scope',             title: '2. Scope & Applicability (Para 1–2)' },
-  { id: 'as27-definitions',       title: '3. Definitions & Joint Control (Para 3)' },
-  { id: 'as27-jco',               title: '4. Jointly Controlled Operations (JCO)' },
-  { id: 'as27-jca',               title: '5. Jointly Controlled Assets (JCA)' },
-  { id: 'as27-jce',               title: '6. Jointly Controlled Entities (JCE)' },
-  { id: 'as27-consolidation',     title: '7. Proportionate Consolidation Method' },
-  { id: 'as27-transactions',      title: '8. Venturer-JV Transactions & Disclosures' },
-]
-
-export function AS27StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: AS27StandardTabContentProps) {
-  const [activeSection, setActiveSection] = useState('as27-overview')
-  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
-    essentialConditions: true,
-    suspensionRules: true,
-    transactionProfits: true,
-  })
-  const tocScrollRef = useRef<HTMLDivElement>(null)
-
-  const toggleAccordion = (key: string) => setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }))
+export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabContentProps) {
+  const [activeSection, setActiveSection] = useState('as-27-intro-sec');
+  const tocScrollRef = useRef<HTMLDivElement>(null);
 
   const handleSectionClick = (id: string) => {
-    setActiveSection(id)
-    const container = document.getElementById('as1-scroll-container')
-    const target = document.getElementById(id)
-    const stickyToc = document.getElementById('as27-standard-sticky-toc')
+    setActiveSection(id);
+    const container = document.getElementById('as1-scroll-container');
+    const target = document.getElementById(id);
+    const stickyToc = document.getElementById('as-27-standard-sticky-toc');
     if (container && target) {
-      const containerRect = container.getBoundingClientRect()
-      const targetRect = target.getBoundingClientRect()
-      let offset = 58
+      const containerRect = container.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      let offset = 58;
       if (stickyToc) {
-        const tocRect = stickyToc.getBoundingClientRect()
-        offset = tocRect.bottom - containerRect.top
+        const tocRect = stickyToc.getBoundingClientRect();
+        offset = tocRect.bottom - containerRect.top;
       }
       container.scrollTo({
         top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
         behavior: 'auto'
-      })
+      });
     }
-  }
+  };
 
   useEffect(() => {
-    if (!activeSection || !tocScrollRef.current) return
-    const el = tocScrollRef.current
-    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
-    if (!btn) return
-    if (as27Sections[0]?.id === activeSection) {
-      el.scrollTo({ left: 0, behavior: 'smooth' })
-      return
-    }
-    const elRect = el.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({
-      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
-      behavior: 'smooth'
-    })
-  }, [activeSection])
-
-  useEffect(() => {
-    let obs: IntersectionObserver | undefined
-    const init = () => {
-      const sc = document.getElementById('as1-scroll-container')
-      if (!sc) {
-        setTimeout(init, 50)
-        return
+    let observer: IntersectionObserver | undefined;
+    const initObserver = () => {
+      const scrollContainer = document.getElementById('as1-scroll-container');
+      if (!scrollContainer) {
+        setTimeout(initObserver, 50);
+        return;
       }
-      obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) setActiveSection(e.target.id)
-        }),
-        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
-      )
-      as27Sections.forEach(s => {
-        const el = document.getElementById(s.id)
-        if (el) obs?.observe(el)
-      })
-    }
-    init()
-    return () => obs?.disconnect()
-  }, [])
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveSection(entry.target.id);
+            }
+          });
+        },
+        {
+          root: scrollContainer,
+          rootMargin: '-90px 0px -60% 0px',
+          threshold: 0
+        }
+      );
+
+      as27Sections.forEach((sec) => {
+        const el = document.getElementById(sec.id);
+        if (el) observer?.observe(el);
+      });
+    };
+
+    initObserver();
+    return () => observer?.disconnect();
+  }, []);
 
   useEffect(() => {
-    const el = tocScrollRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
+    const el = tocScrollRef.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      el.scrollLeft += e.deltaY;
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => el.removeEventListener('wheel', handleWheel);
+  }, []);
+
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return;
+    const activeBtn = tocScrollRef.current.querySelector('[data-toc-id="' + activeSection + '"]');
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
-  }, [])
+  }, [activeSection]);
 
-  const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-400 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-900/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
-  }
+  const PdfRef = ({ page }: { page: number }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      title={"Open ICAI PDF — Page " + page}
+    >
+      <FileText size={10} className="shrink-0" />
+    </button>
+  );
 
-const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-  const numMap: Record<string, string> = {
-    'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5', 'VI': '6', 'VII': '7', 'VIII': '8', 'IX': '9',
-    'X': '10', 'XI': '11', 'XII': '12', 'XIII': '13', 'XIV': '14', 'XV': '15', 'XVI': '16', 'XVII': '17', 'XVIII': '18', 'XIX': '19'
-  };
-  const arabicNum = numMap[num] || num;
-  return (
-    <div id={id} className="scroll-mt-36 mb-6 mt-12 first:mt-2 w-full">
-      <div className="flex items-baseline gap-2 mb-2">
-        <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-          <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
-          <span>{title}</span>
-        </h2>
+  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => {
+    return (
+      <div id={id} className="scroll-mt-36 mb-6 mt-12 first:mt-2 w-full">
+        <div className="flex items-baseline gap-2 mb-2">
+          <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+            <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{num}.</span>
+            <span>{title}</span>
+          </h2>
+        </div>
+        <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
       </div>
-      <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
-    </div>
-  );
-};
-
-const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-  const styles = {
-    info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-4 border-l-blue-500',
-    warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-4 border-l-amber-500',
-    success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-4 border-l-emerald-500',
-    exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-4 border-l-rose-500',
+    );
   };
-  return (
-    <div className={'rounded-xl border p-5 my-5 ' + styles[type]}>
-      {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-      <div className="text-[14.5px] leading-relaxed">{children}</div>
-    </div>
-  );
-};
 
-const PdfRef = ({ page }: { page: number }) => (
-  <button
-    onClick={() => navigateToPdfPage(page)}
-    className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
-    title={'Open ICAI PDF — Page ' + page}
-  >
-    <FileText size={10} className="shrink-0" />
-  </button>
-);
+  const NB = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+    const styles = {
+      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-4 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-4 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-4 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-4 border-l-rose-500',
+    };
+    return (
+      <div className={'rounded-xl border p-5 my-5 ' + styles[type]}>
+        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+        <div className="text-[14.5px] leading-relaxed">{children}</div>
+      </div>
+    );
+  };
 
   return (
     <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
-      <div id="as27-standard-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+      <div id="as-27-standard-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
         <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
           <div ref={tocScrollRef} style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }} className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5">
             {as27Sections.map(sec => (
-              <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+              <button key={sec.id} data-toc-id={sec.id} onClick={() => handleSectionClick(sec.id)}
                 className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
                 {sec.title.split('. ').slice(1).join('. ') || sec.title}
               </button>
@@ -173,157 +157,480 @@ const PdfRef = ({ page }: { page: number }) => (
       </div>
 
       <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 mt-6">
-              <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-slate-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
-        
-        {/* 1. Overview & Purpose */}
-        <SecHeader id="as27-overview" num="1" title="Overview &amp; Purpose" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <PdfRef page={1} /> Accounting Standard 27 sets out the principles and procedures for **accounting for interests in joint ventures** and reporting joint venture assets, liabilities, income, and expenses in the financial statements of venturers and investors.
-        </p>
-        <p className="leading-relaxed">
-          The standard applies to all joint ventures regardless of the structures or forms (jointly controlled operations, assets, or entities) under which the activities take place. It ensures proper accounting treatment in both separate financial statements (typically carried at cost under AS 13) and consolidated financial statements (using proportionate consolidation).
-        </p>
-
-        {/* 2. Scope & Applicability */}
-        <SecHeader id="as27-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
-        <p className="leading-relaxed mb-4">
-          AS 27 must be applied by all enterprises in accounting for interests in joint ventures. <PdfRef page={2} />
-        </p>
-        <ul className="list-disc pl-6 space-y-1 mb-4">
-          <li><strong>Consolidation Rule:</strong> The requirements relating to accounting for joint ventures in consolidated financial statements (using the proportionate consolidation method) apply <strong>only when consolidated financial statements are prepared</strong> by the venturer. <PdfRef page={2} /></li>
-          <li><strong>Investors without Joint Control:</strong> An investor in a joint venture who does not have joint control should report its interest in consolidated financial statements in accordance with <PdfRef page={2} />, <PdfRef page={2} />, or <PdfRef page={2} /> as appropriate.</li>
-        </ul>
-
-        {/* 3. Definitions & Joint Control */}
-        <SecHeader id="as27-definitions" num="3" title="Definitions &amp; Joint Control (Para 3)" />
-        <p className="leading-relaxed mb-4">
-          The standard defines the following terms: <PdfRef page={2} />
-        </p>
-        <ul className="list-disc pl-6 space-y-2 mb-4">
-          <li><strong>Joint Venture:</strong> A contractual arrangement whereby two or more parties undertake an economic activity that is subject to joint control.</li>
-          <li><strong>Joint Control:</strong> The contractually agreed sharing of control over an economic activity. Decisions require consensus.</li>
-          <li><strong>Control:</strong> The power to govern the financial and operating policies of an economic activity so as to obtain benefits from it.</li>
-          <li><strong>Venturer:</strong> A party to a joint venture who has joint control over that joint venture.</li>
-          <li><strong>Investor:</strong> A party to a joint venture who does not have joint control over that joint venture.</li>
-        </ul>
-
-        <button
-          onClick={() => toggleAccordion('essentialConditions')}
-          className="w-full flex items-center justify-between p-3 font-bold bg-slate-50 dark:bg-[#1E2640] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-gray-800 rounded-lg cursor-pointer"
-        >
-          <span className="text-[13px] sm:text-[14px]">Essential Conditions of a Joint Venture</span>
-          {openAccordions.essentialConditions ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-        </button>
-
-        {openAccordions.essentialConditions && (
-          <div className="p-4 border-x border-b border-slate-200 dark:border-gray-800 rounded-b-lg space-y-3 text-[13px] sm:text-[13.5px] bg-white dark:bg-[#111726] leading-relaxed">
-            <p>For any relationship to qualify as a joint venture under AS 27, it must satisfy all 4 criteria:</p>
-            <ol className="list-decimal pl-5 space-y-1.5">
-              <li><strong>Two or more parties:</strong> Coming together (individuals, firms, corporate bodies, etc.).</li>
-              <li><strong>Economic activity:</strong> Activities carried out with a profit-making motive.</li>
-              <li><strong>Joint control:</strong> Operating and financial decisions are mutually shared; no single party has unilateral control. <PdfRef page={4} /></li>
-              <li><strong>Contractual arrangement:</strong> Established via a written agreement, minutes of meetings, or articles of association to govern the relationship. <PdfRef page={3} /></li>
-            </ol>
-            <NoteBox type="warning" title="IDBI Protection Agreement Exception">
-              <strong>Protective Rights:</strong> Contractual agreements signed by lenders or investors solely to protect their financial interests (e.g. debt covenants) do <strong>not</strong> make them venturers because they do not share operational joint control. <PdfRef page={4} />
-            </NoteBox>
+        <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 shadow-sm space-y-8">
+        {/* Section: 1. Introduction & Objectives */}
+        <section id="as-27-intro-sec" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-intro-sec" num="1" title="1. Introduction &amp; Objectives" />
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 1 --- UNIT 3: ACCOUNTING STANDARD 27 FINANCIAL REPORTING OF INTERESTS IN JOINT VENTURES After studying this unit, you will be able to: ♦ Define ‘Joint venture’ ‘joint Control’, ‘control’, ‘venturer’ and investor. ♦ Appreciate different forms of joint venture ♦ Examine the contractual arrangements which will differentiate the control as of Associate or Joint venture ♦ Evaluate the nitty-gritty of different forms of Joint ventures and differentiate among them ♦ Present the separate and consolidated financial statements of the venturers ♦ Accounting for transactions between the venturer and Joint venture ♦ Comply with the disclosure requirements as stated in the standard.</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
           </div>
-        )}
+        </section>
 
-        {/* 4. Jointly Controlled Operations (JCO) */}
-        <SecHeader id="as27-jco" num="4" title="Jointly Controlled Operations (JCO)" />
-        <p className="leading-relaxed mb-4">
-          Under JCO, venturers do not create a separate legal entity. Instead, they use their own resources (assets, employees, and funds) to carry out the joint venture business alongside their regular operations. <PdfRef page={5} />
-        </p>
-        <p className="font-bold text-slate-900 dark:text-white mb-2">Accounting Treatment in Venturer's Books:</p>
-        <ul className="list-disc pl-6 space-y-1 mb-4">
-          <li>Recognize only the assets controlled and the liabilities incurred by the venturer. <PdfRef page={6} /></li>
-          <li>Recognize the expenses incurred by the venturer and its contractual share of joint revenues. <PdfRef page={6} /></li>
-          <li>No separate set of books is required for the joint venture itself; transactions are recorded directly in the venturer's personal books. <PdfRef page={7} /></li>
-        </ul>
-
-        {/* 5. Jointly Controlled Assets (JCA) */}
-        <SecHeader id="as27-jca" num="5" title="Jointly Controlled Assets (JCA)" />
-        <p className="leading-relaxed mb-4">
-          Similar to JCO, no separate legal entity is created, but the venturers jointly own one or more assets (e.g., a shared pipeline, property, or plant) to derive economic benefits. <PdfRef page={10} />
-        </p>
-        <p className="font-bold text-slate-900 dark:text-white mb-2">Accounting Treatment in Venturer's Books:</p>
-        <ul className="list-disc pl-6 space-y-1 mb-4">
-          <li>Recognize the venturer's fractional share of the jointly held assets (classified according to the nature of the assets, e.g., share of Pipeline, share of Building). <PdfRef page={10} /></li>
-          <li>Recognize any liabilities incurred directly, and its share of any liabilities incurred jointly with other venturers.</li>
-          <li>Recognize any income from the sale/use of its share of the output, along with its share of joint expenses (e.g., maintenance) and any expenses incurred directly.</li>
-        </ul>
-
-        {/* 6. Jointly Controlled Entities (JCE) */}
-        <SecHeader id="as27-jce" num="6" title="Jointly Controlled Entities (JCE)" />
-        <p className="leading-relaxed mb-4">
-          A JCE involves the establishment of a **separate corporation, partnership, or other entity** in which each venturer has an interest. The entity operates in its own right, raises its own finance, purchases assets, incurs liabilities, and maintains its own accounting records. <PdfRef page={15} />
-        </p>
-        <p className="font-bold text-slate-900 dark:text-white mb-2">Accounting Treatment:</p>
-        <ul className="list-disc pl-6 space-y-1 mb-4">
-          <li><strong>Separate Financial Statements:</strong> Account for the interest as an <strong>investment</strong> at cost under <PdfRef page={24} />.</li>
-          <li><strong>Consolidated Financial Statements (CFS):</strong> Account for the interest using the <strong>proportionate consolidation method</strong>. <PdfRef page={21} /></li>
-        </ul>
-
-        {/* 7. Proportionate Consolidation Method */}
-        <SecHeader id="as27-consolidation" num="7" title="Proportionate Consolidation Method" />
-        <p className="leading-relaxed mb-4">
-          Under proportionate consolidation, the venturer's share of each of the assets, liabilities, income, and expenses of a JCE is reported as **separate line items** in the Consolidated Financial Statements, combining them line-by-line with similar items. <PdfRef page={21} />
-        </p>
-
-        <button
-          onClick={() => toggleAccordion('suspensionRules')}
-          className="w-full flex items-center justify-between p-3 font-bold bg-slate-50 dark:bg-[#1E2640] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-gray-800 rounded-lg cursor-pointer"
-        >
-          <span className="text-[13px] sm:text-[14px]">Suspension & Discontinuance of Proportionate Consolidation</span>
-          {openAccordions.suspensionRules ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-        </button>
-
-        {openAccordions.suspensionRules && (
-          <div className="p-4 border-x border-b border-slate-200 dark:border-gray-800 rounded-b-lg space-y-3 text-[13px] sm:text-[13.5px] bg-white dark:bg-[#111726] leading-relaxed">
-            <p><strong>Do NOT use proportionate consolidation if:</strong> <PdfRef page={21} /></p>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>The investment is intended to be temporary (acquired and held exclusively for subsequent disposal in the near future).</li>
-              <li>The joint venture operates under severe long-term restrictions that significantly impair its ability to transfer funds to the venturers.</li>
-            </ul>
-            <p className="mt-2"><strong>Discontinuation Treatment:</strong> From the date joint control is lost, account for the investment as follows: <PdfRef page={21} /></p>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>If interest &gt; 50% (Subsidiary): Account under <strong>AS 21</strong>.</li>
-              <li>If interest is between 20% and 50% (Associate): Account under <strong>AS 23</strong>.</li>
-              <li>For all other cases: Account as an investment under <strong>AS 13</strong>.</li>
-            </ul>
+        {/* Section: 3.1 INTRODUCTION */}
+        <section id="as-27-introduction" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-introduction" num="3.1" title="INTRODUCTION" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            You would have come across many examples where 2 or more entities would have worked together to achieve a certain purpose. Hindustan Unilever Ltd (HUL), Tata Starbucks Ltd, Tata SIA Airlines Ltd. (Vistara), etc. are a few popular examples of Joint Ventures. Entities enter into such arrangements considering sharing of risk and expense, collaboration of know-how and skill-set, while also impacted by different work-cultures and management style. Depending on the contractual arrangement, the accounting and reporting for Joint Ventures is done. <strong>AS 27</strong>, came into effect in respect of accounting periods commenced on or after 01.04.2002. This standard set out principles and procedures for accounting of interests in joint venture and reporting of joint venture assets, liabilities, income <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 2 --- 10.135 and expenses in the financial statements of venturers and investors regardless of the structures or forms under which the joint venture activities take place. The standard deals with three broad types of joint ventures – 1. Jointly controlled operations, 2. Jointly controlled assets and 3. Jointly controlled entities. The requirements relating to accounting for joint ventures in consolidated financial statements according to proportionate consolidation method, as contained in AS 27, apply only when consolidated financial statements are prepared by venturer Similarly existence of a contractual arrangement distinguishes interests which involve joint control from investments in associates in which the investor has significant influence (see Accounting Standard (AS) 23, Accounting for Investments in Associates in Consolidated Financial Statements). An investor in joint venture, which does not have joint control, should report its interest in a joint venture in its consolidated financial statements in accordance with AS 13, AS 21 and AS 23.</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
           </div>
-        )}
+        </section>
 
-        {/* 8. Venturer-JV Transactions & Disclosures */}
-        <SecHeader id="as27-transactions" num="8" title="Venturer-JV Transactions &amp; Disclosures" />
-        
-        <button
-          onClick={() => toggleAccordion('transactionProfits')}
-          className="w-full flex items-center justify-between p-3 font-bold bg-slate-50 dark:bg-[#1E2640] hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-gray-800 rounded-lg cursor-pointer"
-        >
-          <span className="text-[13px] sm:text-[14px]">Unrealized Profit Elimination Rules</span>
-          {openAccordions.transactionProfits ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
-        </button>
-
-        {openAccordions.transactionProfits && (
-          <div className="p-4 border-x border-b border-slate-200 dark:border-gray-800 rounded-b-lg space-y-3 text-[13px] sm:text-[13.5px] bg-white dark:bg-[#111726] leading-relaxed">
-            <ul className="list-disc pl-5 space-y-1.5">
-              <li><strong>Sales/Contribution of Assets by Venturer to JV:</strong> The venturer should recognize only that portion of the gain/loss which is attributable to the interests of the <strong>other venturers</strong>. Recognize a loss in full immediately if it represents a reduction in NRV or an impairment. <PdfRef page={28} /></li>
-              <li><strong>Purchases of Assets by Venturer from JV:</strong> The venturer should not recognize its share of JV profits on the transaction until the asset is resold to an independent third party. <PdfRef page={28} /></li>
-              <li><strong>JCE Book Treatment:</strong> In separate books, transactions are recognized in full. Profit/loss elimination adjustments apply <strong>only during consolidation (CFS)</strong>. <PdfRef page={28} /></li>
-            </ul>
+        {/* Section: 3.2 SCOPE */}
+        <section id="as-27-scope" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-scope" num="3.2" title="SCOPE" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            This Standard should be applied in accounting for interests in joint ventures and the reporting of joint venture assets, liabilities, income and expenses in the financial statements of venturers and investors, regardless of the structures or forms under which the joint venture activities take place. The provisions of this AS need to be referred to for consolidated financial statement only when CFS is prepared and presented by the venturer. <PdfRef page={1} />
+          </p>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
           </div>
-        )}
+        </section>
 
-        <p className="font-bold text-slate-900 dark:text-white mt-4 mb-2">Required Disclosures (Para 35–38):</p>
-        <ul className="list-disc pl-6 space-y-1 mb-4">
-          <li>List of all joint ventures and a description of interests in significant joint ventures. <PdfRef page={29} /></li>
-          <li>For JCEs: Proportion of ownership interest, name, and country of incorporation.</li>
-          <li>Separate financial statement disclosure of aggregate assets, liabilities, income, and expenses related to JCEs. <PdfRef page={29} /></li>
-          <li>Contingent liabilities and capital commitments related to joint ventures (disclosed separately from other contingencies). <PdfRef page={29} /></li>
-        </ul>
-      </div>
+        {/* Section: 3.3 DEFINITIONS */}
+        <section id="as-27-definitions" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-definitions" num="3.3" title="DEFINITIONS" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            1. A joint venture is a contractual arrangement whereby two or more parties undertake an economic activity, which is subject to joint control. From the above definition we conclude that the essential conditions for any business relation to qualify as joint venture are: ♦ Two or more parties coming together: Parties can be an individual or any form of business organization say, BOI, AOP, Company, firm. <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 3 --- ♦ Venturers undertake some economic activity: Economic activity means activities with the profit-making motive. Joint venture is separate from the regular identity of the venturers, it may be in the form of independent and separate legal organization other than regular concern of the venturer engaged in the economic activity. ♦ Venturers have joint control on the economic activity: The operating and financial decisions are influenced by the venturers and they also share the results of the economic activity. ♦ There exists a contractual agreement: The relationship between venturers is governed by the contractual agreement. This agreement can be in the form of written and signed agreement or as minutes of venturer meeting or in any other written form. 2. Joint control is the contractually agreed sharing of control over an economic activity. 3. Control is the power to govern the financial and operating policies of an economic activity so as to obtain benefits from it. 4. A venturer is a party to a joint venture and has joint control over that joint venture. 5. An investor in a joint venture is a party to a joint venture and does not have joint control over that joint venture. 6. Proportionate consolidation is a method of accounting and reporting whereby a venturer’s share of each of the assets, liabilities, income and expenses of a jointly controlled entity is reported as separate line items in the venturer’s financial statements.</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.4 CONTRACTUAL ARRANGEMENT */}
+        <section id="as-27-contractual-arrangement" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-contractual-arrangement" num="3.4" title="CONTRACTUAL ARRANGEMENT" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            The joint venture covered under this statement is governed on the basis of contractual agreement. Non-existence of contractual agreement will disqualify an organization to be covered in <strong>AS 27</strong>. Joint ventures with contractual agreement will be excluded from the scope of <strong>AS 27</strong> only if the investment qualifies as subsidiary under <strong>AS 21</strong>, in this case, it will be covered by <strong>AS 21</strong>. Contractual agreement can be in the form of written contract, minutes of discussion between <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 4 --- 10.137 parties (venturers), articles of the concern or by-laws of the relevant joint venture. Irrespective of the form of the contract, the content of the contract ideally should include the following points: ♦ The activity, duration and reporting obligations of the joint venture. ♦ The appointment of the board of directors or equivalent governing body of the joint venture and the voting rights of the venturers. ♦ Capital contributions by the venturers. ♦ The sharing by the venturers of the output, income, expenses or results of the joint venture. The main object of contractual agreement is to distribute the economic control among the venturers, it ensures that no venturer should have unilateral control. The arrangement identifies those decisions in areas essential to the goals of the joint venture which require the consent of all the venturers and those decisions which may require the consent of a specified majority of the venturers. If contractual agreement is signed by a party to safeguard its right, such agreement will not make the party a venturer. The contractual arrangement may identify one venturer as the operator or manager of the joint venture. The operator does not control the joint venture but acts within the financial and operating policies which have been agreed to by the venturers in accordance with the contractual arrangement and delegated to the operator Example 1 IDBI gave loan to the joint venture entity of L&amp;T and Tantia Construction, they signed an agreement according to which IDBI will be informed for all important decisions of the joint venture entity. This agreement is to protect the right of the IDBI, hence just signing the contractual agreement will not make investor a venturer. Example 2 X Ltd invested ` 200 crore as initial capital along with Y Ltd and Z Ltd in GFH Ltd. The purpose of X Ltd making this investment is to grow the business of GFH Ltd along with the other investors. All investors have a right to attend to the meetings</li>
+            <li>-- PAGE 5 --- and to take decisions with respect to the business of GFH Ltd. All investors are actively involved in running the business of GFH Ltd and have a share in the returns generated by GFH Ltd in an agreed proportion. GFH Ltd is an example of a Joint Venture and X Ltd, Y Ltd and Z Ltd are all Venturers. Similarly, just because contractual agreement has assigned the role of a manager to any of the venturer will not disqualify him as venturer. Example 3 Mr. A, M/s. B &amp; Co. and C Ltd. entered into a joint venture, where according to the agreement, all the policies making decisions on financial and operating activities will be taken in a regular meeting attended by them or their representatives. Implementation and execution of these policies will be the responsibility of Mr. A. Here Mr. A is acting as venturer as well as manager of the concern.</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.5 FORMS OF JOINT VENTURES */}
+        <section id="as-27-forms-of-joint-ventures" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-forms-of-joint-ventures" num="3.5" title="FORMS OF JOINT VENTURES" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            Joint ventures may take many forms and structures, this Statement identifies them in three broad types – • Jointly Controlled Operations (JCO), • Jointly Controlled Assets (JCA) and • Jointly Controlled Entities (JCE). Any structure which satisfies the following characteristics can be classified as joint ventures: (a) Two or more venturers are bound by a contractual arrangement and (b) The contractual arrangement establishes joint control. <PdfRef page={1} />
+          </p>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.6 JOINTLY CONTROLLED OPERATIONS (JCO) */}
+        <section id="as-27-jointly-controlled-operations-jco-" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-jointly-controlled-operations-jco-" num="3.6" title="JOINTLY CONTROLLED OPERATIONS (JCO)" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            Under this set up, venturers do not create a separate entity for their joint venture business but they use their own resources for the purpose. They raise any funds required for joint venture on their own, they incur any expenses and sales are also realised individually. They use same set of assets and employees for joint venture business and their own business. The joint venture agreement usually provides <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 6 --- 10.139 means by which the revenue from the jointly controlled operations and any expenses incurred in common are shared among the venturers. Since there is no separate legal entity and venturers don’t recognize the transactions separately, they do not maintain a separate set of books for joint venture. All the transactions of joint venture are recorded in their books only. Following are the key features of JCO: a. Each venturer has his own separate business. b. There is no separate entity for joint venture business. c. All venturers are creating their own assets and maintain them. d. Each venturer record only his own transactions without any separate set of books maintained for the joint venture business. e. There is a common agreement between all of them. f. Venturers use their assets for the joint venture business. g. Venturers met the liabilities created by them for the joint venture business. h. Venturers met the expenses of the joint venture business from their funds. i. Any revenue generated or income earned from the joint venture is shared by the venturers as per the contract. Since the jointly controlled operation is not purchasing assets or raising finance in its own right, the assets and liabilities used in the activities of the joint venture are those of the ventures. As such, they are accounted for in the financial statements of the venture to which they belong. The only accounting issue that arises is that the output from the project is to be shared among the venturers and, therefore, there must be some mechanism for specifying the allocation of the proceeds and the sharing of any joint expenses. In respect of its interests in jointly controlled operations, a venturer should recognise in its separate financial statements and consequently in its consolidated financial statements: (a) the assets that it controls and the liabilities that it incurs; and (b) the expenses that it incurs and its share of the income that it earns from the joint venture.</li>
+            <li>-- PAGE 7 --- Separate accounting records may not be required for the joint venture itself and financial statements may not be prepared for the joint venture. However, the venturers may prepare accounts for internal management reporting purposes so that they may assess the performance of the joint venture. Example 4 Mr. A (dealer in tiles and marbles), Mr. B (dealer in various building materials) and Mr. C (Promoter) enters into a joint venture business, where any contract for construction received will be completed jointly, say, Mr. A will supply all tiles and marbles, Mr. B will supply other materials from his godown and Mr. C will look after the completion of construction. As per the contractual agreement, they will share any profit/loss in a predetermined ratio. None of them are using separate staff or other resources for the joint venture business and neither do they maintain a separate account. Everything is recorded in their personal business only. Venturer doesn’t maintain a separate set of books but they record only their own transactions of the joint venture business in their books. Any transaction of joint venture recorded separately is only for internal reporting purpose. Once all transactions recorded in venturer financial statement, they don’t need to be adjusted for in consolidated financial adjustment. Illustration 1 Mr. A, Mr. B and Mr. C entered into a joint venture to purchase a land, construct and sell flats. Mr. A purchased a land for ` 60,00,000 on 01.01.20X1 and for the purpose he took loan from a bank for ` 50,00,000 @ 8% interest p.a. He also paid registering fees ` 60,000 on the same day. Mr. B supplied the materials for ` 4,50,000 from his godown and further he purchased the materials for ` 5,00,000 for the joint venture. Mr. C met all other expenses of advertising, labour and other incidental expenses which turnout to be ` 9,00,000. On 30.06.20X1 each of the venturer agreed to take away one flat each to be valued at ` 10,00,000 each flat and rest were sold by them as follow: Mr. A for ` 40,00,000; Mr. B for ` 20,00,000 and Mr. C for ` 10,00,000. Loan was repaid on the same day by Mr. A along with the interest and net proceeds were shared by the partners equally. You are required to prepare the draft Consolidated Profit &amp; Loss Account and Joint Venture Account in the books of each venturer.</li>
+            <li>-- PAGE 8 --- 10.141 Solution Draft Consolidated Profit &amp; Loss Account Particulars ` ` Particulars ` ` To Purchase of Land: By Sale of Flats: Mr. A 60,00,000 Mr. A 40,00,000 To Registration Fees: Mr. B 20,00,000 Mr. A 60,000 Mr. C 10,00,000 70,00,000 To Materials: By Flats taken by Venturers: Mr. B 9,50,000 Mr. A 10,00,000 To Other Expenses: Mr. B 10,00,000 Mr. C 9,00,000 Mr. C 10,00,000 30,00,000 To Bank Interest: Mr. A 2,00,000 To Profits: Mr. A 6,30,000 Mr. B 6,30,000 Mr. C 6,30,000 18,90,000 1,00,00,000 1,00,00,000</li>
+            <li>-- PAGE 9 --- In the Books of Mr. A Joint Venture Account Particulars ` Particulars ` To Bank Loan (Purchase of Land) 50,00,000 By Bank (Sale of Flats) 40,00,000 To Bank:(Purchase of Land) 10,00,000 By Land &amp; Building 10,00,000 To Bank (Registration Fees) 60,000 By Bank (Received from Mr. B) 14,20,000 To Bank (Bank Interest) 2,00,000 By Bank (Received from Mr. C) 4,70,000 To Profit on JV 6,30,000 68,90,000 68,90,000 In the Books of Mr. B Joint Venture Account Particulars ` Particulars ` To Purchases (Material Supplied) 4,50,000 By Bank (Sale of Flats) 20,00,000 To Bank (Materials) 5,00,000 By Land &amp; Building 10,00,000 To Profit on JV 6,30,000 To Bank (Paid to Mr. A) 14,20,000 30,00,000 30,00,000 In the Books of Mr. C Joint Venture Account Particulars ` Particulars ` To Bank (Misc. Expenses) 9,00,000 By Bank (Sale of Flats) 10,00,000 To Profit on JV 6,30,000 By Land &amp; Building 10,00,000 To Bank (Paid to Mr. A) 4,70,000 20,00,000 20,00,000</li>
+            <li>-- PAGE 10 --- 10.143</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.7 JOINTLY CONTROLLED ASSETS (JCA) */}
+        <section id="as-27-jointly-controlled-assets-jca-" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-jointly-controlled-assets-jca-" num="3.7" title="JOINTLY CONTROLLED ASSETS (JCA)" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            Separate legal entity is not created in this form of joint venture but venturer owns the assets jointly, which are used by them for the purpose of generating economic benefit to each of them. They take up any expenses and liabilities related to the joint assets as per the contract. We can conclude the following points: ♦ There is no separate legal identity. ♦ There is a common control over the joint assets. ♦ Venturers use this asset to derive some economic benefit to themselves. ♦ Each venturer incurs separate expenses for their transactions. ♦ Expenses on jointly held assets are shared by the venturers as per the contract. ♦ In their financial statement, venturer shows only their share of the asset and total income earned by them along with total expenses incurred by them. ♦ Since the assets, liabilities, income and expenses are already recognised in the separate financial statements of the venturer and consequently in its consolidated financial statements, no adjustments or other consolidation procedures are required in respect of these items when the venturer presents consolidated financial statements. ♦ Financial statements may not be prepared for the joint venture, although the venturers may prepare accounts for internal management reporting purposes so that they may assess the performance of the joint venture. Example 5 ABC Ltd., BP Ltd. and HP Ltd. having the same point of oil refinery and same place of customers agreed to spread a pipeline from their unit to customers place jointly. They agreed to share the expenditure on the pipeline construction and maintenance in the ratio 3:3:4 respectively and the time allotted to use the pipeline was in the ratio 4:3:3 respectively. For the joint venture, each venturer will record his share of joint assets as classified according to the nature of the assets rather than as an investment and any expenditure incurred or revenue generated will be recorded with other items similar to JCO. <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 11 --- Following are the few differences between JCO and JCA for better understanding: ♦ In JCO, venturers use their own assets for joint venture business but in JCA they jointly own the assets to be used in joint venture. ♦ JCO is an agreement to joint carry on the operations to earn income whereas, JCA is an agreement to jointly construct and maintain an asset to generate revenue to each venturer. ♦ Under JCO all expenses and revenues are shared at an agreed ratio, in JCA only expenses on joint assets are shared at the agreed ratio. Illustration 2 A Ltd., B Ltd. and C Ltd. decided to jointly construct a pipeline to transport the gas from one place to another that was manufactured by them. For the purpose following expenditure was incurred by them: Buildings ` 12,00,000 to be depreciated @ 5% p.a., Pipeline for ` 60,00,000 to be depreciated @ 15% p.a., computers and other electronics for ` 3,00,000 to be depreciated @ 40% p.a. and various vehicles of ` 9,00,000 to be depreciated @ 20% p.a. They also decided to equally bear the total expenditure incurred on the maintenance of the pipeline that comes to ` 6,00,000 each year. You are required to show the consolidated balance sheet and the extract of Statement of Profit &amp; Loss and Balance Sheet for each venturer. Solution Consolidated Balance Sheet Note ( `) I Equity and liabilities Shareholders’ funds: Share Capital 1 71,40,000 71,40,000 II Assets Non-current Assets Property, Plant and Equipment: 2 71,40,000 71,40,000</li>
+            <li>-- PAGE 12 --- 10.145 Notes to Accounts (`) 1. Share capital A Ltd. 23,80,000 B Ltd. 23,80,000 C Ltd. 23,80,000 71,40,000 2. Property, Plant and Equipment Land &amp; Building: A Ltd. 3,80,000 B Ltd. 3,80,000 C Ltd. 3,80,000 11,40,000 Plant &amp; Machinery: A Ltd. 17,00,000 B Ltd. 17,00,000 C Ltd. 17,00,000 51,00,000 Computers: A Ltd. 60,000 B Ltd. 60,000 C Ltd. 60,000 1,80,000 Vehicles: A Ltd. 2,40,000 B Ltd. 2,40,000 C Ltd. 2,40,000 7,20,000</li>
+            <li>-- PAGE 13 --- In the Books of A Ltd. Extract of statement of Profit &amp; Loss Particulars Note No. ` Depreciation and amortisation expense 1 4,20,000 Other operating Expenses (Pipeline Expenses) 200,000 Extract of Balance Sheet Note No. ` Assets Non-current assets Property, Plant and Equipment 2 23,80,000 Notes to Accounts ` ` 1. Depreciation and amortisation expense Land &amp; Building 20,000 Plant &amp; Machinery 3,00,000 Computers 40,000 Vehicles 60,000 4,20,000 2. Land &amp; Building 4,00,000 Less: Depreciation (20,000) 3,80,000 Plant &amp; Machinery 20,00,000 Less: Depreciation (3,00,000) 17,00,000 Computers 1,00,000 Less: Depreciation (40,000) 60,000 Vehicles 3,00,000 Less: Depreciation (60,000) 2,40,000 23,80,000</li>
+            <li>-- PAGE 14 --- 10.147 In the Books of B Ltd. Extract of draft Profit &amp; Loss Account Particulars Note No. ` Depreciation and amortisation expense 1 4,20,000 Other operating Expenses (Pipeline Expenses) 200,000 Extract of Balance Sheet Note No. ` Assets Non-current assets Property, Plant and Equipment 2 23,80,000 Notes to Accounts ` ` 1. Depreciation and amortisation expense Land &amp; Building 20,000 Plant &amp; Machinery 3,00,000 Computers 40,000 Vehicles 60,000 4,20,000 2. Land &amp; Building 4,00,000 Less: Depreciation (20,000) 3,80,000 Plant &amp; Machinery 20,00,000 Less: Depreciation (3,00,000) 17,00,000 Computers 1,00,000 Less: Depreciation (40,000) 60,000 Vehicles 3,00,000 Less: Depreciation (60,000) 2,40,000 23,80,000</li>
+            <li>-- PAGE 15 --- In the Books of C Ltd. Extract of Draft Profit &amp; Loss Account Note No. ` Depreciation and amortisation expense 1 4,20,000 Other operating Expenses (Pipeline Expenses) 200,000 Extract of Balance Sheet Note No. ` Assets Non-current assets Property, Plant and Equipment 2 23,80,000 Notes to Accounts ` ` 1. Depreciation and amortisation expense Land &amp; Building 20,000 Plant &amp; Machinery 3,00,000 Computers 40,000 Vehicles 60,000 4,20,000 2. Land &amp; Building 4,00,000 Less: Depreciation (20,000) 3,80,000 Plant &amp; Machinery 20,00,000 Less: Depreciation (3,00,000) 17,00,000 Computers 1,00,000 Less: Depreciation (40,000) 60,000 Vehicles 3,00,000 Less: Depreciation (60,000) 2,40,000 23,80,000</li>
+            <li>-- PAGE 16 --- 10.149</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.8 JOINTLY CONTROLLED ENTITIES (JCE) */}
+        <section id="as-27-jointly-controlled-entities-jce-" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-jointly-controlled-entities-jce-" num="3.8" title="JOINTLY CONTROLLED ENTITIES (JCE)" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            This is the format where venturer creates a new entity for their joint venture business. A jointly controlled entity is a joint venture which involves the establishment of a corporation, partnership or other entity in which each venturer has an interest. The entity operates in the same way as other enterprises, except that a contractual arrangement between the venturers establishes joint control over the economic activity of the entity. All the venturers pool their resources under new banner and this entity purchases its own assets, create its own liabilities, expenses are incurred by the entity itself and sales are also made by this entity. The net result of the entity is shared by the venturers in the ratio agreed upon in the contractual agreement. This contractual agreement also determines the joint control of the venturer. Each venturer usually contributes cash or other resources to the jointly controlled entity. These contributions are included in the accounting records of the venturer and are recognised in its separate financial statements as an investment in the jointly controlled entity. A jointly controlled entity maintains its own accounting records and prepares and presents financial statements in the same way as other enterprises in conformity with the requirements applicable to that jointly controlled entity Example A Ltd and B Ltd are two infrastructure companies operating in City A. The local authority has issued a tender to construct a metro stretch for ` 2,000 crore and had invited bidders to apply for the tender. A Ltd and B Ltd, jointly form a new entity AB Ltd that bids for the tender. All machinery and equipment will be the responsibility of A Ltd. All funding will be managed and controlled by B Ltd. Revenue and operating expenses will be shared jointly by A Ltd and B Ltd in the proportion of 60:40. In the above example AB Ltd constitutes a Jointly Controlled Entity (JCE). Example (Jointly Controlled Entity (JCE)) Three separate aerospace companies form a separate entity, Aero Ltd, to jointly manufacture an aircraft. They carry responsibility for different areas of expertise, such as: manufacturing engines; manufacturing fuselage and wings; and aerodynamics. <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 17 --- The companies carry out different parts of the manufacturing process, each using its own resources and expertise in order to manufacture, market and distribute the aircraft jointly. The three entities share the revenues from the sale of aircraft and jointly incur expenses. The revenues and common costs are shared, as agreed in the consortium contract. Parties also incur their own separate costs, such as labour costs, manufacturing costs, supplies, inventory of unused parts and work in progress. Each party recognises its separately incurred costs in full. Aero Ltd maintains separate accounting records. The consortium agreement comprises the following: Aero Ltd will invoice the customers on the investors’ behalf. The allocation of revenue from the aircraft’s sale is in proportion to the investors’ interests. All administrative costs incurred by Aero Ltd are shared by the parties in proportion to their interests; Aero Ltd will recharge these, with no additional margin. The companies carry out different parts of the manufacturing process, each using its own resources and expertise to manufacture, market and distribute the aircraft jointly. Each company incurs its own separate costs, such as labour costs, manufacturing costs, supplies, inventory of unused parts and work in progress. Each company recognises its separately incurred costs in full. Being a separate entity, separate set of books is maintained for the joint venture and in the individual books of venturers the investment in joint venture is recorded as investment (AS 13). Joint venture can be a foreign company operating in India through an Indian concern say Gremo Insurance of Germany contributes 49% of the assets in joint venture in India with Indo Bank Ltd. of India. They agreed to share the net results in 1:1 ratio. The main objective of the joint venture is to exploit the technical expertise of Gremo Insurance and Goodwill of Indo Bank Ltd. It can also be two or more local concerns opening an organization or firm or company contributing their assets to this new joint venture concern and share the profits of the operation in the agreed ratio.</li>
+            <li>-- PAGE 18 --- 10.151 Illustration 3 A Ltd. a UK based company entered into a joint venture with B Ltd. in India, wherein B Ltd. will import the goods manufactured by A Ltd. on account of joint venture and sell them in India. A Ltd. and B Ltd. agreed to share the expenses &amp; revenues in the ratio of 5:4 respectively whereas profits are distributed equally. A Ltd. invested 49% of total capital but has equal share in all the assets and is equally liable for all the liabilities of the joint venture. Following is the trial balance of the joint venture at the end of the first year: Particulars Dr. ( ` ) Cr. ( ` ) Purchases 9,00,000 Other Expenses 3,06,000 Sales 13,05,000 Property, Plant and Equipment 6,00,000 Current Assets 2,00,000 Unsecured Loans 2,00,000 Current Liabilities 1,00,000 Capital 4,01,000 Closing inventory was valued at ` 1,00,000. You are required to prepare the Consolidated Financial Statement. Solution Consolidated Profit &amp; Loss Account Particulars Note No. ( ` ) Revenue from operations 1 13,05,000 Total Revenue (A) 13,05,000 Less: Expenses Purchases 2 9,00,000 Other expenses 3 3,06,000</li>
+            <li>-- PAGE 19 --- Changes in inventories of finished goods 4 (1,00,000) Total Expenses (B) 11,06,000 Profit Before Tax (A-B) 1,99,000 Consolidated Balance Sheet Note No. (`) I Equity and liabilities 1. Shareholders’ funds: Share Capital 5 4,01,000 Reserves and Surplus 6 1,99,000 2. Non-current liabilities Long term borrowings 7 2,00,000 3. Current Liabilities 8 1,00,000 9,00,000 II Assets Non-current Assets Property, Plant and Equipment 9 6,00,000 Current Assets Inventories 10 1,00,000 Other current assets 11 2,00,000 9,00,000 Notes to Accounts Particulars ( `) 1. Revenue from operations Sales: A Ltd. 7,25,000 B Ltd. 5,80,000 13,05,000</li>
+            <li>-- PAGE 20 --- 10.153 2. Purchases A Ltd. 5,00,000 B Ltd. 4,00,000 9,00,000 3. Other expenses A Ltd. 1,70,000 B Ltd. 1,36,000 3,06,000 4. Closing Inventory A Ltd. 50,000 B Ltd. 50,000 1,00,000 5. Share Capital A Ltd. 1,96,490 B Ltd. 2,04,510 4,01,000 6. Reserves and Surplus Profit &amp; Loss Account: A Ltd. 99,500 B Ltd. 99,500 1,99,000 7. Long Term Borrowings Unsecured Loans: A Ltd. 1,00,000 B Ltd. 1,00,000 2,00,000 8. Current Liabilities A Ltd. 50,000 B Ltd. 50,000 1,00,000 9. Property, Plant and Equipment A Ltd. 3,00,000 B Ltd. 3,00,000 6,00,000</li>
+            <li>-- PAGE 21 --- 10. Inventories A Ltd. 50,000 B Ltd. 50,000 1,00,000 11. Other Current Assets A Ltd. 1,00,000 B Ltd. 1,00,000 2,00,000</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.9 CONSOLIDATED FINANCIAL STATEMENTS */}
+        <section id="as-27-consolidated-financial-statements" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-consolidated-financial-statements" num="3.9" title="CONSOLIDATED FINANCIAL STATEMENTS" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            OF A VENTURER Proportionate consolidation is a method of accounting and reporting whereby a venturer&apos;s share of each of the assets, liabilities, income and expenses of a jointly controlled entity is reported as separate line items in the venturer&apos;s financial statements. Proportionate consolidation method of accounting is to be followed except in the following cases: a. Investment is intended to be temporary because the investment is acquired and held exclusively with a view to its subsequent disposal in the near future. And b. joint venture operates under severe long-term restrictions, which significantly impair its ability to transfer funds to the venturers. In both the above cases, investment of venturer in the share of the investee is treated as investment according to <strong>AS 13</strong>. A venturer should discontinue the use of the proportionate consolidation method from the date that: a. It ceases to have joint control in the joint venture but retains, either in whole or in part, its investment. b. The use of the proportionate consolidation method is no longer appropriate because the joint venture operates under severe long-term restrictions that significantly impair its ability to transfer funds to the venturers. <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 22 --- 10.155 From the date of discontinuing the use of the proportionate consolidation method, a. If interest in entity is more than 50%, investments in such joint ventures should be accounted for in accordance with AS 21, Consolidated Financial Statement. b. If interest is 20% or more but upto 50%, investments are to be accounted for in accordance with AS 23, Accounting for Investment in Associates in Consolidated Financial Statement. c. For all other cases investment in joint venture is treated as per AS 13, Accounting for Investment. d. For this purpose, the carrying amount of the investment at the date on which joint venture relationship ceases to exist should be regarded as cost thereafter. Following are the features of Proportionate Consolidation Method: a. Stress is given on substance over form i.e., more importance is given to the share of venturers in the profit or loss of the venture from the share of assets and liabilities rather than the nature and form of the joint venture. b. Venturer’s share of joint assets, liabilities, expenses and income are shown on the separate lines in the consolidated financial statement. For example, Mr. A enters into a joint venture with Mr. B and has contributed 33% of the total Property, Plant and Equipment and has share of 40% in current assets and current liabilities. Its share in net result is 50%. Consolidated Balance Sheet will be prepared by Mr. A as follow: Consolidated Balance Sheet Note No. ( `) I Equity and liabilities 1. Shareholders’ funds: Share Capital 1 1,00,000 2. Current Liabilities 2 50,000 1,50,000</li>
+            <li>-- PAGE 23 --- II Assets Non-current Assets Property, Plant and Equipment 3 75,000 Current Assets 4 75,000 1,50,000 Notes to Accounts 1. Share Capital *: A (25,000 + 30,000 - 20,000) 35,000 B (50,000 + 45,000 - 30,000) 65,000 1,00,000 2. Current Liabilities: A 20,000 B 30,000 50,000 3. Property, Plant and Equipment: A 25,000 B 50,000 75,000 4. Current Assets: A 30,000 B 45,000 75,000 * Contribution to Share capital taken as a balancing figure in absence of information in this regard in the example Similar to above all the items of expenses and income will also be classified line by line for each item. The whole basis of this provision is to bring transparency in the books of account. If there is any special clause for sharing of expenses, income or any other item that should be clearly disclosed in the consolidated financial statement. c. Most of the provisions of Proportionate Consolidation Method are similar to the provisions of AS 21.</li>
+            <li>-- PAGE 24 --- 10.157 d. As far as possible the reporting date of the financial statements of jointly controlled entity and venturers should be same. If practically it is not possible to draw up the financial statements to such date and, accordingly, those financial statements are drawn up to different reporting dates, adjustments should be made in joint venturer’s books for the effects of significant transactions or other events that occur between the jointly controlled entity’s date and the date of the venturer’s financial statements. In any case, the difference between reporting dates should not be more than six months. e. Accounting policies followed in the preparation of the financial statements of the jointly controlled entity and venturer should be uniform for like transactions and other events in similar circumstances. If accounting policies followed by venturer and jointly controlled entity are not uniform, then adjustments should be made in the items of the venturer to bring it in line with the accounting policy of the joint venture. f. Any asset or liability should not be adjusted by another liability or asset. Similarly any income or expense cannot be adjusted with another expense or income. Such adjustment can be made only when legally it is allowed to adjust them and such items does lead to settlement of obligation or writing off of assets. g. On the date when interest in joint entity is acquired, if the interest of venturer in net assets of the entity is less than the cost of investment in joint entity, the difference will be recognized as goodwill in the consolidated financial statement and if net asset is more than cost of investment, then the difference is recognized as capital reserve. In case the carrying amount of investment is different than cost of investment, we take carrying amount for the purpose of the above calculation. h. An investor who don’t have joint control in the entity is like associate as discussed in AS 23, therefore the treatment of losses will be similar to AS 23. If investor’s share in loss of the joint entity is in excess of his interest in net asset, this excess loss will be recognized by the venturers. In future when entity starts reporting profits, investor’s share of profits will be provided to venturer till total amount is equivalent to absorbed losses.</li>
+            <li>-- PAGE 25 --- Illustration 4 A Ltd. entered into a joint venture with B Ltd. on 1:1 basis and a new company C Ltd. was formed for the same purpose and following is the balance sheet of all the three companies: Particulars A Ltd. B Ltd. C Ltd. Share Capital 10,00,000 7,50,000 5,00,000 Reserve &amp; Surplus 18,00,000 16,00,000 12,00,000 Loans 3,00,000 4,00,000 2,00,000 Current Liabilities 4,00,000 2,50,000 1,00,000 Property, Plant and Equipment 30,50,000 26,25,000 19,50,000 Investment in JV 2,50,000 2,50,000 - Current Assets 2,00,000 1,25,000 50,000 Prepare the balance sheet of A Ltd. and B Ltd. under proportionate consolidation method. Solution Balance Sheet of A Ltd. Note No. (`) I Equity and liabilities 1. Shareholders’ funds: Share Capital 10,00,000 Reserves and Surplus 1 24,00,000 2. Non-current liabilities 2 4,00,000 3. Current Liabilities 3 4,50,000 TOTAL 42,50,000</li>
+            <li>-- PAGE 26 --- 10.159 II Assets Non-current Assets Property, Plant and Equipment: 4 40,25,000 Current Assets 5 2,25,000 42,50,000 Notes to Accounts ` ` 1. Reserves and Surplus A Ltd. 18,00,000 C Ltd. 6,00,000 24,00,000 2. Long Term Borrowings Loans: A Ltd. 3,00,000 C Ltd. 1,00,000 4,00,000 3. Current Liabilities: A Ltd. 4,00,000 C Ltd. 50,000 4,50,000 4. Property, Plant and Equipment: A Ltd. 30,50,000 C Ltd. 9,75,000 40,25,000 5. Current Assets: A Ltd. 2,00,000 C Ltd. 25,000 2,25,000 Balance Sheet of B Ltd. Note No. (`) I Equity and liabilities 1. Shareholders’ funds: Share Capital 7,50,000 Reserves and Surplus 1 22,00,000 2. Non-current liabilities 2 5,00,000 3. Current Liabilities 3 3,00,000 37,50,000</li>
+            <li>-- PAGE 27 --- II Assets 1. Non-current Assets Property, Plant and Equipment 4 36,00,000 2. Current Assets 5 1,50,000 37,50,000 Notes to Accounts ` ` 1. Reserves and Surplus B Ltd. 16,00,000 C Ltd. 6,00,000 22,00,000 2. Long Term Borrowings Loans: B Ltd. 4,00,000 C Ltd. 1,00,000 5,00,000 3. Current Liabilities: B Ltd. 2,50,000 C Ltd. 50,000 3,00,000 4. Property, Plant and Equipment: B Ltd. 26,25,000 C Ltd. 9,75,000 36,00,000 5. Current Assets: B Ltd. 1,25,000 C Ltd. 25,000 1,50,000</li>
+            <li>-- PAGE 28 --- 10.161</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.10 TRANSACTIONS BETWEEN A VENTURER */}
+        <section id="as-27-transactions-between-a-venturer" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-transactions-between-a-venturer" num="3.10" title="TRANSACTIONS BETWEEN A VENTURER" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            AND JOINT VENTURE When venturer transfers or sells assets to Joint Venture, the venturer should recognise only that portion of the gain or loss which is attributable to the interests of the other venturers. The venturer should recognise the full amount of any loss only when the contribution or sale provides evidence of a reduction in the net realisable value of current assets or an impairment loss. When the venturer from the joint venture purchases the assets, venturer will not recognized his share of profits in the joint venture of such transaction unless he disposes off the assets. A venturer should recognise his share of the losses resulting from these transactions in the same way as profits except that losses will be recognised in full immediately only when they represent a reduction in the net realisable value of current assets or an impairment loss. In case the joint venture is in the form of separate entity (i.e., JCE) then provisions of above the Para will be followed only for consolidated financial statement and not for venturer’s own financial statement. In the books of venturer, profit or loss from such transactions are recognised in full. Example A and B established a separate vehicle i.e. entity J, wherein each operator has a 50% ownership interest and each takes 50% of the output. On formation of the joint venture, A contributed a property with fair value of ` 110 crore and agreed to contribute his experience over the years towards this venture; and B contributed equipment with a fair value of ` 120 crore. The carrying values of the contributed assets were ` 100 crore and ` 80 crore, respectively. Answer A – Gain in consolidated financial statements A’s share in the fair value of assets contributed by entity B (50% × 120) 60 A’s share in the carrying value of asset contributed by A to the joint venture (50% × 100) (50) Gain recognised by A 10 <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 29 ---</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.11 REPORTING INTERESTS IN JOINT */}
+        <section id="as-27-reporting-interests-in-joint" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-reporting-interests-in-joint" num="3.11" title="REPORTING INTERESTS IN JOINT" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            VENTURES IN THE FINANCIAL STATEMENTS OF AN INVESTOR The investors who don’t have joint control over the entity recognized his share of net results and his investments in joint venture as per <strong>AS 13</strong>. In the consolidated financial statement it is recognized as per <strong>AS 13</strong>, <strong>AS 21</strong> or <strong>AS 23</strong> as appropriate. <PdfRef page={1} />
+          </p>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.12 OPERATORS OF JOINT VENTURES */}
+        <section id="as-27-operators-of-joint-ventures" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-operators-of-joint-ventures" num="3.12" title="OPERATORS OF JOINT VENTURES" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            Payment to operators is recognized as expense in CFS and in the books of the operators as per <strong>AS 9</strong>, Revenue <strong>Recognition</strong>. The operator may be any of the venturers, in this case any amount received by him, as management fees for the service will be recognized as stated above in this Para. <PdfRef page={1} />
+          </p>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section: 3.13 DISCLOSURE */}
+        <section id="as-27-disclosure" className="scroll-mt-36 space-y-6 w-full">
+          <SH id="as-27-disclosure" num="3.13" title="DISCLOSURE" />
+          <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
+            A venturer should disclose the aggregate amount of the following contingent liabilities, unless the probability of loss is remote, separately from the amount of other contingent liabilities: a. Any contingent liabilities that the venturer has incurred in relation to its interests in joint ventures and its share in each of the contingent liabilities which have been incurred jointly with other venturers; b. Its share of the contingent liabilities of the joint ventures themselves for which it is contingently liable; and c. Those contingent liabilities that arise because the venturer is contingently liable for the liabilities of the other venturers of a joint venture. A venturer should disclose the aggregate amount of the following commitments in respect of its interests in joint ventures separately from other commitments: a. Any capital commitments of the venturer in relation to its interests in joint ventures and its share in the capital commitments that have been incurred jointly with other venturers; and b. Its share of the capital commitments of the joint ventures themselves. <PdfRef page={1} />
+          </p>
+          <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
+            <li>-- PAGE 30 --- 10.163 A venturer should disclose a list of all joint ventures and description of interests in significant joint ventures. In respect of jointly controlled entities, the venturer should also disclose the proportion of ownership interest, name and country of incorporation or residence. A venturer should disclose, in its separate financial statements, the aggregate amounts of each of the assets, liabilities, income and expenses related to its interests in the jointly controlled entities. Reference: The students are advised to refer the full text of AS 27 “Financial Reporting of Interests in Joint Ventures” TEST YOUR KNOWLEDGE Multiple Choice Questions 1. State which of the following statements are incorrect. (i) The requirements relating to accounting for joint ventures in consolidated financial statements according to proportionate consolidation method, as contained in AS 27, applies only when consolidated financial statements are prepared by venturer. (ii) The requirements relating to accounting for joint ventures in consolidated financial statements according to proportionate consolidation method, as contained in AS 27, applies irrespective whether consolidated financial statements are prepared by venturer or not. (iii) An investor in joint venture, which does not have joint control, should report its interest in a joint venture in its consolidated financial statements in accordance with AS 13, AS 21 and AS 23as the case may be. (a) Point (i) is incorrect. (b) Point (ii) is incorrect. (c) Point (iii) is incorrect. (d) None of the above.</li>
+            <li>-- PAGE 31 --- 2. Identify which of the following is not a feature of a Jointly controlled operations (JCO): (a) Each venturer has his own separate business. (b) There is a separate entity for joint venture business. (c) Each venturer record only his own transactions without any separately set of books maintained for the joint venture business. (d) There is a common agreement between all of them. 3. Identify which of the following is/are not a feature of a Jointly controlled assets (JCA): (i) There is a separate legal identity. (ii) There is a common control over the joint assets. (iii) Expenses on jointly held assets are shared by the venturers as per the contract. (iv) In their financial statement, venturer shows only their share of the asset and total income earned by them along with total expenses incurred by them. (a) Point no. (i) only. (b) Point no. (i) and (iii). (c) Point no. (iii) and (iv). (d) Point (i) and (ii). 4. Identify which is/ are features of a Jointly controlled entity (JCE): (i) Venturer creates a new entity for their joint venture business. (ii) All the venturers pool their resources under new banner and this entity purchases its own assets, create its own liabilities, expenses are incurred by the entity itself and sales are also made by this entity. (iii) The revenues and expenses of the entity is shared by the venturers in the equal ratio only. (a) Point no. (i) only.</li>
+            <li>-- PAGE 32 --- 10.165 (b) Point no. (i) and (ii). (c) Point no. (ii). (d) Point no. (iii). 5. Identify the correct statements. From the date of discontinuing the use of the proportionate consolidation method: (i) If interest in entity is more than 50%, investments in such joint ventures should be accounted for in accordance with AS 21, Consolidated Financial Statements. (ii) If interest is 20% or more but upto 50%, investments are to be accounted for in accordance with AS 23, Accounting for Investment in Associates in Consolidated Financial Statements. (iii) For all other cases investment in joint venture is treated as per AS 13, Accounting for Investments. (iv) For this purpose, the fair value of the investment at the date on which joint venture relationship ceases to exist should be regarded as cost thereafter. (a) Point no. 1 and 2. (b) Point no. 1, 2 and 3. (c) Point no. 1, 2, 3 and 4. (d) None of the above. Theoretical Questions 6. Describe the cases when AS 27 does not allow the use of Proportionate consolidation method of accounting? 7. When is a venturer required to discontinue the use of the proportionate consolidation method?</li>
+            <li>-- PAGE 33 --- Scenario based Questions 8. JVR Limited has made investments of ` 97.84 crores in equity shares of QSR Limited in pursuance of Joint Venture agreement till 20X1-X2 (i.e., more than 12 months). The investment has been made at par. QSR Limited has been in continuous losses for the last 2 years. JVR Limited is willing to reassess the carrying amount of its investment in QSR Limited and wish to provide for diminution in value of investments. However, QSR Limited has a futuristic and profitable business plans and projection for the coming years. Discuss whether the contention of JVR Limited to bring down the carrying amount of investment in QSR Limited is in accordance with the Accounting Standard. ANSWERS/SOLUTION Answer to the Multiple Choice Questions 1. (b) 2. (b) 3. (a) 4. ( b) 5. (b) Answer to the Theoretical Questions 6. Proportionate consolidation method of accounting is to be followed except in the following cases: a. Investment is intended to be temporary because the investment is acquired and held exclusively with a view to its subsequent disposal in the near future. The term ‘Near Future’ is explained with AS 21. Or b. joint venture operates under severe long-term restrictions, which significantly impair its ability to transfer funds to the venturers. In both the above cases, investment of venturer in the share of the investee is treated as investment according to AS 13. 7. A venturer should discontinue the use of the proportionate consolidation method from the date that: a. It ceases to have joint control in the joint venture but retains, either in whole or in part, its investment.</li>
+            <li>-- PAGE 34 --- 10.167 b. The use of the proportionate consolidation method is no longer appropriate because the joint venture operates under severe long- term restrictions that significantly impair its ability to transfer funds to the venturers. From the date of discontinuing the use of the proportionate consolidation method, a. If interest in entity is more than 50%, investments in such joint ventures should be accounted for in accordance with AS 21, Consolidated Financial Statement. b. If interest is 20% or more but up to 50%, investments are to be accounted for in accordance with AS 23, Accounting for Investment in Associates in Consolidated Financial Statement. c. For all other cases investment in joint venture is treated as per AS 13, Accounting for Investment. d. For this purpose, the carrying amount of the investment at the date on which joint venture relationship ceases to exist should be regarded as cost thereafter. Answer to the Scenario based Questions 8. As per para 26 of AS 27 “Financial Reporting of Interests in Joint Ventures”, in a venturer’s separate financial statements, interest in a jointly controlled entity should be accounted for as an investment in accordance with AS 13 ‘Accounting for Investments’. As per para 17 of AS 13 “Accounting for Investments”, long-term investments are usually carried at cost. However, when there is a decline, other than temporary, in the value of a long-term investment, the carrying amount is reduced to recognize the decline. Indicators of the value of an investment are obtained by reference to its market value, the investee’s assets and results and the expected cash flows from the investment. The type and extent of the investor’s stake in the investee are also taken into account. However, where there is a decline, other than temporary, in the carrying amounts of long-term investments, the resultant reduction in the carrying amount is charged to the profit and loss statement.</li>
+            <li>-- PAGE 35 --- Since the investment was made in the year 20X1-20X2 i.e., more than a year, it is a long-term investment. In the given case, though the QSR Ltd. is in continuous losses for past 2 years, yet it has a futuristic and profitable business plans and projections for the coming years. Here, one of the indicators i.e. ‘losses incurred to the company’ may lead to diminution in the value of the shares while the other indicator that ‘the company has positive expected cash flows from its business plans’ does not lead to decline in the value of shares. Considering both the facts, in case the expectation of profitable business plans and positive cash flows is based reliable presumptions (such as tender in favour of QSR Ltd., strong order book etc.), the decline will be regarded as temporary in nature and the investment in equity shares will continue to be carried at cost only. However, should the aforesaid presumptions be based on projections without reasonable evidence backing the claims, the decline could be regarded as non-temporary in nature in which case the write down of the carrying amount become necessary in line with AS 13, thereby implying the contention of QSR Ltd. to be correct.</li>
+            <li>-- PAGE 36 --- CASE SCENARIOS Case Scenario 1 RTS Ltd, (“RTS” or the “Company”), is engaged in the business of manufacturing of equipments/components. The Company has a contract with the Indian Railways for a brake component which is structured such that: ♦ The Company’s obligation is to deliver the component to the Railways’ stockyard, while the delivery terms are ex-works, the Company is responsible for engaging a transporter for delivery. ♦ Railways sends an order for a defined quantity. ♦ The Company manufactures the required quantity and informs Railways for carrying out the inspection. ♦ Railways representatives visit the Company’s factory and inspect the components, and mark each component with a quality check sticker. ♦ Goods once inspected by Railways, are marked with a hologram sticker to earmark for delivery identification by the customer when they are delivered to the customer’s location. ♦ The Company raises an invoice once it dispatches the goods. The management of RTS is under discussion with the auditors of the Company in respect of accounting of a critical matter as regards its accounting with respect subsequent events i.e. events after the reporting period. They have been checking as to which one of the following events after the reporting period provide evidence of conditions that existed at the end of the reporting period?</li>
+            <li>-- PAGE 37 --- i. Nationalisation or privatization by government ii. Out of court settlement of a legal claim iii. Rights issue of equity shares iv. Strike by workforce v. Announcing a plan to discontinue an operation The Company has received a grant of ` 8 crores from the Government for setting up a factory in a backward area. Out of this grant, the Company distributed ` 2 crores as dividend. The Company also received land, free of cost, from the State Government but it has not recorded this at all in the books as no money has been spent. RTS has a subsidiary, A Ltd, which is evaluating its production process wherein normal waste is 5% of input. 5,000 MT of input were put in process resulting in wastage of 300 MT. Cost per MT of input was ` 1,000. The entire quantity of waste was on stock at the end of the financial year. (i) When should RTS Ltd recognize revenue as per the Accounting Standards notified under the Companies (Accounting Standards) Rules, 2006? Would your answer be different if inspection is normally known to lead to no quality rejections? (a) Revenue should be recognized on dispatch of components. The assessment would not change even in case where inspection is normally known to lead to no quality rejections. (b) Revenue should be recognized on completion of inspection of components. The assessment would not change even in case where inspection is normally known to lead to no quality rejections. (c) Revenue should be recognized on dispatch of components. The assessment would change where inspection is normally known to lead to no quality rejections. (d) Revenue should be recognized on delivery of the component to the Railways’ stockyard. The assessment would change where inspection is normally known to lead to no quality rejections.</li>
+            <li>-- PAGE 38 --- CS.3 CASE SCENARIOS (ii) In respect of A Ltd, state with reference to Accounting Standards notified under the Companies (Accounting Standards) Rules, 2006, what would be value of the inventory to be recorded in the books of accounts? (a) ` 4,700,000. (b) ` 5,000,000. (c) ` 4,950,000. (d) ` 4,947,368. (iii) Please guide regarding the accounting treatment of both the grants mentioned above in line with the requirements of Accounting Standard 12. (a) Distribution of dividend out of grant is correct. In the second case also not recording land in the books of accounts is correct. (b) Distribution of dividend out of grant is incorrect. In the second case, not recording land in the books of accounts is correct. (c) Distribution of dividend out of grant is correct. In the second case, land should be recorded in the books of accounts at a nominal value. (d) Distribution of dividend out of grant is incorrect. In the second case, land should be recorded in the books of accounts at a nominal value. Answers (i) (b) (ii) (d) (iii) (d) Case Scenario 2 Suman Ltd. is in the business of manufacturing electronics equipment and selling these at its various outlets. It provides installation services for the equipment sold and also provide free 1 year warranty on all the sold products. Beach Resorts are leading resorts in the city. It purchased 5 air conditioners (AC) from Suman Ltd. for its resort. Suman Ltd. sold 5 AC to Beach resort for ` 45,000 each which includes installation fees of ` 1,000 for each AC. The Company also offers 1 year warranty for any repair etc. The Company also offered ` 500 per AC as trade discount. Beach resort placed order on March 15, 2024 and made payment on March 20, 2024. The ACs were delivered on March 27, 2024 and the installation was completed on April 5, 2024.</li>
+            <li>-- PAGE 39 --- (i) How much revenue should be recognised by the Company as on March 31, 2024: (a) ` 2,25,000 (b) ` 2,17,500 (c) ` 2,00,000 (d) ` 2,30,000 (ii) How much revenue should be recognised by the Company in the financial year 2024-25: (a) ` 5000 (b) ` 2,20,000 (c) ` 10,000 (d) ` 2,40,000 (iii) What will be the accounting for trade discount: (a) The same will be recognised separately in the profit and loss. (b) The trade discounts are deducted in determining the revenue. (c) Trade discount will be recognised after one year, when the warranty will be over. (d) Trade discount will be recognised after installation is complete. (iv) Is the Company required to do any accounting for 1 year warranty provided by it: (a) No accounting treatment is required till some warranty claim is actually received by the Company. (b) As there exist a present obligation to provide warranty to customers for 1 year, the Company should estimate the amount that it may have to incur considering various factors including past trends and create a provision as per AS 29. (c) Accounting for claims will be done on cash basis i.e. expense will be recognised when expense is made.</li>
+            <li>-- PAGE 40 --- CS.5 CASE SCENARIOS (d) As the Company is not charging separately for the warranty provided, there is no need to create any provision. Answers (i) (b) (ii) (a) (iii) (b) (iv) (b) Case Scenario 3 Mars Ltd. is a manufacturing enterprise which is starting a new manufacturing plant at X Village. It has commenced construction of the plant on April 1, 2023 and has incurred following expenses: ♦ It has acquired land for installing Plant for ` 50,00,000 ♦ It incurred ` 35,00,000 for material and direct labour cost for developing the Plant. ♦ The Company incurred ` 10,00,000 for head office expenses at New Delhi which included rent, employee cost and maintenance expenditure. ♦ The Company borrowed ` 25,00,000 for construction work of Plant @12% per annum on April 1, 2023. Director finance of the Company incurred travel and meeting expenses amounting to ` 5,00,000 during the year for arranging this loan. ♦ On November 1, 2023, the construction activities of the plant were interrupted as the local people alongwith the activists have raised issues relating to environmental impact of plant being constructed. Due to agitation the construction activities came to standstill for 3 months. ♦ With the help of Government and NGOs, the agitation was over by February 28, 2024 and the work resumed. However, to balance the impact on environment, government ordered the company to install certain devices for which the Company had to incur ` 6,00,000 in March 2024. ♦ The rate of depreciation on Plant is 10%. Based on the above information, answer the following questions. (i) Which of the following expenses cannot be included in the cost of plant: (a) Cost of Land</li>
+            <li>-- PAGE 41 --- (b) Construction material and labour cost (c) Head office expenses (d) Borrowing cost (ii) How much amount of borrowing cost can be capitalised with the plant: (a) ` 300,000 (b) ` 2,00,000 (c) ` 7,00,000 (d) ` 6,00,000 (iii) The total cost of plant as on march 31, 2024 will be: (a) ` 85,00,000 (b) ` 98,00,000 (c) ` 93,00,000 (d) ` 95,00,000 (iv) The amount of depreciation to be charged for the year end March 31, 2024 (a) ` 4,30,000 (b) ` 9,30,000 (c) ` 9,80,000 (d) Nil Answers (i) (c) (ii) (b) (iii) (c) (iv) (d) Case Scenario 4 Beloved Finance Ltd. is a financial enterprise which is in the business of lending loan to small businesses and earn interest on loans. ♦ During the year the Company has lend 50 crores and earned ` 1.5 crore as interest on loans.</li>
+            <li>-- PAGE 42 --- CS.7 CASE SCENARIOS ♦ The Company had surplus funds during the year and invested then in Fixed Deposits with bank and earned interest on fixed deposits of ` 20 lacs. ♦ The Company also acquired a gold loan unit for ` 10 crore during the year and the Company provided interest free loan of ` 15 crore to its wholly- owned subsidiary. ♦ The Company paid a total income tax of ` 75 lacs for the year. Based on the above information, answer the following questions. (i) In the Cash Flow Statement as per AS 3, the interest income of ` 1.5 crore earned on earned on loans given by the Company will be disclosed as: (a) Cash Flow from Operating Activities (b) Cash Flow from Investing Activities (c) Cash Flow from Financing Activities (d) Non-cash Items (ii) In the Cash Flow Statement as per AS 3, the interest income of ` 20 Lacs earned fixed deposits with bank will be disclosed as: (a) Cash Flow from Operating Activities (b) Cash Flow from Investing Activities (c) Cash Flow from Financing Activities (d) Non-cash Items (iii) In the Cash Flow Statement as per AS 3, amount paid for acquiring gold loan unit will be disclosed as: (a) Cash Flow from Operating Activities (b) Cash Flow from Investing Activities (c) Cash Flow from Financing Activities (d) Non-cash Items (iv) In the Cash Flow Statement as per AS 3, total income tax of ` 75 lacs paid for the year will be disclosed as: (a) Cash Flow from Operating Activities</li>
+            <li>-- PAGE 43 --- (b) Cash Flow from Investing Activities (c) Cash Flow from Financing Activities (d) Non-cash Items (v) Is any specific disclosures required to made in relation to the interest free loan of ` 15 crore provided by the Company to its wholly-owned subsidiary, if yes, as per which Accounting Standard: (a) Yes, disclosure is required to be made as per AS 3, Cash Flow Statements. (b) Yes, disclosure is required to be made as per AS 18, Related Party Disclosures (c) Yes, disclosure is required to be made as per AS 13, Accounting for Investments (d) No specific disclosures are required. Answers (i) (a) (ii) (a) (iii) (b) (iv) (a) (v) (b) Case Scenario 5 Venus Limited received a parcel of land at no cost from the government for the purpose of developing a factory in an outlying area. The land is valued at ` 75 lakhs, while the nominal value is ` 10 lakhs. Additionally, the company received a government grant of ` 30 lakhs, which represents 25% of the total investment needed for the factory development. Furthermore, the company received ` 15 lakhs with the stipulation that it be used to purchase machinery. There is no expectation from the government for the repayment of these grants. Answer the following questions based on the above information: (i) The land received from Government, free of cost should be presented at: (a) ` 75 Lakhs (b) ` 30 Lakhs (c) ` 10 Lakhs (d) ` 45 Lakhs</li>
+            <li>-- PAGE 44 --- CS.9 CASE SCENARIOS (ii) As per AS 12, how the Government Grant of ` 30 Lakhs should be presented: (a) It should be recognised in the profit and loss statement as per the related cost. (b) It will be treated as capital reserve. (c) It will be treated as deferred income. (d) It will not be recognised in the financial statements. (iii) As per AS 12, how the Government Grant of ` 15 Lakhs with a condition to purchase machinery may be presented as: (a) Capital Reserve (b) Shareholders Fund (c) Deferred Income (d) Income in statement of profit and loss as received. (iv) Which of the above grants are required to be recognised in the statement of profit and loss on a systematic and rational basis over the useful life of the asset: (a) Land received as Grant (b) Government Grant of ` 30 Lakhs (c) Government Grant of ` 15 Lakhs with a condition to purchase machinery (d) Noe of the above Answers (i) (c) (ii) (b) (iii) (c) (iv) (c) Case Scenario 6 Axis limited is a manufacturing company. It purchased a machinery costing ` 10 Lakhs in April 2023. It paid ` 4 lakhs upfront and paid the remaining ` 6,00,000 as deferred payment by paying instalment of ` 1,05,000 for the next 6 months. During the year, the Company sold a land which was classified as its ‘property, plant and equipment’ for ` 25,00,000 and paid ` 1,00,000 as income tax as long term capital gain on such sale. During the year, the Company also received</li>
+            <li>-- PAGE 45 --- income tax refund along with interest. (i) As per the requirements of AS 3, ‘Cash Flow Statements’, how the amount for purchase of machinery should be presented: (a) ` 10 lakhs as ‘Cash flows from Investing Activities’ and ` 30,000 will simply be booked in profit and loss with no presentation if Cash Flow Statement. (b) ` 10.30 lakhs as ‘Cash flows from Investing Activities’ as entire amount is spend on purchase of machinery. (c) ` 10 lakhs as ‘Cash flows from Investing Activities’ and ` 30,000 as ‘Cash flows from Financing Activities’. (d) ` 10.30 lakhs as ‘Cash flows from Financing Activities’ as the machinery has been purchased on finance. (ii) At what amount, the machinery should be recognised in the financial statements: (a) ` 400,000 (b) ` 10,30,000 (c) ` 600,000 (d) ` 10,00,000 (iii) How should the income tax paid on sale of land should be disclosed in the Cash Flows Statement: (a) Cash flows from Operating Activities (b) Cash flows from Investing Activities (c) Cash flows from Financing Activities (d) No disclosure in Cash Flow Statement (iv) How should the interest on income tax refunds should be disclosed in the Cash Flows Statement: (a) Cash flows from Operating Activities (b) Cash flows from Investing Activities (c) Cash flows from Financing Activities</li>
+            <li>-- PAGE 46 --- CS.11 CASE SCENARIOS (d) No disclosure in Cash Flow Statement Answers (i) (c) (ii) (d) (iii) (b) (iv) (b) Case Scenario 7 SEAS Ltd., the “Company”, is in the business of tours and travels. It sells holiday packages to the customers. The Company negotiates upfront with the Airlines for specified number of seats in flight. The Company agrees to buy a specific number of tickets and pay for those tickets regardless of whether it is able to resell all of those in package. The rate paid by the Company for each ticket purchased is negotiated and agreed in advance. The Company also assists the customers in resolving complaints with the service provided by airlines. However, each airline is responsible for fulfilling obligations associated with the ticket, including remedies to a customer for dissatisfaction with the service. The Company bought a forward contract for three months of US$ 1,00,000 on 1 March 2024 at 1 US$ = INR 83.10 when exchange rate was US$ 1 = INR 83.02. On 31 March 2024, when the Company closed its books, exchange rate was US$ 1 = INR 83.15. On 1 April 2024, the Company decided for premature settlement of the contract due to some exceptional circumstances. The Company is evaluating below mentioned schemes: i. Introduction of a formal retirement gratuity scheme by an employer in place of ad hoc ex-gratia payments to employees on retirement. ii. Management decided to pay pension to those employees who have retired after completing 5 years of service in the organization. Such employees will get pension of ` 20,000 per month. Earlier there was no such scheme of pension in the organization. SEAS Ltd. has a subsidiary, ADI Ltd., which is in the business of construction having turnover of ` 200 crores. SEAS Ltd. and ADI Ltd. hold 9% and 23% respectively in an associate company, ASOC Ltd. Both SEAS Ltd. and ADI Ltd. prepare consolidated financial statements as per Accounting Standards notified under the Companies (Accounting Standards) Rules, 2021.</li>
+            <li>-- PAGE 47 --- (i) What would be the basis of revenue recognition for SEAS Ltd. as per the requirements of Accounting Standards? (a) Gross basis. (b) Net basis. (c) Depends on the accounting policy of the Company. (d) Indian GAAP allows a choice to the Company to recognize revenue on gross basis or net basis. (ii) Please suggest accounting treatment of forward contract for the year ended 31 March 2024 as per Accounting Standard 11. (a) MTM (marked to market value) of contract will be recorded on 31 March 2024. (b) MTM (marked to market value) of contract will be computed as at 31 March 2024 and only if there is loss, it will be recorded during the year ended 31 March 2024. (c) No accounting will be done during the year ended 31 March 2024. (d) Premium on contract will be amortized over the life of the contract. (iii) You are requested to advise the Company in respect of the accounting requirements of above schemes related to employee benefits as to which one of those schemes should be considered as a change in accounting policy during the year. (a) 1 – Change in accounting policy. 2 – Change in accounting policy. (b) 1– Not a change in accounting policy. 2 – Change in accounting policy. (c) 1 – Not a change in accounting policy. 2 – Not a change in accounting policy. (d) 1– Change in accounting policy. 2 – Not a change in accounting policy. (iv) Please comment regarding consolidation requirements for SEAS Ltd. and ADI Ltd. using the below mentioned options as to which one should be correct. (a) ADI Ltd. would using equity method of accounting for 23% in ASOC Ltd. SEAS Ltd. would consolidate ADI Ltd. and consequently automatically</li>
+            <li>-- PAGE 48 --- CS.13 CASE SCENARIOS equity account 23% and separately account for the balance 9% as per AS 13. (b) ADI Ltd. would account for 23% in ASOC Ltd. as per AS 13. SEAS Ltd. would consolidate ADI Ltd. and consequently automatically account 23% and separately account for the balance 9%. (c) ADI Ltd. would account for 23% share in ASOC Ltd using equity method of accounting. SEAS Ltd. would consolidate ADI Ltd. and consequently, automatically account for ASOC Ltd 23% share and separately account for 9% share in ASOC Ltd. using equity method of accounting in consolidated financial statements. (d) ADI Ltd. would account for 23% in ASOC Ltd. as per AS 13. SEAS Ltd. would consolidate ADI Ltd. and using equity method of accounting 23% in ASOC Ltd. and separately account for the balance 9% as per AS 13. Answers (i) (a) (ii) (d) (iii) (c) (iv) (c) Case Scenario 8 On 1 st April, 2022, Shubham Limited purchased some land for ` 30 lakhs for the purpose of constructing a new factory. This cost of 30 lakhs included legal cost of ` 2 lakhs incurred for the purpose of acquisition of this land. Construction work could start on 1 st May, 2022 and Shubham Limited provides you the details of the following costs incurred in relation to its construction: ` Preparation and levelling of the land 80,000 Employment costs of the construction workers (per month) 29,000 Purchase of materials for the construction 21,24,000 Cost of relocating employees to new factory for work 60,000 Costs of inauguration ceremony on 1 st January, 2023 80,000 Overhead costs incurred directly on the construction of the factory (per month) 25,000</li>
+            <li>-- PAGE 49 --- General overhead costs allocated to construction project by the Manager is ` 30,000. However, as per company’s normal overhead allocation policy, it should be ` 24,000. The auditor of the company has support documentation for the cost of ` 15,000 only) and raised objection for the balance amount. The construction of the factory was completed on 31 st December, 2022 and production could begin on 1 st February, 2023. The overall useful life of the factory building was estimated at 40 years from the date of completion. However, it was estimated that the roof will need to be replaced 20 years after the date of completion and that the cost of replacing the roof at current prices would be 25% of the total cost of the building. The construction of the factory was partly financed by a loan of ` 28 lakhs borrowed on 1st April, 2022. The loan was taken at an annual rate of interest of 9%. During the period when the loan proceeds had been fully utilized to finance the construction, Shubham Limited received investment income of ` 25,000 on the temporary investment of the proceeds. You are required to assume that all of the net finance costs to be allocated to the cost of factory (not land) and interest cost to be capitalized based on nine months’ period. Based on the information given in the above scenario, answer the following multiple choice questions: (i) Which of the following cost (incurred directly on construction) will be capitalized to the cost of factory building? (a) ` 2,00,000 incurred as legal cost (b) ` 60,000 – costs of relocating employees (c) ` 80,000 costs of inauguration ceremony (d) ` 24,000 – allocated general overhead cost (ii) What amount of employment cost of construction workers will be capitalized to the cost of factory building? (a) ` 2,90,000 (b) ` 3,48,000 (c) ` 2,32,000 (d) ` 29,000</li>
+            <li>-- PAGE 50 --- CS.15 CASE SCENARIOS (iii) What is the amount of net borrowing cost capitalized to the cost of the factory? (a) ` 1,89,000 (b) ` 1,68,000 (c) ` 1,44,000 (d) ` 1,64,000 (iv) What will be the carrying amount (i.e. value after charging depreciation) of the factory in the Balance Sheet of Shubham Limited as at 31 st March, 2023? (a) ` 30,00,000 (b) ` 57,78,125 (c) ` 27,78,125 (d) ` 58,00,000 Answers (i) (a) (ii) (c) (iii) (d) (iv) (b)</li>
+          </ul>
+          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
+            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
+          </NB>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
+                Professional Accountant Guide
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
+              </p>
+            </div>
+            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
+                Statutory Auditor Note
+              </h4>
+              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
+              </p>
+            </div>
+          </div>
+        </section>
+        </div>
       </div>
     </div>
   );
