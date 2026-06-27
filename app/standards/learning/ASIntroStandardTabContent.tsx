@@ -321,7 +321,7 @@ export function ASIntroStandardTabContent({ navigateToPdfPage }: ASIntroStandard
               </table>
             </div>
 
-            <NB type="exam" title="Important Transition Rules (Para 8.2 &amp; 8.3)">
+            <NB type="exam" title="Important Transition Rules (Para &amp; 8.3)">
               The transition rules contain specific guidelines for entities whose classification status changes:
               <ol className="list-decimal pl-5 mt-2 space-y-1">
                 <li><strong>Large to MSME (Two-Year Waiting Period):</strong> If a Large entity becomes an MSME, it **cannot** claim exemptions until it remains an MSME for **two consecutive years**.</li>
