@@ -113,76 +113,72 @@ export function AS24StandardTabContent({ navigateToPdfPage, renderTextWithRefere
     '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
   }
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+  const numMap: Record<string, string> = {
+    'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5', 'VI': '6', 'VII': '7', 'VIII': '8', 'IX': '9',
+    'X': '10', 'XI': '11', 'XII': '12', 'XIII': '13', 'XIV': '14', 'XV': '15', 'XVI': '16', 'XVII': '17', 'XVIII': '18', 'XIX': '19'
+  };
+  const arabicNum = numMap[num] || num;
+  return (
+    <div id={id} className="scroll-mt-36 mb-6 mt-12 first:mt-2 w-full">
+      <div className="flex items-baseline gap-2 mb-2">
+        <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+          <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+          <span>{title}</span>
+        </h2>
       </div>
-    )
-  }
+      <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
+    </div>
+  );
+};
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
-    }
-    return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
-        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
-      </div>
-    )
-  }
+const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+  const styles = {
+    info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-4 border-l-blue-500',
+    warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-4 border-l-amber-500',
+    success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-4 border-l-emerald-500',
+    exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-4 border-l-rose-500',
+  };
+  return (
+    <div className={'rounded-xl border p-5 my-5 ' + styles[type]}>
+      {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+      <div className="text-[14.5px] leading-relaxed">{children}</div>
+    </div>
+  );
+};
 
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 24 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
+const PdfRef = ({ page }: { page: number }) => (
+  <button
+    onClick={() => navigateToPdfPage(page)}
+    className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    title={'Open ICAI PDF — Page ' + page}
+  >
+    <FileText size={10} className="shrink-0" />
+  </button>
+);
 
   return (
-    <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as24-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 24 Sections:
-        </span>
-        {as24Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
-          </button>
-        ))}
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+      <div id="as24-standard-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
+          <div ref={tocScrollRef} style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }} className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5">
+            {as24Sections.map(sec => (
+              <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+                className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+                {sec.title.split('. ').slice(1).join('. ') || sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+      <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 mt-6">
+              <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-slate-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
         
         {/* 1. Overview & Purpose */}
         <SecHeader id="as24-overview" num="1" title="Overview &amp; Purpose" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Introduction" /> Accounting Standard 24 establishes principles for reporting information about **discontinuing operations**.
+          <PdfRef page={1} /> Accounting Standard 24 establishes principles for reporting information about **discontinuing operations**.
         </p>
         <p className="leading-relaxed">
           The purpose of this standard is to enhance the ability of users of financial statements to make projections of an enterprise\'s cash flows, earnings-generating capacity, and financial position. It does this by requiring the segregation of financial information related to discontinuing operations from that of continuing operations.
@@ -191,7 +187,7 @@ export function AS24StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 2. Scope & Applicability */}
         <SecHeader id="as24-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          This standard applies to all discontinuing operations of all enterprises. <ParaRef page={1} para="Para 1" />
+          This standard applies to all discontinuing operations of all enterprises. <PdfRef page={1} />
         </p>
         <p className="mb-4">It applies in preparing:</p>
         <ul className="list-disc pl-6 space-y-1 mb-4">
@@ -213,11 +209,11 @@ export function AS24StandardTabContent({ navigateToPdfPage, renderTextWithRefere
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Discontinuing Operation</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">A component of an enterprise that the enterprise, pursuant to a single plan, is disposing of substantially in its entirety, or piecemeal, or terminating through abandonment; representing a separate major line of business or geographical area; and distinguishable operationally and financially. <ParaRef page={2} para="Para 3" /></td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">A component of an enterprise that the enterprise, pursuant to a single plan, is disposing of substantially in its entirety, or piecemeal, or terminating through abandonment; representing a separate major line of business or geographical area; and distinguishable operationally and financially. <PdfRef page={2} /></td>
               </tr>
               <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Initial Disclosure Event</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The occurrence of the earliest of: (a) entering into a binding sale agreement, or (b) board approval and public announcement of a detailed formal plan of discontinuance. <ParaRef page={5} para="Para 15" /></td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">The occurrence of the earliest of: (a) entering into a binding sale agreement, or (b) board approval and public announcement of a detailed formal plan of discontinuance. <PdfRef page={5} /></td>
               </tr>
             </tbody>
           </table>
@@ -237,7 +233,7 @@ export function AS24StandardTabContent({ navigateToPdfPage, renderTextWithRefere
           {openAccordions.discontinuingCriteria && (
             <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
               <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Single Plan:</strong> The disposal must be part of a coordinated single plan to sell the component in its entirety, sell assets piecemeal, or abandon it. <ParaRef page={2} para="Para 3" /></li>
+                <li><strong>Single Plan:</strong> The disposal must be part of a coordinated single plan to sell the component in its entirety, sell assets piecemeal, or abandon it. <PdfRef page={2} /></li>
                 <li><strong>Major Line or Geography:</strong> The component must represent a separate major line of business (e.g. retail division) or a geographical area of operations (e.g. South India operations).</li>
                 <li><strong>Operationally Distinguishable:</strong> The assets, liabilities, revenues, and expenses of the component must be clearly identifiable for financial reporting purposes.</li>
               </ul>
@@ -254,7 +250,7 @@ export function AS24StandardTabContent({ navigateToPdfPage, renderTextWithRefere
           It is defined as the **earliest** of:
         </p>
         <ul className="list-disc pl-6 space-y-2 mb-4">
-          <li><strong>Binding Agreement:</strong> Entering into a binding sale agreement for substantially all of the assets of the discontinuing operation. <ParaRef page={5} para="Para 15" /></li>
+          <li><strong>Binding Agreement:</strong> Entering into a binding sale agreement for substantially all of the assets of the discontinuing operation. <PdfRef page={5} /></li>
           <li><strong>Board Approval &amp; Announcement:</strong> The Board of Directors approving a detailed, formal plan for the discontinuance, and making a public announcement of that plan.</li>
         </ul>
 
@@ -276,7 +272,7 @@ export function AS24StandardTabContent({ navigateToPdfPage, renderTextWithRefere
                 <li>Description of the discontinuing operation, and the segment (AS 17) to which it belongs.</li>
                 <li>The date of the initial disclosure event and the formal plan details.</li>
                 <li>The carrying amounts of assets and liabilities to be disposed of.</li>
-                <li>Revenues, expenses, profit/loss before tax, and tax expense of the component. <ParaRef page={6} para="Para 17" /></li>
+                <li>Revenues, expenses, profit/loss before tax, and tax expense of the component. <PdfRef page={6} /></li>
                 <li>Net cash flows (operating, investing, financing) of the component.</li>
               </ul>
               <p><strong>Face of P&amp;L Disclosures (Para 24):</strong></p>
@@ -310,7 +306,7 @@ export function AS24StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 8. Subsequent Updates */}
         <SecHeader id="as24-subsequent-disc" num="8" title="Subsequent Updates &amp; Restatement (Para 27–32)" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={10} para="Para 27" /> Disclosures must be updated in all subsequent annual reports until the discontinuance is completed.
+          <PdfRef page={10} /> Disclosures must be updated in all subsequent annual reports until the discontinuance is completed.
         </p>
         <ul className="list-disc pl-6 space-y-2 mb-4">
           <li><strong>Progress Reporting:</strong> Subsequent reports must describe the progress of the disposal (assets sold, liabilities settled) and any significant changes to the plan.</li>
@@ -319,6 +315,7 @@ export function AS24StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         </ul>
 
       </div>
+      </div>
     </div>
-  )
+  );
 }

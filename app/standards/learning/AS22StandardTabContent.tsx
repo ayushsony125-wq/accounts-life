@@ -113,76 +113,72 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
     '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
   }
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+  const numMap: Record<string, string> = {
+    'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5', 'VI': '6', 'VII': '7', 'VIII': '8', 'IX': '9',
+    'X': '10', 'XI': '11', 'XII': '12', 'XIII': '13', 'XIV': '14', 'XV': '15', 'XVI': '16', 'XVII': '17', 'XVIII': '18', 'XIX': '19'
+  };
+  const arabicNum = numMap[num] || num;
+  return (
+    <div id={id} className="scroll-mt-36 mb-6 mt-12 first:mt-2 w-full">
+      <div className="flex items-baseline gap-2 mb-2">
+        <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+          <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+          <span>{title}</span>
+        </h2>
       </div>
-    )
-  }
+      <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
+    </div>
+  );
+};
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
-    }
-    return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
-        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
-      </div>
-    )
-  }
+const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+  const styles = {
+    info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-4 border-l-blue-500',
+    warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-4 border-l-amber-500',
+    success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-4 border-l-emerald-500',
+    exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-4 border-l-rose-500',
+  };
+  return (
+    <div className={'rounded-xl border p-5 my-5 ' + styles[type]}>
+      {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+      <div className="text-[14.5px] leading-relaxed">{children}</div>
+    </div>
+  );
+};
 
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 22 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
+const PdfRef = ({ page }: { page: number }) => (
+  <button
+    onClick={() => navigateToPdfPage(page)}
+    className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    title={'Open ICAI PDF — Page ' + page}
+  >
+    <FileText size={10} className="shrink-0" />
+  </button>
+);
 
   return (
-    <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as22-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 22 Sections:
-        </span>
-        {as22Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
-          </button>
-        ))}
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+      <div id="as22-standard-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
+          <div ref={tocScrollRef} style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }} className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5">
+            {as22Sections.map(sec => (
+              <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+                className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+                {sec.title.split('. ').slice(1).join('. ') || sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+      <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 mt-6">
+              <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-slate-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
         
         {/* 1. Overview & Purpose */}
         <SecHeader id="as22-overview" num="1" title="Overview &amp; Purpose" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Introduction" /> Accounting Standard 22 establishes the principles for accounting for **taxes on income** following the matching concept.
+          <PdfRef page={1} /> Accounting Standard 22 establishes the principles for accounting for **taxes on income** following the matching concept.
         </p>
         <p className="leading-relaxed">
           Because tax laws and accounting principles recognize income and expenses at different times, a company\'s accounting profit before tax is often significantly different from its taxable income. AS 22 resolves this mismatch by requiring the recognition of deferred taxes on timing differences, ensuring tax expense matches accounting revenues.
@@ -191,7 +187,7 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 2. Scope & Applicability */}
         <SecHeader id="as22-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          This standard should be applied in accounting for taxes on income. <ParaRef page={4} para="Para 1" />
+          This standard should be applied in accounting for taxes on income. <PdfRef page={4} />
         </p>
         <p className="mb-4">It applies to:</p>
         <ul className="list-disc pl-6 space-y-1 mb-4">
@@ -213,7 +209,7 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white font-sans text-xs uppercase tracking-wider">Accounting Income</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The net profit or loss for a period, as reported in the statement of profit and loss, before deducting income-tax expense. <ParaRef page={2} para="Para 3" /></td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">The net profit or loss for a period, as reported in the statement of profit and loss, before deducting income-tax expense. <PdfRef page={2} /></td>
               </tr>
               <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white font-sans text-xs uppercase tracking-wider">Taxable Income</td>
@@ -225,7 +221,7 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
               </tr>
               <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white font-sans text-xs uppercase tracking-wider">Deferred Tax</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The tax effect of timing differences. <ParaRef page={2} para="Para 3" /></td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">The tax effect of timing differences. <PdfRef page={2} /></td>
               </tr>
             </tbody>
           </table>
@@ -244,7 +240,7 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
           </div>
           {openAccordions.timingDiffs && (
             <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-              <p><strong>Timing Differences (Para 3):</strong> Differences between taxable income and accounting income for a period that originate in one period and are capable of reversal in one or more subsequent periods. <ParaRef page={2} para="Para 3" /></p>
+              <p><strong>Timing Differences (Para 3):</strong> Differences between taxable income and accounting income for a period that originate in one period and are capable of reversal in one or more subsequent periods. <PdfRef page={2} /></p>
               <ul className="list-disc pl-5 space-y-1 mb-3">
                 <li>Example: Depreciation differences due to different methods/rates in tax vs books.</li>
                 <li>Example: Provisions disallowed under tax law but allowed on actual payment (Section 43B).</li>
@@ -263,12 +259,12 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 5. Recognition of Deferred Tax */}
         <SecHeader id="as22-recognition" num="5" title="Recognition of Deferred Tax (Para 9–18)" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={6} para="Para 9" /> Tax expense (Current Tax + Deferred Tax) must be charged to the Profit &amp; Loss account.
+          <PdfRef page={6} /> Tax expense (Current Tax + Deferred Tax) must be charged to the Profit &amp; Loss account.
         </p>
         <p className="mb-4">The level of certainty required for recognizing Deferred Tax Assets depends on the timing difference type:</p>
         <ul className="list-disc pl-6 space-y-2 mb-4">
           <li><strong>Deferred Tax Liabilities (DTL):</strong> Must always be recognized in full for all taxable timing differences.</li>
-          <li><strong>Deferred Tax Assets (DTA) (Reasonable Certainty):</strong> For ordinary timing differences, DTAs are recognized to the extent there is **reasonable certainty** of their realization. Reasonable certainty is established by past records and realistic future profit estimates. <ParaRef page={6} para="Para 17" /></li>
+          <li><strong>Deferred Tax Assets (DTA) (Reasonable Certainty):</strong> For ordinary timing differences, DTAs are recognized to the extent there is **reasonable certainty** of their realization. Reasonable certainty is established by past records and realistic future profit estimates. <PdfRef page={6} /></li>
           <li><strong>Deferred Tax Assets (Virtual Certainty):</strong> In case of unabsorbed depreciation or carry forward of losses, DTAs should be recognized only when there is **virtual certainty supported by convincing evidence**.</li>
         </ul>
 
@@ -285,7 +281,7 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
           </div>
           {openAccordions.certaintyRules && (
             <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
-              <p>1. Carry-forward losses indicate a history of losses. Therefore, a DTA is recognized only if there is **virtual certainty** of future taxable profits. <ParaRef page={7} para="Para 17" /></p>
+              <p>1. Carry-forward losses indicate a history of losses. Therefore, a DTA is recognized only if there is **virtual certainty** of future taxable profits. <PdfRef page={7} /></p>
               <p>2. Virtual certainty must be **supported by convincing evidence**, such as a legally binding profitable supply contract, a confirmed backlog of orders, or a restructured profitable model that guarantees future profits.</p>
               <p>3. <strong>Re-assessment (Para 18):</strong> Unrecognized DTAs are re-assessed at each balance sheet date. If virtual certainty is achieved in a later year, the asset is then recognized.</p>
             </div>
@@ -295,7 +291,7 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 7. Measurement */}
         <SecHeader id="as22-measurement" num="7" title="Measurement of Deferred Tax (Para 19–25)" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          Deferred tax assets and liabilities should be measured using the tax rates and tax laws that have been enacted or substantively enacted by the balance sheet date. <ParaRef page={9} para="Para 21" />
+          Deferred tax assets and liabilities should be measured using the tax rates and tax laws that have been enacted or substantively enacted by the balance sheet date. <PdfRef page={9} />
         </p>
         <ul className="list-disc pl-6 space-y-2 mb-4">
           <li><strong>No Discounting:</strong> DTA and DTL must not be discounted to present value. They are kept at nominal values.</li>
@@ -315,7 +311,7 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
           </div>
           {openAccordions.disclosureItems && (
             <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
-              <p><strong>1. Balance Sheet Classification:</strong> DTA and DTL must be classified as **non-current assets** and **non-current liabilities** respectively in the Balance Sheet. <ParaRef page={12} para="Para 28" /></p>
+              <p><strong>1. Balance Sheet Classification:</strong> DTA and DTL must be classified as **non-current assets** and **non-current liabilities** respectively in the Balance Sheet. <PdfRef page={12} /></p>
               <p><strong>2. P&amp;L Presentation:</strong> Current tax and Deferred tax must be presented separately under the head "Tax Expense" in the Statement of Profit and Loss.</p>
               <p><strong>3. Disclosures:</strong> Reconciliations of major components of deferred taxes (e.g. depreciation difference, gratuity provisions) must be provided in the Notes to Accounts.</p>
             </div>
@@ -323,6 +319,7 @@ export function AS22StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         </div>
 
       </div>
+      </div>
     </div>
-  )
+  );
 }

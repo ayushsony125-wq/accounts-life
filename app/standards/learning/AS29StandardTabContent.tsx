@@ -113,110 +113,106 @@ export function AS29StandardTabContent({ navigateToPdfPage, renderTextWithRefere
     '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
   }
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+  const numMap: Record<string, string> = {
+    'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5', 'VI': '6', 'VII': '7', 'VIII': '8', 'IX': '9',
+    'X': '10', 'XI': '11', 'XII': '12', 'XIII': '13', 'XIV': '14', 'XV': '15', 'XVI': '16', 'XVII': '17', 'XVIII': '18', 'XIX': '19'
+  };
+  const arabicNum = numMap[num] || num;
+  return (
+    <div id={id} className="scroll-mt-36 mb-6 mt-12 first:mt-2 w-full">
+      <div className="flex items-baseline gap-2 mb-2">
+        <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+          <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+          <span>{title}</span>
+        </h2>
       </div>
-    )
-  }
+      <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
+    </div>
+  );
+};
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
-    }
-    return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
-        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
-      </div>
-    )
-  }
+const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+  const styles = {
+    info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-4 border-l-blue-500',
+    warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-4 border-l-amber-500',
+    success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-4 border-l-emerald-500',
+    exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-4 border-l-rose-500',
+  };
+  return (
+    <div className={'rounded-xl border p-5 my-5 ' + styles[type]}>
+      {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+      <div className="text-[14.5px] leading-relaxed">{children}</div>
+    </div>
+  );
+};
 
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 29 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
+const PdfRef = ({ page }: { page: number }) => (
+  <button
+    onClick={() => navigateToPdfPage(page)}
+    className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    title={'Open ICAI PDF — Page ' + page}
+  >
+    <FileText size={10} className="shrink-0" />
+  </button>
+);
 
   return (
-    <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as29-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 29 Sections:
-        </span>
-        {as29Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
-          </button>
-        ))}
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+      <div id="as29-standard-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
+          <div ref={tocScrollRef} style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }} className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5">
+            {as29Sections.map(sec => (
+              <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+                className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+                {sec.title.split('. ').slice(1).join('. ') || sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+      <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 mt-6">
+              <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-slate-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
         
         {/* 1. Overview & Purpose */}
         <SecHeader id="as29-overview" num="1" title="Overview &amp; Purpose" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Introduction" /> Accounting Standard 29 ensures that appropriate **recognition criteria and measurement bases** are applied to provisions, contingent liabilities, and contingent assets.
+          <PdfRef page={1} /> Accounting Standard 29 ensures that appropriate **recognition criteria and measurement bases** are applied to provisions, contingent liabilities, and contingent assets.
         </p>
         <p className="leading-relaxed">
-          The main purpose of the standard is to provide transparent guidelines for recognition, eliminating the practice of "profit smoothing" (where companies created arbitrary provisions in highly profitable years and reversed them in low-profit years to manipulate performance metrics). <ParaRef page={1} para="Profit Smoothing" />
+          The main purpose of the standard is to provide transparent guidelines for recognition, eliminating the practice of "profit smoothing" (where companies created arbitrary provisions in highly profitable years and reversed them in low-profit years to manipulate performance metrics). <PdfRef page={1} />
         </p>
 
         {/* 2. Scope & Applicability */}
         <SecHeader id="as29-scope" num="2" title="Scope &amp; Applicability (Para 1)" />
         <p className="leading-relaxed mb-4">
-          AS 29 should be applied in accounting for provisions and contingent liabilities and in dealing with contingent assets, **except**: <ParaRef page={3} para="Scope" />
+          AS 29 should be applied in accounting for provisions and contingent liabilities and in dealing with contingent assets, **except**: <PdfRef page={3} />
         </p>
         <ul className="list-disc pl-6 space-y-1.5 mb-4">
           <li>Financial instruments carried at fair value.</li>
-          <li>Executory contracts (contracts where neither party has performed obligations, or both have partially performed equally), **unless the contract is onerous**. <ParaRef page={4} para="Executory Contracts" /></li>
+          <li>Executory contracts (contracts where neither party has performed obligations, or both have partially performed equally), **unless the contract is onerous**. <PdfRef page={4} /></li>
           <li>Insurance contracts arising in insurance enterprises from contracts with policyholders.</li>
-          <li>Specific provisions covered by other standards (e.g., Construction Contracts - <ParaRef page={3} para="AS 7" />, Revenue - <ParaRef page={3} para="AS 9" />, Employee Benefits - <ParaRef page={3} para="AS 15" />, Leases - <ParaRef page={3} para="AS 19" />, and Income Taxes - <ParaRef page={3} para="AS 22" />).</li>
+          <li>Specific provisions covered by other standards (e.g., Construction Contracts - <PdfRef page={3} />, Revenue - <PdfRef page={3} />, Employee Benefits - <PdfRef page={3} />, Leases - <PdfRef page={3} />, and Income Taxes - <PdfRef page={3} />).</li>
         </ul>
 
         {/* 3. Core Definitions */}
         <SecHeader id="as29-definitions" num="3" title="Core Definitions (Para 3)" />
         <p className="leading-relaxed mb-4">
-          The standard establishes the following key definitions: <ParaRef page={4} para="Definitions" />
+          The standard establishes the following key definitions: <PdfRef page={4} />
         </p>
         <ul className="list-disc pl-6 space-y-2 mb-4">
           <li><strong>Provision:</strong> A liability which can be measured only by using a substantial degree of estimation.</li>
           <li><strong>Liability:</strong> A present obligation of the enterprise arising from past events, the settlement of which is expected to result in an outflow of resources embodying economic benefits.</li>
-          <li><strong>Obligating Event:</strong> An event that creates a legal or constructive obligation that results in an enterprise having no realistic alternative to settling that obligation. <ParaRef page={4} para="Obligating Event" /></li>
+          <li><strong>Obligating Event:</strong> An event that creates a legal or constructive obligation that results in an enterprise having no realistic alternative to settling that obligation. <PdfRef page={4} /></li>
           <li><strong>Contingent Liability:</strong> A possible obligation that arises from past events and whose existence will be confirmed only by the occurrence or non-occurrence of uncertain future events; or a present obligation that is not recognized because a resource outflow is not probable or the amount cannot be measured reliably.</li>
-          <li><strong>Contingent Asset:</strong> A possible asset that arises from past events and whose existence will be confirmed only by the occurrence or non-occurrence of one or more uncertain future events not wholly within the control of the enterprise. <ParaRef page={4} para="Contingent Asset" /></li>
+          <li><strong>Contingent Asset:</strong> A possible asset that arises from past events and whose existence will be confirmed only by the occurrence or non-occurrence of one or more uncertain future events not wholly within the control of the enterprise. <PdfRef page={4} /></li>
         </ul>
 
         {/* 4. Recognition of Provisions */}
         <SecHeader id="as29-recognition" num="4" title="Recognition of Provisions (Para 14)" />
         <p className="leading-relaxed mb-4 font-serif text-[16px] text-slate-700 dark:text-slate-200">
-          A provision should be recognized **if and only if** all 3 criteria are met: <ParaRef page={5} para="Para 14" />
+          A provision should be recognized **if and only if** all 3 criteria are met: <PdfRef page={5} />
         </p>
 
         <button
@@ -233,21 +229,21 @@ export function AS29StandardTabContent({ navigateToPdfPage, renderTextWithRefere
               <span className="shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">1</span>
               <div>
                 <p className="font-bold text-slate-900 dark:text-white">Present Obligation as a result of a Past Event:</p>
-                <p className="text-xs">Based on evidence, the obligation\'s existence at the balance sheet date is probable (more likely than not, &gt;50% chance). <ParaRef page={5} para="Present Obligation" /></p>
+                <p className="text-xs">Based on evidence, the obligation\'s existence at the balance sheet date is probable (more likely than not, &gt;50% chance). <PdfRef page={5} /></p>
               </div>
             </div>
             <div className="flex gap-2.5 items-start">
               <span className="shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">2</span>
               <div>
                 <p className="font-bold text-slate-900 dark:text-white">Probable Outflow of Resources:</p>
-                <p className="text-xs">The outflow of resources embodying economic benefits to settle the obligation is probable (&gt;50% probability). <ParaRef page={7} para="Probable Outflow" /></p>
+                <p className="text-xs">The outflow of resources embodying economic benefits to settle the obligation is probable (&gt;50% probability). <PdfRef page={7} /></p>
               </div>
             </div>
             <div className="flex gap-2.5 items-start">
               <span className="shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-blue-100 text-blue-800 text-[11px] font-bold">3</span>
               <div>
                 <p className="font-bold text-slate-900 dark:text-white">Reliable Estimate:</p>
-                <p className="text-xs">A sufficiently reliable estimate of the obligation amount can be made. (Circumstances where an estimate cannot be made are extremely rare). <ParaRef page={8} para="Reliable Estimate" /></p>
+                <p className="text-xs">A sufficiently reliable estimate of the obligation amount can be made. (Circumstances where an estimate cannot be made are extremely rare). <PdfRef page={8} /></p>
               </div>
             </div>
           </div>
@@ -256,21 +252,21 @@ export function AS29StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 5. Present Obligation & Past Events */}
         <SecHeader id="as29-obligating" num="5" title="Present Obligation &amp; Past Events" />
         <p className="leading-relaxed mb-4">
-          Financial statements deal with the financial position at the end of the reporting period, not its possible position in the future. Therefore, **no provision is recognized for future operating costs**. <ParaRef page={6} para="Para 18" />
+          Financial statements deal with the financial position at the end of the reporting period, not its possible position in the future. Therefore, **no provision is recognized for future operating costs**. <PdfRef page={6} />
         </p>
         <ul className="list-disc pl-6 space-y-1 mb-4">
-          <li><strong>Independent of Future Actions:</strong> Only obligations arising from past events existing independently of the company\'s future conduct of business are recognized (e.g., legal cleanup fines or product warranties). <ParaRef page={6} para="Para 19" /></li>
-          <li><strong>Avoidable Expenditures:</strong> If a future expenditure can be avoided by changing the method of operation (e.g., fitting smoke filters in a factory), no present obligation exists, and no provision is recognized. <ParaRef page={6} para="Para 19" /></li>
-          <li><strong>Proposed New Laws:</strong> An obligation arises under a proposed new law only when the legislation is <strong>virtually certain to be enacted</strong>. <ParaRef page={7} para="Proposed Laws" /></li>
+          <li><strong>Independent of Future Actions:</strong> Only obligations arising from past events existing independently of the company\'s future conduct of business are recognized (e.g., legal cleanup fines or product warranties). <PdfRef page={6} /></li>
+          <li><strong>Avoidable Expenditures:</strong> If a future expenditure can be avoided by changing the method of operation (e.g., fitting smoke filters in a factory), no present obligation exists, and no provision is recognized. <PdfRef page={6} /></li>
+          <li><strong>Proposed New Laws:</strong> An obligation arises under a proposed new law only when the legislation is <strong>virtually certain to be enacted</strong>. <PdfRef page={7} /></li>
         </ul>
 
         {/* 6. Contingent Liabilities & Assets */}
         <SecHeader id="as29-contingencies" num="6" title="Contingent Liabilities &amp; Assets" />
         <p className="leading-relaxed mb-4">
-          **Contingent Liabilities** are possible obligations (where existence is unconfirmed) or present obligations where a resource outflow is not probable or cannot be measured reliably. **They must never be recognized in the Balance Sheet** but must be disclosed in notes. <ParaRef page={8} para="Para 26" />
+          **Contingent Liabilities** are possible obligations (where existence is unconfirmed) or present obligations where a resource outflow is not probable or cannot be measured reliably. **They must never be recognized in the Balance Sheet** but must be disclosed in notes. <PdfRef page={8} />
         </p>
         <p className="leading-relaxed mb-4">
-          **Contingent Assets** are possible assets whose existence will be confirmed by uncertain future events. **They must never be recognized or disclosed in financial statements** to avoid recognizing income that may never be realized. Disclosure is made only in the Board of Directors\' report if the inflow is probable. <ParaRef page={10} para="Para 30" />
+          **Contingent Assets** are possible assets whose existence will be confirmed by uncertain future events. **They must never be recognized or disclosed in financial statements** to avoid recognizing income that may never be realized. Disclosure is made only in the Board of Directors\' report if the inflow is probable. <PdfRef page={10} />
         </p>
 
         <button
@@ -315,11 +311,11 @@ export function AS29StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 7. Measurement & Reimbursements */}
         <SecHeader id="as29-measurement" num="7" title="Measurement &amp; Reimbursements" />
         <p className="leading-relaxed mb-4">
-          The amount recognized as a provision should be the **best estimate** of the expenditure required to settle the present obligation at the balance sheet date, using management judgment and expert reports. <ParaRef page={11} para="Para 35" />
+          The amount recognized as a provision should be the **best estimate** of the expenditure required to settle the present obligation at the balance sheet date, using management judgment and expert reports. <PdfRef page={11} />
         </p>
         <ul className="list-disc pl-6 space-y-2 mb-4">
-          <li><strong>No Discounting:</strong> Provision amounts must <strong>not</strong> be discounted to present value, <strong>except</strong> in the case of decommissioning, restoration, and similar liabilities capitalized in Property, Plant &amp; Equipment (PPE). <ParaRef page={11} para="Discounting Exception" /></li>
-          <li><strong>Exclusion of Disposal Gains:</strong> Gains on the expected disposal of assets must <strong>not</strong> be taken into account in measuring a provision (even if closely linked). <ParaRef page={12} para="expected Disposal" /></li>
+          <li><strong>No Discounting:</strong> Provision amounts must <strong>not</strong> be discounted to present value, <strong>except</strong> in the case of decommissioning, restoration, and similar liabilities capitalized in Property, Plant &amp; Equipment (PPE). <PdfRef page={11} /></li>
+          <li><strong>Exclusion of Disposal Gains:</strong> Gains on the expected disposal of assets must <strong>not</strong> be taken into account in measuring a provision (even if closely linked). <PdfRef page={12} /></li>
         </ul>
 
         <button
@@ -332,11 +328,11 @@ export function AS29StandardTabContent({ navigateToPdfPage, renderTextWithRefere
 
         {openAccordions.reimbursementRules && (
           <div className="p-4 border-x border-b border-slate-200 dark:border-gray-800 rounded-b-lg space-y-3 text-[13px] sm:text-[13.5px] bg-white dark:bg-[#111726] leading-relaxed">
-            <p>If some or all of the expenditure is expected to be reimbursed by another party (e.g. through insurance or supplier warranties): <ParaRef page={13} para="Reimbursements" /></p>
+            <p>If some or all of the expenditure is expected to be reimbursed by another party (e.g. through insurance or supplier warranties): <PdfRef page={13} /></p>
             <ul className="list-disc pl-5 space-y-1">
               <li>Recognize the reimbursement as a <strong>separate asset</strong> only when it is <strong>virtually certain</strong> that the reimbursement will be received.</li>
               <li>The amount recognized for the expected reimbursement must <strong>not exceed</strong> the liability amount.</li>
-              <li>In the balance sheet, the asset and provision cannot be net-off. In the Profit and Loss statement, the expense can be offset against the reimbursement. <ParaRef page={13} para="Separate Asset" /></li>
+              <li>In the balance sheet, the asset and provision cannot be net-off. In the Profit and Loss statement, the expense can be offset against the reimbursement. <PdfRef page={13} /></li>
             </ul>
           </div>
         )}
@@ -344,25 +340,26 @@ export function AS29StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 8. Restructuring Rules & Disclosures */}
         <SecHeader id="as29-restructuring" num="8" title="Restructuring Rules &amp; Disclosures" />
         <p className="leading-relaxed mb-4">
-          A restructuring provision (closure of location, sale of line of business, change of structure) is recognized only when the general recognition criteria are met. <ParaRef page={15} para="Restructuring" />
+          A restructuring provision (closure of location, sale of line of business, change of structure) is recognized only when the general recognition criteria are met. <PdfRef page={15} />
         </p>
         
         <NoteBox type="exam" title="Constructive Obligation for Restructuring">
           An obligating event for restructuring is created ONLY when:
           <ol className="list-decimal pl-5 mt-1.5 space-y-1">
             <li>The enterprise has a <strong>detailed formal plan</strong> identifying the business concerned, locations, and redundancy details.</li>
-            <li>It has <strong>raised a valid expectation</strong> in those affected by starting to implement the plan or announcing its main features before the balance sheet date. <ParaRef page={15} para="Para 51" /></li>
-            <li>For sale of business, there must be a <strong>binding sale agreement</strong> in place. <ParaRef page={15} para="Binding Agreement" /></li>
+            <li>It has <strong>raised a valid expectation</strong> in those affected by starting to implement the plan or announcing its main features before the balance sheet date. <PdfRef page={15} /></li>
+            <li>For sale of business, there must be a <strong>binding sale agreement</strong> in place. <PdfRef page={15} /></li>
           </ol>
         </NoteBox>
 
         <p className="font-bold text-slate-900 dark:text-white mb-2">Key Disclosure Requirements (SMCs Exempted):</p>
         <ul className="list-disc pl-6 space-y-1">
-          <li>Movement of each class of provision: carrying amount at beginning/end, additions, utilization, and reversals. <ParaRef page={16} para="Disclosure (a-d)" /></li>
-          <li>Brief description of the nature of the obligation and expected timing of resulting outflows. <ParaRef page={16} para="Disclosure (a)" /></li>
-          <li>Brief description of the nature of contingent liabilities, along with financial effect and uncertainties. <ParaRef page={17} para="Contingent Disclosures" /></li>
+          <li>Movement of each class of provision: carrying amount at beginning/end, additions, utilization, and reversals. <PdfRef page={16} /></li>
+          <li>Brief description of the nature of the obligation and expected timing of resulting outflows. <PdfRef page={16} /></li>
+          <li>Brief description of the nature of contingent liabilities, along with financial effect and uncertainties. <PdfRef page={17} /></li>
         </ul>
       </div>
+      </div>
     </div>
-  )
+  );
 }

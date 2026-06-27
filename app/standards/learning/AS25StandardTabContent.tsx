@@ -113,76 +113,72 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
     '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
   }
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
+  const numMap: Record<string, string> = {
+    'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5', 'VI': '6', 'VII': '7', 'VIII': '8', 'IX': '9',
+    'X': '10', 'XI': '11', 'XII': '12', 'XIII': '13', 'XIV': '14', 'XV': '15', 'XVI': '16', 'XVII': '17', 'XVIII': '18', 'XIX': '19'
+  };
+  const arabicNum = numMap[num] || num;
+  return (
+    <div id={id} className="scroll-mt-36 mb-6 mt-12 first:mt-2 w-full">
+      <div className="flex items-baseline gap-2 mb-2">
+        <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+          <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+          <span>{title}</span>
+        </h2>
       </div>
-    )
-  }
+      <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
+    </div>
+  );
+};
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
-    }
-    return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
-        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
-      </div>
-    )
-  }
+const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
+  const styles = {
+    info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-4 border-l-blue-500',
+    warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-4 border-l-amber-500',
+    success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-4 border-l-emerald-500',
+    exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-4 border-l-rose-500',
+  };
+  return (
+    <div className={'rounded-xl border p-5 my-5 ' + styles[type]}>
+      {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
+      <div className="text-[14.5px] leading-relaxed">{children}</div>
+    </div>
+  );
+};
 
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 25 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
+const PdfRef = ({ page }: { page: number }) => (
+  <button
+    onClick={() => navigateToPdfPage(page)}
+    className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    title={'Open ICAI PDF — Page ' + page}
+  >
+    <FileText size={10} className="shrink-0" />
+  </button>
+);
 
   return (
-    <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as25-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 25 Sections:
-        </span>
-        {as25Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
-          </button>
-        ))}
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+      <div id="as25-standard-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
+          <div ref={tocScrollRef} style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }} className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5">
+            {as25Sections.map(sec => (
+              <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+                className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+                {sec.title.split('. ').slice(1).join('. ') || sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
+      <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 mt-6">
+              <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-slate-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
         
         {/* 1. Overview & Purpose */}
         <SecHeader id="as25-overview" num="1" title="Overview &amp; Purpose" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Introduction" /> Accounting Standard 25 establishes minimum guidelines for the **content and presentation of an interim financial report**.
+          <PdfRef page={1} /> Accounting Standard 25 establishes minimum guidelines for the **content and presentation of an interim financial report**.
         </p>
         <p className="leading-relaxed">
           Timely interim financial reporting improves the ability of investors, lenders, and regulators to understand an enterprise\'s capacity to generate earnings and cash flows, its liquidity, and its financial position. AS 25 does not mandate which entities should publish interim reports, but states that if an entity elects or is required by law to publish an interim report, it must comply with this standard.
@@ -191,7 +187,7 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 2. Scope & Applicability */}
         <SecHeader id="as25-scope" num="2" title="Scope &amp; Applicability" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          This standard applies if an enterprise is required or elects to prepare and present an interim financial report. <ParaRef page={1} para="Para 1" />
+          This standard applies if an enterprise is required or elects to prepare and present an interim financial report. <PdfRef page={1} />
         </p>
         <ul className="list-disc pl-6 space-y-2 mb-4">
           <li><strong>Statutes and Regulators:</strong> Regulators (like SEBI or MCA) may require companies to publish interim reports. While the formats might differ, the recognition and measurement principles of AS 25 must still be followed.</li>
@@ -211,7 +207,7 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
             <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
               <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Interim Period</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">A financial reporting period shorter than a full financial year (e.g. a quarter or half-year). <ParaRef page={2} para="Para 3" /></td>
+                <td className="p-3 text-slate-700 dark:text-slate-300">A financial reporting period shorter than a full financial year (e.g. a quarter or half-year). <PdfRef page={2} /></td>
               </tr>
               <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white font-sans text-xs uppercase tracking-wider">Interim Financial Report</td>
@@ -224,7 +220,7 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 4. Form & Content of Interim Financial Statements */}
         <SecHeader id="as25-form-content" num="4" title="Form &amp; Content of Statements (Para 7–15)" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={2} para="Para 7" /> An interim financial report can contain either **complete financial statements** (identical to annual statements) or **condensed financial statements**.
+          <PdfRef page={2} /> An interim financial report can contain either **complete financial statements** (identical to annual statements) or **condensed financial statements**.
         </p>
 
         <p className="mb-4"><strong>Minimum Headings in Condensed Statements (Para 8):</strong></p>
@@ -233,7 +229,7 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         </p>
 
         <NoteBox type="info" title="EPS Presentation (Para 11)">
-          If the enterprise presents Basic and Diluted EPS in its annual reports as per AS 20, it must present both Basic and Diluted EPS on the face of the Profit and Loss statement (complete or condensed) for the interim period also. <ParaRef page={3} para="Para 11" />
+          If the enterprise presents Basic and Diluted EPS in its annual reports as per AS 20, it must present both Basic and Diluted EPS on the face of the Profit and Loss statement (complete or condensed) for the interim period also. <PdfRef page={3} />
         </NoteBox>
 
         {/* 5. Selected Explanatory Notes */}
@@ -255,7 +251,7 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
                 <li>The nature and amount of items affecting assets, liabilities, equity, net income, or cash flows that are unusual because of their size, nature, or incidence.</li>
                 <li>Write-down of inventories and reversals of such write-downs.</li>
                 <li>Any material changes in contingent liabilities or commitments.</li>
-                <li>Dividends paid (aggregate or per share) during the period. <ParaRef page={4} para="Para 16" /></li>
+                <li>Dividends paid (aggregate or per share) during the period. <PdfRef page={4} /></li>
               </ul>
             </div>
           )}
@@ -267,7 +263,7 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
           AS 25 mandates specific comparative periods to ensure consistency:
         </p>
         <ul className="list-disc pl-6 space-y-2 mb-4">
-          <li><strong>Balance Sheet:</strong> Balance sheet as of the end of the current interim period and a comparative balance sheet as of the end of the **immediately preceding financial year**. <ParaRef page={5} para="Para 20" /></li>
+          <li><strong>Balance Sheet:</strong> Balance sheet as of the end of the current interim period and a comparative balance sheet as of the end of the **immediately preceding financial year**. <PdfRef page={5} /></li>
           <li><strong>Profit &amp; Loss:</strong> Statement of P&amp;L for the current interim period and cumulatively for the current year-to-date, with comparative statements for the comparable periods of the immediately preceding financial year.</li>
           <li><strong>Cash Flow Statement:</strong> Cumulative year-to-date cash flow statement, with a comparative statement for the comparable year-to-date period of the preceding financial year.</li>
         </ul>
@@ -275,7 +271,7 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
         {/* 7. Recognition & Measurement */}
         <SecHeader id="as25-measurement" num="7" title="Recognition &amp; Measurement Principles (Para 27–28)" />
         <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={10} para="Para 27" /> An enterprise should apply the **same accounting policies** in its interim financial statements as are applied in its annual financial statements.
+          <PdfRef page={10} /> An enterprise should apply the **same accounting policies** in its interim financial statements as are applied in its annual financial statements.
         </p>
 
         <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
@@ -307,14 +303,15 @@ export function AS25StandardTabContent({ navigateToPdfPage, renderTextWithRefere
           </div>
           {openAccordions.specialMeasurementsList && (
             <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
-              <p><strong>Seasonal Revenues (Para 29):</strong> Revenues received seasonally, cyclically, or occasionally must not be anticipated or deferred at an interim date if anticipation/deferral would be inappropriate at the end of the year. <ParaRef page={14} para="Para 29" /></p>
+              <p><strong>Seasonal Revenues (Para 29):</strong> Revenues received seasonally, cyclically, or occasionally must not be anticipated or deferred at an interim date if anticipation/deferral would be inappropriate at the end of the year. <PdfRef page={14} /></p>
               <p><strong>Uneven Costs (Para 30):</strong> Costs that are incurred unevenly during an enterprise\'s financial year (e.g. annual advertising costs) should be recognized in the quarter they are incurred, unless they would be deferred at the year-end.</p>
-              <p><strong>Income Tax Expense:</strong> Calculated by applying the estimated weighted average annual tax rate to the interim pre-tax accounting profit. <ParaRef page={12} para="Tax Estimation" /></p>
+              <p><strong>Income Tax Expense:</strong> Calculated by applying the estimated weighted average annual tax rate to the interim pre-tax accounting profit. <PdfRef page={12} /></p>
             </div>
           )}
         </div>
 
       </div>
+      </div>
     </div>
-  )
+  );
 }
