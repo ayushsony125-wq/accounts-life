@@ -171,27 +171,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 1 ---  UNIT 2: AS 29 (REVISED) PROVISIONS, CONTINGENT LIABILITIES AND CONTINGENT ASSETS After studying this unit, you will be able to comprehend the – • Meaning of ‘Executory contracts’, ‘Provision’, ‘Liability, Obligating event’ and other related terms used in the standard; • Need for recognition of provision; • Definition of Present Obligation and Past Event; • Probable Outflow of Resources Embodying Economic Benefits; • Application of the Recognition and Measurement Rules; • Disclosure requirements as per the Standard.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.1 INTRODUCTION */}
@@ -204,27 +184,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
             <li>-- PAGE 2 ---  Thus, there is a need for certain parameters on the basis of which provisions are measured and recognised, as they impact both Profit and Loss Statement and Balance Sheet (creation of an expense and creation of a liability). AS-29 prescribes the guidance in respect of recognition, measurement and disclosures of provisions, contingent liabilities and contingent assets. The standard clearly defines the role of management while making an estimate for creating provisions and the auditors to vouch for the correctness or otherwise of the estimate made by the management. This ensures that manipulations do not take place at the time of creation of provisions. Earlier, the companies were not recognising the liability on the ground of uncertainty regarding its timing or amount. With the issuance of AS 29, transactions which qualify for creating a provision need to be accounted for in the Balance sheet as a liability. Example 1 During 20X1, XY Enterprise has made lower amount of profits. However, to ensure that the Earnings Per Share do not decline significantly, XY Enterprise does not provide for a warranty amount which should have been provided for. XY is confident of higher amount of profits during later years, and would like to take this provision to the later stage. This ensures consistent performance for the company throughout the period. With AS 29, this anomaly stands removed. Example 2 During 20X1, AB Shops has made huge profits during a particular year. This may have resulted in payment of taxes on these profits. Further, AB Shop’s management foresees challenges in operations in later years, and therefore, low profits. AB Shop did not create a provision during 20X2 which should have been otherwise made. However, to get the desired impact, AB Shop created the provision in 20X1. Since, the intention of management is not to reflect a true and fair view; AS-29 would ensure appropriate provisions are made in 20X2 only. AS 29 helps to ensure transparency of information in Financial Statements.</li>
             <li>-- PAGE 3 ---  Thus, an accounting standard on provisions is essential to rule out the potential scope for companies to manipulate profits and provisions are made on valid grounds (based on a recognition criterion being met).</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.2 SCOPE */}
@@ -236,27 +196,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 4 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.3 DEFINITIONS */}
@@ -268,27 +208,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 5 ---  A Restructuring is a programme that is planned and controlled by management, and materially changes either: (a) The scope of a business undertaken by an enterprise; or (b) The manner in which that business is conducted.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.4 RECOGNITION OF PROVISION */}
@@ -297,27 +217,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             A provision should be recognised when: (a) An enterprise has a present obligation as a result of a past event; (b) It is probable that an outflow of resources embodying economic benefits will be required to settle the obligation; and (c) A reliable estimate can be made of the amount of the obligation. If these conditions are not met, no provision should be recognised. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.5 PRESENT OBLIGATION */}
@@ -329,27 +229,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 6 ---  Example 4 Z Ltd takes a building on lease for 10 years. The terms of the contract provide that Z Ltd must vacate the building in its original condition. Z Ltd expects that there is a likely cost of ` 10 lakhs to be spent at the end of 10 years for restoration. Since there is a present obligation on X Ltd at the time of entering into the lease contract, a provision to the extent of present value of this amount should be created.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.6 PAST EVENT */}
@@ -361,27 +241,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 7 ---  An event that does not give rise to an obligation immediately may do so at a later date, because of changes in the law. For example, when environmental damage is caused there may be no obligation to remedy the consequences. However, the causing of the damage will become an obligating event when a new law requires the existing damage to be rectified. Where details of a proposed new law have yet to be finalized, an obligation arises only when the legislation is virtually certain to be enacted.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.7 PROBABLE OUTFLOW OF RESOURCES */}
@@ -393,27 +253,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 8 ---  Example 6 AB Ltd has received a notice from one of the customers about health issues from using the products of AB Ltd. The customer in the notice claims damages of ` 5,00,000. The conditions of past event (i.e. sale of goods resulting in damage) and reliable estimate ( ` 5,00,000) have been met. However, whether an outflow of resources will be probable or not, cannot be confirmed since the customer may or may not win the case. This would be clear only when the decision will be taken by the court. Hence, in the above situation, no provision for damages will be made. However, a disclosure of the case filed is required to be made.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.8 RELIABLE ESTIMATE OF THE OBLIGATION */}
@@ -422,27 +262,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             The use of estimates is an inherent part of preparing financial statements and does not undermine their reliability. Provisions require a greater degree of estimation than most other items, but <strong>AS 29</strong> (Revised) emphasizes that it should not be impossible to determine a range of possible outcomes and, from this range, to reach an appropriate conclusion that is sufficiently reliable for the provision to be recognized. <strong>AS 29</strong> (Revised) concludes that the circumstances in which it will not be possible to reach a reliable estimate, will be extremely rare. In the extremely rare case where no reliable estimate can be made, a liability exists that cannot be recognized. That liability will, instead, be disclosed as a contingent liability. For example: XYZ is in mining business. It is operating in a country where XYZ is legally bound to clean and restore the environment on expiry of license after 10 years. XYZ can reliably estimate the amount required to restore the environment caused by the mining business. Since it if a present obligation which cannot be avoided resulted from past event, it is probable that resources will flow out of business to settle the same and estimate can be measured reliably. XYZ is required to recognize a provision for the same. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.9 CONTINGENT LIABILITIES */}
@@ -455,27 +275,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
             <li>-- PAGE 9 ---  Where an enterprise is jointly and severally liable for an obligation, the part of the obligation that is expected to be met by other parties is treated as a contingent liability. The enterprise recognizes a provision for the part of the obligation for which an outflow of resources embodying economic benefits is probable, except in the extremely rare circumstances where no reliable estimate can be made. Contingent liabilities may develop in a way not initially expected. Therefore, they are assessed continually to determine whether an outflow of resources embodying economic benefits has become probable. If it becomes probable that an outflow of future economic benefits will be required for an item previously dealt with as a contingent liability, a provision is recognized in the financial statements of the period in which the change in probability occurs. Example: 7 A customer of XYZ has filed a case against them for providing them wrong product and not returning the same. XYZ has taken legal advice from their lawyer who believes it is not probable yet that resources may be required to settle the same. Since it is not meeting all the criteria of provision, it will be treated as contingent liability and will just be disclosed in the notes. Decision tree Start Present obligation as a result of an obligating event? Probable outflow Yes Reliable estimate Provide Yes Yes Possible Obligation Remote Disclose contingent liability Do nothing No No Yes No Yes No No (rare)</li>
             <li>-- PAGE 10 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.10 CONTINGENT ASSETS */}
@@ -487,27 +287,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 11 ---  Provision is recognised. Disclosures are required for the provision. No provision is recognised. Disclosures are required for the contingent liability. No provision is recognised. No disclosure is required.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.11 MEASUREMENT: BEST ESTIMATE */}
@@ -516,27 +296,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             The amount recognised as a provision should be the best estimate of the expenditure required to settle the present obligation at the balance sheet date. The estimates of outcome and financial effect are determined by: • the judgment of the management of the enterprise, • supplemented by experience of similar transactions and, • in some cases, reports from independent experts. The amount of a provision should not be discounted to its present value except in case of decommissioning, restoration and similar liabilities that are recognised as cost of Property, Plant and Equipment. The discount rate (or rates) should be a pre-tax rate (or rates) that reflect(s) current market assessments of the time value of money and the risks specific to the liability. The discount rate(s) should not reflect risks for which future cash flow estimates have been adjusted. Periodic unwinding of discount should be recognised in the statement of profit and loss. The provision is measured before tax; the tax consequences of the provision, and changes in it, are dealt with under <strong>AS 22</strong>. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.12 RISKS AND UNCERTAINTIES */}
@@ -548,27 +308,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 12 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.13 FUTURE EVENTS */}
@@ -577,27 +317,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             It is only those obligations arising from past events that exist independently of the enterprise’s future actions (i.e. the future conduct of its business) that are recognized as provisions. Future events that may affect the amount required to settle an obligation should be reflected in the amount of a provision where there is sufficient objective evidence that they will occur. For example, an enterprise may believe that the cost of cleaning up a site at the end of its life will be reduced by future changes in technology. The amount recognized reflects a reasonable expectation of technically qualified, objective observers, taking account of all available evidence as to the technology that will be available at the time of the clean-up. Thus, it is appropriate to include, for example, expected cost reductions associated with increased experience in applying existing technology or the expected cost of applying existing technology to a larger or more complex clean-up operation than has previously been carried out. However, an enterprise does not anticipate the development of a completely new technology for cleaning up unless it is supported by sufficient objective evidence. The effect of possible new legislation is taken into consideration in measuring an existing obligation when sufficient objective evidence exists that the legislation is virtually certain to be enacted. The variety of circumstances that arise in practice usually makes it impossible to specify a single event that will provide sufficient, objective evidence in every case. Evidence is required both of what legislation will demand and of whether it is virtually certain to be enacted and implemented in due course. In many cases sufficient objective evidence will not exist until the new legislation is enacted. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.14 EXPECTED DISPOSAL OF ASSETS */}
@@ -609,27 +329,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 13 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.15 REIMBURSEMENTS */}
@@ -638,27 +338,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             An enterprise with a present obligation may be able to seek reimbursement of part or all of the expenditure from another party, for example via: • An insurance contract arranged to cover a risk; • An indemnity clause in a contract; or • A warranty provided by a supplier. The basis underlying the recognition of a reimbursement is that any asset arising is separate from the related obligation. Consequently, such a reimbursement should be recognized only when it is virtually certain that it will be received consequent upon the settlement of the obligation. In most cases, the enterprise will remain liable for the whole of the amount in question so that the enterprise would have to settle the full amount if the third party failed to pay for any reason. In this situation, a provision is recognized for the full amount of the liability, and a separate asset for the expected reimbursement is recognized when it is virtually certain that reimbursement will be received if the enterprise settles the liability. In some cases, the enterprise will not be liable for the costs in question if the third party fails to pay. In such a case, the enterprise has no liability for those costs and they are not included in the provision. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.16 TABLE- REIMBURSEMENTS */}
@@ -670,27 +350,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 14 ---  The enterprise has no liability for the amount to be reimbursed. The reimbursement is recognized as a separate asset in the balance sheet and may be offset against the expense in the statement of profit and loss. The amount recognized for the expected reimbursement does not exceed the liability. The expected reimbursement is not recognized as an asset. No disclosure is required. The reimbursement is disclosed together with the amount recognized for the reimbursement. The expected reimbursement is disclosed.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.17 CHANGES IN PROVISIONS */}
@@ -699,27 +359,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Provisions should be reviewed at each balance sheet date and adjusted to reflect the current best estimate. If it is no longer probable that an outflow of resources embodying economic benefits will be required to settle the obligation, the provision should be reversed. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.18 USE OF PROVISIONS */}
@@ -731,27 +371,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 15 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.19 APPLICATION OF THE RECOGNITION AND */}
@@ -763,27 +383,7 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 16 ---  (b) Marketing; or (c) Investment in new systems and distribution networks. These expenditures relate to the future conduct of the business and are not liabilities for restructuring at the balance sheet date. Such expenditures are recognized on the same basis as if they arose independently of a restructuring. Identifiable future operating losses up to the date of a restructuring are not included in a provision. Gains on the expected disposal of assets are not taken into account in measuring a restructuring provision, even if the sale of assets is envisaged as part of the restructuring.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 29, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.20 DISCLOSURE */}
@@ -801,6 +401,8 @@ export function AS29StandardTabContent({ navigateToPdfPage }: AS29StandardTabCon
             <li>-- PAGE 22 ---  Less than 1 year: 2% provision More than 1 year: 3% provision The company has raised invoices as under : Invoice Date Amount ( `) 11th Feb, 20X0 60,000 25th Dec, 20X0 40,000 04th Oct, 20X1 1,35,000 Calculate the provision to be made for warranty under AS-29 as at 31st March, 20X1 and 31st March, 20X2. Also compute amount to be debited to P &amp; L account for the year ended 31st March, 20X2. ANSWERS/SOLUTIONS Answer to the Multiple Choice Questions 1. (a) 2. (b) 3. (c) 4. (c) Answer to the Theoretical Questions 5. A provision should be recognised only when: (a) An enterprise has a present obligation as a result of a past event; (b) It is probable that an outflow of resources embodying economic benefits will be required to settle the obligation; and (c) A reliable estimate can be made of the amount of the obligation. Answer to the Scenario based Questions 6. (i) AS 29 “Provisions, Contingent Liabilities and Contingent Assets” provides that when an enterprise has a present obligation, as a result of past events, that probably requires an outflow of resources and a reliable estimate can be made of the amount of obligation, a provision should be recognized. Sun Ltd. has the obligation to deliver the goods within the scheduled time as per the contract. It is probable that Sun Ltd. will fail to deliver the goods within the schedule and it is also possible to estimate the amount of compensation. Therefore, Sun Ltd. should provide for the contingency amounting ` 1.5 crores as per AS 29.</li>
             <li>-- PAGE 23 ---  (ii) Provision should not be measured as the excess of compensation to be paid over the profit. The goods were not manufactured before 31st March, 20X2 and no profit had accrued for the financial year 20X1-20X2. Therefore, provision should be made for the full amount of compensation amounting ` 1.50 crores. 7. As per para 29 of AS 29 ‘Provisions, Contingent Liabilities and Contingent Assets’, a past event will lead to present obligation when the enterprise has no realistic alternative to settle the obligation created by the past event. However, when environmental damage is caused, there may be no obligation to remedy the consequences. The causing of the damage will become an obligating event when a new law requires the existing damage to be rectified. Where details of a proposed new law have yet to be finalised, an obligation arises only when the legislation is virtually certain to be enacted. In the given case it is virtually certain that law will be enacted requiring clean-up of a land already contaminated. Therefore, an oil company has to provide for such clean-up cost in the year in which the law is virtually certain to be enacted. 8. Provision to be made for warranty under AS 29 ‘Provisions, Contingent Liabilities and Contingent Assets’ As at 31st March, 20X1 = ` 60,000 x .02 + ` 40,000 x .03 = ` 1,200 + ` 1,200 = ` 2,400 As at 31st March, 20X2 = ` 40,000 x .02 + ` 1,35,000 x .03 = ` 800 + ` 4,050 = ` 4,850 Amount debited to Profit and Loss Account for year ended 31st March, 20X2 ` Balance of provision required as on.20X2 4,850 Less: Opening Balance as on.20X1 (2,400) Amount debited to profit and loss account 2,450 Note: No provision will be made on 31st March, 20X2 in respect of sales amounting ` 60,000 made on 11th February, 20X0 as the warranty period of 2 years has already expired.</li>
           </ul>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 29**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

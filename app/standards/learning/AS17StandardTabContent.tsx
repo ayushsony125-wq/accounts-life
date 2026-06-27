@@ -164,27 +164,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             PRESENTATION &amp; DISCLOSURES BASED ❑ UNIT 3: ACCOUNTING STANDARD 17 SEGMENT REPORTING After studying this unit, you will be able to comprehend the- • Definition and Identification of Reportable Segments • Primary and Secondary Segment Reporting Formats • Business and Geographical Segments • How to identify the Reportable Segments • <strong>Disclosures</strong>. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.1 INTRODUCTION */}
@@ -193,27 +173,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             <strong>AS 17</strong> is mandatory in respect of non-SMCs (and level I entities in case of non- corporates). Other entities are encouraged to comply with <strong>AS 17</strong>. This standard establishes principles for reporting financial information about different types of products and services an enterprise produces and different geographical areas in which it operates. The standard is more relevant for assessing risks and returns of a diversified or multi-locational enterprise which may not be determinable from the aggregated data. Before we start the standard, let us lay down the areas to be covered from the examination point of view. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.2 OBJECTIVE */}
@@ -222,27 +182,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Many enterprises provide groups of products and services or operate in geographical areas that are subject to differing rates of profitability, opportunities for growth, future prospects, and risks. The objective of this Standard is to establish principles for reporting financial information, about the different types of products and services an enterprise produces and the different geographical areas in which it operates. Such information helps users of financial statements: (a) Better understand the performance of the enterprise; (b) Better assess the risks and returns of the enterprise; and (c) Make more informed judgements about the enterprise as a whole. <PdfRef page={2} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.3 SCOPE */}
@@ -254,27 +194,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             PRESENTATION &amp; DISCLOSURES BASED <PdfRef page={3} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.4 DEFINITION OF THE TERMS USED IN THE */}
@@ -292,27 +212,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Segment assets are determined after deducting related allowances/provisions that are reported as direct offsets in the balance sheet of the enterprise. Segment liabilities are those operating liabilities that result from the operating activities of a segment and that either are directly attributable to the segment or can be allocated to the segment on a reasonable basis. If the segment result of a segment includes interest expense, its segment liabilities include the related interest-bearing liabilities. Examples of segment liabilities include trade and other payables, accrued liabilities, customer advances, product warranty provisions, and other claims relating to the provision of goods and services. Segment liabilities do not include: • income tax liabilities; and • borrowings and other liabilities that are incurred for financing rather than operating purposes. Assets and liabilities that relate jointly to two or more segment should be allocated to segments if, and only if, their related revenues and expenses also are allocated to those segments. <PdfRef page={6} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.5 TREATMENT OF INTEREST FOR */}
@@ -324,27 +224,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             PRESENTATION &amp; DISCLOSURES BASED <PdfRef page={7} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.6 ALLOCATION */}
@@ -353,27 +233,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             An enterprise looks to its internal financial reporting system as the starting point for identifying those items that can be directly attributed, or reasonably allocated, to segments. There is thus a presumption that amounts that have been identified with segments for internal financial reporting purposes are directly attributable or reasonably allocable to segments for the purpose of measuring the segment revenue, segment expense, segment assets, and segment liabilities of reportable segments. In some cases, however, a revenue, expense, asset or liability may have been allocated to segments for internal financial reporting purposes on a basis that is understood by enterprise management but that could be deemed arbitrary in the perception of external users of financial statements. Conversely, an enterprise may choose not to allocate some item of revenue, expense, asset or liability for internal financial reporting purposes, even though a reasonable basis for doing so exists. Such an item is allocated pursuant to the definitions of segment revenue, segment expense, segment assets, and segment liabilities in <strong>AS 17</strong>. Segment revenue, segment expense, segment assets and segment liabilities are determined before intra-enterprise balances and intra-enterprise transactions are eliminated as part of the process of preparation of enterprise financial statements, except to the extent that such intra-enterprise balances and transactions are within a single segment. While the accounting policies used in preparing and presenting the financial statements of the enterprise as a whole are also the fundamental segment accounting policies, segment accounting policies include, in addition, policies that relate specifically to segment reporting, such as identification of segments, method of pricing inter-segment transfers, and basis for allocating revenues and expenses to segments. <PdfRef page={7} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.7 PRIMARY AND SECONDARY SEGMENT */}
@@ -385,27 +245,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             If the risks and returns of an enterprise are affected predominantly by differences in the products and services it produces, its primary format for reporting segment information should be business segments, with secondary information reported geographically. Similarly, if the risks and returns of the enterprise are affected by the fact that it operates in different countries or other geographical areas, its primary format for reporting segment information should be geographical segments, with secondary information reported for groups of related products and services. <PdfRef page={8} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.8 BUSINESS AND GEOGRAPHICAL SEGMENTS */}
@@ -417,27 +257,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             PRESENTATION &amp; DISCLOSURES BASED <PdfRef page={9} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.9 IDENTIFYING REPORTABLE SEGMENTS */}
@@ -452,27 +272,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             PRESENTATION &amp; DISCLOSURES BASED thresholds in the preceding period. <PdfRef page={11} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.10 SEGMENT ACCOUNTING POLICIES */}
@@ -481,27 +281,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Segment information should be prepared in conformity with the accounting policies adopted for preparing and presenting the financial statements of the enterprise as a whole. <strong>AS 17</strong> does not prohibit the disclosure of additional segment information that is prepared on a basis other than the accounting policies adopted for the enterprise financial statements provided that- (a) the information is reported internally to the board of directors and the chief executive officer for purposes of making decisions about allocating resources to the segment and assessing its performance; and (b) the basis of measurement for this additional information is clearly described. <PdfRef page={11} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.11 PRIMARY REPORTING FORMAT */}
@@ -513,27 +293,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             An enterprise that reports the amount of cash flows arising from operating, investing and financing activities of a segment need not disclose depreciation and amortisation expense and non-cash expenses. An enterprise should present a reconciliation between the information disclosed for reportable segments and the aggregated information in the enterprise financial statements. In presenting the reconciliation:, - segment revenue should be reconciled to enterprise revenue; - segment result should be reconciled to enterprise net profit or loss; - segment assets should be reconciled to enterprise assets; and - segment liabilities should be reconciled to enterprise liabilities. <PdfRef page={12} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.12 SECONDARY SEGMENT INFORMATION */}
@@ -545,27 +305,7 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             PRESENTATION &amp; DISCLOSURES BASED of enterprise revenue or whose segment assets are 10% or more of the total assets of all business segments: a. Segment revenue from external customers; b. The total carrying amount of segment assets; and c. The total cost incurred during the period to acquire segment assets that are expected to be used during more than one period (tangible and intangible fixed assets). <PdfRef page={13} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 17, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.13 OTHER DISCLOSURES */}
@@ -622,6 +362,8 @@ export function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             PRESENTATION &amp; DISCLOSURES BASED (b) On the basis of the result criteria, segments P &amp; T are reportable segments (since their results in absolute amount is 10% or more of ` 200 Lakhs). (c) On the basis of asset criteria, all segments except T are reportable segments. Since all the segments are covered in at least one of the above criteria, all segments have to be reported upon in accordance with <strong>AS 17</strong>. Hence, the opinion of chief accountant that only segment ‘P’ is reportable is wrong. <PdfRef page={29} />
           </p>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 17**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

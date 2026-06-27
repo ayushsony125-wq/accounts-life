@@ -162,27 +162,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ❑ a CHAPTER 8* REVENUE BASED ACCOUNTING STANDARDS UNIT 1 : ACCOUNTING STANDARD 7 CONSTRUCTION CONTRACTS After studying this unit, you will be able to comprehend the provisions of <strong>AS 7</strong> related with: • Introduction and Scope of Construction Contract • Combining and Segmenting Construction Contracts • What is included in Contract Revenue • What is included and excluded in Contract Costs • <strong>Recognition</strong> of Contract Revenue and Expenses • <strong>Recognition</strong> of Expected Losses • Changes in Estimates • <strong>Disclosures</strong>. CHAPTER <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.1 SIGNIFICANCE OF THE STANDARD */}
@@ -194,27 +174,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.3 The above discussion clearly indicates that there are two parties to the construction contract. Thus, if there is an entity which requires its engineering division to construct a machine for the production division, this would not meet the scope of <strong>AS 7</strong>. It will be addressed by <strong>AS 10</strong> (Property, plant and equipment) and will be accounted as a case of self-constructed asset. <PdfRef page={3} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.2 INTRODUCTION */}
@@ -226,27 +186,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Example 1 Entity XY contracts with AB to construct 2 residential buildings in the same premises. The construction of both buildings will begin simultaneously. Building material, construction work, and other related activities will go on in parallel to provide cost savings to entity XY. This also helps AB achieve a timely completion of the two buildings and negotiate a consolidated price for the two buildings. The above example suggests that there is a single contract negotiated to construct two buildings that are closely interrelated and interdependent in terms of their ultimate purpose and use. Therefore, this represents a Construction Contract. Example 2 H, a sole-proprietor, contracts with M/s DM Construction, to dismantle his office premises and construct it from scratch. In the given case, the construction contract includes both demolition as well as construction of a new building. <PdfRef page={4} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.3 COMBINING AND SEGMENTING */}
@@ -261,27 +201,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Solution As per <strong>AS 7</strong> ‘Construction Contracts’, when a contract covers a number of assets, the construction of each asset should be treated as a separate construction contract when: (a) separate proposals have been submitted for each asset; (b) each asset has been subject to separate negotiation and the contractor and customer have been able to accept or reject that part of the contract relating to each asset; and (c) the costs and revenues of each asset can be identified. Therefore, XYZ Ltd. is required to treat construction of each unit as a separate construction contract. <PdfRef page={6} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.4 TYPES OF CONSTRUCTION CONTRACTS */}
@@ -293,27 +213,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.7 costs, may require the contractor to add cost-escalation clauses and recover from the contractee. These cost escalations still meet the category of fixed price contracts. A cost-plus contract is a construction contract in which the contractor is reimbursed for allowable or otherwise defined costs, plus percentage of these costs or a fixed fee. Cost-plus contracts are common in case there is uncertainty of measurement of costs or time of completion. In such cases, a contractor does not expect to bear the loss due to those uncertainties. For example, if the scope of the contract cannot be fully assessed in the contract, both parties may agree to cost-plus contracts. Under such contracts, the contractor is compensated for the costs incurred by him plus agreed profit-margin. <PdfRef page={7} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.5 CONTRACT REVENUE AND COSTS */}
@@ -334,27 +234,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.11 Example 3: Cost-Plus contract The language can be changed as under (Entire Question): ABC Constructions has a contract to build an office building. The terms and conditions are as under: 1. ABC’s profit is agreed at: • 25% on expected contract’s cost; For this purpose, the expected cost cannot exceed ₹ 22 crores. 2. The agreed price will be revised depending upon the actual cost incurred. • The cost for fixation will be taken actual cost or ₹ 22 crores whichever is less. Price fixation based on expected cost: Assume that the costs expected to be incurred by ABC are ₹16 crore. Thus, ABC can charge a profit of ₹ 4 crores (25% on actual cost). The contract price will be ₹ 20 crores. (₹16 crores plus ₹ 4 crores) Price fixation based on actual cost incurred – Scenario 1: However, if cost incurred by ABC is ₹15 crore, in that case, it would be able to charge a profit of: = 25% on ₹15 crore = 15 x 25% = ₹ 3.75 crore Thus, Total Value of the contract will stand revised as follows: = Actual Costs + Profit (25% of costs) = ₹ 15 crore + ₹ 3.75 crore = ₹ 18.75 crores. Price fixation based on actual cost incurred – Scenario 2: For any unavoidable reasons, if total cost incurred by ABC is ₹ 25 crore, it can only charge a profit on the expected costs of ₹22 crore as under: Thus, Total Value of the contract will stand revised as follows: = Expected Costs + Profit (20% of costs) = ₹ 22 crore + ₹ 5.50 crore = ₹ 27.50 crores. Analysis of the above scenario: Cost actually incurred by ABC = ₹ 25 crores. Actual profit earned by ABC = Total Value of the contract – Actual costs incurred = ₹ 27.50 Crores – ₹ 25 Crores = ₹ 2.50 Crores. <PdfRef page={11} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.6 PERCENTAGE COMPLETION METHOD */}
@@ -378,27 +258,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.17 Example 4 X Ltd. commenced a construction contract on 01/04/X1. The contract price agreed was reimbursable cost plus 10%. The company incurred ₹1,00,000 in 20X1-X2, of which cost of ₹90,000 is reimbursable. The further non-reimbursable costs to be incurred to complete the contract are estimated at ₹5,000. The other costs to complete the contract could not be estimated reliably. The Profit &amp; Loss A/c extract of X Ltd. for 20X1-X2 is shown below: Solution Profit &amp; Loss Account ` 000 ` 000 To Construction Costs 100 By Contract Price (90+9) 99 To Provision for loss 5 Net loss 6 105 105 <PdfRef page={17} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.7 TREATMENT OF COSTS RELATING TO */}
@@ -407,27 +267,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             FUTURE ACTIVITY Under the percentage of completion method, contract revenue is recognised as revenue in the statement of profit and loss in the accounting periods in which the work is performed. Contract costs are usually recognised as an expense in the statement of profit and loss in the accounting periods in which the work to which they relate is performed. The contract costs that relate to future activity on the contract are however recognised as an asset provided it is probable that they will be recovered. Such costs represent an amount due from the customer and are often classified as contract work in progress. <PdfRef page={17} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.8 UNCOLLECTABLE CONTRACT REVENUE */}
@@ -439,27 +279,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             to be probable is recognised as an expense rather than as an adjustment of the amount of contract revenue. <PdfRef page={18} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.9 STAGE OF COMPLETION */}
@@ -474,27 +294,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Total foreseeable loss (650 – 600) 50 Less: Loss for current year (E – A) (30) Expected loss to be recognised immediately Reversal of Loss provision in Year 2 (20) 20 Profit &amp; Loss A/c (Year 1) ` ` To Construction costs 390 By Contract Price 360 To Provision for loss 20 By Net Loss 50 410 410 Profit &amp; Loss A/c (Year 2) ` ` To Construction costs 260 By Contract Price 240 By Reversal of Provision for loss 20 260 260 <PdfRef page={20} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.10 CHANGES IN ESTIMATES */}
@@ -503,27 +303,7 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             The percentage of completion method is applied on a cumulative basis in each accounting period to the current estimates of contract revenue and contract costs. Therefore, the effect of a change in the estimate of contract revenue or contract costs, or the effect of a change in the estimate of the outcome of a contract, is accounted for as a change in accounting estimate in accordance with <strong>AS 5</strong>. The changed estimates are used in determination of the amount of revenue and expenses recognised in the statement of profit and loss in the period in which the change is made and in subsequent periods. <PdfRef page={20} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 7, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.11 DISCLOSURE */}
@@ -571,6 +351,8 @@ export function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.33 (220 crore x 26%) (225 crore x 74% - 57.20 crore) (225 crore x 100% - 109.30 crore – 57.20 crore) Contract Cost (2) 52.52 crore crore crore (202 crore x 26%) (205 crore x 74% - 52.52 crore) (205 crore x 100% - 99.18 crore – 52.52 crore) Contract Profit (1) – (2) 4.68 crore crore crore 12. ` in lakhs Add: Estimated future cost Percentage of completion till date to total estimated cost of construction = (32.50/47.60)  100 = 68.28% Proportion of total contract value recognised as revenue for the year ended 31st March, 20X2 per <strong>AS 7</strong> (Revised) = Contract price x percentage of completion = ` 45 lakh x% = ` 30.73 lakhs. (` in lakhs) Less: Total contract price (45.00) According to of <strong>AS 7</strong>, when it is probable that total contract costs will exceed total contract revenue, the expected loss should be recognized as an expense immediately. <PdfRef page={33} />
           </p>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 7**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

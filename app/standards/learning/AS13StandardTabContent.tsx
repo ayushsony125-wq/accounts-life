@@ -161,27 +161,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ADVANCED ACCOUNTING v v v v 5 . 78 UNIT 3 : A CCOUNTING STANDARD 13 ACCOUNTING FOR INVESTMENTS After studying this unit, you will be able to comprehend – • What are the various Forms of <strong>Investments</strong> • Classification of <strong>Investments</strong> • How to compute the Cost of <strong>Investments</strong> • Current <strong>Investments</strong> • Long - term <strong>Investments</strong> • Investment Properties • Disposal of <strong>Investments</strong> • Reclassification of <strong>Investments</strong> • Disclosure Requirements as per the standard . <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.1 INTRODUCTION */}
@@ -193,27 +173,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ASSETS BASED ACCOUNTING STANDARDS v v v v 5 . 79 5 . 79 This Standard does not deal with: a. The basis for recognition of interest, dividends and rentals earned on investments which are covered by <strong>AS 9</strong> b. Operating or finance leases c. <strong>Investments</strong> on retirement benefit plans and life insurance enterprises d. Mutual funds, venture capital funds and/ or the related asset management companies, banks and public financial institutions formed under a Central or State Government Act or so declared under the Companies Act, 2013 . <PdfRef page={2} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.2 DEFINITION OF THE TERMS USED IN THE */}
@@ -222,27 +182,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             STANDARD <strong>Investments</strong> are assets held by an enterprise for earning income by way of dividends, interest, and rentals, for capital appreciation, or for other benefits to the investing enterprise. Assets held as stock - in - trade (inventory) are not ‘investments’ Fair value is the amount for which an asset could be exchanged between a knowledgeable, willing buyer and a knowledgeable, willing seller in an arm’s length transaction. Under appropriate circumstances, market value or net realisable value provides an evidence of fa ir value. Market value is the amount obtainable from the sale of an investment in an open market, net of expenses necessarily to be incurred on or before disposal. <PdfRef page={2} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.3 FORMS OF INVESTMENTS */}
@@ -254,27 +194,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ADVANCED ACCOUNTING v v v v <PdfRef page={3} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.4 CLASSIFICATION OF INVESTMENTS */}
@@ -283,27 +203,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             A current investment is an investment that is by its nature readily realisable and is intended to be held for not more than one year from the date on which such investment is made. The intention to hold for not more than one year is to be judged at the time of purchase of inv estment. A long term investment is an investment other than a current investment. Further classification of current and long - term investments should be as specified in the statute governing the enterprise. In the absence of a statutory requirement, such further classification should disclose, where applicable, investments in: (a) Government or Trust securities (b) Shares, debentures or bonds (c) Investment properties (d) Others — specifying nature <PdfRef page={3} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.5 COST OF INVESTMENTS */}
@@ -318,27 +218,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ADVANCED ACCOUNTING v v v v <PdfRef page={5} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.6 CARRYING AMOUNT OF INVESTMENTS */}
@@ -359,27 +239,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ADVANCED ACCOUNTING v v v v <PdfRef page={9} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.7 INVESTMENT PROPERTIES */}
@@ -388,27 +248,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             An investment property is an investment in land or buildings that are not intended to be occupied substantially for use by, or in the operations of, the investing enterprise. An investment property is accounted for in accordance with cost model as prescribed in <strong>AS 10</strong> (Revised), ‘Property, Plant and Equipment’. The cost of any shares in a co - operative society or a company, the holding of which is directly related to the right to hold the investment property, is added to the carrying amount of the investment property. <PdfRef page={9} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.8 DISPOSAL OF INVESTMENTS */}
@@ -417,27 +257,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             On disposal of an investment, the difference between the carrying amount and the disposal proceeds, net of expenses, is recognised in the profit and loss statement. When disposing of a part of the holding of an individual investment, the carrying amount to be allocated to that part is to be determined on the basis of the average carrying amount of the total holding of the investment 1 . <PdfRef page={9} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.9 RECLASSIFICATION OF INVESTMENTS */}
@@ -452,27 +272,7 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ADVANCED ACCOUNTING v v v v 5 . 88 As per <strong>AS 13</strong> (Revised), where long - term investments are re - classified as current investments, transfers are made at the lower of cost and carrying amount at the date of transfer. (3) In the third case, the book value of the investment is ` 12 lakhs, which is lower than its cost i.e. ` 18 lakhs. Here, the transfer should be at carrying amount and hence this re - classified current investment should be carried at ` 12 lakhs. <PdfRef page={11} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 13, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.10 DISCLOSURE */}
@@ -556,6 +356,8 @@ export function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ADVANCED ACCOUNTING v v v v 5 . 112 lower of cost and carrying amount at the date of transfer . And where investments are reclassified from current to long term, transfers are made at lower of cost and fair value on the date of transfer. Accordingly, the re - classification will be done on the following basis: (i) In this case, carrying amount of investment on the date of transfer is less than the cost; hence this re - classified current investment should be carried at ` 6.5 lakhs in the books. (ii) The carrying / book value of the long term investment is same as cost i.e. ` 7 lakhs. Hence this long term investment will be reclassified as current investment at book value of ` 7 lakhs only. (iii) In this case, reclassification of current investment into long - term investments will be made at ` 10 lakhs as cost is less than its market value of ` 12 lakhs. 1 5 . As per <strong>AS 13</strong> (Revised) ‘Accounting for <strong>Investments</strong>’, for investment in shares - if the investment is purchased with an intention to hold for short - term period (less than one year), then it will be classified as current investment and to be carried at lower of cost and fair value, i.e., in case of shares, at lower of cost ( ` 4,25,000) and market value ( ` 3,50,000) as on 31 March 20 X4 , i.e., ` 3,50,000. Gold and silver are generally purchased with an intention to hold it for long term period (more than one year) until and unless given otherwise. Hence, the investment in Gold and Silver (purchased on 31 st March, 20 X1 ) should continue to be shown at cost (since there is no ‘other than temporary’ diminution) as on 31 st March, 20 X4 , i.e., ` 8,00,000 and ` 3,50,000 respectively, though their market values have been increased. Thus the shares, gold and silver will be shown at ` 3,50,000, ` 8,00,000 and ` 3,50,000 respectively and hence, total investment will be valued at ` 15,00,000 for the year ending on 31st March, 20 X4 as per <strong>AS 13</strong>. <PdfRef page={35} />
           </p>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 13**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

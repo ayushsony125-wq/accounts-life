@@ -157,27 +157,7 @@ export function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a CHAPTER 7 BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS UNIT 1: ACCOUNTING STANDARD 4 CONTINGENCIES AND EVENTS OCCURRING AFTER THE BALANCE SHEET DATE After studying this unit, you will be able to elucidate the – • Meaning of Contingencies and accounting treatment of contingent gains and contingent losses. • Events Occurring after the Balance Sheet Date: Adjusting and Non-adjusting events • Necessary <strong>Disclosures</strong> required as per the standard. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 4**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 4, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.1 INTRODUCTION */}
@@ -189,27 +169,7 @@ export function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             deals with the treatment and disclosure requirements in the financial statements of events occurring after the balance sheet. <PdfRef page={2} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 4**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 4, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.2 CONTINGENCIES */}
@@ -221,27 +181,7 @@ export function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS a7.3 Accounting Treatment of Contingent Gains Contingent gains are not recognised in financial statements since their recognition may result in the recognition of revenue which may never be realised. However, when the realisation of a gain is virtually certain, then such gain is not a contingency and accounting for the gain is appropriate. The amount at which a contingency is stated in the financial statements is based on the information which is available at the date on which the financial statements are approved. <PdfRef page={3} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 4**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 4, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.3 EVENTS OCCURRING AFTER THE BALANCE */}
@@ -250,27 +190,7 @@ export function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             SHEET DATE Events occurring after the balance sheet date are those significant events, both favourable and unfavourable, that occur between the balance sheet date and the date on which the financial statements are approved by the Board of Directors in the case of a company, and, by the corresponding approving authority in the case of any other entity. For example, for the year ending on 31st March 20X1, financial statement is finalized and approved by the Board of the directors of the company in its meeting held on 04th September 20X1. In this case the events taking place between 01st April 20X1 to 04th September 20X1 are termed as events occurring after the balance sheet date. Two types of events can be identified: a. Adjusting events- those which provide further evidence of conditions that existed at the balance sheet date. For example, a trade receivable declared insolvent after reporting date and unable to pay full amount against whom provision for doubtful debt was created. b. Non-adjusting events- those which are indicative of conditions that arose subsequent to the balance sheet date. For example, plant got damaged due to occurrence of fire. <PdfRef page={3} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 4**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 4, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.4 ADJUSTING EVENTS */}
@@ -279,27 +199,7 @@ export function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Adjustments to assets and liabilities are required for events occurring after the balance sheet date that provide additional information materially affecting the determination of the amounts relating to conditions existing at the balance sheet date. For example, an adjustment may be made for a loss on a trade receivable account which is confirmed by the insolvency of a customer which occurs after the balance sheet date. <PdfRef page={4} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 4**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 4, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.5 NON-ADJUSTING EVENTS */}
@@ -311,27 +211,7 @@ export function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS a7.5 and subsequent years. Such proposed dividends are to be disclosed in the notes as per Companies (Accounting Standards) Amendment Rules, 2016 issued on 30 March 2016. Events indicating going concern assumption inappropriate Events occurring after the balance sheet date may indicate that the enterprise ceases to be a going concern. A deterioration in operating results and financial position, or unusual changes affecting the existence or substratum of the enterprise after the balance sheet date (e.g., destruction of a major production plant by a fire after the balance sheet date) may indicate a need to consider whether it is proper to use the fundamental accounting assumption of going concern in the preparation of the financial statements. In case the going concern assumption is not valid (based on events occurring after the balance sheet date), the financial statements are prepared on a liquidation basis. Event occuring after the Balance Sheet date Evidence of such condition been existed at the Balance Sheet date Adjusting event Adjustment to assets and liabilities is required Disclosure in the financial statements is required No evidence of such condition been existed at the Balance Sheet date Non-adjusting event Adjustment to assets and liabilities is not required Disclosure in the report of the approving authority is required <PdfRef page={5} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 4**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 4, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 1.6 DISCLOSURE */}
@@ -361,6 +241,8 @@ export function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS a7.13 ANSWERS/SOLUTION Answer to the Multiple Choice Questions 1. (a) 2. (c) 3. (d) 4. (c) Answer to the Scenario based Questions 5. The economic reality and substance of the transaction is that the rights and beneficial interest in the property has been transferred although legal title has not been transferred. A Ltd. should record the sale and recognise the gain of ` 20 lakhs in its profit and loss account. The building should be derecognized in the financial statements. 6. As per <strong>AS 4</strong> (Revised), adjustments to assets and liabilities are required for events occurring after the balance sheet date that provide additional information materially affecting the determination of the amounts relating to conditions existing at the balance sheet date. In the given case, since Raj Ltd. was sued by a competitor for infringement of a trademark during the year 20X1-X2 for which the provision was also made by it, the decision of the Court on 18th May, 20X2, for payment of the penalty will constitute as an adjusting event because it is an event occurred before approval of the financial statements. Therefore, Raj Ltd. should adjust the provision upward by ` 4 lakhs to reflect the award decreed by the Court to be paid by them to its competitor. Had the judgment of the Court been delivered on 1st June, 20X2, it would be considered as an event occurring after the approval of the financial statements which is not covered by <strong>AS 4</strong> (Revised). In that case, no adjustment in the financial statements of 20X1-X2 would have been required. <PdfRef page={13} />
           </p>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 4**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

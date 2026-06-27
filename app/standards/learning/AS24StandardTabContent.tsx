@@ -161,27 +161,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 1 --- PRESENTATION &amp; DISCLOSURES BASED UNIT 6: ACCOUNTING STANDARD 24 DISCONTINUING OPERATIONS After studying this unit, you will be able to comprehend the following: • Meaning of Discontinuing Operation; • Definition of Initial Disclosure Event; • Recognition and Measurement principles; • Presentation and Disclosures as required under the standard.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.1 INTRODUCTION */}
@@ -193,27 +173,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 2 ---</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.2 DISCONTINUING OPERATION */}
@@ -227,27 +187,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
             <li>-- PAGE 4 --- is no specific date at which an overall binding sale agreement is entered into. Rather, the sales of assets and settlements of liabilities may occur over a period of months or perhaps even longer. Thus, disposal of a component may be in progress at the end of a financial reporting period. To qualify as a discontinuing operation, the disposal must be pursuant to a single coordinated plan. An enterprise may terminate an operation by abandonment without substantial sales of assets. An abandoned operation would be a discontinuing operation if it satisfies the criteria in the definition. However, changing the scope of an operation or the manner in which it is conducted is not abandonment because that operation, although changed, is continuing. Example 4 GH, a large car manufacturing company, decides to discontinue its manufacturing operations relating to the diesel cars production. It plans to restructure the business by revamping its existing operations, and starting new manufacturing process for manufacture and sale of electric vehicles. In the above example, it needs to be evaluated whether the restructuring is a result of continuing operations, or termination of existing operations, and accordingly it can be concluded whether it is a case of discontinuing operations or not. Examples of activities that do not necessarily satisfy criterion (a) of the definition, but that might do so in combination with other circumstances, include: (a) Gradual or evolutionary phasing out of a product line or class of service; (b) Discontinuing, even if relatively abruptly, several products within an ongoing line of business; (c) Shifting of some production or marketing activities for a particular line of business from one location to another; and (d) Closing of a facility to achieve productivity improvements or other cost savings. An example in relation to consolidated financial statements is selling a subsidiary whose activities are similar to those of the parent or other subsidiaries. A component can be distinguished operationally and for financial reporting purposes - criterion (c) of the definition of a discontinuing operation - if all the</li>
             <li>-- PAGE 5 --- PRESENTATION &amp; DISCLOSURES BASED following conditions are met: (a) The operating assets and liabilities of the component can be directly attributed to it. (b) Its revenue can be directly attributed to it. (c) At least a majority of its operating expenses can be directly attributed to it. Assets, liabilities, revenue, and expenses are directly attributable to a component if they would be eliminated when the component is sold, abandoned or otherwise disposed of. If debt is attributable to a component, the related interest and other financing costs are similarly attributed to it. Discontinuing operations are infrequent events, but this does not mean that all infrequent events are discontinuing operations. The fact that a disposal of a component of an enterprise is classified as a discontinuing operation under AS 24 does not, in itself, bring into question the enterprise&apos;s ability to continue as a going concern.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.3 INITIAL DISCLOSURE EVENT */}
@@ -259,27 +199,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 6 --- • the location, function, and approximate number or employees who will be compensated for terminating their services; and • the estimated proceeds or salvage to be realised by disposal. An enterprise’s board of directors or similar governing body is considered to have made the announcement of a detailed, formal plan for discontinuance, if it has announced the main features of the plan to those affected by it, such as, lenders, stock exchanges, trade payables, trade unions, etc. in a sufficiently specific manner so as to make the enterprise demonstrably committed to the discontinuance.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.4 RECOGNITION AND MEASUREMENT */}
@@ -288,27 +208,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             For recognising and measuring the effect of discontinuing operations, this AS does not provide any guidelines, but for the purpose the relevant Accounting Standards should be referred. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.5 PRESENTATION AND DISCLOSURE */}
@@ -320,27 +220,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 7 --- PRESENTATION &amp; DISCLOSURES BASED (g) The amount of pre-tax profit or loss from ordinary activities attributable to the discontinuing operation during the current financial reporting period, and the income tax expense related thereto; (h) The amounts of net cash flows attributable to the operating, investing, and financing activities of the discontinuing operation during the current financial reporting period; 6.5.2 Disclosures Other Than Initial Disclosures Note All the disclosures above should be presented in the notes to the financial statements except for amounts pertaining to pre-tax profit/loss of the discontinuing operation and the income tax expense thereon (second last bullet above) which should be shown on the face of the statement of profit and loss. 6.5.3 Other disclosures When an enterprise disposes of assets or settles liabilities attributable to a discontinuing operation or enters into binding agreements for the sale of such assets or the settlement of such liabilities, it should include, in its financial statements, the following information when the events occur: (a) For any gain or loss that is recognised on the disposal of assets or settlement of liabilities attributable to the discontinuing operation, (i) the amount of the pre-tax gain or loss and (ii) income tax expense relating to the gain or loss and (b) The net selling price or range of prices (which is after deducting expected disposal costs) of those net assets for which the enterprise has entered into one or more binding sale agreements, the expected timing of receipt of those cash flows and the carrying amount of those net assets on the balance sheet date.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.6 UPDATING THE DISCLOSURES */}
@@ -352,27 +232,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 8 --- flows relating to the assets to be disposed or liabilities to be settled and the events causing those changes. The disclosures should continue in financial statements for periods up to and including the period in which the discontinuance is completed. Discontinuance is completed when the plan is substantially completed or abandoned, though full payments from the buyer(s) may not yet have been received. If an enterprise abandons or withdraws from a plan that was previously reported as a discontinuing operation, that fact, reasons therefore and its effect should be disclosed.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.7 SEPARATE DISCLOSURE FOR EACH */}
@@ -381,27 +241,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             DISCONTINUING OPERATION Any disclosures required by <strong>AS 24</strong> should be presented separately for each discontinuing operation. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.8 PRESENTATION OF THE REQUIRED */}
@@ -413,27 +253,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 9 --- PRESENTATION &amp; DISCLOSURES BASED</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.9 RESTATEMENT OF PRIOR PERIODS */}
@@ -442,27 +262,7 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Comparative information for prior periods that is presented in financial statements prepared after the initial disclosure event should be restated to segregate assets, liabilities, revenue, expenses, and cash flows of continuing and discontinuing operations in a manner similar to that mentioned above. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 24, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.10 DISCLOSURE IN INTERIM FINANCIAL */}
@@ -480,6 +280,8 @@ export function AS24StandardTabContent({ navigateToPdfPage }: AS24StandardTabCon
             <li>-- PAGE 15 --- PRESENTATION &amp; DISCLOSURES BASED (ii) No, the resolution is silent about stoppage of the Car segment in definite time period. Though, sale of some assets and some transfer proposal were passed through a resolution to the new factory, but the closure road map and new segment starting roadmap are missing. Hence AS 24 will not be applicable and it cannot be considered as Discontinuing operations. (iii) Yes, phased and time bound program resolved in the board clearly indicates the closure of the passenger car segment in a definite time frame and will constitute a clear roadmap. Hence this action will attract compliance of AS 24 and it will be considered as Discontinuing Operations as per AS-24. 8. As per AS 24 ‘Discontinuing Operations’, a discontinuing operation is a component of an enterprise: (i) that the enterprise, pursuant to a single plan, is: (1) disposing of substantially in its entirety, (2) disposing of piecemeal, or (3) terminating through abandonment; and (ii) that represents a separate major line of business or geographical area of operations; and (iii) that can be distinguished operationally and for financial reporting purposes. As per provisions of the standard, business enterprises frequently close facilities, abandon products or even product lines, and change the size of their work force in response to market forces. While those kinds of terminations generally are not, in themselves, discontinuing operations, they can occur in connection with a discontinuing operation. Examples of activities that do not necessarily satisfy criterion of discontinuing operation are gradual or evolutionary phasing out of a product line or class of service, discontinuing, even if relatively abruptly, several products within an ongoing line of business;</li>
             <li>-- PAGE 16 --- In the given case, the company has enforced a gradual enforcement of change in product line and does not represent a separate major line of business and hence is not a discontinued operation. If it were a discontinuing operation, the initial disclosure event is the occurrence of one of the following, whichever occurs earlier: (i) the enterprise has entered into a binding sale agreement for substantially all of the assets attributable to the discontinuing operation; or (ii) the enterprises board of directors or similar governing body has both approved a detailed, formal plan for discontinuance and made an announcement of the plan.</li>
           </ul>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 24**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

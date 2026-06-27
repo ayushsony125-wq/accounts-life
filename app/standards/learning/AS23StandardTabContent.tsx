@@ -161,27 +161,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 1 --- UNIT 2: ACCOUNTING STANDARD 23 ACCOUNTING FOR INVESTMENTS IN ASSOCIATES IN CONSOLIDATED FINANCIAL STATEMENTS After studying this unit, you will be able to: ♦ Define the terms ‘Associates’, ‘Significant influence’, ‘Control’, ‘Equity method’ and other related terms used in the standard. ♦ Examine the circumstances under which the Equity Method is used. ♦ Apply the Equity Method in the accounting of investments in the associates. ♦ Disclose the contingences in the consolidated financial statements. ♦ Comply with other disclosure requirements as stated in the standard.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.1 INTRODUCTION */}
@@ -190,27 +170,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             <strong>AS 23</strong>, came into effect in respect of accounting periods commenced on or after 1-4-2002. <strong>AS 23</strong> describes the principles and procedures for recognizing investments in associates (in which the investor has significant influence, but not a subsidiary or joint venture of investor) in the consolidated financial statements of the investor. An investor which presents consolidated financial statements should account for investments in associates as per equity method in accordance with this standard but in its separate financial statements, <strong>AS 13</strong> will be applicable. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.2 OBJECTIVE */}
@@ -222,27 +182,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 2 --- FINANCIAL STATEMENTS financial statement for their group. For disclosing investment in associates in the separate financial statement of the investor itself, one should follow AS 13.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.3 DEFINITIONS OF THE TERMS USED IN THE */}
@@ -256,27 +196,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
             <li>-- PAGE 4 --- FINANCIAL STATEMENTS b. Or control of the composition of the board of directors in the case of a company or of the composition of the corresponding governing body in case of any other enterprise so as to obtain economic benefits from subsidiary company’s activities. If any company is controlling the composition of governing body of gratuity trust, provident fund trust etc., since the objective is not the economic benefit and therefore it will not be included in consolidated financial statement. An enterprise is considered to control the composition of the board of directors of a company or governing body in case of an enterprise other than a company, if it has the power, without the consent or concurrence of any other person, to appoint or remove all or a majority of directors of that company or members of the body. An enterprise is deemed to have the power to appoint a director/member, if any of the following conditions is satisfied: (i) A person cannot be appointed as director/member without the exercise in his favour by that enterprise of such a power as aforesaid; or (ii) A person’s appointment as director/member follows necessarily from his appointment to a position held by him in that enterprise; or (iii) The director/member is nominated by that enterprise or a subsidiary thereof. To understand the above definitions let us take few examples: Example 1 A Ltd. has 70% holding in C Ltd. and B Ltd. also has 28% holding in the same company. So, A Ltd. with the majority holding i.e. more than 50% is the parent company i.e. a holding company. Since B Ltd. holds more than 20% but not more than 50% in C Ltd., C Ltd. will be an associate of B Ltd. Example 2 A Ltd. is holding 90% share in B Ltd. and 10% shares in C Ltd., and B Ltd. is holding 11%shares in C Ltd. In this case, A Ltd. is parent of B Ltd. As far as the relationship between A Ltd. and C Ltd. is concerned; A Ltd. has a total of direct and indirect holding of (10 + 11) 21% in C Ltd., Thus, C Ltd. is an associate of A Ltd. It may however be noted that for consolidated financial statement purposes, the holding will be% (10% + 90% of 11%),.</li>
             <li>-- PAGE 5 ---</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.4 ASSOCIATES ACCOUNTED FOR USING THE */}
@@ -288,27 +208,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 6 --- FINANCIAL STATEMENTS Solution Calculation of Goodwill/Capital Reserve under Equity Method Particulars ` ` Investment in B Ltd. (A) 15,00,000 Equity Shares 10,00,000 Security Premium 1,00,000 Reserves &amp; Surplus 5,00,000 Net Assets 16,00,000 45% of Net Asset (B) 7,20,000 Goodwill (A-B) 7,80,000 Calculation of Carrying Amount of Investment in the year ended on 31 st March, 20X2 Particulars ` Investment in Associate as per AS 23: Share of Net Assets on 1 April 20X1 7,20,000 Add: Goodwill 7,80,000 Cost of Investment 15,00,000 Add: Profit during the year (3,00,000 x 45%) 1,35,000 Less: Dividend paid (1,00,000 x 45%) (45,000) Carrying Amount of Investment 15,90,000</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.5 CIRCUMSTANCES UNDER WHICH EQUITY */}
@@ -320,27 +220,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 7 --- b. Or it operates under severe long-term restrictions, which significantly impair its ability to transfer funds to the investor. In both the above cases, investment of investor in the share of the investee is treated as investment according to AS 13. An investor should discontinue the use of the equity method from the date that: a. It ceases to have significant influence in an associate but retains, either in whole or in part, its investment. b. The use of the equity method is no longer appropriate because the associate operates under severe long-term restrictions that significantly impair its ability to transfer funds to the investor. From the date of discontinuing the use of the equity method, investments in such associates should be accounted for in accordance with AS 13, Accounting for Investments. For this purpose, the carrying amount of the investment at that date should be regarded as cost thereafter. The reasons for not applying the equity method in accounting for investments in an associate should be disclosed in the consolidated financial statements.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.6 APPLICATION OF THE EQUITY METHOD */}
@@ -357,27 +237,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
             <li>-- PAGE 14 --- FINANCIAL STATEMENTS Consolidated Balance Sheet (Extract) as on March 31, 20X4: ASSETS Investment in Associate as per AS 23 ` Investment in B Ltd. - ♦ If, under the equity method, an investor’s share of losses of an associate equals or exceeds the carrying amount of the investment, the investor ordinarily discontinues recognising its share of further losses and the investment is reported at nil value. Additional losses are provided for to the extent that the investor has incurred obligations or made payments on behalf of the associate to satisfy obligations of the associate that the investor has guaranteed or to which the investor is otherwise committed. If the associate subsequently reports profits, the investor resumes including its share of those profits only after its share of the profits equals the share of net losses that have not been recognised. ♦ As far as possible the reporting date of the financial statements should be same for consolidated financial statement. If practically it is not possible to draw up the financial statements of one or more enterprise to such date and, accordingly, those financial statements are drawn up to reporting dates different from the reporting date of the investor, adjustments should be made for the effects of significant transactions or other events that occur between those dates and the date of the consolidated financial statements. In any case, the difference between reporting dates of the concern and consolidated financial statement should not be more than six months. ♦ Accounting policies followed in the preparation of the financial statements of the investor, investee and consolidated financial statement should be uniform for like transactions and other events in similar circumstances. If accounting policies followed by different enterprises in the group are not uniform, then adjustments should be made in the items of the individual financial statements to bring it in line with the accounting policy of the consolidated statement. ♦ The carrying amount of investment in an associate should be reduced to recognise a decline, other than temporary, in the value of the investment, such reduction being determined and made for each investment individually.</li>
             <li>-- PAGE 15 ---</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.7 CONTINGENCIES */}
@@ -386,27 +246,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             In accordance with <strong>AS 4</strong>, the investor discloses in the consolidated financial statements: a. Its share of the contingencies and capital commitments of an associate for which it is also contingently liable; and b. Those contingencies that arise because the investor is severally liable for the liabilities of the associate. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.8 WHY IS EQUITY METHOD OF ACCOUNTING */}
@@ -418,27 +258,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 16 --- FINANCIAL STATEMENTS</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.9 DISCLOSURE */}
@@ -448,27 +268,7 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
             <li>In addition to the disclosures required above, an appropriate listing and description of associates including the proportion of ownership interest and, if different, the proportion of voting power held should be disclosed in the consolidated financial statements. ♦ Investments in associates accounted for using the equity method should be classified as long-term investments and disclosed separately in the consolidated balance sheet. The investor’s share of the profits or losses of such investments should be disclosed separately in the consolidated statement of profit and loss. The investor’s share of any extraordinary or prior period items should also be separately disclosed. ♦ The name(s) of the associate(s) of which reporting date(s) is/are different from that of the financial statements of an investor and the differences in reporting dates should be disclosed in the consolidated financial statements. ♦ In case an associate uses accounting policies other than those adopted for the consolidated financial statements for like transactions and events in similar circumstances and it is not practicable to make appropriate adjustments to the associate’s financial statements, the fact should be disclosed along with a brief description of the differences in the accounting policies. ♦ If an associate is not accounted for using the equity method the reasons for not doing the same. ♦ Goodwill/capital reserve arising on the acquisition of an associate by an investor should be disclosed separately though it is included in the carrying amount of the investment.</li>
             <li>-- PAGE 17 ---</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 23, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.10 RELEVANT EXPLANATIONS TO AS 23 */}
@@ -486,6 +286,8 @@ export function AS23StandardTabContent({ navigateToPdfPage }: AS23StandardTabCon
             <li>-- PAGE 23 --- Add: Proportionate share of 10-month profit of investee as per equity method (30% of ` 3,00,000 x 10/12) 75,000 Carrying amount as on.20X2 2,60,000 (iii) Carrying amount of investment in Consolidated Financial Statement of Bright Ltd. as on.20X2 as per AS 23 ` Carrying amount as on.20X2 2,60,000 Less: Dividend received (` 60,000 x 30%) (18,000) Carrying amount as on.20X2 2,42,000 9. In terms of AS 23, B Ltd. will be considered as an associate company of A Ltd. as shares acquired represent to more than 20%. (i) Calculation of Goodwill ( ` in lakhs) Amount paid towards acquisition of stake in B Ltd. 3.00 Less: Pre-acquisition dividend (` 5,00,000 x 40% x 25%) 0.50 Cost of Investment in B Ltd. 2.50 Less: Share in the value of Equity of B Ltd. as at the date of investment [25% of ` 8 lakhs (` 5 lakhs + ` 5 lakhs – ` 2 lakhs)] (2.00) (ii) A Ltd. Consolidated Profit and Loss Account for the year ended 31st March, 20X2 (An extract) ` in lakhs Other income: Share of profits in B Ltd. (7x 25%) 1.75 Pre-acquisition Dividend received from</li>
             <li>-- PAGE 24 --- FINANCIAL STATEMENTS B Ltd. 0.50 Transfer to investment A/c (0.50) Nil (iii) A Ltd. Consolidated Balance Sheet as on.20X2 (An extract) ` in lakhs Non-current investments Investment in B Ltd. 2.50 (including goodwill) Share of profit for year 20X1 – 20X2 Working Notes: 1. Pre-acquisition dividend received from B Ltd. amounting to ` 0.50 lakhs will be reduced from investment value in the books of A Ltd. 2. B Ltd. made a profit of ` 7 lakhs for the year ended 31st March, 20X2. A Ltd.’s share in the profits of ` 7 lakhs is ` 1.75 lakhs. Investment in B Ltd. will be increased by ` 1.75 lakhs and consolidated profit and loss account of A Ltd. will be credited with ` 1.75 lakhs in the consolidated financial statement of A Ltd. 3. Dividend declared on.20X2 will not be recognized in the consolidated financial statement of A Ltd.</li>
           </ul>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 23**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

@@ -164,27 +164,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 1 --- UNIT 3: ACCOUNTING STANDARD 27 FINANCIAL REPORTING OF INTERESTS IN JOINT VENTURES After studying this unit, you will be able to: ♦ Define ‘Joint venture’ ‘joint Control’, ‘control’, ‘venturer’ and investor. ♦ Appreciate different forms of joint venture ♦ Examine the contractual arrangements which will differentiate the control as of Associate or Joint venture ♦ Evaluate the nitty-gritty of different forms of Joint ventures and differentiate among them ♦ Present the separate and consolidated financial statements of the venturers ♦ Accounting for transactions between the venturer and Joint venture ♦ Comply with the disclosure requirements as stated in the standard.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.1 INTRODUCTION */}
@@ -196,27 +176,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 2 --- 10.135 and expenses in the financial statements of venturers and investors regardless of the structures or forms under which the joint venture activities take place. The standard deals with three broad types of joint ventures – 1. Jointly controlled operations, 2. Jointly controlled assets and 3. Jointly controlled entities. The requirements relating to accounting for joint ventures in consolidated financial statements according to proportionate consolidation method, as contained in AS 27, apply only when consolidated financial statements are prepared by venturer Similarly existence of a contractual arrangement distinguishes interests which involve joint control from investments in associates in which the investor has significant influence (see Accounting Standard (AS) 23, Accounting for Investments in Associates in Consolidated Financial Statements). An investor in joint venture, which does not have joint control, should report its interest in a joint venture in its consolidated financial statements in accordance with AS 13, AS 21 and AS 23.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.2 SCOPE */}
@@ -225,27 +185,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             This Standard should be applied in accounting for interests in joint ventures and the reporting of joint venture assets, liabilities, income and expenses in the financial statements of venturers and investors, regardless of the structures or forms under which the joint venture activities take place. The provisions of this AS need to be referred to for consolidated financial statement only when CFS is prepared and presented by the venturer. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.3 DEFINITIONS */}
@@ -257,27 +197,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 3 --- ♦ Venturers undertake some economic activity: Economic activity means activities with the profit-making motive. Joint venture is separate from the regular identity of the venturers, it may be in the form of independent and separate legal organization other than regular concern of the venturer engaged in the economic activity. ♦ Venturers have joint control on the economic activity: The operating and financial decisions are influenced by the venturers and they also share the results of the economic activity. ♦ There exists a contractual agreement: The relationship between venturers is governed by the contractual agreement. This agreement can be in the form of written and signed agreement or as minutes of venturer meeting or in any other written form. 2. Joint control is the contractually agreed sharing of control over an economic activity. 3. Control is the power to govern the financial and operating policies of an economic activity so as to obtain benefits from it. 4. A venturer is a party to a joint venture and has joint control over that joint venture. 5. An investor in a joint venture is a party to a joint venture and does not have joint control over that joint venture. 6. Proportionate consolidation is a method of accounting and reporting whereby a venturer’s share of each of the assets, liabilities, income and expenses of a jointly controlled entity is reported as separate line items in the venturer’s financial statements.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.4 CONTRACTUAL ARRANGEMENT */}
@@ -290,27 +210,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
             <li>-- PAGE 4 --- 10.137 parties (venturers), articles of the concern or by-laws of the relevant joint venture. Irrespective of the form of the contract, the content of the contract ideally should include the following points: ♦ The activity, duration and reporting obligations of the joint venture. ♦ The appointment of the board of directors or equivalent governing body of the joint venture and the voting rights of the venturers. ♦ Capital contributions by the venturers. ♦ The sharing by the venturers of the output, income, expenses or results of the joint venture. The main object of contractual agreement is to distribute the economic control among the venturers, it ensures that no venturer should have unilateral control. The arrangement identifies those decisions in areas essential to the goals of the joint venture which require the consent of all the venturers and those decisions which may require the consent of a specified majority of the venturers. If contractual agreement is signed by a party to safeguard its right, such agreement will not make the party a venturer. The contractual arrangement may identify one venturer as the operator or manager of the joint venture. The operator does not control the joint venture but acts within the financial and operating policies which have been agreed to by the venturers in accordance with the contractual arrangement and delegated to the operator Example 1 IDBI gave loan to the joint venture entity of L&amp;T and Tantia Construction, they signed an agreement according to which IDBI will be informed for all important decisions of the joint venture entity. This agreement is to protect the right of the IDBI, hence just signing the contractual agreement will not make investor a venturer. Example 2 X Ltd invested ` 200 crore as initial capital along with Y Ltd and Z Ltd in GFH Ltd. The purpose of X Ltd making this investment is to grow the business of GFH Ltd along with the other investors. All investors have a right to attend to the meetings</li>
             <li>-- PAGE 5 --- and to take decisions with respect to the business of GFH Ltd. All investors are actively involved in running the business of GFH Ltd and have a share in the returns generated by GFH Ltd in an agreed proportion. GFH Ltd is an example of a Joint Venture and X Ltd, Y Ltd and Z Ltd are all Venturers. Similarly, just because contractual agreement has assigned the role of a manager to any of the venturer will not disqualify him as venturer. Example 3 Mr. A, M/s. B &amp; Co. and C Ltd. entered into a joint venture, where according to the agreement, all the policies making decisions on financial and operating activities will be taken in a regular meeting attended by them or their representatives. Implementation and execution of these policies will be the responsibility of Mr. A. Here Mr. A is acting as venturer as well as manager of the concern.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.5 FORMS OF JOINT VENTURES */}
@@ -319,27 +219,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Joint ventures may take many forms and structures, this Statement identifies them in three broad types – • Jointly Controlled Operations (JCO), • Jointly Controlled Assets (JCA) and • Jointly Controlled Entities (JCE). Any structure which satisfies the following characteristics can be classified as joint ventures: (a) Two or more venturers are bound by a contractual arrangement and (b) The contractual arrangement establishes joint control. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.6 JOINTLY CONTROLLED OPERATIONS (JCO) */}
@@ -355,27 +235,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
             <li>-- PAGE 9 --- In the Books of Mr. A Joint Venture Account Particulars ` Particulars ` To Bank Loan (Purchase of Land) 50,00,000 By Bank (Sale of Flats) 40,00,000 To Bank:(Purchase of Land) 10,00,000 By Land &amp; Building 10,00,000 To Bank (Registration Fees) 60,000 By Bank (Received from Mr. B) 14,20,000 To Bank (Bank Interest) 2,00,000 By Bank (Received from Mr. C) 4,70,000 To Profit on JV 6,30,000 68,90,000 68,90,000 In the Books of Mr. B Joint Venture Account Particulars ` Particulars ` To Purchases (Material Supplied) 4,50,000 By Bank (Sale of Flats) 20,00,000 To Bank (Materials) 5,00,000 By Land &amp; Building 10,00,000 To Profit on JV 6,30,000 To Bank (Paid to Mr. A) 14,20,000 30,00,000 30,00,000 In the Books of Mr. C Joint Venture Account Particulars ` Particulars ` To Bank (Misc. Expenses) 9,00,000 By Bank (Sale of Flats) 10,00,000 To Profit on JV 6,30,000 By Land &amp; Building 10,00,000 To Bank (Paid to Mr. A) 4,70,000 20,00,000 20,00,000</li>
             <li>-- PAGE 10 --- 10.143</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.7 JOINTLY CONTROLLED ASSETS (JCA) */}
@@ -392,27 +252,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
             <li>-- PAGE 15 --- In the Books of C Ltd. Extract of Draft Profit &amp; Loss Account Note No. ` Depreciation and amortisation expense 1 4,20,000 Other operating Expenses (Pipeline Expenses) 200,000 Extract of Balance Sheet Note No. ` Assets Non-current assets Property, Plant and Equipment 2 23,80,000 Notes to Accounts ` ` 1. Depreciation and amortisation expense Land &amp; Building 20,000 Plant &amp; Machinery 3,00,000 Computers 40,000 Vehicles 60,000 4,20,000 2. Land &amp; Building 4,00,000 Less: Depreciation (20,000) 3,80,000 Plant &amp; Machinery 20,00,000 Less: Depreciation (3,00,000) 17,00,000 Computers 1,00,000 Less: Depreciation (40,000) 60,000 Vehicles 3,00,000 Less: Depreciation (60,000) 2,40,000 23,80,000</li>
             <li>-- PAGE 16 --- 10.149</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.8 JOINTLY CONTROLLED ENTITIES (JCE) */}
@@ -428,27 +268,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
             <li>-- PAGE 20 --- 10.153 2. Purchases A Ltd. 5,00,000 B Ltd. 4,00,000 9,00,000 3. Other expenses A Ltd. 1,70,000 B Ltd. 1,36,000 3,06,000 4. Closing Inventory A Ltd. 50,000 B Ltd. 50,000 1,00,000 5. Share Capital A Ltd. 1,96,490 B Ltd. 2,04,510 4,01,000 6. Reserves and Surplus Profit &amp; Loss Account: A Ltd. 99,500 B Ltd. 99,500 1,99,000 7. Long Term Borrowings Unsecured Loans: A Ltd. 1,00,000 B Ltd. 1,00,000 2,00,000 8. Current Liabilities A Ltd. 50,000 B Ltd. 50,000 1,00,000 9. Property, Plant and Equipment A Ltd. 3,00,000 B Ltd. 3,00,000 6,00,000</li>
             <li>-- PAGE 21 --- 10. Inventories A Ltd. 50,000 B Ltd. 50,000 1,00,000 11. Other Current Assets A Ltd. 1,00,000 B Ltd. 1,00,000 2,00,000</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.9 CONSOLIDATED FINANCIAL STATEMENTS */}
@@ -466,27 +286,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
             <li>-- PAGE 27 --- II Assets 1. Non-current Assets Property, Plant and Equipment 4 36,00,000 2. Current Assets 5 1,50,000 37,50,000 Notes to Accounts ` ` 1. Reserves and Surplus B Ltd. 16,00,000 C Ltd. 6,00,000 22,00,000 2. Long Term Borrowings Loans: B Ltd. 4,00,000 C Ltd. 1,00,000 5,00,000 3. Current Liabilities: B Ltd. 2,50,000 C Ltd. 50,000 3,00,000 4. Property, Plant and Equipment: B Ltd. 26,25,000 C Ltd. 9,75,000 36,00,000 5. Current Assets: B Ltd. 1,25,000 C Ltd. 25,000 1,50,000</li>
             <li>-- PAGE 28 --- 10.161</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.10 TRANSACTIONS BETWEEN A VENTURER */}
@@ -498,27 +298,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 29 ---</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.11 REPORTING INTERESTS IN JOINT */}
@@ -527,27 +307,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             VENTURES IN THE FINANCIAL STATEMENTS OF AN INVESTOR The investors who don’t have joint control over the entity recognized his share of net results and his investments in joint venture as per <strong>AS 13</strong>. In the consolidated financial statement it is recognized as per <strong>AS 13</strong>, <strong>AS 21</strong> or <strong>AS 23</strong> as appropriate. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.12 OPERATORS OF JOINT VENTURES */}
@@ -556,27 +316,7 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Payment to operators is recognized as expense in CFS and in the books of the operators as per <strong>AS 9</strong>, Revenue <strong>Recognition</strong>. The operator may be any of the venturers, in this case any amount received by him, as management fees for the service will be recognized as stated above in this Para. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 27, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.13 DISCLOSURE */}
@@ -608,6 +348,8 @@ export function AS27StandardTabContent({ navigateToPdfPage }: AS27StandardTabCon
             <li>-- PAGE 49 --- General overhead costs allocated to construction project by the Manager is ` 30,000. However, as per company’s normal overhead allocation policy, it should be ` 24,000. The auditor of the company has support documentation for the cost of ` 15,000 only) and raised objection for the balance amount. The construction of the factory was completed on 31 st December, 2022 and production could begin on 1 st February, 2023. The overall useful life of the factory building was estimated at 40 years from the date of completion. However, it was estimated that the roof will need to be replaced 20 years after the date of completion and that the cost of replacing the roof at current prices would be 25% of the total cost of the building. The construction of the factory was partly financed by a loan of ` 28 lakhs borrowed on 1st April, 2022. The loan was taken at an annual rate of interest of 9%. During the period when the loan proceeds had been fully utilized to finance the construction, Shubham Limited received investment income of ` 25,000 on the temporary investment of the proceeds. You are required to assume that all of the net finance costs to be allocated to the cost of factory (not land) and interest cost to be capitalized based on nine months’ period. Based on the information given in the above scenario, answer the following multiple choice questions: (i) Which of the following cost (incurred directly on construction) will be capitalized to the cost of factory building? (a) ` 2,00,000 incurred as legal cost (b) ` 60,000 – costs of relocating employees (c) ` 80,000 costs of inauguration ceremony (d) ` 24,000 – allocated general overhead cost (ii) What amount of employment cost of construction workers will be capitalized to the cost of factory building? (a) ` 2,90,000 (b) ` 3,48,000 (c) ` 2,32,000 (d) ` 29,000</li>
             <li>-- PAGE 50 --- CS.15 CASE SCENARIOS (iii) What is the amount of net borrowing cost capitalized to the cost of the factory? (a) ` 1,89,000 (b) ` 1,68,000 (c) ` 1,44,000 (d) ` 1,64,000 (iv) What will be the carrying amount (i.e. value after charging depreciation) of the factory in the Balance Sheet of Shubham Limited as at 31 st March, 2023? (a) ` 30,00,000 (b) ` 57,78,125 (c) ` 27,78,125 (d) ` 58,00,000 Answers (i) (a) (ii) (c) (iii) (d) (iv) (b)</li>
           </ul>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 27**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

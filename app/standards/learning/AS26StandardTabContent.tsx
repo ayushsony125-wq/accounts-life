@@ -178,27 +178,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 1 ---  UNIT 6: ACCOUNTING STANDARD 26 INTANGIBLE ASSETS After studying this unit, you will be able to comprehend– • Definition of Intangible Assets • Parameters for Recognition and Initial Measurement of an Intangible Asset • Separate Acquisition • Acquisition as part of an Amalgamation • Acquisition by way of a Government Grant • Exchanges of Assets • Internally Generated Goodwill and other Intangible Assets • Measurement Subsequent to Initial Recognition • Principles for • Amortisation Period • Amortisation Method • Residual Value • Review of Amortisation Period and Amortisation Method • Retirements and Disposals • Disclosures as per the standard.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.1 INTRODUCTION */}
@@ -210,27 +190,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 2 ---  criteria are met. AS 26 also specifies how to measure the carrying amount of intangible assets and requires certain disclosures about intangible assets.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.2 SCOPE */}
@@ -242,27 +202,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 3 ---  (iv) the underlying intangible asset in finance lease after its initial recognition.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.3 DEFINITIONS */}
@@ -275,27 +215,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
             <li>-- PAGE 4 ---  A financial asset is any asset that is: a. Cash; b. A contractual right to receive cash or another financial asset from another enterprise; c. A contractual right to exchange financial instruments with another enterprise under conditions that are potentially favourable; or d. An ownership interest in another enterprise. Termination benefits are employee benefits payable as a result of either: a. an enterprise’s decision to terminate an employee’s employment before the normal retirement date; or b. an employee’s decision to accept voluntary redundancy in exchange for those benefits (voluntary retirement). Intangible Asset is • an identifiable • non-monetary asset • without physical substance • held for use in the production or supply of goods or services, for rental to others, or for administrative purposes. Enterprises frequently expend resources, or incur liabilities, on the acquisition, development, maintenance or enhancement of intangible resources such as scientific or technical knowledge, design and implementation of new processes or systems, licences, intellectual property, market knowledge and trademarks (including brand names and publishing titles). Common examples are computer software, patents, copyrights, motion picture films, customer lists, mortgage servicing rights, fishing licences, import quotas, franchises, customer or supplier relationships, customer loyalty, market share and marketing rights. Goodwill is another example of an item of intangible nature which either arises on acquisition or is internally generated. Not all the items described above will meet the definition of an intangible asset, that is, identifiability, control over a resource and expectation of future economic</li>
             <li>-- PAGE 5 ---  benefits flowing to the enterprise. If an item covered by AS 26 does not meet the definition of an intangible asset, expenditure to acquire it or generate it internally is recognised as an expense when it is incurred. Some intangible assets may be contained in or on a physical substance such as a compact disk (in the case of computer software), legal documentation (in the case of a licence or patent) or film (in the case of motion pictures). The cost of the physical substance containing the intangible assets is usually not significant. Accordingly, the physical substance containing an intangible asset, though tangible in nature, is commonly treated as a part of the intangible asset contained in or on it. In some cases, an asset may incorporate both intangible and tangible elements that are, in practice, inseparable. Judgement is required to assess as to which element is predominant. For example, computer software for a computer- controlled machine tool that cannot operate without that specific software is an integral part of the related hardware and it is treated as a fixed asset. The same applies to the operating system of a computer. Where the software is not an integral part of the related hardware, computer software is treated as an intangible asset.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.4 IDENTIFIABILITY */}
@@ -305,27 +225,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
             <li>The definition of an intangible asset requires that an intangible asset be identifiable. To be identifiable, it is necessary that the intangible asset is clearly distinguished from goodwill. • An intangible asset can be clearly distinguished from goodwill if the asset is separable which means that enterprise could rent, sell, exchange or distribute the specific future economic benefits attributable to the asset without also disposing of future economic benefits that flow from other assets used in the same revenue earning activity. • Separability is not a necessary condition for identifiability since an enterprise may be able to identify an asset in some other way. For example, if an intangible asset is acquired with a group of assets, the transaction may involve the transfer of legal rights that enable an enterprise to identify the intangible asset. Also, even If an asset generates future economic benefits</li>
             <li>-- PAGE 6 ---  only in combination with other assets, the asset is identifiable if the enterprise can identify the future economic benefits that will flow from the asset.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.5 CONTROL */}
@@ -337,27 +237,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 7 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.6 FUTURE ECONOMIC BENEFITS */}
@@ -366,27 +246,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             The future economic benefits flowing from an intangible asset may include revenue from the sale of products or services, cost savings, or other benefits resulting from the use of the asset by the enterprise. For example, the use of intellectual property in a production process may reduce future production costs rather than increase future revenues. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.7 RECOGNITION AND INITIAL MEASUREMENT */}
@@ -395,27 +255,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             OF AN INTANGIBLE ASSET The recognition of an item as an intangible asset requires an enterprise to demonstrate that the item meets the definition of an intangible asset and recognition criteria set out as below: An intangible asset should be recognised if, and only if: a. It is probable that the future economic benefits that are attributable to the asset will flow to the enterprise; and b. The cost of the asset can be measured reliably. An enterprise should assess the probability of future economic benefits using reasonable and supportable assumptions that represent best estimate of the set of economic conditions that will exist over the useful life of the asset. An intangible asset should be measured initially at cost. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.8 SEPARATE ACQUISITION */}
@@ -427,27 +267,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 8 ---  • any import duties and other taxes (other than those subsequently recoverable by the enterprise from the taxing authorities), and • any directly attributable expenditure on making the asset ready for its intended use. Directly attributable expenditure includes, for example, professional fees for legal services. • Any trade discounts and rebates are deducted in arriving at the cost. If an intangible asset is acquired in exchange for shares or other securities of the reporting enterprise, the asset is recorded at its fair value, or the fair value of the securities issued, whichever is more clearly evident.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.9 ACQUISITION AS PART OF AN */}
@@ -459,27 +279,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 9 ---  change in economic circumstances between the transaction date and the date at which the asset&apos;s fair value is estimated. If no active market exists for an asset, its cost reflects the amount that the enterprise would have paid, at the date of the acquisition, for the asset in an arm&apos;s length transaction between knowledgeable and willing parties, based on the best information available. The cost initially recognised for the intangible asset in this case is restricted to an amount that does not create or increase any capital reserve arising at the date of the amalgamation.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.10 ACQUISITION BY WAY OF A GOVERNMENT */}
@@ -491,27 +291,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 10 ---  Accordingly, intangible asset acquired free of charge, or for nominal consideration, by way of government grant is recognised at a nominal value or at the acquisition cost, as appropriate; any expenditure that is directly attributable to making the asset ready for its intended use is also included in the cost of the asset.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.11 EXCHANGE OF ASSETS */}
@@ -520,27 +300,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             An intangible asset may be acquired in exchange or part exchange for another asset. In such a case, the cost of the asset acquired is determined in accordance with the principles laid down in this regard in <strong>AS 10</strong>. The cost of such an item is measured at fair value unless: (a) the exchange transaction lacks commercial substance or (b) the fair value of neither the asset(s) received nor the asset(s) given up is reliably measurable. The acquired item is measured in this manner even if an enterprise cannot immediately derecognize the asset given up. If the acquired item is not measured at fair value, its/their cost is measured at the carrying amount of the asset(s) given up. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.12 INTERNALLY GENERATED GOODWILL */}
@@ -552,27 +312,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 11 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.13 INTERNALLY GENERATED INTANGIBLE */}
@@ -581,27 +321,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             ASSETS It is sometimes difficult to assess whether an internally generated intangible asset qualifies for recognition. It is often difficult to: (a) identify whether, and the point of time when, there is an identifiable asset that will generate probable future economic benefits; and (b) determine the cost of the asset reliably. In some cases, the cost of generating an intangible asset internally cannot be distinguished from the cost of maintaining or enhancing the enterprise’s internally generated goodwill or of running day-to- day operations. To assess whether an internally generated intangible asset meets the criteria for recognition, an enterprise classifies the generation of the asset into ➢ Research Phase &amp; ➢ Development Phase If an enterprise cannot distinguish the research phase from the development phase of an internal project to create an intangible asset, the enterprise treats the expenditure on that project as if it were incurred in the research phase only. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.14 RESEARCH PHASE */}
@@ -613,27 +333,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 12 ---  c. The search for alternatives for materials, devices, products, processes, systems or services; d. The formulation, design, evaluation and final selection of possible alternatives for new or improved materials, devices, products, processes, systems or services.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.15 DEVELOPMENT PHASE */}
@@ -645,27 +345,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 13 ---  c. The design, construction and operation of a pilot plant that is not of a scale economically feasible for commercial production and d. The design, construction and testing of a chosen alternative for new or improved materials, devices, products, processes, systems or services. AS 26 takes the view that expenditure on internally generated brands, mastheads, publishing titles, customer lists and items similar in substance cannot be distinguished from the cost of developing the business as a whole. Therefore, such items are not recognised as intangible assets. To demonstrate how an intangible asset will generate probable future economic benefits, an enterprise assesses the future economic benefits to be received from the asset using the principles in Accounting Standard on Impairment of Assets. If the asset will generate economic benefits only in combination with other assets, the enterprise applies the concept of cash generating units as set out in Accounting Standard on Impairment of Assets.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.16 COST OF AN INTERNALLY GENERATED */}
@@ -678,27 +358,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
             <li>-- PAGE 14 ---  c. Any expenditure that is directly attributable to generating the asset, such as fees to register a legal right and the amortisation of patents and licenses that are used to generate the asset (E.g., borrowing cost as per para 4(e) of AS 16, etc.) and d. Overheads that are necessary to generate the asset and that can be allocated on a reasonable and consistent basis to the asset. Allocations of overheads are made on bases similar to those discussed in AS 2 &amp; AS 16. The following are not components of the cost of an internally generated intangible asset, these should be expensed off in profit and loss account: a. Selling, administrative and other general overhead expenditure unless this expenditure can be directly attributed to making the asset ready for use. b. Clearly identified inefficiencies and initial operating losses incurred before an asset achieves planned performance and c. Expenditure on training the staff to operate the asset. Example An enterprise is developing a new production process. During the year 20X1, expenditure incurred was ` 10 lacs, of which ` 9 lacs was incurred before 1 December 20X1 and 1 lac was incurred between 1 December 20X1 and 31 December 20X1. The enterprise is able to demonstrate that, at 1 December 20X1, the production process met the criteria for recognition as an intangible asset. The recoverable amount of the know-how embodied in the process (including future cash outflows to complete the process before it is available for use) is estimated to be ` 5 lacs. At the end of 20X1, the production process is recognised as an intangible asset at a cost of ` 1 lac (expenditure incurred since the date when the recognition criteria were met, that is, 1 December 20X1). The ` 9 lacs expenditure incurred before 1 December 20X1 is recognised as an expense because the recognition criteria were not met until 1 December 20X1. This expenditure will never form part of the cost of the production process recognised in the balance sheet. During the year 20X2, expenditure incurred is ` 20 lacs. At the end of 20X2, the recoverable amount of the know-how embodied in the process (including future</li>
             <li>-- PAGE 15 ---  cash outflows to complete the process before it is available for use) is estimated to be ` 19 lacs. At the end of the year 20X2, the cost of the production process is ` 21 lacs ( ` 1 lac expenditure recognised at the end of 20X1 plus ` 20 lacs expenditure recognised in 20X2). The enterprise recognises an impairment loss of ` 2 lacs to adjust the carrying amount of the process before impairment loss ( ` 21 lacs) to its recoverable amount ( ` 19 lacs). This impairment loss will be reversed in a subsequent period if the requirements for the reversal of an impairment loss in AS 28, are met.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.17 RECOGNITION OF AN EXPENSE */}
@@ -710,27 +370,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 16 ---  (c) expenditure on advertising and promotional activities; and (d) expenditure on relocating or re-organising part or all of an enterprise. The above guidance does not apply to payments for the delivery of goods or services made in advance of the delivery of goods or the rendering of services. Such prepayments are recognised as assets. Past Expenses not to be recognised as an Asset Expenditure on an intangible item that was initially recognised as an expense in previous annual financial statements or interim financial reports should not be recognised as part of the cost of an intangible asset at a later date.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.18 SUBSEQUENT EXPENDITURE */}
@@ -742,27 +382,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 17 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.19 MEASUREMENT SUBSEQUENT TO INITIAL */}
@@ -771,27 +391,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             RECOGNITION After initial recognition, an intangible asset should be carried at its cost less any accumulated amortisation and any accumulated impairment losses. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.20 AMORTISATION PERIOD */}
@@ -804,27 +404,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
             <li>-- PAGE 18 ---  (h) whether the useful life of the asset is dependent on the useful life of other assets of the enterprise. Given the history of rapid changes in technology, computer software and many other intangible assets are susceptible to technological obsolescence. Therefore, it is likely that their useful life will be short. In some cases, there may be persuasive evidence that the useful life of an intangible asset will be a specific period longer than ten years. In these cases, the presumption that the useful life generally does not exceed ten years is rebutted and the enterprise: a. Amortises the intangible asset over the best estimate of its useful life. b. Estimates the recoverable amount of the intangible asset at least annually in order to identify any impairment loss and c. Discloses the reasons why the presumption is rebutted and the factors that played a significant role in determining the useful life of the asset. Example: A. An enterprise has purchased an exclusive right to generate hydroelectric power for 60 years. The costs of generating hydro-electric power are much lower than the costs of obtaining power from alternative sources. It is expected that the geographical area surrounding the power station will demand a significant amount of power from the power station for at least 60 years. The enterprise amortises the right to generate power over 60 years, unless there is evidence that its useful life is shorter. B. An enterprise has purchased an exclusive right to operate a toll motorway for 30 years. There is no plan to construct alternative routes in the area served by the motorway. It is expected that this motorway will be in use for at least 30 years. The enterprise amortises the right to operate the motorway over 30 years, unless there is evidence that its useful life is shorter. If control over the future economic benefits from an intangible asset is achieved through legal rights that have been granted for a finite period, the useful life of the intangible asset should not exceed the period of the legal rights unless the legal rights are renewable and renewal is virtually certain.</li>
             <li>-- PAGE 19 ---  The useful life of an intangible asset may be very long but it is always finite. There may be both economic and legal factors influencing the useful life of an intangible asset: economic factors determine the period over which future economic benefits will be generated; legal factors may restrict the period over which the enterprise controls access to these benefits. The useful life is the shorter of the periods determined by these factors. Example: Company X has purchased a copyright to produce a safety equipment for sale in the market. The rights have been obtained for 10 years. Hence, company is amortizing the intangible asset in 10 years. After 7 years, due to change in the environmental law, safety equipments produced out of new technology are only considered valid. In above scenario, the company need to write off the balance amount in the year of implementation of the law.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.21 AMORTISATION METHOD */}
@@ -836,27 +416,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 20 ---  The amortisation charge for each period should be recognised as an expense unless another Accounting Standard permits or requires it to be included in the carrying amount of another asset. For example, the amortisation of intangible assets used in a production process is included in the carrying amount of inventories.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.22 RESIDUAL VALUE */}
@@ -865,27 +425,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Residual value is the amount, which an enterprise expects to obtain for an asset at the end of its useful life after deducting the expected costs of disposal. The residual value of an intangible asset should be assumed to be zero unless: a. There is a commitment by a third party to purchase the asset at the end of its useful life or b. There is an active market for the asset and: i. Residual value can be determined by reference to that market and ii. It is probable that such a market will exist at the end of the asset&apos;s useful life. A residual value other than zero implies that an enterprise expects to dispose of the intangible asset before the end of its economic life. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.23 REVIEW OF AMORTISATION PERIOD AND */}
@@ -897,27 +437,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 21 --- </li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.24 RECOVERABILITY OF THE CARRYING */}
@@ -926,27 +446,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             AMOUNT-IMPAIRMENT LOSSES Impairment losses of intangible assets are calculated on the basis of <strong>AS 28</strong> . <strong>AS 28</strong> “Impairment of Assets” is covered in next unit of this chapter. In addition to the requirements of <strong>Accounting Standard</strong> on Impairment of Assets, an enterprise should estimate the recoverable amount of the following intangible assets at least at each financial year end even if there is no indication that the asset is impaired: (a) an intangible asset that is not yet available for use; and (b) an intangible asset that is amortised over a period exceeding ten years from the date when the asset is available for use. <strong>AS 26</strong> requires an enterprise to test for impairment, at least annually, the carrying amount of an intangible asset that is not yet available for use. Example: X limited is developing a customized software for ` 10 Cr. It will take 3 years to complete development. Present value of future economic benefit is considered to be ` 15 Cr. After 2 years, 70% work is completed. However, due to change in market conditions, present value of future economic benefits are estimated to be ` 6 Cr only. Company should recognize ` 1 Cr as impairment loss on &quot;Intangible asset under development” as per <strong>AS 28</strong>. Only ` 6 Cr can be shown as &quot;Intangible asset under development”. Company cannot capitalize any further amount till the time recoverable amount increases even if work of ` 10 Cr is completed. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.25 RETIREMENTS AND DISPOSALS */}
@@ -958,27 +458,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 22 ---  Gains or losses arising from the retirement or disposal of an intangible asset should be determined as the difference between the net disposal proceeds and the carrying amount of the asset and should be recognised as income or expense in the statement of profit and loss. An intangible asset that is retired from active use and held for disposal is carried at its carrying amount at the date when the asset is retired from active use.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.26 DISCLOSURE */}
@@ -990,27 +470,7 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 23 ---  (a) brand names; (b) mastheads and publishing titles; (c) computer software; (d) licences and franchises; (e) copyrights, and patents and other industrial property rights, service and operating rights; (f) recipes, formulae, models, designs and prototypes; and (g) intangible assets under development.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 26, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 6.27 OTHER DISCLOSURES */}
@@ -1031,6 +491,8 @@ export function AS26StandardTabContent({ navigateToPdfPage }: AS26StandardTabCon
             <li>-- PAGE 32 ---  Answer to the Scenario based Questions 10. Swift Limited amortised ` 10,00,000 per annum for the first two years i.e. ` 20,00,000. The remaining carrying cost can be amortised during next 5 years on the basis of net cash flows arising from the sale of the product. The amortisation may be found as follows: S Net cash flows ` Amortisation Ratio Amortisation Amount ` I - 0.125 10,00,000 II - 0.125 10,00,000 III 36,00,000 10,80,000 IV 46,00,000 13,80,000 V 44,00,000 13,20,000 VI 40,00,000 12,00,000 VII 34,00,000 10,20,000 Total 2,00,00,000 80,00,000 It may be seen from above that from third year onwards, the balance of carrying amount i.e., ` 60,00,000 has been amortised in the ratio of net cash flows arising from the product of Swift Ltd. 11. As per para 41 of AS 26 “Intangible Assets”, expenditure on research should be recognised as an expense when it is incurred. Hence, the expenses amounting ` 20 lakhs incurred on the research has to be charged to the statement of profit and loss in the current year ending 31st March, 20X2. 12. As per AS 26, costs incurred in creating a computer software product should be charged to research and development expense when incurred until technological feasibility/asset recognition criteria has been established for the product. Technological feasibility/asset recognition criteria have been established upon completion of detailed program design, coding and testing. In this case, ` 90,000 would be recorded as an expense (` 50,000 for completion of detailed program design and ` 40,000 for coding and testing to establish technological feasibility/asset recognition criteria). Cost incurred from the point of technological feasibility/asset recognition criteria</li>
             <li>-- PAGE 33 ---  until the time when products costs are incurred are capitalized as software cost (63,000+ 18,000+ 19,500) = ` 1,00,500. Packing cost ` 16,500 should be recognized as expenses and charged to P &amp; L A/c. 13. As per AS 26 “Intangible Assets”, subsequent expenditure on an intangible asset after its purchase or its completion should be recognized as an expense when it is incurred unless (a) it is probable that the expenditure will enable the asset to generate future economic benefits in excess of its originally assessed standard of performance; and (b) expenditure can be measured and attributed to the asset reliably. If these conditions are met, the subsequent expenditure should be added to the cost of the intangible asset. (i) In the given case, the legal expenses to defend the patent of a product amounting ` 23,00,000 should not be capitalized and be charged to Profit and Loss Statement. (ii) The company is required to expense the entire amount of ` 7,00,000 in the Profit and Loss account for the year ended 31st March, 20X2 because no benefit will arise in the future. (iii) As per AS 26, expenditure on an intangible item that was initially recognized as an expense by a reporting enterprise in previous annual financial statements should not be recognized as part of the cost of an intangible asset at a later date. Thus the company cannot capitalize the amount of ` 25,00,000 and it should be recognized as expense (iv) Expenditure of ` 50,00,000 on advertising and promotional activities should always be charged to Profit and Loss Statement. Hence, the company has done the correct treatment by debiting the sum of 50 lakhs to Profit and Loss Account.</li>
           </ul>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 26**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

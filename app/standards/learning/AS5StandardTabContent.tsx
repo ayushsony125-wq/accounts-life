@@ -156,27 +156,7 @@ export function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             UNIT 2: ACCOUNTING STANDARD 5 NET PROFIT OR LOSS FOR THE PERIOD, PRIOR PERIOD ITEMS AND CHANGES IN ACCOUNTING POLICIES After studying this unit, you will be able to comprehend the meaning and accounting treatment for ♦ Net Profit or Loss for the Period ♦ Extraordinary Items ♦ Profit or Loss from Ordinary Activities ♦ Prior Period Items ♦ Changes in Accounting Estimates ♦ Changes in Accounting Policies. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 5**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 5, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.1 INTRODUCTION */}
@@ -188,27 +168,7 @@ export function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS <PdfRef page={2} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 5**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 5, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.2 NET PROFIT OR LOSS FOR THE PERIOD */}
@@ -223,27 +183,7 @@ export function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS <PdfRef page={4} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 5**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 5, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.3 PRIOR PERIOD ITEMS */}
@@ -255,27 +195,7 @@ export function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Illustration From the past 5 financial years, an old outstanding balance of `50,000 was still appearing as sundry creditor in the current year balance sheet of People Ltd. The company is certain that this amount is not payable due to one or more reasons. Therefore, it decided to write off the said amount in its current year’s books of accounts and recognize it as income. The company treated the amount of ` 50,000 written off as a prior period item and made the adjustments accordingly. The company is of the view that since sundry balances were recognized in the prior period(s), its related written-off amount should be treated as a prior period item. Solution No, the company is not correct in treating the amount written off as a prior period item. As per <strong>AS 5</strong>, prior period items are income or expenses which arise in a current year due to errors or omissions in the preparation of the financial statements of one or more prior period(s). Writing off an old outstanding balance in the current year which is appearing in its books of accounts from the past 5 financial years does not mean that there has been an error or omission in the preparation of financial statements of prior period(s). It is just a practice adopted by the company to write off the old outstanding balances of more than 5 years in its current year books of accounts. Therefore, the amount written off is not treated as a prior period item. Hence, adjusting the amount `50,000 written off as a prior period item on the basis that sundry balances were recognized in prior period(s) is not in line with <strong>AS 5</strong>. <PdfRef page={5} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 5**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 5, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.4 CHANGES IN ACCOUNTING ESTIMATES */}
@@ -290,27 +210,7 @@ export function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             The effect of a change in an accounting estimate should be classified using the same classification in the statement of profit and loss as was used previously for the estimate. To ensure the comparability of financial statements of different periods, the effect of a change in an accounting estimate which was previously included in the profit or loss from ordinary activities is included in the same component of net profit or loss. The effect of a change in an accounting estimate that was previously included as an extraordinary item is reported as an extraordinary item. The nature and amount of a change in an accounting estimate which has a material effect in the current period, or which is expected to have a material effect in subsequent periods, should be disclosed. If it is impracticable to quantify the amount, this fact should be disclosed. Sometimes, it is difficult to distinguish between a change in an accounting policy and a change in an accounting estimate. In such cases, the change is treated as a change in an accounting estimate, with appropriate disclosure. <PdfRef page={7} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 5**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 5, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.5 CHANGES IN ACCOUNTING POLICIES */}
@@ -340,6 +240,8 @@ export function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS ANSWERS/SOLUTION Answer to the Multiple Choice Questions 1. (d) 2. (d) 3. (c) 4. (c) 5. (d) Answer to the Scenario based Questions 6. No, payment of tax cannot be recognised as an extraordinary item. As per <strong>AS 5</strong>, &quot;Net Profit or Loss for the Period, Prior Period Items and Changes in Accounting Policies&quot; an extraordinary item is income or expenses that arise from events or transactions that are clearly distinct from ordinary activities of the enterprise and, therefore, are not expected to recur frequently or regularly. In the given case, providing consultancy service is an ordinary activity of Z Ltd. Thus, GST paid pursuant to the demand raised by GST department is also a part of an ordinary activity of Z Ltd. Recognising such payments as an extra-ordinary item is contrary to <strong>AS 5</strong>. <PdfRef page={14} />
           </p>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 5**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

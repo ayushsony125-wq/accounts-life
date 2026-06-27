@@ -163,27 +163,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 1 --- PRESENTATION &amp; DISCLOSURES BASED ❑ UNIT 5: ACCOUNTING STANDARD 20 EARNINGS PER SHARE After studying this unit, you will be able to comprehend the following: • Basic Earnings Per Share • Issues related to Numerator – Earnings • Issues related to Denominator – Weighted average number of shares • Diluted Earnings Per Share • Issues related to Numerator – Earnings • Issues related to Denominator – Weighted average number of shares • Dilutive Potential Equity Shares • Restatement of Earnings per share • Disclosures</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.1 INTRODUCTION */}
@@ -195,27 +175,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 2 --- Earnings per share (EPS) is a financial ratio indicating the amount of profit or loss for the period attributable to each equity share and AS 20 gives computational methodology for determination and presentation of basic and diluted earnings per share. This Accounting Standard is mandatory for all companies. However, disclosure of diluted earnings per share (both including and excluding extraordinary items) is not mandatory for SMCs. Such companies are however encouraged to make these disclosures. In consolidated financial statements, the information required by AS 20 should be presented on the basis of consolidated information.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.2 DEFINITION OF THE TERMS USED IN AS 20 */}
@@ -228,27 +188,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
             <li>-- PAGE 3 --- PRESENTATION &amp; DISCLOSURES BASED c. A contractual right to exchange financial instruments with another enterprise under conditions that are potentially favourable; or d. An equity share of another enterprise. A financial liability is any liability that is a contractual obligation to deliver cash or another financial asset to another enterprise or to exchange financial instruments with another enterprise under conditions that are potentially unfavourable. A potential equity share is a financial instrument or other contract that entitles, or may entitle, its holder to equity shares. Examples of potential equity shares are: a. Debt instruments or preference shares, that are convertible into equity shares; b. Share warrants; c. Options including employee stock option plans under which employees of an enterprise are entitled to receive equity shares as part of their remuneration and other similar plans; and d. Shares which would be issued upon the satisfaction of certain conditions resulting from contractual arrangements (contingently issuable shares), such as the acquisition of a business or other assets, or shares issuable under a loan contract upon default of payment of principal or interest, if the contract so provides. Note: A partly paid-up share where the holder is not entitled to dividends is treated as a potential equity share for the purposes of computing Diluted EPS. Share warrants or options are financial instruments that give the holder the right to acquire equity shares. Fair value is the amount for which an asset could be exchanged, or a liability settled, between knowledgeable, willing parties in an arm’s length transaction.</li>
             <li>-- PAGE 4 --- Basic Earnings Per Share Basic earnings per share is calculated as Net profit (loss) attributable to equity shareholders Weighted average number of equity shares outstanding during the period</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.3 EARNINGS-BASIC */}
@@ -260,27 +200,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 5 --- PRESENTATION &amp; DISCLOSURES BASED A quick recap of adjustments to be made to the numerator will be as under: Particulars Adjusted in the numerator of Basic EPS Tax expense (Current and Deferred Tax) Yes Exceptional items as per AS 5 Yes Extraordinary items as per AS 5 Yes Changes in Accounting estimates as per AS 5 Yes Changes in Accounting Policy as per AS 5 Yes Amount of preference dividends and any attributable tax thereto (a) Non-cumulative preference (b) Cumulative preference shares Yes – only if it has been provided in the books Yes – irrespective, whether or not the dividends have been provided for in the books</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.4 PER SHARE- BASIC */}
@@ -293,27 +213,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
             <li>-- PAGE 6 --- Illustration 1 Date Particulars Balance 1st January Balance at beginning of year 1,800 - 1,800 31st May Issue of shares for cash 600 - 2,400 1st November Buy Back of shares - 300 2,100 Calculate Weighted Number of Shares. Solution Computation of Weighted Average: (1,800 x 5/12) + (2,400 x 5/12) + (2,100 x 2/12) = 2,100 shares. The weighted average number of shares can alternatively be computed as follows: (1,800 x12/12) + (600 x 7/12) - (300 x 2/12) = 2,100 shares In most cases, shares are included in the weighted average number of shares from the date the consideration is receivable, for example: a. Equity shares issued in exchange for cash are included when cash is receivable; b. Equity shares issued as a result of the conversion of a debt instrument to equity shares are included as of the date of conversion; c. Equity shares issued in lieu of interest or principal on other financial instruments are included as of the date interest ceases to accrue; d. Equity shares issued in exchange for the settlement of a liability of the enterprise are included as of the date the settlement becomes effective; e. Equity shares issued as consideration for the acquisition of an asset other than cash are included as of the date on which the acquisition is recognised; and f. Equity shares issued for the rendering of services to the enterprise are included as the services are rendered. In these and other cases, the timing of the inclusion of equity shares is determined by the specific terms and conditions attaching to their issue. Due consideration should be given to the substance of any contract associated with the issue.</li>
             <li>-- PAGE 7 --- PRESENTATION &amp; DISCLOSURES BASED</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.5 SHARES ISSUED IN A SCHEME OF */}
@@ -328,27 +228,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
             <li>-- PAGE 10 --- The theoretical ex-rights fair value per share is calculated by adding the aggregate fair value of the shares immediately prior to the exercise of the rights to the proceeds from the exercise of the rights, and dividing by the number of shares outstanding after the exercise of the rights. Illustration 4 Net profit for the year 20X1 ` 11,00,000 Net profit for the year 20X2 ` 15,00,000 No. of shares outstanding prior to rights issue 5,00,000 shares Rights issue price ` 15.00 Last date to exercise rights 1st March 20X2 Rights issue is one new share for each five outstanding (i.e. 1,00,000 new shares) Fair value of one equity share immediately prior to exercise of rights on 1st March 20X2 was ` 21.00. Compute Basic Earnings Per Share. Solution Fair value of shares immediately prior to exercise of rights + Total amount received from exercise Number of shares outstanding prior to exercise + Number of shares issued in the exercise ` ` ( 21.00×5,00,000 shares) + ( 15.00 ×1,00,000 Shares) 5,00,000 Shares + 1,00,000 Shares Theoretical ex-rights fair value per share = ` 20.00 Computation of adjustment factor: Fair value per share prior to exercise of rights Theoretical ex-rights value per share ` ` (21.00) (20.00) = 1.05 Computation of earnings per share: EPS for the year 20X1 as originally reported: ` 11,00,000/5,00,000 shares = 2.20 EPS for the year 20X1 restated for rights issue: ` 11,00,000/ (5,00,000 shares x) = ` 2.10</li>
             <li>-- PAGE 11 --- PRESENTATION &amp; DISCLOSURES BASED EPS for the year 20X2 including effects of rights issue: (5,00,000 x x 2/12) + (6,00,000 x 10/12) = 5,87,500 shares EPS = 15,00,000/5,87,500 = ` 2.55</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.6 DILUTED EARNINGS PER SHARE */}
@@ -360,27 +240,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 12 ---</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.7 EARNINGS-DILUTED */}
@@ -392,27 +252,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 13 --- PRESENTATION &amp; DISCLOSURES BASED Solution Adjusted net profit for the current year (1,00,00,000 + 12,00,000 – 3,60,000) = ` 1,08,40,000 No. of equity shares resulting from conversion of debentures: 10,00,000 Shares No. of equity shares used to compute diluted EPS: (50,00,000 + 10,00,000) = 60,00,000 Shares Diluted earnings per share: (1,08,40,000/60,00,000) = ` 1.81</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.8 PER SHARE- DILUTED */}
@@ -426,27 +266,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
             <li>-- PAGE 15 --- PRESENTATION &amp; DISCLOSURES BASED Diluted EPS in case of share options For the purpose of calculating diluted earnings per share, an enterprise should assume the exercise of dilutive options and other dilutive potential equity shares of the enterprise. The assumed proceeds from these issues should be considered to have been received from the issue of shares at fair value. The difference between the number of shares issuable and the number of shares that would have been issued at fair value should be treated as an issue of equity shares for no consideration. Options and other share purchase arrangements are dilutive when they would result in the issue of equity shares for less than fair value. The amount of the dilution is fair value less the issue price. Therefore, in order to calculate diluted earnings per share, each such arrangement is treated as consisting of: a. A contract to issue a certain number of equity shares at their average fair value during the period. The shares to be so issued are fairly priced and are assumed to be neither dilutive nor anti-dilutive. They are ignored in the computation of diluted earnings per share; and b. A contract to issue the remaining equity shares for no consideration. Such equity shares generate no proceeds and have no effect on the net profit attributable to equity shares outstanding. Therefore, such shares are dilutive and are added to the number of equity shares outstanding in the computation of diluted earnings per share. Illustration 6 Net profit for the year 20X1 ` 12,00,000 Weighted average number of equity shares outstanding during the year 20X1 5,00,000 shares Average fair value of one equity share during the year 20X1 ` 20.00 Weighted average number of shares under option during the year 20X1 1,00,000 shares Exercise price for shares under option during the year 20X1 ` 15.00 Compute Basic and Diluted Earnings Per Share.</li>
             <li>-- PAGE 16 --- Solution Computation of earnings per share Earnings Shares Earnings/Share ` ` Net profit for the year 20X1 12,00,000 Weighted average no. of shares during year 20X1 5,00,000 Number of shares under option 1,00,000 Number of shares that would have been issued at fair value (100,000 x)/20.00 (75,000) Diluted earnings per share 12,00,000 5,25,000 Note: The earnings have not been increased as the total number of shares has been increased only by the number of shares (25,000) deemed for the purpose of the computation to have been issued for no consideration.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.9 DILUTIVE POTENTIAL EQUITY SHARES */}
@@ -459,27 +279,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
             <li>-- PAGE 17 --- PRESENTATION &amp; DISCLOSURES BASED In simple words, we can conclude as under: Particulars Remarks Is it to be taken as a part of Diluted EPS or not? Conversion to equity shares would decrease earnings per share from continuing ordinary activities. Dilutive Yes Conversion to equity shares would increase earnings per share from continuing ordinary activities. Anti-dilutive No Conversion to equity shares would increase loss per share from continuing ordinary activities. Dilutive Yes Conversion to equity shares would decrease loss per share from continuing ordinary activities. Anti-dilutive No Illustration 7 X Limited, during the year ended March 31, 20X1, has income from continuing ordinary operations of ` 2,40,000, a loss from discontinuing operations of ` 3,60,000 and accordingly a net loss of ` 1,20,000. The Company has 1,000 equity shares and 200 potential equity shares outstanding as at March 31, 20X1. You are required to compute Basic and Diluted EPS? Solution As per AS 20 “Potential equity shares should be treated as dilutive when, and only when, their conversion to equity shares would decrease net profit per share from continuing ordinary operations”. As income from continuing ordinary operations, ` 2,40,000 would be considered and not ` (1,20,000), for ascertaining whether 200 potential equity shares are</li>
             <li>-- PAGE 18 --- dilutive or anti-dilutive. Accordingly, 200 potential equity shares would be dilutive potential equity shares since their inclusion would decrease the net profit per share from continuing ordinary operations from ` 240 to ` 200. Thus, the basic E.P.S would be ` (120) and diluted E.P.S. would be ` (100). In case there are more than 1 potential equity shares: In considering whether potential equity shares are dilutive or antidilutive, each issue or series of potential equity shares is considered separately rather than in aggregate. The sequence in which potential equity shares are considered may affect whether or not they are dilutive. Therefore, in order to maximise the dilution of basic earnings per share, each issue or series of potential equity shares is considered in sequence from the most dilutive to the least dilutive. For the purpose of determining the sequence from most dilutive to least dilutive potential equity shares, the earnings per incremental potential equity share is calculated. Where the earnings per incremental share is the least, the potential equity share is considered most dilutive and vice-versa.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.10 RESTATEMENT */}
@@ -488,27 +288,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             If the number of equity or potential equity shares outstanding increases as a result of a bonus issue or share split or decreases as a result of a reverse share split (consolidation of shares), the calculation of basic and diluted earnings per share should be adjusted for all the periods presented. If these changes occur after the balance sheet date but before the date on which the financial statements are approved by the board of directors, the per share calculations for those financial statements and any prior period financial statements presented should be based on the new number of shares. When per share calculations reflect such changes in the number of shares, that fact should be disclosed. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.11 PRESENTATION */}
@@ -520,27 +300,7 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 19 --- PRESENTATION &amp; DISCLOSURES BASED AS 20 requires an enterprise to present basic and diluted earnings per share, even if the amounts disclosed are negative (a loss per share).</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 20, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 5.12 DISCLOSURE */}
@@ -562,6 +322,8 @@ export function AS20StandardTabContent({ navigateToPdfPage }: AS20StandardTabCon
             <li>-- PAGE 29 --- PRESENTATION &amp; DISCLOSURES BASED Date No. of equity shares Amount paid per share Weighted average no. of equity shares ` ` ` 1.4.20X1 6,00,000 5 6,00,000 х 5/10 х 5/12 = 1,25,000.20X1 5,40,000 10 5,40,000 х 7/12 = 3,15,000.20X1 60,000 5 60,000 х 5/10 х 7/12 = 17,500 Total weighted average equity shares 4,57,500 12. Earnings for the year: = No. of Shares x Basic EPS = 30,00,000 shares x ` 5 per share = ` 1,50,00,000 Computation of Adjusted Net Profit: = Earnings for the year + Interest on debentures net of tax = 1,50,00,000 + (6,00,000 - 1,80,000) = ` 1,54,20,000 Computation of Adjusted Denominator: No. of equity shares resulting from conversion of debentures: = 50,000 x 10 shares = 5,00,000 shares No. of equity shares for diluted EPS = 30,00,000 + 5,00,000 = 35,00,000 shares Computation of Diluted EPS: = ` 1,54,20,000/35,00,000 shares = ` 4.4 per share. 13.Fair value of shares immediately prior to exercise of rights + Total amount received from exercise Number of shares outstanding prior to exercise + Number of shares issued in the exercise 102 x 2,50,000 Shares + 98 x 1,00,000 shares 3,50,000 shares ` Theoretical ex-rights fair value per share = ` 100.86 Computation of adjustment factor: Fair value per share prior to exercise of rights Theoretical ex - rights value per share = 102/100.86 = 1.01</li>
             <li>-- PAGE 30 --- Computation of earnings per share: EPS for the year 20X1-X2 as originally reported: ` 50,00,000/2,50,000 shares = ` 20 EPS for the year 20X1-X2 restated for rights issue: =` 50,00,000/ (2,50,000 shares x) = ` 19.80 EPS for the year 20X2-X3 including effects of rights issue: EPS = 75,00,000/3,25,625* = ` 23.03 * [(2,50,000 x x 3/12) + (3,50,000 x 9/12)] =63,125 + 2,62,500 = 3,25,625 shares Note: Financial year (ended 31st March) is considered as accounting year while giving the above answer.</li>
           </ul>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 20**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

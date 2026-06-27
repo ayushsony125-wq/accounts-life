@@ -166,27 +166,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 1 --- PRESENTATION &amp; DISCLOSURES BASED UNIT 7: ACCOUNTING STANDARD 25 INTERIM FINANCIAL REPORTING After studying this unit, you will be able to comprehend the following: • Objective and scope of AS 25 • Content of an Interim Financial Report • Minimum Components of an Interim Financial Report • Form and Content of Interim Financial Statements • Selected Explanatory Notes • Periods for which Interim Financial Statements are required to be presented • Disclosure in Annual Financial Statements • Recognition and Measurement principles as per the Standard.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.1 INTRODUCTION */}
@@ -198,27 +178,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 2 --- A statute governing an enterprise or a regulator may also require an enterprise to prepare and present certain information at an interim date which may be different in form and/or content as required by this Standard. In such a case, the recognition and measurement principles as laid down in this Standard are applied in respect of such information, unless otherwise specified in the statute or by the regulator.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.2 DEFINITIONS OF THE TERMS USED UNDER */}
@@ -227,27 +187,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             THE ACCOUNTING STANDARD Interim period is a financial reporting period shorter than a full financial year. Interim financial report means a financial report containing either a complete set of financial statements or a set of condensed financial statements for an interim period. During the first year of operations of an enterprise, its annual financial reporting period may be shorter than a financial year. In such a case, that shorter period is not considered as an interim period. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.3 CONTENT OF AN INTERIM FINANCIAL */}
@@ -259,27 +199,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 3 --- PRESENTATION &amp; DISCLOSURES BASED such statements would include all disclosures required by this Standard as well as those required by other Accounting Standards. Minimum components of an Interim Financial Report includes condensed Financial Statement. Note: Interim financial report may contain a complete set of financial statements or condensed financial statements. If the entity opted for a complete set of financial statements, it will be like annual set of financial statements. The condensed financial statements would include the limited information as required by this standard.</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.4 FORM AND CONTENT OF INTERIM */}
@@ -288,27 +208,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             FINANCIAL STATEMENTS If an enterprise prepares and presents a complete set of financial statements in its interim financial report, the form and content of those statements should conform to the requirements as applicable to annual complete set of financial statements. If an enterprise prepares and presents a set of condensed financial statements in its interim financial report, those condensed statements should include, at a minimum, each of the headings and sub-headings that were included in its most recent annual financial statements and the selected explanatory notes as required by this Statement. Additional line items or notes should be included if their omission would make the condensed interim financial statements misleading. If an enterprise presents basic and diluted earnings per share in its annual financial statements in accordance with <strong>AS 20</strong> then it has to present basic and diluted earnings per share as per <strong>AS 20</strong> on the face of Statement of Profit and Loss complete or condenses for an interim period also. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.5 SELECTED EXPLANATORY NOTES */}
@@ -321,27 +221,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
             <li>-- PAGE 4 --- (a) A statement that the same accounting policies are followed in the interim financial statements as those followed in the most recent annual financial statements or, if those policies have been changed, a description of the nature and effect of the change. (b) Explanatory comments about the seasonality of interim operations. (c) The nature and amount of items affecting assets, liabilities, equity, net income, or cash flows that is unusual because of their nature, size, or incidence as per AS 5. (d) The nature and amount of changes in estimates of amounts reported in prior interim periods of the current financial year or changes in estimates of amounts reported in prior financial years, if those changes have a material effect in the current interim period. (e) Issuances, buy-backs, repayments and restructuring of debt, equity and potential equity shares. (f) Dividends, aggregate or per share (in absolute or percentage terms), separately for equity shares and other shares. (g) Segment revenue, segment capital employed (segment assets minus segment liabilities) and segment result for business segments or geographical segments, whichever is the enterprise&apos;s primary basis of segment reporting (disclosure of segment information is required in an enterprise&apos;s interim financial report only if the enterprise is required, in terms of AS 17, Segment Reporting, to disclose segment information in its annual financial statements). (h) The effect of changes in the composition of the enterprise during the interim period, such as amalgamations, acquisition or disposal of subsidiaries and long-term investments, restructurings, and discontinuing operations and (i) Material changes in contingent liabilities since the last annual balance sheet date. The above information should normally be reported on a financial year-to-date basis. However, the enterprise should also disclose any events or transactions that are material to an understanding of the current interim period.</li>
             <li>-- PAGE 5 --- PRESENTATION &amp; DISCLOSURES BASED</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.6 PERIODS FOR WHICH INTERIM FINANCIAL */}
@@ -350,27 +230,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             STATEMENTS ARE REQUIRED TO BE PRESENTED Interim reports should include interim financial statements (whether condensed or complete) for the periods listed in the following table: Statement Current period Comparative period Balance sheet End of current interim period End of immediately preceding financial year Statement of profit and loss Current interim period and cumulatively for the year-to-date Comparable interim period and year-to-date of immediately preceding financial year Cash flow statement Cumulatively for the current financial year-to-date Comparable year-to-date of immediately preceding financial year <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.7 MATERIALITY */}
@@ -384,27 +244,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
             <li>-- PAGE 7 --- PRESENTATION &amp; DISCLOSURES BASED Less: Changes in inventories Nil Salaries and other cost 60 Administrative and selling Expenses (4+8) 12 Total (b) 72 Profit (a)-(b) 8 According to AS 25, the Income and Expense should be recognized when they are earned and incurred respectively. Therefore, seasonal incomes will be recognized when they occur. Thus, the company’s view is not as per AS 25. Illustration 2 The accounting year of X Ltd. ends on 30th September, 20X1 and it makes its reports quarterly. However for the purpose of tax, year ends on 31st March every year. For the Accounting year from 1-10-20X0 to 30-9-20X1, the quarterly income is as under: 1st quarter ending on 31st December, 20X0 ` 200 crores 2nd quarter ending on 31st March, 20X1 ` 200 crores 3rd quarter ending on 30th June, 20X1 ` 200 crores 4th quarter ending on 30th September, 20X1 ` 200 crores Total ` 800 crores Average actual tax rate for the financial year ending on 31st March, 20X1 is 20% and for financial year ending 31st March, 20X2 is 30%. Calculate tax expense for each quarter. Solution Calculation of tax expense 1st quarter ending on 31st December, 20X0 200 20% ` 40 lakhs 2nd quarter ending on 31st March, 20X1 200 20% ` 40 lakhs 3rd quarter ending on 30th June, 20X1 200 30% ` 60 lakhs 4th quarter ending on 30th September, 20X1 200 30% ` 60 lakhs</li>
             <li>-- PAGE 8 ---</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.8 DISCLOSURE IN ANNUAL FINANCIAL */}
@@ -413,27 +253,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             STATEMENTS <strong>AS 5</strong>, requires disclosure, in financial statements, of the nature and (if practicable) the amount of a change in an accounting estimate which has a material effect in the current period, or which is expected to have a material effect in subsequent periods. Similarly, if an estimate of an amount reported in an interim period is changed significantly during the final interim period of the financial year but a separate financial report is not prepared and presented for that final interim period, the nature and amount of that change in estimate should be disclosed in a note to the annual financial statements for that financial year. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.9 ACCOUNTING POLICIES */}
@@ -446,27 +266,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
             <li>-- PAGE 9 --- PRESENTATION &amp; DISCLOSURES BASED (b) A cost that does not meet the definition of an asset at the end of an interim period is not deferred on the balance sheet date either to await future information as to whether it has met the definition of an asset or to smooth earnings over interim periods within a financial year; and (c) Income tax expense is recognised in each interim period based on the best estimate of the weighted average annual effective income tax rate expected for the full financial year. Amounts accrued for income tax expense in one interim period may have to be adjusted in a subsequent interim period of that financial year if the estimate of the annual effective income tax rate changes. Income is recognised in the statement of profit and loss when an increase in future economic benefits related to an increase in an asset or a decrease of a liability has arisen that can be measured reliably. Expenses are recognised in the statement of profit and loss when a decrease in future economic benefits related to a decrease in an asset or an increase of a liability has arisen that can be measured reliably. The recognition of items in the balance sheet which do not meet the definition of assets or liabilities is not allowed. An enterprise that reports more frequently than half-yearly, measures income and expenses on a year-to-date basis for each interim period using information available when each set of financial statements is being prepared. Amounts of income and expenses reported in the current interim period will reflect any changes in estimates of amounts reported in prior interim periods of the financial year. The amounts reported in prior interim periods are not retrospectively adjusted. However, the nature and amount of any significant changes in estimates be disclosed. Changes in Accounting Policies Preparers of interim reports in compliance with AS 25 are required to consider any changes in accounting policies that will be applied for the next annual financial statements, and to implement the changes for interim reporting purposes. If there has been any change in accounting policy since the most recent annual financial statements, the interim report is required to include a description of the nature and effect of the change.</li>
             <li>-- PAGE 10 ---</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.10 REVENUE RECEIVED SEASONALLY OR */}
@@ -475,27 +275,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             OCCASIONALLY Revenues that are received seasonally or occasionally within a financial year should not be anticipated or deferred as of an interim date if anticipation or deferral would not be appropriate at the end of the enterprise&apos;s financial year. For example: Dividend revenue, royalties, and government grants. Additionally, some enterprises consistently earn more revenues in certain interim periods of a financial year than in other interim periods, for example, seasonal revenues of retailers. Such revenues are recognised when they occur. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.11 COST INCURRED UNEVENLY DURING THE */}
@@ -504,27 +284,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             FINANCIAL YEAR Costs that are incurred unevenly during an enterprise&apos;s financial year should be anticipated or deferred for interim reporting purposes if, and only if, it is also appropriate to anticipate or defer that type of cost at the end of the financial year. A cost that does not meet the definition of an asset at the end of an interim period is not deferred in the interim balance sheet either to await future information as to whether it has met the definition of an asset, or to smooth earnings over interim periods within a financial year. Thus, when preparing interim financial statements, the enterprise’s usual recognition and measurement practices are followed. The only costs that are capitalized are those incurred after the specific point in time at which the criteria for recognition of the particular class of asset are met. Deferral of costs as assets in an interim balance sheet in the hope that the criteria will be met before the year-end is prohibited. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.12 USE OF ESTIMATES */}
@@ -536,27 +296,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>-- PAGE 11 --- PRESENTATION &amp; DISCLOSURES BASED</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.13 RESTATEMENT OF PREVIOUSLY REPORTED */}
@@ -565,27 +305,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             INTERIM PERIODS One objective of the preceding principle is to ensure that a single accounting policy is applied to a particular class of transactions throughout an entire financial year. The effect of the principle requires that within the current financial year any change in accounting policy be applied retrospectively to the beginning of the financial year. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.14 TRANSITIONAL PROVISION */}
@@ -594,27 +314,7 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             On the first occasion that an interim financial report is presented in accordance with this Statement, the following need not be presented in respect of all the interim periods of the current financial year: (a) Comparative statements of profit and loss for the comparable interim periods (current and year-to-date) of the immediately preceding financial year; and (b) Comparative cash flow statement for the comparable year-to-date period of the immediately preceding financial year. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 25, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 7.15 APPLICABILITY OF AS 25 TO INTERIM */}
@@ -634,6 +334,8 @@ export function AS25StandardTabContent({ navigateToPdfPage }: AS25StandardTabCon
             <li>-- PAGE 19 --- PRESENTATION &amp; DISCLOSURES BASED statements. As at 30th September, 20X1, Asmitha Ltd would report the entire amount of ` 2,00,000 as loss on the disposal of its business segment since the loss was incurred during interim period. A cost charged as an expense in an annual period should be allocated to interim periods on accrual basis. Since ` 60,000 Property tax payment relates to entire calendar year 20X1, ` 30,000 would be reported as an expense for six months ended on 30th September, 20X1 while out of the remaining ` 30,000, ` 15,000 for January, 20X1 to March, 20X1 should be shown as payment of the outstanding amount of previous year and another ` 15,000 related to quarter October, 20X1 to December, 20X1 would be reported as prepaid expenses. 10. As per para 29 of AS 25 ‘Interim Financial Reporting’, income tax expense is recognised in each interim period based on the best estimate of the weighted average annual income tax rate expected for the full financial year. ` Estimated Annual Income (A) 10,00,000 Tax expense: 30% on ` 5,00,000 1,50,000 40% on remaining ` 5,00,000 2,00,000 (B) 3,50,000 Weighted average annual income tax rate =A B =3,50,000 10,00,000 = 35% Tax expense to be recognized in each of the quarterly reports ` Quarter I - ` 75,000 x 35% 26,250 Quarter II - ` 2,50,000 x 35% 87,500 Quarter III - ` 3,75,000 x 35% 1,31,250 Quarter IV - ` 3,00,000 x 35% 1,05,000 ` 10,00,000 3,50,000 11. As per para 36 of AS 25 “Interim Financial Reporting”, seasonal or occasional revenue and cost within a financial year should not be deferred as of interim date until it is appropriate to defer at the end of the enterprise’s financial year. Therefore, dividend income, extra-ordinary gain, and gain on sale of</li>
             <li>-- PAGE 20 --- investment received during 3rd quarter should be recognised in the 3rd quarter only. Similarly, sales promotion expenses incurred in the 3rd quarter should also be charged in the 3rd quarter only. Further, as per AS 10, Property, Plant and Equipment, if there is change in the depreciation method, such a change should be accounted for as a change in accounting estimate in accordance with AS 5, Net Profit or Loss for the Period, Prior Period Items and Changes in Accounting Policies, and applied prospectively. Therefore, no adjustment would be required due to change in the method of depreciation. Accordingly, the adjusted profit before tax for the 3rd quarter will be as follows: Statement showing Adjusted Profit Before Tax for the third quarter (` in lakhs) Profit before tax (as reported) 4 Add: Dividend income ` (4-1) lakhs 3 Excess depreciation charged in the 3rd quarter, due to change in the method - Extra ordinary gain ` (2-1) lakhs 1 Cumulative loss due to change in the method of inventory valuation should be applied retrospectively ` (3-2) lakhs 1 9 Less: Sales promotion expenses (80% of ` 15 lakhs) (12) Gain on sale of investment (occasional gain should not be deferred) (5) Adjusted Profit before tax for the third quarter (8)</li>
           </ul>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 25**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

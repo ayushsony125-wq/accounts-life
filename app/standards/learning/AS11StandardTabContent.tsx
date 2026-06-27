@@ -164,27 +164,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             UNIT 3: ACCOUNTING STANDARD 11 THE EFFECTS OF CHANGES IN FOREIGN EXCHANGE RATES After studying this unit, you will be able to comprehend the – ♦ Foreign Currency Transactions • Initial <strong>Recognition</strong> • Reporting at Subsequent Balance Sheet Dates • <strong>Recognition</strong> of Exchange Differences ♦ Net Investment in a Non-integral Foreign Operation ♦ Classification of Foreign Operations • Integral Foreign Operations • Non-integral Foreign Operations • Disposal of a Non-integral Foreign Operation • Change in the Classification of a Foreign Operation • Accounting for Forward Exchange Contracts • <strong>Disclosures</strong> <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.1 INTRODUCTION */}
@@ -199,27 +179,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             (c) Deal with exchange differences arising from foreign currency borrowings to the extent that they are regarded as an adjustment to interest costs. (d) Deal with the restatement of an enterprise’s financial statements from its reporting currency into another currency for the convenience of users accustomed to that currency or for similar purposes. Considering the example above, the Indian subsidiary of the US Parent will present its financial statements in INR for the Indian regulators. However, since the US parent needs to consolidate the Indian subsidiary, it will require the Indian company to also restate the INR Financial Statements to USD. Such restatement is not covered under <strong>Accounting Standard</strong> 11. <PdfRef page={3} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.2 DEFINITIONS OF THE TERMS USED IN THE */}
@@ -231,27 +191,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             13. 31 7 . 31 AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS Foreign operation is a subsidiary, associate, joint venture or branch of the reporting enterprise, the activities of which are based or conducted in a country other than the country of the reporting enterprise. Integral foreign operation is a foreign operation, the activities of which are an integral part of those of the reporting enterprise. A foreign operation that is integral to the operations of the reporting enterprise carries on its business as if it were an extension of the reporting enterprise&apos;s operations. Non-integral foreign operation is a foreign operation that is not an integral foreign operation. When there is a change in the exchange rate between the reporting currency and the local currency, there is little or no direct effect on the present and future cash flows from operations of either the non-integral foreign operation or the reporting enterprise. The change in the exchange rate affects the reporting enterprise&apos;s net investment in the non-integral foreign operation rather than the individual monetary and non-monetary items held by the non-integral foreign operation. ‘Net investment in a non-integral foreign operation’ is the reporting enterprise’s share in the net assets of that operation. Forward exchange contract means an agreement to exchange different currencies at a forward rate. Forward rate is the specified exchange rate for exchange of two currencies at a specified future date. ‘Foreign currency’ is a currency other than the reporting currency of an enterprise. <PdfRef page={4} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.3 INITIAL RECOGNITION */}
@@ -260,27 +200,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             A foreign currency transaction should be recorded, on initial recognition in the reporting currency, by applying to the foreign currency amount the exchange rate between the reporting currency and the foreign currency at the date of the transaction. A rate that approximates the actual rate at the date of the transaction is often used, for example, an average rate for a week or a month might be used for all transactions in each foreign currency occurring during that period. However, if exchange rates fluctuate significantly, the use of the average rate for a period is unreliable. <PdfRef page={4} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.4 REPORTING AT EACH BALANCE SHEET */}
@@ -289,27 +209,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             DATE The treatment of foreign currency items at the balance sheet date depends on whether the item is: • monetary or non-monetary; and • carried at historical cost or fair value (for non-monetary items). (a) Foreign currency monetary items should be reported using the closing rate. However, in certain circumstances, the closing rate may not reflect with reasonable accuracy the amount in reporting currency that is likely to be realised from, or required to disburse, a foreign currency monetary item at the balance sheet date, e.g., where there are restrictions on remittances or where the closing rate is unrealistic and it is not possible to effect an exchange of currencies at that rate at the balance sheet date. In such circumstances, the relevant monetary item should be reported in the reporting currency at the amount which is likely to be realised from or required to disburse, such item at the balance sheet date. (b) Non-monetary items which are carried in terms of historical cost denominated in a foreign currency should be reported using the exchange rate at the date of the transaction. (c) Non-monetary items which are carried at fair value or other similar valuation denominated in a foreign currency should be reported using the exchange rates that existed when the values were determined. (d) The contingent liability denominated in foreign currency at the balance sheet date is disclosed by using the closing rate. <PdfRef page={5} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.5 RECOGNITION OF EXCHANGE DIFFERENCES */}
@@ -324,27 +224,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             For the purposes of exercise of this option, an asset or liability should be designated as a long-term foreign currency monetary item, if the asset or liability is expressed in a foreign currency and has a term of 12 months or more at the date of origination of the asset or liability. Further in December, 2011, the Ministry of Corporate Affairs inserted paragraph 46A in <strong>AS 11</strong> of the Companies (Accounting Standards) Rules, 2006. According to it, in respect of accounting periods commencing on or after the 1 st April, 2011, an enterprise which had earlier exercised the option under paragraph 46 and at the option of any other enterprise, the exchange differences arising on reporting of long-term foreign currency monetary items at rates different from those at which they were initially recorded during the period, or reported in previous financial statements, in so far as they relate to the acquisition of a depreciable capital assets, can be added to or deducted from the cost of the assets and should be depreciated over the balance life of the assets , and in other cases, can be accumulated in a “Foreign Currency Monetary Item Translation Difference Account” in the enterprise’s financial statements and amortised over the balance period of such long term assets or liability, by recognition as income or expense in each of such periods. Such option is irrevocable and should be applied to all such foreign currency monetary items. The enterprise exercising such option should disclose the fact of such option and of the amount remaining to be amortised in the financial statements of the period in which such option is exercised and in every subsequent period so long as any exchange difference remains unamortised. <PdfRef page={7} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.6 CLASSIFICATION OF FOREIGN OPERATIONS */}
@@ -356,27 +236,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             13. 35 7 . 35 AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS reporting enterprise. In such cases, a change in the exchange rate between the reporting currency and the currency in the country of foreign operation has an almost immediate effect on the reporting enterprise’s cash flow from operations. Therefore, the change in the exchange rate affects the individual monetary items held by the foreign operation rather than the reporting enterprise’s net investment in that operation. In contrast, a non-integral foreign operation accumulates cash and other monetary items, incurs expenses, generates income and perhaps arranges borrowings, all substantially in its local currency. It may also enter into transactions in foreign currencies, including transactions in the reporting currency. When there is a change in the exchange rate between the reporting currency and the local currency, there is little or no direct effect on the present and future cash flows from operations of either the non-integral foreign operation or the reporting enterprise. The change in the exchange rate affects the reporting enterprise’s net investment in the non-integral foreign operation rather than the individual monetary and non- monetary items held by the non-integral foreign operation. <PdfRef page={8} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.7 TRANSLATION OF FOREIGN INTEGRAL */}
@@ -385,27 +245,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             OPERATIONS The individual items in the financial statements of the foreign operation are translated as if all its transactions had been entered into by the reporting enterprise itself. The cost and depreciation of tangible fixed assets is translated using the exchange rate at the date of purchase of the asset or, if the asset is carried at fair value or other similar valuation, using the rate that existed on the date of the valuation. The cost of inventories is translated at the exchange rates that existed when those costs were incurred. The recoverable amount or realisable value of an asset is translated using the exchange rate that existed when the recoverable amount or net realisable value was determined. For example, when the net realisable value of an item of inventory is determined in a foreign currency, that value is translated using the exchange rate at the date as at which the net realisable value is determined. The rate used is therefore usually the closing rate. <PdfRef page={8} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.8 TRANSLATION OF NON-INTEGRAL */}
@@ -426,27 +266,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Illustration 3 Kalim Ltd. borrowed US$ 4,50,000 on 01/01/20X1, which will be repaid as on 31/07/20X1. Kalim Ltd. prepares financial statement ending on 31/03/20X1. Rate of exchange between reporting currency (INR) and foreign currency (USD) on different dates are as under: 01/01/20X1 1 US$ = ` 48.00 31/03/20X1 1 US$ = ` 49.00 31/07/20X1 1 US$ = ` 49.50 Solution Journal Entries in the Books of Kalim Ltd. Date Particulars ` (Dr.) ` (Cr.) 20X1 Jan. 01 Bank Account (4,50,000 x 48) Dr. 216,00,000 To Foreign Loan Account 216,00,000 March 31 Foreign <strong>Exchange Difference</strong> Account Dr. 4,50,000 To Foreign Loan Account [4,50,000 x (49-48)] 4,50,000 July 01 Foreign <strong>Exchange Difference</strong> Account Dr. [4,50,000 x (49.5-49)] 2,25,000 Foreign Loan Account Dr. 220,50,000 To Bank Account 2,22,75,000 <PdfRef page={13} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.9 CHANGE IN THE CLASSIFICATION OF A */}
@@ -458,27 +278,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             13. 41 7 . 41 AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS When a non-integral foreign operation is reclassified as an integral foreign operation, the translated amounts for non-monetary items at the date of the change are treated as the historical cost for those items in the period of change and subsequent periods. Exchange differences which have been deferred are not recognised as income or expenses until the disposal of the operation. <PdfRef page={14} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.10 TAX EFFECTS OF EXCHANGE DIFFERENCES */}
@@ -487,27 +287,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Gains and losses on foreign currency transactions and exchange differences arising on the translation of the financial statements of foreign operations may have associated tax effects which are accounted for in accordance with <strong>AS 22</strong>. <PdfRef page={14} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.11 FORWARD EXCHANGE CONTRACT */}
@@ -528,27 +308,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             13. 45 7 . 45 AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS Solution Trial Balance of the Foreign Branch converted into Indian Rupees as on March 31, 20X4 Particulars £ (Dr.) £ (Cr.) Conversion Basis ` (Dr.) ` (Cr.) Machinery 5,000 Transaction date rate 3,05,000 Debtors 1,600 Closing Rate 1,07,200 Opening Stock 400 Opening Rate 25,200 Goods Received from HO 6,100 Actuals 4,02,000 Sales 20,000 Average Rate 13,00,000 Purchases 10,000 Average Rate 6,50,000 Wages 1,000 Average Rate 65,000 Salaries 1,200 Average Rate 78,000 Cash 3,200 Closing Rate 2,14,400 Remittance to HO 2,900 Actuals 1,91,000 HO Account 7,400 Actuals 4,90,000 Creditors 4,000 Closing Rate 2,68,000 Exchange Rate Difference Balancing Figure 20,200 31,400 31,400 20,58,000 20,58,000 Closing Stock 700 Closing Rate 46,900 Depreciation 500 Fixed Asset Rate 30,500 <PdfRef page={18} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.12 DISCLOSURE */}
@@ -560,27 +320,7 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             When the reporting currency is different from the currency of the country in which the enterprise is domiciled, the reason for using a different currency should be disclosed. The reason for any change in the reporting currency should also be disclosed. When there is a change in the classification of a significant foreign operation, an enterprise should disclose: (a) The nature of the change in classification; (b) The reason for the change; (c) The impact of the change in classification on shareholders&apos; funds; and (d) The impact on net profit or loss for each prior period presented had the change in classification occurred at the beginning of the earliest period presented. <PdfRef page={19} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 11, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 3.13 PRESENTATION OF FOREIGN CURRENCY */}
@@ -610,6 +350,8 @@ export function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabCon
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             13. 53 7 . 53 AS BASED ON ITEMS IMPACTING FINANCIAL STATEMENTS reported in previous financial statements, in so far as they relate to the acquisition of a depreciable capital asset can be added to or deducted from the cost of the asset and should be depreciated over the balance life of the asset, and in other cases, can be accumulated in a “Foreign Currency Monetary Item Translation Difference Account” in the enterprise’s financial statements and amortised over the balance period of such long-term asset/ liability, by recognition as income or expense in each of such periods. Trade receivables Foreign Currency Rate ` Initial recognition US $8,547 (5,00,000/58.50) 1 US $ = ` 58.50 5,00,000 Rate on Balance sheet date 1 US $ = ` 61.20 <strong>Exchange Difference</strong> Gain US $ 8,547 X (61.20 - 58.50) 23,077 Treatment: Credit Profit and Loss A/c by ` 23,077 Long term Loan Initial recognition US $ 1,07,913.67 (60,00,000/55.60) 1 US $ = ` 55.60 60,00,000 Rate on Balance sheet date 1 US $ = ` 61.20 <strong>Exchange Difference</strong> Loss US $ 1,07,913.67 X (61.20 – 55.60) 6,04,317 Treatment: Credit Loan A/c And Debit FCMITD A/C or Profit and Loss A/c by ` 6,04,317 Thus <strong>Exchange Difference</strong> on Long term loan amounting ` 6,04,317 may either be charged to Profit and Loss A/c or to Foreign Currency Monetary Item Translation Difference Account but exchange difference on debtors amounting ` 23,077 is required to be transferred to Profit and Loss A/c. <PdfRef page={26} />
           </p>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 11**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>

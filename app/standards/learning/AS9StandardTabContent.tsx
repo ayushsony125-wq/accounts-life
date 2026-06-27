@@ -161,27 +161,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             UNIT 2: ACCOUNTING STANDARD 9 REVENUE RECOGNITION After studying this unit, you will be able to comprehend the provisions of <strong>AS 9</strong> related with– • <strong>Recognition</strong> of revenue in case of: ▪ Sale of Goods ▪ Rendering of Services ▪ The Use by Others of Enterprise Resources Yielding Interest, Royalties and Dividends • Effect of Uncertainties on Revenue <strong>Recognition</strong> • Required <strong>Disclosures</strong>. <PdfRef page={1} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.1 INTRODUCTION */}
@@ -193,27 +173,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.35 concerned with the recognition of revenue arising in the course of the ordinary activities of the enterprise from • the sale of goods • the rendering of services • the use by others of enterprise resources yielding interest, royalties and dividends <strong>AS 9</strong> does not deal with the following aspects of revenue recognition to which special considerations apply: i. Revenue arising from construction contracts; ii. Revenue arising from hire-purchase, lease agreements; iii. Revenue arising from government grants and other similar subsidies; iv. Revenue of insurance companies arising from insurance contracts. Examples of items not included within the definition of “revenue” for the purpose of <strong>AS 9</strong> are: i. Realized gains resulting from the disposal of, and unrealized gains resulting from the holding of, non-current assets, e.g., appreciation in the value of fixed assets; ii. Unrealized holding gains resulting from the change in value of current assets, and the natural increases in herds and agricultural and forest products; iii. Realized or unrealized gains resulting from changes in foreign exchange rates and adjustments arising on the translation of foreign currency financial statements; iv. Realized gains resulting from the discharge of an obligation at less than its carrying amount; v Unrealized gains resulting from the restatement of the carrying amount of an obligation. <PdfRef page={2} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.2 DEFINITION OF REVENUE */}
@@ -225,27 +185,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.37 Example 3 DL Ltd, a pharma company, has been conducting research on new medicine since last 2 years to increase the immunity levels of the people consuming it without any side effects. During the current year, it decides to sell the outcome of the research undertaken so far to another competitor, GH Ltd for ` 50 crore. DL has already incurred ` 30 crore on the ongoing research. In the above example, the sale of the research findings does not represent an increase in revenue. This is because DL Ltd’s business is not to sell these research findings in the ordinary course of business. The amount of ₹ 50 crore will be a part of Other Income in the profit &amp; loss statement. <PdfRef page={4} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.3 AGENCY RELATIONSHIP */}
@@ -260,27 +200,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.39 <PdfRef page={6} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.4 SALE OF GOODS */}
@@ -289,27 +209,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             Revenue from sales transactions should be recognised when the requirements as to performance set out in below in para ‘Timing of <strong>Recognition</strong> of Revenue from Sale of Goods’ are satisfied, provided that at the time of performance it is not unreasonable to expect ultimate collection. If at the time of raising of any claim it is unreasonable to expect ultimate collection, revenue recognition should be postponed. Illustration 2 AB sells goods to CD on 1st March 20X1. CD is having significant cash flows issues since last few months. However, it is trying to raise funding through bank loan to be able to run its operations in future. On 5th of May 20X1, CD is able to seek the funding and is expected to be able to pay for the goods in future. At the time of sale, it is difficult for AB to ascertain whether it will be able to collect the amount from CD due to poor financial conditions. Explain how the recognition of revenue be done by AB? Solution In the above case, AB should not recognise any revenue on 1st of March and until that uncertainty of recovery is clear. Hence, the revenue can only be recognised by AB on 5th of May 20X1. The inventory transferred to CD until that date is required to be shown as its own inventory [inventory lying with customers]. <PdfRef page={6} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.5 TIMING OF RECOGNITION OF REVENUE */}
@@ -324,27 +224,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.41 Accounting in the books of AB 1st January 20X1 CD A/c (Receivables) Dr. ` 2 lakhs To Revenue A/c (Being goods sold to CD Ltd) ` 2 lakhs 15th March 20X1 Bad Debts A/c Dr. ` 2 lakhs To CD A/c (Receivables)A/c (Being receivables from CD written off due to its liquidation) ` 2 lakhs <PdfRef page={8} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.6 RENDERING OF SERVICES */}
@@ -356,27 +236,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             services under a contract is completed or substantially completed. In this method performance consists of the execution of a single act e.g., installation of a machine, or repair service, Alternatively, services are performed in more than a single act, and the services yet to be performed are so significant in relation to the transaction taken that performance cannot be deemed to have been completed until the execution of those acts. The completed service contract method is relevant to these patterns of performance and accordingly revenue is recognised when the sole or final act takes place and the service becomes chargeable. Revenue from sales or service transactions should be recognised when the service is performed provided that at the time of performance it is not unreasonable to expect ultimate collection. If at the time of raising of any claim it is unreasonable to expect ultimate collection, revenue recognition should be postponed. <PdfRef page={9} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.7 INCOME FROM OTHER SOURCES - INTEREST, */}
@@ -388,27 +248,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.43 Illustration 4 During the year ended 31st March 20X1, ZX Enterprises has recognized ` 100 lakhs on accrual basis income from dividend on units of mutual funds held by it. The dividends on mutual funds were declared on 15th June, 20X1. The dividend was proposed on 10th April, 20X1. Whether the above treatment is as per the relevant <strong>Accounting Standard</strong>? Solution Dividends from investments in shares are not recognized in the statement of profit and loss until a right to receive payment is established. In the given situation, the dividend is proposed on 10th April, 20X1, while it is declared on 15th June, 20X1. Thus, the right to receive the payment of dividend gets established on 15th June, 20X1. The recognition of ` 100 lakhs on accrual basis in the financial year 20X0-20X1 is not correct as per <strong>AS 9</strong> &apos;Revenue <strong>Recognition</strong>&apos;. Illustration 5 Y Ltd., used certain resources of X Ltd. In return X Ltd. received ₹ 10 lakhs and ₹ 15 lakhs as interest and royalties respective from Y Ltd. during the year 20 X1-X2. You are required to state whether and on what basis these revenues can be recognized by X Ltd. Solution As per <strong>AS 9</strong> on Revenue <strong>Recognition</strong>, revenue arising from the use by others of enterprise resources yielding interest and royalties should only be recognized when no significant uncertainty as to measurability or collectability exists. These revenues are recognized on the following bases: (i) Interest: on a time proportion basis taking into account the amount outstanding and the rate applicable. Therefore X Ltd. should recognize interest revenue of ₹ 10 Lakhs (ii) Royalties: on an accrual basis in accordance with the terms of the relevant agreement. X Ltd. therefore should recognize royalty revenue of ₹ 15 Lakhs. <PdfRef page={10} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.8 CONDITIONS FOR SALE OF GOODS */}
@@ -426,27 +266,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.47 During the year 20X1-X2, ABC has sold goods worth ` 5,50,000 only and rest of the goods are still lying in its store which may get sold by next year. Advise XYZ, how much revenue it can recognize in its books for period 20X1-X2. Solution As per <strong>AS 9</strong>, consignment risk and rewards are not transferred to the customer on just delivery of the goods and no revenue should be recognized until the goods are sold to a third party. Therefore, XYZ can recognize revenue of ` 5,50,000 only. <PdfRef page={14} />
           </p>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.9 EFFECT OF UNCERTAINTIES ON REVENUE */}
@@ -458,27 +278,7 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <ul className="list-disc pl-6 space-y-2 mb-4 text-[15px] font-sans text-slate-800 dark:text-slate-200">
             <li>Provided there exists no significant uncertainty regarding the ultimate collection of consideration (A key criterion for determining when to recognise revenue from a transaction involving the sale of goods is that the seller has transferred the property in the goods to the buyer for a consideration and there exists no significant uncertainty regarding the ultimate collection of consideration).</li>
           </ul>
-          <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
-            When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
-          </NB>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400">
-                Professional Accountant Guide
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Under AS 9, management must exercise rigorous judgment when applying accounting policies. Document all key estimates, assumptions, and policy choices in the corporate financial notes to ensure transparent compliance.
-              </p>
-            </div>
-            <div className="p-5 border border-emerald-100 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/5 rounded-xl space-y-2">
-              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-emerald-800 dark:text-emerald-400">
-                Statutory Auditor Note
-              </h4>
-              <p className="text-[14px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
-                Verify the logical consistency of accounting selections. Confirm that the methods adopted match industry practices and are consistently applied year-over-year. Any change in policy must be evaluated for proper P&amp;L adjustment and disclosure.
-              </p>
-            </div>
-          </div>
+          
         </section>
 
         {/* Section: 2.10 DISCLOSURE */}
@@ -508,6 +308,8 @@ export function AS9StandardTabContent({ navigateToPdfPage }: AS9StandardTabConte
           <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
             a8.55 Since the question specifies that the machine is already accepted by ST on 31 March 20X1, the revenue arising from sale of the machine needs to be recognized for the year ending 31 March 20X1. This is because acceptance of the machine indicates that the risks and rewards pursuant to the ownership are transferred to ST. Machine 2: Installation process for Machine 2 is more complicated, requiring significant assistance from KY Ltd. However, question specifies that the machine is already accepted by ST on 31 March 20X1. Assuming that there is no further approval/acceptance required from the buyer for the Machine sold, revenue from sale of Machine 2 can be recognized for the year ending 31 March 20X1. Revenue (Machine 2) ` 3,00,000 Cost of Goods Sold ` 1,50,000 Profit during the period ` 1,50,000 However, installation fee which is for rendering installation services cannot be recognized until the installation is complete. Since the machine is pending installation, the revenue in respect of installation charges `10,000 needs to be recognized on 5 April 20X1 once the installation process gets completed. 9. As per <strong>AS 9</strong> ‘Revenue <strong>Recognition</strong>’, where the ability to assess the ultimate collection with reasonable certainty is lacking at the time of raising any claim, e.g. for escalation of price, export incentives, interest etc., revenue recognition is postponed to the extent of uncertainty involved. In such cases, it may be appropriate to recognise revenue only when it is reasonably certain that the ultimate collection will be made. Where there is no uncertainty as to ultimate collection, revenue is recognised at the time of sale or rendering of service even though payments are made by instalments. Thus, PQR Ltd. cannot recognise the interest amount unless the company actually receives it. 10% rate of recovery on overdue outstanding is also an estimate based on previous record and is not certain. Hence, the company is advised to recognise interest receivable only on receipt basis. <PdfRef page={22} />
           </p>
+          
+        
           <NB type="exam" title="CA Final &amp; Intermediate Exam Tips">
             When preparing for exam questions on **AS 9**, pay close attention to disclosure requirements, classification boundary criteria, and exceptions to general valuation rules. Ensure that you reference specific paragraph numbers and compile-ready disclosure formats in your written drafts.
           </NB>
