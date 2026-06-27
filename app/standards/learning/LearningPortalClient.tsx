@@ -2737,6 +2737,18 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
 }
 
 
+const as4Chapters = [
+  { id: 'overview',        title: 'Introduction' },
+  { id: 'scope',           title: 'Scope' },
+  { id: 'definitions',     title: 'Definitions' },
+  { id: 'contingencies',   title: 'Contingencies' },
+  { id: 'adjusting',       title: 'Adjusting Events' },
+  { id: 'non-adjusting',   title: 'Non-Adjusting Events' },
+  { id: 'dividends',       title: 'Proposed Dividends' },
+  { id: 'going-concern',   title: 'Going Concern' },
+  { id: 'disclosure',      title: 'Disclosures' }
+]
+
 const as4Sections = [
   { id: 'as4-overview',        title: '1. Introduction & Objective' },
   { id: 'as4-scope',           title: '2. Scope & Applicability' },
@@ -2754,351 +2766,468 @@ interface AS4StandardTabContentProps {
 }
 
 function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps) {
-  const [activeSection, setActiveSection] = useState('as4-overview')
+  const [activeSection, setActiveSection] = useState('overview')
+  const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
+    'loss': true,
+    'gain': false,
+    'matrix': false
+  })
+
+  const toggleAccordion = (id: string) => {
+    setOpenAccordions(prev => ({ ...prev, [id]: !prev[id] }))
+  }
+
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
-  const handleSectionClick = (id: string) => {
-    setActiveSection(id)
-    const container = document.getElementById('as1-scroll-container')
-    const target = document.getElementById(id)
-    const stickyToc = document.getElementById('as4-standard-sticky-toc')
-    if (container && target) {
-      const containerRect = container.getBoundingClientRect()
-      const targetRect = target.getBoundingClientRect()
-      let offset = 58
-      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
-      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
-    }
-  }
-
   useEffect(() => {
-    if (!activeSection || !tocScrollRef.current) return
-    const el = tocScrollRef.current
-    const btn = el.querySelector('[data-sec-id="' + activeSection + '"]') as HTMLElement | null
-    if (!btn) return
-    if (as4Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
-    const elRect = el.getBoundingClientRect(); const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
-  }, [activeSection])
+    let observer: IntersectionObserver | undefined;
+    const initObserver = () => {
+      const scrollContainer = document.getElementById('as1-scroll-container');
+      if (!scrollContainer) {
+        setTimeout(initObserver, 50);
+        return;
+      }
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const secId = entry.target.id.replace('as4-', '');
+              setActiveSection(secId);
+            }
+          });
+        },
+        {
+          root: scrollContainer,
+          rootMargin: '-90px 0px -60% 0px',
+          threshold: 0
+        }
+      );
 
-  useEffect(() => {
-    let obs: IntersectionObserver | undefined
-    const init = () => {
-      const sc = document.getElementById('as1-scroll-container')
-      if (!sc) { setTimeout(init, 50); return }
-      obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }), { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 })
-      as4Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
+      as4Chapters.forEach((sec) => {
+        const el = document.getElementById("as4-" + sec.id);
+        if (el) {
+          observer?.observe(el);
+        }
+      });
+    };
+
+    initObserver();
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
     }
-    init(); return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current; if (!el) return
-    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
-    el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel)
-  }, [])
+    const el = tocScrollRef.current;
+    if (!el) return;
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY === 0) return;
+      e.preventDefault();
+      el.scrollLeft += e.deltaY;
+    };
+    el.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      el.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
-  const P = ({ n }: { n: number }) => (
-    <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={'Open AS 4 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
-  )
-
-  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
-    <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-      <div className="flex items-center gap-3">
-        <span className="font-mono font-extrabold text-[13px] text-purple-600 dark:text-purple-400 select-none">{num}.</span>
-        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-      </div>
-      <div className="h-[2px] w-16 rounded-full bg-purple-500 mt-2 ml-8" />
-    </div>
-  )
-
-  const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
-    const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-950/20 border-blue-300 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-950/20 border-amber-300 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-950/20 border-rose-300 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+  useEffect(() => {
+    if (!activeSection || !tocScrollRef.current) return;
+    const activeBtn = tocScrollRef.current.querySelector('[data-toc-id="' + activeSection + '"]');
+    if (activeBtn) {
+      activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     }
+  }, [activeSection]);
+
+  const PdfRef = ({ page }: { page: number }) => (
+    <button
+      onClick={() => navigateToPdfPage(page)}
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      title={"Open ICAI AS 4 PDF — Page " + page}
+    >
+      <FileText size={10} className="shrink-0" />
+    </button>
+  )
+
+  const ChapterHeader = ({ num, title, description }: { num: string; title: string; description: string }) => {
+    const numMap: Record<string, string> = {
+      'I': '1', 'II': '2', 'III': '3', 'IV': '4', 'V': '5', 'VI': '6', 'VII': '7', 'VIII': '8', 'IX': '9',
+      'X': '10', 'XI': '11', 'XII': '12', 'XIII': '13', 'XIV': '14', 'XV': '15'
+    };
+    const arabicNum = numMap[num] || num;
     return (
-      <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
-        {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] leading-relaxed">{children}</div>
+      <div className="w-full mb-6 mt-12 first:mt-2">
+        <div className="flex items-baseline gap-2 mb-2">
+          <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
+            <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span>{title}</span>
+          </h2>
+        </div>
+        <div className="h-[1.5px] w-full bg-slate-200/80 dark:bg-slate-800/80 mb-3" />
+        {description && (
+          <p className="text-[13.5px] font-sans font-medium text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+            {description}
+          </p>
+        )}
       </div>
-    )
-  }
+    );
+  };
 
   return (
-    <div className="w-full animate-fade-in font-sans space-y-4">
-      <div id="as4-standard-sticky-toc" ref={tocScrollRef} className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1"><BookOpen size={9.5} />AS 4:</span>
-        {as4Sections.map(sec => (
-          <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
-            className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-purple-600 border-purple-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
-            {sec.title.split('. ').slice(1).join('. ') || sec.title}
-          </button>
-        ))}
+    <div className="w-full animate-fade-in font-sans bg-[#F5F5F3] dark:bg-[#0B0F19] pb-8">
+      {/* Sticky Contents Bar */}
+      <div id="as4-sticky-toc" className="sticky top-[58px] bg-white dark:bg-[#111726] border-b border-slate-200 dark:border-slate-800 z-20 w-full select-none shadow-sm">
+        <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 py-2">
+          <div
+            ref={tocScrollRef}
+            style={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'auto', whiteSpace: 'nowrap', gap: '4px' }}
+            className="items-center overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-0.5"
+          >
+            {as4Chapters.map((sec) => (
+              <button
+                key={sec.id}
+                data-toc-id={sec.id}
+                onClick={() => {
+                  const container = document.getElementById('as1-scroll-container');
+                  const target = document.getElementById("as4-" + sec.id);
+                  const stickyToc = document.getElementById('as4-sticky-toc');
+                  setActiveSection(sec.id);
+                  if (container && target) {
+                    const containerRect = container.getBoundingClientRect();
+                    const targetRect = target.getBoundingClientRect();
+                    let stickyOffset = 98;
+                    if (stickyToc) {
+                      const tocRect = stickyToc.getBoundingClientRect();
+                      stickyOffset = tocRect.bottom - containerRect.top;
+                    }
+                    const targetScrollTop = targetRect.top - containerRect.top + container.scrollTop - stickyOffset + 2;
+                    container.scrollTo({ top: targetScrollTop, behavior: 'auto' });
+                  }
+                }}
+                className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
+                  activeSection === sec.id
+                    ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-955 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                )}
+              >
+                {sec.title}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
+      {/* Main Publication Sheet Canvas */}
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
+        
+        {/* Chapter 1: Introduction & Objective */}
+        <section id="as4-overview" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="I" 
+            title="Introduction &amp; Objective" 
+            description="Detailing guidelines for contingencies and post-balance sheet events, outlining Board approval timelines."
+          />
 
-        {/* I. Introduction */}
-        <SH id="as4-overview" num="I" title="Introduction & Objective of AS 4" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p><strong>Accounting Standard 4</strong> deals with two distinct but related matters: <strong>Contingencies</strong> and <strong>Events Occurring After the Balance Sheet Date</strong>. <P n={1} /> Both require careful judgment about whether to adjust the financial statements or merely disclose the matter.</p>
-          <p>The standard was revised by the ICAI. The portion relating to <em>contingencies</em> (Part A) applies to the extent it is not covered by other AS (e.g. AS 29 — Provisions, Contingent Liabilities and Contingent Assets). The portion relating to <em>events after the balance sheet date</em> (Part B) remains fully operative.</p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8 font-serif">
-          <div className="p-5 border-t-2 border-purple-500 border border-purple-200 dark:border-purple-900/40 bg-purple-50/20 dark:bg-purple-950/5 rounded-xl">
-            <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-purple-800 dark:text-purple-400 mb-2">Part A — Contingencies</h4>
-            <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">A condition or situation at the balance sheet date whose final outcome — gain or loss — will be confirmed only by the occurrence or non-occurrence of one or more future uncertain events. <P n={1} /></p>
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              <strong>Accounting Standard 4</strong> deals with two distinct matters: <strong>Contingencies</strong> (Part A) and <strong>Events Occurring After the Balance Sheet Date</strong> (Part B). Both require management to exercise judgement about whether to adjust the financial statements or disclose the details. <PdfRef page={1} />
+            </p>
+            <p>
+              Following the revision of the standard by the ICAI, the contingency guidelines under AS 4 apply only to the extent they are not covered by other Accounting Standards (for example, the impairment of financial assets like receivables/provision for bad and doubtful debts is governed by this standard, while other provisions are governed by <strong>AS 29</strong>). The guidelines for events occurring after the balance sheet date remain fully operative under AS 4. <PdfRef page={1} />
+            </p>
           </div>
-          <div className="p-5 border-t-2 border-indigo-500 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-950/5 rounded-xl">
-            <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-indigo-800 dark:text-indigo-400 mb-2">Part B — Post Balance Sheet Events</h4>
-            <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">Significant events, both favourable and unfavourable, that occur between the balance sheet date and the date on which the financial statements are approved by the Board of Directors. <P n={1} /></p>
+        </section>
+
+        {/* Chapter 2: Scope & Exclusions */}
+        <section id="as4-scope" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="II" 
+            title="Scope &amp; Exclusions" 
+            description="Detailing the scope of AS 4 and listing areas governed by other standards."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              This standard applies in preparing and presenting financial statements of all enterprises, except in the following cases which are covered by other specific standards: <PdfRef page={1} />
+            </p>
+            <ul className="list-disc pl-6 space-y-2 text-[15.5px]">
+              <li>Liabilities of life insurance and general insurance enterprises arising from policies issued. <PdfRef page={12} /></li>
+              <li>Obligations under retirement benefit plans. <PdfRef page={12} /></li>
+              <li>Commitments arising from long-term lease contracts. <PdfRef page={12} /></li>
+            </ul>
           </div>
-        </div>
+        </section>
 
-        {/* II. Scope */}
-        <SH id="as4-scope" num="II" title="Scope & Applicability" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>AS 4 applies to all enterprises in the preparation and presentation of financial statements. <P n={1} /> However, the contingency treatment under AS 4 has been significantly superseded by <strong>AS 29</strong> (Provisions, Contingent Liabilities and Contingent Assets) which provides more detailed guidance for contingencies.</p>
-        </div>
-        <div className="mb-8 overflow-x-auto rounded-xl border border-purple-200 dark:border-purple-900/40 font-serif">
-          <table className="w-full text-left border-collapse text-[13.5px]">
-            <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-purple-700"><th className="py-3 px-5">Aspect</th><th className="py-3 px-5">AS 4 (Original)</th><th className="py-3 px-5">Current Position</th></tr></thead>
-            <tbody className="divide-y divide-purple-100 dark:divide-purple-900/30 text-slate-900 dark:text-slate-100">
-              {[['Contingent Losses','Accrue if probable and estimable','Primarily governed by AS 29 now'],['Contingent Gains','Disclose only; do not accrue','Same — AS 29 confirmed no recognition'],['Events after B/S Date','Adjusting or non-adjusting','Fully operative under AS 4'],['Proposed Dividend','To be accrued (old); now only disclose','MCA 2016 amendment — no longer accrue']].map(([aspect, old, curr], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-purple-50/15 dark:bg-purple-950/5'}><td className="py-3 px-5 font-medium">{aspect}</td><td className="py-3 px-5 text-slate-600 dark:text-slate-400">{old}</td><td className="py-3 px-5 text-slate-600 dark:text-slate-400">{curr}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {/* Chapter 3: Key Definitions */}
+        <section id="as4-definitions" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="III" 
+            title="Key Definitions" 
+            description="Defining Contingency, Post-Balance Sheet Events, and the Balance Sheet Date."
+          />
 
-        {/* III. Definitions */}
-        <SH id="as4-definitions" num="III" title="Key Definitions (Para 3)" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>AS 4 defines the following key terms: <P n={2} /></p>
-        </div>
-        <div className="mb-8 space-y-4 font-serif">
-          {[
-            { term: 'Contingency', color: 'purple', def: 'A condition or situation, the ultimate outcome of which, gain or loss, will be confirmed only on the occurrence or non-occurrence of one or more uncertain future events. Contingencies exist at the balance sheet date.', ex: 'Pending litigation where outcome is uncertain; guarantee given for third-party loan; disputed tax demand.' },
-            { term: 'Events Occurring After the Balance Sheet Date', color: 'indigo', def: 'Significant events, both favourable and unfavourable, that occur between the balance sheet date and the date on which the financial statements are approved by the Board of Directors.', ex: 'Fire destroying a factory after year-end; acquisition of a company announced post year-end; settlement of a long-standing legal case.' },
-            { term: 'Balance Sheet Date', color: 'blue', def: 'The date on which the accounting period ends — typically 31st March for Indian companies. This is the date as of which the financial statements are prepared, not the date of Board approval.', ex: '31 March 20X1 is the B/S date; financial statements approved on 15 May 20X1. Events from 1 April to 15 May are post-B/S events.' },
-          ].map((item, i) => (
-            <div key={i} className={'p-5 border-l-4 border-' + item.color + '-500 border border-' + item.color + '-200 dark:border-' + item.color + '-900/40 bg-' + item.color + '-50/20 dark:bg-' + item.color + '-950/5 rounded-xl'}>
-              <h4 className={'font-sans font-bold text-[13px] text-' + item.color + '-800 dark:text-' + item.color + '-400 mb-2'}>{item.term}</h4>
-              <p className="text-[15px] leading-relaxed text-slate-800 dark:text-slate-200 mb-2">{item.def}</p>
-              <p className="text-[13px] text-slate-500 dark:text-slate-400 italic">Examples: {item.ex}</p>
+          {/* Official Definition Card */}
+          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6">
+            <div className="text-[10.5px] font-sans font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-3 flex items-center gap-2">
+              <BookOpen size={13} className="text-blue-600 dark:text-blue-450" />
+              <span>Official Definitions — AS 4, Para 3</span>
             </div>
-          ))}
-        </div>
+            <p className="text-[15.5px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic mb-3">
+              "A contingency is a condition or situation, the ultimate outcome of which, gain or loss, will be confirmed only on the occurrence, or non-occurrence, of one or more uncertain future events." <PdfRef page={2} />
+            </p>
+            <p className="text-[15.5px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">
+              "Events occurring after the balance sheet date are those significant events, both favourable and unfavourable, that occur between the balance sheet date and the date on which the financial statements are approved by the Board of Directors in the case of a company, and, by the corresponding approving authority in the case of any other entity." <PdfRef page={3} />
+            </p>
+          </div>
 
-        {/* IV. Contingencies */}
-        <SH id="as4-contingencies" num="IV" title="Accounting for Contingencies (Para 4–12)" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>Contingencies can be losses (contingent liabilities) or gains (contingent assets). The accounting treatment differs: <P n={2} /></p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 font-serif">
-          <div className="rounded-xl border border-rose-200 dark:border-rose-900/40 overflow-hidden">
-            <div className="bg-rose-700 px-4 py-2.5"><h4 className="text-white font-sans font-bold text-[11.5px] uppercase tracking-wider">Contingent Losses (Para 4) <P n={2} /></h4></div>
-            <div className="p-4 bg-white dark:bg-[#111726] space-y-3 text-[14px] text-slate-800 dark:text-slate-200">
-              <p>A contingent loss is accrued by a charge to the Profit &amp; Loss statement if <strong>both</strong> conditions are met:</p>
-              <ul className="list-disc pl-5 space-y-1 text-[13.5px]">
-                <li>It is <strong>probable</strong> that future events will confirm that an asset is impaired or a liability has been incurred at the balance sheet date, AND</li>
-                <li>A <strong>reasonable estimate</strong> of the amount of the resulting loss can be made.</li>
-              </ul>
-              <div className="p-3 bg-rose-50/50 dark:bg-rose-950/10 rounded-lg text-[13px]">
-                <strong>Example:</strong> ABC Ltd. has a court case where the probability of losing is 85% and the estimated amount is ₹5 lakhs. This is accrued as: Dr. P&amp;L ₹5 lakhs | Cr. Provision ₹5 lakhs.
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The **Balance Sheet Date** is the date on which the accounting period ends (typically 31st March). The **date of approval** is the date when the Board of Directors signs off on the financial statements. Any significant event occurring between these two dates falls under the scope of this standard. <PdfRef page={3} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 4: Accounting for Contingencies */}
+        <section id="as4-contingencies" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="IV" 
+            title="Accounting for Contingencies" 
+            description="Detailing contingent losses, contingent gains, estimation methods, and accounting treatments."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              The treatment of contingencies is governed by the prudence concept: <PdfRef page={2} />
+            </p>
+          </div>
+
+          {/* Accordion: Contingent Losses & Gains */}
+          <div className="space-y-4 font-sans">
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+              <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('loss')}>
+                <span className="font-bold text-slate-900 dark:text-white text-sm">Contingent Losses (Para 4)</span>
+                <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.loss ? "rotate-180" : "")} />
               </div>
+              {openAccordions.loss && (
+                <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-700 dark:text-slate-300">
+                  <p className="mb-2">A contingent loss is provided for in the books by debiting the Profit &amp; Loss account if: <PdfRef page={2} /></p>
+                  <ul className="list-disc pl-5 mb-2 space-y-1">
+                    <li>It is **probable** that future events will confirm a loss (i.e. an asset is impaired or a liability is incurred at the balance sheet date), AND</li>
+                    <li>A **reasonable estimate** of the amount of the loss can be made.</li>
+                  </ul>
+                  <p>If there is insufficient evidence to make an estimate, or if a loss is not probable but only possible, it is **disclosed in the notes** to the accounts. Remote contingencies (e.g. standard bank guarantees) do not require provision but are disclosed in notes. <PdfRef page={2} /></p>
+                </div>
+              )}
             </div>
-          </div>
-          <div className="rounded-xl border border-emerald-200 dark:border-emerald-900/40 overflow-hidden">
-            <div className="bg-emerald-700 px-4 py-2.5"><h4 className="text-white font-sans font-bold text-[11.5px] uppercase tracking-wider">Contingent Gains (Para 10) <P n={3} /></h4></div>
-            <div className="p-4 bg-white dark:bg-[#111726] space-y-3 text-[14px] text-slate-800 dark:text-slate-200">
-              <p>Contingent gains are <strong>never recognized</strong> in the financial statements. They are only <strong>disclosed</strong> in the notes if the probability of realization is reasonably certain, but even then the disclosure must be carefully worded to avoid misleading users.</p>
-              <ul className="list-disc pl-5 space-y-1 text-[13.5px]">
-                <li>Cannot accrue or recognize contingent gains</li>
-                <li>Disclosure only — and only when virtually certain</li>
-                <li>Consistent with conservatism principle</li>
-              </ul>
-              <div className="p-3 bg-emerald-50/50 dark:bg-emerald-950/10 rounded-lg text-[13px]">
-                <strong>Example:</strong> XYZ Ltd. is likely to win ₹10 lakhs in arbitration. Even with 90% probability, this is only disclosed, not recognized in the books.
+
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+              <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('gain')}>
+                <span className="font-bold text-slate-900 dark:text-white text-sm">Contingent Gains (Para 10)</span>
+                <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.gain ? "rotate-180" : "")} />
               </div>
+              {openAccordions.gain && (
+                <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-700 dark:text-slate-300">
+                  <p className="mb-2">Contingent gains are **never recognized** in the financial statements to avoid recognizing revenue that may never be realised. <PdfRef page={3} /></p>
+                  <p>However, when the realisation of a gain is **virtually certain**, the gain is no longer considered a contingency and is recognized in the financial statements. <PdfRef page={3} /></p>
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-        <div className="mb-8 overflow-x-auto rounded-xl border border-purple-200 dark:border-purple-900/40 font-serif">
-          <div className="bg-purple-600 px-5 py-2.5"><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Contingent Loss — Treatment Decision Matrix <P n={2} /></span></div>
-          <table className="w-full text-left border-collapse text-[13.5px]">
-            <thead><tr className="bg-purple-50 dark:bg-purple-950/20 font-sans text-[11px] font-bold uppercase tracking-wider text-purple-800 dark:text-purple-300"><th className="py-3 px-5">Probability</th><th className="py-3 px-5">Amount Estimable?</th><th className="py-3 px-5">Treatment</th></tr></thead>
-            <tbody className="divide-y divide-purple-100 dark:divide-purple-900/20 text-slate-900 dark:text-slate-100">
-              {[['Probable (>50%)','Yes','Accrue — debit P&L, credit provision / liability'],['Probable (>50%)','No','Disclose in notes — unable to estimate'],['Not probable','—','Disclose only if not remote; otherwise no disclosure'],['Remote (very low chance)','—','No accrual, no disclosure required']].map(([prob, est, treatment], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-purple-50/10 dark:bg-purple-950/5'}><td className="py-3 px-5 font-medium">{prob}</td><td className="py-3 px-5">{est}</td><td className="py-3 px-5 font-semibold text-purple-800 dark:text-purple-300">{treatment}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <NB type="warning" title="Conservatism & Prudence — The Asymmetry Explained">
-          AS 4 applies the prudence concept asymmetrically: <strong>losses are accrued</strong> when probable (even if the exact amount is uncertain); <strong>gains are never accrued</strong> even when virtually certain. This asymmetry prevents income inflation and protects creditors. <P n={3} />
-        </NB>
 
-        {/* V. Adjusting Events */}
-        <SH id="as4-adjusting" num="V" title="Adjusting Events After the Balance Sheet Date (Para 13)" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p><strong>Adjusting events</strong> are events that provide evidence of conditions that existed <em>at</em> the balance sheet date. The financial statements (both the figures and the notes) must be <strong>adjusted</strong> to reflect these events. <P n={4} /></p>
-        </div>
-        <div className="mb-8 rounded-xl border border-indigo-200 dark:border-indigo-900/40 overflow-hidden font-serif">
-          <div className="bg-indigo-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Adjusting Events — Require Changes to Financial Statements <P n={4} /></span></div>
-          <div className="divide-y divide-indigo-100 dark:divide-indigo-900/30">
-            {[
-              { event: 'Settlement of a court case after B/S date', reason: 'Case was pending at B/S date — settlement confirms amount of obligation. Adjust the provision to the settled amount.', example: 'Case pending for ₹10L. Settlement of ₹8L agreed post year-end → Adjust provision to ₹8L.' },
-              { event: 'Bankruptcy / insolvency of a debtor after B/S date', reason: "Debtor's financial difficulty existed at B/S date. The post-B/S bankruptcy confirms the impairment of the receivable.", example: 'Customer owes ₹5L at 31 March. Declared insolvent in April → Write off or provide for the receivable.' },
-              { event: 'Discovery of errors or fraud in financial records', reason: 'Errors/frauds occurred during or before the reporting period — post-B/S discovery is an adjusting event.', example: 'Audit discovers that revenue of ₹3L was booked in March without delivering goods → Reverse the revenue.' },
-              { event: 'Sale of inventories after B/S date at prices below cost', reason: 'Confirms that net realisable value (NRV) was below cost at B/S date. Inventory must be written down.', example: 'Stock valued at ₹12L on 31 March. Sold in April for ₹9L → Write inventory down to ₹9L at 31 March.' },
-              { event: 'Determination of asset purchase/sale price that was provisional', reason: 'The asset/liability existed at B/S date but the amount was not finalized. Post-B/S finalization is adjusting.', example: 'Asset purchased pre-year end at provisional price ₹50L. Final price determined post year-end as ₹55L → Adjust asset and payable.' },
-            ].map((item, i) => (
-              <div key={i} className={'px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-950/5')}>
-                <h4 className="font-sans font-bold text-[13.5px] text-slate-900 dark:text-white mb-1">{item.event}</h4>
-                <p className="text-[13.5px] text-slate-700 dark:text-slate-300 mb-1">{item.reason}</p>
-                <p className="text-[12.5px] text-indigo-700 dark:text-indigo-400 italic">Example: {item.example}</p>
+            <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
+              <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('matrix')}>
+                <span className="font-bold text-slate-900 dark:text-white text-sm">Contingency Treatment Decision Matrix</span>
+                <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.matrix ? "rotate-180" : "")} />
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* VI. Non-Adjusting Events */}
-        <SH id="as4-non-adjusting" num="VI" title="Non-Adjusting Events After the Balance Sheet Date (Para 14)" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p><strong>Non-adjusting events</strong> are events that arise after the balance sheet date and did NOT exist at that date. Financial statement figures are <strong>NOT adjusted</strong>, but the events must be <strong>disclosed</strong> in the notes if they are material. <P n={4} /></p>
-        </div>
-        <div className="mb-8 rounded-xl border border-rose-200 dark:border-rose-900/40 overflow-hidden font-serif">
-          <div className="bg-rose-700 px-5 py-3 flex items-center gap-2"><AlertTriangle size={14} className="text-white" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Non-Adjusting Events — Disclose in Notes Only <P n={4} /></span></div>
-          <div className="divide-y divide-rose-100 dark:divide-rose-900/30">
-            {[
-              { event: 'Major business combination after B/S date (acquisition of company)', note: 'Disclose: nature, size, structure of deal; financial effects where practicable.' },
-              { event: 'Announcement of major restructuring plan post year-end', note: 'Disclose: nature of restructuring, estimated costs, timing.' },
-              { event: 'Abnormally large fall in value of investments post year-end', note: 'Disclose: amount, whether permanent or temporary (unless clearly temporary and reversal expected quickly).' },
-              { event: 'Major natural calamity after year-end (flood, earthquake, fire)', note: 'Disclose: nature of event, financial impact on operations and assets.' },
-              { event: 'Commencement of major litigation after year-end (new case)', note: 'Disclose: nature of litigation, estimated financial impact, if possible.' },
-              { event: 'Issue of shares or debentures after the balance sheet date', note: 'Disclose: nature of issue, amounts, terms, purpose of proceeds.' },
-              { event: 'Abnormal loss of fixed assets after B/S date (factory fire)', note: 'Disclose: nature, assets destroyed, insured/uninsured loss, business impact.' },
-            ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-3.5 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-rose-50/15 dark:bg-rose-950/5')}>
-                <AlertTriangle size={14} className="text-rose-400 shrink-0 mt-0.5" />
-                <div><span className="font-sans font-bold text-[13px] text-slate-900 dark:text-white">{item.event}</span><p className="text-[12.5px] text-slate-500 dark:text-slate-400 mt-0.5">{item.note}</p></div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="mb-8 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 font-serif">
-          <div className="bg-slate-700 px-5 py-3"><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Adjusting vs. Non-Adjusting — Decision Framework</span></div>
-          <table className="w-full text-left border-collapse text-[13.5px]">
-            <thead><tr className="bg-slate-100 dark:bg-slate-900 font-sans text-[11px] uppercase tracking-wider font-bold text-slate-700 dark:text-slate-300"><th className="py-3 px-5">Question</th><th className="py-3 px-5">Adjusting</th><th className="py-3 px-5">Non-Adjusting</th></tr></thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-slate-900 dark:text-slate-100">
-              {[["Did the event's condition exist at B/S date?",'Yes — condition existed at B/S date','No — arose after B/S date'],['Action on financial statements?','Adjust the figures','Do not adjust figures'],['Disclosure in notes?','May need additional disclosure','Yes — must disclose if material'],['Example events','Debtor bankruptcy, court settlement, NRV write-down','Post-B/S acquisition, share issue, natural calamity'],['Accounting principle followed','Matching / Completeness','Full Disclosure / Materiality']].map(([q, adj, nonAdj], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-slate-50/30 dark:bg-slate-800/10'}><td className="py-3 px-5 font-medium text-slate-700 dark:text-slate-300">{q}</td><td className="py-3 px-5 text-emerald-700 dark:text-emerald-400">{adj}</td><td className="py-3 px-5 text-blue-700 dark:text-blue-400">{nonAdj}</td></tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* VII. Proposed Dividend */}
-        <SH id="as4-proposed-div" num="VII" title="Proposed Dividend — MCA 2016 Amendment" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>This is one of the most important and frequently examined amendments to AS 4. The treatment of proposed dividends was significantly changed by the MCA Companies (Accounting Standards) Amendment Rules, 2016. <P n={4} /></p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 font-serif">
-          <div className="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden">
-            <div className="bg-slate-600 px-4 py-2.5"><h4 className="text-white font-sans font-bold text-[11.5px] uppercase tracking-wider">Before Amendment (Old Treatment)</h4></div>
-            <div className="p-4 bg-white dark:bg-[#111726] space-y-2 text-[14px] text-slate-800 dark:text-slate-200">
-              <p>Proposed dividend was treated as a <strong>current liability</strong> in the balance sheet as of the reporting date (e.g. 31 March).</p>
-              <p>Journal Entry at year-end:</p>
-              <div className="font-mono text-[12.5px] bg-slate-50 dark:bg-slate-900/30 rounded p-3">
-                <div className="flex justify-between"><span>Dr. Surplus in P&amp;L</span><span>XXX</span></div>
-                <div className="flex justify-between"><span className="pl-4">Cr. Proposed Dividend (Current Liability)</span><span>XXX</span></div>
-              </div>
+              {openAccordions.matrix && (
+                <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-700 dark:text-slate-300">
+                  <table className="w-full text-left border-collapse text-[13.5px] border border-slate-200 dark:border-slate-800 rounded-lg">
+                    <thead>
+                      <tr className="bg-slate-100 dark:bg-slate-805 text-slate-800 dark:text-white font-sans text-[11px] font-bold uppercase tracking-wider">
+                        <th className="py-2.5 px-4">Probability of Loss</th>
+                        <th className="py-2.5 px-4">Reliable Estimate Possible?</th>
+                        <th className="py-2.5 px-4">Accounting Treatment</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200 dark:divide-slate-800 text-slate-800 dark:text-slate-200">
+                      <tr>
+                        <td className="py-2.5 px-4">Probable (High chance)</td>
+                        <td className="py-2.5 px-4">Yes</td>
+                        <td className="py-2.5 px-4 font-semibold text-rose-650 dark:text-rose-400">Make a Provision (debit P&amp;L) <PdfRef page={2} /></td>
+                      </tr>
+                      <tr>
+                        <td className="py-2.5 px-4">Probable (High chance)</td>
+                        <td className="py-2.5 px-4">No</td>
+                        <td className="py-2.5 px-4">Disclose in Notes to accounts <PdfRef page={2} /></td>
+                      </tr>
+                      <tr>
+                        <td className="py-2.5 px-4">Possible (Reasonable chance)</td>
+                        <td className="py-2.5 px-4">Yes / No</td>
+                        <td className="py-2.5 px-4">Disclose in Notes to accounts <PdfRef page={2} /></td>
+                      </tr>
+                      <tr>
+                        <td className="py-2.5 px-4">Remote (Very low chance)</td>
+                        <td className="py-2.5 px-4">Yes / No</td>
+                        <td className="py-2.5 px-4">No Provision, No Disclosure <PdfRef page={2} /></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           </div>
-          <div className="rounded-xl border border-purple-200 dark:border-purple-900/40 overflow-hidden">
-            <div className="bg-purple-700 px-4 py-2.5"><h4 className="text-white font-sans font-bold text-[11.5px] uppercase tracking-wider">After 2016 Amendment (Current Treatment)</h4></div>
-            <div className="p-4 bg-white dark:bg-[#111726] space-y-2 text-[14px] text-slate-800 dark:text-slate-200">
-              <p>Proposed dividend is a <strong>non-adjusting event</strong>. No liability is recognized in the financial statements of the year to which it relates.</p>
-              <p>Treatment: <strong>Disclose only</strong> in notes to accounts. The liability is recognized only in the year the dividend is declared / approved.</p>
-              <div className="p-3 bg-purple-50/50 dark:bg-purple-950/10 rounded-lg text-[13px] font-medium">
-                Balance Sheet: No "Proposed Dividend" under current liabilities. Disclose amount in notes only.
+        </section>
+
+        {/* Chapter 5: Adjusting Events */}
+        <section id="as4-adjusting" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="V" 
+            title="Adjusting Events After the Balance Sheet Date" 
+            description="Detailing adjusting events, criteria for adjustment, and practical cases like debtor bankruptcy."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              <strong>Adjusting events</strong> are events that occur after the balance sheet date but provide additional information materially affecting the determination of amounts relating to **conditions existing at the balance sheet date**. <PdfRef page={3} />
+            </p>
+            <p>
+              For these events, the assets and liabilities in the financial statements must be **adjusted** to reflect the new evidence. <PdfRef page={4} />
+            </p>
+          </div>
+
+          {/* Premium Blue Information Card */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
+            <div className="p-5 border border-indigo-150 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-955/5 rounded-xl space-y-2.5">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400 flex items-center gap-2">
+                <Info size={14} />
+                <span>1. Insolvency of a Debtor</span>
+              </h4>
+              <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-50 font-medium">
+                The insolvency of a customer after the balance sheet date confirms that the debtor's balance was impaired at the balance sheet date. The company must write off the debt or make a full provision. <PdfRef page={4} />
+              </p>
+            </div>
+            <div className="p-5 border border-indigo-150 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-955/5 rounded-xl space-y-2.5">
+              <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400 flex items-center gap-2">
+                <Info size={14} />
+                <span>2. Detection of Fraud / Cash Theft</span>
+              </h4>
+              <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-50 font-medium">
+                If a fraud or theft committed during the financial year is detected after the balance sheet date but before approval of the accounts, it is an adjusting event. The loss must be recognized in the current year. <PdfRef page={6} />
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Chapter 6: Non-Adjusting Events */}
+        <section id="as4-non-adjusting" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VI" 
+            title="Non-Adjusting Events After the Balance Sheet Date" 
+            description="Detailing non-adjusting events, criteria, and disclosure requirements in approving authority reports."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              <strong>Non-adjusting events</strong> are events occurring after the balance sheet date that are indicative of conditions that arose **subsequent to the balance sheet date**. <PdfRef page={3} />
+            </p>
+            <p>
+              These events **do not require adjustment** to the assets and liabilities in the financial statements. However, if they are significant, they must be disclosed in the report of the approving authority (e.g. Directors' Report) to enable users to make proper evaluations. <PdfRef page={4} />
+            </p>
+            <ul className="list-disc pl-6 space-y-2 text-[15.5px]">
+              <li>Decline in market value of investments between the balance sheet date and the date of approval (ordinary market fluctuations are subsequent events). <PdfRef page={4} /></li>
+              <li>Destruction of a warehouse or major factory plant by fire or earthquake after the year-end. <PdfRef page={3} /></li>
+              <li>Acquisitions, mergers, or disposals of businesses announced or initiated after the year-end. <PdfRef page={8} /></li>
+            </ul>
+          </div>
+
+          {/* Warning Box: Cheques in hand received after B/S date */}
+          <div className="p-5 border border-red-200 dark:border-red-900/40 bg-red-50/20 dark:bg-red-955/5 rounded-xl space-y-2.5">
+            <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-red-800 dark:text-red-400 flex items-center gap-2">
+              <AlertTriangle size={14} />
+              <span>Cheques Received After Year-End Warning</span>
+            </h4>
+            <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-300 font-medium font-serif">
+              Cheques received from customers after the balance sheet date (even if dated 31st March or before) do not represent a condition existing on 31st March. They cannot be recognized as asset "cheques in hand" on the balance sheet date, as the company lacked control over those funds at that date. <PdfRef page={6} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 7: Proposed Dividends */}
+        <section id="as4-dividends" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VII" 
+            title="Proposed Dividends" 
+            description="Detailing changes in accounting treatment of proposed dividends under the Companies Act 2016 amendments."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Dividends proposed or declared after the balance sheet date but before approval of the accounts are **not recognized as a liability** in the balance sheet, as no present obligation exists on the balance sheet date. <PdfRef page={4} />
+            </p>
+            <p>
+              As per the **Companies (Accounting Standards) Amendment Rules, 2016** (effective for financial year 31st March 2017 onwards), proposed dividends must only be **disclosed in the notes to accounts**. They cannot be accrued or recognized as liabilities. <PdfRef page={4} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 8: Going Concern Inappropriateness */}
+        <section id="as4-going-concern" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="VIII" 
+            title="Going Concern Inappropriateness" 
+            description="Determining whether post-balance sheet events affect the validity of the going concern assumption."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              Events occurring after the balance sheet date may indicate that the enterprise ceases to be a going concern. A major deterioration in operating results or unusual events affecting the existence of the enterprise (e.g. destruction of the only production plant by fire) requires management to evaluate whether the going concern assumption remains appropriate. <PdfRef page={5} />
+            </p>
+            <p>
+              If the going concern assumption is **no longer valid**, the financial statements must be prepared on a **liquidation basis** (writing down all assets to net realisable values and providing for liabilities). <PdfRef page={5} />
+            </p>
+          </div>
+        </section>
+
+        {/* Chapter 9: Disclosure Requirements */}
+        <section id="as4-disclosure" className="scroll-mt-36 space-y-8 w-full">
+          <ChapterHeader 
+            num="IX" 
+            title="Disclosure Requirements" 
+            description="Mandatory reporting parameters including event nature and financial effect estimation."
+          />
+
+          <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
+            <p>
+              For significant events occurring after the balance sheet date that require disclosure in the financial statements or in the report of the approving authority, the following information must be provided: <PdfRef page={6} />
+            </p>
+          </div>
+
+          {/* Checklist Boxes */}
+          <div className="space-y-3 font-sans">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☑</span>
+              <div>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Nature of the Event</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose a description of the nature of the post-balance sheet event. <PdfRef page={6} /></p>
+              </div>
+            </div>
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+              <span className="text-blue-500 font-bold">☑</span>
+              <div>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Financial Effect Estimate</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Provide an estimate of the financial effect, or state that such an estimate cannot be made. <PdfRef page={6} /></p>
               </div>
             </div>
           </div>
-        </div>
-        <NB type="exam" title="Exam Focus — Proposed Dividend After 2016 Amendment">
-          <ul className="list-disc pl-5 space-y-1.5">
-            <li><strong>Before 2016:</strong> Proposed dividend was a current liability at the B/S date.</li>
-            <li><strong>After 2016:</strong> Proposed dividend is a <em>non-adjusting event</em>. No provision is created at the B/S date. The dividend is recognized as a liability only in the year it is formally approved by shareholders at the AGM. <P n={4} /></li>
-            <li>In exam questions with a 31 March 20X1 balance sheet date: If the board meets on 15 May 20X1 and proposes a dividend, that dividend is NOT a liability at 31 March 20X1. It is disclosed in notes.</li>
-          </ul>
-        </NB>
-
-        {/* VIII. Going Concern */}
-        <SH id="as4-going-concern" num="VIII" title="Going Concern — Events That Override the Assumption" />
-        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
-          <p>When post-balance sheet events indicate that the enterprise may no longer be a <strong>going concern</strong>, the financial statements must reflect that fundamental change. <P n={5} /> This is one of the rare situations where a non-adjusting event can trigger a complete re-basis of the financial statements.</p>
-        </div>
-        <div className="mb-6 p-5 border border-rose-200 dark:border-rose-900/40 bg-rose-50/20 dark:bg-rose-950/5 rounded-xl font-serif">
-          <div className="flex items-center gap-2 mb-3"><AlertTriangle size={14} className="text-rose-600 dark:text-rose-400" /><h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-rose-800 dark:text-rose-400">When Going Concern Assumption Breaks Down</h4></div>
-          <p className="text-[15px] leading-relaxed text-slate-800 dark:text-slate-200 mb-3">If after the balance sheet date the management determines that it intends to liquidate the enterprise or to cease trading, or that it has no realistic alternative but to do so, the financial statements should NOT be prepared on the going concern basis. In such cases:</p>
-          <ul className="list-disc pl-5 space-y-2 text-[14px] text-slate-700 dark:text-slate-300">
-            <li>Assets are restated at <strong>break-up / liquidation values</strong> (not historical cost)</li>
-            <li>All liabilities become <strong>immediately due and payable</strong></li>
-            <li>Long-term assets and liabilities are reclassified as <strong>current</strong></li>
-            <li>Full disclosure of the change in basis must be provided in notes</li>
-          </ul>
-        </div>
-        <NB type="info" title="Key Principle — Going Concern Override">
-          The going concern override under AS 4 is triggered by post-balance sheet events. It results in a fundamentally different financial statement (liquidation basis), not just an adjustment. This is why it is treated separately from normal adjusting/non-adjusting events. <P n={5} />
-        </NB>
-
-        {/* IX. Disclosures */}
-        <SH id="as4-disclosures" num="IX" title="Disclosure Requirements (Para 15)" />
-        <div className="mb-6 rounded-xl border border-purple-200 dark:border-purple-900/40 overflow-hidden font-serif">
-          <div className="bg-purple-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">AS 4 Disclosure Requirements <P n={5} /></span></div>
-          <div className="divide-y divide-purple-100 dark:divide-purple-900/30">
-            {[
-              { title: 'Contingent Losses (Not Accrued)', detail: 'For each contingent loss not accrued: (a) an estimate of its financial effect, or statement that estimate cannot be made; (b) an indication of the uncertainties relating to the amount or timing; (c) the possibility of any reimbursement.' },
-              { title: 'Non-Adjusting Events (Material)', detail: 'Nature of the event and an estimate of its financial effect, or a statement that such an estimate cannot be made. Both favourable and unfavourable non-adjusting events must be disclosed.' },
-              { title: 'Proposed Dividend (Post-2016)', detail: 'Amount of proposed dividend per share and in total must be disclosed in notes to accounts. No balance sheet entry is made.' },
-              { title: 'Going Concern Issues', detail: 'If financial statements are not prepared on a going concern basis, that fact shall be disclosed together with the basis on which the financial statements are prepared and the reason why the enterprise is not considered to be a going concern.' },
-            ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-purple-50/15 dark:bg-purple-950/5')}>
-                <div className="w-6 h-6 rounded-full bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[14px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Quick Reference */}
-        <div className="mt-10 mb-4 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 font-serif">
-          <div className="bg-slate-700 px-5 py-3"><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Quick Reference — AS 4 Summary: Adjusting vs. Non-Adjusting</span></div>
-          <table className="w-full text-left border-collapse text-[13px]">
-            <thead><tr className="bg-slate-100 dark:bg-slate-900 font-sans text-[11px] uppercase tracking-wider font-bold text-slate-700 dark:text-slate-300"><th className="py-3 px-5 w-2/5">Event</th><th className="py-3 px-5">Type</th><th className="py-3 px-5">Treatment</th></tr></thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-slate-900 dark:text-slate-100">
-              {[['Debtor declared bankrupt after B/S date','Adjusting','Adjust — provision for bad debt / write-off'],['Court case (pending at B/S date) settled post year-end','Adjusting','Adjust provision to settlement amount'],['Discovery of fraud / error after B/S date','Adjusting','Correct prior period error / restate'],['Inventory NRV drop confirmed post year-end','Adjusting','Write inventory down to NRV'],['Proposed dividend announced by Board','Non-Adjusting (post-2016)','Disclose in notes only — no liability entry'],['Major acquisition announced post year-end','Non-Adjusting','Disclose in notes'],['Factory fire after B/S date','Non-Adjusting','Disclose in notes'],['New shares issued after B/S date','Non-Adjusting','Disclose in notes'],['Market crash causing investment loss','Non-Adjusting','Disclose in notes'],['Going concern doubt arises post-B/S','Special Case','Restate on liquidation basis; full disclosure']].map(([event, type, treatment], i) => (
-                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-slate-50/30 dark:bg-slate-800/10'}>
-                  <td className="py-2.5 px-5 text-slate-700 dark:text-slate-300">{event}</td>
-                  <td className={'py-2.5 px-5 font-semibold ' + (type === 'Adjusting' ? 'text-emerald-700 dark:text-emerald-400' : type.includes('Non') ? 'text-blue-700 dark:text-blue-400' : 'text-amber-700 dark:text-amber-400')}>{type}</td>
-                  <td className="py-2.5 px-5 text-slate-600 dark:text-slate-400">{treatment}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        </section>
 
       </div>
     </div>
   )
 }
+
 
 const as5Sections = [
   { id: 'as5-overview',       title: '1. Introduction & Objective' },
