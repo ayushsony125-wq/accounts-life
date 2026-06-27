@@ -3758,16 +3758,16 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
 const as10Sections = [
   { id: 'as10-overview',      title: '1. Overview & Purpose' },
-  { id: 'as10-scope',         title: '2. Scope & Exclusions (Para 1–6)' },
-  { id: 'as10-definitions',   title: '3. Definitions (Para 7–8)' },
-  { id: 'as10-recognition',   title: '4. Recognition Criteria (Para 9–13)' },
-  { id: 'as10-cost-comp',     title: '5. Components of Cost (Para 14–22)' },
-  { id: 'as10-special-costs', title: '6. Self-Constructed & Exchanges (Para 23–28)' },
-  { id: 'as10-subsequent',    title: '7. Subsequent Costs (Para 29–33)' },
-  { id: 'as10-models',        title: '8. Cost vs Revaluation Models (Para 34–45)' },
-  { id: 'as10-depreciation',  title: '9. Depreciation & Components (Para 46–65)' },
-  { id: 'as10-derecognition', title: '10. Derecognition & Retirements (Para 68–72)' },
-  { id: 'as10-disclosure',    title: '11. Disclosure Requirements (Para 73–82)' },
+  { id: 'as10-scope',         title: '2. Scope & Exclusions' },
+  { id: 'as10-definitions',   title: '3. Definitions & Bearer Plants' },
+  { id: 'as10-recognition',   title: '4. Recognition Criteria' },
+  { id: 'as10-cost-comp',     title: '5. Components of Cost' },
+  { id: 'as10-special-costs', title: '6. Self-Constructed & Asset Exchanges' },
+  { id: 'as10-subsequent',    title: '7. Subsequent Costs & Inspections' },
+  { id: 'as10-models',        title: '8. Cost vs Revaluation Models' },
+  { id: 'as10-depreciation',  title: '9. Depreciation & Componentization' },
+  { id: 'as10-derecognition', title: '10. Derecognition & Retirements' },
+  { id: 'as10-disclosure',    title: '11. Disclosure Requirements' },
 ]
 
 interface AS10StandardTabContentProps {
@@ -3778,10 +3778,11 @@ interface AS10StandardTabContentProps {
 function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentProps) {
   const [activeSection, setActiveSection] = useState('as10-overview')
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
-    bearer: true,
-    components: true,
-    exchange: false,
-    reval: true
+    scope: true,
+    definitions: true,
+    costs: true,
+    revaluation: false,
+    depreciation: true
   })
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
@@ -3796,395 +3797,310 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
       let offset = 58
-      if (stickyToc) {
-        const tocRect = stickyToc.getBoundingClientRect()
-        offset = tocRect.bottom - containerRect.top
-      }
-      container.scrollTo({
-        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
-        behavior: 'auto'
-      })
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
     }
   }
 
   useEffect(() => {
     if (!activeSection || !tocScrollRef.current) return
     const el = tocScrollRef.current
-    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    const btn = el.querySelector('[data-sec-id="' + activeSection + '"]') as HTMLElement | null
     if (!btn) return
-    if (as10Sections[0]?.id === activeSection) {
-      el.scrollTo({ left: 0, behavior: 'smooth' })
-      return
-    }
-    const elRect = el.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({
-      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
-      behavior: 'smooth'
-    })
+    if (as10Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect(); const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
   }, [activeSection])
 
   useEffect(() => {
     let obs: IntersectionObserver | undefined
     const init = () => {
       const sc = document.getElementById('as1-scroll-container')
-      if (!sc) {
-        setTimeout(init, 50)
-        return
-      }
-      obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) setActiveSection(e.target.id)
-        }),
-        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
-      )
-      as10Sections.forEach(s => {
-        const el = document.getElementById(s.id)
-        if (el) obs?.observe(el)
-      })
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }), { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 })
+      as10Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
     }
-    init()
-    return () => obs?.disconnect()
+    init(); return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
-  const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-red-600 dark:text-red-400',      border: 'border-red-400',     badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-800' },
-    '9':  { num: 'text-fuchsia-600 dark:text-fuchsia-400',border:'border-fuchsia-400',badge: 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200 dark:bg-fuchsia-950/40 dark:text-fuchsia-400 dark:border-fuchsia-800' },
-    '10': { num: 'text-sky-600 dark:text-sky-400',      border: 'border-sky-400',     badge: 'bg-sky-50 text-sky-700 border-sky-200 dark:bg-sky-950/40 dark:text-sky-400 dark:border-sky-800' },
-    '11': { num: 'text-orange-600 dark:text-orange-400',border: 'border-orange-400',  badge: 'bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/40 dark:text-orange-400 dark:border-orange-800' },
-  }
+  const P = ({ n }: { n: number }) => (
+    <button onClick={() => navigateToPdfPage(n)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={'Open AS 10 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
+  )
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
+    <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex items-center gap-3">
+        <span className="font-mono font-extrabold text-[13px] text-blue-600 dark:text-blue-400 select-none">{num}.</span>
+        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
       </div>
-    )
-  }
+      <div className="h-[2px] w-16 rounded-full bg-blue-500 mt-2 ml-8" />
+    </div>
+  )
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+  const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
+    const s: Record<string, string> = {
+      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+      <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
         {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+        <div className="text-[14.5px] leading-relaxed">{children}</div>
       </div>
     )
   }
-
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 10 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
 
   return (
     <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as10-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 10 Sections:
-        </span>
-        {as10Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
+      <div id="as10-standard-sticky-toc" ref={tocScrollRef} className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1"><BookOpen size={9.5} />AS 10:</span>
+        {as10Sections.map(sec => (
+          <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+            className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-blue-600 border-blue-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+            {sec.title.split('. ').slice(1).join('. ') || sec.title}
           </button>
         ))}
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
-        
+      <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
+
         {/* 1. Overview */}
-        <SecHeader id="as10-overview" num="1" title="Overview &amp; Purpose" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={7} para="Objective" /> The objective of AS 10 (Revised) is to prescribe the accounting treatment for Property, Plant and Equipment (PPE).
-        </p>
-        <p className="leading-relaxed">
-          The principal issues in accounting for PPE are:
-        </p>
-        <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300 mb-4">
-          <li><strong>Timing of recognition:</strong> Determining when an item should be recognized as PPE.</li>
-          <li><strong>Measurement of carrying amount:</strong> Compiling the cost or revalued amount.</li>
-          <li><strong>Depreciation charges:</strong> Systematic allocation of the depreciable amount.</li>
-          <li><strong>Impairment losses:</strong> Recognising declines in asset values.</li>
-        </ul>
+        <SH id="as10-overview" num="I" title="Overview & Purpose of AS 10 (Revised)" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Accounting Standard 10 (Revised 2016) — Property, Plant and Equipment (PPE)</strong> prescribes the accounting treatment for property, plant, and equipment so that users of financial statements can discern information about an enterprise's investment in its PPE and the changes in such investment. <P n={7} /></p>
+          <p>The principal issues in accounting for PPE are the timing of recognition of the assets, the determination of their carrying amounts, and the depreciation charges and impairment losses to be recognized in relation to them.</p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8 font-serif">
+          {[
+            { color: 'blue', title: 'Asset Recognition', body: 'Defines the exact criteria when an expenditure on tangible items can be capitalized as Property, Plant and Equipment.', p: 8 },
+            { color: 'indigo', title: 'Cost Measurement', body: 'Establishes initial measurement rules, including direct purchase costs, employee benefits, site restoration, and exchange of assets.', p: 9 },
+            { color: 'violet', title: 'Depreciation & Models', body: 'Prescribes the cost model vs revaluation model and mandates component-level depreciation based on useful life.', p: 17 }
+          ].map((c, i) => (
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
+              <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
+            </div>
+          ))}
+        </div>
 
         {/* 2. Scope & Exclusions */}
-        <SecHeader id="as10-scope" num="2" title="Scope &amp; Exclusions" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={7} para="Para 1–6" /> This standard should be applied in accounting for PPE, except when another standard requires or permits a different accounting treatment.
-        </p>
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-            <thead>
-              <tr className="bg-slate-100 dark:bg-slate-800">
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Exclusion Category</th>
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Treatment / Applicable Standard</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Biological assets other than Bearer Plants</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Excluded (e.g. livestock, crops, wasting forests). Bearer plants ARE included in AS 10!</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Wasting assets (mineral rights, oil/gas exploration reserves)</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Excluded from scope (except for PPE used to develop or maintain them)</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Investment Property</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Included — carried under the Cost Model as per AS 10 (Revised)!</td>
-              </tr>
-            </tbody>
-          </table>
+        <SH id="as10-scope" num="II" title="Scope & Exclusions from PPE" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>AS 10 (Revised) should be applied in accounting for property, plant and equipment, except when another Accounting Standard requires or permits a different accounting treatment. <P n={7} /></p>
+        </div>
+        <div className="border border-blue-200 dark:border-blue-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('scope')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Scope Inclusions and Exclusions <P n={7} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.scope ? 'rotate-180' : '')} />
+          </div>
+          {openAccordions.scope && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>This Standard DOES NOT apply to:</strong></p>
+              <ul className="list-disc pl-6 space-y-1.5">
+                <li><strong>Biological Assets:</strong> Biological assets related to agricultural activity (wasting timber, livestock) other than <strong>Bearer Plants</strong>. This Standard does apply to bearer plants. <P n={7} /></li>
+                <li><strong>Wasting Assets:</strong> Mineral rights and exploration/extraction of minerals, oil, natural gas and similar non-regenerative resources. <P n={7} /></li>
+              </ul>
+              <p className="font-bold text-emerald-600 dark:text-emerald-450 mt-2">Special Inclusion: Investment Property</p>
+              <p>An enterprise must apply AS 10 (Revised) to its investment properties. The Standard requires the cost model to be applied to all investment properties. <P n={7} /></p>
+            </div>
+          )}
         </div>
 
         {/* 3. Definitions */}
-        <SecHeader id="as10-definitions" num="3" title="Definitions &amp; Key Concepts" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={8} para="Para 7" /> <strong>Property, Plant and Equipment</strong> are tangible items that:
-        </p>
-        <div className="space-y-3 mb-6 pl-4 border-l-2 border-slate-200 dark:border-gray-800">
-          <p>
-            <strong>① Held for use</strong> in the production or supply of goods or services, for rental to others, or for administrative purposes.
-          </p>
-          <p>
-            <strong>② Expected to be used</strong> during more than a period of twelve months.
-          </p>
+        <SH id="as10-definitions" num="III" title="Definitions & Bearer Plants" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Property, Plant and Equipment (PPE):</strong> Tangible items that: <P n={8} /></p>
+          <ul className="list-disc pl-6 space-y-1 text-slate-700 dark:text-gray-300 font-sans text-[15px]">
+            <li>Are held for use in the production or supply of goods or services, for rental to others, or for administrative purposes; and</li>
+            <li>Are expected to be used during more than a period of twelve months.</li>
+          </ul>
         </div>
-
-        <div className="space-y-4">
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('bearer')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Bearer Plants (Capitalized as PPE)</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.bearer ? 'rotate-180' : ''}`} />
-            </div>
-            {openAccordions.bearer && (
-              <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
-                <p>A <strong>Bearer Plant</strong> is a live plant that: <ParaRef page={8} para="Para 7" /></p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Is used in the production or supply of agricultural produce.</li>
-                  <li>Is expected to bear produce for more than 12 months.</li>
-                  <li>Has a remote likelihood of being sold as agricultural produce, except for incidental scrap sales.</li>
-                </ul>
-                <p>Examples: tea bushes, grape vines, oil palms, and rubber trees. Note: plants grown to be harvested as agricultural produce (e.g. timber trees) are NOT bearer plants and are excluded from AS 10.</p>
-              </div>
-            )}
+        <div className="border border-indigo-200 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('definitions')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Concept of Bearer Plant — Definition &amp; Criteria <P n={8} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.definitions ? 'rotate-180' : '')} />
           </div>
-
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('components')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Component Accounting (Mandatory)</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.components ? 'rotate-180' : ''}`} />
+          {openAccordions.definitions && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p>A <strong>Bearer Plant</strong> is a living plant that: <P n={8} /></p>
+              <ol className="list-decimal pl-6 space-y-1.5">
+                <li>Is used in the production or supply of agricultural produce;</li>
+                <li>Is expected to bear produce for more than twelve months; and</li>
+                <li>Has a remote likelihood of being sold as agricultural produce, except for incidental scrap sales.</li>
+              </ol>
+              <p className="font-bold text-rose-600 dark:text-rose-400 mt-2">What is NOT a Bearer Plant (wasting assets, excluded from AS 10):</p>
+              <ul className="list-disc pl-6 space-y-1">
+                <li>Plants cultivated to be harvested as agricultural produce (e.g. trees grown for use as lumber).</li>
+                <li>Plants cultivated to produce agricultural produce when there is more than a remote likelihood that the enterprise will also harvest and sell the plant as agricultural produce (e.g. trees grown for both their fruit and their lumber).</li>
+                <li>Annual crops (e.g. maize, wheat, paddy). <P n={8} /></li>
+              </ul>
             </div>
-            {openAccordions.components && (
-              <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
-                <p>If different components of an item of PPE have significantly different useful lives or consumption patterns, they must be treated as <strong>separate items of PPE</strong> (components) and depreciated individually over their respective useful lives. <ParaRef page={14} para="Para 47" /></p>
-                <p>Example: An aircraft airframe (useful life 25 years) and its jet engines (useful life 12 years) must be recognized and depreciated separately.</p>
-              </div>
-            )}
-          </div>
+          )}
         </div>
 
         {/* 4. Recognition Criteria */}
-        <SecHeader id="as10-recognition" num="4" title="Recognition Criteria" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={9} para="Para 9" /> The cost of an item of PPE should be recognised as an asset if, and only if:
-        </p>
-        <div className="space-y-3.5 mb-6 pl-4 border-l-2 border-slate-200 dark:border-gray-800">
-          <p>
-            <strong>① Probable Future Benefits:</strong> It is probable that future economic benefits associated with the item will flow to the enterprise.
-          </p>
-          <p>
-            <strong>② Reliable Measurement:</strong> The cost of the item can be measured reliably.
-          </p>
+        <SH id="as10-recognition" num="IV" title="PPE Recognition Criteria" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Under <strong>Paragraph 9</strong>, the cost of an item of property, plant and equipment should be recognized as an asset if, and only if: <P n={8} /></p>
+          <ol className="list-decimal pl-6 space-y-1.5 text-[15px] font-sans text-slate-700 dark:text-gray-300">
+            <li>It is <strong>probable</strong> that future economic benefits associated with the item will flow to the enterprise; and</li>
+            <li>The cost of the item can be <strong>measured reliably</strong>.</li>
+          </ol>
+          <p>This recognition principle applies to all costs of PPE at the time they are incurred, including initial costs to acquire or construct, and subsequent costs to add to, replace part of, or service it. <P n={9} /></p>
         </div>
-        <NoteBox type="info" title="Safety &amp; Environmental Equipment">
-          Safety or environmental equipment (e.g. pollution control filters or chemical exhaust systems) does not directly increase future economic benefits of any particular asset. However, it is capitalized as PPE because it is necessary for the enterprise to obtain future economic benefits from its other assets. <ParaRef page={10} para="Para 13" />
-        </NoteBox>
+        <NB type="info" title="Safety & Environmental Equipment Recognition (Para 13)">
+          Acquiring safety or environmental equipment, although not directly increasing future economic benefits of any particular existing asset, may be necessary for the enterprise to obtain future economic benefits from its other assets. Such items qualify for recognition as PPE. <P n={9} />
+        </NB>
 
         {/* 5. Components of Cost */}
-        <SecHeader id="as10-cost-comp" num="5" title="Initial Measurement &amp; Cost Components" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={10} para="Para 14" /> An item of PPE that qualifies for recognition as an asset should be measured at its <strong>cost</strong>.
-        </p>
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-            <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-1">1. Purchase Price Components</h4>
-            <p className="text-[13.5px]">Includes import duties and non-refundable purchase taxes, after deducting trade discounts and rebates. Refundable taxes are excluded.</p>
+        <SH id="as10-cost-comp" num="V" title="Components of Cost" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>The cost of an item of property, plant and equipment comprises: <P n={9} /></p>
+        </div>
+        <div className="border border-violet-200 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('costs')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Detailed Inclusions and Exclusions in Cost <P n={9} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.costs ? 'rotate-180' : '')} />
           </div>
-          
-          <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-            <h4 className="font-bold text-slate-900 dark:text-white text-sm mb-1">2. Directly Attributable Costs</h4>
-            <p className="text-[13.5px] mb-2">Any costs directly attributable to bringing the asset to the location and condition necessary for it to be capable of operating in the manner intended by management. Examples:</p>
-            <ul className="list-disc pl-5 text-[12.5px] text-slate-650 dark:text-gray-400 space-y-1">
-              <li>Costs of employee benefits arising directly from construction or acquisition.</li>
-              <li>Costs of site preparation and installation.</li>
-              <li>Initial delivery and handling costs.</li>
-              <li>Professional fees (e.g. fees paid to architects or engineers).</li>
-              <li>Costs of testing whether the asset is functioning properly, net of proceeds from selling items produced during testing.</li>
-            </ul>
-          </div>
-          
-          <div className="p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-950/10">
-            <h4 className="font-bold text-amber-800 dark:text-amber-400 text-sm mb-1 uppercase tracking-wide">3. Dismantling &amp; Decommissioning Provision</h4>
-            <p className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-350">
-              The initial estimate of the costs of dismantling, removing the asset, and restoring the site on which it is located. The present value of these estimated costs is capitalized into the asset cost at inception, with a corresponding credit to <strong>Provision for Decommissioning</strong>. <ParaRef page={10} para="Para 14" />
-            </p>
-          </div>
+          {openAccordions.costs && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Purchase Price:</strong> Includes import duties and non-refundable purchase taxes, after deducting trade discounts and rebates. <P n={9} /></p>
+              <p><strong>2. Directly Attributable Costs:</strong> Costs of bringing the asset to the location and condition necessary for it to be capable of operating in the manner intended by management: <P n={10} /></p>
+              <ul className="list-disc pl-6 space-y-1.5">
+                <li>Costs of employee benefits arising directly from the construction or acquisition of the item.</li>
+                <li>Costs of site preparation.</li>
+                <li>Initial delivery and handling costs.</li>
+                <li>Installation and assembly costs.</li>
+                <li>Costs of testing whether the asset is functioning properly, <strong>net of proceeds</strong> from selling any items produced while bringing the asset to that location and condition (e.g. samples produced during testing).</li>
+                <li>Professional fees (e.g. architects, engineers).</li>
+              </ul>
+              <p><strong>3. Decommissioning &amp; Restoration:</strong> The initial estimate of the costs of dismantling and removing the item and restoring the site on which it is located. <P n={10} /></p>
+              <p className="font-bold text-rose-600 dark:text-rose-450 mt-2">Explicit Cost Exclusions (must be expensed immediately):</p>
+              <ul className="list-disc pl-6 space-y-1.5">
+                <li>Costs of opening a new facility.</li>
+                <li>Costs of introducing a new product or service (including advertising and promotional activities).</li>
+                <li>Costs of conducting business in a new location or with a new class of customer (including staff training costs).</li>
+                <li>Administration and other general overheads.</li>
+                <li>Costs incurred while an item capable of operating as intended is yet to be brought into use or is operated at less than full capacity. <P n={11} /></li>
+              </ul>
+            </div>
+          )}
         </div>
 
-        {/* 6. Special Costs */}
-        <SecHeader id="as10-special-costs" num="6" title="Self-Constructed Assets &amp; Exchanges of Assets" />
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-            <h4 className="font-bold text-slate-950 dark:text-white text-sm mb-1">Self-Constructed Assets</h4>
-            <p className="text-[13.5px] leading-relaxed">
-              Calculated using the same principles as an acquired asset. Any internal profits or abnormal costs (e.g. wasted material or labor due to construction inefficiency) must be <strong>excluded</strong>. Allocation of internal overheads must be systematic. <ParaRef page={12} para="Para 23" />
-            </p>
-          </div>
-
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('exchange')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Exchange of Assets (Para 24)</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.exchange ? 'rotate-180' : ''}`} />
-            </div>
-            {openAccordions.exchange && (
-              <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
-                <p>When an item of PPE is acquired in exchange for another asset, it should be measured at <strong>Fair Value</strong> unless:</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>The exchange transaction lacks commercial substance, or</li>
-                  <li>The fair value of neither the asset received nor the asset given up is reliably measurable.</li>
-                </ul>
-                <p>If the acquired asset cannot be measured at fair value, its cost is measured at the <strong>carrying amount of the asset given up</strong>. <ParaRef page={12} para="Para 24" /></p>
-              </div>
-            )}
-          </div>
+        {/* 6. Self-Constructed & Asset Exchanges */}
+        <SH id="as10-special-costs" num="VI" title="Self-Constructed Assets &amp; Asset Exchanges" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Self-Constructed Assets (Para 23):</strong> The cost of a self-constructed asset is determined using the same principles as for an acquired asset. If an enterprise makes similar assets for sale in the normal course of business, the cost of the asset is usually the same as the cost of producing an asset for sale (see AS 2). Any internal profits must be eliminated. Abnormal costs of wasted material, labour, or other resources are excluded. <P n={11} /></p>
+          <p><strong>Exchange of Assets (Para 24):</strong> When an item of PPE is acquired in exchange for a non-monetary asset or assets, or a combination of monetary and non-monetary assets, the cost of the acquired asset is measured at <strong>fair value</strong> unless:</p>
+          <ol className="list-decimal pl-6 space-y-1 text-[15px] font-sans text-slate-700 dark:text-gray-300">
+            <li>The exchange transaction lacks <strong>commercial substance</strong>; or</li>
+            <li>The fair value of neither the asset received nor the asset given up is reliably measurable. <P n={12} /></li>
+          </ol>
+          <p>If the acquired item is not measured at fair value, its cost is measured at the carrying amount of the asset given up. <P n={12} /></p>
         </div>
 
         {/* 7. Subsequent Costs */}
-        <SecHeader id="as10-subsequent" num="7" title="Subsequent Costs (Para 29–33)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={13} para="Para 29" /> Subsequent costs incurred on an item of PPE are capitalized in the carrying amount of the asset <strong>only if</strong> they meet the general recognition criteria (future benefits probable, cost measurable).
-        </p>
-        <NoteBox type="exam" title="Replacements vs. Day-to-Day Servicing">
-          <p><strong>Day-to-day servicing (Repairs &amp; Maintenance):</strong> Costs of day-to-day servicing are charged to the Statement of Profit &amp; Loss as incurred. They do not extend useful life or add capacity.</p>
-          <p className="mt-2"><strong>Replacement of Parts:</strong> E.g. replacing furnace linings or aircraft seats. If the recognition criteria are met, capitalize the cost of the replacement part. The carrying value of the replaced part <strong>must be derecognised</strong> (written off to P&amp;L). <ParaRef page={13} para="Para 30" /></p>
-        </NoteBox>
+        <SH id="as10-subsequent" num="VII" title="Subsequent Costs &amp; Major Inspections" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Under the general recognition principle, an enterprise does not recognize in the carrying amount of an item of PPE the costs of the day-to-day servicing of the item (e.g. repairs and maintenance). These are expensed in the Statement of Profit and Loss as incurred. <P n={12} /></p>
+          <p><strong>Subsequent Replacements (Para 29):</strong> Parts of some items of PPE may require replacement at regular intervals (e.g. replacing the lining of a furnace, or aircraft seats). The enterprise capitalizes the replacement cost if it meets the Paragraph 9 criteria, and derecognizes the carrying amount of the replaced parts. <P n={12} /></p>
+          <p><strong>Major Inspections (Para 30):</strong> A condition of continuing to operate a major item of PPE (e.g. an aircraft) may be performing regular major inspections for faults. When each major inspection is performed, its cost is recognized in the carrying amount of the item of PPE as a replacement if the recognition criteria are satisfied. Any remaining carrying amount of the cost of the previous inspection is derecognized. <P n={13} /></p>
+        </div>
 
         {/* 8. Cost vs Revaluation Models */}
-        <SecHeader id="as10-models" num="8" title="Measurement models: Cost vs. Revaluation" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={14} para="Para 33" /> An enterprise can choose either the <strong>Cost Model</strong> or the <strong>Revaluation Model</strong> as its accounting policy and should apply that policy to an entire class of PPE.
-        </p>
-        
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-            <h4 className="font-bold text-slate-950 dark:text-white text-sm mb-1">Cost Model</h4>
-            <p className="text-[13.5px]">PPE is carried at its cost less any accumulated depreciation and accumulated impairment losses.</p>
+        <SH id="as10-models" num="VIII" title="Accounting Models — Cost vs. Revaluation Model" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>An enterprise should choose either the <strong>Cost Model</strong> or the <strong>Revaluation Model</strong> as its accounting policy and should apply that policy to an entire class of property, plant and equipment. <P n={14} /></p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8 font-serif">
+          <div className="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/10 space-y-2">
+            <h3 className="font-sans font-bold text-[15px] text-slate-900 dark:text-white">Cost Model</h3>
+            <p className="text-[14px] leading-relaxed">After recognition as an asset, an item of PPE should be carried at its cost less any accumulated depreciation and any accumulated impairment losses. <P n={14} /></p>
           </div>
+          <div className="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/10 space-y-2">
+            <h3 className="font-sans font-bold text-[15px] text-slate-900 dark:text-white">Revaluation Model</h3>
+            <p className="text-[14px] leading-relaxed">After recognition as an asset, an item of PPE whose fair value can be measured reliably should be carried at a revalued amount, being its fair value at the date of the revaluation less any subsequent accumulated depreciation and subsequent accumulated impairment losses. <P n={14} /></p>
+          </div>
+        </div>
+        <NB type="warning" title="Revaluation Surplus/Deficit Treatment (Para 42–43)">
+          * **Increase in value:** Credited directly to owners' interest under the heading of revaluation surplus (equity). However, the increase should be recognized in the P&amp;L to the extent that it reverses a revaluation decrease of the same asset previously recognized in the P&amp;L. <P n={15} />
+          * **Decrease in value:** Recognized in the Statement of Profit and Loss. However, the decrease should be debited directly to the revaluation surplus of the same asset to the extent of any credit balance existing in the revaluation surplus in respect of that asset. <P n={15} />
+        </NB>
 
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('reval')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Revaluation Model (Rules &amp; Adjustments)</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.reval ? 'rotate-180' : ''}`} />
-            </div>
-            {openAccordions.reval && (
-              <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-                <p>Revaluations must be made with sufficient regularity to ensure that the carrying amount does not differ materially from that which would be determined using fair value at the balance sheet date. <ParaRef page={14} para="Para 35" /></p>
-                <p className="font-bold text-teal-600">Accounting for Revaluation Adjustments:</p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li><strong>Increase in Carrying Value:</strong> Credited to <strong>Revaluation Reserve</strong> (equity). However, if it reverses a previous decrease on the same asset that was charged to P&amp;L, the increase is credited to P&amp;L to that extent. <ParaRef page={15} para="Para 40" /></li>
-                  <li><strong>Decrease in Carrying Value:</strong> Charged to the Statement of Profit &amp; Loss. However, it is debited directly to the Revaluation Reserve to the extent of any credit balance existing in the revaluation reserve in respect of that same asset. <ParaRef page={15} para="Para 41" /></li>
-                </ul>
+        {/* 9. Depreciation & Componentization */}
+        <SH id="as10-depreciation" num="IX" title="Depreciation &amp; Componentization" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Component Depreciation (Para 47):</strong> Each part of an item of property, plant and equipment with a cost that is significant in relation to the total cost of the item should be depreciated separately. <P n={17} /></p>
+          <p><strong>Depreciation Charge:</strong> The depreciation charge for each period should be recognized in the Statement of Profit and Loss unless it is included in the carrying amount of another asset. <P n={17} /></p>
+          <p><strong>Review of Residual Value &amp; Useful Life (Para 56):</strong> The residual value and the useful life of an asset should be reviewed at least at each financial year-end and, if expectations differ from previous estimates, the change(s) should be accounted for as a <strong>change in an accounting estimate</strong> (prospectively as per AS 5). <P n={18} /></p>
+          <p><strong>Depreciation Method Review (Para 67):</strong> The depreciation method applied to an asset should be reviewed at least at each financial year-end. If there has been a significant change in the expected pattern of consumption of the future economic benefits, the method should be changed to reflect the new pattern. The change should be accounted for as a <strong>change in an accounting estimate</strong> (prospective). <P n={20} /></p>
+        </div>
+
+        {/* 10. Derecognition & Retirements */}
+        <SH id="as10-derecognition" num="X" title="Derecognition &amp; Retirements" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>The carrying amount of an item of property, plant and equipment should be derecognized: <P n={20} /></p>
+          <ol className="list-decimal pl-6 space-y-1.5 text-[15px] font-sans text-slate-700 dark:text-gray-300">
+            <li>On disposal; or</li>
+            <li>When no future economic benefits are expected from its use or disposal.</li>
+          </ol>
+          <p>The gain or loss arising from the derecognition of an item of PPE (calculated as the difference between the net disposal proceeds, if any, and the carrying amount of the item) should be included in the Statement of Profit and Loss when the item is derecognized. Gains should not be classified as revenue. <P n={20} /></p>
+        </div>
+
+        {/* 11. Disclosure Requirements */}
+        <SH id="as10-disclosure" num="XI" title="Disclosure Requirements under AS 10" />
+        <div className="mb-6 rounded-xl border border-indigo-200 dark:border-indigo-900/40 overflow-hidden font-serif">
+          <div className="bg-indigo-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">AS 10 Mandatory Disclosures <P n={21} /></span></div>
+          <div className="divide-y divide-indigo-100 dark:divide-indigo-900/30">
+            {[
+              { title: 'Measurement Bases & Depreciation Methods', detail: 'The measurement bases used for determining the gross carrying amount; the depreciation methods used; and the useful lives or the depreciation rates used.' },
+              { title: 'Gross Carrying Amount & Accumulated Dep.', detail: 'The gross carrying amount and the accumulated depreciation (aggregated with accumulated impairment losses) at the beginning and end of the period.' },
+              { title: 'Reconciliation Statement', detail: 'A reconciliation of the carrying amount at the beginning and end of the period showing additions, assets classified as held for sale, disposals, acquisitions through business combinations, increases or decreases resulting from revaluations, impairment losses, and depreciation.' },
+              { title: 'Revaluation Details', detail: 'When items of PPE are stated at revalued amounts: the effective date of the revaluation; whether an independent valuer was involved; the methods and significant assumptions applied; and the revaluation surplus, indicating the movement for the period.' }
+            ].map((item, i) => (
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-950/5')}>
+                <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
-            )}
+            ))}
           </div>
         </div>
 
-        {/* 9. Depreciation */}
-        <SecHeader id="as10-depreciation" num="9" title="Depreciation &amp; Useful Lives" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={15} para="Para 46" /> Each part of an item of PPE with a cost that is significant in relation to the total cost of the item should be depreciated separately (component depreciation).
-        </p>
-        <p className="leading-relaxed mb-4">
-          The depreciable amount of an asset should be allocated on a systematic basis over its useful life. The depreciation method used should reflect the pattern in which the asset's future economic benefits are expected to be consumed.
-        </p>
-        <NoteBox type="exam" title="Review of Depreciation Method &amp; Useful Lives">
-          <p>The depreciation method, useful life, and residual value of an asset must be reviewed at least at each financial year-end. If there is a significant change in the expected pattern or life, they must be changed. <ParaRef page={17} para="Para 61–63" /></p>
-          <p className="mt-2 text-rose-605 font-bold">Critical Exam Point: Such a change is treated as a Change in Accounting ESTIMATE under AS 5. The change is accounted for PROSPECTIVELY by allocating the remaining carrying value over the revised useful life. It is NOT a change in accounting policy!</p>
-        </NoteBox>
-
-        {/* 10. Derecognition */}
-        <SecHeader id="as10-derecognition" num="10" title="Derecognition &amp; Disposals" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={18} para="Para 68" /> The carrying amount of an item of PPE should be derecognised:
-        </p>
-        <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300 mb-4">
-          <li>On disposal (by sale, lease, or donation).</li>
-          <li>When no future economic benefits are expected from its use or disposal.</li>
-        </ul>
-        <p>
-          The gain or loss arising from the derecognition of an item of PPE (calculated as the difference between net disposal proceeds and the carrying amount of the asset) should be included in the Statement of Profit &amp; Loss when the item is derecognised. Gains should not be classified as revenue.
-        </p>
-
-        {/* 11. Disclosure */}
-        <SecHeader id="as10-disclosure" num="11" title="Disclosure Requirements" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={19} para="Para 73" /> The financial statements should disclose, for each class of PPE:
-        </p>
-        <ul className="list-disc pl-6 space-y-1.5 text-slate-700 dark:text-gray-300">
-          <li>Measurement bases used for determining the gross carrying amount.</li>
-          <li>Depreciation methods used.</li>
-          <li>Useful lives or the depreciation rates used.</li>
-          <li>Gross carrying amount and accumulated depreciation at the beginning and end of the period.</li>
-          <li>A reconciliation of the carrying amount at the beginning and end of the period showing additions, disposals, revaluations, impairment losses, and depreciation.</li>
-        </ul>
+        {/* Quick Reference Table */}
+        <div className="mt-10 mb-4 overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 font-serif">
+          <div className="bg-slate-700 px-5 py-3"><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Quick Reference — AS 10 Capitalization Decisions</span></div>
+          <table className="w-full text-left border-collapse text-[13px]">
+            <thead><tr className="bg-slate-100 dark:bg-slate-900 font-sans text-[11px] uppercase tracking-wider font-bold text-slate-700 dark:text-slate-300"><th className="py-3 px-5 w-2/5">Cost / Asset Transaction</th><th className="py-3 px-5 text-center">Capitalize?</th><th className="py-3 px-5 text-center">Standard Treatment / Rationale</th></tr></thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-700 text-slate-900 dark:text-slate-100">
+              {[
+                ['Import duties on purchase of factory machinery','✓ Yes','Directly attributable cost (Para 14(a))'],
+                ['Staff training costs to operate new machine','✗ No','Explicitly excluded (Para 17(c)) — expense to P&L'],
+                ['Pre-operative administration costs','✗ No','General overheads — expense to P&L'],
+                ['Bearer plant (e.g. apple orchards)','✓ Yes','Bearer plants are included in the scope of AS 10'],
+                ['Annual paddy crop','✗ No','Agricultural biological asset — excluded from AS 10'],
+                ['Abnormal waste of materials during construction','✗ No','Abnormal losses cannot be capitalized (Para 23)'],
+                ['Decommissioning & restoration cost estimate','✓ Yes','Include in initial cost with matching provision'],
+                ['Initial testing costs (net of test-run sales)','✓ Yes','Directly attributable testing cost (Para 14(b))'],
+              ].map(([item, op, desc], i) => (
+                <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-slate-50/30 dark:bg-slate-800/10'}>
+                  <td className="py-2.5 px-5 text-slate-700 dark:text-slate-300">{item}</td>
+                  <td className={'py-2.5 px-5 text-center font-bold ' + (op === '✓ Yes' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400')}>{op}</td>
+                  <td className="py-2.5 px-5 text-slate-600 dark:text-slate-400">{desc}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
       </div>
     </div>
@@ -4192,17 +4108,16 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
 }
 
 
-
 const as11Sections = [
   { id: 'as11-overview',          title: '1. Overview & Purpose' },
-  { id: 'as11-scope',             title: '2. Scope & Applicability (Para 1–2)' },
-  { id: 'as11-definitions',       title: '3. Definitions (Para 7)' },
-  { id: 'as11-monetary',          title: '4. Monetary vs Non-Monetary (Para 7)' },
-  { id: 'as11-initial',           title: '5. Initial Recognition (Para 8–10)' },
-  { id: 'as11-subsequent',        title: '6. Subsequent Recognition (Para 11–12)' },
-  { id: 'as11-foreign-ops',       title: '7. Integral & Non-Integral Ops (Para 21–26)' },
-  { id: 'as11-forward',           title: '8. Forward Contracts (Para 36–37)' },
-  { id: 'as11-disclosure',        title: '9. Disclosures (Para 38–41)' },
+  { id: 'as11-scope',             title: '2. Scope & Applicability' },
+  { id: 'as11-definitions',       title: '3. Definitions' },
+  { id: 'as11-monetary',          title: '4. Monetary vs Non-Monetary' },
+  { id: 'as11-initial',           title: '5. Initial Recognition' },
+  { id: 'as11-subsequent',        title: '6. Subsequent Translation & BS Date' },
+  { id: 'as11-foreign-ops',       title: '7. Integral vs Non-Integral Ops' },
+  { id: 'as11-forward',           title: '8. Forward Exchange Contracts' },
+  { id: 'as11-disclosure',        title: '9. Disclosure Requirements' },
 ]
 
 interface AS11StandardTabContentProps {
@@ -4215,7 +4130,7 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
     monetary: true,
     translation: true,
     foreignOps: true,
-    forwardContracts: true,
+    forward: true
   })
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
@@ -4230,315 +4145,250 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
       let offset = 58
-      if (stickyToc) {
-        const tocRect = stickyToc.getBoundingClientRect()
-        offset = tocRect.bottom - containerRect.top
-      }
-      container.scrollTo({
-        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
-        behavior: 'auto'
-      })
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
     }
   }
 
   useEffect(() => {
     if (!activeSection || !tocScrollRef.current) return
     const el = tocScrollRef.current
-    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    const btn = el.querySelector('[data-sec-id="' + activeSection + '"]') as HTMLElement | null
     if (!btn) return
-    if (as11Sections[0]?.id === activeSection) {
-      el.scrollTo({ left: 0, behavior: 'smooth' })
-      return
-    }
-    const elRect = el.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({
-      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
-      behavior: 'smooth'
-    })
+    if (as11Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect(); const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
   }, [activeSection])
 
   useEffect(() => {
     let obs: IntersectionObserver | undefined
     const init = () => {
       const sc = document.getElementById('as1-scroll-container')
-      if (!sc) {
-        setTimeout(init, 50)
-        return
-      }
-      obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) setActiveSection(e.target.id)
-        }),
-        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
-      )
-      as11Sections.forEach(s => {
-        const el = document.getElementById(s.id)
-        if (el) obs?.observe(el)
-      })
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }), { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 })
+      as11Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
     }
-    init()
-    return () => obs?.disconnect()
+    init(); return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
-  const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-400 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
-    '9':  { num: 'text-red-655 dark:text-red-400',      border: 'border-red-400',     badge: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-950/40 dark:text-red-400 dark:border-red-805' },
-  }
+  const P = ({ n }: { n: number }) => (
+    <button onClick={() => navigateToPdfPage(n)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={'Open AS 11 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
+  )
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
+    <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex items-center gap-3">
+        <span className="font-mono font-extrabold text-[13px] text-teal-600 dark:text-teal-400 select-none">{num}.</span>
+        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
       </div>
-    )
-  }
+      <div className="h-[2px] w-16 rounded-full bg-teal-500 mt-2 ml-8" />
+    </div>
+  )
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+  const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
+    const s: Record<string, string> = {
+      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+      <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
         {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+        <div className="text-[14.5px] leading-relaxed">{children}</div>
       </div>
     )
   }
-
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 11 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
 
   return (
     <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as11-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 11 Sections:
-        </span>
-        {as11Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
+      <div id="as11-standard-sticky-toc" ref={tocScrollRef} className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1"><BookOpen size={9.5} />AS 11:</span>
+        {as11Sections.map(sec => (
+          <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+            className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-teal-600 border-teal-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+            {sec.title.split('. ').slice(1).join('. ') || sec.title}
           </button>
         ))}
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
-        
-        {/* 1. Overview */}
-        <SecHeader id="as11-overview" num="1" title="Overview &amp; Purpose" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Overview" /> Accounting Standard 11 governs how to include **foreign currency transactions** and **foreign operations** in the financial statements of an enterprise, and how to translate financial statements into a reporting currency.
-        </p>
-        <p className="leading-relaxed">
-          The principal issues are which exchange rate(s) to use and how to recognize the financial effect of changes in exchange rates in the financial statements.
-        </p>
+      <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
 
-        {/* 2. Scope & Applicability */}
-        <SecHeader id="as11-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={4} para="Para 1" /> This standard should be applied:
-        </p>
-        <ul className="list-disc pl-5 mb-4 space-y-1">
-          <li>In accounting for **transactions in foreign currencies**.</li>
-          <li>In translating the **financial statements of foreign operations**.</li>
-          <li>In accounting for forward exchange contracts.</li>
-        </ul>
-        <NoteBox type="info" title="Exclusions (Para 2)">
-          AS 11 does not apply to:
-          <ul className="list-circle pl-5 mt-1 space-y-0.5 text-xs">
-            <li>Translation of cash flows of foreign operations (covered by AS 3).</li>
-            <li>Exchange differences on borrowings regarded as borrowing cost adjustments (covered by AS 16).</li>
-            <li>Restatement of financial statements for user convenience.</li>
-          </ul>
-        </NoteBox>
+        {/* 1. Overview */}
+        <SH id="as11-overview" num="I" title="Overview & Purpose of AS 11" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Accounting Standard 11 (AS 11) — The Effects of Changes in Foreign Exchange Rates</strong> prescribes how to include foreign currency transactions and foreign operations in the financial statements of an enterprise and how to translate financial statements into a reporting currency. <P n={1} /></p>
+          <p>The principal issues are which exchange rate(s) to use and how to recognize in the financial statements the financial effect of changes in exchange rates (exchange differences).</p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8 font-serif">
+          {[
+            { color: 'teal', title: 'Foreign Currency Txns', body: 'Mandates rules for recording import, export, borrowing, and lending activities denominated in foreign currencies.', p: 1 },
+            { color: 'blue', title: 'Foreign Operations', body: 'Lays down translation rules for branches or subsidiaries abroad, dividing them into integral and non-integral operations.', p: 4 },
+            { color: 'indigo', title: 'Forward Contracts', body: 'Governs accounting for forward exchange contracts, separating hedging of active liabilities from speculative contracts.', p: 6 }
+          ].map((c, i) => (
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
+              <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
+            </div>
+          ))}
+        </div>
+
+        {/* 2. Scope */}
+        <SH id="as11-scope" num="II" title="Scope & Applicability of AS 11" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>This Standard should be applied: <P n={1} /></p>
+          <ol className="list-decimal pl-6 space-y-1.5 text-[15px] font-sans text-slate-700 dark:text-gray-300">
+            <li>In accounting for transactions in foreign currencies; and</li>
+            <li>In translating the financial statements of foreign operations.</li>
+          </ol>
+        </div>
+        <NB type="warning" title="Exclusion of Restatement/Presentation Currencies">
+          AS 11 does **not** specify the currency in which an enterprise presents its financial statements. It also does not deal with the presentation in a financial statement of cash flows arising from transactions in a foreign currency (governed by **AS 3**). <P n={1} />
+        </NB>
 
         {/* 3. Definitions */}
-        <SecHeader id="as11-definitions" num="3" title="Definitions (Para 3)" />
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-            <thead>
-              <tr className="bg-slate-100 dark:bg-slate-800">
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 11 Official Definition</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Reporting Currency</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The currency used in presenting the financial statements.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Foreign Currency</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">A currency other than the reporting currency of an enterprise.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Closing Rate</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The spot exchange rate at the balance sheet date.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Exchange Difference</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The difference resulting from reporting the same number of units of a foreign currency in the reporting currency at different exchange rates.</td>
-              </tr>
+        <SH id="as11-definitions" num="III" title="Definitions & Exchange Rates" />
+        <div className="mb-8 overflow-x-auto rounded-xl border border-teal-250 dark:border-teal-900/40 font-serif">
+          <table className="w-full text-left border-collapse text-[13.5px]">
+            <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-teal-700 dark:bg-teal-800"><th className="py-3 px-5 w-1/4">Term</th><th className="py-3 px-5 w-3/4">Standard Definition (Para 7)</th></tr></thead>
+            <tbody className="divide-y divide-teal-100 dark:divide-teal-900/30 text-slate-900 dark:text-slate-100">
+              <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Closing Rate</td><td className="py-4 px-5">The exchange rate at the balance sheet date. <P n={2} /></td></tr>
+              <tr className="bg-teal-50/15 dark:bg-teal-955/5"><td className="py-4 px-5 font-semibold">Foreign Operation</td><td className="py-4 px-5">A subsidiary, associate, joint venture or branch of the reporting enterprise, the activities of which are based or conducted in a country other than the country of the reporting enterprise. <P n={2} /></td></tr>
+              <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Exchange Difference</td><td className="py-4 px-5">The difference resulting from reporting the same number of units of a foreign currency in the reporting currency at different exchange rates. <P n={2} /></td></tr>
+              <tr className="bg-teal-50/15 dark:bg-teal-955/5"><td className="py-4 px-5 font-semibold">Forward Rate</td><td className="py-4 px-5">The specified exchange rate for exchange of two currencies at a specified future date. <P n={2} /></td></tr>
             </tbody>
           </table>
         </div>
 
         {/* 4. Monetary vs Non-Monetary */}
-        <SecHeader id="as11-monetary" num="4" title="Monetary vs Non-Monetary Items" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={4} para="Para 7" /> The distinction between monetary and non-monetary items is the most critical concept for year-end reporting under AS 11.
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+        <SH id="as11-monetary" num="IV" title="Monetary vs. Non-Monetary Classification" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>AS 11 divides all balance sheet assets and liabilities into two categories. This classification is vital for subsequent translation rules: <P n={2} /></p>
+        </div>
+        <div className="border border-teal-200 dark:border-teal-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('monetary')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Classification Guide &amp; Rules</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.monetary ? 'rotate-180' : ''}`} />
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Classification Criteria &amp; Examples <P n={2} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.monetary ? 'rotate-180' : '')} />
           </div>
           {openAccordions.monetary && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-              <p><strong>Monetary Items:</strong> Money held and assets/liabilities to be received or paid in fixed or determinable amounts of money.</p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Examples: Cash, bank balances, trade debtors, bills receivable, trade creditors, loans payable.</li>
-                <li>Rule: Revalued at closing rate.</li>
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Monetary Items:</strong> Money held and assets/liabilities to be received or paid in fixed or determinable amounts of money. <P n={2} /></p>
+              <ul className="list-disc pl-6 space-y-1">
+                <li><strong>Examples:</strong> Cash, bank balances, trade receivables (debtors), trade payables (creditors), loans payable, bills receivable, employee benefit provisions.</li>
               </ul>
-              <p><strong>Non-Monetary Items:</strong> Assets and liabilities other than monetary items.</p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Examples: Fixed assets (property, plant, equipment), depreciation, inventory, investments in equity shares, prepaid expenses.</li>
-                <li>Rule: Maintained at historical transaction rate.</li>
+              <p><strong>2. Non-Monetary Items:</strong> Assets and liabilities that are not monetary items; they represent claims or items that do not guarantee a fixed money inflow/outflow. <P n={2} /></p>
+              <ul className="list-disc pl-6 space-y-1">
+                <li><strong>Examples:</strong> Property, Plant and Equipment (PPE), inventories, investments in equity shares, prepaid expenses, share capital.</li>
               </ul>
             </div>
           )}
         </div>
 
         {/* 5. Initial Recognition */}
-        <SecHeader id="as11-initial" num="5" title="Initial Recognition &amp; Spot Rate (Para 8–10)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={5} para="Para 9" /> A foreign currency transaction should be recorded, on initial recognition in the reporting currency, by applying to the foreign currency amount the **exchange rate between the reporting currency and the foreign currency at the date of the transaction**.
-        </p>
-        <p className="leading-relaxed">
-          For practical reasons, a rate that approximates the actual rate is often used (e.g. an average rate for the week or month). However, if exchange rates fluctuate significantly, the use of the average rate is not reliable.
-        </p>
+        <SH id="as11-initial" num="V" title="Initial Recognition of Foreign Currency Transactions" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>A foreign currency transaction is a transaction which is denominated in or requires settlement in a foreign currency. <P n={2} /></p>
+          <p><strong>Initial Measurement (Para 9):</strong> A foreign currency transaction should be recorded, on initial recognition in the reporting currency, by applying to the foreign currency amount the <strong>exchange rate at the date of the transaction</strong> between the reporting currency and the foreign currency. <P n={3} /></p>
+        </div>
+        <NB type="info" title="Use of Approximations / Average Rates (Para 10)">
+          For practical reasons, a rate that approximates the actual rate at the date of the transaction is often used (e.g. an average rate for a week or a month for all transactions in each foreign currency occurring during that period). However, if exchange rates fluctuate significantly, the use of the average rate for a period is unreliable. <P n={3} />
+        </NB>
 
-        {/* 6. Translation at Reporting Date */}
-        <SecHeader id="as11-translation" num="6" title="Reporting at Subsequent Balance Sheet Dates (Para 11–12)" />
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+        {/* 6. Subsequent Translation */}
+        <SH id="as11-subsequent" num="VI" title="Subsequent Translation (at Balance Sheet Date)" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>At each balance sheet date: <P n={3} /></p>
+        </div>
+        <div className="border border-teal-250 dark:border-teal-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('translation')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Summary of Year-End Translation Rules</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.translation ? 'rotate-180' : ''}`} />
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Rules for BS Translation &amp; Gain/Loss Treatment <P n={3} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.translation ? 'rotate-180' : '')} />
           </div>
           {openAccordions.translation && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
-              <ul className="list-disc pl-5 space-y-1.5">
-                <li><strong>Foreign Currency Monetary Items:</strong> Should be reported using the **closing rate** ($1 = ₹82).</li>
-                <li><strong>Non-Monetary Items carried at Historical Cost:</strong> Should be reported using the exchange rate at the **date of the transaction** (no change).</li>
-                <li><strong>Non-Monetary Items carried at Fair Value:</strong> Should be reported using the exchange rate prevailing when the fair value was determined (e.g. valuation date).</li>
-              </ul>
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>(a) Monetary Items:</strong> Foreign currency monetary items should be reported using the <strong>closing rate</strong>. Any exchange differences arising on settlement or reporting at closing rates should be recognized as <strong>income or expense in the Statement of P&amp;L</strong> of the period. <P n={3} /></p>
+              <p><strong>(b) Non-Monetary Items (Historical Cost):</strong> Non-monetary items which are carried in terms of historical cost denominated in a foreign currency should be reported using the <strong>exchange rate at the date of the transaction</strong>. (No exchange difference arises). <P n={3} /></p>
+              <p><strong>(c) Non-Monetary Items (Fair Value):</strong> Non-monetary items which are carried at fair value or other similar valuation denominated in a foreign currency should be reported using the <strong>exchange rate that existed when the values were determined</strong> (e.g. date of valuation). <P n={3} /></p>
             </div>
           )}
         </div>
 
         {/* 7. Foreign Operations */}
-        <SecHeader id="as11-foreign-ops" num="7" title="Integral vs Non-Integral Foreign Operations (Para 24–32)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={7} para="Para 24" /> For consolidation, translation rules depend on whether the foreign operation is classified as **Integral** or **Non-Integral**.
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+        <SH id="as11-foreign-ops" num="VII" title="Foreign Operations — Integral vs. Non-Integral" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>For translation purposes, the financial statements of a foreign operation are classified based on the way they are financed and operate in relation to the reporting enterprise: <P n={4} /></p>
+        </div>
+        <div className="border border-teal-200 dark:border-teal-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('foreignOps')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Key Translation Differences (Para 26–32)</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.foreignOps ? 'rotate-180' : ''}`} />
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Integral vs. Non-Integral Operation Comparison <P n={4} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.foreignOps ? 'rotate-180' : '')} />
           </div>
           {openAccordions.foreignOps && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-              <p><strong>Integral Foreign Operation (IFO):</strong> Translated as if the transactions were those of the reporting enterprise itself. All assets/liabilities are translated based on their monetary/non-monetary status. The resulting exchange differences go to the **Statement of Profit &amp; Loss**.</p>
-              <p><strong>Non-Integral Foreign Operation (NIFO):</strong> Translated by taking all assets and liabilities (both monetary and non-monetary) at the **closing rate**. Income and expenses are translated at the **average rate**. The resulting exchange differences are accumulated in a **Foreign Currency Translation Reserve (FCTR)** in equity.</p>
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Integral Foreign Operation:</strong> Carries on its business as if it were an extension of the reporting enterprise's operations (e.g. foreign sales branch that sells goods imported from head office and remits money back). <P n={4} /></p>
+              <ul className="list-disc pl-6 mb-2">
+                <li><strong>Translation:</strong> Individual items translated as if they were transactions of the reporting enterprise itself (monetary at closing rate, non-monetary at historical rate).</li>
+                <li><strong>Exchange Difference:</strong> Debited or credited directly to the **Statement of Profit and Loss** of the period. <P n={4} /></li>
+              </ul>
+              <p><strong>2. Non-Integral Foreign Operation:</strong> Accumulates cash and other monetary items, incurs expenses, generates income and arranges borrowings, all substantially in its local currency (e.g. standalone foreign subsidiary with local manufacturing and sales). <P n={4} /></p>
+              <ul className="list-disc pl-6">
+                <li><strong>Translation:</strong> Assets and liabilities (both monetary and non-monetary) translated at the <strong>closing rate</strong>; income and expense items translated at exchange rates on the dates of transactions (or average rates).</li>
+                <li><strong>Exchange Difference:</strong> Accumulated in a **Foreign Currency Translation Reserve (FCTR)** in the balance sheet until the disposal of the net investment. <P n={5} /></li>
+              </ul>
             </div>
           )}
         </div>
 
-        {/* 8. Forward Contracts */}
-        <SecHeader id="as11-forward" num="8" title="Forward Exchange Contracts (Para 36–37)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={9} para="Para 36" /> Accounting for forward exchange contracts depends on whether the contract is for hedging purposes or speculative purposes.
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('forwardContracts')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Forward Contract Accounting Rules</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.forwardContracts ? 'rotate-180' : ''}`} />
+        {/* 8. Forward Exchange Contracts */}
+        <SH id="as11-forward" num="VIII" title="Forward Exchange Contracts" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>AS 11 classifies forward exchange contracts into two categories depending on the purpose of the contract: <P n={6} /></p>
+        </div>
+        <div className="border border-teal-250 dark:border-teal-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('forward')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Hedge Contracts vs. Speculative Contracts <P n={6} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.forward ? 'rotate-180' : '')} />
           </div>
-          {openAccordions.forwardContracts && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-              <p><strong>For Hedging Purposes (Para 36):</strong></p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Premium/Discount (difference between forward rate and spot rate at inception) is amortized over the life of the contract.</li>
-                <li>Exchange difference (revaluation to spot rate at closing/settlement) is recognized in P&amp;L immediately.</li>
+          {openAccordions.forward && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed font-sans">
+              <p><strong>1. Hedges (Not Speculative):</strong> Entered into to establish the amount of reporting currency required/available for a foreign currency transaction. <P n={6} /></p>
+              <ul className="list-disc pl-6 mb-2">
+                <li><strong>Premium or Discount:</strong> (Difference between the spot rate and the forward rate at the inception of the contract) should be amortized as expense or income over the **life of the contract**.</li>
+                <li><strong>Exchange Difference:</strong> (Difference between closing rate / settlement rate and the rate at which it was last reported) recognized in the **Statement of Profit and Loss**.</li>
               </ul>
-              <p><strong>For Speculative Purposes (Para 37):</strong></p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>No premium amortization.</li>
-                <li>The contract is revalued to fair value at reporting date, and the entire gain or loss is recognized in the Statement of Profit and Loss.</li>
+              <p><strong>2. Speculative Contracts (Trading/Arbitrage):</strong> Entered into to profit from exchange rate movements. <P n={6} /></p>
+              <ul className="list-disc pl-6">
+                <li><strong>No Premium Amortization:</strong> Premium or discount on the contract is ignored.</li>
+                <li><strong>Mark-to-Market:</strong> The contract is revalued at the closing/forward rate at each balance sheet date, and the net gain or loss is recognized in the **Statement of P&amp;L** immediately. <P n={6} /></li>
               </ul>
             </div>
           )}
         </div>
 
         {/* 9. Disclosures */}
-        <SecHeader id="as11-disclosure" num="9" title="Disclosure Requirements (Para 38–41)" />
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
-          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures under AS 11:</h4>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>The **amount of exchange differences** included in the net profit or loss for the period.</li>
-            <li>Net exchange differences accumulated in **Foreign Currency Translation Reserve (FCTR)** shown as a separate component of shareholder's funds.</li>
-            <li>A reconciliation of the amount of such exchange differences at the beginning and end of the period.</li>
-          </ul>
+        <SH id="as11-disclosure" num="IX" title="Disclosure Requirements under AS 11" />
+        <div className="mb-6 rounded-xl border border-teal-200 dark:border-teal-900/40 overflow-hidden font-serif">
+          <div className="bg-teal-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">AS 11 Mandatory Disclosures <P n={7} /></span></div>
+          <div className="divide-y divide-teal-100 dark:divide-teal-900/30 font-sans">
+            {[
+              { title: 'Recognized Exchange Differences', detail: 'The amount of exchange differences included in the net profit or loss for the period.' },
+              { title: 'Translation Reserves (FCTR)', detail: "Accumulated exchange differences classified as a separate component of shareholders' funds (FCTR), and a reconciliation of the movements in such differences." },
+              { title: 'Classification Changes', detail: 'If there is a change in the classification of a significant foreign operation (e.g. from integral to non-integral), the enterprise must disclose the nature of the change, the reason, and the financial impact.' }
+            ].map((item, i) => (
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-teal-50/15 dark:bg-teal-955/10')}>
+                <div className="w-6 h-6 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-700 dark:text-teal-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
@@ -4546,15 +4396,16 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
   )
 }
 
+
 const as12Sections = [
-  { id: 'as12-overview',          title: '1. Overview & Purpose' },
-  { id: 'as12-scope',             title: '2. Scope & Applicability (Para 1)' },
-  { id: 'as12-definitions',       title: '3. Definitions (Para 2)' },
-  { id: 'as12-recognition',       title: '4. Recognition Criteria (Para 4)' },
-  { id: 'as12-asset-grants',      title: '5. Asset-Related Grants (Para 8–10)' },
-  { id: 'as12-revenue-grants',    title: '6. Revenue-Related Grants (Para 11–13)' },
-  { id: 'as12-refund',            title: '7. Refund of Grants (Para 11.3)' },
-  { id: 'as12-disclosure',        title: '8. Disclosures (Para 23)' },
+  { id: 'as12-overview',          title: '1. Introduction & Objective' },
+  { id: 'as12-scope',             title: '2. Scope & Exclusions' },
+  { id: 'as12-definitions',       title: '3. Definitions & Recognition' },
+  { id: 'as12-asset-grants',      title: '4. Asset-Related Grants (Non-Depreciable & Depreciable)' },
+  { id: 'as12-revenue-grants',    title: '5. Revenue-Related Grants' },
+  { id: 'as12-promoter',          title: "6. Promoter's Contribution" },
+  { id: 'as12-refund',            title: '7. Refund of Government Grants' },
+  { id: 'as12-disclosure',        title: '8. Disclosure Requirements' },
 ]
 
 interface AS12StandardTabContentProps {
@@ -4566,8 +4417,7 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
     assetGrants: true,
     revenueGrants: true,
-    promoterGrants: true,
-    refunds: true,
+    refunds: true
   })
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
@@ -4582,291 +4432,206 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
       let offset = 58
-      if (stickyToc) {
-        const tocRect = stickyToc.getBoundingClientRect()
-        offset = tocRect.bottom - containerRect.top
-      }
-      container.scrollTo({
-        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
-        behavior: 'auto'
-      })
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
     }
   }
 
   useEffect(() => {
     if (!activeSection || !tocScrollRef.current) return
     const el = tocScrollRef.current
-    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    const btn = el.querySelector('[data-sec-id="' + activeSection + '"]') as HTMLElement | null
     if (!btn) return
-    if (as12Sections[0]?.id === activeSection) {
-      el.scrollTo({ left: 0, behavior: 'smooth' })
-      return
-    }
-    const elRect = el.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({
-      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
-      behavior: 'smooth'
-    })
+    if (as12Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect(); const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
   }, [activeSection])
 
   useEffect(() => {
     let obs: IntersectionObserver | undefined
     const init = () => {
       const sc = document.getElementById('as1-scroll-container')
-      if (!sc) {
-        setTimeout(init, 50)
-        return
-      }
-      obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) setActiveSection(e.target.id)
-        }),
-        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
-      )
-      as12Sections.forEach(s => {
-        const el = document.getElementById(s.id)
-        if (el) obs?.observe(el)
-      })
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }), { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 })
+      as12Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
     }
-    init()
-    return () => obs?.disconnect()
+    init(); return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
-  const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-450 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
-  }
+  const P = ({ n }: { n: number }) => (
+    <button onClick={() => navigateToPdfPage(n)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={'Open AS 12 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
+  )
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
+    <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex items-center gap-3">
+        <span className="font-mono font-extrabold text-[13px] text-emerald-600 dark:text-emerald-400 select-none">{num}.</span>
+        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
       </div>
-    )
-  }
+      <div className="h-[2px] w-16 rounded-full bg-emerald-500 mt-2 ml-8" />
+    </div>
+  )
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-205 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+  const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
+    const s: Record<string, string> = {
+      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+      <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
         {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+        <div className="text-[14.5px] leading-relaxed">{children}</div>
       </div>
     )
   }
-
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 12 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
 
   return (
     <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as12-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 12 Sections:
-        </span>
-        {as12Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
+      <div id="as12-standard-sticky-toc" ref={tocScrollRef} className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1"><BookOpen size={9.5} />AS 12:</span>
+        {as12Sections.map(sec => (
+          <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+            className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-emerald-600 border-emerald-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+            {sec.title.split('. ').slice(1).join('. ') || sec.title}
           </button>
         ))}
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
-        
+      <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
+
         {/* 1. Overview */}
-        <SecHeader id="as12-overview" num="1" title="Overview &amp; Purpose" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Overview" /> Accounting Standard 12 sets out the principles of accounting for, and presentation of, **Government Grants** in financial statements.
-        </p>
-        <p className="leading-relaxed">
-          Government grants are sometimes called by other names such as subsidies, cash incentives, duty drawbacks, etc. The main issue is deciding whether grants should be credited directly to capital (Capital Reserve) or matched with operational costs (Income/Revenue Approach).
-        </p>
-
-        {/* 2. Scope & Applicability */}
-        <SecHeader id="as12-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={4} para="Para 1" /> This standard deals with accounting for government grants.
-        </p>
-        <NoteBox type="info" title="Exclusions (Para 2)">
-          AS 12 does not deal with:
-          <ul className="list-circle pl-5 mt-1 space-y-0.5 text-xs">
-            <li>The special problems arising from the effects of changing prices (inflation accounting).</li>
-            <li>Government assistance other than in the form of government grants (e.g., tax holidays, custom duty exemptions, infrastructural concessions).</li>
-            <li>Government participation in the ownership of the enterprise (equity capital subscription).</li>
-          </ul>
-        </NoteBox>
-
-        {/* 3. Definitions */}
-        <SecHeader id="as12-definitions" num="3" title="Definitions (Para 3)" />
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-            <thead>
-              <tr className="bg-slate-100 dark:bg-slate-800">
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 12 Definition</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Government</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Government, government agencies and similar bodies whether local, national or international.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Government Grants</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Assistance by government in cash or kind to an enterprise for past or future compliance with certain conditions. They exclude assistance which cannot reasonably have a value placed upon them and transactions which cannot be distinguished from the normal trading activities.</td>
-              </tr>
-            </tbody>
-          </table>
+        <SH id="as12-overview" num="I" title="Overview & Purpose of AS 12" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Accounting Standard 12 (AS 12) — Accounting for Government Grants</strong> deals with accounting for government grants, which are sometimes called by other names such as subsidies, cash incentives, duty drawbacks, etc. <P n={1} /></p>
+          <p>Government grants are assistance by government in cash or kind to an enterprise for past or future compliance with certain conditions. The standard ensures these grants are recognized and presented appropriately based on their underlying nature.</p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8 font-serif">
+          {[
+            { color: 'emerald', title: 'Asset-Related', body: 'Regulates grants received for acquiring or constructing depreciable/non-depreciable fixed assets.', p: 3 },
+            { color: 'teal', title: 'Revenue-Related', body: 'Governs subsidies received to compensate operating costs or support operational revenues.', p: 4 },
+            { color: 'blue', title: 'Refund Rules', body: 'Prescribes accounting adjustments when conditions are breached and grants must be refunded to the state.', p: 4 }
+          ].map((c, i) => (
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
+              <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
+            </div>
+          ))}
         </div>
 
-        {/* 4. Recognition Criteria */}
-        <SecHeader id="as12-recognition" num="4" title="Recognition &amp; Assurance (Para 4)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={5} para="Para 4" /> Government grants, including non-monetary grants at fair value, should not be recognized until there is **reasonable assurance** that:
-        </p>
-        <ul className="list-disc pl-5 mb-4 space-y-1">
-          <li>The enterprise will comply with the conditions attaching to them; and</li>
-          <li>The grants will actually be received.</li>
-        </ul>
-        <NoteBox type="warning" title="Crucial Rule on Receipt">
-          Mere receipt of a grant is not of itself conclusive evidence that the conditions attaching to the grant have been or will be fulfilled. If you receive cash but cannot fulfill the conditions, you must set up a liability rather than recognizing income!
-        </NoteBox>
+        {/* 2. Scope */}
+        <SH id="as12-scope" num="II" title="Scope & Exclusions of the Standard" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>This Standard does **not** deal with: <P n={1} /></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[15px] font-sans text-slate-700 dark:text-gray-300">
+            <li>The special problems arising in accounting for government grants in financial statements reflecting the effects of changing prices (inflation accounting).</li>
+            <li>Government assistance other than in the form of government grants (e.g., tax holidays, custom duty exemptions, infrastructure improvements in region).</li>
+            <li>Government participation in the ownership of the enterprise (equity participation).</li>
+          </ul>
+        </div>
 
-        {/* 5. Depreciable Asset Grants */}
-        <SecHeader id="as12-depreciable" num="5" title="Grants for Specific Fixed Assets (Para 8)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={5} para="Para 8" /> Grants related to specific fixed assets are those whose primary condition is that the enterprise should purchase, construct or otherwise acquire such assets.
-        </p>
+        {/* 3. Definitions & Recognition */}
+        <SH id="as12-definitions" num="III" title="Definitions & Recognition Criteria" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Government:</strong> Includes government, government agencies and similar bodies whether local, national or international. <P n={1} /></p>
+          <p><strong>Government Grants:</strong> Assistance by government in the form of transfers of resources to an enterprise in return for past or future compliance with certain conditions relating to the operating activities of the enterprise. <P n={1} /></p>
+        </div>
+        <NB type="warning" title="Mandatory Recognition Test (Para 4)">
+          Government grants, including non-monetary grants at fair value, should **not** be recognized until there is **reasonable assurance** that: <P n={2} />
+          1. The enterprise will comply with the conditions attached to them; and
+          2. The grants will be received.
+          
+          *Note: Mere receipt of a grant is not of itself conclusive evidence that the conditions attaching to the grant have been or will be fulfilled.*
+        </NB>
 
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+        {/* 4. Asset-Related Grants */}
+        <SH id="as12-asset-grants" num="IV" title="Asset-Related Grants (Depreciable & Non-Depreciable)" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Government grants related to specific fixed assets should be presented in the balance sheet in one of two ways: <P n={3} /></p>
+        </div>
+        <div className="border border-emerald-250 dark:border-emerald-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('assetGrants')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Two Presentation Methods</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.assetGrants ? 'rotate-180' : ''}`} />
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Two Permitted Methods of Accounting (Para 8–10) <P n={3} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.assetGrants ? 'rotate-180' : '')} />
           </div>
           {openAccordions.assetGrants && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-              <p><strong>Method A (Reduction from Cost):</strong> The grant is shown as a deduction from the gross value of the asset in arriving at its book value. Depreciation is subsequently charged on the **net adjusted book value** over the remaining useful life.</p>
-              <p><strong>Method B (Deferred Income Approach):</strong> The grant is treated as **deferred income** (Deferred Government Grant A/c) and recognized in the Profit &amp; Loss statement on a systematic basis over the useful life of the asset. The asset is maintained at its **gross purchase cost**.</p>
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed font-sans">
+              <p><strong>Method A: Reduction from Asset Cost:</strong> The grant is shown as a deduction from the gross value of the asset in arriving at its book value. Where the grant equals the whole, or almost the whole, of the cost of the asset, the asset is shown in the balance sheet at a nominal value.</p>
+              <ul className="list-disc pl-6 mb-2">
+                <li><strong>Impact:</strong> Future depreciation is charged on the net reduced book value of the asset.</li>
+              </ul>
+              <p><strong>Method B: Deferred Income Method:</strong> Grants related to depreciable assets are treated as deferred income which is recognized in the Statement of Profit and Loss on a systematic and rational basis over the useful life of the asset.</p>
+              <ul className="list-disc pl-6">
+                <li><strong>Impact:</strong> The asset remains at gross cost. The deferred grant is allocated to P&amp;L in proportion to the depreciation charged.</li>
+              </ul>
+              <p className="font-bold text-rose-600 dark:text-rose-455 mt-2">Non-Depreciable Assets (e.g. Freehold Land):</p>
+              <p>If a grant is received for a non-depreciable asset requiring compliance with certain obligations, it should be credited to **Capital Reserve** if no related costs are expected, or recognized in P&amp;L over the periods which bear the cost of meeting the obligations. <P n={3} /></p>
             </div>
           )}
         </div>
 
-        {/* 6. Revenue & Promoters' Contribution */}
-        <SecHeader id="as12-revenue-promoter" num="6" title="Revenue Grants &amp; Promoters' Contribution (Para 10–11)" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('revenueGrants')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Revenue Grants (Para 11)</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.revenueGrants ? 'rotate-180' : ''}`} />
-            </div>
-            {openAccordions.revenueGrants && (
-              <div className="p-4 bg-white dark:bg-[#111726] text-xs leading-relaxed">
-                <p>Grants related to revenue are those meant to offset operational expenses or support general profitability.</p>
-                <ul className="list-disc pl-5 mt-1 space-y-1">
-                  <li>Presented as credit under **"Other Income"** or deducted from the related expense.</li>
-                  <li>Recognized in the P&amp;L over the periods necessary to match them with the related costs they are intended to compensate.</li>
-                </ul>
-              </div>
-            )}
-          </div>
-
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('promoterGrants')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Promoters' Contribution (Para 10)</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.promoterGrants ? 'rotate-180' : ''}`} />
-            </div>
-            {openAccordions.promoterGrants && (
-              <div className="p-4 bg-white dark:bg-[#111726] text-xs leading-relaxed">
-                <p>Grants given as capital incentives to set up industries in backward areas with no specific asset obligations.</p>
-                <ul className="list-disc pl-5 mt-1 space-y-1">
-                  <li>Credited directly to **Capital Reserve** under Shareholders' Funds.</li>
-                  <li>No amortization or routing through P&amp;L is permitted.</li>
-                </ul>
-              </div>
-            )}
-          </div>
+        {/* 5. Revenue-Related Grants */}
+        <SH id="as12-revenue-grants" num="V" title="Revenue-Related Grants" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Grants related to revenue should be recognized in the Statement of Profit and Loss on a systematic basis over the periods necessary to match them with the related costs which they are intended to compensate. <P n={4} /></p>
+          <p><strong>Presentation (Para 13):</strong> Such grants are either: <P n={4} /></p>
+          <ol className="list-decimal pl-6 space-y-1.5 text-[15px] font-sans text-slate-700 dark:text-gray-300">
+            <li>Presented as an item under **"Other Income"** (separately disclosed); or</li>
+            <li>Deducted from the related expense when reporting the net expenditure in P&amp;L (e.g. power subsidy deducted from power expense).</li>
+          </ol>
         </div>
 
-        {/* 7. Refund of Grants */}
-        <SecHeader id="as12-refund" num="7" title="Refund of Government Grants (Para 11.3)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={6} para="Para 11.3" /> When a government grant becomes refundable (due to non-fulfillment of conditions), the refund is treated as an **extraordinary item** under AS 5.
-        </p>
+        {/* 6. Promoter's Contribution */}
+        <SH id="as12-promoter" num="VI" title="Promoter's Contribution Subsidies" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Government grants of the nature of <strong>promoter's contribution</strong> are received by an enterprise as a financial participation by the government towards its capital outlay (e.g. state capital subsidies for backward area setting). <P n={3} /></p>
+          <p><strong>Accounting Treatment (Para 11.1):</strong> These grants should be credited directly to the **Capital Reserve** and treated as part of shareholders' funds. They cannot be distributed as dividend or recognized in the P&amp;L statement. <P n={3} /></p>
+        </div>
 
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+        {/* 7. Refund of Government Grants */}
+        <SH id="as12-refund" num="VII" title="Refund of Government Grants" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Government grants that become refundable because of non-fulfillment of conditions are treated as an **extraordinary item** or an exceptional item in the period of refund. <P n={4} /></p>
+        </div>
+        <div className="border border-emerald-200 dark:border-emerald-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('refunds')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Accounting Adjustments on Refund</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.refunds ? 'rotate-180' : ''}`} />
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Accounting Adjustments on Refund <P n={4} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.refunds ? 'rotate-180' : '')} />
           </div>
           {openAccordions.refunds && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
-              <ul className="list-disc pl-5 space-y-1.5">
-                <li><strong>Revenue Grants:</strong> First applied against any unamortized deferred credit balance. Any excess refund is charged immediately to the **Statement of Profit &amp; Loss**.</li>
-                <li><strong>Fixed Asset Grants (Cost Reduction Method):</strong> The refund amount is **added to the cost** of the asset. Depreciation is adjusted prospectively over the remaining useful life of the asset.</li>
-                <li><strong>Fixed Asset Grants (Deferred Income Method):</strong> The Deferred Government Grant account balance is reduced by the refund amount. Any excess refund is charged immediately to the **Statement of Profit &amp; Loss**.</li>
-                <li><strong>Promoters' Contribution:</strong> Debited directly to **Capital Reserve** (reducing Shareholders' Funds).</li>
-              </ul>
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Refund of Revenue-Related Grant:</strong> Applied first against any unamortized deferred credit remaining in respect of the grant. To the extent that the refund exceeds any such deferred credit, it should be charged immediately to the **Statement of Profit and Loss**. <P n={4} /></p>
+              <p><strong>2. Refund of Asset-Related Grant (Reduction Method):</strong> The refund increases the book value of the asset. The cumulative extra depreciation that would have been charged to date in the absence of the grant is charged immediately as an expense in P&amp;L. Future depreciation is charged prospectively. <P n={4} /></p>
+              <p><strong>3. Refund of Asset-Related Grant (Deferred Income Method):</strong> The refund reduces the deferred income balance. Any excess of refund over the deferred income balance is charged immediately to P&amp;L. <P n={4} /></p>
+              <p><strong>4. Refund of Promoter's Contribution Grant:</strong> The refund is debited directly to the **Capital Reserve**, reducing the balance. <P n={4} /></p>
             </div>
           )}
         </div>
 
         {/* 8. Disclosures */}
-        <SecHeader id="as12-disclosure" num="8" title="Disclosure Requirements (Para 23)" />
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
-          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures under AS 12:</h4>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>The **accounting policy** adopted for government grants, including the methods of presentation in financial statements.</li>
-            <li>The **nature and extent** of government grants recognized in the financial statements, including grants of non-monetary assets given at concessional rates or free of cost.</li>
-          </ul>
+        <SH id="as12-disclosure" num="VIII" title="Disclosure Requirements under AS 12" />
+        <div className="mb-6 rounded-xl border border-emerald-250 dark:border-emerald-900/40 overflow-hidden font-serif">
+          <div className="bg-emerald-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">AS 12 Mandatory Disclosures <P n={5} /></span></div>
+          <div className="divide-y divide-emerald-100 dark:divide-emerald-900/30 font-sans">
+            {[
+              { title: 'Accounting Policies adopted', detail: 'The accounting policy adopted for government grants, including the methods of presentation adopted in the financial statements.' },
+              { title: 'Nature and Extent of Grants', detail: 'The nature and extent of government grants recognized in the financial statements, including grants of non-monetary assets given at a concessional rate or free of cost.' }
+            ].map((item, i) => (
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-emerald-50/15 dark:bg-emerald-955/10')}>
+                <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
@@ -4874,15 +4639,16 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
   )
 }
 
+
 const as13Sections = [
-  { id: 'as13-overview',          title: '1. Overview & Purpose' },
-  { id: 'as13-scope',             title: '2. Scope & Applicability (Para 1–2)' },
-  { id: 'as13-definitions',       title: '3. Definitions (Para 3)' },
-  { id: 'as13-cost',              title: '4. Cost of Investments (Para 5–13)' },
-  { id: 'as13-valuation',         title: '5. Subsequent Valuation (Para 14–17)' },
-  { id: 'as13-transfer',          title: '6. Inter-class Transfers (Para 18–19)' },
-  { id: 'as13-disposal',          title: '7. Disposal of Investments (Para 21–22)' },
-  { id: 'as13-disclosure',        title: '8. Disclosures (Para 35)' },
+  { id: 'as13-overview',          title: '1. Introduction & Objective' },
+  { id: 'as13-scope',             title: '2. Scope & Exclusions' },
+  { id: 'as13-classification',    title: '3. Current vs Long-Term Classification' },
+  { id: 'as13-cost',              title: '4. Cost of Investments & Pre-Acquisition Dividends' },
+  { id: 'as13-valuation',         title: '5. Subsequent Valuation & MTM Rules' },
+  { id: 'as13-transfer',          title: '6. Inter-class Transfers' },
+  { id: 'as13-disposal',          title: '7. Disposal of Investments' },
+  { id: 'as13-disclosure',        title: '8. Disclosure Requirements' },
 ]
 
 interface AS13StandardTabContentProps {
@@ -4892,10 +4658,10 @@ interface AS13StandardTabContentProps {
 function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentProps) {
   const [activeSection, setActiveSection] = useState('as13-overview')
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
-    classifications: true,
+    classification: true,
     costs: true,
-    valuations: true,
-    transfers: true,
+    valuation: true,
+    transfers: true
   })
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
@@ -4910,293 +4676,224 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
       let offset = 58
-      if (stickyToc) {
-        const tocRect = stickyToc.getBoundingClientRect()
-        offset = tocRect.bottom - containerRect.top
-      }
-      container.scrollTo({
-        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
-        behavior: 'auto'
-      })
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
     }
   }
 
   useEffect(() => {
     if (!activeSection || !tocScrollRef.current) return
     const el = tocScrollRef.current
-    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    const btn = el.querySelector('[data-sec-id="' + activeSection + '"]') as HTMLElement | null
     if (!btn) return
-    if (as13Sections[0]?.id === activeSection) {
-      el.scrollTo({ left: 0, behavior: 'smooth' })
-      return
-    }
-    const elRect = el.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({
-      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
-      behavior: 'smooth'
-    })
+    if (as13Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect(); const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
   }, [activeSection])
 
   useEffect(() => {
     let obs: IntersectionObserver | undefined
     const init = () => {
       const sc = document.getElementById('as1-scroll-container')
-      if (!sc) {
-        setTimeout(init, 50)
-        return
-      }
-      obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) setActiveSection(e.target.id)
-        }),
-        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
-      )
-      as13Sections.forEach(s => {
-        const el = document.getElementById(s.id)
-        if (el) obs?.observe(el)
-      })
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }), { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 })
+      as13Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
     }
-    init()
-    return () => obs?.disconnect()
+    init(); return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
-  const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-450 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
-  }
+  const P = ({ n }: { n: number }) => (
+    <button onClick={() => navigateToPdfPage(n)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={'Open AS 13 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
+  )
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
+    <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex items-center gap-3">
+        <span className="font-mono font-extrabold text-[13px] text-indigo-600 dark:text-indigo-400 select-none">{num}.</span>
+        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
       </div>
-    )
-  }
+      <div className="h-[2px] w-16 rounded-full bg-indigo-500 mt-2 ml-8" />
+    </div>
+  )
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-205 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+  const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
+    const s: Record<string, string> = {
+      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+      <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
         {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+        <div className="text-[14.5px] leading-relaxed">{children}</div>
       </div>
     )
   }
-
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 13 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
 
   return (
     <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as13-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 13 Sections:
-        </span>
-        {as13Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
+      <div id="as13-standard-sticky-toc" ref={tocScrollRef} className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1"><BookOpen size={9.5} />AS 13:</span>
+        {as13Sections.map(sec => (
+          <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+            className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-indigo-600 border-indigo-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+            {sec.title.split('. ').slice(1).join('. ') || sec.title}
           </button>
         ))}
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
-        
+      <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
+
         {/* 1. Overview */}
-        <SecHeader id="as13-overview" num="1" title="Overview &amp; Purpose" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Overview" /> Accounting Standard 13 sets out the principles of accounting for **Investments** in financial statements.
-        </p>
-        <p className="leading-relaxed">
-          The standard addresses the classification of investments into current and long-term, the determination of initial cost of investments, the subsequent measurement carrying values, and the treatment of disposals and reclassifications.
-        </p>
+        <SH id="as13-overview" num="I" title="Overview & Purpose of AS 13" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Accounting Standard 13 (AS 13) — Accounting for Investments</strong> deals with accounting for investments in the financial statements of enterprises and related disclosure requirements. <P n={1} /></p>
+          <p>The standard ensures that investments are classified correctly as current or long-term, and are measured appropriately to reflect their real values in the financial statement reports.</p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8 font-serif">
+          {[
+            { color: 'indigo', title: 'Current Investments', body: 'Readily realizable investments intended to be held for not more than one year. Valued at lower of cost and fair value.', p: 2 },
+            { color: 'violet', title: 'Long-Term Investments', body: 'Investments intended to be held for more than one year. Carried at cost unless there is a permanent decline.', p: 2 },
+            { color: 'blue', title: 'Cost Accounting', body: 'Prescribes principles for brokerage inclusion, asset exchange values, and pre-acquisition dividend deductions.', p: 3 }
+          ].map((c, i) => (
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
+              <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
+            </div>
+          ))}
+        </div>
 
-        {/* 2. Scope & Applicability */}
-        <SecHeader id="as13-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={4} para="Para 1" /> AS 13 applies to all investments in the financial statements of an enterprise.
-        </p>
-        <NoteBox type="info" title="Exclusions (Para 2)">
-          AS 13 does not deal with:
-          <ul className="list-circle pl-5 mt-1 space-y-0.5 text-xs">
-            <li>Bases for recognition of interest, dividends and rentals earned on investments (covered by AS 9).</li>
-            <li>Operating or finance leases (covered by AS 19).</li>
-            <li>Investments of retirement benefit plans and life insurance enterprises.</li>
-            <li>Mutual funds, venture capital funds and related asset management companies.</li>
+        {/* 2. Scope */}
+        <SH id="as13-scope" num="II" title="Scope & Exclusions of AS 13" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>This Standard does **not** deal with: <P n={1} /></p>
+          <ul className="list-disc pl-6 space-y-1.5 text-[15px] font-sans text-slate-700 dark:text-gray-300">
+            <li>The bases for recognition of interest, royalties and dividends (governed by **AS 9**).</li>
+            <li>Operating or finance leases (governed by **AS 19**).</li>
+            <li>Investments of retirement benefit plans (governed by **AS 15**).</li>
+            <li>Investments of life insurance enterprises and mutual funds.</li>
           </ul>
-        </NoteBox>
+        </div>
 
-        {/* 3. Definitions */}
-        <SecHeader id="as13-definitions" num="3" title="Definitions (Para 3)" />
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-            <thead>
-              <tr className="bg-slate-100 dark:bg-slate-800">
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 13 Definition</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Investments</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Assets held by an enterprise for earning income by way of dividends, interest, and rentals, for capital appreciation, or for other benefits to the investing enterprise. Assets held as stock-in-trade are NOT investments.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Current Investment</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">An investment that is by its nature readily realizable and is intended to be held for not more than one year from the date on which such investment is made.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Long-term Investment</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">An investment other than a current investment.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Investment Property</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">An investment in land or buildings that are not intended to be occupied substantially for use by, or in the operations of, the investing enterprise.</td>
-              </tr>
-            </tbody>
-          </table>
+        {/* 3. Classification */}
+        <SH id="as13-classification" num="III" title="Classification — Current vs. Long-Term" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>An enterprise classification of investments is based on **realizability** and **management intent**: <P n={2} /></p>
+        </div>
+        <div className="border border-indigo-200 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('classification')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Classification Rules and Criteria <P n={2} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.classification ? 'rotate-180' : '')} />
+          </div>
+          {openAccordions.classification && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Current Investments:</strong> An investment that is by its nature readily realizable and is intended to be held for **not more than one year** from the date on which such investment is made. <P n={2} /></p>
+              <p><strong>2. Long-Term Investments:</strong> An investment other than a current investment (even if it is readily realizable, if management intends to hold it for more than 12 months, it is classified as Long-Term). <P n={2} /></p>
+              <p className="font-bold text-amber-600 dark:text-amber-455 mt-2">Significance of Intent:</p>
+              <p>Classification is decided at the time of purchase. An investment is current only if both conditions (readily realizable AND intention to hold for &lt; 1 year) are met. If either is missing, it is long-term. <P n={2} /></p>
+            </div>
+          )}
         </div>
 
         {/* 4. Cost of Investments */}
-        <SecHeader id="as13-cost" num="4" title="Cost of Investments (Para 5–13)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={5} para="Para 5" /> The cost of an investment should include acquisition charges such as brokerage, fees and duties.
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+        <SH id="as13-cost" num="IV" title="Cost of Investments &amp; Pre-Acquisition Dividends" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Initial Cost (Para 5):</strong> The cost of an investment should include acquisition charges such as brokerage, fees and duties. <P n={3} /></p>
+          <p><strong>Exchange Transactions (Para 6):</strong> If an investment is acquired, or partly acquired, by the issue of shares or other securities, the acquisition cost should be the **fair value of the securities issued**. If acquired in exchange for another asset, the cost is determined by reference to the fair value of the asset given up or asset acquired, whichever is more clearly evident. <P n={3} /></p>
+        </div>
+        <div className="border border-indigo-255 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('costs')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Cost Components &amp; Adjustments</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.costs ? 'rotate-180' : ''}`} />
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Pre-Acquisition Dividends &amp; Right Shares Rules <P n={3} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.costs ? 'rotate-180' : '')} />
           </div>
           {openAccordions.costs && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-              <p><strong>Non-Cash Acquisition (Para 11):</strong> If an investment is acquired by the issue of shares or other securities, the cost is the **fair value of the securities issued**. If the securities do not have a reliable market price, use the **fair value of the asset acquired**.</p>
-              <p><strong>Pre-Acquisition Interest/Dividends (Para 13):</strong> If interest/dividends have accrued before the date of purchase and are subsequently received, the portion relating to the pre-acquisition period is **deducted from cost** of the investment. Only post-acquisition earnings can go to the P&amp;L account.</p>
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed font-sans">
+              <p><strong>1. Pre-Acquisition Dividends/Interest (Para 9):</strong> If interest or dividend has accrued before the acquisition of an investment and is subsequently received, the receipt is **deducted from the cost of the investment** (representing pre-acquisition profit recovery), not recognized as income in P&amp;L. <P n={3} /></p>
+              <div className="p-3 bg-white dark:bg-slate-900 border rounded-lg text-xs leading-relaxed font-mono">
+                Interest/Dividend received = pre-acquisition portion (Reduce Cost of Investment) + post-acquisition portion (Credit to P&amp;L)
+              </div>
+              <p><strong>2. Right Shares (Para 13):</strong> When right shares offered are subscribed for, the cost of the right shares is added to the carrying amount of the original holding. If the rights are renounced and sold, the sale proceeds are recognized directly in the **Statement of Profit and Loss**. <P n={3} /></p>
+              <p><em>Exception:</em> If original shares were purchased on a cum-right basis, and the market value of the shares falls below the cost immediately after they become ex-right, the renunciation proceeds are applied to reduce the cost of the investment. <P n={3} /></p>
             </div>
           )}
         </div>
 
         {/* 5. Subsequent Valuation */}
-        <SecHeader id="as13-valuation" num="5" title="Subsequent Valuation &amp; Carrying Amounts (Para 14–17)" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('valuations')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Current Investments (Para 14)</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.valuations ? 'rotate-180' : ''}`} />
-            </div>
-            {openAccordions.valuations && (
-              <div className="p-4 bg-white dark:bg-[#111726] text-xs leading-relaxed space-y-2">
-                <p>Carried at the **lower of cost and fair value (market value)**.</p>
-                <p>Valuation can be determined on an **individual investment basis** (most prudent) or by **category of investment**, but NOT on an overall aggregate portfolio basis.</p>
-                <p>Any reduction to fair value is charged to the Statement of Profit and Loss.</p>
-              </div>
-            )}
+        <SH id="as13-valuation" num="V" title="Subsequent Valuation &amp; MTM Rules" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Subsequent carrying values depend on the investment class: <P n={4} /></p>
+        </div>
+        <div className="border border-indigo-200 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('valuation')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Measurement of Current vs. Long-Term Investments <P n={4} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.valuation ? 'rotate-180' : '')} />
           </div>
-
-          <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('ltValuations')}>
-              <span className="font-bold text-slate-900 dark:text-white text-sm">Long-term Investments (Para 17)</span>
-              <ChevronDown size={16} className={`transform transition-transform ${openAccordions.ltValuations ? 'rotate-180' : ''}`} />
+          {openAccordions.valuation && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>(a) Current Investments (Para 14):</strong> Carried at the **lower of cost and fair value** (or market value). <P n={4} /></p>
+              <ul className="list-disc pl-6 mb-2">
+                <li><strong>Method of valuation:</strong> Can be applied either on an individual investment basis or by category of investment, but not on an overall aggregate portfolio cost basis.</li>
+                <li><strong>MTM Losses:</strong> Any reduction to fair value is charged immediately to the **Statement of Profit and Loss**. Subsequent recoveries are credited to P&amp;L up to the original cost.</li>
+              </ul>
+              <p><strong>(b) Long-Term Investments (Para 17):</strong> Carried at **cost**. <P n={4} /></p>
+              <ul className="list-disc pl-6">
+                <li><strong>Temporary decline:</strong> Ignored (remains at cost).</li>
+                <li><strong>Decline other than temporary:</strong> A reduction in carrying amount should be recognized and charged to the **Statement of Profit and Loss**. The reduction should be determined and made for each investment individually. Subsequent reversals are permitted if the value recovers. <P n={4} /></li>
+              </ul>
             </div>
-            {openAccordions.ltValuations && (
-              <div className="p-4 bg-white dark:bg-[#111726] text-xs leading-relaxed space-y-2">
-                <p>Carried at **cost**.</p>
-                <p>The carrying amount is reduced to recognize a decline in value that is **other than temporary**.</p>
-                <p>The reduction is determined for each investment individually. Indicators of other-than-temporary decline include erosion of net worth, prolonged operating losses, or insolvency proceedings.</p>
-              </div>
-            )}
-          </div>
+          )}
         </div>
 
         {/* 6. Inter-class Transfers */}
-        <SecHeader id="as13-transfer" num="6" title="Reclassification &amp; Inter-class Transfers (Para 18–19)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={6} para="Para 18–19" /> When investments are reclassified between current and long-term portfolios:
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
+        <SH id="as13-transfer" num="VI" title="Inter-class Transfers" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>When investments are reclassified from current to long-term or vice-versa, the transfer is made at the **lower of cost and carrying value/fair value** on the date of transfer: <P n={4} /></p>
+        </div>
+        <div className="border border-indigo-255 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('transfers')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Reclassification Rules</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.transfers ? 'rotate-180' : ''}`} />
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Transfer Valuation Summary <P n={4} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.transfers ? 'rotate-180' : '')} />
           </div>
           {openAccordions.transfers && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
-              <ul className="list-disc pl-5 space-y-1.5">
-                <li><strong>Long-term to Current Portfolio:</strong> Transfer is made at the **lower of cost and carrying amount** at the date of transfer.</li>
-                <li><strong>Current to Long-term Portfolio:</strong> Transfer is made at the **lower of cost and fair value** at the date of transfer.</li>
-              </ul>
-              <p className="font-semibold text-rose-600 dark:text-rose-400">Prudence rationale: The loss in converting Current to LT is recognized immediately, preventing companies from hiding losses by simply changing classification.</p>
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Long-Term to Current:</strong> Transferred at the **lower of cost and carrying amount** (book value) on the date of transfer. <P n={4} /></p>
+              <p><strong>2. Current to Long-Term:</strong> Transferred at the **lower of cost and fair value** on the date of transfer. If fair value is lower, the difference is written off to the Statement of Profit and Loss immediately. <P n={4} /></p>
             </div>
           )}
         </div>
 
         {/* 7. Disposal of Investments */}
-        <SecHeader id="as13-disposal" num="7" title="Disposal of Investments (Para 21–22)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={6} para="Para 21" /> On disposal of an investment, the difference between the net disposal proceeds and the carrying amount is recognized as **profit or loss** in the P&amp;L statement.
-        </p>
-        <p>
-          If only a part of the holding is sold, the carrying value of the sold portion is determined using methods such as FIFO, Weighted Average, or specific identification. In practice, the **Weighted Average cost method** is most commonly applied.
-        </p>
+        <SH id="as13-disposal" num="VII" title="Disposal of Investments" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>On disposal of an investment, the difference between the carrying amount and the net disposal proceeds (net of expenses like brokerage) should be recognized in the **Statement of Profit and Loss**. <P n={5} /></p>
+          <p><strong>Partial Disposals (Para 22):</strong> When only a part of an enterprise's holding of a particular investment is disposed of, the carrying amount to be allocated to the part sold should be determined on the basis of the **average carrying amount** of the total holding of the investment (weighted average cost method). <P n={5} /></p>
+        </div>
 
         {/* 8. Disclosures */}
-        <SecHeader id="as13-disclosure" num="8" title="Disclosure Requirements (Para 35)" />
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
-          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures under AS 13:</h4>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>The **accounting policies** adopted for valuation and classification of investments.</li>
-            <li>The **amounts of income** included in P&amp;L from interest, dividends, and rentals (showing gross income and tax deducted at source).</li>
-            <li>The **cost and market value** of quoted investments, and the cost of unquoted investments.</li>
-            <li>Significant restrictions on the right of ownership, transferability, or realizability of investments.</li>
-          </ul>
+        <SH id="as13-disclosure" num="VIII" title="Disclosure Requirements under AS 13" />
+        <div className="mb-6 rounded-xl border border-indigo-200 dark:border-indigo-900/40 overflow-hidden font-serif">
+          <div className="bg-indigo-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">AS 13 Mandatory Disclosures <P n={6} /></span></div>
+          <div className="divide-y divide-indigo-100 dark:divide-indigo-900/30 font-sans">
+            {[
+              { title: 'Accounting Policies adopted', detail: 'The accounting policies adopted for the determination of carrying amount of investments.' },
+              { title: 'Revenue classification', detail: 'The amounts included in P&L for: (a) interest, dividends, and rentals (showing pre-acquisition vs post-acquisition splits); (b) profits and losses on disposal of current and long-term investments; and (c) write-downs to fair value/recoveries.' },
+              { title: 'Investment details in Balance Sheet', detail: 'The market value of quoted investments; the carrying amount of unquoted investments; and significant restrictions on the realizability of investments or remittance of income.' }
+            ].map((item, i) => (
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-955/10')}>
+                <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
@@ -5207,13 +4904,14 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
 
 const as14Sections = [
   { id: 'as14-overview',          title: '1. Overview & Purpose' },
-  { id: 'as14-scope',             title: '2. Scope & Applicability (Para 1–2)' },
-  { id: 'as14-definitions',       title: '3. Definitions (Para 3)' },
-  { id: 'as14-types',             title: '4. Types of Amalgamation (Para 3(e) & Para 29)' },
-  { id: 'as14-methods',           title: '5. Methods of Accounting (Para 30–33)' },
-  { id: 'as14-consideration',     title: '6. Purchase Consideration (Para 3(g) & Para 34)' },
-  { id: 'as14-reserves-goodwill', title: '7. Reserves & Goodwill (Para 35–39)' },
-  { id: 'as14-disclosure',        title: '8. Disclosures (Para 43–46)' },
+  { id: 'as14-scope',             title: '2. Scope & Exclusions' },
+  { id: 'as14-definitions',       title: '3. Definitions' },
+  { id: 'as14-types',             title: '4. Merger vs Purchase (The 5 Conditions)' },
+  { id: 'as14-methods',           title: '5. Accounting Methods (Pooling vs Purchase)' },
+  { id: 'as14-consideration',     title: '6. Purchase Consideration Rules' },
+  { id: 'as14-statutory-reserves',title: '7. Statutory Reserves Treatment' },
+  { id: 'as14-reserves-goodwill', title: '8. Treatment of Goodwill & Reserves' },
+  { id: 'as14-disclosure',        title: '9. Disclosure Requirements' },
 ]
 
 interface AS14StandardTabContentProps {
@@ -5223,10 +4921,10 @@ interface AS14StandardTabContentProps {
 function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentProps) {
   const [activeSection, setActiveSection] = useState('as14-overview')
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
-    mergerConditions: true,
-    poolingRules: true,
-    purchaseRules: true,
-    statutoryReserves: true,
+    conditions: true,
+    methods: true,
+    consideration: true,
+    statutory: true
   })
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
@@ -5241,313 +4939,248 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
       let offset = 58
-      if (stickyToc) {
-        const tocRect = stickyToc.getBoundingClientRect()
-        offset = tocRect.bottom - containerRect.top
-      }
-      container.scrollTo({
-        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
-        behavior: 'auto'
-      })
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
     }
   }
 
   useEffect(() => {
     if (!activeSection || !tocScrollRef.current) return
     const el = tocScrollRef.current
-    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    const btn = el.querySelector('[data-sec-id="' + activeSection + '"]') as HTMLElement | null
     if (!btn) return
-    if (as14Sections[0]?.id === activeSection) {
-      el.scrollTo({ left: 0, behavior: 'smooth' })
-      return
-    }
-    const elRect = el.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({
-      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
-      behavior: 'smooth'
-    })
+    if (as14Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect(); const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
   }, [activeSection])
 
   useEffect(() => {
     let obs: IntersectionObserver | undefined
     const init = () => {
       const sc = document.getElementById('as1-scroll-container')
-      if (!sc) {
-        setTimeout(init, 50)
-        return
-      }
-      obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) setActiveSection(e.target.id)
-        }),
-        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
-      )
-      as14Sections.forEach(s => {
-        const el = document.getElementById(s.id)
-        if (el) obs?.observe(el)
-      })
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }), { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 })
+      as14Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
     }
-    init()
-    return () => obs?.disconnect()
+    init(); return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
-  const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-450 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
-  }
+  const P = ({ n }: { n: number }) => (
+    <button onClick={() => navigateToPdfPage(n)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={'Open AS 14 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
+  )
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
+    <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex items-center gap-3">
+        <span className="font-mono font-extrabold text-[13px] text-violet-600 dark:text-violet-400 select-none">{num}.</span>
+        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
       </div>
-    )
-  }
+      <div className="h-[2px] w-16 rounded-full bg-violet-500 mt-2 ml-8" />
+    </div>
+  )
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+  const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
+    const s: Record<string, string> = {
+      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+      <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
         {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+        <div className="text-[14.5px] leading-relaxed">{children}</div>
       </div>
     )
   }
-
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 14 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
 
   return (
     <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as14-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 14 Sections:
-        </span>
-        {as14Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
+      <div id="as14-standard-sticky-toc" ref={tocScrollRef} className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1"><BookOpen size={9.5} />AS 14:</span>
+        {as14Sections.map(sec => (
+          <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+            className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-violet-600 border-violet-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+            {sec.title.split('. ').slice(1).join('. ') || sec.title}
           </button>
         ))}
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
-        
-        {/* 1. Overview & Purpose */}
-        <SecHeader id="as14-overview" num="1" title="Overview &amp; Purpose" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Overview" /> Accounting Standard 14 specifies the accounting treatment of **amalgamations** and the treatment of any goodwill or reserves arising therefrom.
-        </p>
-        <p className="leading-relaxed">
-          Amalgamations are critical corporate restructuring events where the assets, liabilities, and business operations of one or more companies (transferor companies) are integrated into another company (transferee company). The core accounting issues relate to classification of the transaction, calculation of purchase consideration, and consolidation of reserves and assets.
-        </p>
+      <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
 
-        {/* 2. Scope & Applicability */}
-        <SecHeader id="as14-scope" num="2" title="Scope &amp; Applicability (Para 1–2)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={4} para="Para 1" /> This standard applies in accounting for amalgamations and schemes of compromise or arrangement in the books of the **transferee company**.
-        </p>
-        <p className="leading-relaxed">
-          It applies to mergers, acquisitions, and reconstructions under the Companies Act, 2013. It does not apply to acquisitions of individual assets or business acquisitions that do not constitute an amalgamation under the law.
-        </p>
+        {/* 1. Overview */}
+        <SH id="as14-overview" num="I" title="Overview & Purpose of AS 14" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Accounting Standard 14 (AS 14) — Accounting for Amalgamations</strong> prescribes the accounting treatment for amalgamations in the books of the transferee company and the treatment of any resultant goodwill or reserves. <P n={1} /></p>
+          <p>This standard provides rules to distinguish between an amalgamation in the nature of merger and an amalgamation in the nature of purchase, ensuring that the accounting reflects the commercial substance of the transaction.</p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8 font-serif">
+          {[
+            { color: 'violet', title: 'Merger vs Purchase', body: 'Establishes the strict 5-condition test to classify an amalgamation as either a merger or a purchase.', p: 1 },
+            { color: 'indigo', title: 'Accounting Methods', body: 'Governs the Pooling of Interest Method for mergers, and the Purchase Method for purchases.', p: 2 },
+            { color: 'blue', title: 'Purchase Consideration', body: 'Defines the scope of payments made exclusively to equity and preference shareholders of the transferor company.', p: 1 }
+          ].map((c, i) => (
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
+              <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
+            </div>
+          ))}
+        </div>
+
+        {/* 2. Scope */}
+        <SH id="as14-scope" num="II" title="Scope & Exclusions of AS 14" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>This Standard should be applied in accounting for amalgamations. <P n={1} /></p>
+        </div>
+        <NB type="warning" title="Exclusion of Holdings / Share Acquisitions">
+          This Standard does **not** deal with cases of acquisitions which arise when one company purchases the shares of another company, and the transferor company continues to exist as a separate legal entity. It applies only when the transferor company is dissolved and its assets/liabilities are fully integrated into the transferee. <P n={1} />
+        </NB>
 
         {/* 3. Definitions */}
-        <SecHeader id="as14-definitions" num="3" title="Definitions (Para 3)" />
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-            <thead>
-              <tr className="bg-slate-100 dark:bg-slate-800">
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 14 Definition</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Amalgamation</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">An amalgamation pursuant to the provisions of the Companies Act, 2013 or any other statute.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Transferor Company</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The company which is amalgamated into another company (the target or selling entity).</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Transferee Company</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The company into which the transferor company is amalgamated (the acquiring or surviving entity).</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Reserves</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">The portion of earnings, capital, or other surpluses not designated for any specific liability or dividend distribution.</td>
-              </tr>
+        <SH id="as14-definitions" num="III" title="Definitions under AS 14" />
+        <div className="mb-8 overflow-x-auto rounded-xl border border-violet-250 dark:border-violet-900/40 font-serif">
+          <table className="w-full text-left border-collapse text-[13.5px]">
+            <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-violet-700 dark:bg-violet-805"><th className="py-3 px-5 w-1/4">Term</th><th className="py-3 px-5 w-3/4">Standard Definition (Para 3)</th></tr></thead>
+            <tbody className="divide-y divide-violet-100 dark:divide-violet-900/30 text-slate-900 dark:text-slate-100">
+              <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Amalgamation</td><td className="py-4 px-5">An amalgamation pursuant to the provisions of the Companies Act or any other statute, integrating two or more companies. <P n={1} /></td></tr>
+              <tr className="bg-violet-50/15 dark:bg-violet-955/5"><td className="py-4 px-5 font-semibold">Transferor Company</td><td className="py-4 px-5">The company which is amalgamated into another company. (The selling/liquidating company). <P n={1} /></td></tr>
+              <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Transferee Company</td><td className="py-4 px-5">The company into which a transferor company is amalgamated. (The buying/surviving company). <P n={1} /></td></tr>
+              <tr className="bg-violet-50/15 dark:bg-violet-955/5"><td className="py-4 px-5 font-semibold">Reserves</td><td className="py-4 px-5">The portion of earnings, capital surplus or other surpluses of an enterprise, whether created by allocation out of P&amp;L or otherwise. <P n={1} /></td></tr>
             </tbody>
           </table>
         </div>
 
-        {/* 4. Types of Amalgamation */}
-        <SecHeader id="as14-types" num="4" title="Types of Amalgamation (Para 3(e) &amp; Para 29)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={5} para="Para 3(e)" /> AS 14 classifies amalgamations into two distinct categories:
-        </p>
-        <ul className="list-disc pl-6 space-y-2 mb-4">
-          <li><strong>Amalgamation in the Nature of Merger:</strong> A transaction where there is a genuine pooling of assets, liabilities, and shareholder interests.</li>
-          <li><strong>Amalgamation in the Nature of Purchase:</strong> A transaction where one enterprise acquires another and does not carry over reserves or interests.</li>
-        </ul>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('mergerConditions')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">The 5 Mandatory Conditions for Merger (Para 3(e))</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.mergerConditions ? 'rotate-180' : ''}`} />
+        {/* 4. Merger vs Purchase */}
+        <SH id="as14-types" num="IV" title="Merger vs. Purchase (The 5 Conditions)" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>AS 14 distinguishes between two types of amalgamations: <P n={1} /></p>
+        </div>
+        <div className="border border-violet-200 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('conditions')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Amalgamation in the Nature of Merger — The 5 Conditions <P n={1} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.conditions ? 'rotate-180' : '')} />
           </div>
-          {openAccordions.mergerConditions && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3.5 leading-relaxed">
-              <p>For an amalgamation to be classified as in the nature of **Merger**, all five conditions must be satisfied without exception:</p>
-              <ol className="list-decimal pl-5 space-y-2">
-                <li><strong>All Assets and Liabilities:</strong> All assets and liabilities of the transferor company become, after amalgamation, the assets and liabilities of the transferee company.</li>
-                <li><strong>90% Equity Shareholder Continuity:</strong> Shareholders holding not less than **90% of the face value** of the equity shares of the transferor company (other than shares already held by transferee) agree to become equity shareholders of the transferee.</li>
-                <li><strong>Solely Share Consideration:</strong> The consideration is discharged by the transferee company to the equity shareholders of the transferor company **solely by the issue of equity shares** in the transferee company, except that cash may be paid in respect of any fractional shares.</li>
+          {openAccordions.conditions && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed font-sans">
+              <p>For an amalgamation to be classified in the nature of **merger**, **ALL** of the following 5 conditions must be satisfied: <P n={1} /></p>
+              <ol className="list-decimal pl-6 space-y-2.5">
+                <li><strong>All Assets &amp; Liabilities:</strong> All the assets and liabilities of the transferor company become, after amalgamation, the assets and liabilities of the transferee company.</li>
+                <li><strong>90% Shareholder Consent:</strong> Equity shareholders holding not less than 90% of the face value of the equity shares of the transferor company (other than those already held by transferee) agree to become equity shareholders of the transferee.</li>
+                <li><strong>Equity Payment Mode:</strong> The consideration is discharged by the transferee wholly by the issue of equity shares (except that cash may be paid for fractional shares).</li>
                 <li><strong>Business Continuity:</strong> The business of the transferor company is intended to be carried on, after the amalgamation, by the transferee company.</li>
-                <li><strong>Book Value Continuity:</strong> No adjustment is intended to be made to the book values of the assets and liabilities of the transferor company when they are incorporated, except to ensure uniformity of accounting policies.</li>
+                <li><strong>No Book Value Adjustments:</strong> No adjustment is intended to be made to the book values of the assets and liabilities of the transferor company when they are incorporated in the books of the transferee (except to ensure uniformity of accounting policies).</li>
               </ol>
-              <NoteBox type="warning" title="Exception Rule">
-                If even a single condition is violated, the transaction is classified as an **Amalgamation in the Nature of Purchase**.
-              </NoteBox>
+              <p className="font-bold text-rose-650 dark:text-rose-405 mt-2">Amalgamation in the Nature of Purchase:</p>
+              <p>If **any one or more** of the above 5 conditions are **NOT** satisfied, it is classified as an **Amalgamation in the Nature of Purchase**. <P n={1} /></p>
             </div>
           )}
         </div>
 
-        {/* 5. Methods of Accounting */}
-        <SecHeader id="as14-methods" num="5" title="Methods of Accounting (Para 30–33)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={6} para="Para 30" /> The standard prescribes two different accounting methods depending on the type of amalgamation:
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('poolingRules')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">1. Pooling of Interests Method (For Merger)</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.poolingRules ? 'rotate-180' : ''}`} />
+        {/* 5. Accounting Methods */}
+        <SH id="as14-methods" num="V" title="Accounting Methods — Pooling of Interest vs. Purchase Method" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>The standard prescribes a specific accounting method for each type of amalgamation: <P n={2} /></p>
+        </div>
+        <div className="border border-violet-250 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('methods')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Pooling of Interest Method vs. Purchase Method <P n={2} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.methods ? 'rotate-180' : '')} />
           </div>
-          {openAccordions.poolingRules && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Assets, liabilities, and reserves of the transferor company are recorded at their existing carrying amounts (Book Values).</li>
-                <li>The identity of the **reserves** is preserved (General, Capital, Statutory reserves, etc. are carried over).</li>
-                <li>Any difference between the purchase consideration and the amount of share capital of the transferor is adjusted in the **General Reserve** of the transferee.</li>
+          {openAccordions.methods && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Pooling of Interest Method (For Mergers):</strong> Assets, liabilities and reserves of the transferor company are recorded by the transferee at their **existing carrying amounts** (book values). <P n={2} /></p>
+              <ul className="list-disc pl-6 mb-2">
+                <li><strong>Reserves:</strong> All reserves of the transferor (revenue reserve, capital reserve, revaluation reserve) are preserved and carried forward in the transferee's balance sheet.</li>
+                <li><strong>Capital Difference:</strong> Any difference between the purchase consideration and the share capital of the transferor is adjusted directly in the **Reserves** (usually General Reserve).</li>
+              </ul>
+              <p><strong>2. Purchase Method (For Purchases):</strong> Assets and liabilities are recorded by the transferee at their existing carrying amounts or at their **fair values** (allocated purchase price). <P n={2} /></p>
+              <ul className="list-disc pl-6">
+                <li><strong>Reserves:</strong> No reserves of the transferor company (except statutory reserves) are recorded in the transferee's books.</li>
+                <li><strong>Goodwill/Capital Reserve:</strong> The difference between purchase consideration and net assets acquired is recognized as **Goodwill** (if purchase consideration is higher) or **Capital Reserve** (if net assets acquired are higher). <P n={3} /></li>
               </ul>
             </div>
           )}
         </div>
 
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('purchaseRules')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">2. Purchase Method (For Purchase)</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.purchaseRules ? 'rotate-180' : ''}`} />
+        {/* 6. Purchase Consideration Rules */}
+        <SH id="as14-consideration" num="VI" title="Purchase Consideration Rules" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Purchase Consideration (Para 34):</strong> The aggregate of the shares and other securities issued and the payment made in the form of cash or other assets by the transferee company to the **shareholders** of the transferor company. <P n={1} /></p>
+        </div>
+        <div className="border border-violet-200 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('consideration')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Key Consideration Inclusion/Exclusion Rules <P n={1} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.consideration ? 'rotate-180' : '')} />
           </div>
-          {openAccordions.purchaseRules && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2.5 leading-relaxed">
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Assets and liabilities are recorded either at their book values or at their **fair values** at the date of acquisition.</li>
-                <li>Reserves (other than statutory reserves) are **not** carried over in the transferee's books.</li>
-                <li>The difference between Net Assets acquired and Purchase Consideration is recognized as **Goodwill** (if negative difference, debited) or **Capital Reserve** (if positive difference, credited).</li>
-                <li>Goodwill is amortized systematically over its useful life, not exceeding **5 years** (Para 18).</li>
+          {openAccordions.consideration && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p className="font-bold text-emerald-600 dark:text-emerald-450">Included in Purchase Consideration:</p>
+              <ul className="list-disc pl-6 mb-2">
+                <li>Equity shares and preference shares issued by the transferee to the equity and preference shareholders of the transferor.</li>
+                <li>Cash or other assets paid by the transferee to the shareholders of the transferor.</li>
+              </ul>
+              <p className="font-bold text-rose-600 dark:text-rose-455">Strictly Excluded (not part of Purchase Consideration):</p>
+              <ul className="list-disc pl-6">
+                <li>Shares or cash paid to the debenture holders or creditors of the transferor company. (These are settlements of transferor liabilities, not payments to owners). <P n={1} /></li>
               </ul>
             </div>
           )}
         </div>
 
-        {/* 6. Purchase Consideration */}
-        <SecHeader id="as14-consideration" num="6" title="Purchase Consideration (Para 3(g) &amp; Para 34)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={5} para="Para 3(g)" /> Purchase consideration is the price paid by the transferee company to the owners of the transferor company.
-        </p>
-        <NoteBox type="exam" title="Exam Trap Alert">
-          Purchase Consideration comprises **only** payments made to **Equity and Preference Shareholders**. It must strictly exclude payments made to debenture holders, lenders, and trade creditors.
-        </NoteBox>
-        <p className="leading-relaxed">
-          Discharge of debenture holders is treated as settlement of a liability taken over and does not increase or decrease the purchase consideration.
-        </p>
-
-        {/* 7. Treatment of Reserves & Goodwill */}
-        <SecHeader id="as14-reserves-goodwill" num="7" title="Reserves &amp; Goodwill (Para 35–39)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={7} para="Para 39" /> Statutory reserves require unique treatment under the Purchase Method to ensure compliance with tax and other regulations.
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('statutoryReserves')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Treatment of Statutory Reserves under Purchase Method</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.statutoryReserves ? 'rotate-180' : ''}`} />
+        {/* 7. Statutory Reserves Treatment */}
+        <SH id="as14-statutory-reserves" num="VII" title="Statutory Reserves in Purchase Method" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>In a purchase-type amalgamation, the reserves of the transferor company (other than statutory reserves) are not recorded. However, law may require that certain statutory reserves (e.g. Export Profit Reserve, Development Allowance Reserve) be maintained in the transferee's books for a specified period to retain tax benefits. <P n={3} /></p>
+        </div>
+        <div className="border border-violet-250 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('statutory')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Statutory Reserve Accounting Mechanism (Para 35) <P n={3} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.statutory ? 'rotate-180' : '')} />
           </div>
-          {openAccordions.statutoryReserves && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-              <p>Since the reserves of the transferor are ignored in a purchase, statutory reserves (e.g., Investment Allowance Reserve, Export Profits Reserve) must be preserved in the transferee's balance sheet by posting the following entry:</p>
-              <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg font-mono">
-                Amalgamation Adjustment Reserve A/c ..... Dr.<br />
-                &nbsp;&nbsp;To Statutory Reserve A/c
+          {openAccordions.statutory && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed font-sans">
+              <p>To record statutory reserves in the purchase method, the transferee records the following entry: <P n={3} /></p>
+              <div className="p-3 bg-white dark:bg-slate-900 border rounded-lg font-mono text-[12px] text-slate-800 dark:text-slate-200">
+                Debit: Amalgamation Adjustment Reserve A/c <br />
+                &nbsp;&nbsp;Credit: Statutory Reserve A/c (of Transferor)
               </div>
-              <p>Amalgamation Adjustment Reserve is presented as a **negative balance** or debit under Reserves &amp; Surplus.</p>
+              <p><strong>Balance Sheet Presentation:</strong> The Amalgamation Adjustment Reserve is shown as a **deduction** under the heading "Reserves and Surplus" (i.e. as a negative balance). Once the legal holding period is over, the reserve is reversed by crediting Amalgamation Adjustment Reserve and debiting the Statutory Reserve. <P n={3} /></p>
             </div>
           )}
         </div>
 
-        {/* 8. Disclosures */}
-        <SecHeader id="as14-disclosure" num="8" title="Disclosure Requirements (Para 43–46)" />
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
-          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures for all Amalgamations:</h4>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>Names and general nature of business of the amalgamating companies.</li>
-            <li>Effective date of amalgamation for accounting purposes.</li>
-            <li>Method of accounting used (Pooling of Interests vs Purchase).</li>
-            <li>Particulars of the scheme sanctioned under the Act.</li>
-            <li>In case of Pooling of Interests: Description and amount of shares issued.</li>
-            <li>In case of Purchase Method: Details of consideration paid, and treatment of Goodwill/Capital Reserve (including amortization details).</li>
-          </ul>
+        {/* 8. Treatment of Goodwill & Reserves */}
+        <SH id="as14-reserves-goodwill" num="VIII" title="Goodwill &amp; Capital Reserve Amortization" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Goodwill on Amalgamation (Para 37):</strong> Goodwill represents a payment made in anticipation of future income. It is recognized in the purchase method when the consideration paid exceeds the value of net assets acquired. <P n={3} /></p>
+          <p><strong>Amortization Rule (Para 37):</strong> Goodwill should be amortized on a systematic basis over its useful life. The amortization period should **not exceed five years** unless a longer period can be justified by the transferee enterprise. <P n={3} /></p>
+          <p><strong>Capital Reserve (Para 38):</strong> If the purchase consideration paid is lower than the value of net assets acquired, the difference is credited directly to the **Capital Reserve** under shareholders' equity. <P n={3} /></p>
+        </div>
+
+        {/* 9. Disclosures */}
+        <SH id="as14-disclosure" num="IX" title="Disclosure Requirements under AS 14" />
+        <div className="mb-6 rounded-xl border border-violet-200 dark:border-violet-900/40 overflow-hidden font-serif">
+          <div className="bg-violet-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">AS 14 Mandatory Disclosures <P n={4} /></span></div>
+          <div className="divide-y divide-violet-100 dark:divide-violet-900/30 font-sans">
+            {[
+              { title: 'General Disclosures (All Amalgamations)', detail: 'Names and general nature of business of the amalgamating companies; effective date of amalgamation; and method of accounting used (pooling vs purchase).' },
+              { title: 'Merger Method Disclosures', detail: 'Description of share capital issued and percentage of equity shares exchanged; and details of reserves adjusted due to capital differences.' },
+              { title: 'Purchase Method Disclosures', detail: 'Details of purchase consideration paid/payable; fair value adjustments made to assets/liabilities; and goodwill or capital reserve amount, including amortization useful lives.' }
+            ].map((item, i) => (
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-violet-50/15 dark:bg-violet-955/10')}>
+                <div className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center text-violet-700 dark:text-violet-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
@@ -5557,14 +5190,15 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
 
 
 const as15Sections = [
-  { id: 'as15-overview',          title: '1. Overview & Purpose' },
-  { id: 'as15-scope',             title: '2. Scope & Applicability (Para 1–5)' },
-  { id: 'as15-definitions',       title: '3. Definitions (Para 7)' },
-  { id: 'as15-short-term',        title: '4. Short-Term Employee Benefits (Para 8–23)' },
-  { id: 'as15-post-employment',   title: '5. Post-Employment Benefits (Para 24–43)' },
-  { id: 'as15-defined-benefit',   title: '6. Defined Benefit Obligation (Para 49–115)' },
-  { id: 'as15-long-term',         title: '7. Other Long-Term Benefits (Para 126–131)' },
-  { id: 'as15-termination',       title: '8. Termination & Disclosures (Para 133–142)' },
+  { id: 'as15-overview',          title: '1. Introduction & Objective' },
+  { id: 'as15-scope',             title: '2. Scope & Benefit Types' },
+  { id: 'as15-definitions',       title: '3. Definitions & Classifications' },
+  { id: 'as15-short-term',        title: '4. Short-Term Employee Benefits' },
+  { id: 'as15-post-employment',   title: '5. Post-Employment Benefits (DCP vs DBP)' },
+  { id: 'as15-defined-benefit',   title: '6. Defined Benefit Obligation (Actuarial Valuation)' },
+  { id: 'as15-long-term',         title: '7. Other Long-Term Employee Benefits' },
+  { id: 'as15-termination',       title: '8. Termination Benefits' },
+  { id: 'as15-disclosure',        title: '9. Disclosure Requirements' },
 ]
 
 interface AS15StandardTabContentProps {
@@ -5574,10 +5208,10 @@ interface AS15StandardTabContentProps {
 function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentProps) {
   const [activeSection, setActiveSection] = useState('as15-overview')
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({
-    shortTermRules: true,
-    definedContribution: true,
-    definedBenefitRules: true,
-    actuarialAssumptions: true,
+    types: true,
+    postEmployment: true,
+    dbObligation: true,
+    termination: false
   })
   const tocScrollRef = useRef<HTMLDivElement>(null)
 
@@ -5592,289 +5226,246 @@ function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentPro
       const containerRect = container.getBoundingClientRect()
       const targetRect = target.getBoundingClientRect()
       let offset = 58
-      if (stickyToc) {
-        const tocRect = stickyToc.getBoundingClientRect()
-        offset = tocRect.bottom - containerRect.top
-      }
-      container.scrollTo({
-        top: targetRect.top - containerRect.top + container.scrollTop - offset - 12,
-        behavior: 'auto'
-      })
+      if (stickyToc) { const tocRect = stickyToc.getBoundingClientRect(); offset = tocRect.bottom - containerRect.top }
+      container.scrollTo({ top: targetRect.top - containerRect.top + container.scrollTop - offset - 12, behavior: 'auto' })
     }
   }
 
   useEffect(() => {
     if (!activeSection || !tocScrollRef.current) return
     const el = tocScrollRef.current
-    const btn = el.querySelector(`[data-sec-id="${activeSection}"]`) as HTMLElement | null
+    const btn = el.querySelector('[data-sec-id="' + activeSection + '"]') as HTMLElement | null
     if (!btn) return
-    if (as15Sections[0]?.id === activeSection) {
-      el.scrollTo({ left: 0, behavior: 'smooth' })
-      return
-    }
-    const elRect = el.getBoundingClientRect()
-    const btnRect = btn.getBoundingClientRect()
-    el.scrollTo({
-      left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2,
-      behavior: 'smooth'
-    })
+    if (as15Sections[0]?.id === activeSection) { el.scrollTo({ left: 0, behavior: 'smooth' }); return }
+    const elRect = el.getBoundingClientRect(); const btnRect = btn.getBoundingClientRect()
+    el.scrollTo({ left: btnRect.left - elRect.left + el.scrollLeft - elRect.width / 2 + btnRect.width / 2, behavior: 'smooth' })
   }, [activeSection])
 
   useEffect(() => {
     let obs: IntersectionObserver | undefined
     const init = () => {
       const sc = document.getElementById('as1-scroll-container')
-      if (!sc) {
-        setTimeout(init, 50)
-        return
-      }
-      obs = new IntersectionObserver(
-        entries => entries.forEach(e => {
-          if (e.isIntersecting) setActiveSection(e.target.id)
-        }),
-        { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 }
-      )
-      as15Sections.forEach(s => {
-        const el = document.getElementById(s.id)
-        if (el) obs?.observe(el)
-      })
+      if (!sc) { setTimeout(init, 50); return }
+      obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id) }), { root: sc, rootMargin: '-90px 0px -65% 0px', threshold: 0 })
+      as15Sections.forEach(s => { const el = document.getElementById(s.id); if (el) obs?.observe(el) })
     }
-    init()
-    return () => obs?.disconnect()
+    init(); return () => obs?.disconnect()
   }, [])
 
   useEffect(() => {
-    const el = tocScrollRef.current
-    if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      if (e.deltaY === 0) return
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
+    const el = tocScrollRef.current; if (!el) return
+    const onWheel = (e: WheelEvent) => { if (e.deltaY === 0) return; e.preventDefault(); el.scrollLeft += e.deltaY }
+    el.addEventListener('wheel', onWheel, { passive: false }); return () => el.removeEventListener('wheel', onWheel)
   }, [])
 
-  const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-450 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
-  }
+  const P = ({ n }: { n: number }) => (
+    <button onClick={() => navigateToPdfPage(n)}
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      title={'Open AS 15 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
+  )
 
-  const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const c = secColors[num] || secColors['1']
-    return (
-      <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
-        <div className="flex items-center gap-3">
-          <span className={`font-mono font-extrabold text-[13px] ${c.num} select-none`}>{num}.</span>
-          <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
-        </div>
-        <div className={`h-[2px] w-16 rounded-full border-b-2 ${c.border} mt-2`} />
+  const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
+    <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
+      <div className="flex items-center gap-3">
+        <span className="font-mono font-extrabold text-[13px] text-rose-600 dark:text-rose-455 select-none">{num}.</span>
+        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
       </div>
-    )
-  }
+      <div className="h-[2px] w-16 rounded-full bg-rose-500 mt-2 ml-8" />
+    </div>
+  )
 
-  const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
-    const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+  const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
+    const s: Record<string, string> = {
+      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
-      <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
+      <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
         {title && <p className="font-extrabold uppercase tracking-wider text-[10.5px] mb-2 opacity-75">{title}</p>}
-        <div className="text-[14.5px] sm:text-[15px] leading-relaxed">{children}</div>
+        <div className="text-[14.5px] leading-relaxed">{children}</div>
       </div>
     )
   }
-
-  const ParaRef = ({ page, para }: { page: number; para: string }) => (
-    <button
-      onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
-      title={`Open ICAI AS 15 PDF — ${para}`}
-    >
-      <FileText size={9} className="shrink-0" />
-      {para} (p. {page})
-    </button>
-  )
 
   return (
     <div className="w-full animate-fade-in font-sans space-y-4">
-      {/* Sticky Section Sub-Navbar */}
-      <div id="as15-standard-sticky-toc" className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none shrink-0 select-none shadow-xs">
-        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1">
-          <BookOpen size={9.5} />
-          AS 15 Sections:
-        </span>
-        {as15Sections.map((sec) => (
-          <button
-            key={sec.id}
-            data-sec-id={sec.id}
-            onClick={() => handleSectionClick(sec.id)}
-            className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
-              activeSection === sec.id
-                ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
-            }`}
-          >
-            {sec.title.split('. ')[1] || sec.title}
+      <div id="as15-standard-sticky-toc" ref={tocScrollRef} className="sticky top-[58px] bg-white/95 dark:bg-[#111726]/95 backdrop-blur-xs py-2 px-3 border border-slate-200 dark:border-gray-800 rounded-lg z-20 flex flex-row items-center gap-1.5 overflow-x-auto scrollbar-none select-none shadow-xs">
+        <span className="text-[9.5px] font-extrabold uppercase text-slate-400 dark:text-gray-500 whitespace-nowrap mr-1 flex items-center gap-1"><BookOpen size={9.5} />AS 15:</span>
+        {as15Sections.map(sec => (
+          <button key={sec.id} data-sec-id={sec.id} onClick={() => handleSectionClick(sec.id)}
+            className={'text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ' + (activeSection === sec.id ? 'bg-rose-600 border-rose-600 text-white' : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300')}>
+            {sec.title.split('. ').slice(1).join('. ') || sec.title}
           </button>
         ))}
       </div>
 
-      {/* Main Content Card */}
-      <div className="w-full space-y-7 bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl p-6 sm:p-8 shadow-xs text-[14px] sm:text-[14.5px] text-slate-700 dark:text-gray-300 leading-relaxed">
-        
-        {/* 1. Overview & Purpose */}
-        <SecHeader id="as15-overview" num="1" title="Overview &amp; Purpose" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={1} para="Overview" /> Accounting Standard 15 governs the accounting and disclosure of **employee benefits**.
-        </p>
-        <p className="leading-relaxed">
-          The objective of the standard is to prescribe the accounting treatment and disclosure requirements for all types of employee benefits. The standard requires an enterprise to recognize a liability when an employee has provided service in exchange for benefits to be paid in the future, and an expense when the enterprise consumes the economic benefit arising from service provided by an employee.
-        </p>
+      <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-gray-800 rounded-xl px-6 sm:px-10 lg:px-14 py-10 sm:py-14 shadow-xs space-y-0">
 
-        {/* 2. Scope & Applicability */}
-        <SecHeader id="as15-scope" num="2" title="Scope &amp; Applicability (Para 1–5)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={4} para="Para 1" /> This standard should be applied by an employer in accounting for **all employee benefits**, except share-based payments (which are covered by Guidance Notes).
-        </p>
-        <p className="leading-relaxed">
-          Employee benefits covered include those provided under formal plans, statutory agreements, or informal practices that give rise to constructive obligations. It covers short-term benefits, post-employment benefits, other long-term benefits, and termination benefits.
-        </p>
+        {/* 1. Overview */}
+        <SH id="as15-overview" num="I" title="Overview & Purpose of AS 15" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p><strong>Accounting Standard 15 (AS 15) — Employee Benefits</strong> prescribes the accounting and disclosure for employee benefits by employers. <P n={1} /></p>
+          <p>The standard requires an enterprise to recognize: (a) a liability when an employee has rendered service in exchange for employee benefits to be paid in the future; and (b) an expense when the enterprise consumes the economic benefit arising from service provided by an employee in exchange for employee benefits.</p>
+        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8 font-serif">
+          {[
+            { color: 'rose', title: 'Short-Term Benefits', body: 'Salaries, paid leaves, and bonuses expected to be settled within 12 months after the reporting date.', p: 2 },
+            { color: 'orange', title: 'Post-Employment', body: 'Pensions, gratuity, and insurance payable after completion of active employment services.', p: 4 },
+            { color: 'red', title: 'Actuarial Valuations', body: 'Mandates the Projected Unit Credit (PUC) method for defined benefit plan obligations.', p: 9 }
+          ].map((c, i) => (
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-805 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
+              <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
+            </div>
+          ))}
+        </div>
+
+        {/* 2. Scope */}
+        <SH id="as15-scope" num="II" title="Scope & Benefit Types Covered" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>This Standard should be applied by an employer in accounting for all employee benefits, except employee share-based payments (which are governed by separate ICAI guidance notes). <P n={1} /></p>
+        </div>
+        <div className="border border-rose-200 dark:border-rose-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('types')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Four Key Categories of Employee Benefits <P n={1} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.types ? 'rotate-180' : '')} />
+          </div>
+          {openAccordions.types && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Short-Term Employee Benefits:</strong> Benefits expected to be settled wholly within 12 months after the end of the period (wages, paid leaves, annual bonuses). <P n={2} /></p>
+              <p><strong>2. Post-Employment Benefits:</strong> Payable after completion of employment (pension, gratuity, post-employment life insurance). <P n={4} /></p>
+              <p><strong>3. Other Long-Term Employee Benefits:</strong> Not expected to be settled wholly within 12 months (long-service leave, sabbatical leave, long-service awards). <P n={20} /></p>
+              <p><strong>4. Termination Benefits:</strong> Payable as a result of an enterprise's decision to terminate employment before normal retirement or employee's decision to accept voluntary redundancy. <P n={21} /></p>
+            </div>
+          )}
+        </div>
 
         {/* 3. Definitions */}
-        <SecHeader id="as15-definitions" num="3" title="Definitions (Para 7)" />
-        <div className="overflow-x-auto mb-6">
-          <table className="w-full text-[13.5px] border-collapse rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800">
-            <thead>
-              <tr className="bg-slate-100 dark:bg-slate-800">
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">Term</th>
-                <th className="p-3 font-bold border-b border-slate-200 dark:border-slate-700 text-left">AS 15 Definition</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Employee Benefits</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">All forms of consideration given by an enterprise in exchange for service rendered by employees.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Short-Term Benefits</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Employee benefits (other than termination benefits) which fall due wholly within twelve months after the end of the period in which the employees render the related service.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Post-Employment Benefits</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Employee benefits (other than termination benefits) which are payable after the completion of employment.</td>
-              </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
-                <td className="p-3 font-semibold text-slate-900 dark:text-white">Defined Benefit Plans</td>
-                <td className="p-3 text-slate-700 dark:text-slate-300">Post-employment benefit plans under which an enterprise's obligation is to provide the agreed benefits to current and former employees, and the actuarial and investment risk fall on the enterprise.</td>
-              </tr>
+        <SH id="as15-definitions" num="III" title="Definitions & Classifications" />
+        <div className="mb-8 overflow-x-auto rounded-xl border border-rose-250 dark:border-rose-900/40 font-serif">
+          <table className="w-full text-left border-collapse text-[13.5px]">
+            <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-rose-700 dark:bg-rose-800"><th className="py-3 px-5 w-1/4">Term</th><th className="py-3 px-5 w-3/4">Standard Definition (Para 7)</th></tr></thead>
+            <tbody className="divide-y divide-rose-100 dark:divide-rose-900/30 text-slate-900 dark:text-slate-100">
+              <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Employee Benefits</td><td className="py-4 px-5">All forms of consideration given by an enterprise in exchange for service rendered by employees. <P n={2} /></td></tr>
+              <tr className="bg-rose-50/15 dark:bg-rose-955/5"><td className="py-4 px-5 font-semibold">Vested Benefits</td><td className="py-4 px-5">Employee benefits that are not conditional on future employment. (Employee is legally entitled even if they quit today). <P n={2} /></td></tr>
+              <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Plan Assets</td><td className="py-4 px-5">Assets held by a long-term employee benefit fund, and qualifying insurance policies, excluding non-transferable financial instruments. <P n={2} /></td></tr>
             </tbody>
           </table>
         </div>
 
         {/* 4. Short-Term Employee Benefits */}
-        <SecHeader id="as15-short-term" num="4" title="Short-Term Employee Benefits (Para 8–23)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={6} para="Para 10" /> When an employee has rendered service to an enterprise during an accounting period, the enterprise should recognize the **undiscounted amount** of short-term employee benefits expected to be paid in exchange for that service.
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('shortTermRules')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Rules for Short-Term Benefits (Compensated Absences)</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.shortTermRules ? 'rotate-180' : ''}`} />
-          </div>
-          {openAccordions.shortTermRules && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-3 leading-relaxed">
-              <p><strong>Accumulating Absences (Para 11-14):</strong> Absences that are carried forward and can be used in future periods if the current period's entitlement is not used in full. These can be either vesting (employees are entitled to cash settlement on leaving) or non-vesting. The enterprise must recognize an accrued liability based on expected usage.</p>
-              <p><strong>Non-Accumulating Absences (Para 16):</strong> Absences that do not carry forward. They lapse if the current period's entitlement is not used in full and do not entitle employees to cash payments on leaving. The cost is recognized only when the absence occurs.</p>
-            </div>
-          )}
+        <SH id="as15-short-term" num="IV" title="Short-Term Employee Benefits" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Accounting for short-term employee benefits is straightforward because no actuarial assumptions are required and there is no possibility of any actuarial gain or loss. <P n={2} /></p>
+          <p><strong>Accounting Treatment (Para 8–10):</strong> The undiscounted amount of short-term employee benefits expected to be paid in exchange for employee service is recognized as: <P n={2} /></p>
+          <ul className="list-disc pl-6 space-y-1 text-[15px] font-sans text-slate-700 dark:text-gray-300">
+            <li>A liability (accrued expense), after deducting any amount already paid.</li>
+            <li>An expense in the Statement of P&amp;L of the period (unless another standard permits/requires capitalization under PPE or inventory).</li>
+          </ul>
         </div>
 
         {/* 5. Post-Employment Benefits */}
-        <SecHeader id="as15-post-employment" num="5" title="Post-Employment Benefits: DC vs DB Plans" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={8} para="Para 24" /> Post-employment benefit plans are classified as either **Defined Contribution plans** or **Defined Benefit plans**, depending on the economic substance of the plan.
-        </p>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('definedContribution')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">Defined Contribution Plans (Para 44–48)</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.definedContribution ? 'rotate-180' : ''}`} />
+        <SH id="as15-post-employment" num="V" title="Post-Employment Benefits — DCP vs. DBP" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Post-employment benefits are classified into two categories: <P n={4} /></p>
+        </div>
+        <div className="border border-rose-200 dark:border-rose-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('postEmployment')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Defined Contribution Plans vs. Defined Benefit Plans <P n={4} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.postEmployment ? 'rotate-180' : '')} />
           </div>
-          {openAccordions.definedContribution && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
-              <p>Under a defined contribution plan, the enterprise's obligation is limited to the amount it agrees to contribute to the fund. Actuarial risk and investment risk fall on the employee.</p>
-              <p><strong>Accounting Treatment:</strong> Simple accrual basis. The contribution payable for the period is recognized as an expense. No actuarial valuation is required.</p>
+          {openAccordions.postEmployment && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>1. Defined Contribution Plans (DCP):</strong> The enterprise's obligation is limited to the amount it agrees to contribute to a separate fund (e.g. Provident Fund). Actuarial risk and investment risk fall on the employee. <P n={4} /></p>
+              <ul className="list-disc pl-6 mb-2">
+                <li><strong>Accounting:</strong> The contribution payable for the period is recognized as an expense immediately. <P n={4} /></li>
+              </ul>
+              <p><strong>2. Defined Benefit Plans (DBP):</strong> The enterprise's obligation is to provide the agreed benefits to current and former employees (e.g. Gratuity schemes, defined pension plans). Actuarial risk and investment risk fall on the enterprise. <P n={5} /></p>
+              <ul className="list-disc pl-6">
+                <li><strong>Accounting:</strong> Requires actuarial assumptions to measure the obligation and the expense, introducing the possibility of actuarial gains and losses. <P n={5} /></li>
+              </ul>
             </div>
           )}
         </div>
 
         {/* 6. Defined Benefit Obligation */}
-        <SecHeader id="as15-defined-benefit" num="6" title="Defined Benefit Obligation (Para 49–115)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={11} para="Para 49" /> Accounting for defined benefit plans is complex because actuarial assumptions are required to measure the obligation and the expense.
-        </p>
-        <NoteBox type="warning" title="Actuarial Gains &amp; Losses Rule">
-          Under AS 15, **actuarial gains and losses should be recognized immediately** in the Statement of Profit and Loss in the period in which they occur. No deferrals are allowed.
-        </NoteBox>
-
-        <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden mb-6">
-          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('definedBenefitRules')}>
-            <span className="font-bold text-slate-900 dark:text-white text-sm">PUC Actuarial Valuation Steps (Para 64–66)</span>
-            <ChevronDown size={16} className={`transform transition-transform ${openAccordions.definedBenefitRules ? 'rotate-180' : ''}`} />
+        <SH id="as15-defined-benefit" num="VI" title="Defined Benefit Obligation &amp; Actuarial Valuation" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Accounting for defined benefit plans is complex because the obligation is settled in the future. <P n={9} /> Under **Paragraph 65**, the calculation of the present value of defined benefit obligations and the related service costs must be performed using the **Projected Unit Credit (PUC) Method** (accrued benefit method pro-rated on service). <P n={11} /></p>
+        </div>
+        <div className="border border-rose-250 dark:border-rose-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('dbObligation')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Actuarial Measurement &amp; Balance Sheet Recognition <P n={9} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.dbObligation ? 'rotate-180' : '')} />
           </div>
-          {openAccordions.definedBenefitRules && (
-            <div className="p-4 bg-white dark:bg-[#111726] text-xs sm:text-[13px] space-y-2 leading-relaxed">
-              <p>To measure the DBO and CSC, the enterprise must follow these steps using the cost method:</p>
-              <ul className="list-disc pl-5 space-y-1">
-                <li>Apply actuarial assumptions to estimate the future benefit that employees have earned for their service.</li>
-                <li>Discount that benefit using the Projected Unit Credit (PUC) method to determine the present value of the obligation.</li>
-                <li>Determine the fair value of any plan assets and subtract it from the obligation to report the net asset or liability.</li>
+          {openAccordions.dbObligation && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed font-sans">
+              <p><strong>1. Balance Sheet Recognition:</strong> The amount recognized as a defined benefit liability (or asset) should be: <P n={10} /></p>
+              <div className="p-3 bg-white dark:bg-slate-900 border rounded-lg font-mono text-[12px] text-slate-800 dark:text-slate-200 text-center">
+                Net Liability = Present Value of Defined Benefit Obligation (PVDBO) at balance sheet date <br />
+                &nbsp;&nbsp;− Fair Value of Plan Assets (FVPA) at balance sheet date
+              </div>
+              <p><strong>2. P&amp;L Expense Components:</strong> The net total of the following amounts should be recognized in the Statement of Profit and Loss: <P n={10} /></p>
+              <ul className="list-disc pl-6 space-y-1">
+                <li>Current service cost (additional obligation arising from service in current period).</li>
+                <li>Interest cost (increase in present value of obligation due to passage of time).</li>
+                <li>Expected return on plan assets.</li>
+                <li>Actuarial gains and losses (must be recognized **immediately** in P&amp;L; no deferral). <P n={10} /></li>
+                <li>Past service cost (to the extent it has vested).</li>
               </ul>
             </div>
           )}
         </div>
 
         {/* 7. Other Long-Term Benefits */}
-        <SecHeader id="as15-long-term" num="7" title="Other Long-Term Employee Benefits (Para 126–131)" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={28} para="Para 126" /> Other long-term benefits include items like long-service leave, sabbatical leave, or jubilee benefits.
-        </p>
-        <p className="leading-relaxed">
-          The accounting treatment is simplified compared to defined benefit plans: actuarial gains and losses, as well as past service cost, are recognized immediately in the Statement of Profit &amp; Loss, and no complex disclosures are required.
-        </p>
+        <SH id="as15-long-term" num="VII" title="Other Long-Term Employee Benefits" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Other long-term employee benefits include items such as long-service leave, sabbatical leave, or long-term disability benefits. <P n={20} /></p>
+          <p><strong>Accounting Treatment (Para 127):</strong> The amount recognized as a liability should be the present value of the obligation minus the fair value of any plan assets. Unlike defined benefit plans, **all actuarial gains and losses and past service costs are recognized immediately in the Statement of Profit and Loss** (no reserves option). <P n={20} /></p>
+        </div>
 
-        {/* 8. Termination & Disclosures */}
-        <SecHeader id="as15-termination" num="8" title="Termination Benefits &amp; Disclosures" />
-        <p className="text-[16px] leading-relaxed text-slate-700 dark:text-slate-200 mb-4 font-serif">
-          <ParaRef page={30} para="Para 134" /> Termination benefits are recognized as a liability and an expense only when the enterprise has a detailed formal plan for termination and is demonstrably committed to it.
-        </p>
-        <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
-          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures for Defined Benefit Plans (Para 119):</h4>
-          <ul className="list-disc pl-5 space-y-1">
-            <li>The **accounting policy** adopted for recognizing actuarial gains and losses.</li>
-            <li>A general description of the **type of plan** (gratuity, pension, etc.).</li>
-            <li>A **reconciliation of opening and closing balances** of the present value of the defined benefit obligation.</li>
-            <li>A **reconciliation of opening and closing balances** of the fair value of plan assets.</li>
-            <li>The principal **actuarial assumptions** used (discount rates, expected rates of return on plan assets, salary growth rate, employee turnover).</li>
-          </ul>
+        {/* 8. Termination Benefits */}
+        <SH id="as15-termination" num="VIII" title="Termination Benefits" />
+        <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
+          <p>Termination benefits arise when an enterprise terminates employment before the normal retirement date or when an employee accepts voluntary redundancy (e.g. Voluntary Retirement Scheme - VRS). <P n={21} /></p>
+        </div>
+        <div className="border border-rose-200 dark:border-rose-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+          <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('termination')}>
+            <span className="font-bold text-slate-900 dark:text-white text-sm">Recognition and Treatment of VRS/Termination Benefits <P n={21} /></span>
+            <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.termination ? 'rotate-180' : '')} />
+          </div>
+          {openAccordions.termination && (
+            <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
+              <p><strong>Accounting Treatment (Para 134):</strong> An enterprise should recognize termination benefits as a liability and an **expense immediately** in the period they occur. <P n={21} /></p>
+              <p><strong>VRS Amortization Prohibition:</strong> Previously, companies were allowed to amortize VRS expenditure over 3-5 years. Under AS 15, **amortization of VRS is strictly prohibited**. The entire VRS payout must be charged to the Statement of Profit and Loss in the year the employee accepts the offer. <P n={21} /></p>
+            </div>
+          )}
+        </div>
+
+        {/* 9. Disclosures */}
+        <SH id="as15-disclosure" num="IX" title="Disclosure Requirements under AS 15" />
+        <div className="mb-6 rounded-xl border border-rose-200 dark:border-rose-900/40 overflow-hidden font-serif">
+          <div className="bg-rose-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">AS 15 Mandatory Disclosures <P n={22} /></span></div>
+          <div className="divide-y divide-rose-100 dark:divide-rose-900/30 font-sans">
+            {[
+              { title: 'Defined Contribution Plans Disclosures', detail: 'The enterprise must disclose the amount recognized as an expense for defined contribution plans in the Statement of Profit and Loss.' },
+              { title: 'Defined Benefit Plans Disclosures (Reconciliations)', detail: 'Detailed reconciliations of opening and closing balances of the present value of the defined benefit obligation (PVDBO) and the fair value of plan assets (FVPA); and the principal actuarial assumptions used (discount rate, rate of increase in salaries, medical inflation).' },
+              { title: 'Other Long-Term Benefits Disclosures', detail: 'The amount recognized as an expense and a liability for other long-term employee benefits.' }
+            ].map((item, i) => (
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-rose-50/15 dark:bg-rose-955/10')}>
+                <div className="w-6 h-6 rounded-full bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center text-rose-700 dark:text-rose-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+              </div>
+            ))}
+          </div>
         </div>
 
       </div>
     </div>
   )
 }
-
 
 const as16Sections = [
   { id: 'as16-overview',          title: '1. Overview & Purpose' },
