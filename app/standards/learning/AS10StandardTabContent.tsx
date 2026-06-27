@@ -154,8 +154,7 @@ export function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabCon
         </div>
       </div>
 
-      <div className="max-w-[1720px] mx-auto w-[98%] px-3 sm:px-5 lg:px-8 mt-6">
-        <div className="w-full bg-white dark:bg-[#111726] border border-slate-200 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 shadow-sm space-y-8">
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
         {/* Section: 1. Introduction & Objectives */}
         <section id="as-10-intro-sec" className="scroll-mt-36 space-y-6 w-full">
           <SH id="as-10-intro-sec" num="1" title="1. Introduction &amp; Objectives" />
@@ -642,7 +641,6 @@ export function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabCon
             </div>
           </div>
         </section>
-        </div>
       </div>
     </div>
   );
