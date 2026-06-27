@@ -49,54 +49,54 @@ function CaseStudyCard({
     blue: {
       accent: 'from-blue-500 via-blue-600 to-indigo-600',
       leftBorder: 'border-blue-400 dark:border-blue-500/70',
-      badge: 'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/30',
+      badge: 'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800/30',
       number: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200/40 dark:border-blue-800/40',
-      panelHeader: 'bg-blue-50/40 dark:bg-blue-950/20',
+      panelHeader: 'bg-blue-50/40 dark:bg-blue-900/20',
       panelTitle: 'text-blue-700 dark:text-blue-400',
       panelBorder: 'border-blue-100 dark:border-blue-900/40',
     },
     indigo: {
       accent: 'from-indigo-500 via-indigo-600 to-purple-600',
       leftBorder: 'border-indigo-400 dark:border-indigo-500/70',
-      badge: 'bg-indigo-50 text-indigo-700 border-indigo-200/50 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800/30',
+      badge: 'bg-indigo-50 text-indigo-700 border-indigo-200/50 dark:bg-indigo-900/40 dark:text-indigo-400 dark:border-indigo-800/30',
       number: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 border-indigo-200/40 dark:border-indigo-800/40',
-      panelHeader: 'bg-indigo-50/40 dark:bg-indigo-950/20',
+      panelHeader: 'bg-indigo-50/40 dark:bg-indigo-900/20',
       panelTitle: 'text-indigo-700 dark:text-indigo-400',
       panelBorder: 'border-indigo-100 dark:border-indigo-900/40',
     },
     emerald: {
       accent: 'from-emerald-500 via-emerald-600 to-teal-600',
       leftBorder: 'border-emerald-400 dark:border-emerald-500/70',
-      badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/30',
+      badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-900/40 dark:text-emerald-400 dark:border-emerald-800/30',
       number: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border-emerald-200/40 dark:border-emerald-800/40',
-      panelHeader: 'bg-emerald-50/40 dark:bg-emerald-950/20',
+      panelHeader: 'bg-emerald-50/40 dark:bg-emerald-900/20',
       panelTitle: 'text-emerald-700 dark:text-emerald-400',
       panelBorder: 'border-emerald-100 dark:border-emerald-900/40',
     },
     amber: {
       accent: 'from-amber-500 via-amber-600 to-orange-600',
       leftBorder: 'border-amber-400 dark:border-amber-500/70',
-      badge: 'bg-amber-50 text-amber-700 border-amber-200/50 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800/30',
+      badge: 'bg-amber-50 text-amber-700 border-amber-200/50 dark:bg-amber-900/40 dark:text-amber-400 dark:border-amber-800/30',
       number: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200/40 dark:border-amber-800/40',
-      panelHeader: 'bg-amber-50/40 dark:bg-amber-950/20',
+      panelHeader: 'bg-amber-50/40 dark:bg-amber-900/20',
       panelTitle: 'text-amber-700 dark:text-amber-400',
       panelBorder: 'border-amber-100 dark:border-amber-900/40',
     },
     violet: {
       accent: 'from-violet-500 via-violet-600 to-fuchsia-600',
       leftBorder: 'border-violet-400 dark:border-violet-500/70',
-      badge: 'bg-violet-50 text-violet-700 border-violet-200/50 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800/30',
+      badge: 'bg-violet-50 text-violet-700 border-violet-200/50 dark:bg-violet-900/40 dark:text-violet-400 dark:border-violet-800/30',
       number: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300 border-violet-200/40 dark:border-violet-800/40',
-      panelHeader: 'bg-violet-50/40 dark:bg-violet-950/20',
+      panelHeader: 'bg-violet-50/40 dark:bg-violet-900/20',
       panelTitle: 'text-violet-700 dark:text-violet-400',
       panelBorder: 'border-violet-100 dark:border-violet-900/40',
     },
     rose: {
       accent: 'from-rose-500 via-rose-600 to-pink-600',
       leftBorder: 'border-rose-400 dark:border-rose-500/70',
-      badge: 'bg-rose-50 text-rose-700 border-rose-200/50 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800/30',
+      badge: 'bg-rose-50 text-rose-700 border-rose-200/50 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800/30',
       number: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300 border-rose-200/40 dark:border-rose-800/40',
-      panelHeader: 'bg-rose-50/40 dark:bg-rose-950/20',
+      panelHeader: 'bg-rose-50/40 dark:bg-rose-900/20',
       panelTitle: 'text-rose-700 dark:text-rose-400',
       panelBorder: 'border-rose-100 dark:border-rose-900/40',
     },
@@ -126,7 +126,7 @@ function CaseStudyCard({
           {pdfPage && navigateToPdfPage && (
             <button
               onClick={() => navigateToPdfPage(pdfPage)}
-              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded cursor-pointer transition-all"
+              className="inline-flex items-center justify-center w-5 h-5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded cursor-pointer transition-all"
               title={`Open ICAI AS 10 PDF — Page ${pdfPage}`}
             >
               <FileText size={11} />
@@ -142,19 +142,19 @@ function CaseStudyCard({
         {panels.map((panel, idx) => {
           const isMono = panel.title.toLowerCase().includes('disclosure') || panel.title.toLowerCase().includes('journal') || panel.title.toLowerCase().includes('entry') || panel.title.toLowerCase().includes('calculation') || panel.title.toLowerCase().includes('working');
           const panelBg = isMono
-            ? 'bg-[#FAFAF8] dark:bg-slate-900/60 border-slate-250 dark:border-slate-800/80 shadow-xs'
+            ? 'bg-[#FAFAF8] dark:bg-slate-900/60 border-slate-200 dark:border-slate-800/80 shadow-xs'
             : `bg-white dark:bg-slate-900/20 ${activeTheme.panelBorder || 'border-slate-200/70 dark:border-slate-800'}`;
           return (
-            <div key={idx} className={`rounded-xl border overflow-hidden transition-all hover:border-slate-350 dark:hover:border-slate-700/80 ${panelBg}`}>
-              <div className={`flex items-center gap-2.5 px-4 py-2.5 border-b ${isMono ? 'border-slate-250 bg-slate-100/60 dark:bg-slate-800/60' : `border-slate-200/60 dark:border-slate-800 ${activeTheme.panelHeader}`}`}>
+            <div key={idx} className={`rounded-xl border overflow-hidden transition-all hover:border-slate-300 dark:hover:border-slate-700/80 ${panelBg}`}>
+              <div className={`flex items-center gap-2.5 px-4 py-2.5 border-b ${isMono ? 'border-slate-200 bg-slate-100/60 dark:bg-slate-800/60' : `border-slate-200/60 dark:border-slate-800 ${activeTheme.panelHeader}`}`}>
                 <span className={`flex items-center justify-center w-[22px] h-[22px] rounded-full text-[10.5px] font-bold font-mono shrink-0 ${activeTheme.number}`}>
                   {idx + 1}
                 </span>
-                <span className={`text-[10.5px] font-extrabold uppercase tracking-widest select-none ${isMono ? 'text-slate-650 dark:text-slate-400' : activeTheme.panelTitle}`}>
+                <span className={`text-[10.5px] font-extrabold uppercase tracking-widest select-none ${isMono ? 'text-slate-600 dark:text-slate-400' : activeTheme.panelTitle}`}>
                   {panel.title}
                 </span>
               </div>
-              <div className={`px-4 py-4 ${isMono ? 'text-xs sm:text-[12.5px] leading-relaxed font-mono whitespace-pre-line text-slate-800 dark:text-slate-200' : 'text-[14.5px] sm:text-[15px] leading-relaxed font-serif text-slate-750 dark:text-slate-200'}`}>
+              <div className={`px-4 py-4 ${isMono ? 'text-xs sm:text-[12.5px] leading-relaxed font-mono whitespace-pre-line text-slate-800 dark:text-slate-200' : 'text-[14.5px] sm:text-[15px] leading-relaxed font-serif text-slate-700 dark:text-slate-200'}`}>
                 {panel.content}
               </div>
             </div>
@@ -163,7 +163,7 @@ function CaseStudyCard({
 
         {examFocus && (
           <div className="rounded-xl border border-amber-300/60 dark:border-amber-700/40 border-l-4 border-l-amber-500 overflow-hidden shadow-xs">
-            <div className="flex items-center gap-2 px-4 py-2.5 bg-amber-50/80 dark:bg-amber-950/20 border-b border-amber-300/40 dark:border-amber-700/30">
+            <div className="flex items-center gap-2 px-4 py-2.5 bg-amber-50/80 dark:bg-amber-900/20 border-b border-amber-300/40 dark:border-amber-700/30">
               <AlertTriangle size={12.5} className="text-amber-600 dark:text-amber-400 shrink-0" />
               <span className="text-[10.5px] font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-widest select-none">
                 {examFocusType === 'trap' ? 'Exam Trap Warning'
@@ -173,7 +173,7 @@ function CaseStudyCard({
                   : 'Exam Focus & Learning'}
               </span>
             </div>
-            <div className="px-4 py-3.5 bg-amber-50/[0.25] dark:bg-amber-950/10">
+            <div className="px-4 py-3.5 bg-amber-50/[0.25] dark:bg-amber-900/10">
               <div className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200 font-serif font-medium">{examFocus}</div>
             </div>
           </div>
@@ -302,7 +302,7 @@ export function AS10ExamplesCustomContent({ navigateToPdfPage, renderTextWithRef
         </div>
         <div className={`h-[1.5px] w-full border-b ${borderColor} mb-3`} />
         {description && (
-          <p className="text-[13px] font-sans font-normal text-slate-450 dark:text-slate-500 mt-1 leading-relaxed tracking-wide">
+          <p className="text-[13px] font-sans font-normal text-slate-400 dark:text-slate-500 mt-1 leading-relaxed tracking-wide">
             {description}
           </p>
         )}
@@ -370,7 +370,7 @@ export function AS10ExamplesCustomContent({ navigateToPdfPage, renderTextWithRef
                         'bg-rose-600 dark:bg-rose-500',
                         'bg-slate-600 dark:bg-slate-500',
                       ][exampleChapters.findIndex(c => c.id === sec.id)] || 'bg-indigo-600'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 }`}
               >
                 {sec.title}
@@ -494,16 +494,16 @@ export function AS10ExamplesCustomContent({ navigateToPdfPage, renderTextWithRef
                     <HelpCircle size={14} />
                     <span>Past Exam Question ({q.pastExamRef})</span>
                   </span>
-                  <span className="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 px-2.5 py-0.5 rounded text-[10px] font-bold">
+                  <span className="bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 px-2.5 py-0.5 rounded text-[10px] font-bold">
                     {q.pointsAwarded}
                   </span>
                 </div>
                 <div className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200 font-serif whitespace-pre-line">
                   {q.question}
                 </div>
-                <div className="bg-white dark:bg-slate-950 p-5 rounded-xl border border-slate-250 dark:border-slate-850 space-y-2">
+                <div className="bg-white dark:bg-slate-900 p-5 rounded-xl border border-slate-200 dark:border-slate-800 space-y-2">
                   <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">Suggested Answer / Valuation Guide</span>
-                  <div className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-355 font-serif whitespace-pre-line">
+                  <div className="text-[13.5px] leading-relaxed text-slate-700 dark:text-slate-300 font-serif whitespace-pre-line">
                     {q.answer}
                   </div>
                 </div>
@@ -520,14 +520,14 @@ export function AS10ExamplesCustomContent({ navigateToPdfPage, renderTextWithRef
           <div className="bg-slate-50 dark:bg-[#181E30] border border-slate-200 dark:border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
             {auditNotes.map((note) => (
               <div key={note.id} className="space-y-4">
-                <h3 className="text-base sm:text-lg font-bold text-slate-950 dark:text-white font-sans flex items-center gap-2">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-sans flex items-center gap-2">
                   <CheckCircle className="text-emerald-600 dark:text-emerald-400" size={18} />
                   <span>{note.title}</span>
                 </h3>
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 list-none pl-0">
                   {note.points.map((pt, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 p-3.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed shadow-xs">
-                      <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 font-mono font-bold text-[10.5px] shrink-0 mt-0.5">
+                      <span className="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400 font-mono font-bold text-[10.5px] shrink-0 mt-0.5">
                         {idx + 1}
                       </span>
                       <span>{pt}</span>

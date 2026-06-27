@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 14 PDF — Page ${page}`}
   >
     <svg
@@ -275,7 +275,7 @@ export const auditCases: CaseStudy[] = [
       {
         title: 'Audit Report & Disclosures',
         content: (
-          <div className="p-3 bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-800 rounded-xl text-xs space-y-2">
+          <div className="p-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-xl text-xs space-y-2">
             <p className="font-bold text-rose-800 dark:text-rose-300">Auditor's Recommendation:</p>
             <p>The auditor must verify the registered valuer's license and assumptions. They must ensure that the trademark recognition of ₹500,000 complies with AS 26 and AS 14, and the DTL of 30% (₹150,000) is recorded, which reduces Capital Reserve or increases Goodwill on amalgamation.</p>
           </div>
@@ -470,11 +470,11 @@ export const examCorner: CaseStudy[] = [
         title: 'Comparing the Methods',
         content: (
           <div className="space-y-3 text-xs leading-relaxed">
-            <div className="p-3 bg-slate-50 dark:bg-slate-950 border rounded-lg">
+            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
               <span className="font-bold text-blue-600 block">1. Net Payment Method (Primary Method)</span>
               <p>Purchase consideration is the sum of **all payments made to the shareholders** (equity and preference) of the transferor company. It includes cash, equity shares, preference shares, debentures, or other assets issued to shareholders. **Ignore** liabilities taken over and payments to debenture holders/creditors.</p>
             </div>
-            <div className="p-3 bg-slate-50 dark:bg-slate-950 border rounded-lg">
+            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-lg">
               <span className="font-bold text-amber-600 block">2. Net Asset Method (Alternative Method)</span>
               <p>Use ONLY when the details of payments to shareholders are not fully given. Purchase consideration is computed as:</p>
               <p className="font-mono mt-1 text-center font-bold">Total agreed value of Assets taken over − Total agreed value of Liabilities taken over</p>

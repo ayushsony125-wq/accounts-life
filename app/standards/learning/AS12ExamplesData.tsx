@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 12 PDF — Page ${page}`}
   >
     <svg
@@ -93,7 +93,7 @@ export const icaiIllustrations: CaseStudy[] = [
         content: (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
             <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-xl">
-              <span className="font-bold text-blue-650 block mb-2">Method A (Cost Reduction)</span>
+              <span className="font-bold text-blue-600 block mb-2">Method A (Cost Reduction)</span>
               1. Reactor A/c ...... Dr. ₹20,00,000<br />
               &nbsp;&nbsp;&nbsp;&nbsp;To Bank A/c ..................... ₹20,00,000<br />
               2. Bank A/c ......... Dr. ₹4,00,000<br />
@@ -102,7 +102,7 @@ export const icaiIllustrations: CaseStudy[] = [
               &nbsp;&nbsp;&nbsp;&nbsp;To Reactor A/c .................. ₹3,20,000
             </div>
             <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-xl">
-              <span className="font-bold text-amber-650 block mb-2">Method B (Deferred Income)</span>
+              <span className="font-bold text-amber-600 block mb-2">Method B (Deferred Income)</span>
               1. Reactor A/c ...... Dr. ₹20,00,000<br />
               &nbsp;&nbsp;&nbsp;&nbsp;To Bank A/c ..................... ₹20,00,000<br />
               2. Bank A/c ......... Dr. ₹4,00,000<br />
@@ -170,7 +170,7 @@ export const icaiIllustrations: CaseStudy[] = [
         content: (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
             <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-xl">
-              <span className="font-bold text-blue-650 block mb-2">Method A (Cost Adjustment)</span>
+              <span className="font-bold text-blue-600 block mb-2">Method A (Cost Adjustment)</span>
               1. Reactor A/c .............. Dr. ₹4,00,000<br />
               &nbsp;&nbsp;&nbsp;&nbsp;To Bank A/c (Refund) ............. ₹4,00,000<br />
               <br />
@@ -178,7 +178,7 @@ export const icaiIllustrations: CaseStudy[] = [
               &nbsp;&nbsp;&nbsp;&nbsp;To Reactor A/c ................... ₹4,53,333
             </div>
             <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-xl">
-              <span className="font-bold text-amber-650 block mb-2">Method B (Deferred Income Adjustment)</span>
+              <span className="font-bold text-amber-600 block mb-2">Method B (Deferred Income Adjustment)</span>
               1. Deferred Grant A/c ....... Dr. ₹2,40,000<br />
               &nbsp;&nbsp;&nbsp;&nbsp;P&amp;L A/c (Extraordinary) ... Dr. ₹1,60,000<br />
               &nbsp;&nbsp;&nbsp;&nbsp;To Bank A/c (Refund) ............. ₹4,00,000<br />
@@ -265,7 +265,7 @@ export const auditCases: CaseStudy[] = [
         content: (
           <div>
             <p>NFRA investigated the treatment and identified the following structural failures:</p>
-            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-350">
+            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-300">
               <li><strong>Revenue Nature:</strong> The power subsidy was meant to offset operational electricity costs. It had no relationship with establishing a new project or backward region capital investment.</li>
               <li><strong>Violation of AS 12:</strong> Power subsidies are operational/revenue grants. Under AS 12, they must be recognized in the Statement of Profit and Loss to match the corresponding costs.</li>
               <li><strong>Impact:</strong> Zenith had artificially inflated its Shareholders\' Funds and under-reported its net operational expenses by ₹8 Crores.</li>

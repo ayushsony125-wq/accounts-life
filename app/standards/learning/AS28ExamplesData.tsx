@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 28 PDF — Page ${page}`}
   >
     <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-file-text">
@@ -55,9 +55,9 @@ export const icaiIllustrations: CaseStudy[] = [
                 </thead>
                 <tbody>
                   <tr><td className="border p-2">1</td><td className="border p-2">30,00,000</td><td className="border p-2">0.893</td><td className="border p-2">26,79,000</td></tr>
-                  <tr className="bg-blue-50/10 dark:bg-blue-950/5"><td className="border p-2">2</td><td className="border p-2">28,00,000</td><td className="border p-2">0.797</td><td className="border p-2">22,31,600</td></tr>
+                  <tr className="bg-blue-50/10 dark:bg-blue-900/5"><td className="border p-2">2</td><td className="border p-2">28,00,000</td><td className="border p-2">0.797</td><td className="border p-2">22,31,600</td></tr>
                   <tr><td className="border p-2">3</td><td className="border p-2">25,00,000</td><td className="border p-2">0.712</td><td className="border p-2">17,80,000</td></tr>
-                  <tr className="bg-blue-50/10 dark:bg-blue-950/5"><td className="border p-2">4</td><td className="border p-2">22,00,000</td><td className="border p-2">0.636</td><td className="border p-2">13,99,200</td></tr>
+                  <tr className="bg-blue-50/10 dark:bg-blue-900/5"><td className="border p-2">4</td><td className="border p-2">22,00,000</td><td className="border p-2">0.636</td><td className="border p-2">13,99,200</td></tr>
                   <tr><td className="border p-2">5 + Terminal</td><td className="border p-2">20,00,000 + ₹18,00,000</td><td className="border p-2">0.567</td><td className="border p-2">21,55,400</td></tr>
                   <tr className="font-bold bg-slate-100 dark:bg-slate-900"><td className="border p-2" colSpan={3}>Value in Use</td><td className="border p-2">₹1,02,45,200</td></tr>
                 </tbody>

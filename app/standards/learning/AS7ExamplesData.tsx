@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 7 PDF — Page ${page}`}
   >
     <svg
@@ -63,7 +63,7 @@ export const icaiIllustrations: CaseStudy[] = [
               <li>Actual Costs Incurred in Year 1: <strong>₹20,00,000</strong></li>
               <li>Estimated Remaining Costs to Complete: <strong>₹60,00,000</strong></li>
             </ul>
-            <p className="mt-2 text-slate-650 dark:text-gray-300">The contractor needs to determine the stage of completion and calculate the revenue, expenses, and profit to be recognized in the Year 1 Statement of Profit &amp; Loss.</p>
+            <p className="mt-2 text-slate-600 dark:text-gray-300">The contractor needs to determine the stage of completion and calculate the revenue, expenses, and profit to be recognized in the Year 1 Statement of Profit &amp; Loss.</p>
           </div>
         )
       },
@@ -159,7 +159,7 @@ export const icaiIllustrations: CaseStudy[] = [
                 <p>&nbsp;&nbsp;&nbsp;Revenue (₹60,00,000) − Expense (₹70,00,000) = <strong>−₹10,00,000</strong></p>
               </div>
             </div>
-            <p className="mt-2 text-slate-650 dark:text-gray-300">Notice that the **entire expected loss of ₹10,00,000** is recognized in Year 1, even though the contract is only 50% complete.</p>
+            <p className="mt-2 text-slate-600 dark:text-gray-300">Notice that the **entire expected loss of ₹10,00,000** is recognized in Year 1, even though the contract is only 50% complete.</p>
           </div>
         )
       },
@@ -237,7 +237,7 @@ export const businessCases: CaseStudy[] = [
         content: (
           <div>
             <p>Under AS 7 (Para 7), when a contract covers a number of assets, the construction of each asset should be treated as a **separate construction contract** (segmented) when:</p>
-            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-350">
+            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-300">
               <li>Separate proposals have been submitted for each asset.</li>
               <li>Each asset has been subject to separate negotiation, and the contractor and customer have been able to accept or reject that part of the contract relating to each asset.</li>
               <li>The costs and revenues of each asset can be identified.</li>
@@ -277,7 +277,7 @@ export const auditCases: CaseStudy[] = [
         content: (
           <div>
             <p>NFRA investigated the contract files and noted the following violations of AS 7:</p>
-            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-350">
+            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-300">
               <li><strong>Variation and Claims Recognition (Para 11):</strong> Variations/claims are included in contract revenue only when it is probable that the customer will approve them and the amount can be reliably measured. The government had not approved the claims; they were disputed. Therefore, they should not have been recognized as revenue or offset.</li>
               <li><strong>Omission of Loss Provision:</strong> Because the escalation claims were unapproved, the total estimated costs exceeded the revenue by ₹45 Crores. Zenith should have recognized this ₹45 Crore loss immediately under Para 35.</li>
             </ul>

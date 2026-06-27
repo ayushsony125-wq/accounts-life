@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 17 PDF — Page ${page}`}
   >
     <svg
@@ -68,9 +68,9 @@ export const icaiIllustrations: CaseStudy[] = [
                 </thead>
                 <tbody>
                   <tr><td className="border p-2 font-bold">A</td><td className="border p-2">4,000,000</td><td className="border p-2">1,000,000</td><td className="border p-2">+800,000</td><td className="border p-2">3,000,000</td></tr>
-                  <tr className="bg-blue-50/10 dark:bg-blue-950/5"><td className="border p-2 font-bold">B</td><td className="border p-2">2,000,000</td><td className="border p-2">500,000</td><td className="border p-2">+100,050</td><td className="border p-2">1,500,000</td></tr>
+                  <tr className="bg-blue-50/10 dark:bg-blue-900/5"><td className="border p-2 font-bold">B</td><td className="border p-2">2,000,000</td><td className="border p-2">500,000</td><td className="border p-2">+100,050</td><td className="border p-2">1,500,000</td></tr>
                   <tr><td className="border p-2 font-bold">C</td><td className="border p-2">1,000,000</td><td className="border p-2">1,500,000</td><td className="border p-2">−400,000</td><td className="border p-2">800,000</td></tr>
-                  <tr className="bg-blue-50/10 dark:bg-blue-950/5"><td className="border p-2 font-bold">D</td><td className="border p-2">500,000</td><td className="border p-2">Nil</td><td className="border p-2">−50,000</td><td className="border p-2">400,000</td></tr>
+                  <tr className="bg-blue-50/10 dark:bg-blue-900/5"><td className="border p-2 font-bold">D</td><td className="border p-2">500,000</td><td className="border p-2">Nil</td><td className="border p-2">−50,000</td><td className="border p-2">400,000</td></tr>
                   <tr><td className="border p-2 font-bold">E</td><td className="border p-2">1,500,000</td><td className="border p-2">Nil</td><td className="border p-2">+50,000</td><td className="border p-2">1,300,000</td></tr>
                   <tr className="font-bold bg-slate-100 dark:bg-slate-900"><td className="border p-2">Total</td><td className="border p-2">9,000,000</td><td className="border p-2">3,000,000</td><td className="border p-2">N/A</td><td className="border p-2">7,000,000</td></tr>
                 </tbody>

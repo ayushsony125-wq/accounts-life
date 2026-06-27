@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 11 PDF — Page ${page}`}
   >
     <svg
@@ -139,7 +139,7 @@ export const icaiIllustrations: CaseStudy[] = [
           <div>
             <p><strong>Entity:</strong> Bharat Export Corp. has a branch in Singapore. The functional currency of the branch is SGD ($). The branch needs to translate its accounts into Indian Rupees (₹) for consolidation.</p>
             <p><strong>Branch Classification Options:</strong></p>
-            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-350">
+            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-300">
               <li><strong>Integral Foreign Operation (IFO):</strong> The branch conducts business as if it were an extension of the Indian parent company (e.g. importing goods from parent and selling locally, transferring proceeds back).</li>
               <li><strong>Non-Integral Foreign Operation (NIFO):</strong> The branch operates autonomously, accumulating cash, raising loans, and executing local contracts in Singapore Dollar independently.</li>
             </ul>
@@ -181,8 +181,8 @@ export const icaiIllustrations: CaseStudy[] = [
                 </tr>
                 <tr>
                   <td className="p-2 border font-bold">Exchange Difference</td>
-                  <td className="p-2 border text-red-655 font-semibold">Recognized in P&amp;L immediately</td>
-                  <td className="p-2 border text-green-655 font-semibold">Accumulated in Equity (FCTR)</td>
+                  <td className="p-2 border text-red-600 font-semibold">Recognized in P&amp;L immediately</td>
+                  <td className="p-2 border text-green-600 font-semibold">Accumulated in Equity (FCTR)</td>
                 </tr>
               </tbody>
             </table>
@@ -283,7 +283,7 @@ export const auditCases: CaseStudy[] = [
         content: (
           <div>
             <p>NFRA investigated the capitalization and identified the following violations:</p>
-            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-350">
+            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-300">
               <li><strong>Para 46A Restriction:</strong> The option to capitalize or defer exchange differences under Para 46/46A is **restricted solely to Long-Term Foreign Currency Monetary Items (LTFCMI)**.</li>
               <li><strong>LTFCMI Definition:</strong> An item is long-term only if it has a maturity period of **12 months or more** from the date of inception.</li>
               <li><strong>Violation:</strong> Trade payables with a 90-day maturity are short-term liabilities. They do not qualify as LTFCMIs. Capitalizing their exchange loss is a serious misstatement, violating AS 11.</li>

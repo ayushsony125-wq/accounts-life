@@ -48,62 +48,62 @@ function CaseStudyCard({
     blue: {
       accent: 'from-blue-500 via-blue-600 to-indigo-600',
       leftBorder: 'border-blue-400 dark:border-blue-500/70',
-      badge: 'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/30',
+      badge: 'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800/30',
       number: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200/40 dark:border-blue-800/40',
-      panelHeader: 'bg-blue-50/40 dark:bg-blue-955/20',
+      panelHeader: 'bg-blue-50/40 dark:bg-blue-900/20',
       panelTitle: 'text-blue-700 dark:text-blue-400',
       panelBorder: 'border-blue-100 dark:border-blue-900/40',
     },
     indigo: {
       accent: 'from-indigo-500 via-indigo-600 to-purple-600',
       leftBorder: 'border-indigo-400 dark:border-indigo-500/70',
-      badge: 'bg-indigo-50 text-indigo-700 border-indigo-200/50 dark:bg-indigo-955/40 dark:text-indigo-400 dark:border-indigo-800/30',
+      badge: 'bg-indigo-50 text-indigo-700 border-indigo-200/50 dark:bg-indigo-900/40 dark:text-indigo-400 dark:border-indigo-800/30',
       number: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 border-indigo-200/40 dark:border-indigo-800/40',
-      panelHeader: 'bg-indigo-50/40 dark:bg-indigo-955/20',
+      panelHeader: 'bg-indigo-50/40 dark:bg-indigo-900/20',
       panelTitle: 'text-indigo-700 dark:text-indigo-400',
       panelBorder: 'border-indigo-100 dark:border-indigo-900/40',
     },
     emerald: {
       accent: 'from-emerald-500 via-emerald-600 to-teal-600',
       leftBorder: 'border-emerald-400 dark:border-emerald-500/70',
-      badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-955/40 dark:text-emerald-400 dark:border-emerald-800/30',
+      badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-900/40 dark:text-emerald-400 dark:border-emerald-800/30',
       number: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border-emerald-200/40 dark:border-emerald-800/40',
-      panelHeader: 'bg-emerald-50/40 dark:bg-emerald-955/20',
+      panelHeader: 'bg-emerald-50/40 dark:bg-emerald-900/20',
       panelTitle: 'text-emerald-700 dark:text-emerald-400',
       panelBorder: 'border-emerald-100 dark:border-emerald-900/40',
     },
     amber: {
       accent: 'from-amber-500 via-amber-600 to-orange-600',
       leftBorder: 'border-amber-400 dark:border-amber-500/70',
-      badge: 'bg-amber-50 text-amber-700 border-amber-200/50 dark:bg-amber-955/40 dark:text-amber-400 dark:border-amber-800/30',
+      badge: 'bg-amber-50 text-amber-700 border-amber-200/50 dark:bg-amber-900/40 dark:text-amber-400 dark:border-amber-800/30',
       number: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200/40 dark:border-amber-800/40',
-      panelHeader: 'bg-amber-50/40 dark:bg-amber-955/20',
+      panelHeader: 'bg-amber-50/40 dark:bg-amber-900/20',
       panelTitle: 'text-amber-700 dark:text-amber-400',
       panelBorder: 'border-amber-100 dark:border-amber-900/40',
     },
     violet: {
       accent: 'from-violet-500 via-violet-600 to-fuchsia-600',
       leftBorder: 'border-violet-400 dark:border-violet-500/70',
-      badge: 'bg-violet-50 text-violet-700 border-violet-200/50 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800/30',
+      badge: 'bg-violet-50 text-violet-700 border-violet-200/50 dark:bg-violet-900/40 dark:text-violet-400 dark:border-violet-800/30',
       number: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300 border-violet-200/40 dark:border-violet-800/40',
-      panelHeader: 'bg-violet-50/40 dark:bg-violet-955/20',
+      panelHeader: 'bg-violet-50/40 dark:bg-violet-900/20',
       panelTitle: 'text-violet-700 dark:text-violet-400',
       panelBorder: 'border-violet-100 dark:border-violet-900/40',
     },
     rose: {
       accent: 'from-rose-500 via-rose-600 to-pink-600',
       leftBorder: 'border-rose-400 dark:border-rose-500/70',
-      badge: 'bg-rose-50 text-rose-700 border-rose-200/50 dark:bg-rose-955/40 dark:text-rose-400 dark:border-rose-800/30',
+      badge: 'bg-rose-50 text-rose-700 border-rose-200/50 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800/30',
       number: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300 border-rose-200/40 dark:border-rose-800/40',
-      panelHeader: 'bg-rose-50/40 dark:bg-rose-955/20',
+      panelHeader: 'bg-rose-50/40 dark:bg-rose-900/20',
       panelTitle: 'text-rose-700 dark:text-rose-400',
       panelBorder: 'border-rose-100 dark:border-rose-900/40',
     },
     slate: {
       accent: 'from-slate-500 via-slate-600 to-slate-700',
       leftBorder: 'border-slate-400 dark:border-slate-500/70',
-      badge: 'bg-slate-50 text-slate-700 border-slate-200/50 dark:bg-slate-900/40 dark:text-slate-450 dark:border-slate-800/30',
-      number: 'bg-slate-100 text-slate-800 dark:bg-slate-850 dark:text-slate-300 border-slate-200/40 dark:border-slate-700/40',
+      badge: 'bg-slate-50 text-slate-700 border-slate-200/50 dark:bg-slate-900/40 dark:text-slate-400 dark:border-slate-800/30',
+      number: 'bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300 border-slate-200/40 dark:border-slate-700/40',
       panelHeader: 'bg-slate-50/40 dark:bg-slate-800/20',
       panelTitle: 'text-slate-700 dark:text-slate-400',
       panelBorder: 'border-slate-100 dark:border-slate-800/40',
@@ -124,7 +124,7 @@ function CaseStudyCard({
           {pdfPage && navigateToPdfPage && (
             <button
               onClick={() => navigateToPdfPage(pdfPage)}
-              className="inline-flex items-center gap-1 text-[10px] font-bold text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 bg-red-50 hover:bg-red-100/70 dark:bg-red-955/30 px-2.5 py-0.5 border border-red-200/40 dark:border-red-900/30 rounded cursor-pointer transition-all"
+              className="inline-flex items-center gap-1 text-[10px] font-bold text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 bg-red-50 hover:bg-red-100/70 dark:bg-red-900/30 px-2.5 py-0.5 border border-red-200/40 dark:border-red-900/30 rounded cursor-pointer transition-all"
             >
               <FileText size={10} />
               <span>PDF Reference (p. {pdfPage})</span>
@@ -134,12 +134,12 @@ function CaseStudyCard({
       </div>
 
       {/* Title */}
-      <h3 className="text-[17px] sm:text-[18.5px] font-extrabold text-slate-905 dark:text-white leading-tight tracking-tight">
+      <h3 className="text-[17px] sm:text-[18.5px] font-extrabold text-slate-900 dark:text-white leading-tight tracking-tight">
         {title}
       </h3>
 
       {/* Tabs Selector for Panels */}
-      <div className="flex flex-row items-center gap-1 border-b border-slate-150 dark:border-gray-800 overflow-x-auto scrollbar-none pb-0.5">
+      <div className="flex flex-row items-center gap-1 border-b border-slate-100 dark:border-gray-800 overflow-x-auto scrollbar-none pb-0.5">
         {panels.map((p, idx) => (
           <button
             key={idx}
@@ -156,13 +156,13 @@ function CaseStudyCard({
       </div>
 
       {/* Selected Panel Content */}
-      <div className="flex-1 text-[14px] sm:text-[14.5px] text-slate-700 dark:text-slate-300 leading-relaxed font-normal min-h-[120px] transition-all duration-150 font-serif">
+      <div className="flex-1 text-[14px] sm:text-[14.5px] text-slate-700 dark:text-slate-300 leading-relaxed font-normal min-h-[120px] transition-all duration-100 font-serif">
         {panels[activePanelIdx]?.content}
       </div>
 
       {/* Exam Focus Box */}
       {examFocus && (
-        <div className="p-4 rounded-xl border border-rose-100 dark:border-red-955/40 bg-rose-50/20 dark:bg-[#2A1D1D]/30 space-y-2 mt-2 font-sans">
+        <div className="p-4 rounded-xl border border-rose-100 dark:border-red-900/40 bg-rose-50/20 dark:bg-[#2A1D1D]/30 space-y-2 mt-2 font-sans">
           <h4 className="font-sans font-extrabold text-[10.5px] uppercase tracking-wider text-rose-700 dark:text-rose-400 flex items-center gap-1.5">
             <AlertTriangle size={12.5} className="shrink-0" />
             <span>
@@ -175,7 +175,7 @@ function CaseStudyCard({
                 : 'EXAM ORIENTED CORNER'}
             </span>
           </h4>
-          <p className="text-[13px] text-slate-600 dark:text-gray-405 leading-relaxed font-sans">
+          <p className="text-[13px] text-slate-600 dark:text-gray-400 leading-relaxed font-sans">
             {examFocus}
           </p>
         </div>
@@ -267,7 +267,7 @@ export function AS3ExamplesCustomContent({
     <div className="w-full mb-6 font-sans">
       <div className="flex items-center gap-3">
         <span className="font-mono font-extrabold text-[13px] text-blue-600 dark:text-blue-400 select-none">{num}.</span>
-        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-905 dark:text-white tracking-tight">{title}</h2>
+        <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
       </div>
       <p className="text-[13.5px] text-slate-500 dark:text-slate-400 mt-1 font-sans leading-relaxed">
         {description}
@@ -310,7 +310,7 @@ export function AS3ExamplesCustomContent({
                 className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
                   activeSection === sec.id
                     ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 )}
               >
                 {sec.label}

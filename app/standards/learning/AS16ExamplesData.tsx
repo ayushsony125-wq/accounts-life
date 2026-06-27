@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 16 PDF — Page ${page}`}
   >
     <svg
@@ -301,7 +301,7 @@ export const auditCases: CaseStudy[] = [
       {
         title: 'Audit Report Action',
         content: (
-          <div className="p-3 bg-rose-50 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-800 rounded-xl text-xs space-y-2">
+          <div className="p-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800 rounded-xl text-xs space-y-2">
             <p className="font-bold text-rose-800 dark:text-rose-300">Auditor's Action:</p>
             <p>The auditor must reject the capitalization of ₹500,000. It must be expensed in the current year P&amp;L as finance costs. If management refuses to adjust, the auditor should qualify their audit report due to non-compliance with AS 16.</p>
           </div>

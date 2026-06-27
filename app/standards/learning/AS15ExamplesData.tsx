@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 15 PDF — Page ${page}`}
   >
     <svg
@@ -63,7 +63,7 @@ export const icaiIllustrations: CaseStudy[] = [
               <li>Expected Final Salary at end of Year 3 = <strong>₹300,000</strong></li>
               <li>Actuarial Discount Rate = <strong>10% per annum</strong></li>
             </ul>
-            <p className="mt-2 text-slate-650 dark:text-gray-300">The company needs to apply the Projected Unit Credit (PUC) method to calculate the Defined Benefit Obligation (DBO) and Current Service Cost (CSC) for Years 1, 2, and 3.</p>
+            <p className="mt-2 text-slate-600 dark:text-gray-300">The company needs to apply the Projected Unit Credit (PUC) method to calculate the Defined Benefit Obligation (DBO) and Current Service Cost (CSC) for Years 1, 2, and 3.</p>
           </div>
         )
       },
@@ -303,7 +303,7 @@ export const auditCases: CaseStudy[] = [
       {
         title: 'Audit Adjustments & Report Notes',
         content: (
-          <div className="p-3 bg-rose-50 dark:bg-rose-950/20 border border-rose-250 dark:border-rose-900/40 rounded-xl text-xs space-y-2">
+          <div className="p-3 bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-900/40 rounded-xl text-xs space-y-2">
             <p className="font-bold text-rose-800 dark:text-rose-300">Auditor's Direct Action:</p>
             <p>The auditor must request the management to get a revised actuarial valuation using realistic salary inflation of 8% and bond yields of 7.2%. The net difference must be adjusted in the current year gratuity expense and disclosed under the actuarial assumptions table in footnotes.</p>
           </div>

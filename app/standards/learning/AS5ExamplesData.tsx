@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 5 PDF — Page ${page}`}
   >
     <svg
@@ -107,7 +107,7 @@ export const icaiIllustrations: CaseStudy[] = [
               &nbsp;&nbsp;To Opening Stock (Adjustment) .............................. ₹12,00,000
             </div>
             <p className="font-semibold text-xs mb-2">Draft Note to the Financial Statements:</p>
-            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-xl italic text-xs leading-relaxed text-slate-700 dark:text-slate-350">
+            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-xl italic text-xs leading-relaxed text-slate-700 dark:text-slate-300">
               "During the current year, a prior period error relating to unrecorded sales returns of FY 2022-23 amounting to ₹18,00,000 was identified. The cost of corresponding inventory was ₹12,00,000. This has resulted in a prior period charge of ₹6,00,000 in the Statement of Profit and Loss for the year ended March 31, 2024. Prior period tax impact has been adjusted accordingly."
             </div>
           </div>
@@ -180,7 +180,7 @@ export const icaiIllustrations: CaseStudy[] = [
         content: (
           <div>
             <p><strong>Required Disclosure in Notes to Accounts (Para 25):</strong></p>
-            <div className="p-4 bg-slate-50 dark:bg-slate-900 border rounded-xl italic text-xs leading-relaxed text-slate-700 dark:text-slate-350 mt-2">
+            <div className="p-4 bg-slate-50 dark:bg-slate-900 border rounded-xl italic text-xs leading-relaxed text-slate-700 dark:text-slate-300 mt-2">
               "During the financial year ended March 31, 2024, the Company reassessed the remaining useful life of its heavy cargo crane. Based on technical evaluation, the remaining useful life was revised from 7 years to 4 years. As a result of this change in accounting estimate, the depreciation charge for the current year is higher by ₹9,00,00, and the profit before tax is lower by the same amount. This revision will also increase the depreciation charge in future periods."
             </div>
           </div>
@@ -226,7 +226,7 @@ export const businessCases: CaseStudy[] = [
         content: (
           <div>
             <p>According to AS 5 (Para 8–12), the classification is determined as follows:</p>
-            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-350">
+            <ul className="list-disc pl-5 mt-2 space-y-1 text-slate-700 dark:text-slate-300">
               <li><strong>Extraordinary Items (Para 8):</strong> Must arise from events that are clearly distinct from ordinary activities. Restructuring, closure of plants, and paying employee compensation are *not* distinct from ordinary activities. They are regular management business decisions. Thus, they are **not** extraordinary items.</li>
               <li><strong>Exceptional Items (Para 12 - Ordinary Activities):</strong> When items of income or expense within ordinary activities are of such size, nature, or incidence that their disclosure is relevant to explain the performance, they must be disclosed separately. Restructuring and VRS fit this definition perfectly.</li>
             </ul>
@@ -240,7 +240,7 @@ export const businessCases: CaseStudy[] = [
           <div>
             <p>The ₹6,00,00,000 must be shown as a separate line item under "Expenses" in the Profit &amp; Loss Statement (titled "Exceptional Items — Restructuring &amp; VRS Costs").</p>
             <p className="mt-2"><strong>Required Note Disclosure:</strong></p>
-            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-xl italic text-xs leading-relaxed text-slate-750 dark:text-slate-350">
+            <div className="p-3 bg-slate-50 dark:bg-slate-900 border rounded-xl italic text-xs leading-relaxed text-slate-700 dark:text-slate-300">
               "During the year ended March 31, 2024, the Company closed down its Surat blast furnace plant. Restructuring costs incurred during the year amounted to ₹6,00,00,000, comprising ₹4,20,00,000 towards employee voluntary retirement scheme (VRS) compensation and ₹1,80,00,000 towards plant dismantling and decommissioning costs. This has been disclosed as an exceptional item in the Statement of Profit and Loss."
             </div>
           </div>
@@ -319,7 +319,7 @@ export const regulatoryObservations: CaseStudy[] = [
         content: (
           <div>
             <p>The Ministry of Corporate Affairs (MCA) flagged the transaction during an inspection of files. Under AS 5 (Para 29):</p>
-            <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 rounded text-xs leading-relaxed text-amber-800 dark:text-amber-200 my-3">
+            <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 rounded text-xs leading-relaxed text-amber-800 dark:text-amber-200 my-3">
               "A change in an accounting policy should be made only if it is required by statute or for compliance with an accounting standard, or if it is considered that the change will result in a more appropriate presentation of the financial statements."
             </div>
             <p><strong>The Finding:</strong> The company changed the method solely to boost earnings to meet debt covenants. The company failed to demonstrate how FIFO resulted in a "more appropriate presentation". Also, the company did not quantify or disclose the change clearly in the notes.</p>

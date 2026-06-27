@@ -48,63 +48,63 @@ function CaseStudyCard({
     blue: {
       accent: 'from-blue-500 via-blue-600 to-indigo-600',
       leftBorder: 'border-blue-400 dark:border-blue-500/70',
-      badge: 'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/30',
+      badge: 'bg-blue-50 text-blue-700 border-blue-200/50 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800/30',
       number: 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 border-blue-200/40 dark:border-blue-800/40',
-      panelHeader: 'bg-blue-50/40 dark:bg-blue-950/20',
+      panelHeader: 'bg-blue-50/40 dark:bg-blue-900/20',
       panelTitle: 'text-blue-700 dark:text-blue-400',
       panelBorder: 'border-blue-100 dark:border-blue-900/40',
     },
     indigo: {
-      accent: 'from-indigo-500 via-indigo-600 to-purple-650',
+      accent: 'from-indigo-500 via-indigo-600 to-purple-600',
       leftBorder: 'border-indigo-400 dark:border-indigo-500/70',
-      badge: 'bg-indigo-50 text-indigo-700 border-indigo-200/50 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800/30',
+      badge: 'bg-indigo-50 text-indigo-700 border-indigo-200/50 dark:bg-indigo-900/40 dark:text-indigo-400 dark:border-indigo-800/30',
       number: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 border-indigo-200/40 dark:border-indigo-800/40',
-      panelHeader: 'bg-indigo-50/40 dark:bg-indigo-950/20',
+      panelHeader: 'bg-indigo-50/40 dark:bg-indigo-900/20',
       panelTitle: 'text-indigo-700 dark:text-indigo-400',
       panelBorder: 'border-indigo-100 dark:border-indigo-900/40',
     },
     emerald: {
       accent: 'from-emerald-500 via-emerald-600 to-teal-600',
       leftBorder: 'border-emerald-400 dark:border-emerald-500/70',
-      badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/30',
-      number: 'bg-emerald-100 text-emerald-750 dark:bg-emerald-900/40 dark:text-emerald-350 border-emerald-200/40 dark:border-emerald-800/40',
-      panelHeader: 'bg-emerald-50/40 dark:bg-emerald-950/20',
+      badge: 'bg-emerald-50 text-emerald-700 border-emerald-200/50 dark:bg-emerald-900/40 dark:text-emerald-400 dark:border-emerald-800/30',
+      number: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border-emerald-200/40 dark:border-emerald-800/40',
+      panelHeader: 'bg-emerald-50/40 dark:bg-emerald-900/20',
       panelTitle: 'text-emerald-700 dark:text-emerald-400',
       panelBorder: 'border-emerald-100 dark:border-emerald-900/40',
     },
     amber: {
       accent: 'from-amber-500 via-amber-600 to-orange-600',
       leftBorder: 'border-amber-400 dark:border-amber-500/70',
-      badge: 'bg-amber-50 text-amber-700 border-amber-200/50 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800/30',
+      badge: 'bg-amber-50 text-amber-700 border-amber-200/50 dark:bg-amber-900/40 dark:text-amber-400 dark:border-amber-800/30',
       number: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300 border-amber-200/40 dark:border-amber-800/40',
-      panelHeader: 'bg-amber-50/40 dark:bg-amber-950/20',
+      panelHeader: 'bg-amber-50/40 dark:bg-amber-900/20',
       panelTitle: 'text-amber-700 dark:text-amber-400',
       panelBorder: 'border-amber-100 dark:border-amber-900/40',
     },
     violet: {
       accent: 'from-violet-500 via-violet-600 to-fuchsia-600',
       leftBorder: 'border-violet-400 dark:border-violet-500/70',
-      badge: 'bg-violet-50 text-violet-700 border-violet-200/50 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800/30',
+      badge: 'bg-violet-50 text-violet-700 border-violet-200/50 dark:bg-violet-900/40 dark:text-violet-400 dark:border-violet-800/30',
       number: 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300 border-violet-200/40 dark:border-violet-800/40',
-      panelHeader: 'bg-violet-50/40 dark:bg-violet-950/20',
+      panelHeader: 'bg-violet-50/40 dark:bg-violet-900/20',
       panelTitle: 'text-violet-700 dark:text-violet-400',
       panelBorder: 'border-violet-100 dark:border-violet-900/40',
     },
     rose: {
       accent: 'from-rose-500 via-rose-600 to-pink-600',
       leftBorder: 'border-rose-400 dark:border-rose-500/70',
-      badge: 'bg-rose-50 text-rose-700 border-rose-200/50 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800/30',
+      badge: 'bg-rose-50 text-rose-700 border-rose-200/50 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800/30',
       number: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300 border-rose-200/40 dark:border-rose-800/40',
-      panelHeader: 'bg-rose-50/40 dark:bg-rose-950/20',
+      panelHeader: 'bg-rose-50/40 dark:bg-rose-900/20',
       panelTitle: 'text-rose-700 dark:text-rose-400',
       panelBorder: 'border-rose-100 dark:border-rose-900/40',
     },
     slate: {
       accent: 'from-slate-500 via-slate-600 to-slate-700',
       leftBorder: 'border-slate-400 dark:border-slate-500/70',
-      badge: 'bg-slate-50 text-slate-700 border-slate-200/50 dark:bg-slate-950/40 dark:text-slate-400 dark:border-slate-800/30',
+      badge: 'bg-slate-50 text-slate-700 border-slate-200/50 dark:bg-slate-900/40 dark:text-slate-400 dark:border-slate-800/30',
       number: 'bg-slate-100 text-slate-800 dark:bg-slate-900/40 dark:text-slate-300 border-slate-200/40 dark:border-slate-800/40',
-      panelHeader: 'bg-slate-50/40 dark:bg-slate-950/20',
+      panelHeader: 'bg-slate-50/40 dark:bg-slate-900/20',
       panelTitle: 'text-slate-700 dark:text-slate-400',
       panelBorder: 'border-slate-100 dark:border-slate-900/40',
     },
@@ -114,11 +114,11 @@ function CaseStudyCard({
   const [activePanelIdx, setActivePanelIdx] = useState(0)
 
   const focusColors = {
-    trap: 'bg-rose-50 text-rose-900 border-rose-200 dark:bg-rose-950/20 dark:text-rose-200 dark:border-rose-900/40',
-    focus: 'bg-blue-50 text-blue-900 border-blue-200 dark:bg-blue-950/20 dark:text-blue-200 dark:border-blue-900/40',
-    trick: 'bg-amber-50 text-amber-900 border-amber-200 dark:bg-amber-950/20 dark:text-amber-200 dark:border-amber-900/40',
-    concept: 'bg-emerald-50 text-emerald-900 border-emerald-200 dark:bg-emerald-950/20 dark:text-emerald-200 dark:border-emerald-900/40',
-    adjustment: 'bg-violet-50 text-violet-900 border-violet-200 dark:bg-violet-950/20 dark:text-violet-200 dark:border-violet-900/40',
+    trap: 'bg-rose-50 text-rose-900 border-rose-200 dark:bg-rose-900/20 dark:text-rose-200 dark:border-rose-900/40',
+    focus: 'bg-blue-50 text-blue-900 border-blue-200 dark:bg-blue-900/20 dark:text-blue-200 dark:border-blue-900/40',
+    trick: 'bg-amber-50 text-amber-900 border-amber-200 dark:bg-amber-900/20 dark:text-amber-200 dark:border-amber-900/40',
+    concept: 'bg-emerald-50 text-emerald-900 border-emerald-200 dark:bg-emerald-900/20 dark:text-emerald-200 dark:border-emerald-900/40',
+    adjustment: 'bg-violet-50 text-violet-900 border-violet-200 dark:bg-violet-900/20 dark:text-violet-200 dark:border-violet-900/40',
   }
 
   return (
@@ -132,7 +132,7 @@ function CaseStudyCard({
           {pdfPage && navigateToPdfPage && (
             <button
               onClick={() => navigateToPdfPage(pdfPage)}
-              className="inline-flex items-center gap-1.5 text-xs text-red-655 hover:text-red-750 dark:text-red-400 dark:hover:text-red-300 font-bold transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-bold transition-colors cursor-pointer"
             >
               <FileText size={12} />
               ICAI PDF Page {pdfPage}
@@ -234,7 +234,7 @@ export function AS23ExamplesCustomContent({
           <HelpCircle className="text-blue-400" />
           AS 23 Master Case Studies &amp; Examples
         </h2>
-        <p className="text-[13px] sm:text-[14px] text-slate-350 leading-relaxed max-w-3xl">
+        <p className="text-[13px] sm:text-[14px] text-slate-300 leading-relaxed max-w-3xl">
           Learn Investments in Associates under AS 23. Explore Equity Method adjustments, Goodwill vs Capital Reserve calculations inside investments, unrealized profit set-offs, and board control indicators.
         </p>
       </div>

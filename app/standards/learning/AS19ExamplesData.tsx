@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 19 PDF — Page ${page}`}
   >
     <svg
@@ -123,7 +123,7 @@ export const icaiIllustrations: CaseStudy[] = [
           <div className="overflow-x-auto mt-2">
             <table className="w-full text-xs font-mono border-collapse border border-slate-200 dark:border-slate-800">
               <thead>
-                <tr className="bg-slate-105">
+                <tr className="bg-slate-100">
                   <th className="border p-2">Year</th>
                   <th className="border p-2">Opening Bal (₹)</th>
                   <th className="border p-2">Payment (₹)</th>
@@ -141,7 +141,7 @@ export const icaiIllustrations: CaseStudy[] = [
                   <td className="border p-2">178,784</td>
                   <td className="border p-2">783,246</td>
                 </tr>
-                <tr className="bg-blue-50/10 dark:bg-blue-950/5">
+                <tr className="bg-blue-50/10 dark:bg-blue-900/5">
                   <td className="border p-2">2</td>
                   <td className="border p-2">783,246</td>
                   <td className="border p-2">300,000</td>
@@ -157,7 +157,7 @@ export const icaiIllustrations: CaseStudy[] = [
                   <td className="border p-2">226,676</td>
                   <td className="border p-2">355,259</td>
                 </tr>
-                <tr className="bg-blue-50/10 dark:bg-blue-950/5">
+                <tr className="bg-blue-50/10 dark:bg-blue-900/5">
                   <td className="border p-2">4</td>
                   <td className="border p-2">355,259</td>
                   <td className="border p-2">400,000*</td>

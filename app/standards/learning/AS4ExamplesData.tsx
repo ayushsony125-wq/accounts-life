@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-655 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 4 PDF — Page ${page}`}
   >
     <svg
@@ -164,7 +164,7 @@ export const icaiIllustrations: CaseStudy[] = [
           <div>
             <p><strong>No adjustment is made in the Balance Sheet or P&amp;L as of March 31, 2024.</strong></p>
             <p className="mt-3 font-semibold text-slate-800 dark:text-slate-200">Required Disclosure in the Board of Directors\' Report for FY 2023-24:</p>
-            <div className="p-4 bg-slate-50 dark:bg-slate-900 border rounded-xl italic text-xs leading-relaxed text-slate-700 dark:text-slate-350 mt-3">
+            <div className="p-4 bg-slate-50 dark:bg-slate-900 border rounded-xl italic text-xs leading-relaxed text-slate-700 dark:text-slate-300 mt-3">
               "On April 15, 2024, a fire destroyed the main manufacturing facility of the Company at Surat. The total book value of plant, machinery, and inventory destroyed is estimated at ₹3,30,0,000. The Company has lodged an insurance claim, and the insurance company has subsequently admitted a claim of ₹1,80,0,000, resulting in an estimated net loss of ₹1,50,00,000. Since this fire occurred after the balance sheet date, no adjustments have been made to the assets or liabilities in the financial statements for the year ended March 31, 2024."
             </div>
           </div>
@@ -216,7 +216,7 @@ export const businessCases: CaseStudy[] = [
         content: (
           <div>
             <p>Prior to the MCA amendment in 2016, proposed dividends were recognized as a liability and provision in the year to which they related. However, under the <strong>Revised AS 4</strong>:</p>
-            <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 rounded text-xs leading-relaxed text-amber-800 dark:text-amber-200 my-3">
+            <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 rounded text-xs leading-relaxed text-amber-800 dark:text-amber-200 my-3">
               <strong>Paragraph 14:</strong> "If dividends are declared after the balance sheet date, such dividends should not be recognized as a liability at the balance sheet date unless a statute requires otherwise. Such dividends should be disclosed in the notes."
             </div>
             <p><strong>Rationale:</strong> The Board\'s recommendation does not create a constructive or legal obligation on March 31, 2024, as the shareholders have the right to approve, decrease, or reject the dividend at the AGM. The obligation only arises when it is approved in the AGM.</p>
@@ -228,7 +228,7 @@ export const businessCases: CaseStudy[] = [
         content: (
           <div>
             <p><strong>No liability is recorded in the balance sheet.</strong> The proposed dividend is disclosed in the **Notes to Accounts** as follows:</p>
-            <div className="p-4 bg-slate-50 dark:bg-slate-900 border rounded-xl font-mono text-xs leading-relaxed text-slate-700 dark:text-slate-350 mt-3">
+            <div className="p-4 bg-slate-50 dark:bg-slate-900 border rounded-xl font-mono text-xs leading-relaxed text-slate-700 dark:text-slate-300 mt-3">
               <strong>Note X: Proposed Dividend</strong><br />
               The Board of Directors has proposed a dividend of 12% (₹1.2 per share) on equity shares of face value ₹10 each for the year ended March 31, 2024. The total dividend outflow will be ₹60,00,000. This proposed dividend is subject to approval by the shareholders in the ensuing Annual General Meeting and has not been recognized as a liability in these financial statements.
             </div>
@@ -270,7 +270,7 @@ export const auditCases: CaseStudy[] = [
         content: (
           <div>
             <p>Normally, contract terminations and loan recalls occurring after the balance sheet date are non-adjusting events. However, **Paragraph 13** of AS 4 provides a mandatory override:</p>
-            <div className="p-3 bg-red-50 dark:bg-red-950/20 border-l-4 border-red-500 rounded text-xs leading-relaxed text-red-800 dark:text-red-200 my-3">
+            <div className="p-3 bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 rounded text-xs leading-relaxed text-red-800 dark:text-red-200 my-3">
               "Assets and liabilities should be adjusted for events occurring after the balance sheet date that ... indicate that the going concern assumption in relation to the whole or a part of the enterprise is not appropriate."
             </div>
             <p><strong>Audit Finding:</strong> The cumulative events (loan recall + project loss + payroll default) indicate that Zenith\'s going concern assumption has failed. The company **must prepare** its financial statements on a **liquidation basis** (realisable values) rather than historical cost.</p>

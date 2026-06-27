@@ -139,7 +139,7 @@ const SIDEBAR_DISPLAY_NAMES: Record<string, string> = {
   'ind-as-101': 'First-time Adoption',
   'ind-as-102': 'Share-based Payment',
   'ind-as-103': 'Business Combinations',
-  'ind-as-105': 'Non-current Assets & Ops',
+  'ind-as-100': 'Non-current Assets & Ops',
   'ind-as-106': 'Mineral Exploration',
   'ind-as-107': 'Fin. Instruments: Discl.',
   'ind-as-108': 'Operating Segments',
@@ -289,7 +289,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
       title={`Open ICAI AS 1 PDF ΓÇö Page ${page}`}
     >
       <FileText size={10} className="shrink-0" />
@@ -325,7 +325,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       <div className="w-full mb-6 mt-12 first:mt-2">
         <div className="flex items-baseline gap-2 mb-2">
           <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-            <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
             <span>{title}</span>
           </h2>
         </div>
@@ -361,13 +361,13 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       <div className="border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden bg-white dark:bg-[#0b0f19] transition-all hover:shadow-xs w-full">
         <button
           onClick={() => toggleAccordion(id)}
-          className="w-full text-left font-serif font-bold text-slate-950 dark:text-white hover:text-amber-800 dark:hover:text-amber-400 flex items-center justify-between p-4 select-none cursor-pointer"
+          className="w-full text-left font-serif font-bold text-slate-900 dark:text-white hover:text-amber-800 dark:hover:text-amber-400 flex items-center justify-between p-4 select-none cursor-pointer"
         >
           <span className="flex items-center gap-3">
             <span className="text-slate-800 dark:text-slate-200 font-mono text-[11px] font-bold bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded border border-slate-300 dark:border-slate-700 select-none">
               {num}
             </span>
-            <span className="text-[15.5px] tracking-tight font-sans font-extrabold text-slate-950 dark:text-white">{title}</span>
+            <span className="text-[15.5px] tracking-tight font-sans font-extrabold text-slate-900 dark:text-white">{title}</span>
             <PdfRef page={4} />
           </span>
           <ChevronDown 
@@ -382,7 +382,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 dark:text-slate-400 uppercase tracking-wider block mb-1 font-sans">
                   Standard Reference
                 </span>
-                <span className="text-slate-950 dark:text-slate-55 font-sans font-semibold text-xs bg-slate-50 dark:bg-slate-900 px-2 py-1 rounded border border-slate-200/60 dark:border-slate-800 inline-block font-mono">
+                <span className="text-slate-900 dark:text-slate-50 font-sans font-semibold text-xs bg-slate-50 dark:bg-slate-900 px-2 py-1 rounded border border-slate-200/60 dark:border-slate-800 inline-block font-mono">
                   {refStd}
                 </span>
               </div>
@@ -398,12 +398,12 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 dark:text-slate-400 uppercase tracking-wider block mb-1 font-sans">
                   Financial Impact
                 </span>
-                <span className="text-slate-950 dark:text-slate-50 leading-normal font-sans text-xs">
+                <span className="text-slate-900 dark:text-slate-50 leading-normal font-sans text-xs">
                   {impact}
                 </span>
               </div>
             </div>
-            <div className="text-slate-950 dark:text-slate-50 leading-relaxed font-serif text-[14px] pt-1">
+            <div className="text-slate-900 dark:text-slate-50 leading-relaxed font-serif text-[14px] pt-1">
               {detail}
             </div>
           </div>
@@ -587,7 +587,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 className={`transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap ${
                   activeSection === sec.id
                     ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 }`}
               >
                 {sec.title}
@@ -598,7 +598,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
 
       {/* Main Publication Sheet Canvas */}
-      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
 
         {/* Chapter 1: Introduction & Purpose */}
         <section id="as1-overview" className="scroll-mt-36 space-y-8 w-full">
@@ -610,7 +610,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           
           <div className="space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif">
             <p>
-              Irrespective of the extent of standardization in accounting, diversity in <span className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-350 dark:border-slate-700 px-1.5 py-0.5 rounded font-mono text-[13.5px]">Accounting Policies</span> is unavoidable in business practice. <PdfRef page={2} /> This standard addresses this challenge by requiring comprehensive disclosures of the policies adopted by an enterprise.
+              Irrespective of the extent of standardization in accounting, diversity in <span className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 px-1.5 py-0.5 rounded font-mono text-[13.5px]">Accounting Policies</span> is unavoidable in business practice. <PdfRef page={2} /> This standard addresses this challenge by requiring comprehensive disclosures of the policies adopted by an enterprise.
             </p>
             <p>
               Under <span className="font-semibold text-slate-900 dark:text-white">AS 1 (Disclosure of Accounting Policies)</span>, diversity in policies is recognized as arising from two primary sources:
@@ -619,21 +619,21 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           {/* Premium Blue Information Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-blue-150 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-955/5 rounded-xl space-y-2.5">
+            <div className="p-5 border border-blue-100 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-900/5 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-blue-800 dark:text-blue-400 flex items-center gap-2">
                 <Info size={14} />
                 <span>1. Freedom in Uncovered Areas</span>
               </h4>
-              <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+              <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                 Accounting standards cannot and do not cover all possible areas of accounting. Consequently, enterprises retain the freedom to adopt any reasonable accounting policy in areas not governed by an active standard. <PdfRef page={2} />
               </p>
             </div>
-            <div className="p-5 border border-blue-150 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-955/5 rounded-xl space-y-2.5">
+            <div className="p-5 border border-blue-100 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-900/5 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-blue-800 dark:text-blue-400 flex items-center gap-2">
                 <Info size={14} />
                 <span>2. Diverse Operating Situations</span>
               </h4>
-              <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+              <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                 Because enterprises operate in highly diverse economic, industrial, and geographic situations, it is impossible to construct a single set of rigid accounting policies applicable to all enterprises for all time. Standard-setting bodies therefore permit alternative options. <PdfRef page={2} />
               </p>
             </div>
@@ -647,11 +647,11 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               Since complete uniformity in accounting treatments is impossible, and standards permit multiple alternative methods in many areas, it is not enough for an enterprise to state that all accounting standards have been complied with. <PdfRef page={2} />
             </p>
             
-            <div className="p-6 my-6 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/25 dark:bg-indigo-955/5 rounded-xl font-serif shadow-3xs">
-              <span className="text-[11.5px] font-bold text-indigo-850 dark:text-indigo-400 uppercase tracking-wider block mb-2 font-sans">
+            <div className="p-6 my-6 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/25 dark:bg-indigo-900/5 rounded-xl font-serif shadow-3xs">
+              <span className="text-[11.5px] font-bold text-indigo-800 dark:text-indigo-400 uppercase tracking-wider block mb-2 font-sans">
                 Core Analytical Observation ΓÇö Why Disclosure is Crucial
               </span>
-              <p className="text-[15.5px] font-semibold text-slate-950 dark:text-slate-50 leading-relaxed">
+              <p className="text-[15.5px] font-semibold text-slate-900 dark:text-slate-50 leading-relaxed">
                 For these reasons, AS 1 mandates that enterprises disclose the significant accounting policies actually adopted by them in the preparation of their financial statements. This allows the users of financial statements to take these policy differences into consideration and make the necessary analytical adjustments when evaluating and comparing the financial results of different entities. <PdfRef page={2} />
               </p>
             </div>
@@ -689,31 +689,31 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 </tr>
               </thead>
               <tbody className="divide-y divide-teal-100 dark:divide-teal-900/30 text-slate-900 dark:text-slate-100 font-serif">
-                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-white dark:bg-[#111726]">
+                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-900/20 transition-colors bg-white dark:bg-[#111726]">
                   <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">
                     <div className="flex items-center gap-2"><Users size={13} className="text-teal-600 shrink-0" /><span>Shareholders &amp; Investors</span></div>
                   </td>
                   <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Need accounting policy clarity to evaluate profit quality, calculate return on investment, and compare earnings across alternative investment opportunities.</td>
                 </tr>
-                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-teal-50/20 dark:bg-[#0f1c22]/30">
+                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-900/20 transition-colors bg-teal-50/20 dark:bg-[#0f1c22]/30">
                   <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">
                     <div className="flex items-center gap-2"><CreditCard size={13} className="text-teal-600 shrink-0" /><span>Creditors &amp; Suppliers</span></div>
                   </td>
                   <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Analyze inventory valuation and accrual policies to gauge the enterprise's short-term liquidity cycles, payment capabilities, and working capital ratios.</td>
                 </tr>
-                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-white dark:bg-[#111726]">
+                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-900/20 transition-colors bg-white dark:bg-[#111726]">
                   <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">
                     <div className="flex items-center gap-2"><Briefcase size={13} className="text-teal-600 shrink-0" /><span>Banks &amp; Lenders</span></div>
                   </td>
                   <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Evaluate policy consistency to monitor debt service coverage ratios, assess collateral values (e.g. inventories or fixed assets), and ensure compliance with covenant terms.</td>
                 </tr>
-                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-teal-50/20 dark:bg-[#0f1c22]/30">
+                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-900/20 transition-colors bg-teal-50/20 dark:bg-[#0f1c22]/30">
                   <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">
                     <div className="flex items-center gap-2"><Scale size={13} className="text-teal-600 shrink-0" /><span>Regulators &amp; Tax Authorities</span></div>
                   </td>
                   <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Monitor compliance with corporate laws and calculate fair taxes. In India, Section 129(1) of the Companies Act, 2013 mandates that financial statements must portray a true and fair view and comply with accounting standards.</td>
                 </tr>
-                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-white dark:bg-[#111726]">
+                <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-900/20 transition-colors bg-white dark:bg-[#111726]">
                   <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">
                     <div className="flex items-center gap-2"><Globe size={13} className="text-teal-600 shrink-0" /><span>Employees &amp; Public</span></div>
                   </td>
@@ -739,12 +739,12 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           />
 
           {/* Official Definition Card ΓÇö Blue theme */}
-          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-400 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6">
+          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-400 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-900/10 rounded-xl my-6">
             <div className="text-[10.5px] font-sans font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-3 flex items-center gap-2">
               <BookOpen size={13} className="text-blue-600 dark:text-blue-400" />
               <span>Official Definition ΓÇö AS 1, Para 11</span>
             </div>
-            <p className="text-[16px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">
+            <p className="text-[16px] font-serif font-semibold text-slate-900 dark:text-slate-100 leading-[1.8] italic">
               "Accounting policies refer to the specific accounting principles and the methods of applying those principles adopted by the enterprise in the preparation and presentation of financial statements." <PdfRef page={4} />
             </p>
           </div>
@@ -808,22 +808,22 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-indigo-100 dark:divide-indigo-900/30 text-slate-900 dark:text-slate-100 font-serif">
-                  <tr className="hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 transition-colors bg-white dark:bg-[#111726]">
+                  <tr className="hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Definition</td>
                     <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Specific accounting principles and the methods of applying those principles.</td>
                     <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Judgments made to estimate the carrying value of assets or liabilities under the selected policy.</td>
                   </tr>
-                  <tr className="hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 transition-colors bg-indigo-50/20 dark:bg-indigo-950/5">
+                  <tr className="hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors bg-indigo-50/20 dark:bg-indigo-900/5">
                     <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Responsibility</td>
                     <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Board of Directors (statutory Directors' Responsibility Statement under Section 134(5)).</td>
                     <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Management and operational accountants based on the latest available information.</td>
                   </tr>
-                  <tr className="hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 transition-colors bg-white dark:bg-[#111726]">
+                  <tr className="hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Examples</td>
                     <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Switching from FIFO to Weighted Average cost formula.</td>
                     <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Estimating provision for non-moving inventory based on a technical evaluation.</td>
                   </tr>
-                  <tr className="hover:bg-indigo-50/50 dark:hover:bg-indigo-950/20 transition-colors bg-indigo-50/20 dark:bg-indigo-950/5">
+                  <tr className="hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors bg-indigo-50/20 dark:bg-indigo-900/5">
                     <td className="py-3.5 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Change Basis</td>
                     <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Only if required by statute, standard, or for a more appropriate presentation.</td>
                     <td className="py-3.5 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Revised if circumstances change, new information becomes available, or experience develops.</td>
@@ -880,19 +880,19 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           {/* 3-Column Selection Cards ΓÇö differentiated colors */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 my-6 font-serif w-full">
-            <div className="p-5 border-t-2 border-amber-500 border border-amber-200 dark:border-amber-900/40 bg-amber-50/30 dark:bg-amber-950/10 rounded-xl space-y-2.5">
+            <div className="p-5 border-t-2 border-amber-500 border border-amber-200 dark:border-amber-900/40 bg-amber-50/30 dark:bg-amber-900/10 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-amber-800 dark:text-amber-400">1. Prudence</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                 Caution in prepared judgments: profits are recognized only when realized, and provisions are made for all known liabilities and losses.
               </p>
             </div>
-            <div className="p-5 border-t-2 border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl space-y-2.5">
+            <div className="p-5 border-t-2 border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-900/10 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-blue-800 dark:text-blue-400">2. Substance over Form</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                 Accounting for economic reality and financial substance rather than legal technicalities.
               </p>
             </div>
-            <div className="p-5 border-t-2 border-teal-500 border border-teal-200 dark:border-teal-900/40 bg-teal-50/30 dark:bg-teal-950/10 rounded-xl space-y-2.5">
+            <div className="p-5 border-t-2 border-teal-500 border border-teal-200 dark:border-teal-900/40 bg-teal-50/30 dark:bg-teal-900/10 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-teal-800 dark:text-teal-400">3. Materiality</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                 Disclosing all significant facts that could influence the economic choices of users based on size or nature.
@@ -901,7 +901,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </div>
 
           {/* Sub-sections details */}
-          <div id="as1-prudence" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-950 dark:text-slate-50 leading-[1.8] font-serif font-medium">
+          <div id="as1-prudence" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-50 leading-[1.8] font-serif font-medium">
             <h3 className="font-sans font-bold text-[16.5px] text-amber-900 dark:text-amber-300 flex items-center gap-3 mt-10 mb-3 border-l-[3px] border-amber-500 pl-3">
               5A. Prudence
               <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 font-mono uppercase tracking-widest">Valuation Caution</span>
@@ -919,20 +919,20 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <li>Liabilities are not understated</li>
             </ul>
             <p>
-              However, <span className="bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/40 px-1.5 py-0.5 rounded font-semibold">Prudence</span> does not permit the creation of secret or hidden reserves by deliberately understating profits and assets or overstating liabilities and losses. The selection of policies must balance caution with neutrality to avoid bias in financial reporting. <PdfRef page={6} />
+              However, <span className="bg-amber-50 dark:bg-amber-900/40 text-amber-800 dark:text-amber-300 border border-amber-200/50 dark:border-amber-900/40 px-1.5 py-0.5 rounded font-semibold">Prudence</span> does not permit the creation of secret or hidden reserves by deliberately understating profits and assets or overstating liabilities and losses. The selection of policies must balance caution with neutrality to avoid bias in financial reporting. <PdfRef page={6} />
             </p>
             <div className="p-5 border border-slate-200 dark:border-slate-800 bg-slate-50/40 dark:bg-slate-900/10 rounded-xl space-y-2.5 my-5 shadow-3xs font-serif">
               <h4 className="font-sans font-bold text-[11px] uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-1.5">
                 <Info size={13} className="text-amber-500" />
                 <span>Prudence Application: Damage Suits</span>
               </h4>
-              <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+              <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                 Suppose a company is facing a damage suit from a customer or competitor. Under the prudence principle, the company should not recognize a liability (or charge profit) unless the probability of losing the suit is more than the probability of not losing it (i.e. more likely than not). Recognizing provisions arbitrarily without high probability would violate the true and fair view by creating a hidden reserve. <PdfRef page={6} />
               </p>
             </div>
           </div>
 
-          <div id="as1-substance" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-950 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
+          <div id="as1-substance" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
             <h3 className="font-sans font-bold text-[16.5px] text-blue-900 dark:text-blue-300 flex items-center gap-3 mt-10 mb-3 border-l-[3px] border-blue-500 pl-3">
               5B. Substance over Form
               <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 font-mono uppercase tracking-widest">Economic Reality</span>
@@ -945,19 +945,19 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <Info size={13} className="text-indigo-500" />
                 <span>Precedent Case Example: Hire-Purchase / Lease (AS 19)</span>
               </h4>
-              <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
-                In a Hire-Purchase or Lease Agreement under AS 19, legal ownership remains with the lessor/seller until the final installment is paid. However, since the lessee/buyer gains immediate economic benefits and bears the operating risks of the asset, <span className="bg-blue-50 dark:bg-blue-955/40 text-blue-900 dark:text-blue-355 border border-blue-250/50 dark:border-blue-900/40 px-1.5 py-0.5 rounded font-semibold font-mono text-[13.5px]">Substance over Form</span> dictates that the asset is capitalized and depreciated in the buyer's balance sheet, while recording a liability for future payments. Accounting strictly by legal form (which would treat it as rent) would misrepresent the economic reality of the enterprise's capital structure. <PdfRef page={6} />
+              <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
+                In a Hire-Purchase or Lease Agreement under AS 19, legal ownership remains with the lessor/seller until the final installment is paid. However, since the lessee/buyer gains immediate economic benefits and bears the operating risks of the asset, <span className="bg-blue-50 dark:bg-blue-900/40 text-blue-900 dark:text-blue-300 border border-blue-200/50 dark:border-blue-900/40 px-1.5 py-0.5 rounded font-semibold font-mono text-[13.5px]">Substance over Form</span> dictates that the asset is capitalized and depreciated in the buyer's balance sheet, while recording a liability for future payments. Accounting strictly by legal form (which would treat it as rent) would misrepresent the economic reality of the enterprise's capital structure. <PdfRef page={6} />
               </p>
             </div>
           </div>
 
-          <div id="as1-materiality" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-950 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
+          <div id="as1-materiality" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
             <h3 className="font-sans font-bold text-[16.5px] text-teal-900 dark:text-teal-300 flex items-center gap-3 mt-10 mb-3 border-l-[3px] border-teal-500 pl-3">
               5C. Materiality
               <span className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 font-mono uppercase tracking-widest">Disclosure Thresholds</span>
             </h3>
             <p>
-              Financial statements should disclose all items which are material enough to influence the decisions of users. An item is material if its omission or misstatement could influence the economic decisions of users taken on the basis of the financial statements. <span className="bg-teal-50 dark:bg-teal-950/40 text-teal-800 dark:text-teal-300 border border-teal-200/50 dark:border-teal-900/40 px-1.5 py-0.5 rounded font-semibold">Materiality</span> depends on the size and nature of the item, judged in the particular circumstances of its omission. <PdfRef page={6} />
+              Financial statements should disclose all items which are material enough to influence the decisions of users. An item is material if its omission or misstatement could influence the economic decisions of users taken on the basis of the financial statements. <span className="bg-teal-50 dark:bg-teal-900/40 text-teal-800 dark:text-teal-300 border border-teal-200/50 dark:border-teal-900/40 px-1.5 py-0.5 rounded font-semibold">Materiality</span> depends on the size and nature of the item, judged in the particular circumstances of its omission. <PdfRef page={6} />
             </p>
             <p>
               Materiality is not always a matter of relative size. For example, a small amount lost by fraudulent practices of certain employees can indicate a serious flaw in the enterprise's internal control system, requiring immediate attention to avoid greater losses in the future. <PdfRef page={6} />
@@ -979,17 +979,17 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-teal-100 dark:divide-teal-900/30 text-slate-900 dark:text-slate-100 font-serif">
-                    <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-white dark:bg-[#111726]">
+                    <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-900/20 transition-colors bg-white dark:bg-[#111726]">
                       <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">1% of revenue or Γé╣1,00,000</td>
                       <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Whichever is higher must be disclosed separately as a line item in notes.</td>
                       <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">In a company with Γé╣10 crore revenue, items above Γé╣10,00,000 require details (since 1% of 10cr is 10L, and 10L is higher than 1L).</td>
                     </tr>
-                    <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-teal-50/20 dark:bg-[#0f1c22]/30">
+                    <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-900/20 transition-colors bg-teal-50/20 dark:bg-[#0f1c22]/30">
                       <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">5% Shareholding Threshold</td>
                       <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Shares held by each shareholder holding more than 5% must be disclosed in notes.</td>
                       <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">The notes must specify the names of shareholders holding 5%+ shares and the exact number of shares held.</td>
                     </tr>
-                    <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-950/20 transition-colors bg-white dark:bg-[#111726]">
+                    <tr className="hover:bg-teal-50/60 dark:hover:bg-teal-900/20 transition-colors bg-white dark:bg-[#111726]">
                       <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Non-Corporate Entities</td>
                       <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Follow guidelines issued by the ICAI based on Level I, II, III classification.</td>
                       <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Level I entities must comply fully, whereas Level II &amp; III enjoy selective disclosure exemptions.</td>
@@ -1032,19 +1032,19 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-emerald-100 dark:divide-emerald-900/30 text-slate-900 dark:text-slate-100 font-serif">
-                  <tr className="hover:bg-emerald-50/60 dark:hover:bg-emerald-950/20 transition-colors bg-white dark:bg-[#111726]">
+                  <tr className="hover:bg-emerald-50/60 dark:hover:bg-emerald-900/20 transition-colors bg-white dark:bg-[#111726]">
                     <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Going Concern</td>
                     <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">The enterprise will continue in operation for the foreseeable future, with neither the intention nor the necessity of liquidation.</td>
                     <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Valuing assets at cost/carrying value rather than net realizable value.</td>
                     <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Assets must be immediately written down to net realizable value (liquidation values), and all liabilities reclassified as current.</td>
                   </tr>
-                  <tr className="hover:bg-emerald-50/60 dark:hover:bg-emerald-950/20 transition-colors bg-emerald-50/20 dark:bg-emerald-950/5">
+                  <tr className="hover:bg-emerald-50/60 dark:hover:bg-emerald-900/20 transition-colors bg-emerald-50/20 dark:bg-emerald-900/5">
                     <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Consistency</td>
                     <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Accounting policies are consistent from one period to another, allowing comparison.</td>
                     <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Facilitate meaningful inter-period comparison.</td>
                     <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Disclosures must highlight the deviation, the reason for the change, and its financial impact.</td>
                   </tr>
-                  <tr className="hover:bg-emerald-50/60 dark:hover:bg-emerald-950/20 transition-colors bg-white dark:bg-[#111726]">
+                  <tr className="hover:bg-emerald-50/60 dark:hover:bg-emerald-900/20 transition-colors bg-white dark:bg-[#111726]">
                     <td className="py-4 px-5 font-semibold text-slate-800 dark:text-white font-sans text-xs uppercase tracking-wider">Accrual</td>
                     <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Revenues and costs are recognized as they are earned or incurred, not as cash is received or paid.</td>
                     <td className="py-4 px-5 leading-relaxed text-slate-800 dark:text-slate-200">Reflect true economic activity of the period.</td>
@@ -1055,24 +1055,24 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             </div>
           </div>
 
-          <div id="as1-going-concern" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-950 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
+          <div id="as1-going-concern" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
             <h3 className="font-sans font-bold text-[16.5px] text-indigo-900 dark:text-indigo-300 flex items-center gap-3 mt-10 mb-3 border-l-[3px] border-indigo-500 pl-3">
               6A. Going Concern Assumption
             </h3>
             <p>
-              The financial statements are normally prepared on the assumption that an enterprise is a <span className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-800 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/40 px-1.5 py-0.5 rounded font-semibold">Going Concern</span>, that is, it will continue in operation for the foreseeable future. It is assumed that the enterprise has neither the intention nor the necessity of liquidation or of curtailing materially the scale of its operations. <PdfRef page={3} />
+              The financial statements are normally prepared on the assumption that an enterprise is a <span className="bg-indigo-50 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/40 px-1.5 py-0.5 rounded font-semibold">Going Concern</span>, that is, it will continue in operation for the foreseeable future. It is assumed that the enterprise has neither the intention nor the necessity of liquidation or of curtailing materially the scale of its operations. <PdfRef page={3} />
             </p>
             <p>
               Financial statements prepared on a going concern basis recognize the need for sufficient retention of profit to replace assets consumed in operation and for making adequate provision for the settlement of its liabilities. If the going concern assumption is defeated (for example, if a regulatory license is permanently revoked or a liquidation order is issued), assets must be written down to their Net Realizable Value (NRV) and long-term liabilities must be reclassified as current liabilities. <PdfRef page={3} />
             </p>
           </div>
 
-          <div id="as1-consistency" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-950 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
+          <div id="as1-consistency" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
             <h3 className="font-sans font-bold text-[16.5px] text-indigo-900 dark:text-indigo-300 flex items-center gap-3 mt-10 mb-3 border-l-[3px] border-indigo-500 pl-3">
               6B. Consistency Assumption
             </h3>
             <p>
-              The principle of consistency refers to the practice of using the same accounting policies for similar transactions in all accounting periods. <span className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-800 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/40 px-1.5 py-0.5 rounded font-semibold">Consistency</span> improves the comparability of financial statements through time. <PdfRef page={3} />
+              The principle of consistency refers to the practice of using the same accounting policies for similar transactions in all accounting periods. <span className="bg-indigo-50 dark:bg-indigo-900/40 text-indigo-800 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-900/40 px-1.5 py-0.5 rounded font-semibold">Consistency</span> improves the comparability of financial statements through time. <PdfRef page={3} />
             </p>
             <p>
               An accounting policy can be changed only in three specific circumstances:
@@ -1087,7 +1087,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             </p>
           </div>
 
-          <div id="as1-accrual" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-950 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
+          <div id="as1-accrual" className="scroll-mt-36 space-y-6 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-50 leading-[1.8] font-serif font-medium pt-4">
             <h3 className="font-sans font-bold text-[16.5px] text-indigo-900 dark:text-indigo-300 flex items-center gap-3 mt-10 mb-3 border-l-[3px] border-indigo-500 pl-3">
               6C. Accrual Assumption
             </h3>
@@ -1102,7 +1102,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 <AlertTriangle size={13} className="text-rose-500" />
                 <span>Statutory Mandate &amp; Risk of Capital Erosion</span>
               </h4>
-              <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+              <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                 While accrual accounting is logically superior, it exposes the enterprise to the risk of recognizing income before actual receipt. If dividends are paid out based on accrued profits that are never realized, it leads to the <strong>erosion of capital</strong>. For this reason, revenue recognition policies must ensure realization is reasonably certain. Despite this, Section 128(1) of the Companies Act, 2013 makes it mandatory for companies to maintain accounts on an accrual basis only. Cash-basis accounting is not acceptable for corporate entities. In case any income/expense is recognized on a cash basis, the fact must be explicitly stated. <PdfRef page={4} />
               </p>
             </div>
@@ -1135,18 +1135,18 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                   <Check size={13} className="stroke-[3]" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-sans font-bold text-[14.5px] text-slate-950 dark:text-white">Orderly Manner</h4>
+                  <h4 className="font-sans font-bold text-[14.5px] text-slate-900 dark:text-white">Orderly Manner</h4>
                   <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                     Disclose significant accounting policies actually adopted by the enterprise in an orderly and systematic manner. <PdfRef page={7} />
                   </p>
                 </div>
               </div>
-              <div className="flex gap-4 items-start bg-emerald-50/30 dark:bg-emerald-955/10 px-5 py-4">
+              <div className="flex gap-4 items-start bg-emerald-50/30 dark:bg-emerald-900/10 px-5 py-4">
                 <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0 mt-0.5">
                   <Check size={13} className="stroke-[3]" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-sans font-bold text-[14.5px] text-slate-950 dark:text-white">Part of Financial Statements</h4>
+                  <h4 className="font-sans font-bold text-[14.5px] text-slate-900 dark:text-white">Part of Financial Statements</h4>
                   <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                     The disclosure of significant accounting policies must form an integral part of the financial statements. <PdfRef page={7} />
                   </p>
@@ -1157,7 +1157,7 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                   <Check size={13} className="stroke-[3]" />
                 </div>
                 <div className="space-y-1">
-                  <h4 className="font-sans font-bold text-[14.5px] text-slate-950 dark:text-white">Single Place Disclosure</h4>
+                  <h4 className="font-sans font-bold text-[14.5px] text-slate-900 dark:text-white">Single Place Disclosure</h4>
                   <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                     Policies should normally be disclosed in one place (typically under Note 1 to the accounts), rather than scattered over several statements, schedules, or notes. <PdfRef page={7} />
                   </p>
@@ -1187,56 +1187,56 @@ function AS1StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           {/* Clean Vertical Timeline Step Layout */}
           <div className="my-8 space-y-8 w-full font-serif relative pl-8 border-l border-slate-200 dark:border-slate-800">
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 font-mono select-none">
                 1
               </div>
               <div className="space-y-1">
-                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-950 dark:text-white">Identify the Change</h4>
-                <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-900 dark:text-white">Identify the Change</h4>
+                <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                   Confirm if a change has occurred in the accounting policies actually followed. Accounting policies can only be changed if mandated by statute, for compliance with a standard, or if the change yields a more appropriate presentation of financial statements. <PdfRef page={7} />
                 </p>
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 font-mono select-none">
                 2
               </div>
               <div className="space-y-1">
-                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-950 dark:text-white">Justify the Change</h4>
-                <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-900 dark:text-white">Justify the Change</h4>
+                <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                   State the reasons why the new policy is adopted and how it complies with standard criteria. The change must be justified as leading to a better presentation of accounts. <PdfRef page={7} />
                 </p>
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 font-mono select-none">
                 3
               </div>
               <div className="space-y-1">
-                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-950 dark:text-white">Quantify the Impact</h4>
-                <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-900 dark:text-white">Quantify the Impact</h4>
+                <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                   In the case of a change which has a material effect in the current period, the amount by which any item in the financial statements is affected by such change should be disclosed to the extent ascertainable. <PdfRef page={7} />
                 </p>
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 font-mono select-none">
                 4
               </div>
               <div className="space-y-1">
-                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-950 dark:text-white">Disclose Non-Ascertainability</h4>
-                <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-900 dark:text-white">Disclose Non-Ascertainability</h4>
+                <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                   Where the financial impact is not ascertainable, either wholly or in part, the fact should be explicitly indicated. <PdfRef page={7} />
                 </p>
               </div>
             </div>
             <div className="relative">
-              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-955/20 font-mono select-none">
+              <div className="absolute -left-[44px] top-0.5 w-6 h-6 rounded-full bg-white dark:bg-[#111726] border-2 border-indigo-600 dark:border-indigo-400 flex items-center justify-center text-xs font-bold text-indigo-900 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/20 font-mono select-none">
                 5
               </div>
               <div className="space-y-1">
-                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-950 dark:text-white">Disclose Future Material Impact</h4>
-                <p className="text-[15px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+                <h4 className="font-sans font-extrabold text-[15px] tracking-wide text-slate-900 dark:text-white">Disclose Future Material Impact</h4>
+                <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                   If a change has no material effect in the current period but is reasonably expected to have a material effect in later periods, the fact of such change should be appropriately disclosed in the period in which the change is adopted. This ensures that stakeholders are warned of changes that will skew comparison in future years. <PdfRef page={8} />
                 </p>
               </div>
@@ -1442,7 +1442,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
       title={"Open ICAI AS 2 PDF — Page " + page}
     >
       <FileText size={10} className="shrink-0" />
@@ -1459,7 +1459,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       <div className="w-full mb-6 mt-12 first:mt-2">
         <div className="flex items-baseline gap-2 mb-2">
           <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-            <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
             <span>{title}</span>
           </h2>
         </div>
@@ -1507,7 +1507,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                 className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
                   activeSection === sec.id
                     ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-955 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 )}
               >
                 {sec.title}
@@ -1518,7 +1518,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
       </div>
 
       {/* Main Publication Sheet Canvas */}
-      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
         
         {/* Chapter 1: Introduction & Purpose */}
         <section id="as2-overview" className="scroll-mt-36 space-y-8 w-full">
@@ -1557,36 +1557,36 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           {/* Table: Scope Exclusions */}
           <div className="my-8 space-y-2 w-full">
-            <div className="text-[13px] font-bold text-teal-800 dark:text-teal-405 font-sans uppercase tracking-wider flex items-center gap-2">
-              <span className="inline-block w-1 h-4 bg-teal-600 dark:bg-teal-450 rounded-full"></span>
+            <div className="text-[13px] font-bold text-teal-800 dark:text-teal-400 font-sans uppercase tracking-wider flex items-center gap-2">
+              <span className="inline-block w-1 h-4 bg-teal-600 dark:bg-teal-400 rounded-full"></span>
               Table 1 — Statutory Exclusions from AS 2 Scope <PdfRef page={2} />
             </div>
             <div className="overflow-x-auto w-full rounded-xl border border-teal-200 dark:border-teal-900/40">
               <table className="w-full text-left border-collapse text-[13.5px]">
                 <thead>
-                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-teal-700 dark:bg-teal-850">
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-teal-700 dark:bg-teal-800">
                     <th className="py-3 px-5 w-1/2">Exclusion Category</th>
                     <th className="py-3 px-5 w-1/2">Applicable Treatment / Standard Reference</th>
                   </tr>
                 </thead>
                 <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-teal-100 dark:divide-teal-900/30">
-                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-900/5">
                     <td className="py-4 px-5 leading-relaxed align-top font-semibold">
                       Work-in-process arising under construction contracts (including directly related service contracts)
                     </td>
-                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-350">
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
                       Excluded — Valued in accordance with <strong>AS 7 (Accounting for Construction Contracts)</strong>. However, unconsumed materials lying at construction site (e.g. cement, sand) are covered under AS 2. <PdfRef page={2} />
                     </td>
                   </tr>
-                  <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10 hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                  <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10 hover:bg-teal-50/30 dark:hover:bg-teal-900/5">
                     <td className="py-4 px-5 leading-relaxed align-top font-semibold">
                       Work-in-process arising in the ordinary course of business of service providers
                     </td>
-                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-355">
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300">
                       Excluded (Partially) — Measured at production cost. Note that unconsumed stores (e.g. shipping fuel not consumed) are covered, but voyage-in-progress service costs are excluded. <PdfRef page={3} />
                     </td>
                   </tr>
-                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-900/5">
                     <td className="py-4 px-5 leading-relaxed align-top font-semibold">
                       Shares, debentures and other financial instruments held as stock-in-trade
                     </td>
@@ -1594,7 +1594,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                       Excluded — Valued in accordance with <strong>AS 13 (Accounting for Investments)</strong>. Under current Indian GAAP, these are valued at lower of cost and fair value. <PdfRef page={3} />
                     </td>
                   </tr>
-                  <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10 hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                  <tr className="bg-teal-50/10 dark:bg-[#0f1c22]/10 hover:bg-teal-50/30 dark:hover:bg-teal-900/5">
                     <td className="py-4 px-5 leading-relaxed align-top font-semibold text-teal-800 dark:text-teal-400">
                       Producers' inventories of livestock, agricultural/forest products, mineral oils, ores, and gases
                     </td>
@@ -1602,11 +1602,11 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
                       Excluded — Measured at Net Realisable Value (NRV) in accordance with well established practices in those industries (e.g. forward contract or government guarantee). <PdfRef page={3} />
                     </td>
                   </tr>
-                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-955/5">
+                  <tr className="bg-white dark:bg-[#111726] hover:bg-teal-50/30 dark:hover:bg-teal-900/5">
                     <td className="py-4 px-5 leading-relaxed align-top font-semibold text-indigo-700 dark:text-indigo-400">
                       Land and properties held for resale by real estate developers
                     </td>
-                    <td className="py-4 px-5 leading-relaxed align-top text-slate-705 dark:text-slate-300 font-semibold">
+                    <td className="py-4 px-5 leading-relaxed align-top text-slate-700 dark:text-slate-300 font-semibold">
                       INCLUDED — Real estate inventory is treated as inventory under AS 2 and must be valued at lower of cost and Net Realisable Value. <PdfRef page={2} />
                     </td>
                   </tr>
@@ -1625,12 +1625,12 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           />
 
           {/* Official Definition Card */}
-          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6">
+          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-900/10 rounded-xl my-6">
             <div className="text-[10.5px] font-sans font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-3 flex items-center gap-2">
-              <BookOpen size={13} className="text-blue-600 dark:text-blue-450" />
+              <BookOpen size={13} className="text-blue-600 dark:text-blue-400" />
               <span>Official Definition — AS 2, Para 1.2</span>
             </div>
-            <p className="text-[16px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">
+            <p className="text-[16px] font-serif font-semibold text-slate-900 dark:text-slate-100 leading-[1.8] italic">
               "Inventories are assets: (a) held for sale in the ordinary course of business; (b) in the process of production for such sale; or (c) in the form of materials or supplies to be consumed in the production process or in the rendering of services." <PdfRef page={2} />
             </p>
           </div>
@@ -1645,12 +1645,12 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </div>
 
           {/* Info Card: Spare Parts Exception */}
-          <div className="p-5 border border-blue-150 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-955/5 rounded-xl space-y-2.5">
+          <div className="p-5 border border-blue-100 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-900/5 rounded-xl space-y-2.5">
             <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-blue-800 dark:text-blue-400 flex items-center gap-2">
               <Info size={14} />
               <span>PPE Spares vs. Inventory Spares Exception</span>
             </h4>
-            <p className="text-[15px] leading-relaxed text-slate-955 dark:text-slate-50 font-medium">
+            <p className="text-[15px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
               Inventories do NOT include spare parts, servicing equipment, and standby equipment that meet the definition of Property, Plant, and Equipment (PPE) under <strong>AS 10 (Revised)</strong>. Such items must be capitalised as PPE and depreciated over their useful life. Only general stores, spares, and loose tools awaiting use in production are classified as inventory under AS 2. <PdfRef page={2} />
             </p>
           </div>
@@ -1664,8 +1664,8 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             description="The foundational rule of valuation: comparing historical costs against net realisable recovery values under the prudence rule."
           />
 
-          <div className="p-6 border-l-4 border-indigo-650 dark:border-indigo-400 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/30 dark:bg-indigo-955/10 rounded-xl my-6">
-            <p className="text-[16px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] text-center">
+          <div className="p-6 border-l-4 border-indigo-600 dark:border-indigo-400 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/30 dark:bg-indigo-900/10 rounded-xl my-6">
+            <p className="text-[16px] font-serif font-semibold text-slate-900 dark:text-slate-100 leading-[1.8] text-center">
               "Inventories should be valued at the lower of Cost and Net Realisable Value." <PdfRef page={4} />
             </p>
           </div>
@@ -1700,13 +1700,13 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           {/* Table: Cost of Purchase Inclusions and Exclusions */}
           <div className="my-8 space-y-2 w-full">
             <div className="text-[13px] font-bold text-indigo-800 dark:text-indigo-400 font-sans uppercase tracking-wider flex items-center gap-2">
-              <span className="inline-block w-1 h-4 bg-indigo-650 dark:bg-indigo-450 rounded-full"></span>
+              <span className="inline-block w-1 h-4 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
               Table 2 — Cost of Purchase Components <PdfRef page={6} />
             </div>
             <div className="overflow-x-auto w-full rounded-xl border border-indigo-200 dark:border-indigo-900/40">
               <table className="w-full text-left border-collapse text-[13.5px]">
                 <thead>
-                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-700 dark:bg-indigo-850">
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-700 dark:bg-indigo-800">
                     <th className="py-3 px-5 w-1/2">Inward Inclusions (Added to Cost)</th>
                     <th className="py-3 px-5 w-1/2">Deductions &amp; Exclusions (Deducted / Expensed)</th>
                   </tr>
@@ -1758,11 +1758,11 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </div>
 
           {/* Indigo Box: The Normal Capacity Rule */}
-          <div className="p-6 my-6 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/25 dark:bg-indigo-955/5 rounded-xl font-serif shadow-3xs">
-            <span className="text-[11.5px] font-bold text-indigo-850 dark:text-indigo-400 uppercase tracking-wider block mb-2 font-sans">
+          <div className="p-6 my-6 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/25 dark:bg-indigo-900/5 rounded-xl font-serif shadow-3xs">
+            <span className="text-[11.5px] font-bold text-indigo-800 dark:text-indigo-400 uppercase tracking-wider block mb-2 font-sans">
               Core Accounting Rule — Fixed Overheads Allocation (Normal Capacity)
             </span>
-            <p className="text-[15px] text-slate-950 dark:text-slate-50 leading-relaxed mb-3 font-semibold">
+            <p className="text-[15px] text-slate-900 dark:text-slate-50 leading-relaxed mb-3 font-semibold">
               Fixed production overhead rate is determined as: Total Expected Fixed Overheads ÷ Normal Capacity.
             </p>
             <ul className="list-disc pl-5 text-[14px] text-slate-800 dark:text-slate-300 space-y-2">
@@ -1849,19 +1849,19 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           {/* Grid of Exclusions */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4 font-sans">
-            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
+            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-900/5">
               <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Abnormal Waste</h4>
               <p className="text-[13px] text-slate-600 dark:text-gray-400">Abnormal amounts of wasted materials, labour, or other production costs (e.g. machine breakdowns, strikes, or material spills). <PdfRef page={9} /></p>
             </div>
-            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
+            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-900/5">
               <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Storage Costs</h4>
               <p className="text-[13px] text-slate-600 dark:text-gray-400">Storage costs, unless those costs are necessary in the production process prior to a further production stage (e.g., storing finished goods is expensed; maturing cheese storage is capitalized). <PdfRef page={9} /></p>
             </div>
-            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
+            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-900/5">
               <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Administrative Overheads</h4>
               <p className="text-[13px] text-slate-600 dark:text-gray-400">General office administrative overheads that do not contribute to bringing inventories to their present location and condition. <PdfRef page={9} /></p>
             </div>
-            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-955/5">
+            <div className="p-4 rounded-xl border border-red-200 dark:border-red-900/30 bg-red-50/10 dark:bg-red-900/5">
               <h4 className="font-bold text-red-700 dark:text-red-400 text-xs uppercase tracking-wider mb-1.5">Selling &amp; Distribution</h4>
               <p className="text-[13px] text-slate-600 dark:text-gray-400">Costs of marketing, advertising, showroom rent, delivery vehicle expenses, and outward freight. <PdfRef page={9} /></p>
             </div>
@@ -1910,7 +1910,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="space-y-4 font-sans">
             <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
               <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('fifo')}>
-                <span className="font-bold text-slate-905 dark:text-white text-sm">First-In, First-Out (FIFO) Formula</span>
+                <span className="font-bold text-slate-900 dark:text-white text-sm">First-In, First-Out (FIFO) Formula</span>
                 <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.fifo ? "rotate-180" : "")} />
               </div>
               {openAccordions.fifo && (
@@ -1926,7 +1926,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
             <div className="border border-slate-200 dark:border-gray-800 rounded-xl overflow-hidden bg-white dark:bg-[#111726]">
               <div className="bg-slate-50 dark:bg-slate-800/40 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer select-none font-sans" onClick={() => toggleAccordion('wa')}>
-                <span className="font-bold text-slate-905 dark:text-white text-sm font-sans">Weighted Average Cost (WAC) Formula</span>
+                <span className="font-bold text-slate-900 dark:text-white text-sm font-sans">Weighted Average Cost (WAC) Formula</span>
                 <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.wa ? "rotate-180" : "")} />
               </div>
               {openAccordions.wa && (
@@ -1938,12 +1938,12 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           </div>
 
           {/* Warning Box: LIFO prohibition */}
-          <div className="p-5 border border-red-200 dark:border-red-900/40 bg-red-50/20 dark:bg-red-955/5 rounded-xl space-y-2.5">
+          <div className="p-5 border border-red-200 dark:border-red-900/40 bg-red-50/20 dark:bg-red-900/5 rounded-xl space-y-2.5">
             <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-red-800 dark:text-red-400 flex items-center gap-2">
               <AlertTriangle size={14} />
               <span>LIFO Method is Strictly Prohibited</span>
             </h4>
-            <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-305 font-medium font-serif">
+            <p className="text-[14.5px] leading-relaxed text-slate-900 dark:text-slate-300 font-medium font-serif">
               The <strong>LIFO (Last-In, First-Out)</strong> method is strictly prohibited under AS 2. Carrying historical, outdated inventory values on the balance sheet fails to reflect a true and fair view of current asset valuations and distorts the net income during inflationary periods. <PdfRef page={9} />
             </p>
           </div>
@@ -1973,7 +1973,7 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <ChevronDown size={16} className={"transform transition-transform duration-200 " + (openAccordions.rmWriteDown ? "rotate-180" : "")} />
             </div>
             {openAccordions.rmWriteDown && (
-              <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14.5px] space-y-3 font-sans leading-relaxed text-slate-700 dark:text-slate-305">
+              <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14.5px] space-y-3 font-sans leading-relaxed text-slate-700 dark:text-slate-300">
                 <p className="font-semibold text-slate-900 dark:text-white font-serif">
                   Materials and other supplies held for use in the production of inventories are NOT written down below cost if the finished products in which they are to be incorporated are expected to be sold at or above cost. <PdfRef page={11} />
                 </p>
@@ -2009,26 +2009,26 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           {/* Journal Entries Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans">
             <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-              <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">On Sale of Inventory</span>
-              <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+              <span className="font-bold text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">On Sale of Inventory</span>
+              <pre className="p-3 bg-white dark:bg-slate-900 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
                 {"Dr. Cost of Goods Sold\n  Cr. Inventory\n[Recognized in P&L matching revenue]"}
               </pre>
             </div>
             <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-              <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">NRV Write-down</span>
-              <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+              <span className="font-bold text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">NRV Write-down</span>
+              <pre className="p-3 bg-white dark:bg-slate-900 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
                 {"Dr. Loss on NRV Write-down (P&L)\n  Cr. Inventory\n[Recognized immediately as period cost]"}
               </pre>
             </div>
             <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-              <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">Reversal of Write-down</span>
-              <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+              <span className="font-bold text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">Reversal of Write-down</span>
+              <pre className="p-3 bg-white dark:bg-slate-900 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
                 {"Dr. Inventory\n  Cr. Cost of Goods Sold (Reduction)\n[Capped at the original write-down amount]"}
               </pre>
             </div>
             <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40">
-              <span className="font-bold text-[11px] text-slate-550 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">Abnormal Wastage</span>
-              <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
+              <span className="font-bold text-[11px] text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2 font-sans">Abnormal Wastage</span>
+              <pre className="p-3 bg-white dark:bg-slate-900 border rounded text-xs font-mono leading-relaxed text-slate-800 dark:text-slate-300">
                 {"Dr. Abnormal Loss A/c (P&L)\n  Cr. WIP / Raw Materials\n[Charged directly to Profit & Loss]"}
               </pre>
             </div>
@@ -2051,32 +2051,32 @@ function AS2StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
           {/* Checklist Boxes */}
           <div className="space-y-3 font-sans">
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-900/5">
               <span className="text-blue-500 font-bold">☑</span>
               <div>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Accounting Policies and Cost Formula</p>
-                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose the accounting policies adopted in measuring inventories, including the cost formula used (FIFO or Weighted Average). <PdfRef page={12} /></p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose the accounting policies adopted in measuring inventories, including the cost formula used (FIFO or Weighted Average). <PdfRef page={12} /></p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-900/5">
               <span className="text-blue-500 font-bold">☑</span>
               <div>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Classification break-up of Carrying Amounts</p>
-                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose total carrying amount classified appropriate to the enterprise: (1) Raw Materials, (2) WIP, (3) Finished Goods, (4) Stock-in-trade (for retail resale), (5) Stores and spares, (6) Loose tools, (7) Others. <PdfRef page={12} /></p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose total carrying amount classified appropriate to the enterprise: (1) Raw Materials, (2) WIP, (3) Finished Goods, (4) Stock-in-trade (for retail resale), (5) Stores and spares, (6) Loose tools, (7) Others. <PdfRef page={12} /></p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-900/5">
               <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
               <div>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">NRV Write-down and reversals (if any)</p>
-                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose the write-down amount and the circumstances that led to the reversal. <PdfRef page={12} /></p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose the write-down amount and the circumstances that led to the reversal. <PdfRef page={12} /></p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-900/5">
               <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
               <div>
-                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Inventories pledged as security</p>
-                <p className="text-xs text-slate-500 dark:text-slate-405 mt-1 font-sans">Disclose the carrying amount of inventories pledged as security for liabilities. <PdfRef page={12} /></p>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Inventories pledged as security</p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose the carrying amount of inventories pledged as security for liabilities. <PdfRef page={12} /></p>
               </div>
             </div>
           </div>
@@ -2204,7 +2204,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
       title={"Open ICAI AS 3 PDF — Page " + page}
     >
       <FileText size={10} className="shrink-0" />
@@ -2221,7 +2221,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
       <div className="w-full mb-6 mt-12 first:mt-2">
         <div className="flex items-baseline gap-2 mb-2">
           <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-            <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
             <span>{title}</span>
           </h2>
         </div>
@@ -2269,7 +2269,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
                 className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
                   activeSection === sec.id
                     ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-955 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 )}
               >
                 {sec.title}
@@ -2280,7 +2280,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
       </div>
 
       {/* Main Publication Sheet Canvas */}
-      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
         
         {/* Chapter 1: Introduction & Objective */}
         <section id="as3-overview" className="scroll-mt-36 space-y-8 w-full">
@@ -2319,21 +2319,21 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
 
           {/* Premium Blue Information Card */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-blue-150 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-955/5 rounded-xl space-y-2.5">
+            <div className="p-5 border border-blue-100 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-900/5 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-blue-800 dark:text-blue-400 flex items-center gap-2">
                 <Info size={14} />
                 <span>1. Transition Rule: Newly Qualified</span>
               </h4>
-              <p className="text-[14.5px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+              <p className="text-[14.5px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                 Where an enterprise was not covered by the statement in the previous year but qualifies in the current year, it is not required to disclose comparative figures for the preceding period. <PdfRef page={1} />
               </p>
             </div>
-            <div className="p-5 border border-blue-150 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-955/5 rounded-xl space-y-2.5">
+            <div className="p-5 border border-blue-100 dark:border-blue-900/40 bg-blue-50/20 dark:bg-blue-900/5 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-blue-800 dark:text-blue-400 flex items-center gap-2">
                 <Info size={14} />
                 <span>2. Transition Rule: Newly Disqualified</span>
               </h4>
-              <p className="text-[14.5px] leading-relaxed text-slate-950 dark:text-slate-50 font-medium">
+              <p className="text-[14.5px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                 An enterprise that qualified under the statement in the previous year but subsequently becomes disqualified must continue to prepare a Cash Flow Statement for another two consecutive years. <PdfRef page={2} />
               </p>
             </div>
@@ -2348,15 +2348,15 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
             description="Detailing cash on hand, demand deposits, short-term investments, and maturity definitions."
           />
 
-          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6">
+          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-900/10 rounded-xl my-6">
             <div className="text-[10.5px] font-sans font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-3 flex items-center gap-2">
-              <BookOpen size={13} className="text-blue-600 dark:text-blue-450" />
+              <BookOpen size={13} className="text-blue-600 dark:text-blue-400" />
               <span>Core Definitions — AS 3, Para 5</span>
             </div>
-            <p className="text-[15.5px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic mb-3">
+            <p className="text-[15.5px] font-serif font-semibold text-slate-900 dark:text-slate-100 leading-[1.8] italic mb-3">
               "Cash comprises cash on hand and demand deposits with banks."
             </p>
-            <p className="text-[15.5px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">
+            <p className="text-[15.5px] font-serif font-semibold text-slate-900 dark:text-slate-100 leading-[1.8] italic">
               "Cash equivalents are short-term, highly liquid investments that are readily convertible into known amounts of cash and which are subject to an insignificant risk of changes in value." <PdfRef page={3} />
             </p>
           </div>
@@ -2387,19 +2387,19 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
 
           {/* 3-Column Classification Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 my-6 font-serif w-full">
-            <div className="p-5 border-t-2 border-indigo-500 border border-indigo-250 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-950/10 rounded-xl space-y-2.5">
-              <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-indigo-805 dark:text-indigo-400">1. Operating Activities</h4>
+            <div className="p-5 border-t-2 border-indigo-500 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/10 rounded-xl space-y-2.5">
+              <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-indigo-800 dark:text-indigo-400">1. Operating Activities</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                 Principal revenue-producing activities of the enterprise and other activities that are not investing or financing activities. <PdfRef page={4} />
               </p>
             </div>
-            <div className="p-5 border-t-2 border-emerald-500 border border-emerald-250 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-950/10 rounded-xl space-y-2.5">
+            <div className="p-5 border-t-2 border-emerald-500 border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/20 dark:bg-emerald-900/10 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-emerald-800 dark:text-emerald-400">2. Investing Activities</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                 Acquisition and disposal of long-term assets and other investments not included in cash equivalents. <PdfRef page={4} />
               </p>
             </div>
-            <div className="p-5 border-t-2 border-violet-500 border border-violet-250 dark:border-violet-900/40 bg-violet-50/20 dark:bg-violet-950/10 rounded-xl space-y-2.5">
+            <div className="p-5 border-t-2 border-violet-500 border border-violet-200 dark:border-violet-900/40 bg-violet-50/20 dark:bg-violet-900/10 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-[12px] uppercase tracking-wider text-violet-800 dark:text-violet-400">3. Financing Activities</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">
                 Activities that result in changes in the size and composition of the owners' capital and borrowings of the enterprise. <PdfRef page={4} />
@@ -2436,7 +2436,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
                 <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-800 dark:text-slate-200">
                   <p className="mb-2"><strong>Gross Receipts (Cash Inflows):</strong> Cash sales, trade receivables collections, royalty/commission income. <PdfRef page={8} /></p>
                   <p className="mb-2"><strong>Gross Payments (Cash Outflows):</strong> Cash purchases, payments to trade payables, salaries/wages, rent/electricity. <PdfRef page={8} /></p>
-                  <pre className="p-3 bg-white dark:bg-slate-950 border rounded text-xs font-mono leading-relaxed mt-2 text-slate-800 dark:text-slate-300">
+                  <pre className="p-3 bg-white dark:bg-slate-900 border rounded text-xs font-mono leading-relaxed mt-2 text-slate-800 dark:text-slate-300">
                     {"Cash Received from Customers\nLess: Cash Paid to Suppliers & Employees\n= Cash Generated from Operations\nLess: Income Tax Paid\n+/- Extraordinary Items\n= Net Cash Flow from Operating Activities"}
                   </pre>
                 </div>
@@ -2451,7 +2451,7 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
               {openAccordions.indirect && (
                 <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-800 dark:text-slate-200">
                   <p className="mb-2">Starts from the net profit/loss figure and adjusts it for non-cash and non-operating items. <PdfRef page={8} /></p>
-                  <pre className="p-3 bg-white dark:bg-slate-955 border rounded text-xs font-mono leading-relaxed mt-2 text-slate-800 dark:text-slate-300">
+                  <pre className="p-3 bg-white dark:bg-slate-900 border rounded text-xs font-mono leading-relaxed mt-2 text-slate-800 dark:text-slate-300">
                     {"Net Profit Before Tax & Extraordinary Items\n+ Depreciation & Non-cash expenses\n+ Interest & Finance Expenses\n- Interest & Dividend Income\n+ Loss (or - Gain) on Sale of Assets\n= Operating Profit Before Working Capital Changes\n+/- Adjustments for Trade Receivables, Inventories, Trade Payables\n- Income Tax Paid\n+/- Extraordinary Items\n= Net Cash Flow from Operating Activities"}
                   </pre>
                 </div>
@@ -2520,14 +2520,14 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
 
           {/* Table: Special Classifications */}
           <div className="my-8 space-y-2 w-full">
-            <div className="text-[13px] font-bold text-indigo-805 dark:text-indigo-400 font-sans uppercase tracking-wider flex items-center gap-2">
+            <div className="text-[13px] font-bold text-indigo-800 dark:text-indigo-400 font-sans uppercase tracking-wider flex items-center gap-2">
               <span className="inline-block w-1 h-4 bg-indigo-600 dark:bg-indigo-400 rounded-full"></span>
               Table 1 — Classification of Interest, Dividends and Loans <PdfRef page={5} />
             </div>
             <div className="overflow-x-auto w-full rounded-xl border border-indigo-200 dark:border-indigo-900/40">
               <table className="w-full text-left border-collapse text-[13.5px]">
                 <thead>
-                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-750 dark:bg-indigo-850">
+                  <tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-700 dark:bg-indigo-800">
                     <th className="py-3 px-5 w-1/3">Transaction Category</th>
                     <th className="py-3 px-5 w-1/3">Financial Enterprise</th>
                     <th className="py-3 px-5 w-1/3">Non-Financial Enterprise</th>
@@ -2536,28 +2536,28 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
                 <tbody className="text-slate-900 dark:text-slate-100 font-serif divide-y divide-indigo-100 dark:divide-indigo-900/30">
                   <tr className="bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 font-semibold leading-relaxed align-top">Interest Paid</td>
-                    <td className="py-3.5 px-5 text-emerald-650 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Outflow</td>
-                    <td className="py-3.5 px-5 text-indigo-650 dark:text-indigo-400 font-semibold leading-relaxed align-top">Financing Cash Outflow <PdfRef page={10} /></td>
+                    <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Outflow</td>
+                    <td className="py-3.5 px-5 text-indigo-600 dark:text-indigo-400 font-semibold leading-relaxed align-top">Financing Cash Outflow <PdfRef page={10} /></td>
                   </tr>
                   <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
                     <td className="py-3.5 px-5 font-semibold leading-relaxed align-top">Interest &amp; Dividends Received</td>
-                    <td className="py-3.5 px-5 text-emerald-650 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Inflow</td>
-                    <td className="py-3.5 px-5 text-blue-650 dark:text-blue-400 font-semibold leading-relaxed align-top">Investing Cash Inflow <PdfRef page={10} /></td>
+                    <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Inflow</td>
+                    <td className="py-3.5 px-5 text-blue-600 dark:text-blue-400 font-semibold leading-relaxed align-top">Investing Cash Inflow <PdfRef page={10} /></td>
                   </tr>
                   <tr className="bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 font-semibold leading-relaxed align-top">Loans &amp; Advances Given</td>
-                    <td className="py-3.5 px-5 text-emerald-650 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Outflow</td>
-                    <td className="py-3.5 px-5 text-blue-650 dark:text-blue-400 font-semibold leading-relaxed align-top">Investing Cash Outflow <PdfRef page={5} /></td>
+                    <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Outflow</td>
+                    <td className="py-3.5 px-5 text-blue-600 dark:text-blue-400 font-semibold leading-relaxed align-top">Investing Cash Outflow <PdfRef page={5} /></td>
                   </tr>
                   <tr className="bg-indigo-50/10 dark:bg-[#0f1c22]/10">
                     <td className="py-3.5 px-5 font-semibold leading-relaxed align-top">Loans/Advances to Employees / Suppliers</td>
-                    <td className="py-3.5 px-5 text-emerald-650 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Flow</td>
-                    <td className="py-3.5 px-5 text-emerald-650 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Flow <PdfRef page={5} /></td>
+                    <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Flow</td>
+                    <td className="py-3.5 px-5 text-emerald-600 dark:text-emerald-400 font-semibold leading-relaxed align-top">Operating Cash Flow <PdfRef page={5} /></td>
                   </tr>
                   <tr className="bg-white dark:bg-[#111726]">
                     <td className="py-3.5 px-5 font-semibold leading-relaxed align-top">Dividends Paid</td>
-                    <td className="py-3.5 px-5 text-indigo-650 dark:text-indigo-400 font-semibold leading-relaxed align-top">Financing Cash Outflow</td>
-                    <td className="py-3.5 px-5 text-indigo-650 dark:text-indigo-400 font-semibold leading-relaxed align-top">Financing Cash Outflow <PdfRef page={6} /></td>
+                    <td className="py-3.5 px-5 text-indigo-600 dark:text-indigo-400 font-semibold leading-relaxed align-top">Financing Cash Outflow</td>
+                    <td className="py-3.5 px-5 text-indigo-600 dark:text-indigo-400 font-semibold leading-relaxed align-top">Financing Cash Outflow <PdfRef page={6} /></td>
                   </tr>
                 </tbody>
               </table>
@@ -2586,12 +2586,12 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
           </div>
 
           {/* Warning Box: Insurance Claim Inclusions */}
-          <div className="p-5 border border-amber-250 dark:border-amber-900/40 bg-amber-50/20 dark:bg-amber-955/5 rounded-xl space-y-2.5">
+          <div className="p-5 border border-amber-200 dark:border-amber-900/40 bg-amber-50/20 dark:bg-amber-900/5 rounded-xl space-y-2.5">
             <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-2">
               <AlertTriangle size={14} />
               <span>Insurance Claim Classification Warning</span>
             </h4>
-            <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-300 font-medium font-serif">
+            <p className="text-[14.5px] leading-relaxed text-slate-900 dark:text-slate-300 font-medium font-serif">
               An insurance claim received against loss of inventories or loss of profits is classified as an **extraordinary operating cash inflow**. An insurance claim received against loss of property, plant, and equipment is classified as an **extraordinary investing cash inflow**. <PdfRef page={7} />
             </p>
           </div>
@@ -2668,8 +2668,8 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
           </div>
 
           {/* Indigo Box: Working Capital Taken Over Rule */}
-          <div className="p-6 my-6 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/25 dark:bg-indigo-955/5 rounded-xl font-serif shadow-3xs">
-            <span className="text-[11.5px] font-bold text-indigo-850 dark:text-indigo-400 uppercase tracking-wider block mb-2 font-sans">
+          <div className="p-6 my-6 border border-indigo-200 dark:border-indigo-900/40 bg-indigo-50/25 dark:bg-indigo-900/5 rounded-xl font-serif shadow-3xs">
+            <span className="text-[11.5px] font-bold text-indigo-800 dark:text-indigo-400 uppercase tracking-wider block mb-2 font-sans">
               Adjustment Rule — Current Assets &amp; Liabilities Taken Over
             </span>
             <p className="text-[14.5px] text-slate-900 dark:text-slate-50 leading-relaxed font-semibold">
@@ -2700,31 +2700,31 @@ function AS3StandardTabContent({ navigateToPdfPage }: AS3StandardTabContentProps
 
           {/* Checklist Boxes */}
           <div className="space-y-3 font-sans">
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-900/5">
               <span className="text-blue-500 font-bold">☑</span>
               <div>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Opening &amp; Closing Cash Reconciliation Note</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose a reconciliation of the opening and closing cash balances in the Cash Flow Statement with the corresponding balance sheet items. <PdfRef page={3} /></p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-900/5">
               <span className="text-blue-500 font-bold">☑</span>
               <div>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Restricted Funds Disclosure</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose cash and cash equivalent balances held by the enterprise but not available for its use. <PdfRef page={12} /></p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-900/5">
               <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
               <div>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Undrawn Borrowing Facilities Note (Encouraged)</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose the amount of undrawn borrowing facilities that may be available for future operating activities and to settle capital commitments, indicating any restrictions on the use of these facilities. <PdfRef page={12} /></p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-200 dark:border-amber-900/30 bg-amber-50/20 dark:bg-amber-900/5">
               <span className="text-amber-600 dark:text-amber-400 font-bold">☐</span>
               <div>
-                <p className="text-[14.5px] text-slate-805 dark:text-slate-200 font-semibold font-sans">Operating Capacity Maintenance Disclosure (Encouraged)</p>
+                <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Operating Capacity Maintenance Disclosure (Encouraged)</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose cash flows required for maintaining operating capacity separately from cash flows that represent an increase in operating capacity. <PdfRef page={12} /></p>
               </div>
             </div>
@@ -2845,7 +2845,7 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
   const PdfRef = ({ page }: { page: number }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+      className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
       title={"Open ICAI AS 4 PDF — Page " + page}
     >
       <FileText size={10} className="shrink-0" />
@@ -2862,7 +2862,7 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
       <div className="w-full mb-6 mt-12 first:mt-2">
         <div className="flex items-baseline gap-2 mb-2">
           <h2 className="text-[20px] sm:text-[22px] font-sans font-bold text-slate-900 dark:text-white tracking-tight leading-tight flex items-baseline gap-2">
-            <span className="text-indigo-650 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
+            <span className="text-indigo-600 dark:text-indigo-400 font-mono font-bold mr-1 select-none">{arabicNum}.</span>
             <span>{title}</span>
           </h2>
         </div>
@@ -2910,7 +2910,7 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
                 className={"transition-all cursor-pointer px-3.5 py-1.5 rounded-full text-[11.5px] font-sans font-semibold tracking-wide shrink-0 whitespace-nowrap " + (
                   activeSection === sec.id
                     ? 'text-white bg-indigo-600 dark:bg-indigo-500 shadow-sm font-bold'
-                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-955 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-transparent hover:border-slate-200 dark:hover:border-slate-700'
                 )}
               >
                 {sec.title}
@@ -2921,7 +2921,7 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
       </div>
 
       {/* Main Publication Sheet Canvas */}
-      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-850 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
+      <div className="mx-auto w-[98%] max-w-[1720px] bg-white dark:bg-[#111726] shadow-sm border border-slate-200/70 dark:border-slate-800 rounded-xl px-4 sm:px-8 lg:px-12 py-10 sm:py-14 space-y-8 relative my-4">
         
         {/* Chapter 1: Introduction & Objective */}
         <section id="as4-overview" className="scroll-mt-36 space-y-8 w-full">
@@ -2970,15 +2970,15 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
           />
 
           {/* Official Definition Card */}
-          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-955/10 rounded-xl my-6">
+          <div className="p-6 border-l-4 border-blue-600 dark:border-blue-500 border border-blue-200 dark:border-blue-900/40 bg-blue-50/30 dark:bg-blue-900/10 rounded-xl my-6">
             <div className="text-[10.5px] font-sans font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400 mb-3 flex items-center gap-2">
-              <BookOpen size={13} className="text-blue-600 dark:text-blue-450" />
+              <BookOpen size={13} className="text-blue-600 dark:text-blue-400" />
               <span>Official Definitions — AS 4, Para 3</span>
             </div>
-            <p className="text-[15.5px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic mb-3">
+            <p className="text-[15.5px] font-serif font-semibold text-slate-900 dark:text-slate-100 leading-[1.8] italic mb-3">
               "A contingency is a condition or situation, the ultimate outcome of which, gain or loss, will be confirmed only on the occurrence, or non-occurrence, of one or more uncertain future events." <PdfRef page={2} />
             </p>
-            <p className="text-[15.5px] font-serif font-semibold text-slate-950 dark:text-slate-100 leading-[1.8] italic">
+            <p className="text-[15.5px] font-serif font-semibold text-slate-900 dark:text-slate-100 leading-[1.8] italic">
               "Events occurring after the balance sheet date are those significant events, both favourable and unfavourable, that occur between the balance sheet date and the date on which the financial statements are approved by the Board of Directors in the case of a company, and, by the corresponding approving authority in the case of any other entity." <PdfRef page={3} />
             </p>
           </div>
@@ -3045,7 +3045,7 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
                 <div className="p-5 bg-slate-50/10 dark:bg-slate-900/10 text-[14px] leading-relaxed font-sans text-slate-700 dark:text-slate-300">
                   <table className="w-full text-left border-collapse text-[13.5px] border border-slate-200 dark:border-slate-800 rounded-lg">
                     <thead>
-                      <tr className="bg-slate-100 dark:bg-slate-805 text-slate-800 dark:text-white font-sans text-[11px] font-bold uppercase tracking-wider">
+                      <tr className="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white font-sans text-[11px] font-bold uppercase tracking-wider">
                         <th className="py-2.5 px-4">Probability of Loss</th>
                         <th className="py-2.5 px-4">Reliable Estimate Possible?</th>
                         <th className="py-2.5 px-4">Accounting Treatment</th>
@@ -3055,7 +3055,7 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
                       <tr>
                         <td className="py-2.5 px-4">Probable (High chance)</td>
                         <td className="py-2.5 px-4">Yes</td>
-                        <td className="py-2.5 px-4 font-semibold text-rose-650 dark:text-rose-400">Make a Provision (debit P&amp;L) <PdfRef page={2} /></td>
+                        <td className="py-2.5 px-4 font-semibold text-rose-600 dark:text-rose-400">Make a Provision (debit P&amp;L) <PdfRef page={2} /></td>
                       </tr>
                       <tr>
                         <td className="py-2.5 px-4">Probable (High chance)</td>
@@ -3099,21 +3099,21 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
 
           {/* Premium Blue Information Card */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 w-full font-serif">
-            <div className="p-5 border border-indigo-150 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-955/5 rounded-xl space-y-2.5">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400 flex items-center gap-2">
                 <Info size={14} />
                 <span>1. Insolvency of a Debtor</span>
               </h4>
-              <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-50 font-medium">
+              <p className="text-[14.5px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                 The insolvency of a customer after the balance sheet date confirms that the debtor's balance was impaired at the balance sheet date. The company must write off the debt or make a full provision. <PdfRef page={4} />
               </p>
             </div>
-            <div className="p-5 border border-indigo-150 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-955/5 rounded-xl space-y-2.5">
+            <div className="p-5 border border-indigo-100 dark:border-indigo-900/40 bg-indigo-50/20 dark:bg-indigo-900/5 rounded-xl space-y-2.5">
               <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-indigo-800 dark:text-indigo-400 flex items-center gap-2">
                 <Info size={14} />
                 <span>2. Detection of Fraud / Cash Theft</span>
               </h4>
-              <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-50 font-medium">
+              <p className="text-[14.5px] leading-relaxed text-slate-900 dark:text-slate-50 font-medium">
                 If a fraud or theft committed during the financial year is detected after the balance sheet date but before approval of the accounts, it is an adjusting event. The loss must be recognized in the current year. <PdfRef page={6} />
               </p>
             </div>
@@ -3143,12 +3143,12 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
           </div>
 
           {/* Warning Box: Cheques in hand received after B/S date */}
-          <div className="p-5 border border-red-200 dark:border-red-900/40 bg-red-50/20 dark:bg-red-955/5 rounded-xl space-y-2.5">
+          <div className="p-5 border border-red-200 dark:border-red-900/40 bg-red-50/20 dark:bg-red-900/5 rounded-xl space-y-2.5">
             <h4 className="font-sans font-bold text-xs uppercase tracking-wider text-red-800 dark:text-red-400 flex items-center gap-2">
               <AlertTriangle size={14} />
               <span>Cheques Received After Year-End Warning</span>
             </h4>
-            <p className="text-[14.5px] leading-relaxed text-slate-955 dark:text-slate-300 font-medium font-serif">
+            <p className="text-[14.5px] leading-relaxed text-slate-900 dark:text-slate-300 font-medium font-serif">
               Cheques received from customers after the balance sheet date (even if dated 31st March or before) do not represent a condition existing on 31st March. They cannot be recognized as asset "cheques in hand" on the balance sheet date, as the company lacked control over those funds at that date. <PdfRef page={6} />
             </p>
           </div>
@@ -3206,14 +3206,14 @@ function AS4StandardTabContent({ navigateToPdfPage }: AS4StandardTabContentProps
 
           {/* Checklist Boxes */}
           <div className="space-y-3 font-sans">
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-900/5">
               <span className="text-blue-500 font-bold">☑</span>
               <div>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Nature of the Event</p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 font-sans">Disclose a description of the nature of the post-balance sheet event. <PdfRef page={6} /></p>
               </div>
             </div>
-            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-955/5">
+            <div className="flex items-start gap-3 p-4 rounded-xl border border-blue-200 dark:border-blue-900/30 bg-blue-50/20 dark:bg-blue-900/5">
               <span className="text-blue-500 font-bold">☑</span>
               <div>
                 <p className="text-[14.5px] text-slate-800 dark:text-slate-200 font-semibold font-sans">Financial Effect Estimate</p>
@@ -3300,7 +3300,7 @@ function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 5 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -3316,10 +3316,10 @@ function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -3355,7 +3355,7 @@ function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps
             { color: 'teal', title: 'Enhancing Comparability', body: 'Enables investors and creditors to compare an enterprise\'s financial results over different reporting periods and across different entities in the same industry.', p: 1 },
             { color: 'blue', title: 'Earnings Transparency', body: 'Forces clear separation of normal operating items from prior period corrections, estimate revisions, and non-recurring extraordinary items.', p: 1 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
@@ -3377,12 +3377,12 @@ function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps
           <p>All items of income and expense recognized in a period must be included in the determination of net profit or loss for the period, unless an Accounting Standard requires or permits otherwise. <P n={2} /></p>
           <p>The net profit or loss for the period comprises the following components, each of which should be disclosed on the face of the statement of profit and loss:</p>
         </div>
-        <div className="mb-8 overflow-x-auto rounded-xl border border-emerald-250 dark:border-emerald-900/40 font-serif">
+        <div className="mb-8 overflow-x-auto rounded-xl border border-emerald-200 dark:border-emerald-900/40 font-serif">
           <table className="w-full text-left border-collapse text-[13.5px]">
             <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-emerald-700 dark:bg-emerald-800"><th className="py-3 px-5 w-1/3">Component</th><th className="py-3 px-5 w-2/3">Mandated Disclosure & Treatment (Para 3)</th></tr></thead>
             <tbody className="divide-y divide-emerald-100 dark:divide-emerald-900/30 text-slate-900 dark:text-slate-100">
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase tracking-wider">Profit/Loss from Ordinary Activities</td><td className="py-4 px-5 leading-relaxed">Activities undertaken by an enterprise as part of its business, and related activities in which it engages in furtherance of, incidental to, or arising from these activities. <P n={2} /></td></tr>
-              <tr className="bg-emerald-50/15 dark:bg-emerald-955/5"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase tracking-wider">Extraordinary Items</td><td className="py-4 px-5 leading-relaxed">Income or expenses arising from events or transactions that are clearly distinct from ordinary activities, and not expected to recur frequently or regularly. Must be disclosed on the face of the P&amp;L. <P n={2} /></td></tr>
+              <tr className="bg-emerald-50/15 dark:bg-emerald-900/5"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase tracking-wider">Extraordinary Items</td><td className="py-4 px-5 leading-relaxed">Income or expenses arising from events or transactions that are clearly distinct from ordinary activities, and not expected to recur frequently or regularly. Must be disclosed on the face of the P&amp;L. <P n={2} /></td></tr>
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase tracking-wider">Prior Period Items</td><td className="py-4 px-5 leading-relaxed">Income or expenses arising in the current period as a result of errors or omissions in the preparation of financial statements of one or more prior periods. Separate disclosure is required. <P n={4} /></td></tr>
             </tbody>
           </table>
@@ -3455,7 +3455,7 @@ function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps
             <li>Oversight or omission.</li>
           </ul>
         </div>
-        <div className="border border-emerald-250 dark:border-emerald-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-emerald-200 dark:border-emerald-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('priorPeriod')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Prior Period Items vs. Change in Estimate & Contingency <P n={4} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.priorPeriod ? 'rotate-180' : '')} />
@@ -3482,13 +3482,13 @@ function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps
             <li>The period of the change and future periods, if the change affects both. (e.g. change in estimated useful life of a machine).</li>
           </ul>
         </div>
-        <div className="mb-8 overflow-x-auto rounded-xl border border-emerald-250 dark:border-emerald-900/40 font-serif">
+        <div className="mb-8 overflow-x-auto rounded-xl border border-emerald-200 dark:border-emerald-900/40 font-serif">
           <div className="bg-emerald-600 dark:bg-emerald-700 px-5 py-2.5"><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">Prospective Classification Rule <P n={6} /></span></div>
           <table className="w-full text-left border-collapse text-[13.5px]">
-            <thead><tr className="bg-emerald-50 dark:bg-emerald-950/20 font-sans text-[11px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300"><th className="py-3 px-5 w-1/2">Requirement</th><th className="py-3 px-5 w-1/2">Application Rule (Para 24–25)</th></tr></thead>
+            <thead><tr className="bg-emerald-50 dark:bg-emerald-900/20 font-sans text-[11px] font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300"><th className="py-3 px-5 w-1/2">Requirement</th><th className="py-3 px-5 w-1/2">Application Rule (Para 24–25)</th></tr></thead>
             <tbody className="divide-y divide-emerald-100 dark:divide-emerald-900/20 text-slate-900 dark:text-slate-100">
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Classification</td><td className="py-4 px-5">The effect of a change in an accounting estimate should be classified using the <strong>same classification</strong> as was used previously for the estimate. If the estimate was operating expense, its change is operating. <P n={6} /></td></tr>
-              <tr className="bg-emerald-50/15 dark:bg-emerald-955/5"><td className="py-4 px-5 font-semibold">Materiality Disclosure</td><td className="py-4 px-5">The nature and amount of a change in an accounting estimate which has a material effect in the current period, or is expected to have a material effect in subsequent periods, should be disclosed. <P n={6} /></td></tr>
+              <tr className="bg-emerald-50/15 dark:bg-emerald-900/5"><td className="py-4 px-5 font-semibold">Materiality Disclosure</td><td className="py-4 px-5">The nature and amount of a change in an accounting estimate which has a material effect in the current period, or is expected to have a material effect in subsequent periods, should be disclosed. <P n={6} /></td></tr>
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Unquantifiable Impact</td><td className="py-4 px-5">If it is impracticable to quantify the amount of change, this fact should be explicitly disclosed in the notes. <P n={6} /></td></tr>
             </tbody>
           </table>
@@ -3513,9 +3513,9 @@ function AS5StandardTabContent({ navigateToPdfPage }: AS5StandardTabContentProps
               { rule: 'Unquantifiable Disclosures', desc: 'If the financial effect is not wholly or partially quantifiable, the fact that the effect is not quantifiable must be disclosed.' },
               { rule: 'Future Impact Statement', desc: 'If the change has no material effect in the current period but is expected to have a material effect in subsequent periods, the fact of such change should be disclosed.' },
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-emerald-50/15 dark:bg-emerald-955/10')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-emerald-50/15 dark:bg-emerald-900/10')}>
                 <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.rule}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.desc}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.rule}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.desc}</p></div>
               </div>
             ))}
           </div>
@@ -3643,7 +3643,7 @@ function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabContentProps
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 7 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -3659,10 +3659,10 @@ function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabContentProps
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -3698,7 +3698,7 @@ function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabContentProps
             { color: 'indigo', title: 'Scope Specifics', body: 'Applies specifically in the financial statements of contractors (not contractees/customers) to negotiated asset construction contracts.', p: 3 },
             { color: 'violet', title: 'Expected Losses Rule', body: 'Enforces the immediate recognition of any expected losses as an expense, reflecting the prudence consideration in accounting.', p: 10 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
@@ -3716,7 +3716,7 @@ function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabContentProps
             { term: 'Directly Related Services', color: 'indigo', def: 'For the purposes of this Standard, construction contracts also include contracts for the rendering of services which are directly related to the construction of the asset.', ex: 'Services of project managers and architects.' },
             { term: 'Demolition & Restoration', color: 'violet', def: 'Contracts for the destruction or restoration of assets, and the restoration of the environment following the demolition of assets.', ex: 'Land cleaning, environmental remediation post-demolition.' }
           ].map((item, i) => (
-            <div key={i} className={'p-5 border-l-4 border-' + item.color + '-500 border border-' + item.color + '-200 dark:border-' + item.color + '-900/40 bg-' + item.color + '-50/20 dark:bg-' + item.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-l-4 border-' + item.color + '-500 border border-' + item.color + '-200 dark:border-' + item.color + '-900/40 bg-' + item.color + '-50/20 dark:bg-' + item.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[13px] text-' + item.color + '-800 dark:text-' + item.color + '-400 mb-2'}>{item.term}</h4>
               <p className="text-[15px] leading-relaxed text-slate-800 dark:text-slate-200 mb-2">{item.def} <P n={3} /></p>
               <p className="text-[13px] text-slate-500 dark:text-slate-400 italic">Included: {item.ex}</p>
@@ -3733,14 +3733,14 @@ function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabContentProps
           <div className="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/10 space-y-2">
             <h3 className="font-sans font-bold text-[15px] text-slate-900 dark:text-white">Fixed Price Contract</h3>
             <p className="text-[14.5px] leading-relaxed">The contractor agrees to a fixed contract price, or a fixed rate per unit of output, which in some cases may be subject to cost escalation clauses. <P n={3} /></p>
-            <div className="p-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+            <div className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs leading-relaxed text-slate-600 dark:text-slate-400">
               <strong>Risk Profile:</strong> Higher risk for the contractor since any cost overrun reduces the profit margin.
             </div>
           </div>
           <div className="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/10 space-y-2">
             <h3 className="font-sans font-bold text-[15px] text-slate-900 dark:text-white">Cost Plus Contract</h3>
             <p className="text-[14.5px] leading-relaxed">The contractor is reimbursed for allowable or otherwise defined costs, plus a percentage of these costs or a fixed fee. <P n={3} /></p>
-            <div className="p-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+            <div className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs leading-relaxed text-slate-600 dark:text-slate-400">
               <strong>Risk Profile:</strong> Lower risk for the contractor as cost overruns are reimbursed by the contractee.
             </div>
           </div>
@@ -3849,7 +3849,7 @@ function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabContentProps
               <div className="p-3 bg-white dark:bg-slate-900 border rounded-lg font-mono text-[11.5px] text-slate-800 dark:text-slate-200 text-center">
                 Stage of Completion (%) = (Contract Costs Incurred to Date ÷ Estimated Total Contract Costs) × 100
               </div>
-              <p className="font-bold text-amber-600 dark:text-amber-450 mt-2">Exclude from Costs Incurred to Date:</p>
+              <p className="font-bold text-amber-600 dark:text-amber-400 mt-2">Exclude from Costs Incurred to Date:</p>
               <p>Costs incurred that relate to future activity on the contract (e.g., site materials delivered but not yet installed/used during construction, unless manufactured specifically for the contract) and payments made to subcontractors in advance of work performed. <P n={9} /></p>
             </div>
           )}
@@ -3880,9 +3880,9 @@ function AS7StandardTabContent({ navigateToPdfPage }: AS7StandardTabContentProps
               { title: 'Contracts in Progress (Accrued Details)', detail: 'For contracts in progress at the reporting date: (a) the aggregate amount of costs incurred and recognized profits (less recognized losses) to date; (b) the amount of advances received; and (c) the amount of retentions.' },
               { title: 'Due from / to Customers', detail: 'The gross amount due from customers for contract work (asset) and the gross amount due to customers for contract work (liability).' }
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-950/5')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-900/5')}>
                 <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -3991,7 +3991,7 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 9 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -4007,10 +4007,10 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -4046,7 +4046,7 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
             { color: 'violet', title: 'Rendering of Services', body: 'Prescribes rules for recognizing revenue from service execution over time using performance methods.', p: 1 },
             { color: 'blue', title: 'Use of Resources', body: 'Addresses revenue arising from letting others use enterprise resources, yielding interest, royalties, and dividends.', p: 1 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
@@ -4069,7 +4069,7 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               <p><strong>2. Hire-purchase &amp; Leases:</strong> Revenue arising from hire-purchase or lease agreements is excluded and governed under <strong>AS 19</strong>. <P n={2} /></p>
               <p><strong>3. Government Grants:</strong> Revenue arising from government grants and other similar subsidies is excluded and governed under <strong>AS 12</strong>. <P n={2} /></p>
               <p><strong>4. Insurance Contracts:</strong> Revenue of insurance companies arising from insurance contracts is excluded. <P n={2} /></p>
-              <p className="font-bold text-rose-600 dark:text-rose-450">Other items excluded from the definition of "Revenue":</p>
+              <p className="font-bold text-rose-600 dark:text-rose-400">Other items excluded from the definition of "Revenue":</p>
               <ul className="list-disc pl-6 space-y-1.5">
                 <li>Realized or unrealized gains resulting from the disposal/holding of non-current assets (e.g. appreciation in fixed assets). <P n={2} /></li>
                 <li>Unrealized holding gains resulting from the change in value of current assets, and the natural increases in herds and agricultural/forest products. <P n={2} /></li>
@@ -4118,7 +4118,7 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>A key criterion for recognizing revenue from the sale of goods is that the seller has <strong>transferred the significant risks and rewards of ownership</strong> to the buyer, and retains no effective ownership control. <P n={4} /></p>
         </div>
-        <div className="border border-indigo-250 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-indigo-200 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('goodsExceptions')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Special Delivery Cases &amp; Revenue Timing (Appendix A) <P n={8} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.goodsExceptions ? 'rotate-180' : '')} />
@@ -4155,12 +4155,12 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>Revenue arising from the use by others of enterprise resources yielding interest, royalties and dividends should be recognized when no significant uncertainty as to measurability or collectability exists: <P n={5} /></p>
         </div>
-        <div className="mb-8 overflow-x-auto rounded-xl border border-indigo-250 dark:border-indigo-900/40 font-serif">
+        <div className="mb-8 overflow-x-auto rounded-xl border border-indigo-200 dark:border-indigo-900/40 font-serif">
           <table className="w-full text-left border-collapse text-[13.5px]">
             <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-indigo-700 dark:bg-indigo-800"><th className="py-3 px-5 w-1/4">Income Source</th><th className="py-3 px-5 w-3/4">Basis of Recognition under AS 9 (Para 13)</th></tr></thead>
             <tbody className="divide-y divide-indigo-100 dark:divide-indigo-900/30 text-slate-900 dark:text-slate-100">
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase tracking-wider">Interest</td><td className="py-4 px-5 leading-relaxed">Recognized on a <strong>time proportion basis</strong> taking into account the amount outstanding and the rate applicable. <P n={5} /></td></tr>
-              <tr className="bg-indigo-50/15 dark:bg-indigo-955/5"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase tracking-wider">Royalties</td><td className="py-4 px-5 leading-relaxed">Recognized on an <strong>accrual basis</strong> in accordance with the terms of the relevant agreement (e.g., book sales, patent usage). <P n={5} /></td></tr>
+              <tr className="bg-indigo-50/15 dark:bg-indigo-900/5"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase tracking-wider">Royalties</td><td className="py-4 px-5 leading-relaxed">Recognized on an <strong>accrual basis</strong> in accordance with the terms of the relevant agreement (e.g., book sales, patent usage). <P n={5} /></td></tr>
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold font-sans text-xs uppercase tracking-wider">Dividends</td><td className="py-4 px-5 leading-relaxed">Recognized when the owner's <strong>right to receive payment is established</strong> (typically when dividends are declared by the board / approved in AGM). <P n={5} /></td></tr>
             </tbody>
           </table>
@@ -4175,14 +4175,14 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
           <div className="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/10 space-y-2">
             <h3 className="font-sans font-bold text-[15px] text-slate-900 dark:text-white">1. Uncertainty at Time of Transaction</h3>
             <p className="text-[14px] leading-relaxed">If collection is not reasonably assured at the time of sale, revenue recognition must be <strong>postponed</strong>. Recognize only when the uncertainty is resolved. <P n={5} /></p>
-            <div className="p-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+            <div className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs leading-relaxed text-slate-600 dark:text-slate-400">
               <strong>Example:</strong> Export sales in currency subject to sudden government remittance blocks → Defer revenue.
             </div>
           </div>
           <div className="p-5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50/40 dark:bg-slate-900/10 space-y-2">
             <h3 className="font-sans font-bold text-[15px] text-slate-900 dark:text-white">2. Subsequent Uncertainty</h3>
             <p className="text-[14px] leading-relaxed">If uncertainty arises <em>after</em> revenue has been recognized, do NOT reverse the recognized sale. Instead, create a <strong>provision for bad debts</strong> or write it off. <P n={5} /></p>
-            <div className="p-3 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-850 rounded-lg text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+            <div className="p-3 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-xs leading-relaxed text-slate-600 dark:text-slate-400">
               <strong>Example:</strong> Customer goes bankrupt 3 months after sale → Debit bad debts, do not reverse sales.
             </div>
           </div>
@@ -4197,9 +4197,9 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               { title: 'Revenue Category Totals', detail: 'The circumstances in which revenue recognition has been postponed pending the resolution of significant uncertainties.' },
               { title: 'Postponed Revenue Disclosures', detail: 'If revenue recognition was postponed due to significant collection uncertainties, the company must disclose the nature of the uncertainty and the amount of revenue postponed.' }
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-955/10')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-900/10')}>
                 <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -4223,7 +4223,7 @@ function AS9StandardTabContent({ navigateToPdfPage, renderTextWithReferences }: 
               ].map(([item, op, desc], i) => (
                 <tr key={i} className={i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-slate-50/30 dark:bg-slate-800/10'}>
                   <td className="py-2.5 px-5 text-slate-700 dark:text-slate-300">{item}</td>
-                  <td className="py-2.5 px-5 text-center font-bold text-indigo-650 dark:text-indigo-400">{op}</td>
+                  <td className="py-2.5 px-5 text-center font-bold text-indigo-600 dark:text-indigo-400">{op}</td>
                   <td className="py-2.5 px-5 text-slate-600 dark:text-slate-400">{desc}</td>
                 </tr>
               ))}
@@ -4311,7 +4311,7 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 10 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -4327,10 +4327,10 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -4366,7 +4366,7 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
             { color: 'indigo', title: 'Cost Measurement', body: 'Establishes initial measurement rules, including direct purchase costs, employee benefits, site restoration, and exchange of assets.', p: 9 },
             { color: 'violet', title: 'Depreciation & Models', body: 'Prescribes the cost model vs revaluation model and mandates component-level depreciation based on useful life.', p: 17 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
@@ -4390,7 +4390,7 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
                 <li><strong>Biological Assets:</strong> Biological assets related to agricultural activity (wasting timber, livestock) other than <strong>Bearer Plants</strong>. This Standard does apply to bearer plants. <P n={7} /></li>
                 <li><strong>Wasting Assets:</strong> Mineral rights and exploration/extraction of minerals, oil, natural gas and similar non-regenerative resources. <P n={7} /></li>
               </ul>
-              <p className="font-bold text-emerald-600 dark:text-emerald-450 mt-2">Special Inclusion: Investment Property</p>
+              <p className="font-bold text-emerald-600 dark:text-emerald-400 mt-2">Special Inclusion: Investment Property</p>
               <p>An enterprise must apply AS 10 (Revised) to its investment properties. The Standard requires the cost model to be applied to all investment properties. <P n={7} /></p>
             </div>
           )}
@@ -4465,7 +4465,7 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
                 <li>Professional fees (e.g. architects, engineers).</li>
               </ul>
               <p><strong>3. Decommissioning &amp; Restoration:</strong> The initial estimate of the costs of dismantling and removing the item and restoring the site on which it is located. <P n={10} /></p>
-              <p className="font-bold text-rose-600 dark:text-rose-450 mt-2">Explicit Cost Exclusions (must be expensed immediately):</p>
+              <p className="font-bold text-rose-600 dark:text-rose-400 mt-2">Explicit Cost Exclusions (must be expensed immediately):</p>
               <ul className="list-disc pl-6 space-y-1.5">
                 <li>Costs of opening a new facility.</li>
                 <li>Costs of introducing a new product or service (including advertising and promotional activities).</li>
@@ -4548,9 +4548,9 @@ function AS10StandardTabContent({ navigateToPdfPage }: AS10StandardTabContentPro
               { title: 'Reconciliation Statement', detail: 'A reconciliation of the carrying amount at the beginning and end of the period showing additions, assets classified as held for sale, disposals, acquisitions through business combinations, increases or decreases resulting from revaluations, impairment losses, and depreciation.' },
               { title: 'Revaluation Details', detail: 'When items of PPE are stated at revalued amounts: the effective date of the revaluation; whether an independent valuer was involved; the methods and significant assumptions applied; and the revaluation surplus, indicating the movement for the period.' }
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-950/5')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-900/5')}>
                 <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -4659,7 +4659,7 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 11 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -4675,10 +4675,10 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -4714,7 +4714,7 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
             { color: 'blue', title: 'Foreign Operations', body: 'Lays down translation rules for branches or subsidiaries abroad, dividing them into integral and non-integral operations.', p: 4 },
             { color: 'indigo', title: 'Forward Contracts', body: 'Governs accounting for forward exchange contracts, separating hedging of active liabilities from speculative contracts.', p: 6 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
@@ -4736,14 +4736,14 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
 
         {/* 3. Definitions */}
         <SH id="as11-definitions" num="III" title="Definitions & Exchange Rates" />
-        <div className="mb-8 overflow-x-auto rounded-xl border border-teal-250 dark:border-teal-900/40 font-serif">
+        <div className="mb-8 overflow-x-auto rounded-xl border border-teal-200 dark:border-teal-900/40 font-serif">
           <table className="w-full text-left border-collapse text-[13.5px]">
             <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-teal-700 dark:bg-teal-800"><th className="py-3 px-5 w-1/4">Term</th><th className="py-3 px-5 w-3/4">Standard Definition (Para 7)</th></tr></thead>
             <tbody className="divide-y divide-teal-100 dark:divide-teal-900/30 text-slate-900 dark:text-slate-100">
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Closing Rate</td><td className="py-4 px-5">The exchange rate at the balance sheet date. <P n={2} /></td></tr>
-              <tr className="bg-teal-50/15 dark:bg-teal-955/5"><td className="py-4 px-5 font-semibold">Foreign Operation</td><td className="py-4 px-5">A subsidiary, associate, joint venture or branch of the reporting enterprise, the activities of which are based or conducted in a country other than the country of the reporting enterprise. <P n={2} /></td></tr>
+              <tr className="bg-teal-50/15 dark:bg-teal-900/5"><td className="py-4 px-5 font-semibold">Foreign Operation</td><td className="py-4 px-5">A subsidiary, associate, joint venture or branch of the reporting enterprise, the activities of which are based or conducted in a country other than the country of the reporting enterprise. <P n={2} /></td></tr>
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Exchange Difference</td><td className="py-4 px-5">The difference resulting from reporting the same number of units of a foreign currency in the reporting currency at different exchange rates. <P n={2} /></td></tr>
-              <tr className="bg-teal-50/15 dark:bg-teal-955/5"><td className="py-4 px-5 font-semibold">Forward Rate</td><td className="py-4 px-5">The specified exchange rate for exchange of two currencies at a specified future date. <P n={2} /></td></tr>
+              <tr className="bg-teal-50/15 dark:bg-teal-900/5"><td className="py-4 px-5 font-semibold">Forward Rate</td><td className="py-4 px-5">The specified exchange rate for exchange of two currencies at a specified future date. <P n={2} /></td></tr>
             </tbody>
           </table>
         </div>
@@ -4787,7 +4787,7 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>At each balance sheet date: <P n={3} /></p>
         </div>
-        <div className="border border-teal-250 dark:border-teal-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-teal-200 dark:border-teal-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('translation')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Rules for BS Translation &amp; Gain/Loss Treatment <P n={3} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.translation ? 'rotate-180' : '')} />
@@ -4832,7 +4832,7 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>AS 11 classifies forward exchange contracts into two categories depending on the purpose of the contract: <P n={6} /></p>
         </div>
-        <div className="border border-teal-250 dark:border-teal-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-teal-200 dark:border-teal-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('forward')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Hedge Contracts vs. Speculative Contracts <P n={6} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.forward ? 'rotate-180' : '')} />
@@ -4863,9 +4863,9 @@ function AS11StandardTabContent({ navigateToPdfPage }: AS11StandardTabContentPro
               { title: 'Translation Reserves (FCTR)', detail: "Accumulated exchange differences classified as a separate component of shareholders' funds (FCTR), and a reconciliation of the movements in such differences." },
               { title: 'Classification Changes', detail: 'If there is a change in the classification of a significant foreign operation (e.g. from integral to non-integral), the enterprise must disclose the nature of the change, the reason, and the financial impact.' }
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-teal-50/15 dark:bg-teal-955/10')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-teal-50/15 dark:bg-teal-900/10')}>
                 <div className="w-6 h-6 rounded-full bg-teal-100 dark:bg-teal-900/40 flex items-center justify-center text-teal-700 dark:text-teal-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -4946,7 +4946,7 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 12 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -4962,10 +4962,10 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -5001,7 +5001,7 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
             { color: 'teal', title: 'Revenue-Related', body: 'Governs subsidies received to compensate operating costs or support operational revenues.', p: 4 },
             { color: 'blue', title: 'Refund Rules', body: 'Prescribes accounting adjustments when conditions are breached and grants must be refunded to the state.', p: 4 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
@@ -5038,7 +5038,7 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>Government grants related to specific fixed assets should be presented in the balance sheet in one of two ways: <P n={3} /></p>
         </div>
-        <div className="border border-emerald-250 dark:border-emerald-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-emerald-200 dark:border-emerald-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('assetGrants')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Two Permitted Methods of Accounting (Para 8–10) <P n={3} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.assetGrants ? 'rotate-180' : '')} />
@@ -5053,7 +5053,7 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
               <ul className="list-disc pl-6">
                 <li><strong>Impact:</strong> The asset remains at gross cost. The deferred grant is allocated to P&amp;L in proportion to the depreciation charged.</li>
               </ul>
-              <p className="font-bold text-rose-600 dark:text-rose-455 mt-2">Non-Depreciable Assets (e.g. Freehold Land):</p>
+              <p className="font-bold text-rose-600 dark:text-rose-400 mt-2">Non-Depreciable Assets (e.g. Freehold Land):</p>
               <p>If a grant is received for a non-depreciable asset requiring compliance with certain obligations, it should be credited to **Capital Reserve** if no related costs are expected, or recognized in P&amp;L over the periods which bear the cost of meeting the obligations. <P n={3} /></p>
             </div>
           )}
@@ -5099,16 +5099,16 @@ function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabContentPro
 
         {/* 8. Disclosures */}
         <SH id="as12-disclosure" num="VIII" title="Disclosure Requirements under AS 12" />
-        <div className="mb-6 rounded-xl border border-emerald-250 dark:border-emerald-900/40 overflow-hidden font-serif">
+        <div className="mb-6 rounded-xl border border-emerald-200 dark:border-emerald-900/40 overflow-hidden font-serif">
           <div className="bg-emerald-700 px-5 py-3 flex items-center gap-2"><Check size={14} className="text-white stroke-[3]" /><span className="text-[11.5px] font-sans font-bold uppercase tracking-wider text-white">AS 12 Mandatory Disclosures <P n={5} /></span></div>
           <div className="divide-y divide-emerald-100 dark:divide-emerald-900/30 font-sans">
             {[
               { title: 'Accounting Policies adopted', detail: 'The accounting policy adopted for government grants, including the methods of presentation adopted in the financial statements.' },
               { title: 'Nature and Extent of Grants', detail: 'The nature and extent of government grants recognized in the financial statements, including grants of non-monetary assets given at a concessional rate or free of cost.' }
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-emerald-50/15 dark:bg-emerald-955/10')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-emerald-50/15 dark:bg-emerald-900/10')}>
                 <div className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -5190,7 +5190,7 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 13 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -5206,10 +5206,10 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -5245,7 +5245,7 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
             { color: 'violet', title: 'Long-Term Investments', body: 'Investments intended to be held for more than one year. Carried at cost unless there is a permanent decline.', p: 2 },
             { color: 'blue', title: 'Cost Accounting', body: 'Prescribes principles for brokerage inclusion, asset exchange values, and pre-acquisition dividend deductions.', p: 3 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
@@ -5278,7 +5278,7 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
             <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
               <p><strong>1. Current Investments:</strong> An investment that is by its nature readily realizable and is intended to be held for **not more than one year** from the date on which such investment is made. <P n={2} /></p>
               <p><strong>2. Long-Term Investments:</strong> An investment other than a current investment (even if it is readily realizable, if management intends to hold it for more than 12 months, it is classified as Long-Term). <P n={2} /></p>
-              <p className="font-bold text-amber-600 dark:text-amber-455 mt-2">Significance of Intent:</p>
+              <p className="font-bold text-amber-600 dark:text-amber-400 mt-2">Significance of Intent:</p>
               <p>Classification is decided at the time of purchase. An investment is current only if both conditions (readily realizable AND intention to hold for &lt; 1 year) are met. If either is missing, it is long-term. <P n={2} /></p>
             </div>
           )}
@@ -5290,7 +5290,7 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
           <p><strong>Initial Cost (Para 5):</strong> The cost of an investment should include acquisition charges such as brokerage, fees and duties. <P n={3} /></p>
           <p><strong>Exchange Transactions (Para 6):</strong> If an investment is acquired, or partly acquired, by the issue of shares or other securities, the acquisition cost should be the **fair value of the securities issued**. If acquired in exchange for another asset, the cost is determined by reference to the fair value of the asset given up or asset acquired, whichever is more clearly evident. <P n={3} /></p>
         </div>
-        <div className="border border-indigo-255 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-indigo-200 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('costs')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Pre-Acquisition Dividends &amp; Right Shares Rules <P n={3} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.costs ? 'rotate-180' : '')} />
@@ -5338,7 +5338,7 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>When investments are reclassified from current to long-term or vice-versa, the transfer is made at the **lower of cost and carrying value/fair value** on the date of transfer: <P n={4} /></p>
         </div>
-        <div className="border border-indigo-255 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-indigo-200 dark:border-indigo-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('transfers')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Transfer Valuation Summary <P n={4} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.transfers ? 'rotate-180' : '')} />
@@ -5368,9 +5368,9 @@ function AS13StandardTabContent({ navigateToPdfPage }: AS13StandardTabContentPro
               { title: 'Revenue classification', detail: 'The amounts included in P&L for: (a) interest, dividends, and rentals (showing pre-acquisition vs post-acquisition splits); (b) profits and losses on disposal of current and long-term investments; and (c) write-downs to fair value/recoveries.' },
               { title: 'Investment details in Balance Sheet', detail: 'The market value of quoted investments; the carrying amount of unquoted investments; and significant restrictions on the realizability of investments or remittance of income.' }
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-955/10')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-indigo-50/15 dark:bg-indigo-900/10')}>
                 <div className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-700 dark:text-indigo-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -5453,7 +5453,7 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 14 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
@@ -5469,10 +5469,10 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -5508,7 +5508,7 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
             { color: 'indigo', title: 'Accounting Methods', body: 'Governs the Pooling of Interest Method for mergers, and the Purchase Method for purchases.', p: 2 },
             { color: 'blue', title: 'Purchase Consideration', body: 'Defines the scope of payments made exclusively to equity and preference shareholders of the transferor company.', p: 1 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
               <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
@@ -5526,14 +5526,14 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
 
         {/* 3. Definitions */}
         <SH id="as14-definitions" num="III" title="Definitions under AS 14" />
-        <div className="mb-8 overflow-x-auto rounded-xl border border-violet-250 dark:border-violet-900/40 font-serif">
+        <div className="mb-8 overflow-x-auto rounded-xl border border-violet-200 dark:border-violet-900/40 font-serif">
           <table className="w-full text-left border-collapse text-[13.5px]">
-            <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-violet-700 dark:bg-violet-805"><th className="py-3 px-5 w-1/4">Term</th><th className="py-3 px-5 w-3/4">Standard Definition (Para 3)</th></tr></thead>
+            <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-violet-700 dark:bg-violet-800"><th className="py-3 px-5 w-1/4">Term</th><th className="py-3 px-5 w-3/4">Standard Definition (Para 3)</th></tr></thead>
             <tbody className="divide-y divide-violet-100 dark:divide-violet-900/30 text-slate-900 dark:text-slate-100">
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Amalgamation</td><td className="py-4 px-5">An amalgamation pursuant to the provisions of the Companies Act or any other statute, integrating two or more companies. <P n={1} /></td></tr>
-              <tr className="bg-violet-50/15 dark:bg-violet-955/5"><td className="py-4 px-5 font-semibold">Transferor Company</td><td className="py-4 px-5">The company which is amalgamated into another company. (The selling/liquidating company). <P n={1} /></td></tr>
+              <tr className="bg-violet-50/15 dark:bg-violet-900/5"><td className="py-4 px-5 font-semibold">Transferor Company</td><td className="py-4 px-5">The company which is amalgamated into another company. (The selling/liquidating company). <P n={1} /></td></tr>
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Transferee Company</td><td className="py-4 px-5">The company into which a transferor company is amalgamated. (The buying/surviving company). <P n={1} /></td></tr>
-              <tr className="bg-violet-50/15 dark:bg-violet-955/5"><td className="py-4 px-5 font-semibold">Reserves</td><td className="py-4 px-5">The portion of earnings, capital surplus or other surpluses of an enterprise, whether created by allocation out of P&amp;L or otherwise. <P n={1} /></td></tr>
+              <tr className="bg-violet-50/15 dark:bg-violet-900/5"><td className="py-4 px-5 font-semibold">Reserves</td><td className="py-4 px-5">The portion of earnings, capital surplus or other surpluses of an enterprise, whether created by allocation out of P&amp;L or otherwise. <P n={1} /></td></tr>
             </tbody>
           </table>
         </div>
@@ -5558,7 +5558,7 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
                 <li><strong>Business Continuity:</strong> The business of the transferor company is intended to be carried on, after the amalgamation, by the transferee company.</li>
                 <li><strong>No Book Value Adjustments:</strong> No adjustment is intended to be made to the book values of the assets and liabilities of the transferor company when they are incorporated in the books of the transferee (except to ensure uniformity of accounting policies).</li>
               </ol>
-              <p className="font-bold text-rose-650 dark:text-rose-405 mt-2">Amalgamation in the Nature of Purchase:</p>
+              <p className="font-bold text-rose-600 dark:text-rose-400 mt-2">Amalgamation in the Nature of Purchase:</p>
               <p>If **any one or more** of the above 5 conditions are **NOT** satisfied, it is classified as an **Amalgamation in the Nature of Purchase**. <P n={1} /></p>
             </div>
           )}
@@ -5569,7 +5569,7 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>The standard prescribes a specific accounting method for each type of amalgamation: <P n={2} /></p>
         </div>
-        <div className="border border-violet-250 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-violet-200 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('methods')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Pooling of Interest Method vs. Purchase Method <P n={2} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.methods ? 'rotate-180' : '')} />
@@ -5602,12 +5602,12 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
           </div>
           {openAccordions.consideration && (
             <div className="p-4 bg-slate-50/10 dark:bg-slate-900/10 text-xs sm:text-[13.5px] space-y-3 leading-relaxed">
-              <p className="font-bold text-emerald-600 dark:text-emerald-450">Included in Purchase Consideration:</p>
+              <p className="font-bold text-emerald-600 dark:text-emerald-400">Included in Purchase Consideration:</p>
               <ul className="list-disc pl-6 mb-2">
                 <li>Equity shares and preference shares issued by the transferee to the equity and preference shareholders of the transferor.</li>
                 <li>Cash or other assets paid by the transferee to the shareholders of the transferor.</li>
               </ul>
-              <p className="font-bold text-rose-600 dark:text-rose-455">Strictly Excluded (not part of Purchase Consideration):</p>
+              <p className="font-bold text-rose-600 dark:text-rose-400">Strictly Excluded (not part of Purchase Consideration):</p>
               <ul className="list-disc pl-6">
                 <li>Shares or cash paid to the debenture holders or creditors of the transferor company. (These are settlements of transferor liabilities, not payments to owners). <P n={1} /></li>
               </ul>
@@ -5620,7 +5620,7 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>In a purchase-type amalgamation, the reserves of the transferor company (other than statutory reserves) are not recorded. However, law may require that certain statutory reserves (e.g. Export Profit Reserve, Development Allowance Reserve) be maintained in the transferee's books for a specified period to retain tax benefits. <P n={3} /></p>
         </div>
-        <div className="border border-violet-250 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-violet-200 dark:border-violet-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('statutory')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Statutory Reserve Accounting Mechanism (Para 35) <P n={3} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.statutory ? 'rotate-180' : '')} />
@@ -5655,9 +5655,9 @@ function AS14StandardTabContent({ navigateToPdfPage }: AS14StandardTabContentPro
               { title: 'Merger Method Disclosures', detail: 'Description of share capital issued and percentage of equity shares exchanged; and details of reserves adjusted due to capital differences.' },
               { title: 'Purchase Method Disclosures', detail: 'Details of purchase consideration paid/payable; fair value adjustments made to assets/liabilities; and goodwill or capital reserve amount, including amortization useful lives.' }
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-violet-50/15 dark:bg-violet-955/10')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-violet-50/15 dark:bg-violet-900/10')}>
                 <div className="w-6 h-6 rounded-full bg-violet-100 dark:bg-violet-900/40 flex items-center justify-center text-violet-700 dark:text-violet-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -5740,14 +5740,14 @@ function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentPro
 
   const P = ({ n }: { n: number }) => (
     <button onClick={() => navigateToPdfPage(n)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-955/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={'Open AS 15 PDF page ' + n}><FileText size={9} className="shrink-0" /> p.{n}</button>
   )
 
   const SH = ({ id, num, title }: { id: string; num: string; title: string }) => (
     <div id={id} className="scroll-mt-36 mb-6 mt-14 first:mt-0 pb-4 border-b border-slate-200 dark:border-slate-800">
       <div className="flex items-center gap-3">
-        <span className="font-mono font-extrabold text-[13px] text-rose-600 dark:text-rose-455 select-none">{num}.</span>
+        <span className="font-mono font-extrabold text-[13px] text-rose-600 dark:text-rose-400 select-none">{num}.</span>
         <h2 className="text-[20px] sm:text-[22px] font-bold text-slate-900 dark:text-white tracking-tight">{title}</h2>
       </div>
       <div className="h-[2px] w-16 rounded-full bg-rose-500 mt-2 ml-8" />
@@ -5756,10 +5756,10 @@ function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentPro
 
   const NB = ({ type, title, children }: { type: string; title?: string; children: React.ReactNode }) => {
     const s: Record<string, string> = {
-      info:    'bg-blue-50/80 dark:bg-blue-955/20 border-blue-300 dark:border-blue-805 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50/80 dark:bg-amber-955/20 border-amber-300 dark:border-amber-805 text-amber-900 dark:text-amber-202 border-l-amber-500',
-      success: 'bg-emerald-50/80 dark:bg-emerald-955/20 border-emerald-300 dark:border-emerald-805 text-emerald-900 dark:text-emerald-202 border-l-emerald-500',
-      exam:    'bg-rose-50/80 dark:bg-rose-955/20 border-rose-300 dark:border-rose-805 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50/80 dark:bg-blue-900/20 border-blue-300 dark:border-blue-800 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50/80 dark:bg-amber-900/20 border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50/80 dark:bg-emerald-900/20 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50/80 dark:bg-rose-900/20 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={'rounded-xl border border-l-4 p-5 my-5 ' + (s[type] || s['info'])}>
@@ -5795,8 +5795,8 @@ function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentPro
             { color: 'orange', title: 'Post-Employment', body: 'Pensions, gratuity, and insurance payable after completion of active employment services.', p: 4 },
             { color: 'red', title: 'Actuarial Valuations', body: 'Mandates the Projected Unit Credit (PUC) method for defined benefit plan obligations.', p: 9 }
           ].map((c, i) => (
-            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-950/5 rounded-xl'}>
-              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-805 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
+            <div key={i} className={'p-5 border-t-2 border-' + c.color + '-500 border border-' + c.color + '-200 dark:border-' + c.color + '-900/40 bg-' + c.color + '-50/20 dark:bg-' + c.color + '-900/5 rounded-xl'}>
+              <h4 className={'font-sans font-bold text-[12px] uppercase tracking-wider text-' + c.color + '-800 dark:text-' + c.color + '-400 mb-2'}>{c.title}</h4>
               <p className="text-[14.5px] leading-relaxed text-slate-800 dark:text-slate-200">{c.body} <P n={c.p} /></p>
             </div>
           ))}
@@ -5824,12 +5824,12 @@ function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentPro
 
         {/* 3. Definitions */}
         <SH id="as15-definitions" num="III" title="Definitions & Classifications" />
-        <div className="mb-8 overflow-x-auto rounded-xl border border-rose-250 dark:border-rose-900/40 font-serif">
+        <div className="mb-8 overflow-x-auto rounded-xl border border-rose-200 dark:border-rose-900/40 font-serif">
           <table className="w-full text-left border-collapse text-[13.5px]">
             <thead><tr className="font-sans text-[11.5px] font-bold uppercase tracking-wider text-white bg-rose-700 dark:bg-rose-800"><th className="py-3 px-5 w-1/4">Term</th><th className="py-3 px-5 w-3/4">Standard Definition (Para 7)</th></tr></thead>
             <tbody className="divide-y divide-rose-100 dark:divide-rose-900/30 text-slate-900 dark:text-slate-100">
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Employee Benefits</td><td className="py-4 px-5">All forms of consideration given by an enterprise in exchange for service rendered by employees. <P n={2} /></td></tr>
-              <tr className="bg-rose-50/15 dark:bg-rose-955/5"><td className="py-4 px-5 font-semibold">Vested Benefits</td><td className="py-4 px-5">Employee benefits that are not conditional on future employment. (Employee is legally entitled even if they quit today). <P n={2} /></td></tr>
+              <tr className="bg-rose-50/15 dark:bg-rose-900/5"><td className="py-4 px-5 font-semibold">Vested Benefits</td><td className="py-4 px-5">Employee benefits that are not conditional on future employment. (Employee is legally entitled even if they quit today). <P n={2} /></td></tr>
               <tr className="bg-white dark:bg-[#111726]"><td className="py-4 px-5 font-semibold">Plan Assets</td><td className="py-4 px-5">Assets held by a long-term employee benefit fund, and qualifying insurance policies, excluding non-transferable financial instruments. <P n={2} /></td></tr>
             </tbody>
           </table>
@@ -5875,7 +5875,7 @@ function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentPro
         <div className="space-y-5 text-[16px] md:text-[17px] text-slate-900 dark:text-slate-100 leading-[1.85] font-serif mb-6">
           <p>Accounting for defined benefit plans is complex because the obligation is settled in the future. <P n={9} /> Under **Paragraph 65**, the calculation of the present value of defined benefit obligations and the related service costs must be performed using the **Projected Unit Credit (PUC) Method** (accrued benefit method pro-rated on service). <P n={11} /></p>
         </div>
-        <div className="border border-rose-250 dark:border-rose-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
+        <div className="border border-rose-200 dark:border-rose-900/40 rounded-xl overflow-hidden bg-white dark:bg-[#0b0f19] mb-8 font-sans">
           <div className="bg-slate-50 dark:bg-slate-900/60 p-4 border-b border-slate-200 dark:border-gray-800 flex justify-between items-center cursor-pointer" onClick={() => toggleAccordion('dbObligation')}>
             <span className="font-bold text-slate-900 dark:text-white text-sm">Actuarial Measurement &amp; Balance Sheet Recognition <P n={9} /></span>
             <ChevronDown size={16} className={'transform transition-transform ' + (openAccordions.dbObligation ? 'rotate-180' : '')} />
@@ -5934,9 +5934,9 @@ function AS15StandardTabContent({ navigateToPdfPage }: AS15StandardTabContentPro
               { title: 'Defined Benefit Plans Disclosures (Reconciliations)', detail: 'Detailed reconciliations of opening and closing balances of the present value of the defined benefit obligation (PVDBO) and the fair value of plan assets (FVPA); and the principal actuarial assumptions used (discount rate, rate of increase in salaries, medical inflation).' },
               { title: 'Other Long-Term Benefits Disclosures', detail: 'The amount recognized as an expense and a liability for other long-term employee benefits.' }
             ].map((item, i) => (
-              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-rose-50/15 dark:bg-rose-955/10')}>
+              <div key={i} className={'flex gap-4 items-start px-5 py-4 ' + (i % 2 === 0 ? 'bg-white dark:bg-[#111726]' : 'bg-rose-50/15 dark:bg-rose-900/10')}>
                 <div className="w-6 h-6 rounded-full bg-rose-100 dark:bg-rose-900/40 flex items-center justify-center text-rose-700 dark:text-rose-300 shrink-0 mt-0.5"><Check size={13} className="stroke-[3]" /></div>
-                <div><h4 className="font-sans font-bold text-[14px] text-slate-950 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
+                <div><h4 className="font-sans font-bold text-[14px] text-slate-900 dark:text-white mb-1">{item.title}</h4><p className="text-[13.5px] leading-relaxed text-slate-800 dark:text-slate-200">{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -6047,14 +6047,14 @@ function AS16StandardTabContent({ navigateToPdfPage }: AS16StandardTabContentPro
   }, [])
 
   const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-450 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-900/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
   }
 
   const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
@@ -6072,10 +6072,10 @@ function AS16StandardTabContent({ navigateToPdfPage }: AS16StandardTabContentPro
 
   const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
     const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
@@ -6088,7 +6088,7 @@ function AS16StandardTabContent({ navigateToPdfPage }: AS16StandardTabContentPro
   const ParaRef = ({ page, para }: { page: number; para: string }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 16 PDF — ${para}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -6112,7 +6112,7 @@ function AS16StandardTabContent({ navigateToPdfPage }: AS16StandardTabContentPro
             className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
               activeSection === sec.id
                 ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
             }`}
           >
             {sec.title.split('. ')[1] || sec.title}
@@ -6156,7 +6156,7 @@ function AS16StandardTabContent({ navigateToPdfPage }: AS16StandardTabContentPro
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Borrowing Costs</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">Interest and other costs incurred by an enterprise in connection with the borrowing of funds.</td>
               </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Qualifying Asset</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">An asset that necessarily takes a substantial period of time to get ready for its intended use or sale.</td>
               </tr>
@@ -6247,7 +6247,7 @@ function AS16StandardTabContent({ navigateToPdfPage }: AS16StandardTabContentPro
         {/* 8. Disclosures */}
         <SecHeader id="as16-disclosure" num="8" title="Disclosure Requirements (Para 23)" />
         <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
-          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures under AS 16:</h4>
+          <h4 className="font-bold text-slate-900 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures under AS 16:</h4>
           <ul className="list-disc pl-5 space-y-1">
             <li>The **accounting policy** adopted for borrowing costs.</li>
             <li>The **amount of borrowing costs capitalized** during the period.</li>
@@ -6360,14 +6360,14 @@ function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabContentPro
   }, [])
 
   const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-455 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-900/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
   }
 
   const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
@@ -6385,10 +6385,10 @@ function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabContentPro
 
   const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
     const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
@@ -6401,7 +6401,7 @@ function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabContentPro
   const ParaRef = ({ page, para }: { page: number; para: string }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 17 PDF — ${para}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -6425,7 +6425,7 @@ function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabContentPro
             className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
               activeSection === sec.id
                 ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
             }`}
           >
             {sec.title.split('. ')[1] || sec.title}
@@ -6469,7 +6469,7 @@ function AS17StandardTabContent({ navigateToPdfPage }: AS17StandardTabContentPro
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Segment Revenue</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">Revenue reported in the enterprise's statement of profit and loss that is directly attributable to a segment, including inter-segment sales.</td>
               </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Segment Expense</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">Expense resulting from the operating activities of a segment that is directly attributable to the segment, excluding interest expense and taxes.</td>
               </tr>
@@ -6691,14 +6691,14 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
   }, [])
 
   const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-455 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-900/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
   }
 
   const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
@@ -6716,10 +6716,10 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
 
   const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
     const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
@@ -6732,7 +6732,7 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
   const ParaRef = ({ page, para }: { page: number; para: string }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 18 PDF — ${para}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -6756,7 +6756,7 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
             className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
               activeSection === sec.id
                 ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
             }`}
           >
             {sec.title.split('. ')[1] || sec.title}
@@ -6800,7 +6800,7 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Related Party</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">Parties are considered to be related if at any time during the reporting period one party has the ability to control the other party or exercise significant influence over the other party in making financial and/or operating decisions.</td>
               </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Control</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">Ownership, directly or indirectly, of more than one-half of the voting power of an enterprise, or control of the composition of the board of directors.</td>
               </tr>
@@ -6808,7 +6808,7 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Significant Influence</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">Participation in the financial and/or operating policy decisions of an enterprise, but not control of those policies. Usually presumed if voting power is 20% or more.</td>
               </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Relative</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">Spouse, father, mother, brother, sister, son, or daughter of an individual.</td>
               </tr>
@@ -6877,7 +6877,7 @@ function AS18StandardTabContent({ navigateToPdfPage }: AS18StandardTabContentPro
           <ParaRef page={7} para="Para 20" /> Related party relationships where **control** exists should be disclosed in the financial statements **irrespective of whether there have been transactions** between the related parties.
         </p>
         <div className="p-4 rounded-xl border border-slate-200 dark:border-gray-800 bg-slate-50 dark:bg-slate-900/40 text-[13.5px] space-y-2">
-          <h4 className="font-bold text-slate-950 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures for Control:</h4>
+          <h4 className="font-bold text-slate-900 dark:text-white text-xs mb-1.5 uppercase tracking-wide">Required Disclosures for Control:</h4>
           <p>The **name** of the related party and the **nature** of the related party relationship must be disclosed even if transactions are nil.</p>
         </div>
 
@@ -7013,14 +7013,14 @@ function AS19StandardTabContent({ navigateToPdfPage }: AS19StandardTabContentPro
   }, [])
 
   const secColors: Record<string, { num: string; border: string; badge: string }> = {
-    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800' },
-    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-950/40 dark:text-teal-400 dark:border-teal-800' },
-    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-400 dark:border-indigo-800' },
-    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800' },
-    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-950/40 dark:text-cyan-455 dark:border-cyan-800' },
-    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/40 dark:text-violet-400 dark:border-violet-800' },
-    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800' },
-    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800' },
+    '1':  { num: 'text-blue-600 dark:text-blue-400',    border: 'border-blue-400',    badge: 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-800' },
+    '2':  { num: 'text-teal-600 dark:text-teal-400',    border: 'border-teal-400',    badge: 'bg-teal-50 text-teal-700 border-teal-200 dark:bg-teal-900/40 dark:text-teal-400 dark:border-teal-800' },
+    '3':  { num: 'text-indigo-600 dark:text-indigo-400',border: 'border-indigo-400',  badge: 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-900/40 dark:text-indigo-400 dark:border-indigo-800' },
+    '4':  { num: 'text-emerald-600 dark:text-emerald-400',border:'border-emerald-400',badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-900/40 dark:text-emerald-400 dark:border-emerald-800' },
+    '5':  { num: 'text-cyan-600 dark:text-cyan-400',    border: 'border-cyan-400',    badge: 'bg-cyan-50 text-cyan-700 border-cyan-200 dark:bg-cyan-900/40 dark:text-cyan-400 dark:border-cyan-800' },
+    '6':  { num: 'text-violet-600 dark:text-violet-400',border: 'border-violet-400',  badge: 'bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-900/40 dark:text-violet-400 dark:border-violet-800' },
+    '7':  { num: 'text-amber-600 dark:text-amber-400',  border: 'border-amber-400',   badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/40 dark:text-amber-400 dark:border-amber-800' },
+    '8':  { num: 'text-rose-600 dark:text-rose-400',    border: 'border-rose-400',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-900/40 dark:text-rose-400 dark:border-rose-800' },
   }
 
   const SecHeader = ({ id, num, title }: { id: string; num: string; title: string }) => {
@@ -7038,10 +7038,10 @@ function AS19StandardTabContent({ navigateToPdfPage }: AS19StandardTabContentPro
 
   const NoteBox = ({ type, title, children }: { type: 'info' | 'warning' | 'success' | 'exam'; title?: string; children: React.ReactNode }) => {
     const styles = {
-      info:    'bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
-      warning: 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
-      success: 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-850/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
-      exam:    'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
+      info:    'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-900 dark:text-blue-200 border-l-blue-500',
+      warning: 'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 border-l-amber-500',
+      success: 'bg-emerald-50 dark:bg-emerald-900/20 border-emerald-200 dark:border-emerald-800/50 text-emerald-900 dark:text-emerald-200 border-l-emerald-500',
+      exam:    'bg-rose-50 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-900 dark:text-rose-200 border-l-rose-500',
     }
     return (
       <div className={`rounded-xl border border-l-4 p-5 mb-6 ${styles[type]}`}>
@@ -7054,7 +7054,7 @@ function AS19StandardTabContent({ navigateToPdfPage }: AS19StandardTabContentPro
   const ParaRef = ({ page, para }: { page: number; para: string }) => (
     <button
       onClick={() => navigateToPdfPage(page)}
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded text-[10px] font-bold transition-all cursor-pointer select-none align-middle leading-none"
       title={`Open ICAI AS 19 PDF — ${para}`}
     >
       <FileText size={9} className="shrink-0" />
@@ -7078,7 +7078,7 @@ function AS19StandardTabContent({ navigateToPdfPage }: AS19StandardTabContentPro
             className={`text-[9.5px] font-bold px-2 py-0.5 rounded border transition-all whitespace-nowrap cursor-pointer ${
               activeSection === sec.id
                 ? 'bg-blue-600 border-blue-600 text-white dark:bg-blue-500 dark:border-blue-500'
-                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-650 dark:text-gray-300'
+                : 'bg-slate-50 hover:bg-slate-100 dark:bg-[#1E2640] dark:hover:bg-slate-800 border-slate-200 dark:border-gray-700 text-slate-600 dark:text-gray-300'
             }`}
           >
             {sec.title.split('. ')[1] || sec.title}
@@ -7124,7 +7124,7 @@ function AS19StandardTabContent({ navigateToPdfPage }: AS19StandardTabContentPro
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Lease</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">An agreement whereby the lessor conveys to the lessee in return for a payment or series of payments the right to use an asset for an agreed period of time.</td>
               </tr>
-              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-950/5">
+              <tr className="hover:bg-slate-50/50 dark:hover:bg-slate-900/10 bg-blue-50/10 dark:bg-blue-900/5">
                 <td className="p-3 font-semibold text-slate-900 dark:text-white">Finance Lease</td>
                 <td className="p-3 text-slate-700 dark:text-slate-300">A lease that transfers substantially all the risks and rewards incidental to ownership of an asset. Title may or may not eventually be transferred.</td>
               </tr>
@@ -7401,10 +7401,10 @@ export default function LearningPortalClient({
             e.stopPropagation()
             navigateToPdfPage(pageNum)
           }}
-          className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+          className="inline-flex items-center justify-center w-4 h-4 mx-0.5 bg-red-50 hover:bg-red-100 dark:bg-red-900/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
           title={`Click to jump to PDF Page ${pageNum}`}
         >
-          <FileText size={10} className="shrink-0 text-red-500 dark:text-red-450" />
+          <FileText size={10} className="shrink-0 text-red-500 dark:text-red-400" />
         </button>
       )
       
@@ -7962,7 +7962,7 @@ export default function LearningPortalClient({
                         switch (block.type) {
                           case 'HEADING':
                             return (
-                              <h2 key={blockIdx} className={`font-extrabold text-[#1C1C1E] dark:text-white uppercase tracking-wide border-b border-gray-250 dark:border-gray-800 pb-3.5 ${
+                              <h2 key={blockIdx} className={`font-extrabold text-[#1C1C1E] dark:text-white uppercase tracking-wide border-b border-gray-200 dark:border-gray-800 pb-3.5 ${
                                 framework === 'AS' ? 'text-2xl sm:text-3xl mb-8 mt-12 first:mt-0' : 'text-xl sm:text-2xl mb-6 mt-10 first:mt-0'
                               }`}>
                                 {renderTextWithReferences(block.content)}
@@ -8061,7 +8061,7 @@ export default function LearningPortalClient({
                                   </thead>
                                   <tbody className="divide-y divide-[#E2E1DD] dark:divide-gray-800">
                                     {(block.rows || []).map((row: string[], rIdx: number) => (
-                                      <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-slate-850/40">
+                                      <tr key={rIdx} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40">
                                         {row.map((cell: string, cIdx: number) => (
                                           <td key={cIdx} className="p-3 text-slate-900 dark:text-gray-300 leading-relaxed font-semibold">
                                             {renderTextWithReferences(cell)}
@@ -8115,9 +8115,9 @@ export default function LearningPortalClient({
                             )
                           case 'DOWNLOAD_SECTION':
                             return (
-                              <div key={blockIdx} className="p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-red-50 dark:bg-red-950/20 mb-4 flex items-center justify-between border-dashed">
+                              <div key={blockIdx} className="p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-red-50 dark:bg-red-900/20 mb-4 flex items-center justify-between border-dashed">
                                 <div className="flex items-center gap-3">
-                                  <Download size={16} className="text-red-550" />
+                                  <Download size={16} className="text-red-500" />
                                   <span className="text-xs font-bold text-red-700 dark:text-red-400">{block.title}</span>
                                 </div>
                                 <button
@@ -8383,7 +8383,7 @@ export default function LearningPortalClient({
                                     <span className="text-blue-500 font-bold">☐</span>
                                     <div className="flex-1">
                                       {renderTextWithReferences(item.text)}
-                                      {item.isConditional && <span className="ml-1.5 text-[9px] bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/50 px-1.5 py-0.5 rounded font-bold uppercase">Conditional</span>}
+                                      {item.isConditional && <span className="ml-1.5 text-[9px] bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400 border border-amber-200/50 px-1.5 py-0.5 rounded font-bold uppercase">Conditional</span>}
                                     </div>
                                   </li>
                                 ))}
@@ -8431,7 +8431,7 @@ export default function LearningPortalClient({
                                 className={`p-4 rounded-xl border border-[#E2E1DD] dark:border-gray-800 bg-[#FAFAF8] dark:bg-[#1E2640] hover:border-[#2D5BE3] transition-colors flex items-center justify-between group ${isPdf ? 'cursor-pointer' : ''}`}
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className="w-8 h-8 rounded-lg bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-700 flex items-center justify-center text-[#2D5BE3] dark:text-blue-400 group-hover:scale-105 transition-transform">
+                                  <div className="w-8 h-8 rounded-lg bg-white dark:bg-gray-800 border border-[#E2E1DD] dark:border-gray-700 flex items-center justify-center text-[#2D5BE3] dark:text-blue-400 group-hover:scale-100 transition-transform">
                                     {res.type === 'PDF' ? (
                                       <FileText size={16} className="text-red-500" />
                                     ) : res.type === 'VIDEO' ? (
@@ -8609,8 +8609,8 @@ export default function LearningPortalClient({
                     [&_li]:text-[15px] [&_li]:text-slate-900 [&_li]:dark:text-gray-300 [&_li]:leading-relaxed [&_li]:mb-1.5
                     [&_blockquote]:border-l-4 [&_blockquote]:border-[#2D5BE3] [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:my-4 [&_blockquote]:text-slate-600 [&_blockquote]:dark:text-gray-400
                     [&_table]:w-full [&_table]:text-left [&_table]:text-xs [&_table]:border-collapse [&_table]:border [&_table]:border-[#E2E1DD] [&_table]:dark:border-gray-800 [&_table]:rounded-xl [&_table]:overflow-hidden [&_table]:mb-6
-                    [&_th]:bg-slate-50 [&_th]:dark:bg-slate-850 [&_th]:p-3 [&_th]:font-bold [&_th]:border-b [&_th]:border-[#E2E1DD] [&_th]:dark:border-gray-850
-                    [&_td]:p-3 [&_td]:text-slate-900 [&_td]:dark:text-gray-300 [&_td]:border-b [&_td]:border-[#E2E1DD] [&_td]:dark:border-gray-850
+                    [&_th]:bg-slate-50 [&_th]:dark:bg-slate-800 [&_th]:p-3 [&_th]:font-bold [&_th]:border-b [&_th]:border-[#E2E1DD] [&_th]:dark:border-gray-800
+                    [&_td]:p-3 [&_td]:text-slate-900 [&_td]:dark:text-gray-300 [&_td]:border-b [&_td]:border-[#E2E1DD] [&_td]:dark:border-gray-800
                     [&_.editor-note-block]:p-6 [&_.editor-note-block]:rounded-2xl [&_.editor-note-block]:border [&_.editor-note-block]:border-[#C5C3BC]/50 [&_.editor-note-block]:bg-[#FAFAF8]/60 [&_.editor-note-block]:dark:bg-[#1E2640]/55 [&_.editor-note-block]:mb-8
                     [&_.editor-exam-trap]:p-5 [&_.editor-exam-trap]:rounded-xl [&_.editor-exam-trap]:bg-[#FDEEEE] [&_.editor-exam-trap]:dark:bg-[#2C1D1D] [&_.editor-exam-trap]:border [&_.editor-exam-trap]:border-[#F5C6C0] [&_.editor-exam-trap]:dark:border-red-900/50 [&_.editor-exam-trap]:mb-4
                     [&_.editor-practical-use]:p-5 [&_.editor-practical-use]:rounded-xl [&_.editor-practical-use]:bg-[#E8F7EE] [&_.editor-practical-use]:dark:bg-[#1A2C22] [&_.editor-practical-use]:border [&_.editor-practical-use]:border-[#C5E9D4] [&_.editor-practical-use]:dark:border-green-900/50 [&_.editor-practical-use]:mb-4
@@ -8631,7 +8631,7 @@ export default function LearningPortalClient({
                   dangerouslySetInnerHTML={{
                     __html: currentStandard.examplesHtml.replace(
                       /\[(?:Source:\s*ICAI\s*AS\s*1\s*PDF\s*Page\s*|Page\s*|ICAI\s*Ref:\s*Page\s*4\.|PDF\s*|Official\s*|Ref\s*|Citation\s*:\s*|Official\s*Ref\s*:\s*Page\s*|MCA\s*Ref\s*:\s*Page\s*|ICAI\s*Ref\s*:\s*Page\s*)(\d+)(?:\s*[^\]]*)?\]/gi,
-                      (match, pageNum) => `<button type="button" data-pdf-page="${pageNum}" class="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded text-[11px] font-extrabold cursor-pointer transition-all" title="Click to jump to PDF Page ${pageNum}">📄 Page ${pageNum}</button>`
+                      (match, pageNum) => `<button type="button" data-pdf-page="${pageNum}" class="inline-flex items-center gap-1.5 px-2 py-0.5 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/45 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded text-[11px] font-extrabold cursor-pointer transition-all" title="Click to jump to PDF Page ${pageNum}">📄 Page ${pageNum}</button>`
                     )
                   }}
                 />
@@ -8650,10 +8650,10 @@ export default function LearningPortalClient({
                           {item.difficulty && (
                             <span className={`text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase tracking-wider ${
                               item.difficulty === 'BEGINNER'
-                                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/45 dark:text-emerald-450 border border-emerald-250/40'
+                                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/45 dark:text-emerald-400 border border-emerald-200/40'
                                 : item.difficulty === 'INTERMEDIATE'
-                                ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/45 dark:text-blue-450 border border-blue-250/40'
-                                : 'bg-rose-50 text-rose-700 dark:bg-rose-950/45 dark:text-rose-450 border border-rose-250/40'
+                                ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/45 dark:text-blue-400 border border-blue-200/40'
+                                : 'bg-rose-50 text-rose-700 dark:bg-rose-900/45 dark:text-rose-400 border border-rose-200/40'
                             }`}>
                               {item.difficulty}
                             </span>
@@ -8673,7 +8673,7 @@ export default function LearningPortalClient({
                             <p className="text-[11px] text-[#A0A0A8] dark:text-gray-400 font-extrabold uppercase tracking-wider mb-2.5">
                               Facts
                             </p>
-                            <p className="text-[16px] text-[#33333A] dark:text-gray-250 leading-relaxed font-medium">
+                            <p className="text-[16px] text-[#33333A] dark:text-gray-200 leading-relaxed font-medium">
                               {renderTextWithReferences(item.scenario)}
                             </p>
                           </div>
@@ -8683,7 +8683,7 @@ export default function LearningPortalClient({
                               <p className="text-[11px] text-[#A0A0A8] dark:text-gray-400 font-extrabold uppercase tracking-wider mb-2.5">
                                 Issue
                               </p>
-                              <p className="text-[16px] text-[#33333A] dark:text-gray-250 leading-relaxed font-medium">
+                              <p className="text-[16px] text-[#33333A] dark:text-gray-200 leading-relaxed font-medium">
                                 {renderTextWithReferences(item.working)}
                               </p>
                             </div>
@@ -8692,17 +8692,17 @@ export default function LearningPortalClient({
 
                         {/* Analysis & Conclusion */}
                         <div className="space-y-6">
-                          <div className="bg-[#E8F7EE] dark:bg-[#182B22]/40 p-5 sm:p-6 rounded-xl border border-[#C5E9D4]/60 dark:border-green-950/60">
+                          <div className="bg-[#E8F7EE] dark:bg-[#182B22]/40 p-5 sm:p-6 rounded-xl border border-[#C5E9D4]/60 dark:border-green-900/60">
                             <p className="text-[11px] text-[#1A7A4A] dark:text-emerald-400 font-extrabold uppercase tracking-wider mb-2.5">
                               Analysis &amp; Conclusion
                             </p>
-                            <p className="text-[16px] text-[#2A2A35] dark:text-gray-250 leading-relaxed font-medium">
+                            <p className="text-[16px] text-[#2A2A35] dark:text-gray-200 leading-relaxed font-medium">
                               {renderTextWithReferences(item.answer || item.guidance)}
                             </p>
                           </div>
 
                           {item.note && (
-                            <div className="bg-[#FFF8E6] dark:bg-[#2C241B]/40 p-5 sm:p-6 rounded-xl border border-[#F5E1B8]/60 dark:border-amber-950/60">
+                            <div className="bg-[#FFF8E6] dark:bg-[#2C241B]/40 p-5 sm:p-6 rounded-xl border border-[#F5E1B8]/60 dark:border-amber-900/60">
                               <p className="text-[11px] text-[#B7791F] dark:text-amber-400 font-extrabold uppercase tracking-wider mb-1">
                                 Key Takeaway / Note
                               </p>
@@ -8777,7 +8777,7 @@ export default function LearningPortalClient({
                   <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-black/65 backdrop-blur-xs transition-opacity p-6 text-center select-none">
                     
                     {/* Mock Poster Artwork inside Player */}
-                    <div className="mb-6 max-w-sm w-full bg-slate-950/90 border border-slate-800 p-6 rounded-xl text-left shadow-md">
+                    <div className="mb-6 max-w-sm w-full bg-slate-900/90 border border-slate-800 p-6 rounded-xl text-left shadow-md">
                       <span className="text-[10px] font-bold text-[#60A5FA] bg-[#2D5BE3]/10 px-2 py-0.5 rounded uppercase tracking-wider">
                         LECTURE
                       </span>
@@ -8791,7 +8791,7 @@ export default function LearningPortalClient({
 
                     <button
                       onClick={handlePlayPauseToggle}
-                      className="w-16 h-16 rounded-full flex items-center justify-center bg-[#2D5BE3] hover:bg-[#2450CC] text-white hover:scale-105 transition-all shadow-md focus:outline-none"
+                      className="w-16 h-16 rounded-full flex items-center justify-center bg-[#2D5BE3] hover:bg-[#2450CC] text-white hover:scale-100 transition-all shadow-md focus:outline-none"
                     >
                       <Play size={24} className="ml-1" />
                     </button>
@@ -8816,7 +8816,7 @@ export default function LearningPortalClient({
 
                 {/* Controls Bar at bottom */}
                 {!ytId && !vimeoId && (
-                  <div className={`mt-auto w-full bg-gradient-to-t from-black/95 to-transparent p-4 flex flex-col gap-2 z-10 transition-opacity duration-305 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+                  <div className={`mt-auto w-full bg-gradient-to-t from-black/95 to-transparent p-4 flex flex-col gap-2 z-10 transition-opacity duration-300 ${showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     
                     {/* Progress timeline slider */}
                     <div className="flex items-center gap-2">

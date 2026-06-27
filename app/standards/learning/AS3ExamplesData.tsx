@@ -19,7 +19,7 @@ export interface CaseStudy {
 export const PdfRefInline = ({ page }: { page: number }) => (
   <button
     data-pdf-page={page}
-    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-950/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
+    className="inline-flex items-center justify-center w-4 h-4 mx-1 bg-red-50 hover:bg-red-100 dark:bg-red-900/40 dark:hover:bg-red-900/50 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded transition-all cursor-pointer select-none align-middle"
     title={`Open ICAI AS 3 PDF — Page ${page}`}
   >
     <svg
@@ -249,7 +249,7 @@ export const icaiIllustrations: CaseStudy[] = [
                     <td className="p-2 border border-slate-200">Add: Income Tax Provision</td>
                     <td className="p-2 border border-slate-200 text-right">2,00,000</td>
                   </tr>
-                  <tr className="bg-blue-50/20 dark:bg-blue-950/10">
+                  <tr className="bg-blue-50/20 dark:bg-blue-900/10">
                     <td className="p-2 border border-slate-200 font-semibold">Net Profit before Tax &amp; Extraordinary Items</td>
                     <td className="p-2 border border-slate-200 text-right font-bold">6,50,000</td>
                   </tr>
@@ -261,7 +261,7 @@ export const icaiIllustrations: CaseStudy[] = [
                     <td className="p-2 border border-slate-200">Add: Interest Expense (classified as Financing)</td>
                     <td className="p-2 border border-slate-200 text-right">1,50,000</td>
                   </tr>
-                  <tr className="bg-blue-50/20 dark:bg-blue-950/10">
+                  <tr className="bg-blue-50/20 dark:bg-blue-900/10">
                     <td className="p-2 border border-slate-200 font-semibold">Operating Profit before Working Capital Changes</td>
                     <td className="p-2 border border-slate-200 text-right font-bold">11,00,000</td>
                   </tr>
@@ -281,7 +281,7 @@ export const icaiIllustrations: CaseStudy[] = [
                     <td className="p-2 border border-slate-200">Less: Decrease in Outstanding Expenses</td>
                     <td className="p-2 border border-slate-200 text-right">(20,000)</td>
                   </tr>
-                  <tr className="bg-teal-50/20 dark:bg-teal-950/10">
+                  <tr className="bg-teal-50/20 dark:bg-teal-900/10">
                     <td className="p-2 border border-slate-200 font-semibold">Cash Generated from Operations</td>
                     <td className="p-2 border border-slate-200 text-right font-bold">10,50,000</td>
                   </tr>
@@ -289,7 +289,7 @@ export const icaiIllustrations: CaseStudy[] = [
                     <td className="p-2 border border-slate-200">Less: Income Tax Paid</td>
                     <td className="p-2 border border-slate-200 text-right">(2,00,000)</td>
                   </tr>
-                  <tr className="bg-emerald-50/30 dark:bg-emerald-950/25">
+                  <tr className="bg-emerald-50/30 dark:bg-emerald-900/25">
                     <td className="p-2 border border-slate-200 font-semibold text-emerald-800 dark:text-emerald-400">Net Cash Flow from Operating Activities</td>
                     <td className="p-2 border border-slate-200 text-right font-bold text-emerald-800 dark:text-emerald-400">8,50,000</td>
                   </tr>
@@ -337,7 +337,7 @@ export const businessCases: CaseStudy[] = [
               <li>Add: Increase in Trade Payables: + ₹1,50,00,000 (Cash preserved by delaying suppliers)</li>
               <li><strong>Net Operating Cash Flow: − ₹2,00,00,000 (Operating Cash Burn)</strong></li>
             </ul>
-            <p className="mt-2 text-red-650 dark:text-red-400 font-bold">Conclusion:</p>
+            <p className="mt-2 text-red-600 dark:text-red-400 font-bold">Conclusion:</p>
             <p>Despite high profitability, the company is facing a cash crunch because its profits are trapped in working capital. This illustrates why profitable companies can go bankrupt due to poor cash flow management.</p>
           </div>
         )
@@ -480,7 +480,7 @@ export const examCorner: CaseStudy[] = [
               <li>Only the cash down payment of **₹2,00,000** must be shown as an outflow under **Investing Activities** (Purchase of Machinery).</li>
               <li>The ₹8,00,000 share issue must NOT be shown as financing inflow or investing outflow in the cash flow statement. It must be disclosed in the Notes to Accounts as a non-cash investing/financing transaction.</li>
             </ul>
-            <div className="p-3 bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800/60 text-red-650 dark:text-red-400 rounded-xl mt-2 font-bold">
+            <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 rounded-xl mt-2 font-bold">
               Common exam trap: Students show ₹10,00,000 outflow in investing and ₹8,00,000 inflow in financing. This is WRONG and violates Para 40.
             </div>
           </div>
