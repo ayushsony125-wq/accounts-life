@@ -109,7 +109,7 @@ export function AS12StandardTabContent({ navigateToPdfPage }: AS12StandardTabCon
   );
 
   const SH = ({ id, num, title }: { id: string; num: string; title: string }) => {
-    const cleanTitle = title.replace(/^\s*\d+(?:\.\d+)*\s*/, '');
+    const cleanTitle = title.replace(/^\s*\d+(?:\.\d+)*\.?\s*/, '');
     return (
       <div id={id} className="scroll-mt-36 mb-6 mt-12 first:mt-2 w-full">
         <div className="flex items-baseline gap-2 mb-2">
